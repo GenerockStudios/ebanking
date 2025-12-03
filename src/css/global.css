@@ -1,0 +1,338 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Inter Fallback', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+}
+
+body {
+    color: #333;
+}
+
+.landing-header {
+    padding: 5px;
+    text-align: center;
+    display: flex;
+    padding-right: 10px;
+}
+
+.landing-header .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.landing-header .logo-container img {
+    height: 50px;
+    width: 50px;
+}
+
+.landing-header .nav-links {
+    margin-left: auto;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    list-style: none;
+
+}
+
+.landing-header .nav-links li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 30px;
+    background-color: #007BFF;
+    border-radius: 25px;
+}
+
+.bg-blue-900 {
+    background-color: #02458d !important;
+}
+
+.landing-main .landing-primary-title {
+    text-align: center;
+    padding-top: 5rem;
+}
+
+
+.landing-main .landing-primary-title h2 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center;
+
+}
+
+.landing-main .start-link-container {
+    padding: 20px;
+}
+
+.link-blue-button {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 30px;
+    background-color: #007BFF;
+    border-radius: 25px;
+}
+
+.flex {
+    display: flex;
+}
+
+.justify-center {
+    justify-content: center;
+} 
+
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.gap-20 {
+    gap: 20px;
+}
+
+.landing-main .small-gray-block {
+    width: 200px;
+    height: 255px;
+    background: #f5f5f5;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    padding: 5px 4px;
+}
+
+.operations-container {
+    padding: 25px;
+}
+
+.operations-presentation-first {
+    padding: 20px;
+    width: 500px;
+    height: 250px;
+    border-radius: 40px;
+}
+
+
+.bg-blue-gradient {
+    background: linear-gradient(90deg, #007BFF 0%, #54a5fc 100%);
+    color: #fff;
+}
+
+
+.bg-blue--radial-gradient {
+    background: radial-gradient(#003366 0%, #0f52ba 100%);
+    color: #fff;
+}
+
+.small-gray-block .transaction-infos-container {
+    height: 190px;
+    background: #fff;
+    border-radius: 35px;
+    padding: 20px;
+}
+
+.small-gray-block .transaction-infos-container .deposit-from,
+.small-gray-block .transaction-infos-container .deposit-to {
+    font-weight: 600;
+    font-size: 0.71rem;
+    color: #666;
+
+}
+
+.small-gray-block-bottom-container {
+    height: 50px;
+    background: #fff;
+    border-bottom-right-radius: 35px;
+    border-bottom-left-radius: 35px;
+    margin-top: 5px;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.font-text-2xl {
+    font-size: 1.8rem !important;
+}
+
+.operations-presentation-first p {
+    font-size: 0.81rem;
+}
+.operations-presentation-first {
+    overflow: hidden;
+}
+
+.operations-presentation-first div {
+    height: 100px;
+
+}
+
+@keyframes movepiece {
+    0% {
+        transform: translateY(0) translateX(-30px) rotate(0deg);
+    }
+    5% {
+        transform: translateY(50px) translateX(60px) rotate(180deg);
+    }
+    10% {
+        transform: translateY(0px) translateX(100px)  rotate(360deg);
+    }
+    15% {
+        transform: translateY(50px) translateX(140px) rotate(180deg);
+    }
+    20% {
+        transform: translateY(0px) translateX(180px) rotate(0deg);
+    }
+    25% {
+        transform: translateY(50px) translateX(220px)  rotate(180deg);
+    }
+    30% {
+        transform: translateY(0px) translateX(260px) rotate(360deg);
+    }
+    40% {
+        transform: translateY(50px) translateX(340px) rotate(180deg);
+    }
+    45% {
+        transform: translateY(0px) translateX(410px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(50px) translateX(340px) rotate(180deg);
+    }
+    60% {
+        transform: translateY(0px) translateX(260px) rotate(360deg);
+    }
+    70% {
+        transform: translateY(50px) translateX(220px) rotate(180deg);
+    }
+    80% {
+        transform: translateY(0px) translateX(180px) rotate(0deg);
+    }
+    85% {
+        transform: translateY(50px) translateX(140px) rotate(180deg);
+    }
+    90% {
+        transform: translateY(0px) translateX(100px) rotate(360deg);
+    }
+    95% {
+        transform: translateY(50px) translateX(60px) rotate(180deg);
+    }
+    100% {
+        transform: translateY(0) translateX(-30px) rotate(0deg);
+    }
+}
+
+.operations-presentation-first div svg {
+    height: 40px;
+    width: 40px;
+    animation: movepiece 10s ease infinite;
+}
+
+
+
+.small-gray-block .operation-type {
+    font-size: 1.11rem;
+    color: #666;
+    font-weight: 600;
+    display: block;
+    
+}
+
+.small-gray-block .operation-amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.operation-details, .operation-time {
+    font-size: 0.70rem;
+    color: #999;
+    margin-left: 15px;
+    display: block;
+    text-align: center;
+    padding: 3px;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.animate-pulse {
+    animation: pulse 2s infinite;
+}
+
+.check-mark-circle-2 {
+    width: 80px;
+    height: 80px;
+}
+
+.small-gray-block .chart-element-presentation {
+    overflow: hidden;
+    border-radius: 40px;
+    background: #fff;
+}
+
+.bg-gray-200 {
+    background-color: #f5f5f5;
+}
+
+.presentation-landing-container {
+    width: 95vw;
+}
+
+.grid {
+    display: grid;
+}
+
+.grid-cols-1 {
+    grid-template-columns: 1;
+}
+
+.presentation-landing-container {
+    display: flex;
+    background: #fff;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 25px;
+    margin-bottom: 25px;
+    border-radius: 40px;
+    overflow: hidden;
+    height: 80vh;
+    width: 95vw;
+}
+
+.presentation-landing-container .presentation-landing-image-container {
+    width: 50%;
+    height: 100%;
+}
+
+.presentation-landing-description {
+    padding: 40px;
+    width: 40vw;
+}
+
+.presentation-landing-description h3 {
+    font-size: 1.9rem;
+}
+
+
+.presentation-landing-description p {
+    padding: 20px;
+}
+
+
+.presentation-landing-container img {
+    width: 55vw;
+    height: 100%;
+}

@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/css/global.css">
+    <link rel="stylesheet" href="src/css/aos.css">
+    <script src="src/js/aos.js"></script>
+    <script src="src/js/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Jour', 'Montants (XAF)'],
+                ['Lun', 1000],
+                ['Mar', 8170],
+                ['Mer', 300060],
+                ['Jeu', 3000],
+                ['Ven', 1200],
+                ['Sam', 103000],
+                ['Dim', 1500]
+            ]);
+
+            var options = {
+                title: 'Transactions de la semaine',
+                curveType: 'function',
+                legend: {
+                    position: 'bottom'
+                },
+                width: 200,
+                height: 200
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+    <title>EBanking</title>
+</head>
+
+<body>
+    <header class="landing-header">
+        <div class="logo-container">
+            <img src="src/svg/logo.svg" class="logo" />
+            <h3>EBanking</h3>
+        </div>
+        <ul class="nav-links">
+            <li><a href="src/php/login.php">Connexion</a></li>
+            <li><a href="src/php/register.php" class="bg-blue-900">Inscription &#8594;</a></li>
+        </ul>
+    </header>
+
+    <main class="landing-main">
+        <div class="landing-primary-title">
+            <h2>Bienvenue sur EBanking</h2>
+            <p>Votre plateforme de gestion des operations banquaire en ligne.</p>
+            <div class="start-link-container">
+                <a href="src/php/register.php" class="link-blue-button">Inscription &#8594;</a>
+            </div>
+        </div>
+
+        <div class="operations-container flex justify-center gap-20">
+            <div class="small-gray-block" data-aos="fade-up">
+                <div class="w-full">
+                    <div class="transaction-infos-container">
+                        <div>
+                            <span class="operation-type">Virements</span>
+
+                            <span class="deposit-from">De Rx0012858 vers Rx126998</span>
+                            <div>
+                                <span class="operation-amount ">250.000 XAF</span>
+                            </div>
+                            <div class="ball-container">
+                                <div class="ball bl"></div>
+                            </div>
+                            <div class="flex justify-center">
+                                <svg fill="#000000" viewBox="0 0 24 24" id="check-mark-circle-2" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" class="icon flat-line animate-pulse check-mark-circle-2">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <polyline id="primary" points="21 5 12 14 8 10" style="fill: none; stroke: #00b324; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline>
+                                        <path id="primary-2" data-name="primary" d="M20.94,11A8.26,8.26,0,0,1,21,12a9,9,0,1,1-9-9,8.83,8.83,0,0,1,4,1" style="fill: none; stroke: #00b324; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+                                    </g>
+                                </svg>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="small-gray-block-bottom-container">
+                        <span class="operation-details">Frais 500xaf</span>
+                        <span class="operation-time">Il y a 5 minutes</span>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="operations-presentation-first bg-blue-gradient" data-aos="zoom-in-right">
+                <span class="font-text-2xl">Dépots. Retraits. Virements</span>
+                <div>
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <circle style="fill:#e4a41b;" cx="256.005" cy="256.005" r="219.73"></circle>
+                            <g style="opacity:0.25;">
+                                <path style="fill:#e1da05;" d="M256,16c132.549,0,240,107.451,240,240S388.549,496,256,496S16,388.549,16,256 C16.15,123.514,123.514,16.15,256,16 M256,0C114.616,0,0,114.616,0,256s114.616,256,256,256s256-114.615,256-256S397.385,0,256,0z"></path>
+                            </g>
+                            <g>
+                                <path style="fill:#FFFFFF;" d="M261.424,91.752l-123.24,82.648h246.48L261.424,91.752z M261.424,152.744 c-7.512,0-13.6-6.089-13.6-13.6s6.089-13.6,13.6-13.6s13.6,6.089,13.6,13.6c-0.004,7.508-6.092,13.592-13.6,13.592V152.744z"></path>
+                                <rect x="128.935" y="322.357" style="fill:#FFFFFF;" width="264.965" height="25.825"></rect>
+                                <path style="fill:#FFFFFF;" d="M257.673,290.016v-10.584c-5.671-0.019-11.226-1.617-16.04-4.616l2.512-7.032 c4.495,2.922,9.735,4.489,15.096,4.512c7.44,0,12.48-4.296,12.48-10.272c0-5.768-4.088-9.328-11.856-12.48 c-10.696-4.192-17.296-9.016-17.296-18.136c0.129-8.872,6.987-16.191,15.832-16.896v-10.576h6.496v10.168 c4.772,0.045,9.454,1.309,13.6,3.672l-2.632,6.92c-3.992-2.38-8.561-3.615-13.208-3.568c-8.08,0-11.12,4.8-11.12,9.016 c0,5.456,3.88,8.185,13.008,11.952c10.799,4.408,16.248,9.856,16.248,19.2c-0.173,9.296-7.31,16.973-16.568,17.824v10.904h-6.6 L257.673,290.016z"></path>
+                                <rect x="156.003" y="196.994" style="fill:#FFFFFF;" width="25.824" height="101.492"></rect>
+                                <rect x="196.027" y="196.994" style="fill:#FFFFFF;" width="25.824" height="101.492"></rect>
+                                <rect x="301.003" y="196.994" style="fill:#FFFFFF;" width="25.825" height="101.492"></rect>
+                                <rect x="341.018" y="196.994" style="fill:#FFFFFF;" width="25.825" height="101.492"></rect>
+                            </g>
+                        </g>
+                    </svg>
+
+
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000" class="v2">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <circle style="fill:#e4a41b;" cx="256.005" cy="256.005" r="219.73"></circle>
+                            <g style="opacity:0.25;">
+                                <path style="fill:#e1da05;" d="M256,16c132.549,0,240,107.451,240,240S388.549,496,256,496S16,388.549,16,256 C16.15,123.514,123.514,16.15,256,16 M256,0C114.616,0,0,114.616,0,256s114.616,256,256,256s256-114.615,256-256S397.385,0,256,0z"></path>
+                            </g>
+                            <g>
+                                <path style="fill:#FFFFFF;" d="M261.424,91.752l-123.24,82.648h246.48L261.424,91.752z M261.424,152.744 c-7.512,0-13.6-6.089-13.6-13.6s6.089-13.6,13.6-13.6s13.6,6.089,13.6,13.6c-0.004,7.508-6.092,13.592-13.6,13.592V152.744z"></path>
+                                <rect x="128.935" y="322.357" style="fill:#FFFFFF;" width="264.965" height="25.825"></rect>
+                                <path style="fill:#FFFFFF;" d="M257.673,290.016v-10.584c-5.671-0.019-11.226-1.617-16.04-4.616l2.512-7.032 c4.495,2.922,9.735,4.489,15.096,4.512c7.44,0,12.48-4.296,12.48-10.272c0-5.768-4.088-9.328-11.856-12.48 c-10.696-4.192-17.296-9.016-17.296-18.136c0.129-8.872,6.987-16.191,15.832-16.896v-10.576h6.496v10.168 c4.772,0.045,9.454,1.309,13.6,3.672l-2.632,6.92c-3.992-2.38-8.561-3.615-13.208-3.568c-8.08,0-11.12,4.8-11.12,9.016 c0,5.456,3.88,8.185,13.008,11.952c10.799,4.408,16.248,9.856,16.248,19.2c-0.173,9.296-7.31,16.973-16.568,17.824v10.904h-6.6 L257.673,290.016z"></path>
+                                <rect x="156.003" y="196.994" style="fill:#FFFFFF;" width="25.824" height="101.492"></rect>
+                                <rect x="196.027" y="196.994" style="fill:#FFFFFF;" width="25.824" height="101.492"></rect>
+                                <rect x="301.003" y="196.994" style="fill:#FFFFFF;" width="25.825" height="101.492"></rect>
+                                <rect x="341.018" y="196.994" style="fill:#FFFFFF;" width="25.825" height="101.492"></rect>
+                            </g>
+                        </g>
+                    </svg>
+
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000" class="v2">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <circle style="fill:#e4a41b;" cx="256.005" cy="256.005" r="219.73"></circle>
+                            <g style="opacity:0.25;">
+                                <path style="fill:#e1da05;" d="M256,16c132.549,0,240,107.451,240,240S388.549,496,256,496S16,388.549,16,256 C16.15,123.514,123.514,16.15,256,16 M256,0C114.616,0,0,114.616,0,256s114.616,256,256,256s256-114.615,256-256S397.385,0,256,0z"></path>
+                            </g>
+                            <g>
+                                <path style="fill:#FFFFFF;" d="M261.424,91.752l-123.24,82.648h246.48L261.424,91.752z M261.424,152.744 c-7.512,0-13.6-6.089-13.6-13.6s6.089-13.6,13.6-13.6s13.6,6.089,13.6,13.6c-0.004,7.508-6.092,13.592-13.6,13.592V152.744z"></path>
+                                <rect x="128.935" y="322.357" style="fill:#FFFFFF;" width="264.965" height="25.825"></rect>
+                                <path style="fill:#FFFFFF;" d="M257.673,290.016v-10.584c-5.671-0.019-11.226-1.617-16.04-4.616l2.512-7.032 c4.495,2.922,9.735,4.489,15.096,4.512c7.44,0,12.48-4.296,12.48-10.272c0-5.768-4.088-9.328-11.856-12.48 c-10.696-4.192-17.296-9.016-17.296-18.136c0.129-8.872,6.987-16.191,15.832-16.896v-10.576h6.496v10.168 c4.772,0.045,9.454,1.309,13.6,3.672l-2.632,6.92c-3.992-2.38-8.561-3.615-13.208-3.568c-8.08,0-11.12,4.8-11.12,9.016 c0,5.456,3.88,8.185,13.008,11.952c10.799,4.408,16.248,9.856,16.248,19.2c-0.173,9.296-7.31,16.973-16.568,17.824v10.904h-6.6 L257.673,290.016z"></path>
+                                <rect x="156.003" y="196.994" style="fill:#FFFFFF;" width="25.824" height="101.492"></rect>
+                                <rect x="196.027" y="196.994" style="fill:#FFFFFF;" width="25.824" height="101.492"></rect>
+                                <rect x="301.003" y="196.994" style="fill:#FFFFFF;" width="25.825" height="101.492"></rect>
+                                <rect x="341.018" y="196.994" style="fill:#FFFFFF;" width="25.825" height="101.492"></rect>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+                <p>
+                    L'EBanking révolutionne vos transactions: effectuez des dépôts et retraits instantanés, ainsi que des transferts vers des tiers, le tout dans un environnement cybersécurisé garantissant une simplicité d'utilisation maximale depuis votre appareil.
+                </p>
+
+            </div>
+
+            <div class="small-gray-block" data-aos="fade-down">
+                <div class="chart-element-presentation">
+                    <div id="curve_chart"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="grid justify-center">
+            <div class="presentation-landing-container" data-aos="fade-up">
+                <div class="presentation-landing-description" data-aos="fade-up">
+                    <h3>Qui sommes nous ?</h3>
+                    <p>
+                        Nous sommes l'équipe de développement web dédiée au projet EBanking, une initiative stratégique pour La Régionale Bank. Face aux méthodes traditionnelles qui ralentissent l'efficacité, notre mission, née d'un stage de BTS en Génie Logiciel, est d'opérer une transition numérique essentielle.
+                        <br>
+                        <br>
+                         <strong>Notre Mission</strong> : Sécurité et Simplicité <br>
+                        <strong>Notre objectif est clair</strong> : remplacer les registres papier et les processus semi-automatisés par un Système d'Information de Gestion Financière (SIGF) moderne. 
+                        <br>
+                    <br>
+                    <strong>En bref </strong> : Nous sommes les garants d'une expérience bancaire sécurisée, rapide et 100% digitale pour les opérations courantes de La Régionale Bank.
+                    </p>
+                </div>
+                <div class="presentation-landing-image-container" data-aos="fade-up">
+                    <img src="src/images/whoareyou.jpg" alt="" srcset="">
+                </div>
+            </div>
+
+            <div class="presentation-landing-container" data-aos="fade-up">
+                <div class="presentation-landing-image-container" data-aos="fade-up">
+                    <img src="src/images/whoareyou.jpg" alt="" srcset="">
+                </div>
+                <div class="presentation-landing-description" data-aos="fade-up">
+                    <h3>Qui sommes nous ?</h3>
+                    <p>
+                        Nous sommes l'équipe de développement web dédiée au projet EBanking, une initiative stratégique pour La Régionale Bank. Face aux méthodes traditionnelles qui ralentissent l'efficacité, notre mission, née d'un stage de BTS en Génie Logiciel, est d'opérer une transition numérique essentielle.
+                        <br>
+                        <br>
+                         <strong>Notre Mission</strong> : Sécurité et Simplicité <br>
+                        <strong>Notre objectif est clair</strong> : remplacer les registres papier et les processus semi-automatisés par un Système d'Information de Gestion Financière (SIGF) moderne. 
+                        <br>
+                    <br>
+                    <strong>En bref </strong> : Nous sommes les garants d'une expérience bancaire sécurisée, rapide et 100% digitale pour les opérations courantes de La Régionale Bank.
+                    </p>
+                </div>
+            </div>
+
+            
+            <div class="presentation-landing-container" data-aos="fade-up">
+                <div class="presentation-landing-description" data-aos="fade-up">
+                    <h3>Qui sommes nous ?</h3>
+                    <p>
+                        Nous sommes l'équipe de développement web dédiée au projet EBanking, une initiative stratégique pour La Régionale Bank. Face aux méthodes traditionnelles qui ralentissent l'efficacité, notre mission, née d'un stage de BTS en Génie Logiciel, est d'opérer une transition numérique essentielle.
+                        <br>
+                        <br>
+                         <strong>Notre Mission</strong> : Sécurité et Simplicité <br>
+                        <strong>Notre objectif est clair</strong> : remplacer les registres papier et les processus semi-automatisés par un Système d'Information de Gestion Financière (SIGF) moderne. 
+                        <br>
+                    <br>
+                    <strong>En bref </strong> : Nous sommes les garants d'une expérience bancaire sécurisée, rapide et 100% digitale pour les opérations courantes de La Régionale Bank.
+                    </p>
+                </div>
+                <div class="presentation-landing-image-container" data-aos="fade-up">
+                    <img src="src/images/whoareyou.jpg" alt="" srcset="">
+                </div>
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+    <script>
+       // setInterval(function() {
+         //   location.reload(true);
+        //}, 16000);
+        AOS.init({
+            easing: 'ease-in-out',
+            duration: 800,
+        });
+    </script>
+    <script src="aos.js"></script>
+</body>
+
+</html>
