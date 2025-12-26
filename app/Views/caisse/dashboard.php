@@ -14,15 +14,11 @@ $roleName = $data['user_role'] ?? 'Utilisateur'; // Supposons que le contrôleur
 $identifiant = $_SESSION['identifiant'] ?? 'N/A';
 ?>
 
-<h2>Tableau de Bord Principal</h2>
-<p>
-    Bienvenue, **<?= htmlspecialchars($roleName) ?>** (<?= htmlspecialchars($identifiant) ?>).
-    Vous êtes connecté à l'interface de gestion du **<?= APP_NAME ?>**.
-</p>
+<h2>Tableau de Bord</h2>
 
 <hr>
 
-<div class="dashboard-grid">
+<div class="grid-container">
     
     <?php if (in_array($roleName, ['Caissier', 'Superviseur', 'Admin'])): ?>
         <div class="card operation-card">
@@ -38,8 +34,11 @@ $identifiant = $_SESSION['identifiant'] ?? 'N/A';
     <?php if (in_array($roleName, ['Caissier', 'Admin'])): ?>
         <div class="card client-card">
             <h3>Gestion Client</h3>
-            <p>Ouvrir de nouveaux comptes et gérer le KYC.</p>
-            <a href="<?= BASE_URL ?>?controller=Client&action=nouveauClient" class="btn-action">Créer Nouveau Client</a>
+            <ul class="list-style-none">
+                <li><p>Ouvrir de nouveaux comptes <br> et gérer le KYC.</p></li>
+                <li><p> .</p></li>
+                <li><a href="<?= BASE_URL ?>?controller=Client&action=nouveauClient" class="btn-action">Créer Nouveau Client</a></li>
+            </ul>
         </div>
     <?php endif; ?>
 
@@ -51,12 +50,14 @@ $identifiant = $_SESSION['identifiant'] ?? 'N/A';
                 <li><a href="<?= BASE_URL ?>?controller=Rapport&action=clotureJournee">🔒 Clôture de Journée</a></li>
                 <?php if ($roleName === 'Admin'): ?>
                     <li><a href="<?= BASE_URL ?>?controller=Admin&action=manageUsers">👑 Gestion Utilisateurs</a></li>
+                    <li><a href="<?= BASE_URL ?>?controller=Admin&action=manageClients">👑 Gestion Clients</a></li>
                 <?php endif; ?>
             </ul>
         </div>
     <?php endif; ?>
     
 </div>
+
 
 <style>
 /* Styles spécifiques pour le tableau de bord */
@@ -98,6 +99,7 @@ $identifiant = $_SESSION['identifiant'] ?? 'N/A';
 }
 .operation-card li, .report-card li {
     margin-bottom: 8px;
+    font-size: 18px;
 }
 .operation-card a, .report-card a {
     text-decoration: none;
@@ -107,6 +109,69 @@ $identifiant = $_SESSION['identifiant'] ?? 'N/A';
 .operation-card a:hover, .report-card a:hover {
     color: #007bff;
 }
+
+.list-style-none {
+    list-style: none;
+}
+
+
+@import url('https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css');
+  
+
+.grid-container {
+  width: min(75rem, 100%);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr));
+  gap: 2rem;
+}
+.card {
+  --grad: red, blue;
+  padding: 2.5rem;
+  background-image: linear-gradient(to bottom left, #e0e4e5, #f2f6f9);
+  border-radius: 2rem;
+  gap: 1.5rem;
+  display: grid;
+  grid-template: 'title icon' 'content content' 'bar bar' / 1fr auto;
+  font-family: system-ui, sans-serif;
+  color: #444447;
+  box-shadow: 
+    inset -2px 2px hsl(0 0 100% / 1),
+    -20px 20px 40px hsl(0 0 0 / .25) ;
+  
+  .title {
+    font-size: 1.5rem;
+    grid-area: title;
+    align-self: end;
+    text-transform: uppercase;
+    font-weight: 500;
+    word-break: break-all;
+    
+  }
+  .icon {
+    grid-area: icon;
+    font-size: 3rem;
+    
+    > i {
+      color: transparent;
+      background: linear-gradient(to right, var(--grad));
+      background-clip: text;
+    }
+  }
+  .content {
+    grid-area: content;
+    & > *:first-child { margin-top: 0rem}
+    & > *:last-child { margin-bottom: 0rem}
+  }
+  &::after {
+    content: "";
+    grid-area: bar;
+    height: 2px;
+    background-image: linear-gradient(90deg, var(--grad));
+/*     margin-inline: -1.5rem; */
+  }
+}
+
 </style>
 
 <?php

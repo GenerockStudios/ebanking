@@ -8,9 +8,11 @@
 class PlafondChecker {
     
     private $db;
+    private $compteModel;
 
     public function __construct() {
         $this->db = Database::getInstance()->getConnection();
+        $this->compteModel = new CompteModel();
     }
 
     /**
@@ -27,7 +29,11 @@ class PlafondChecker {
         
         // 1. Récupérer les plafonds définis pour ce compte
         $plafonds = $this->getPlafondsByAccountId($accountId);
+
+        // Ajouter le plafonds par défaut pour les transaction
+
         if (!$plafonds) {
+
             // C'est critique : un compte sans plafond est non sécurisé.
             throw new Exception("Plafonds non définis pour le compte ID: " . $accountId);
         }
@@ -71,6 +77,24 @@ class PlafondChecker {
      * Récupère les plafonds du compte depuis la table Plafonds_Comptes.
      */
     private function getPlafondsByAccountId(int $accountId) {
+        $stmt = $this->db->prepare("SELECT * FROM Plafonds_Comptes WHERE compte_id = :id");
+        $stmt->bindParam(':id', $accountId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+
+    
+    /**
+     * Cette méthode permet d'ajouter un plafonds dans la base de données
+     */
+    private function addNewPlafond(int $accountId) {
+        // Recupération du clients
+        
+
+        // Recupération du compte lié à ce client
+        //$this->compteModel->getAccountBalance();
+
         $stmt = $this->db->prepare("SELECT * FROM Plafonds_Comptes WHERE compte_id = :id");
         $stmt->bindParam(':id', $accountId, PDO::PARAM_INT);
         $stmt->execute();

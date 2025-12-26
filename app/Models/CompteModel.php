@@ -28,8 +28,8 @@ class CompteModel {
             // 1. Générer le numéro de compte unique
             $numeroCompte = $this->refGenerator->generateUniqueAccountNumber();
             
-            $sql = "INSERT INTO Comptes (client_id, type_compte_id, numero_compte, solde, cree_par_utilisateur_id) 
-                    VALUES (:clientId, :typeId, :numeroCompte, :solde, :utilisateurId)";
+            $sql = "INSERT INTO Comptes (client_id, type_compte_id, numero_compte, solde) 
+                    VALUES (:clientId, :typeId, :numeroCompte, :solde)";
             
             $stmt = $this->db->prepare($sql);
             
@@ -37,7 +37,6 @@ class CompteModel {
             $stmt->bindParam(':typeId', $typeCompteId, PDO::PARAM_INT);
             $stmt->bindParam(':numeroCompte', $numeroCompte);
             $stmt->bindParam(':solde', $soldeInitial);
-            $stmt->bindParam(':utilisateurId', $utilisateurId, PDO::PARAM_INT);
 
             if ($stmt->execute()) {
                 // Retourne le numéro de compte pour référence
@@ -77,6 +76,29 @@ class CompteModel {
         }
     }
     
+
+    
+    /**
+     * Récupère les informations associés au compte de l'utilisateur
+     * @param string $numeroCompte Le numéro de compte.
+     * @return float|false Le solde, ou FALSE si le compte n'existe pas.
+     */
+    public function getAccountInfos(string $numeroCompte) {
+        try {
+            $stmt = $this->db->prepare("SELECT compte_id, client_id, type_compte_id, solde, date_ouverture FROM Comptes WHERE numero_compte = :numeroCompte");
+            $stmt->bindParam(':numeroCompte', $numeroCompte);
+            $solde = $stmt->fetchColumn();
+            // fetchColumn retourne la colonne ou FALSE si aucune ligne n'est trouvée
+            return is_numeric($solde) ? (float)$solde : false; 
+
+        } catch (\PDOException $e) {
+            error_log("Erreur BDD lors de la récupération du solde : " . $e->getMessage());
+            return false;
+        }
+    }
+
+
+
     /**
      * Récupère toutes les transactions (débit/crédit) pour un compte donné.
      * @param string $numeroCompte Le numéro de compte.

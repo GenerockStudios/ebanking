@@ -1,6 +1,6 @@
 <?php
 /**
- * TransactionModel.php
+ * TransactionController
  * Gère les opérations financières (Dépôt, Retrait, Transfert) en garantissant l'atomicité (ACID).
  */
 
@@ -65,45 +65,47 @@ class TransactionModel {
      * @return bool Vrai en cas de succès, Faux sinon.
      */
     public function faireRetrait(int $accountId, float $amount, int $userId): bool {
-        if ($amount <= 0) return false;
+        if ($amount <= 0) throw new Exception("Montant invalide.");
         
         $reference = $this->generateAndLogStart($userId, 'RETRAIT', $accountId, $amount);
-        if (!$reference) return false;
         
         try {
-            // Vérification critique : 1. Solde suffisant, 2. Plafond non dépassé
-            $currentBalance = $this->getAccountBalanceForLock($accountId);
-            
-            if ($currentBalance < $amount) {
-                throw new Exception("Fonds insuffisants. Solde: {$currentBalance}");
+            $this->db->beginTransaction();
+
+            // CORRECTION 1: Verrouillage pessimiste (FOR UPDATE)
+            // Cela empêche toute autre lecture/écriture sur ce compte tant que la transaction n'est pas finie.
+            $stmt = $this->db->prepare("SELECT solde FROM Comptes WHERE compte_id = :id FOR UPDATE");
+            $stmt->bindParam(':id', $accountId, PDO::PARAM_INT);
+            $stmt->execute();
+            $currentBalance = $stmt->fetchColumn();
+
+            if ($currentBalance === false) throw new Exception("Compte introuvable.");
+
+            // Vérifications Métier
+            if ((float)$currentBalance < $amount) {
+                throw new Exception("Solde insuffisant (Solde: " . number_format($currentBalance, 2) . ").");
             }
             
             if (!$this->plafondChecker->checkLimit($accountId, 'RETRAIT', $amount)) {
                 throw new Exception("Plafond journalier de retrait dépassé.");
             }
 
-            // 1. DÉMARRER LA TRANSACTION BDD
-            $this->db->beginTransaction();
-
-            // 2. Mettre à jour le solde du compte (DÉBIT)
+            // Mises à jour
             $this->updateAccountBalance($accountId, -$amount);
-
-            // 3. Enregistrer la transaction (compte destination NULL pour un retrait)
             $this->insertTransaction($accountId, null, 'RETRAIT', $amount, $userId, $reference);
             
-            // 4. VALIDER LA TRANSACTION
             $this->db->commit();
-            
-            $this->auditLogger->logAction($userId, 'RETRAIT_SUCCESS', 'Transactions', "Retrait de {$amount} du compte ID: {$accountId}.", (string)$accountId);
+            $this->auditLogger->logAction($userId, 'RETRAIT_SUCCESS', 'Transactions', "Retrait de {$amount}", (string)$accountId);
             return true;
 
         } catch (\Exception $e) {
             if ($this->db->inTransaction()) {
                 $this->db->rollBack();
             }
-            $this->auditLogger->logAction($userId, 'RETRAIT_FAILURE', 'Transactions', "Échec retrait. Raison: {$e->getMessage()}", (string)$accountId);
-            error_log("RETRAIT ÉCHEC: " . $e->getMessage());
-            return false;
+            //  On ne retourne pas false, on laisse l'exception remonter au Contrôleur
+            // pour qu'il puisse afficher le vrai message d'erreur.
+            $this->auditLogger->logAction($userId, 'RETRAIT_FAILURE', 'Transactions', "Echec: " . $e->getMessage(), (string)$accountId);
+            throw $e; 
         }
     }
 
@@ -161,7 +163,6 @@ class TransactionModel {
         }
     }
     
-    // --- Méthodes privées d'intégrité ---
 
     /**
      * Récupère le solde du compte pour une vérification immédiate et potentiellement un verrouillage.

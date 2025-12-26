@@ -39,6 +39,23 @@ class AdminController {
         require_once VIEW_PATH . 'admin/manage_users.php';
     }
 
+    //manageClients
+    
+    /**
+     * Affiche la liste des Clients et le formulaire de création.
+     */
+    public function manageClients() {
+        $data = [];
+        $data['title'] = "Gestion des Clients";
+        
+        // Simuler la récupération de tous les utilisateurs et rôles
+        $data['users'] = $this->getAllSystemClients();
+        $data['roles'] = $GLOBALS['ROLES']; // Récupérer la liste des rôles depuis config.php
+        
+        
+        require_once VIEW_PATH . 'admin/manage_clients.php';
+    }
+
     /**
      * Gère la logique de création d'un nouvel utilisateur.
      */
@@ -79,6 +96,25 @@ class AdminController {
         try {
             $db = Database::getInstance()->getConnection();
             $sql = "SELECT utilisateur_id, identifiant, nom_complet, role_id, date_creation, est_actif FROM Utilisateurs";
+            $stmt = $db->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            error_log("Erreur BDD Admin: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    
+    /**
+     * Simule la récupération de tous les Clients du système.
+     */
+    private function getAllSystemClients(): array {
+        try {
+            $db = Database::getInstance()->getConnection();
+            //
+            $sql = "SELECT cl.nom, cl.prenom, cl.date_naissance, cl.client_id, cl.adresse, cl.telephone,
+             cl.date_creation, cl.email, cl.numero_identite, c.solde, c.numero_compte FROM clients cl
+             INNER JOIN comptes c ON c.client_id = cl.client_id";
             $stmt = $db->query($sql);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {

@@ -135,11 +135,11 @@ class CaisseController
     {
         $data = [];
 
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $numeroCompte = Sanitizer::cleanString($_POST['numero_compte'] ?? '');
             $montant = Sanitizer::cleanFloat($_POST['montant'] ?? 0.00);
             $userId = $_SESSION['user_id'];
-
             $compteInfo = $this->getCompteIdByNumber($numeroCompte);
 
             if (!$compteInfo) {
