@@ -1,0 +1,129 @@
+# **Notes de cours — 01 Économie Entreprise**
+## **Chapitre : Droit commercial OHADA : actes de commerce, registre du commerce, fonds de commerce, contrats commerciaux**
+
+---
+
+### **1. Introduction au droit commercial OHADA**
+
+#### **1.1. Présentation de l'OHADA**
+L'**Organisation pour l'Harmonisation en Afrique du Droit des Affaires (OHADA)** est un traité international signé le 17 octobre 1993 à Port-Louis (Maurice). Son objectif principal est d'**harmoniser le droit des affaires** dans ses États membres pour créer un environnement juridique sécurisé et attractif pour les investissements.
+
+*   **Contexte camerounais et africain** : Le Cameroun, comme 16 autres États africains (Bénin, Burkina Faso, Côte d'Ivoire, Gabon, etc.), est membre de l'OHADA. Pour un développeur de logiciels camerounais créant une startup (ex: une application de mobile banking, une plateforme e-commerce comme "Jumia" ou "Jovago"), le droit OHADA est le cadre juridique applicable à son activité commerciale.
+*   **Acte Uniforme** : L'OHADA légifère par des **Actes Uniformes (AU)** qui s'appliquent directement dans tous les États membres. Les AU étudiés dans ce chapitre sont principalement :
+    *   **Acte Uniforme relatif au droit commercial général (AUDCG)**
+    *   **Acte Uniforme portant organisation des sûretés (AUPS)**
+    *   **Acte Uniforme relatif au droit des sociétés commerciales et du GIE (AUSCGIE)**
+
+#### **1.2. Définition du droit commercial**
+Le droit commercial est la branche du droit privé qui régit les **activités commerciales** (actes de commerce) et les **commerçants** (personnes qui accomplissent ces actes à titre professionnel et habituel). Il est caractérisé par sa **rapidité** (besoin de fluidité des transactions), sa **souplesse** (liberté contractuelle) et sa **sécurité** (protection des cocontractants).
+
+---
+
+### **2. Les actes de commerce et le commerçant**
+
+#### **2.1. Définition et classification des actes de commerce (AUDCG, Art. 2 et suivants)**
+Un acte de commerce est un acte juridique soumis aux règles du droit commercial en raison de sa nature ou de la qualité de commerçant de son auteur.
+
+**Classification :**
+
+| Type d'acte de commerce | Définition | Exemples concrets (Cameroun/Afrique) |
+| :--- | :--- | :--- |
+| **Actes de commerce par nature** | Actes considérés comme commerciaux en eux-mêmes, quel que soit leur auteur. | - Achat de biens pour revente (un grossiste en matériel informatique à Douala).<br>- Opérations de banque, change, courtage (agence Afriland First Bank, Western Union).<br>- Contrats entre commerçants pour les besoins de leur commerce. |
+| **Actes de commerce par la forme** | Actes commerciaux en raison de leur forme juridique. | - La lettre de change, le billet à ordre (moins courants aujourd'hui). |
+| **Actes de commerce par accessoire** | Actes civils à l'origine, mais devenus commerciaux car accomplis par un commerçant pour les besoins de son commerce. | - Un garage automobile (commerçant) achète un terrain (acte civil) pour agrandir son atelier → acte commercial par accessoire. |
+
+**À retenir** : Le développement et la vente d'un **logiciel sur mesure** pour une entreprise (ex: un système de gestion pour une coopérative agricole) est un **acte de commerce par nature** (prestation de services à caractère commercial). La vente de licences pour un **logiciel standardisé** (ex: un antivirus développé par une startup camerounaise) l'est également.
+
+#### **2.2. Définition et statut du commerçant (AUDCG, Art. 2)**
+Est commerçant toute personne physique ou morale qui **accomplit des actes de commerce** à titre de **profession habituelle**.
+
+*   **Personne physique** : L'entrepreneur individuel (ex: un développeur freelance qui crée des sites web pour des PME).
+*   **Personne morale** : La société commerciale (SARL, SA, etc.) comme **MTN Cameroon**, **Orange Cameroun**, **Camtel**, ou une startup de logiciel enregistrée.
+
+**Obligations du commerçant :**
+1.  **Immatriculation au Registre du Commerce et du Crédit Mobilier (RCCM)**.
+2.  **Tenue d'une comptabilité régulière** (livre journal, grand livre, inventaire).
+3.  **Établissement des comptes annuels** (bilan, compte de résultat, annexe).
+4.  **Paiement des impôts et taxes commerciaux**.
+
+**Outils pour le développeur/entrepreneur** : La tenue de la comptabilité est facilitée par des **logiciels de gestion** (Sage, EBP, Ciel Compta) ou des **ERP** (Odoo, Microsoft Dynamics). Une startup tech peut aussi utiliser des outils cloud comme **QuickBooks Online** ou des solutions locales adaptées.
+
+---
+
+### **3. Le Registre du Commerce et du Crédit Mobilier (RCCM)**
+
+#### **3.1. Rôle et importance**
+Le **RCCM** est un registre public tenu par le **Greffe du Tribunal** (Tribunal de Première Instance). C'est le **casier judiciaire de l'entreprise**. Son immatriculation est **obligatoire** pour tout commerçant et confère la **personnalité morale** aux sociétés.
+
+**Fonctions :**
+*   **Publicité légale** : Renseigne le public (clients, fournisseurs, banques) sur l'existence et la santé juridique de l'entreprise.
+*   **Preuve de la qualité de commerçant** : Le certificat d'immatriculation (extrait K-bis) en est la preuve.
+*   **Opposabilité aux tiers** : Les informations publiées (siège, dirigeants, capital) sont opposables aux tiers.
+
+#### **3.2. Formalités d'immatriculation**
+Pour une **société de développement logiciel (SARL)** au Cameroun, les étapes sont :
+1.  **Dépôt du capital** en banque et obtention d'une attestation.
+2.  **Signature des statuts** devant notaire (recommandé) ou sous seing privé.
+3.  **Publication d'un avis de constitution** dans un journal d'annonces légales (ex: *Cameroon Tribune*).
+4.  **Dépôt du dossier** au Greffe du Tribunal compétent (lieu du siège social) comprenant : formulaire de déclaration, statuts, attestation bancaire, justificatif de publication, etc.
+5.  **Délivrance de l'extrait d'immatriculation (K-bis)** par le Greffier.
+
+**À retenir** : Sans immatriculation au RCCM, la société n'existe pas juridiquement. Elle ne peut pas ouvrir un compte bancaire professionnel, facturer officiellement ou signer des contrats en son nom.
+
+---
+
+### **4. Le fonds de commerce**
+
+#### **4.1. Définition et composition**
+Le fonds de commerce est un **bien incorporel**, une **universalité de fait** constituée par l'ensemble des éléments mobiliers affectés à l'exploitation d'une activité commerciale ou artisanale.
+
+**Composition (AUDCG, Art. 170) :**
+
+| Éléments du fonds de commerce | Description | Exemple pour une SSII (Société de Services en Ingénierie Informatique) |
+| :--- | :--- | :--- |
+| **Éléments corporels** | Biens matériels. | - Matériel informatique (serveurs, ordinateurs).<br>- Mobilier de bureau.<br>- Stocks (matériel réseau). |
+| **Éléments incorporels** | Biens immatériels, souvent les plus valorisés. | - **Clientèle** : le portefeuille clients fidèles (le cœur du fonds).<br>- **Droit au bail** : pour les locaux de l'entreprise.<br>- **Nom commercial** : "Tech Solutions Cameroun".<br>- **Enseigne** : le logo et la marque visuelle.<br>- **Propriété intellectuelle** : **licences des logiciels** développés, **brevets** (éventuellement), **droits d'auteur** sur le code source. |
+
+**Spécificité pour le génie logiciel** : Dans une entreprise de développement, la **valeur du fonds de commerce** repose massivement sur ses **éléments incorporels** : la **propriété intellectuelle** (logiciels, algorithmes) et la **clientèle** (contrats de maintenance, abonnements). La cession d'un fonds de commerce dans ce secteur doit donc accorder une attention particulière à la cession des droits sur les logiciels.
+
+#### **4.2. Opérations sur le fonds de commerce**
+*   **Cession (vente)** : Soumise à des formalités strictes (publication dans un journal d'annonces légales, information des créanciers).
+*   **Nantissement** : Le fonds de commerce peut être donné en garantie d'un prêt (crédit mobilier). L'inscription au **RCCM** est obligatoire pour l'opposabilité aux tiers.
+
+---
+
+### **5. Les contrats commerciaux**
+
+#### **5.1. Principes généraux**
+Le contrat commercial est une **convention** par laquelle une ou plusieurs personnes s'obligent envers une ou plusieurs autres à donner, à faire ou à ne pas faire quelque chose (Art. 1101 du Code civil, inspiré de l'OHADA). Il est régi par les principes de **liberté contractuelle**, de **consensualisme** et de **force obligatoire**.
+
+#### **5.2. Contrats commerciaux courants en génie logiciel**
+
+**1. Contrat de vente commerciale :**
+*   **Objet** : Transfert de la propriété d'une chose contre paiement d'un prix.
+*   **Spécificité** : Pour un logiciel, on parle souvent de **cession de licence d'utilisation** plutôt que de vente de propriété. Le **code source** reste généralement la propriété du développeur.
+*   **Exemple** : Vente d'un nombre de licences d'un logiciel de gestion scolaire à un groupe d'écoles privées à Yaoundé.
+
+**2. Contrat de prestation de services :**
+*   **Objet** : Le prestataire s'engage à accomplir un travail intellectuel ou technique contre rémunération.
+*   **Application** : C'est le **contrat-type pour un développeur freelance ou une SSII**. Il doit être **très détaillé**.
+*   **Clauses essentielles** :
+    *   **Objet précis** : Cahier des charges fonctionnel et technique détaillé.
+    *   **Délais de réalisation et pénalités de retard**.
+    *   **Modalités de rémunération** (forfait, régie, au forfait avec avenants).
+    *   **Propriété intellectuelle** : **Clause cruciale**. Qui sera propriétaire du code source ? (Droit de propriété cédé ? Licence exclusive ? Licence d'utilisation simple ?).
+    *   **Garanties** : Garantie de bon fonctionnement (défauts), maintenance évolutive et corrective.
+    *   **Confidentialité**.
+
+**3. Contrat de partenariat (ou de consortium) :**
+*   **Objet** : Collaboration entre plusieurs entreprises pour réaliser un projet commun.
+*   **Exemple** : Une startup camerounaise de fintech (FinTech) s'associe avec **MTN Mobile Money (MoMo)** et une banque pour développer une nouvelle application de paiement intégrée.
+
+**4. Contrat de distribution (concession, franchise) :**
+*   **Objet** : Un fabricant/éditeur (le concédant) accorde à un commerçant (le concessionnaire) le droit de revendre ses produits/logiciels dans une zone exclusive.
+*   **Exemple** : Un éditeur de logiciels de sécurité informatique (ex: Kaspersky) désigne un concessionnaire exclusif pour la distribution de ses produits au Cameroun.
+
+#### **5.3. Rédaction et preuve des contrats**
+*   **Écrit recommandé** : En commerce, la preuve est libre, mais un **écrit signé** est indispensable pour limiter les litiges, surtout pour les contrats importants.
+*   **Outils de rédaction et gestion** :
+    *   **Modèles et outils juridiques** : Utilisation de modèles vérifiés par un juriste, plateform

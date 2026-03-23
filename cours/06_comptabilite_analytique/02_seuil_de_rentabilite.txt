@@ -1,0 +1,100 @@
+CHAPITRE 2 — SEUIL DE RENTABILITÉ ET COÛT VARIABLE
+BTS Génie Logiciel — Comptabilité analytique
+
+1. LA MÉTHODE DU COÛT VARIABLE (DIRECT COSTING)
+
+Principe : n'affecter aux produits QUE les charges variables. Les charges fixes sont traitées globalement comme charges de période.
+
+Avantages :
+- Simplicité du calcul (évite la répartition des charges fixes)
+- Meilleure aide à la décision à court terme
+- Permet de calculer la marge sur coût variable
+
+Marge sur coût variable (MCV) :
+MCV = Chiffre d'affaires − Charges variables totales
+ou
+MCV unitaire = Prix de vente unitaire − Coût variable unitaire
+
+Taux de marge sur coût variable :
+Taux MCV = MCV / CA × 100
+
+Résultat (direct costing) :
+Résultat = MCV − Charges fixes
+
+2. LE SEUIL DE RENTABILITÉ (POINT MORT)
+
+Définition : chiffre d'affaires (ou volume de production) à partir duquel l'entreprise commence à réaliser un bénéfice. En dessous, elle est déficitaire.
+
+FORMULES :
+
+Seuil de rentabilité en valeur (CA seuil) :
+SR = Charges fixes / Taux de marge sur coût variable
+
+Exemple :
+- Charges fixes mensuelles : 500 000 FCFA
+- Prix de vente : 10 000 FCFA/unité
+- Coût variable unitaire : 6 000 FCFA
+- MCV unitaire : 4 000 FCFA
+- Taux MCV : 4 000 / 10 000 = 40%
+- Seuil de rentabilité = 500 000 / 0,40 = 1 250 000 FCFA de CA
+
+Seuil de rentabilité en quantités (volume seuil) :
+Quantité seuil = Charges fixes / MCV unitaire
+= 500 000 / 4 000 = 125 unités
+
+Point mort (date à laquelle le SR est atteint dans l'année) :
+Point mort = SR / CA annuel × 12 mois (ou × 360 jours)
+
+Exemple : SR = 1 250 000 FCFA/mois, CA mensuel prévu = 2 000 000 FCFA
+→ SR atteint au bout de : 1 250 000 / 2 000 000 × 30 = 18,75 jours ≈ 19 du mois
+
+3. LA MARGE DE SÉCURITÉ
+
+Marge de sécurité = CA réel − SR
+Indice de sécurité = Marge de sécurité / CA réel × 100
+
+Exemple : CA = 2 000 000 FCFA, SR = 1 250 000 FCFA
+Marge de sécurité = 750 000 FCFA
+Indice de sécurité = 750 000 / 2 000 000 × 100 = 37,5%
+→ Le CA peut baisser de 37,5% avant que l'entreprise soit déficitaire.
+
+4. LEVIER OPÉRATIONNEL
+
+Coefficient de levier opérationnel (CLO) = MCV / Résultat
+
+Interprétation : si le CLO = 4, une variation de 10% du CA entraîne une variation de 40% du résultat (× CLO). Plus les charges fixes sont élevées, plus le levier est fort (plus risqué, mais potentiellement plus rentable).
+
+Exemple :
+MCV = 800 000 FCFA, CF = 500 000 FCFA, Résultat = 300 000 FCFA
+CLO = 800 000 / 300 000 = 2,67
+→ Si CA augmente de 10% → Résultat augmente de 26,7%
+
+5. IMPUTATION RATIONNELLE DES CHARGES FIXES
+
+Problème : les charges fixes étant constantes, le coût unitaire varie selon le volume produit (plus on produit, plus on répartit les charges fixes sur un grand nombre d'unités).
+
+Solution : définir une activité normale (ou standard) et calculer le coût unitaire sur cette base, quelle que soit l'activité réelle.
+
+Taux d'imputation = Charges fixes / Activité normale
+
+Coût de production imputé = Charges variables réelles + Charges fixes imputées (au taux normal)
+
+Différence d'imputation = Charges fixes réelles − Charges fixes imputées
+- Si positive : sous-activité (coût de chômage)
+- Si négative : sur-activité (boni de suractivité)
+
+Intérêt : neutralise l'effet du volume sur le coût unitaire, permettant une meilleure comparaison entre périodes.
+
+6. CHOIX ENTRE MÉTHODES
+
+Coût complet :
++ Vision complète du coût de revient
++ Requis pour valoriser les stocks (réglementation SYSCOHADA)
+− Complexe à calculer
+− Arbitraire dans la répartition des charges fixes
+
+Coût variable :
++ Simple et rapide
++ Aide à la décision à court terme (seuil de rentabilité, choix de produit)
+− N'intègre pas les charges fixes dans le coût des produits
+− Inadapté pour la valorisation des stocks

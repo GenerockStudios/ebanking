@@ -1,0 +1,113 @@
+CHAPITRE 2 — SPÉCIFICATIONS, TESTS ET QUALITÉ (IGL115)
+BTS Génie Logiciel — Initiation au Génie Logiciel
+
+1. LES EXIGENCES LOGICIELLES
+
+Exigences fonctionnelles (EF) : ce que le système doit faire.
+Format standard : "Le système DOIT [action] QUAND [condition] AFIN DE [objectif]."
+Exemple : "Le système doit envoyer un e-mail de confirmation quand un étudiant s'inscrit à un cours, afin de valider son inscription."
+
+Exigences non fonctionnelles (ENF) :
+- Performance : "Le temps de chargement de la page d'accueil doit être inférieur à 2 secondes pour 95% des requêtes."
+- Sécurité : "Les mots de passe doivent être hashés avec bcrypt (coût ≥ 12)."
+- Disponibilité : "Le système doit être disponible 99,9% du temps (SLA)."
+- Maintenabilité : "Le code doit respecter la norme PEP8 et avoir une couverture de tests ≥ 80%."
+- Compatibilité : "L'application doit fonctionner sur Android 8+ et iOS 13+."
+
+Qualités d'une bonne spécification :
+- Complète : couvre tous les cas, y compris les cas d'erreur
+- Non ambiguë : une seule interprétation possible
+- Cohérente : pas de contradictions
+- Vérifiable : on peut tester si l'exigence est satisfaite
+- Traçable : on peut relier chaque exigence à son code et ses tests
+
+Outils de recueil des besoins :
+- Interviews des parties prenantes
+- Questionnaires
+- Observation des utilisateurs (ethnographie)
+- Prototypage rapide (maquettes)
+- Ateliers participatifs (workshops)
+
+2. LES CAS D'UTILISATION (USE CASES — UML)
+
+Un cas d'utilisation (UC) décrit une interaction entre un acteur et le système pour atteindre un objectif.
+
+Notation UML :
+- Acteur : représenté par un bonhomme (rôle ou système externe)
+- Cas d'utilisation : ellipse contenant le nom de l'action
+- Relations : inclusion <<include>>, extension <<extend>>, généralisation
+
+Exemple : Système de gestion des notes du BTS GL
+Acteurs : Étudiant, Enseignant, Directeur
+UC principaux :
+- Consulter ses notes (Étudiant)
+- Saisir les notes (Enseignant)
+- Générer le bulletin (Système, <<include>> Calculer les moyennes)
+- Modifier les notes <<extend>> Saisir les notes (si correction nécessaire)
+
+Description textuelle d'un UC :
+Nom : S'inscrire à un cours
+Acteur principal : Étudiant
+Précondition : L'étudiant est authentifié et le cours a encore des places disponibles
+Scénario nominal :
+  1. L'étudiant sélectionne un cours dans le catalogue
+  2. Le système affiche les détails du cours (horaires, enseignant, places)
+  3. L'étudiant clique sur "S'inscrire"
+  4. Le système vérifie la disponibilité et les prérequis
+  5. Le système enregistre l'inscription et envoie une confirmation
+Scénarios alternatifs :
+  4a. Plus de places disponibles → Message d'erreur + inscription en liste d'attente
+
+3. LES TESTS LOGICIELS
+
+Principe fondamental (Dijkstra) : "Les tests ne prouvent pas l'absence de bugs, ils permettent seulement d'en détecter."
+
+V&V (Verification and Validation) :
+- Vérification : "Construisons-nous le logiciel correctement ?" (respecte-t-il les spécifications ?)
+- Validation : "Construisons-nous le bon logiciel ?" (répond-il au vrai besoin ?)
+
+Niveaux de tests :
+Tests unitaires : tester chaque unité (fonction, méthode, classe) isolément. Rapides, automatisés. Outils : pytest (Python), JUnit (Java), Jest (JavaScript).
+
+Tests d'intégration : tester les interactions entre plusieurs modules. Détecter les problèmes d'interfaces.
+
+Tests système : tester le système complet contre les exigences.
+
+Tests d'acceptation (recette) : tests réalisés avec/par le client pour valider que le système répond à ses besoins. Tests UAT (User Acceptance Tests).
+
+Tests de non-régression : s'assurer que les corrections ou nouvelles fonctionnalités n'ont pas cassé ce qui fonctionnait. Automatisables et répétables.
+
+Tests de performance : tester les temps de réponse, la capacité sous charge (tests de charge), la résistance au maximum (stress tests).
+
+Tests de sécurité : rechercher les vulnérabilités (injection SQL, XSS, CSRF, failles d'authentification).
+
+Techniques de conception des tests :
+Tests boîte noire : tester les entrées/sorties sans connaître le code interne. Partitionnement en classes d'équivalence + valeurs limites.
+Tests boîte blanche : tester en connaissant le code. Couverture des branches, des conditions, des chemins.
+
+4. TDD — TEST DRIVEN DEVELOPMENT
+
+Développement piloté par les tests : écrire les tests AVANT le code.
+Cycle : Rouge → Vert → Refactoring
+1. ROUGE : écrire un test qui échoue (la fonctionnalité n'existe pas encore)
+2. VERT : écrire le minimum de code pour que le test passe
+3. REFACTORING : améliorer le code sans casser les tests
+
+Avantages du TDD : meilleure conception (code testable = code découplé), filet de sécurité pour le refactoring, documentation vivante du comportement attendu.
+
+5. GESTION DE VERSIONS (GIT)
+
+Git est le système de gestion de versions distribué le plus utilisé.
+Commandes essentielles :
+git init                    # initialiser un dépôt
+git clone URL               # cloner un dépôt
+git add fichier             # ajouter au staging
+git commit -m "message"     # enregistrer un snapshot
+git push origin main        # pousser vers le dépôt distant
+git pull                    # récupérer et fusionner les changements
+git branch feature/login    # créer une branche
+git checkout feature/login  # basculer sur la branche
+git merge feature/login     # fusionner dans la branche courante
+git log --oneline           # historique compact
+
+Workflow GitFlow : main (production), develop (intégration), feature/*, hotfix/*, release/*

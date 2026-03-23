@@ -1,0 +1,158 @@
+# **Notes de cours — 17 Génie Logiciel**
+## **Chapitre : Gestion de configuration et versioning**
+
+### **1. Introduction à la Gestion de Configuration Logicielle (GCL)**
+
+#### **1.1. Définition et Objectifs**
+La Gestion de Configuration Logicielle (GCL) est une discipline de l'ingénierie logicielle qui a pour but de gérer et de contrôler les évolutions d'un produit logiciel tout au long de son cycle de vie. Elle permet de garantir la **traçabilité**, la **reproductibilité** et l'**intégrité** des éléments de configuration (code source, documentation, scripts, etc.).
+
+**Objectifs principaux :**
+*   **Identifier** de manière unique chaque élément de configuration (fichiers, composants).
+*   **Contrôler** les modifications apportées à ces éléments.
+*   **Auditer** et tracer l'historique de toutes les modifications (qui, quoi, quand, pourquoi).
+*   **Construire** de manière fiable et reproductible une version spécifique du logiciel.
+
+**À retenir :** Sans GCL, le développement d'une application, surtout en équipe (comme dans une startup camerounaise ou une DSI d'entreprise comme MTN Cameroon), devient rapidement chaotique, avec des risques de perte de code, de régressions et d'impossibilité de livrer une version stable.
+
+#### **1.2. Concepts Fondamentaux**
+*   **Élément de Configuration (EC) :** Toute entité (fichier source, document de spécification, script de base de données) soumise au processus de GCL.
+*   **Dépôt (Repository) :** Base de données centrale stockant tous les EC et leur historique.
+*   **Version (Revision) :** État d'un EC à un instant donné. Chaque modification crée une nouvelle version.
+*   **Branche (Branch) :** Ligne d'évolution parallèle du projet, permettant de développer des fonctionnalités isolément.
+*   **Étiquette (Tag) :** Nom symbolique attribué à un ensemble spécifique de versions (ex: `v1.0.0`, `release-prod-2024`).
+
+### **2. Système de Contrôle de Version : Git**
+
+#### **2.1. Présentation de Git**
+Git est un **Système de Contrôle de Version Distribué (DVCS)**. Contrairement aux anciens systèmes centralisés (comme SVN), chaque développeur possède une copie locale complète du dépôt, incluant tout l'historique. Cela permet de travailler hors-ligne et offre une grande résilience.
+
+**Caractéristiques clés :**
+*   **Distribué** : Pas de point de défaillance unique.
+*   **Performant** : Opérations locales très rapides.
+*   **Intègre** : Utilise un hachage SHA-1 pour identifier chaque commit, garantissant l'intégrité des données.
+
+#### **2.2. Cycle de vie des fichiers et Commandes de base**
+Dans Git, un fichier passe par différents états :
+1.  **Non-suivi (Untracked)** : Fichier nouveau, non géré par Git.
+2.  **Suivi (Tracked)** : Fichier versionné. Il peut être :
+    *   **Non modifié (Unmodified)**
+    *   **Modifié (Modified)** : Changements dans le répertoire de travail.
+    *   **Indexé (Staged)** : Modifications préparées pour le prochain commit.
+
+**Commandes fondamentales :**
+```bash
+# Initialisation et clonage
+git init                            # Initialise un dépôt local
+git clone <url_du_depot_distant>    # Clone un dépôt distant (ex: depuis GitHub)
+
+# Suivi des modifications
+git status                          # Affiche l'état des fichiers
+git add <fichier>                   # Indexe un fichier (le met en staged)
+git commit -m "Message clair"       # Crée un commit avec les fichiers indexés
+git log --oneline --graph           # Affiche l'historique des commits
+
+# Exemple concret : Un développeur de la DSI Camtel modifie un script de facturation.
+git add script_facturation_ohada.py
+git commit -m "feat(facturation): ajout du calcul des pénalités selon l'acte OHADA uniformisé"
+```
+
+#### **2.3. Les Branches et les Fusions (Branch & Merge)**
+Une branche est un pointeur mobile sur un commit. La branche par défaut est `main` ou `master`.
+
+**Pourquoi utiliser des branches ?**
+*   Développer une nouvelle fonctionnalité (`feature/ajout-paiement-mobile-money`).
+*   Corriger un bug urgent en production (`hotfix/erreur-calcul-tva`).
+*   Expérimenter sans affecter la version stable.
+
+**Commandes des branches :**
+```bash
+git branch <nom_branche>            # Crée une branche
+git checkout <nom_branche>          # Se déplace sur une branche
+git switch <nom_branche>            # Commande moderne équivalente à checkout
+git merge <nom_branche>             # Fusionne une branche dans la branche courante
+```
+
+**Exemple de workflow :**
+1.  Vous travaillez sur `main` (version stable de l'application).
+2.  `git switch -c feature/integration-paiement-orange-money`
+3.  Vous développez et commitez sur cette branche.
+4.  Une fois la fonctionnalité testée, vous revenez sur `main` et faites `git merge feature/...`.
+
+**Types de fusion :**
+*   **Fast-Forward** : Possible si l'historique est linéaire. Git déplace simplement le pointeur.
+*   **Fusion à 3 sources (3-way merge)** : Si les branches ont divergé, Git crée un **commit de merge** qui combine les changements. Des **conflits** peuvent survenir si les mêmes lignes ont été modifiées différemment. Il faut alors les résoudre manuellement.
+
+#### **2.4. Rebase : Réécriture de l'historique**
+Contrairement au `merge` qui combine les histoires, le `rebase` **réécrit l'historique** en rejouant les commits d'une branche sur la pointe d'une autre.
+
+```bash
+git checkout feature-branch
+git rebase main
+```
+**Avantages :** Historique linéaire et plus propre.
+**Inconvénients :** Modifie l'historique des commits, **dangereux sur des branches partagées** (déjà poussées à distance).
+
+**À retenir :** Règle d'or — **Ne jamais rebaser une branche qui a été partagée avec d'autres collaborateurs** (déjà `push`). Utilisez `merge` pour les branches publiques, `rebase` pour nettoyer votre historique local avant de fusionner.
+
+#### **2.5. Pull Request (PR) / Merge Request (MR)**
+Mécanisme de **revue de code** et d'intégration proposé par les plateformes comme GitHub/GitLab. C'est une **demande** pour fusionner une branche (`feature`) dans une autre (`main`).
+*   **Processus :**
+    1.  Le développeur pousse (`push`) sa branche de fonctionnalité sur le dépôt distant.
+    2.  Il ouvre une PR/MR via l'interface web.
+    3.  Les autres membres de l'équipe **révise le code**, commentent, demandent des modifications.
+    4.  Une fois approuvée, la PR est fusionnée (`merge`), souvent en supprimant la branche source.
+*   **Avantage :** Améliore la qualité du code, favorise le partage des connaissances et valide l'intégration avant fusion.
+
+### **3. Modèles de Branches : GitFlow**
+
+GitFlow est un **modèle de gestion de branches** qui définit des types de branches stricts et des règles pour leur interaction. Il est idéal pour les projets avec des cycles de publication (releases) clairs.
+
+#### **3.1. Les Branches dans GitFlow**
+
+| Branche | Rôle | Durée de vie | Exemple concret |
+| :--- | :--- | :--- | :--- |
+| **`main`** / **`master`** | Contient l'historique de production. Code stable et livré. | Permanent | Version de l'appli bancaire déployée chez Afriland First Bank. |
+| **`develop`** | Branche d'intégration pour les prochaines fonctionnalités. | Permanent | Version de développement consolidée pour la prochaine itération. |
+| **`feature/*`** | Branche pour développer une nouvelle fonctionnalité. | Temporaire | `feature/ajout-bulletin-salaire-numerique` |
+| **`release/*`** | Branche de préparation à une livraison (finitions, tests). | Temporaire | `release/v2.1.0` pour la prochaine mise à jour. |
+| **`hotfix/*`** | Branche pour corriger un bug critique en production. | Temporaire | `hotfix/correction-arrondi-frais-transfert` |
+
+#### **3.2. Workflow GitFlow**
+1.  **Nouvelle fonctionnalité** : Part de `develop` → `feature/xxx` → Fusion (merge) dans `develop`.
+2.  **Préparation d'une release** : Quand `develop` est stable, création de `release/vX.Y.Z` depuis `develop`. Les corrections de bugs de release vont ici. À la fin, fusion dans `main` (pour la production) ET dans `develop`.
+3.  **Hotfix en production** : Part de `main` (tag de la version en prod) → `hotfix/xxx` → Fusion dans `main` (nouvelle version de prod) ET dans `develop`.
+
+**À retenir :** GitFlow est structurant mais peut être perçu comme lourd pour des projets en déploiement continu (CI/CD). Des modèles plus simples comme **GitHub Flow** (basé sur les PR et une seule branche `main` stable) sont populaires pour le DevOps.
+
+### **4. Plateformes d'Hébergement : GitHub et GitLab**
+
+Ces plateformes fournissent un hébergement distant pour les dépôts Git, ainsi qu'une suite d'outils collaboratifs.
+
+#### **4.1. Comparatif GitHub vs GitLab**
+
+| Fonctionnalité | **GitHub** | **GitLab** |
+| :--- | :--- | :--- |
+| **Modèle principal** | Hébergement SaaS (cloud) très répandu. | SaaS **et** version auto-hébergée (Community/Enterprise Edition). |
+| **CI/CD Intégré** | GitHub Actions (configuration via YAML). | GitLab CI/CD (très mature, configuration via `.gitlab-ci.yml`). |
+| **Gratuité** | Dépôts publics gratuits, privés avec limites. | Dépôts privés illimités (SaaS gratuit). |
+| **Forte adoption** | Standard de fait, grande communauté. | Très populaire en entreprise pour son tout-en-un. |
+| **Contexte local** | Utilisé par beaucoup de développeurs et startups africaines. | Choix privilégié pour l'hébergement interne (on-premise) dans les grandes institutions (banques, États) pour des raisons de souveraineté des données. |
+
+**Exemple d'utilisation :** Une équipe de Yaoundé développant une solution e-gouvernementale pour une mairie pourrait utiliser **GitLab auto-hébergé** sur les serveurs de l'administration pour garder le code source souverain. Une startup fintech de Douala utilisera probablement **GitHub** pour sa visibilité et l'intégration avec de nombreux services tiers.
+
+### **5. Intégration Continue et Déploiement Continu (CI/CD)**
+
+L'**Intégration Continue (CI)** et le **Déploiement Continu (CD)** sont des pratiques DevOps qui automatisent la construction, les tests et le déploiement des applications.
+
+#### **5.1. Concepts**
+*   **Intégration Continue (CI)** : **Automatiser la construction et les tests** à chaque commit. Détecte les erreurs d'intégration très tôt.
+    *   *Exemple :* À chaque `push` sur une PR, un pipeline GitHub Actions lance les tests unitaires, vérifie la qualité du code (SonarQube).
+*   **Livraison Continue (CD - Delivery)** : Automatiser la préparation d'une release **prête à être déployée** manuellement en production à tout moment.
+*   **Déploiement Continu (CD - Deployment)** : Automatiser le **déploiement en production** après validation de la livraison (souvent avec des techniques de déploiement progressif comme les blue-green deployments).
+
+#### **5.2. Pipeline CI/CD typique**
+Un pipeline est une suite d'étapes automatisées déclenchées par un événement Git (ex: un `push`).
+
+```yaml
+# Exemple simplifié d'un fichier .gitlab-ci.yml
+stages:

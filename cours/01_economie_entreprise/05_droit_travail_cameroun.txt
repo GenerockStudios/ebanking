@@ -1,0 +1,122 @@
+# **Notes de Cours - BTS Génie Logiciel**
+**Matière : 01 Économie Entreprise**
+**Chapitre : Droit du Travail Camerounais**
+
+---
+
+## **Introduction**
+
+Le droit du travail est l’ensemble des règles juridiques qui régissent les relations entre les employeurs et les salariés. Pour un futur ingénieur logiciel camerounais, maîtriser ce cadre légal est essentiel pour évoluer professionnellement, comprendre ses droits et obligations, et gérer des équipes. Ce cours s’appuie principalement sur le **Code du Travail camerounais (Loi n° 92/007 du 14 août 1992 et ses textes d’application)**, ainsi que sur les normes de l’**OHADA** (Organisation pour l'Harmonisation en Afrique du Droit des Affaires) qui influencent certains aspects du droit social.
+
+---
+
+## **1. Le Contrat de Travail**
+
+### **1.1. Définition et Caractéristiques Essentielles**
+Le contrat de travail est une convention par laquelle une personne (le salarié) s’engage à mettre son activité professionnelle au service d’une autre personne (l’employeur), sous sa subordination, moyennant une rémunération.
+
+**Éléments constitutifs (À retenir) :**
+*   **La prestation de travail** : Activité intellectuelle ou manuelle (ex: développement d'une application, tests logiciels).
+*   **La rémunération** : Salaire ou traitement.
+*   **Le lien de subordination juridique** : L'employeur a le pouvoir de donner des ordres, d'en contrôler l'exécution et de sanctionner. C'est l'élément clé qui distingue le contrat de travail d'un contrat de prestation de services.
+
+### **1.2. Les Différents Types de Contrats de Travail**
+
+| Type de Contrat | Définition | Durée | Formalisme | Exemple dans le secteur GL au Cameroun |
+| :--- | :--- | :--- | :--- | :--- |
+| **Contrat à Durée Indéterminée (CDI)** | Contrat conclu sans limitation de durée. | Indéterminée | Peut être verbal, mais l'écrit est fortement recommandé. | Poste de **Développeur Full-Stack senior** chez **MTN Cameroon** ou **Camtel**. |
+| **Contrat à Durée Déterminée (CDD)** | Contrat conclu pour l'exécution d'une tâche précise et temporaire. | Maximum 02 ans, renouvelable une fois. | **Obligatoirement écrit**, sous peine de requalification en CDI. Mention de la durée et du motif précis. | **Projet de migration cloud** de 18 mois pour **Orange Cameroun**. Recrutement d'un expert en cybersécurité pour un audit spécifique. |
+| **Contrat de Travail Temporaire** | Mis en place par une entreprise de travail temporaire (ETT) pour mettre un salarié à disposition d'une entreprise utilisatrice. | Lié à la mission. | Écrit, tripartite (salarié, ETT, entreprise utilisatrice). | Une SSII (ex: **Proxima Africa**) met à disposition un **testeur logiciel** chez une banque pour une durée de 6 mois. |
+| **Contrat d'Essai** | Période permettant à l'employeur d'évaluer les compétences du salarié et au salarié d'apprécier les conditions de travail. | Max. 6 mois pour les cadres, 3 mois pour les agents de maîtrise, 1 mois pour les autres. Renouvelable une fois. | Doit être stipulé **par écrit** avant l'embauche. | Un **nouvel analyste-programmeur** dans une startup digitale de Douala ou Yaoundé. |
+
+**À retenir :** Dans le secteur du génie logiciel, le **CDI** reste la norme pour les postes permanents, tandis que le **CDD** est fréquent pour les projets spécifiques. Le contrat doit préciser le poste, le lieu de travail, la rémunération, la durée et la période d'essai.
+
+### **1.3. Obligations des Parties**
+*   **Employeur** : Fournir du travail, verser le salaire, respecter la santé et la sécurité, former le salarié.
+*   **Salarié** : Exécuter son travail avec diligence et loyauté, respecter les horaires, obéir aux ordres légitimes, respecter le secret professionnel (très important pour un développeur ayant accès au code source).
+
+---
+
+## **2. La Caisse Nationale de Prévoyance Sociale (CNPS)**
+
+### **2.1. Rôle et Missions**
+La CNPS est un établissement public chargé de gérer le régime de sécurité sociale des travailleurs salariés au Cameroun. Sa mission est de **protéger les travailleurs et leurs familles contre les risques sociaux**.
+
+### **2.2. Les Prestations Gérées (Branches)**
+1.  **Les Prestations Familiales** : Allocations pour enfants à charge.
+2.  **Les Prestations en Nature des Assurances Maladie** : Prise en charge des soins de santé (médicaments, hospitalisation).
+3.  **Les Prestations en Espèces des Assurances Maladie** : Indemnités journalières en cas d'arrêt de travail pour maladie.
+4.  **Les Accidents du Travail et Maladies Professionnelles** : Prise en charge des soins et rentes en cas d'incapacité. Pour un développeur, les **troubles musculo-squelettiques (TMS)** ou les problèmes de vue peuvent être reconnus comme maladies professionnelles.
+5.  **Les Prestations de Vieillesse, d'Invalidité et de Décès** : Pensions de retraite, rentes d'invalidité, capital-décès.
+
+### **2.3. Financement et Gestion**
+*   **Cotisations** : Elles sont à la charge conjointe de l'employeur et du salarié, prélevées sur le salaire brut.
+*   **Immatriculation** : Tout employeur doit s'immatriculer à la CNPS. Tout salarié doit avoir une **carte de membre bénéficiaire**.
+*   **Outils de Gestion** : Les services RH des entreprises utilisent des **logiciels de paie (ex: Sage Paie, CIEL Paie)** qui calculent automatiquement les cotisations CNPS et génèrent les états déclaratifs (DAF). La CNPS propose aussi des services en ligne pour les déclarations.
+
+**Exemple concret :** Un **ingénieur logiciel** chez **Nexttel** (Cameroun) perçoit un salaire brut de 500 000 FCFA. Une partie est prélevée pour la CNPS. S'il a un enfant, il perçoit une allocation familiale. S'il est victime d'un accident de travail, ses soins sont couverts.
+
+---
+
+## **3. Les Congés**
+
+### **3.1. Congés Payés Annuels**
+*   **Durée** : **1,5 jour ouvrable par mois de service effectif**, soit **18 jours** pour une année complète de travail.
+*   **Acquisition** : Le droit s'acquiert après au moins un an de service continu (période de référence).
+*   **Période de prise** : Elle est fixée par l'employeur en consultation avec le salarié. Elle peut être fractionnée.
+*   **Indemnité de congé** : Égale à la rémunération normale que le salarié aurait perçue s'il avait travaillé.
+
+### **3.2. Autres Types de Congés**
+*   **Congé de Maternité** : **14 semaines** (dont 8 semaines après l'accouchement). Rémunéré à 100% par la CNPS.
+*   **Congé de Paternité** : **10 jours ouvrables** consécutifs, non rémunéré par la CNPS mais souvent payé par l'employeur selon la convention collective.
+*   **Congé pour Événements Familiaux** (Mariage, décès) : Durée courte (1 à 4 jours selon les cas).
+*   **Congé de Maladie** : Justifié par un certificat médical. Paiement selon les règles de la CNPS après un délai de carence.
+
+**Pratique en entreprise :** Dans les ESN (Entreprises de Services du Numérique), la prise des congés est souvent planifiée en fonction des **jalons de projet** et gérée via des outils comme **Jira, Trello** ou les modules **congés des logiciels de GRH (ex: BambooHR, PeopleSphere)**.
+
+---
+
+## **4. Le Licenciement**
+
+### **4.1. Définition et Principe**
+Le licenciement est la rupture du contrat de travail à l'initiative de l'employeur. Il doit être **motivé par une cause réelle et sérieuse**.
+
+### **4.2. Les Deux Types de Licenciement**
+*   **Licenciement pour Motif Personnel** :
+    *   **Cause Réelle et Sérieuse** : Faute du salarié (incompétence, négligence, insubordination, vol de données - cas grave en informatique).
+    *   **Inaptitude Professionnelle** : Non liée à une faute (ex: salarié ne maîtrisant pas une nouvelle technologie critique après une formation).
+    *   **Procédure** : **Convocation à un entretien préalable** (lettre recommandée) → **Entretien** (salarié peut se faire assister) → **Notification de la décision** (lettre recommandée après un délai de réflexion). **Indemnité de licenciement** obligatoire sauf en cas de faute lourde.
+
+*   **Licenciement pour Motif Économique** :
+    *   **Cause** : Difficultés économiques, réorganisation nécessaire pour sauvegard la compétitivité, cessation d'activité.
+    *   **Procédure plus stricte** : Consultation des **délégués du personnel**, information de l'**inspecteur du travail**. Priorité de réembauche pour les salariés licenciés.
+
+### **4.3. Calcul de l'Indemnité de Licenciement**
+**Formule (pour motif personnel non fautif ou économique) :**
+*   **Moins de 20 ans d'ancienneté** : 20% du salaire mensuel moyen par année de service.
+*   **20 ans et plus d'ancienneté** : 25% du salaire mensuel moyen par année de service.
+*   **Plafond** : Le salaire mensuel de base pris en compte ne peut excéder 500 000 FCFA (sous réserve de modification).
+
+**Exemple :** Un **chef de projet** licencié pour motif économique après 8 ans de service, avec un salaire moyen de 600 000 FCFA.
+*   Salaire de base retenu : 500 000 FCFA (plafond).
+*   Indemnité = (500 000 x 20%) x 8 = **800 000 FCFA**.
+
+---
+
+## **5. Les Conventions Collectives**
+
+### **5.1. Définition et Objectif**
+Une convention collective est un accord écrit négocié entre les **organisations syndicales de salariés** et les **organisations patronales** (ou un employeur). Elle adapte et améliore les dispositions du Code du Travail pour un secteur d'activité donné.
+
+### **5.2. Champ d'Application et Effets**
+*   Elle s'applique à toutes les entreprises du secteur et de la zone géographique concernés.
+*   Elle traite de conditions de travail spécifiques : **grilles de salaires, classifications des emplois, primes spécifiques, durée du travail, congés supplémentaires, formation professionnelle**.
+*   **Hiérarchie des normes** : La convention collective ne peut être **moins favorable** que le Code du Travail (principe de faveur). Elle peut être plus avantageuse.
+
+### **5.3. Conventions Collectives dans le Secteur du Numérique/Informatique**
+Au Cameroun, le secteur du génie logiciel peut être concerné par :
+*   La **Convention Collective Interprofessionnelle du Cameroun (CCIC)** qui sert de base.
+*   Des conventions de branches spécifiques (ex: télécommunications, banque) pour les informaticiens travaillant dans ces secteurs.
+*   **Enjeu actuel** : Il n'existe pas encore de convention collective nationale dédiée exclusivement aux métiers du numérique. C'est un sujet de débat et de revendication des professionnels du secteur pour définir des grilles salariales, des classifications (Développeur Junior/Senior/Lead, Architecte, etc.) et des droits adaptés (télétravail, formation continue aux nouvelles technologies).
+
+**À retenir :** Un **ingénieur logiciel** chez **Orange** est couvert par la convention

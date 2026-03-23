@@ -1,0 +1,142 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 24 IHM (Interface Homme-Machine)**
+## **Chapitre : IHM et Intelligence Artificielle**
+
+---
+
+### **1. Introduction : Convergence IHM et IA**
+
+L’Intelligence Artificielle (IA) transforme radicalement la conception des Interfaces Homme-Machine. Elle permet de passer d’interfaces statiques et génériques à des systèmes **proactifs, adaptatifs et conversationnels**. L’objectif est de créer des expériences utilisateur (UX) plus naturelles, efficaces et personnalisées, tout en relevant des défis éthiques et techniques majeurs.
+
+**À retenir** : L’IA en IHM vise à augmenter les capacités humaines, pas à les remplacer. L’interface devient un collaborateur intelligent.
+
+---
+
+### **2. Interfaces Conversationnelles**
+
+#### **2.1. Définition et Concepts**
+Une interface conversationnelle est un système qui permet à l’utilisateur d’interagir avec une machine en utilisant le langage naturel (texte ou parole), simulant une conversation humaine.
+
+*   **Chatbot (Agent Conversationnel Textuel)** : Programme qui converse par texte. Exemples :
+    *   **Support client MTN/Orange Cameroun** : Réponses aux questions sur les forfaits, la recharge, les pannes.
+    *   **Banques (Afriland First Bank, BICEC)** : Consultation de solde, blocage de carte, simulation de crédit.
+    *   **Portails administratifs** : Renseignements sur les procédures OHADA ou la création d’entreprise.
+*   **Assistant Vocal (Voicebot)** : Programme qui comprend et génère de la parole. Exemples :
+    *   **Google Assistant, Siri, Alexa** (usage global).
+    *   **Applications locales** : Commandes vocales dans une appli de santé pour la lecture de résultats, commande de produits sur une plateforme e-commerce camerounaise.
+
+#### **2.2. Technologies sous-jacentes**
+*   **Traitement du Langage Naturel (TLN/NLP)** : Permet à la machine de **comprendre** (analyse d’intention, entités) et de **générer** du langage humain.
+*   **Reconnaissance Automatique de la Parole (RAP/ASR)** : Convertit le signal vocal en texte.
+*   **Synthèse Vocale (TTS)** : Convertit le texte en parole naturelle.
+*   **Moteurs de Dialogue** : Gèrent le flux de la conversation (états, contextes, réponses).
+
+#### **2.3. Conception UX pour interfaces conversationnelles**
+*   **Personnalité du bot** : Doit correspondre à la marque et au contexte culturel (ton, formules de politesse adaptées).
+*   **Gestion des échecs** : Le bot doit reconnaître ses limites et rediriger vers un agent humain (chez Camtel par exemple).
+*   **Design des prompts** : Guider l’utilisateur avec des suggestions de réponses (boutons rapides).
+*   **Considérations pour l'Afrique** :
+    *   **Multilinguisme** : Support du français, de l’anglais, et des langues nationales (ewondo, fufuldé, etc.).
+    *   **Accents et variations** : L’ASR doit être entraîné sur des accents locaux.
+    *   **Connectivité limitée** : Prévoir des modes hors-ligne ou bas débit.
+
+**Tableau comparatif : Chatbot vs Assistant Vocal**
+| Critère | Chatbot (Textuel) | Assistant Vocal |
+| :--- | :--- | :--- |
+| **Canal** | Messagerie, site web | Haut-parleur intelligent, téléphone |
+| **Contexte d'usage** | Public, bureaux | Privé, mains libres (cuisine, voiture) |
+| **Complexité** | Gère mieux les interactions complexes (menus, liens) | Idéal pour requêtes simples et rapides |
+| **Barrière** | Alphabétisation, écriture | Accent, bruit ambiant |
+| **Exemple local** | Chat MTN sur Facebook | Commande vocale dans l'app Orange Money |
+
+---
+
+### **3. Personnalisation Adaptative**
+
+#### **3.1. Définition**
+Système d’IHM qui modifie automatiquement son contenu, sa présentation ou ses fonctionnalités en fonction du profil, du comportement et du contexte de l’utilisateur, sans demande explicite de sa part.
+
+#### **3.2. Mécanismes et Techniques**
+*   **Filtrage Collaboratif** : "Les utilisateurs qui ont aimé X ont aussi aimé Y". Utilisé par **Showmax** ou **Afrostream** pour recommander des films.
+*   **Filtrage par Contenu** : Recommandation basée sur les similarités entre les items (ex: articles de journaux en ligne comme *Journal du Cameroun*).
+*   **Apprentissage par Renforcement** : Le système apprend en continu des feedbacks implicites (temps de lecture, clics) et explicites (notes).
+*   **Analytique Utilisateur** : Collecte et analyse des données de navigation, d'achat, de géolocalisation.
+
+#### **3.3. Applications dans le contexte camerounais**
+1.  **E-commerce (Jumia, Kaymu)** : Affichage de produits pertinents selon l’historique et la localisation (Douala, Yaoundé).
+2.  **Services financiers (Mobile Money)** :
+    *   **Orange Money/Moov Money** : Suggestions de transferts fréquents, alertes personnalisées sur les dépenses.
+    *   **Microfinance** : Offres de crédit adaptées au profil de risque.
+3.  **Éducation (EdTech)** : Plateformes d'apprentissage adaptant la difficulté des exercices (ex: cours de code pour débutants).
+4.  **Santé** : Applications de suivi médical proposant des conseils en fonction des données vitales.
+
+**À retenir** : La personnalisation doit être **transparente** et **contrôlable** par l'utilisateur, qui doit pouvoir corriger son profil ou désactiver le suivi.
+
+---
+
+### **4. Enjeux Éthiques des IHM à base d'IA**
+
+#### **4.1. Les Biais Algorithmiques**
+*   **Définition** : Distorsion systématique et injuste dans les sorties d'un système d'IA, qui avantage ou désavantage certains groupes.
+*   **Origines** :
+    *   **Données d'entraînement biaisées** : Ex: Un système de recrutement entraîné sur des CV d'une région/d'un genre dominant reproduira ce biais.
+    *   **Conception des algorithmes** : Choix des caractéristiques (*features*) qui peuvent être discriminantes (ex: code postal comme proxy de l'origine ethnique).
+*   **Exemple concret** : Un système de scoring crédit pour les prêts mobiles qui désavantagerait systématiquement les agriculteurs ruraux parce que leurs schémas de revenus (saisonniers) diffèrent de ceux des salariés urbains sur lesquels le modèle a été entraîné.
+
+#### **4.2. L'Opacité (Problème de la "Boîte Noire")**
+*   **Définition** : Difficulté à comprendre comment un modèle d'IA complexe (comme un réseau de neurones profond) est arrivé à une décision particulière.
+*   **Conséquences** :
+    *   **Manque de responsabilité** : Qui est responsable si un chatbot d'une banque donne une information erronée causant un préjudice financier ?
+    *   **Impossibilité de contester** : Comment contester un refus de crédit automatisé si la raison est incompréhensible ?
+*   **Solution : IA Explicable (XAI)** : Ensemble de techniques visant à rendre les décisions de l'IA compréhensibles pour les humains (ex: visualisation des features importantes).
+
+#### **4.3. Autres enjeux éthiques**
+*   **Vie privée et consentement** : La personnalisation nécessite une collecte massive de données. Respect du **RGPD** et des lois locales sur la protection des données.
+*   **Dépendance et désengagement** : Risque de créer des utilisateurs passifs, dépendants des suggestions du système.
+*   **Exclusion numérique** : Renforcement des inégalités si les systèmes IA ne sont pas conçus pour les populations à faible connectivité ou alphabétisation numérique.
+
+---
+
+### **5. UX des Systèmes IA : Principes de Conception**
+
+Concevoir l'UX pour l'IA exige de gérer l'**incertitude** et les **attentes** de l'utilisateur.
+
+#### **5.1. Principes Fondamentaux**
+1.  **Transparence** : Indiquer clairement à l'utilisateur qu'il interagit avec une IA ("Je suis un assistant virtuel"). Expliquer les capacités et limites.
+2.  **Contrôle Utilisateur** : Toujours laisser le dernier mot à l'humain. Offrir des options pour **corriger** (ex: "Ce n'est pas ce que je voulais dire"), **personnaliser** et **désactiver** les fonctionnalités IA.
+3.  **Feedback Continu** : Donner des signaux clairs sur l'état du système ("Je réfléchis...", "Je cherche dans la base de données des impôts...").
+4.  **Gracieuse Dégradation** : Prévoir des chemins de secours quand l'IA échoue (transfert vers un humain, formulaire de contact alternatif).
+5.  **Apprentissage Continu** : Permettre au système d'apprendre des corrections des utilisateurs.
+
+#### **5.2. Phases du Design Process pour l'IA**
+1.  **Définition du problème** : L'IA est-elle la bonne solution ? Quel est le gain utilisateur ?
+2.  **Collecte et audit des données** : Quelles données sont nécessaires ? Sont-elles disponibles, propres et non biaisées ?
+3.  **Prototypage du modèle de dialogue ou d'interaction** : Scénarios, *storyboards*, prototypes cliquables.
+4.  **Tests utilisateurs itératifs** : Tester avec des utilisateurs camerounais pour valider la compréhension culturelle et linguistique.
+5.  **Monitoring et amélioration post-lancement** : Analyser les logs pour identifier les points de blocage et les biais émergents.
+
+---
+
+### **6. Outils et Technologies (Pratique en entreprise)**
+
+*   **Développement de Chatbots** :
+    *   **Frameworks** : Google Dialogflow CX/ES, Microsoft Bot Framework, Rasa (open source).
+    *   **Plateformes** : WhatsApp Business API (très utilisé au Cameroun), Facebook Messenger.
+*   **Assistants Vocaux** :
+    *   **Services Cloud** : Google Cloud Speech-to-Text, Amazon Polly, Microsoft Azure Cognitive Services.
+    *   **Librairies Open Source** : Mozilla DeepSpeech (pour entraîner des modèles sur langues locales).
+*   **Personnalisation & Recommandation** :
+    *   **Systèmes prêts à l'emploi** : Amazon Personalize, Google Recommendations AI.
+    *   **Librairies ML** : Scikit-learn, TensorFlow Recommenders, Surprise (Python).
+*   **Gestion des Données et Éthique** :
+    *   **Annotation de données** : Labelbox, Prodigy.
+    *   *Détection de biais* : IBM AI Fairness 360, Google's What-If Tool.
+    *   *IA Explicable* : SHAP, LIME.
+
+---
+
+### **7. Conclusion et Perspectives**
+
+L'intégration de l'IA dans les IHM est une opportunité majeure pour créer des services numériques plus accessibles, efficaces et pertinents pour les populations camerounaises et africaines. Cependant, cette puissance s'accompagne d'une **responsabilité accrue** pour le concepteur génie logiciel. Il doit maîtriser non seulement les aspects techniques, mais aussi les dimensions éthiques, culturelles et UX. Le défi est de construire des systèmes **inclusifs, équitables et centrés sur l'humain**, qui tirent parti de l'IA pour résoudre des problèmes contexte du continent, tout en évitant d'en amplifier les fractures existantes.
+
+**Mots-clés du chapitre** : Interface conversationnelle, Chatbot, NLP, Personnalisation adaptative, Filtrage collaboratif, Biais algorithmique, Opacité (Boîte noire), IA Explicable (XAI), UX Transparent, Contrôle utilisateur.

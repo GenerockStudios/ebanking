@@ -1,0 +1,136 @@
+# **Notes de cours — 24 IHM**
+## **Chapitre : Processus UCD (User-Centered Design) : personas, user stories, wireframes, mockups, prototypes interactifs**
+
+**Professeur :** [Votre Nom]
+**Niveau :** BTS Génie Logiciel (Programme MINPOSTEL/MINESUP Cameroun)
+**Durée estimée :** 6 heures de cours
+
+---
+
+### **1. Introduction au User-Centered Design (UCD)**
+
+#### **1.1. Définition et Principes Fondamentaux**
+Le **User-Centered Design (UCD)** ou **Conception Centrée sur l'Utilisateur** est une approche philosophique et méthodologique de conception d'interfaces et de systèmes interactifs qui place les besoins, les objectifs et les expériences des utilisateurs finaux au cœur de chaque étape du processus de développement.
+
+**Principes clés du UCD (Norme ISO 9241-210) :**
+1.  **Compréhension approfondie des utilisateurs** : Connaître leurs tâches, leur environnement et leurs contraintes.
+2.  **Implication des utilisateurs tout au long du processus** : De la recherche à l'évaluation.
+3.  **Conception itérative** : Le design est affiné par cycles successifs de conception, de test et d'amélioration.
+4.  **Approche systémique** : Considérer l'ensemble de l'expérience utilisateur, pas seulement l'interface.
+5.  **Design par l'équipe pluridisciplinaire** : Collaboration entre designers, développeurs, chefs de produit et experts métier.
+
+**À retenir :** Le UCD n'est pas une étape, mais un **processus continu** qui vise à réduire les coûts de correction en identifiant les problèmes d'utilisabilité très tôt, et à maximiser l'adoption et la satisfaction des utilisateurs finaux.
+
+#### **1.2. Pourquoi le UCD est-il crucial au Cameroun et en Afrique ?**
+*   **Diversité des utilisateurs :** Forte hétérogénéité en termes de langues (français, anglais, langues locales), de niveaux de littératie numérique, d'accès à la technologie (du smartphone haut de gamme au téléphone basique) et de contextes d'usage (connexion internet intermittente, coupures d'électricité).
+*   **Adoption des services numériques :** Pour des services comme **Mobile Money (Orange Money, MTN MoMo)**, l'**e-gouvernement**, ou les plateformes **OHADA** pour les entreprises, une interface intuitive est essentielle pour inclure toute la population.
+*   **Concurrence :** Dans un marché dynamique (télécoms avec **MTN, Orange, Camtel** ; fintech), l'expérience utilisateur devient un avantage compétitif décisif.
+
+---
+
+### **2. Les Outils et Artéfacts du Processus UCD**
+
+Le processus UCD s'appuie sur une série d'artéfacts qui évoluent du plus abstrait au plus concret.
+
+#### **2.1. Les Personas**
+*   **Définition :** Un persona est un **archétype fictif** mais réaliste, représentant un groupe majeur d'utilisateurs finaux. Il est construit à partir de données de recherche (interviews, observations, enquêtes).
+*   **Objectif :** Donner un visage et une histoire aux données utilisateurs, pour que l'équipe de conception conçoive **pour "Paul" ou "Amina"** plutôt que pour un "utilisateur" abstrait.
+
+**Structure type d'un persona :**
+*   **Identité :** Photo, nom, âge, profession, ville (ex: Douala, Yaoundé, Garoua).
+*   **Biographie & contexte :** Brève histoire personnelle.
+*   **Objectifs & motivations :** Ce qu'il/elle cherche à accomplir.
+*   **Frustrations & points de douleur :** Ses difficultés avec les solutions actuelles.
+*   **Contexte technologique :** Appareil principal, connexion internet, aisance numérique.
+*   **Citation représentative :** Une phrase qui résume son attitude.
+
+**Exemple concret - Cameroun :**
+> **Persona :** **M. Ndongo, 52 ans, Commerçant à Marché Central (Yaoundé)**
+> *   **Profession :** Vendeur de tissus.
+> *   **Objectif :** Simplifier la gestion de sa caisse et accepter les paiements Mobile Money sans erreur.
+> *   **Frustration :** Les applications de gestion sont trop complexes en français, il a du mal à lire les petits caractères sur son smartphone. Il craint de faire une erreur en envoyant de l'argent.
+> *   **Technologie :** Smartphone Android d'entrée de gamme, connexion 3G/4G irrégulière, utilise principalement **Orange Money**.
+> *   **Citation :** *"Je veux une appli où en deux clics, je vois ce que j'ai gagné aujourd'hui et je peux envoyer de l'argent à mon fournisseur sans me tromper de numéro."*
+
+#### **2.2. Les User Stories (Récits Utilisateurs)**
+*   **Définition :** Une user story est une **description simple et concise** d'une fonctionnalité, écrite du point de vue de l'utilisateur final. C'est l'unité de base du backlog dans les méthodologies agiles.
+*   **Format standard (Connextra) :**
+    > **En tant que** [type d'utilisateur / persona], **je veux** [action / objectif] **afin de** [bénéfice / valeur].
+
+**Exemples adaptés :**
+1.  **En tant que** client utilisant **MTN MoMo**, **je veux** pouvoir scanner un QR code pour payer une facture **afin de** éviter de saisir manuellement le numéro du bénéficiaire et de réduire les erreurs.
+2.  **En tant que** juriste dans une entreprise camerounaise, **je veux** pouvoir rechercher rapidement une loi du droit **OHADA** par mot-clé **afin de** préparer un contrat en temps limité.
+3.  **En tant que** M. Ndongo (commerçant), **je veux** recevoir une notification sonore et visuelle claire après une transaction **afin de** être sûr que le paiement a été reçu.
+
+**Critères d'Acceptation (Definition of Done) :** Liste de conditions qui doivent être remplies pour que la user story soit considérée comme terminée. Ex: "Le QR code est généré pour des montants supérieurs à 1000 FCFA", "La notification persiste à l'écran pendant 5 secondes".
+
+#### **2.3. Les Wireframes (Maquettes Fil de Fer)**
+*   **Définition :** Représentation **schématique et simplifiée** d'une interface, en noir et blanc ou niveaux de gris. Elle se concentre sur la **structure, la hiérarchie de l'information, la disposition des éléments** et les fonctionnalités, sans souci d'aspect visuel (couleurs, images, polices).
+*   **Objectif :** Définir l'architecture de l'information et le zoning rapidement et à moindre coût. C'est un outil de communication et de validation précoce avec l'équipe et le client.
+*   **Niveaux de fidélité :**
+    *   **Low-Fidelity (Lo-Fi) :** Croquis papier ou dessins simples (rapides, pour les ateliers de brainstorming).
+    *   **High-Fidelity (Hi-Fi) :** Réalisés avec des outils numériques, plus précis et structurés (pour des spécifications détaillées).
+
+**Éléments clés d'un wireframe :**
+*   Contenu (titres, textes fictifs "lorem ipsum")
+*   Structure et mise en page (grilles)
+*   Hiérarchie de l'information (taille, placement)
+*   Fonctionnalités et navigation (boutons, liens)
+*   Comportements (annotations expliquant les interactions)
+
+**Exemple :** Wireframe de la page d'accueil d'une application de **paiement de factures Camtel**. On y voit schématiquement : le logo en haut, un champ de recherche de numéro de facture au centre, un menu principal avec "Factures", "Historique", "Recharges", et un bouton flottant "Payer".
+
+#### **2.4. Les Mockups (Maquettes Graphiques Statiques)**
+*   **Définition :** Représentation **statique et visuellement aboutie** de l'interface. C'est un **wireframe habillé** avec tous les éléments graphiques finaux.
+*   **Objectif :** Valider l'**identité visuelle**, l'**ambiance**, les **couleurs**, les **typos**, les **images**, l'**iconographie** et l'aspect général avant le développement. C'est la "photo" finale de l'interface.
+
+**Éléments ajoutés par rapport au wireframe :**
+*   Palette de couleurs définie (ex: Orange de la marque **Orange Cameroun**)
+*   Typographies finales
+*   Images, icônes et logos réels
+*   Effets visuels (ombres, dégradés, transparences)
+*   Design responsive (affichage sur mobile, tablette, desktop)
+
+**Contexte Africain :** Les mockups doivent tester la lisibilité sous un fort ensoleillement (contraste élevé), l'adaptation aux écrans de différentes qualités, et l'inclusion d'éléments visuels culturellement pertinents (couleurs, illustrations).
+
+#### **2.5. Les Prototypes Interactifs**
+*   **Définition :** Simulation **interactive** de l'application ou du site web. Les prototypes permettent de **naviguer entre les écrans** (mockups) et de **simuler des interactions** (clics, survols, défilement, saisie dans des champs).
+*   **Objectif :** Tester le **flux de navigation**, l'**ergonomie** et l'**utilisabilité** avec de vrais utilisateurs avant le codage. Ils permettent d'identifier les problèmes d'interaction que les mockups statiques ne révèlent pas.
+*   **Niveaux de fidélité :**
+    *   **Prototype cliquable (Low-Fi) :** Liens simples entre des wireframes.
+    *   **Prototype interactif (High-Fi) :** Interactions complexes (transitions d'écran, animations, micro-interactions) basées sur des mockups finaux.
+
+**Avantage principal :** Obtenir un feedback réaliste et éviter des erreurs coûteuses en développement. On peut tester un parcours utilisateur critique, comme le processus d'envoi d'argent via **Mobile Money**.
+
+---
+
+### **3. Outils de Conception : Figma et Adobe XD**
+
+Ces outils professionnels permettent de créer l'ensemble des artéfacts, du wireframe au prototype interactif, de manière collaborative.
+
+#### **3.1. Figma**
+*   **Type :** Outil de design d'interface basé sur le **navigateur web** (avec application desktop). Collaboration en temps réel.
+*   **Forces :**
+    *   **Collaboration exceptionnelle** (comme Google Docs pour le design).
+    *   **Gratuit pour les individus et petites équipes** (plan Starter).
+    *   **Écosystème riche** de plugins et de bibliothèques de composants.
+    *   **Prototypage puissant** avec des interactions avancées et des animations.
+    *   **Design System** intégré pour maintenir la cohérence.
+*   **Usage typique en entreprise :** Idéal pour les équipes distribuées, très populaire dans les startups et les entreprises tech modernes.
+
+#### **3.2. Adobe XD**
+*   **Type :** Application desktop faisant partie de l'écosystème **Adobe Creative Cloud**.
+*   **Forces :**
+    *   **Intégration fluide** avec les autres outils Adobe (Photoshop, Illustrator, After Effects).
+    *   **Prototypage vocal** (commandes vocales) et **animation automatisée**.
+    *   **Mode de répétition** (Repeat Grid) pour créer des listes et des grilles rapidement.
+    *   **Co-édition** (collaboration en temps réel similaire à Figma).
+*   **Usage typique en entreprise :** Apprécié dans les agences de design ou les équipes déjà investies dans l'écosystème Adobe.
+
+**Tableau Comparatif : Figma vs Adobe XD**
+
+| Critère | **Figma** | **Adobe XD** |
+| :--- | :--- | :--- |
+| **Modèle d'accès** | Navigateur (principal) + App | Application Desktop |
+| **Collaboration** | **Force majeure** - Temps réel natif | Co-édition présente, intégrée plus tardivement |
+| **Tarification** | **Gratuit généreux**, payant pour les

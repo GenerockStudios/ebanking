@@ -1,0 +1,117 @@
+CHAPITRE 1 — INTERFACES HOMME-MACHINE (IGL245)
+BTS Génie Logiciel — Structure de données et IHM
+
+1. INTRODUCTION À L'IHM
+
+Une Interface Homme-Machine (IHM) ou Interface Utilisateur (UI — User Interface) est l'ensemble des mécanismes par lesquels un utilisateur interagit avec un système informatique.
+
+Types d'interfaces :
+- CLI (Command Line Interface) : interface en ligne de commande (terminal Linux, PowerShell)
+- GUI (Graphical User Interface) : interface graphique avec fenêtres, icônes, boutons
+- TUI (Text User Interface) : interface en mode texte structurée (menus en console)
+- NUI (Natural User Interface) : gestes tactiles, voix, reconnaissance gestuelle
+- VUI (Voice User Interface) : Alexa, Siri, Google Assistant
+
+Niveaux de la hiérarchie d'interface :
+UX (User Experience) : l'expérience globale de l'utilisateur avec un produit ou service. Plus large que l'UI.
+UI (User Interface) : les écrans, boutons, formulaires, animations visibles par l'utilisateur.
+L'UI est au service de l'UX.
+
+2. PRINCIPES DE CONCEPTION D'INTERFACE (USABILITÉ)
+
+Critères d'usabilité (ISO 9241) :
+- Efficacité : l'utilisateur peut accomplir ses objectifs avec précision
+- Efficience : l'effort et le temps nécessaires sont minimaux
+- Satisfaction : l'expérience est agréable et sans frustration
+
+Heuristiques de Nielsen (10 règles d'or de l'IHM) :
+1. Visibilité de l'état du système : l'utilisateur doit toujours savoir où il en est (barre de progression, notifications)
+2. Correspondance système-monde réel : utiliser le vocabulaire des utilisateurs, pas du jargon technique
+3. Liberté et contrôle : permettre l'annulation et le retour en arrière (bouton Retour, Ctrl+Z)
+4. Cohérence et standards : respecter les conventions de la plateforme (Android Material Design, iOS Human Interface Guidelines)
+5. Prévention des erreurs : concevoir pour éviter les erreurs avant qu'elles ne surviennent (confirmation avant suppression)
+6. Reconnaissance plutôt que rappel : minimiser la mémorisation (menus visibles plutôt que commandes à taper)
+7. Flexibilité et efficience : permettre des raccourcis pour les utilisateurs avancés
+8. Esthétique et design minimaliste : ne montrer que les informations nécessaires
+9. Aider à reconnaître, diagnostiquer et récupérer des erreurs : messages d'erreur clairs et constructifs
+10. Aide et documentation : fournir une aide facilement accessible
+
+Loi de Fitts : le temps pour atteindre une cible est proportionnel à la distance et inversement proportionnel à la taille de la cible.
+T = a + b × log₂(1 + D/W)
+Où D = distance à la cible, W = largeur de la cible, a et b = constantes.
+→ Les boutons importants doivent être grands et facilement accessibles.
+
+Loi de Miller : la mémoire de travail peut traiter 7 ± 2 éléments simultanément.
+→ Limiter les menus à 7 items, regrouper les informations par blocs de 7 maximum.
+
+Loi de Hick : le temps de décision augmente avec le nombre d'options.
+T = b × log₂(n + 1)
+→ Réduire le nombre de choix présentés à l'utilisateur à tout moment.
+
+3. PROCESSUS DE CONCEPTION CENTRÉ UTILISATEUR (UCD)
+
+User-Centered Design (Conception Centrée Utilisateur — ISO 9241-210) :
+
+Étape 1 — Comprendre le contexte d'utilisation :
+Qui sont les utilisateurs ? (personas) Dans quel contexte utilisent-ils le produit ?
+Interviews, observations ethnographiques, questionnaires.
+
+Persona : personnage fictif représentatif d'un type d'utilisateur.
+Exemple : "Fatima, 28 ans, secrétaire comptable à Douala. Utilise un smartphone Android, peu à l'aise avec l'informatique. Besoin : entrer les factures rapidement sur mobile."
+
+Étape 2 — Spécifier les exigences utilisateur :
+User Stories : "En tant que [persona], je veux [action] afin de [objectif]."
+Exemple : "En tant qu'étudiante, je veux consulter mes notes depuis mon smartphone afin de suivre mon avancement sans venir à l'école."
+
+Étape 3 — Concevoir et prototyper :
+Wireframe (maquette filaire) : esquisse basse fidélité, structure sans design.
+Mockup (maquette haute fidélité) : rendu visuel réaliste sans interactivité.
+Prototype interactif : simulation navigable (Figma, Adobe XD, InVision).
+
+Étape 4 — Évaluer avec les utilisateurs :
+Tests utilisateurs : observer de vrais utilisateurs accomplir des tâches.
+Protocole "think aloud" : l'utilisateur verbalise ses pensées pendant le test.
+Métriques : taux d'accomplissement des tâches, temps par tâche, nombre d'erreurs.
+
+4. DESIGN VISUEL ET COULEURS
+
+Théorie des couleurs :
+- Cercle chromatique : couleurs primaires (RVB), secondaires, tertiaires
+- Couleurs complémentaires : en face sur le cercle (fort contraste)
+- Couleurs analogues : voisines sur le cercle (harmonie, douceur)
+- Couleurs triadiques : espacement régulier à 120° (équilibre et vivacité)
+
+Signification des couleurs (culture francophone et africaine) :
+Bleu : confiance, professionnalisme, stabilité → banques, santé, technologie
+Vert : nature, croissance, succès, argent (Africa : couleur très positive)
+Rouge : alerte, urgence, énergie, amour → promotions, notifications, erreurs
+Orange : convivialité, créativité, accessibilité
+Jaune : optimisme, attention, prudence
+Blanc : pureté, simplicité, espace
+Noir : élégance, autorité, luxe
+
+Accessibilité des couleurs (WCAG 2.1) :
+Contraste minimum texte normal : 4,5:1 (AA)
+Contraste minimum grand texte : 3:1 (AA)
+Ne jamais utiliser la couleur seule comme seul moyen de distinction (daltonisme).
+
+5. SYSTÈMES DE DESIGN
+
+Un Design System est un ensemble de composants réutilisables et de règles qui permettent de construire des interfaces cohérentes à grande échelle.
+
+Exemples populaires :
+Material Design (Google) : utilisé sur Android et le web.
+  Composants : AppBar, FloatingActionButton, Snackbar, BottomNavigation, Card, Chip...
+
+Apple Human Interface Guidelines : pour iOS/macOS.
+Bootstrap : framework CSS pour le web (responsive, grille 12 colonnes, composants HTML prêts).
+Tailwind CSS : utilitaires CSS atomic, très flexible.
+Ant Design (React) : pour applications d'entreprise.
+
+Grille de mise en page (Grid System) :
+Grille à 12 colonnes (Bootstrap) : standard du web responsive.
+Breakpoints Bootstrap : xs (<576px), sm (≥576px), md (≥768px), lg (≥992px), xl (≥1200px)
+
+Responsive Design : l'interface s'adapte à la taille de l'écran.
+Mobile First : concevoir d'abord pour mobile, puis enrichir pour tablette et desktop.
+Flexbox / CSS Grid : outils CSS modernes pour les mises en page flexibles.

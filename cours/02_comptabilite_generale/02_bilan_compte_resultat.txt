@@ -1,0 +1,180 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 02 Comptabilité Générale**
+## **Chapitre : Bilan et Compte de Résultat : Structure Actif/Passif, Charges/Produits, Résultat Net**
+
+---
+
+### **1. Introduction et Objectifs du Chapitre**
+
+Pour un ingénieur logiciel, comprendre les documents financiers de base est crucial. Cela permet de :
+*   Comprendre la santé financière de l'entreprise cliente ou employeur.
+*   Évaluer la rentabilité d'un projet logiciel.
+*   Participer à des appels d'offres et comprendre les budgets alloués.
+*   Développer des logiciels de gestion (ERP, logiciels de paie, etc.) adaptés aux normes comptables en vigueur.
+
+**Cadre Normatif :** Au Cameroun et dans l'espace UEMOA/CEMAC, la comptabilité est régie par le **Système Comptable OHADA (Organisation pour l'Harmonisation en Afrique du Droit des Affaires)**. Ce système standardise les pratiques et les états financiers.
+
+---
+
+### **2. Le Bilan Comptable : Photographie du Patrimoine**
+
+#### **2.1. Définition et Principe Fondamental**
+Le bilan est un état financier qui décrit, à une date donnée (généralement le 31 décembre), le **patrimoine** de l'entreprise. Il répond à la question : *"Qu'est-ce que l'entreprise possède et comment a-t-elle financé ces possessions ?"*
+
+**Principe de l'Équilibre Comptable (Équation Fondamentale) :**
+> **ACTIF = PASSIF**
+
+Cet équilibre est **toujours** respecté. L'actif représente l'emploi des fonds, le passif en représente l'origine.
+
+#### **2.2. Structure de l'Actif (Ce que l'entreprise possède)**
+L'actif est classé par ordre de liquidité croissante (du moins liquide au plus liquide).
+
+*   **Actif Immobilisé (Non Courant) :** Biens durables destinés à servir de façon permanente.
+    *   **Immobilisations Incorporelles :** Brevets, logiciels (ex: licence d'un ERP acheté par MTN Cameroun), fonds commercial.
+    *   **Immobilisations Corporelles :** Terrains, bâtiments, matériel informatique (serveurs chez Camtel), véhicules.
+    *   **Immobilisations Financières :** Participations dans d'autres sociétés (ex: investissement d'Orange Africa dans une start-up camerounaise).
+
+*   **Actif Circulant (Courant) :** Biens et créances destinés à être transformés en liquidités à court terme (< 12 mois).
+    *   **Stocks :** Matières premières, produits finis (ex: smartphones en stock chez un distributeur).
+    *   **Créances Clients :** Montants dus par les clients (ex: factures émises par une SSII camerounaise à ses clients).
+    *   **Valeurs Mobilières de Placement :** Titres achetés pour une revente à court terme.
+    *   **Trésorerie-Actif :** Argent disponible en caisse et sur les comptes bancaires.
+
+**Exemple concret (Start-up de développement logiciel à Douala) :**
+*Actif au 31/12/2023*
+*   **Actif Immobilisé :** 15 000 000 FCFA
+    *   Matériel informatique (ordinateurs, serveurs) : 10 000 000 FCFA
+    *   Logiciels (licences de développement) : 5 000 000 FCFA
+*   **Actif Circulant :** 8 000 000 FCFA
+    *   Créances clients (projets en cours de facturation) : 5 000 000 FCFA
+    *   Banque (compte courant) : 3 000 000 FCFA
+*   **TOTAL ACTIF = 23 000 000 FCFA**
+
+#### **2.3. Structure du Passif (Origine des Ressources)**
+Le passif est classé par ordre d'exigibilité croissante (du moins exigible au plus exigible).
+
+*   **Capitaux Propres (Ressources Stables) :** Apports des propriétaires et richesses générées par l'entreprise.
+    *   **Capital Social :** Apports initiaux des associés.
+    *   **Réserves :** Bénéfices des années antérieures non distribués.
+    *   **Résultat de l'exercice (Bénéfice ou Perte) :** Voir compte de résultat.
+
+*   **Dettes (Ressources Externes) :**
+    *   **Dettes de Financement (Non Courantes) :** Emprunts bancaires à long/moyen terme (> 1 an). Ex: Prêt pour acheter un bâtiment.
+    *   **Dettes d'Exploitation (Courantes) :** Dettes à court terme.
+        *   Dettes fournisseurs (ex: dette envers un fournisseur de cloud comme AWS ou Orange Cloud).
+        *   Dettes fiscales et sociales (impôts, CNPS).
+        *   Dettes sur immobilisations (crédit-bail pour du matériel).
+
+**Exemple (Suite de la start-up) :**
+*Passif au 31/12/2023*
+*   **Capitaux Propres :** 13 000 000 FCFA
+    *   Capital social : 10 000 000 FCFA
+    *   Résultat de l'exercice (à déterminer) : ? FCFA
+*   **Dettes :** 10 000 000 FCFA
+    *   Emprunt bancaire (sur 3 ans) : 7 000 000 FCFA
+    *   Dettes fournisseurs (hébergeur, électricité) : 3 000 000 FCFA
+*   **TOTAL PASSIF = 23 000 000 FCFA** (Équilibre respecté : Actif = Passif)
+
+**À retenir :** Le bilan est un **stock** (une photo à un instant T). Il ne montre pas les flux sur la période.
+
+---
+
+### **3. Le Compte de Résultat : Film de la Performance**
+
+#### **3.1. Définition et Objectif**
+Le compte de résultat est un état financier qui résume **tous les produits (revenus) et toutes les charges (dépenses)** d'une entreprise sur une période donnée (généralement l'exercice comptable du 1er janvier au 31 décembre). Il répond à la question : *"L'entreprise a-t-elle réalisé un bénéfice ou une perte sur la période ?"*
+
+**Formule Fondamentale du Résultat :**
+> **RÉSULTAT NET = PRODUITS - CHARGES**
+> *   Si **Produits > Charges** → **BÉNÉFICE**
+> *   Si **Charges > Produits** → **PERTE**
+
+#### **3.2. Structure : Charges et Produits**
+**A. Les Charges (Appauvrissements)**
+Ce sont les consommations de ressources nécessaires à l'activité.
+*   **Charges d'Exploitation :** Liées à l'activité principale.
+    *   Achats de marchandises/matières.
+    *   Services extérieurs (loyer, électricité, internet - ex: abonnement Camtel).
+    *   Impôts et taxes (hors impôt sur les bénéfices).
+    *   Salaires et charges sociales.
+    *   Dotations aux amortissements (usure des immobilisations, comme les ordinateurs).
+*   **Charges Financières :** Liées aux emprunts (intérêts bancaires).
+*   **Charges Exceptionnelles :** Rare et non récurrente (ex: amende, perte sur sinistre).
+
+**B. Les Produits (Enrichissements)**
+Ce sont les ressources générées par l'activité.
+*   **Produits d'Exploitation :** Liés à l'activité principale.
+    *   Ventes de biens ou de services (ex: chiffre d'affaires d'une SSII pour un projet de développement).
+    *   Production stockée (variation des stocks).
+*   **Produits Financiers :** Revenus de placements (intérêts perçus).
+*   **Produits Exceptionnels :** Non récurrents (ex: subvention, plus-value de cession).
+
+#### **3.3. Présentation du Compte de Résultat (Format OHADA)**
+Le compte de résultat se présente en liste ou en tableau.
+
+**Exemple Concret (Suite de la start-up - Exercice 2023) :**
+
+| **COMPTE DE RÉSULTAT** | **Montants (FCFA)** |
+| :--- | :--- |
+| **PRODUITS D'EXPLOITATION** | **30 000 000** |
+| Ventes de services (développement logiciel) | 30 000 000 |
+| **CHARGES D'EXPLOITATION** | **(25 000 000)** |
+| Achats de services (sous-traitance, cloud) | 8 000 000 |
+| Salaires et charges sociales | 15 000 000 |
+| Dotations aux amortissements (matériel) | 2 000 000 |
+| **RÉSULTAT D'EXPLOITATION** | **5 000 000** |
+| **PRODUITS FINANCIERS** | **50 000** |
+| Intérêts perçus | 50 000 |
+| **CHARGES FINANCIÈRES** | **(750 000)** |
+| Intérêts d'emprunt | 750 000 |
+| **RÉSULTAT FINANCIER** | **-700 000** |
+| **RÉSULTAT COURANT (Explo. + Fin.)** | **4 300 000** |
+| **CHARGES EXCEPTIONNELLES** | **(300 000)** |
+| **RÉSULTAT AVANT IMPÔT** | **4 000 000** |
+| **Impôt sur les Sociétés (IS - 30%)** | **(1 200 000)** |
+| **RÉSULTAT NET DE L'EXERCICE** | **2 800 000** |
+
+**Interprétation :** La start-up a réalisé un **bénéfice net de 2 800 000 FCFA** en 2023. Ce résultat viendra **augmenter les capitaux propres** au passif du bilan.
+
+**À retenir :** Le compte de résultat est un **flux** (un film sur une période). Il explique la variation des capitaux propres entre deux bilans.
+
+---
+
+### **4. Articulation Bilan / Compte de Résultat**
+
+Ces deux états sont **indissociables** et s'articulent par le **Résultat Net**.
+
+1.  Le **bilan de clôture (N-1)** donne le point de départ.
+2.  Pendant l'exercice **N**, les opérations sont enregistrées (charges et produits).
+3.  À la fin de l'exercice **N**, le **compte de résultat** est établi pour calculer le **résultat net**.
+4.  Ce **résultat net** est intégré aux **capitaux propres** du **bilan de clôture (N)**.
+5.  Le bilan de clôture (N) devient le bilan d'ouverture de l'exercice N+1.
+
+**Schéma d'Articulation :**
+```
+Bilan d'Ouverture (01/01/N)
+    |
+    |--- Activité de l'année N ---> Compte de Résultat (N)
+    |                                    |
+    |                                    V
+    |                            Résultat Net (Bénéfice/Perte)
+    |                                    |
+    V                                    |
+Bilan de Clôture (31/12/N) <-------------+
+    (Capitaux Propres mis à jour)
+```
+
+---
+
+### **5. Outils et Technologies pour le Génie Logiciel**
+
+En tant que futur ingénieur logiciel, vous serez amené à interagir avec ou à développer des systèmes qui gèrent ces concepts :
+
+*   **ERP (Enterprise Resource Planning) :** Logiciels intégrés de gestion (comptabilité, RH, projet, stocks). Exemples :
+    *   **Sage** (très répandu en Afrique francophone).
+    *   **Odoo** (open source, personnalisable).
+    *   **Microsoft Dynamics 365.**
+    *   Des ERP locaux développés pour les PME camerounaises.
+*   **Logiciels de Comptabilité Spécifiques :** Ciel Comptabilité, EBP.
+*   **Développement de Modules :** Vous pourriez développer un module de "Facturation et Suivi de Chiffre d'affaires" intégré à un logiciel métier pour une entreprise.
+*   **Business Intelligence (BI) & Tableaux de Bord :** Conception de dashboards (avec Power

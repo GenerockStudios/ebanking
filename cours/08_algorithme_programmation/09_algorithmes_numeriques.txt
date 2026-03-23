@@ -1,0 +1,291 @@
+# **Notes de Cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 08 Algorithme & Programmation**
+## **Chapitre : Algorithmes Numériques Fondamentaux**
+
+---
+
+### **1. Introduction aux Algorithmes Numériques**
+
+#### **1.1. Définition et Importance**
+Un **algorithme numérique** est une procédure systématique et finie permettant de résoudre un problème mathématique par une suite d'opérations élémentaires. Dans le génie logiciel, ces algorithmes sont cruciaux pour :
+- Optimiser les performances des applications (temps d'exécution, consommation mémoire)
+- Garantir la précision des calculs dans les systèmes financiers, scientifiques et d'ingénierie
+- Sécuriser les échanges de données (cryptographie)
+
+**Contexte camerounais** : Ces algorithmes sont utilisés dans :
+- Les systèmes de facturation des opérateurs (MTN, Orange, Camtel) pour les calculs de forfaits
+- Les applications bancaires et de microfinance (calculs d'intérêts, vérifications)
+- Les systèmes de gestion OHADA pour les calculs fiscaux et comptables
+
+#### **1.2. Complexité Algorithmique (Rappel)**
+- **Complexité temporelle** : Nombre d'opérations en fonction de la taille des données
+- **Complexité spatiale** : Mémoire utilisée
+- Notation Grand O (O) : évaluation du pire cas
+
+**Tableau comparatif des complexités courantes** :
+| Notation | Type | Exemple d'algorithme |
+|----------|------|----------------------|
+| O(1) | Constant | Accès à un tableau |
+| O(log n) | Logarithmique | Recherche binaire |
+| O(n) | Linéaire | Parcours de liste |
+| O(n²) | Quadratique | Tri bulle |
+| O(2ⁿ) | Exponentiel | Problème du voyageur |
+
+---
+
+### **2. Algorithme d'Euclide pour le Calcul du PGCD**
+
+#### **2.1. Définitions Mathématiques**
+- **PGCD (Plus Grand Commun Diviseur)** : Plus grand entier positif qui divise simultanément deux nombres entiers sans reste
+- Notation : PGCD(a, b) ou a ∧ b
+- Propriété : PGCD(a, 0) = |a|
+
+#### **2.2. Algorithme d'Euclide par Soustractions Successives**
+**Principe** : Si a > b, alors PGCD(a, b) = PGCD(a - b, b)
+
+**Exemple concret** : Calcul du PGCD dans un contexte de partage équitable
+```
+Problème : Un promoteur immobilier à Douala dispose de 84 parcelles et 60 logements. 
+Il veut créer des lots identiques (parcelle + logement) sans gaspillage.
+PGCD(84, 60) = ?
+```
+
+**Algorithme** :
+```
+Fonction PGCD_Soustraction(a, b)
+    Tant que a ≠ b
+        Si a > b alors
+            a ← a - b
+        Sinon
+            b ← b - a
+        Fin Si
+    Fin Tant que
+    Retourner a
+Fin Fonction
+```
+
+#### **2.3. Algorithme d'Euclide par Divisions Successives (Version Optimisée)**
+**Principe** : PGCD(a, b) = PGCD(b, a mod b) où "mod" est le modulo (reste de la division)
+
+**Implémentation récursive** :
+```python
+def pgcd_euclide(a, b):
+    if b == 0:
+        return abs(a)
+    else:
+        return pgcd_euclide(b, a % b)
+```
+
+**Implémentation itérative** :
+```python
+def pgcd_euclide_iteratif(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return abs(a)
+```
+
+**Application OHADA** : Calcul du ratio de liquidité générale
+```
+Actif circulant = 12.500.000 FCFA
+Passif circulant = 7.500.000 FCFA
+Simplification du ratio : PGCD(12.500.000, 7.500.000) = 2.500.000
+Ratio = (12.500.000/2.500.000) : (7.500.000/2.500.000) = 5:3
+```
+
+#### **2.4. Complexité et Performances**
+- Complexité : O(log(min(a, b)))
+- Bien plus efficace que la méthode naïve (test des diviseurs : O(n))
+
+**À retenir** : L'algorithme d'Euclide est optimal pour le calcul du PGCD et sert de base à l'algorithme d'Euclide étendu utilisé en cryptographie (clé RSA).
+
+---
+
+### **3. Nombres Premiers et Crible d'Ératosthène**
+
+#### **3.1. Définitions et Propriétés**
+- **Nombre premier** : Entier naturel > 1 qui admet exactement deux diviseurs : 1 et lui-même
+- **Nombre composé** : Entier > 1 qui n'est pas premier
+- **Théorème fondamental de l'arithmétique** : Tout entier > 1 s'écrit de manière unique comme produit de nombres premiers
+
+**Applications en contexte africain** :
+- Génération de clés cryptographiques pour les transactions mobiles (Mobile Money)
+- Vérification de codes d'identification uniques
+- Algorithmes de hachage sécurisés
+
+#### **3.2. Crible d'Ératosthène (Algorithme de Détection)**
+**Principe** : Éliminer progressivement les multiples des nombres premiers découverts
+
+**Algorithme détaillé** :
+```
+Fonction Crible_Eratosthene(n)
+    Créer tableau premier[0..n] initialisé à Vrai
+    premier[0] ← Faux
+    premier[1] ← Faux
+    
+    Pour i de 2 à √n
+        Si premier[i] = Vrai alors
+            Pour j de i*i à n par pas de i
+                premier[j] ← Faux
+            Fin Pour
+        Fin Si
+    Fin Pour
+    
+    Retourner liste des i où premier[i] = Vrai
+Fin Fonction
+```
+
+**Exemple** : Trouver les nombres premiers ≤ 30
+```
+Étape 1 : Éliminer les multiples de 2 (4, 6, 8, ...)
+Étape 2 : Éliminer les multiples de 3 (9, 15, 21, 27)
+Étape 3 : Éliminer les multiples de 5 (25)
+Résultat : 2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+```
+
+#### **3.3. Optimisations et Variantes**
+- **Crible segmenté** : Pour les grandes valeurs de n (économie mémoire)
+- **Crible d'Euler** : Variante plus efficace
+
+**Application concrète** : Génération de codes PIN sécurisés pour les cartes SIM
+```
+Un opérateur comme MTN Cameroun génère des codes de vérification 
+à partir de nombres premiers pour renforcer la sécurité.
+```
+
+#### **3.4. Test de Primalité (Vérification Simple)**
+```python
+def est_premier(n):
+    if n < 2:
+        return False
+    if n == 2:
+        return True
+    if n % 2 == 0:
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+```
+
+**Complexité** : O(√n) pour le test simple
+
+---
+
+### **4. Calcul de Puissance Rapide (Exponentiation Modulaire)**
+
+#### **4.1. Problématique du Calcul de Puissance**
+Calculer aⁿ naïvement : O(n) multiplications → inefficace pour les grandes puissances
+
+**Application** : Cryptographie RSA, calculs modulaires en finance
+
+#### **4.2. Algorithme d'Exponentiation Rapide (Exponentiation par Carrés)**
+**Principe** : Utiliser la décomposition binaire de l'exposant et la propriété :
+- a²ⁿ = (aⁿ)²
+- a²ⁿ⁺¹ = a × (aⁿ)²
+
+**Algorithme itératif** :
+```python
+def puissance_rapide(a, n):
+    resultat = 1
+    while n > 0:
+        if n % 2 == 1:  # n impair
+            resultat *= a
+        a *= a
+        n //= 2
+    return resultat
+```
+
+**Exemple** : Calcul de 3¹³
+```
+13 en binaire : 1101
+3¹³ = 3^(8+4+0+1) = 3⁸ × 3⁴ × 3¹
+Calcul : 1 × 3 = 3
+         3² = 9
+         9² = 81
+         81² = 6561
+Résultat : 6561 × 9 × 3 = 177147
+```
+
+#### **4.3. Exponentiation Modulaire Rapide**
+**Nécessité** : Pour les grands nombres (cryptographie), on calcule (aⁿ mod m)
+
+**Algorithme** :
+```python
+def puissance_modulaire(a, n, m):
+    resultat = 1
+    a = a % m
+    while n > 0:
+        if n % 2 == 1:
+            resultat = (resultat * a) % m
+        a = (a * a) % m
+        n //= 2
+    return resultat
+```
+
+**Application bancaire OHADA** : Vérification de signature numérique
+```
+Calcul de (message^clé_privee mod N) pour signature
+Calcul de (signature^clé_publique mod N) pour vérification
+```
+
+**Cas concret MTN Mobile Money** :
+```
+Un transfert de 10.000 FCFA avec frais de 1% :
+Montant total = 10.000 × (1,01)^1 (simplifié)
+Dans la réalité : calculs modulaires pour sécurité
+```
+
+#### **4.4. Complexité et Comparaison**
+| Méthode | Multiplications | Complexité | Utilisation |
+|---------|----------------|------------|-------------|
+| Naïve | n | O(n) | Petits exposants |
+| Exponentiation rapide | log₂(n) | O(log n) | Général |
+| Exponentiation modulaire | log₂(n) | O(log n) | Cryptographie |
+
+---
+
+### **5. Intégration et Applications Professionnelles**
+
+#### **5.1. Synthèse des Algorithmes**
+**Tableau récapitulatif** :
+| Algorithme | Problème résolu | Complexité | Application typique |
+|------------|-----------------|------------|---------------------|
+| Euclide | PGCD | O(log n) | Simplification fractions |
+| Crible d'Ératosthène | Nombres premiers ≤ n | O(n log log n) | Génération clés cryptographiques |
+| Exponentiation rapide | Calcul aⁿ | O(log n) | Cryptographie, simulations |
+
+#### **5.2. Outils et Technologies en Entreprise**
+- **Bibliothèques mathématiques** : Python (math, sympy), Java (BigInteger), C++ (GMP)
+- **Frameworks cryptographiques** : OpenSSL, Crypto++
+- **Environnements de développement** : Visual Studio Code, IntelliJ, Eclipse avec plugins mathématiques
+
+**Contexte camerounais** :
+- **Startups tech** : Utilisent ces algorithmes pour les systèmes de paiement
+- **Opérateurs télécoms** : Implémentation dans les systèmes de recharge et transfert
+- **Administrations** : Calculs statistiques et gestion de bases de données
+
+#### **5.3. Bonnes Pratiques de Programmation**
+1. **Validation des entrées** : Vérifier les cas limites (nombres négatifs, zéro)
+2. **Gestion de la mémoire** : Critique pour le crible sur grandes plages
+3. **Optimisation prématurée** : À éviter - d'abord un code clair et correct
+4. **Tests unitaires** : Vérifier avec des valeurs connues
+
+**Exemple de test** :
+```python
+# Test PGCD
+assert pgcd_euclide(84, 60) == 12
+assert pgcd_euclide(17, 13) == 1  # Nombres premiers entre eux
+
+# Test nombres premiers
+assert est_premier(17) == True
+assert est_premier(25) == False
+
+# Test puissance modulaire
+assert puissance_modulaire(7, 3, 13) == (7**3) % 13
+```
+
+#### **5.4. Projets Concrets pour Étudiants BTS GL Cameroun**
+1. **Calculateur financier OHADA** : Intégrant PGCD pour les ratios
+2. **Générateur de codes PIN sécurisés** : Utilisant nombres premiers
+3. **Module de cryptographie simple** : Exponentiation modulaire pour échange de clés
+4. **Application de partage équitable** : Ressources, terra

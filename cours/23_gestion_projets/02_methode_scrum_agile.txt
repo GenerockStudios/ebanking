@@ -1,0 +1,121 @@
+# **Notes de Cours — BTS Génie Logiciel (Cameroun)**
+**Matière :** 23 Gestion de Projets  
+**Chapitre :** Méthode Scrum et Agilité : Rôles, Artefacts et Cérémonies  
+**Volume :** Approx. 1800 mots
+
+---
+
+## **1. Introduction à l'Agilité et à Scrum**
+
+### **1.1. Le Manifeste Agile (2001)**
+Le développement logiciel traditionnel (cycle en V, cascade) présente souvent des limites : lourdeur, manque de flexibilité face aux changements, livraisons tardives. En réponse, 17 experts publient le **Manifeste Agile**, privilégiant :
+
+*   **Les individus et leurs interactions** *plus que* les processus et les outils.
+*   **Des logiciels opérationnels** *plus que* une documentation exhaustive.
+*   **La collaboration avec le client** *plus que* la négociation contractuelle.
+*   **L'adaptation au changement** *plus que* le suivi d'un plan.
+
+**À retenir :** L'agilité n'est pas l'absence de méthode, mais une **philosophie de gestion de projet** centrée sur la valeur client, l'adaptabilité et la livraison rapide de produits fonctionnels.
+
+### **1.2. Scrum : Un Cadre de Travail (Framework) Agile**
+Scrum est le cadre agile le plus utilisé dans le monde. Il est **léger, simple à comprendre mais difficile à maîtriser**. Il fournit un ensemble de rôles, d'événements (cérémonies), d'artefacts et de règles pour structurer un projet complexe.
+
+**Contexte camerounais :** De plus en plus d'entreprises adoptent Scrum pour rester compétitives. Une startup de Douala développant une solution de microfinance (type "MoniCash") utilisera Scrum pour s'adapter rapidement aux retours des usagers des marchés de Ndokotti ou de Mokolo, contrairement à une approche rigide qui pourrait la rendre obsolète avant même la livraison.
+
+---
+
+## **2. Les Trois Rôles Fondamentaux de Scrum**
+
+Scrum définit trois rôles clés, formant **l'Équipe Scrum**.
+
+### **2.1. Le Product Owner (PO) – Le "Quoi" et le "Pourquoi"**
+*   **Définition :** Représentant des parties prenantes (clients, utilisateurs, métier) et **garant de la valeur métier** du produit.
+*   **Responsabilités principales :**
+    1.  **Gérer et prioriser le Product Backlog** (liste des fonctionnalités).
+    2.  **Définir clairement les éléments du Backlog** (User Stories, critères d'acceptation).
+    3.  **Répondre aux questions de l'équipe de développement**.
+    4.  **Accepter ou rejeter les travaux** réalisés à la fin d'un Sprint.
+*   **Profil :** Doit avoir une **vision claire du produit**, une **grande disponibilité** et l'**autorité** pour prendre des décisions.
+*   **Exemple :** Pour le projet "Camtel Mobile Money", le PO pourrait être un responsable marketing ou produit qui priorise d'abord le paiement des factures (Camtel, ENEO, Camwater) avant l'ajout du transfert international, en se basant sur les études de marché à Yaoundé et Douala.
+
+### **2.2. Le Scrum Master (SM) – Le "Gardien du Processus"**
+*   **Définition :** Un **servant-leader** pour l'équipe. Il n'est pas un chef de projet traditionnel, mais un **facilitateur et un coach**.
+*   **Responsabilités principales :**
+    1.  **Assurer la compréhension et l'application de Scrum** par tous.
+    2.  **Supprimer les obstacles** (impediments) qui ralentissent l'équipe.
+    3.  **Faciliter les cérémonies Scrum** (Daily, Planning, etc.).
+    4.  **Protéger l'équipe** des perturbations externes.
+    5.  **Coacher l'équipe vers l'auto-organisation** et l'amélioration continue.
+*   **Exemple :** Si l'équipe de développement d'Orange Cameroun est bloquée par la lenteur d'un serveur de test géré par un autre service, le Scrum Master intervient pour résoudre ce blocage administratif.
+
+### **2.3. L'Équipe de Développement – Le "Comment"**
+*   **Définition :** Un groupe **pluridisciplinaire, auto-organisé et responsable** de la livraison de l'incrément à chaque Sprint.
+*   **Caractéristiques :**
+    *   **Auto-organisée :** Elle décide **interne**ment comment transformer le travail du Sprint Backlog en incrément.
+    *   **Pluridisciplinaire (Cross-functional) :** Possède collectivement toutes les compétences nécessaires (dev, test, UX, base de données).
+    *   **Taille idéale :** 3 à 9 personnes. Au-delà, la communication devient complexe.
+    *   **Pas de titres hiérarchiques** en son sein (ex: "chef de projet", "lead dev" n'est pas un rôle Scrum).
+*   **Exemple :** Une équipe de 5 personnes (2 dev back-end, 2 dev front-end, 1 testeur intégré) travaillant sur une plateforme de gestion scolaire pour l'Université de Dschang. Elles s'organisent pour réaliser les User Stories du Sprint sans qu'un manager leur impose un plan de tâches détaillé.
+
+**Tableau Comparatif des Rôles :**
+| **Rôle** | **Focus Principal** | **Autorité** | **Analogie Camerounaise** |
+| :--- | :--- | :--- | :--- |
+| **Product Owner** | Valeur métier, ROI, satisfaction client | Sur le **QUOI** construire | Le **promoteur immobilier** qui définit les appartements à construire et leur prix. |
+| **Scrum Master** | Processus, équipe, élimination des obstacles | Sur le **PROCESSUS** | L'**arbitre/coach** d'une équipe de football qui veille au respect des règles et à la cohésion. |
+| **Équipe Dev** | Qualité technique, livraison de l'incrément | Sur le **COMMENT** construire | Les **maçons, électriciens, plombiers** qui construisent effectivement l'immeuble. |
+
+---
+
+## **3. Les Trois Artefacts de Scrum**
+
+Les artefacts représentent le **travail** ou la **valeur** produits. Ils visent la **transparence maximale**.
+
+### **3.1. Product Backlog**
+*   **Définition :** Liste **ordonnée** et **dynamique** de tout ce qui est nécessaire dans le produit. C'est **la source unique du travail** de l'équipe.
+*   **Contenu :** Épics, User Stories, bugs, tâches techniques, améliorations.
+*   **Gestion :** Exclusivement par le **Product Owner**. Il est **constamment affiné** (Backlog Refinement) et **ré-ordonné** en fonction de la valeur, des risques, des dépendances.
+*   **Exemple :** Pour une app de réservation de bus interurbains (type "Traveler's Choice" au Cameroun), le Product Backlog contiendrait : "En tant que voyageur, je veux rechercher un trajet Douala-Yaoundé par date", "En tant qu'administrateur, je veux valider l'inscription d'une nouvelle agence de voyage", "Mettre à jour l'API de paiement pour intégrer MTN Mobile Money", etc.
+
+### **3.2. Sprint Backlog**
+*   **Définition :** L'ensemble des éléments du **Product Backlog sélectionnés pour le Sprint en cours**, **plus le plan** pour les livrer.
+*   **Propriété :** Il appartient à **l'Équipe de Développement**. C'est son engagement pour le Sprint.
+*   **Visualisation :** Souvent matérialisé par un **tableau Kanban** (To Do, In Progress, To Test, Done) sur un tableau physique ou un outil comme Jira, Trello, Azure DevOps.
+*   **Exemple :** Pour un Sprint de 2 semaines, l'équipe s'engage sur 5 User Stories. Le Sprint Backlog détaille les tâches techniques (créer la table `reservations`, développer le composant de calendrier, écrire les tests unitaires) et leur état d'avancement.
+
+### **3.3. L'Incrément**
+*   **Définition :** La somme de **tous les éléments du Product Backlog terminés** au cours du Sprint **et de tous les incréments des Sprints précédents**.
+*   **Critère fondamental :** L'incrément doit être **"Potentiellement Livrable" (Potentially Shippable)**. Il est **terminé** (selon la "Definition of Done" de l'équipe), **testé** et **intégré**.
+*   **À retenir :** À la fin de chaque Sprint, un nouvel incrément est produit, ajoutant de la valeur tangible au produit. C'est le **rythme cardiaque** de la valeur livrée.
+*   **Exemple :** Après le Sprint 1, l'incrément est une app avec une page de connexion et un profil utilisateur basique. Après le Sprint 2, l'incrément inclut en plus la fonctionnalité de recherche de trajet. Chaque version est fonctionnelle et pourrait être déployée.
+
+---
+
+## **4. Les Cinq Cérémonies (Événements) de Scrum**
+
+Les événements Scrum créent un **rythme régulier** et permettent **l'inspection et l'adaptation**.
+
+### **4.1. Le Sprint**
+*   **Définition :** Cœur de Scrum. Un **intervalle de temps fixe** (time-box) de 2 à 4 semaines, durant lequel un incrément est créé.
+*   **Règle d'or :** **Aucun changement** n'est autorisé pendant un Sprint qui mettrait en péril l'objectif du Sprint (Sprint Goal). Les nouvelles exigences attendent le prochain Sprint Planning.
+
+### **4.2. Sprint Planning (Planification du Sprint) – Time-box : 2h/semaine de Sprint**
+*   **Objectif :** Répondre à deux questions : 1) **Que** peut-on livrer à la fin de ce Sprint ? 2) **Comment** va-t-on y parvenir ?
+*   **Participants :** Toute l'Équipe Scrum.
+*   **Livrable :** Le **Sprint Goal** (objectif qualitatif) et le **Sprint Backlog**.
+
+### **4.3. Daily Scrum (Mêlée Quotidienne) – Time-box : 15 min MAX**
+*   **Objectif :** **Synchroniser** les activités de l'équipe et planifier les 24h à venir. **Ce n'est pas un rapport de statut au Scrum Master**.
+*   **Format :** Chaque membre répond à 3 questions :
+    1.  Qu'ai-je fait hier pour aider l'équipe à atteindre l'objectif du Sprint ?
+    2.  Que vais-je faire aujourd'hui ?
+    3.  Est-ce que je vois un obstacle ?
+*   **Exemple concret :** L'équipe se réunit debout à 9h00 devant le tableau Kanban. Le développeur Jean (Douala) dit : "Hier, j'ai fini l'API de connexion. Aujourd'hui, je commence l'intégration avec l'API de paiement Orange Money. Je bloque sur la documentation de l'API qui est en anglais technique." Le Scrum Master note le blocage pour l'aider.
+
+### **4.4. Sprint Review (Revue de Sprint) – Time-box : 1h/semaine de Sprint**
+*   **Objectif :** **Inspecter** l'incrément et **adapter** le Product Backlog si nécessaire.
+*   **Participants :** Équipe Scrum + parties prenantes (clients, utilisateurs, direction).
+*   **Déroulé :** L'équipe **démontre** l'incrément terminé. Discussion sur **l'état du produit**, le marché, les priorités. Le Product Backlog peut être ajusté.
+*   **Exemple :** L'équipe présente la nouvelle fonctionnalité de déclaration de sinistre via selfie pour une assurance locale. Les commerciaux présents suggèrent d'ajouter la géolocalisation automatique. Le PO note cette idée dans le Backlog.
+
+### **4.5. Sprint Retrospective (Rétrospective du Sprint) – Time-box : 45 min/semaine de Sprint**
+*   **Objectif :** **Inspecter**

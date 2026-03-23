@@ -1,0 +1,136 @@
+# **Notes de Cours - BTS Génie Logiciel**
+**Matière :** 15 Sécurité Informatique
+**Chapitre :** Sécurité cloud et mobile : shared responsibility model (AWS/Azure/GCP), OWASP Mobile Top 10, MDM, chiffrement des données au repos
+
+---
+
+## **1. Introduction : La convergence des enjeux de sécurité Cloud et Mobile**
+
+Dans le contexte numérique camerounais et africain en pleine expansion, l'adoption du cloud computing et des technologies mobiles est accélérée par des acteurs comme MTN, Orange, Camtel et le développement des FinTech. Cette transformation s'accompagne de nouveaux risques. Ce chapitre aborde les modèles de responsabilité partagée dans le cloud, les vulnérabilités spécifiques aux applications mobiles, les solutions de gestion des terminaux et les techniques fondamentales de protection des données.
+
+## **2. Le Modèle de Responsabilité Partagée (Shared Responsibility Model)**
+
+### **2.1. Définition et Principes Fondamentaux**
+Le **Shared Responsibility Model** est un cadre qui défrit la répartition des responsabilités en matière de sécurité entre le fournisseur de services cloud (CSP) et le client (l'entreprise ou le développeur).
+
+**Principe clé :** Le fournisseur est responsable **DE** la sécurité **DU** cloud (l'infrastructure sous-jacente). Le client est responsable **DE** la sécurité **DANS** le cloud (ses données, ses applications, sa configuration).
+
+### **2.2. Analyse comparative des modèles des principaux fournisseurs (AWS, Azure, GCP)**
+
+| **Responsabilité** | **AWS / Azure / GCP (Fournisseur)** | **Client (Vous - BTS GL)** |
+| :--- | :--- | :--- |
+| **Infrastructure Physique** | Bâtiments, centres de données, matériel (serveurs, réseau), refroidissement. | Aucune. |
+| **Infrastructure Cloud** | Hyperviseur, virtualisation, gestion des régions et zones de disponibilité. | Aucune. |
+| **Système d'exploitation** | Pour les services managés (ex: AWS Lambda, Azure Functions). | Pour les services de type IaaS (ex: une VM EC2 ou Azure VM) : correctifs, durcissement. |
+| **Réseau** | Sécurité et configuration du réseau global. | Configuration des groupes de sécurité (Security Groups), pare-feu (ACL), VPC/Subnets. |
+| **Applications** | Aucune. | Développement sécurisé, gestion des dépendances, correctifs applicatifs. |
+| **Données** | Intégrité et disponibilité du stockage physique. | **Responsabilité principale du client :** Classification, chiffrement (au repos/transit), gestion des accès (IAM), sauvegardes. |
+| **Identité & Accès** | Infrastructure IAM du fournisseur. | Gestion des utilisateurs, politiques IAM, authentification multi-facteur (MFA), moindre privilège. |
+
+**Exemple concret Camerounais :** Une startup FinTech à Douala utilise **AWS EC2** (IaaS) pour héberger son application de micro-crédit.
+*   **AWS** est responsable de la sécurité du centre de données (physique) et de l'hyperviseur.
+*   **La startup** est responsable de :
+    *   Appliquer les correctifs de sécurité sur son OS Ubuntu.
+    *   Configurer les Security Groups pour n'autoriser que le trafic HTTPS (443) depuis le Cameroun.
+    *   Chiffrer les données sensibles des clients (CNI, relevés bancaires) dans la base de données.
+    *   Mettre en place une politique IAM stricte pour ses développeurs.
+
+### **2.3. Implications pour le Développeur et l'Administrateur BTS GL**
+*   **Lecture obligatoire :** Consulter la documentation "Shared Responsibility Model" du fournisseur utilisé.
+*   **Outils de configuration sécurisée :** Utiliser **AWS Config**, **Azure Security Center**, ou **GCP Security Command Center** pour auditer et maintenir la posture de sécurité.
+*   **Gestion des identités :** Maîtriser **AWS IAM**, **Azure Active Directory**, et le principe du moindre privilège.
+
+> **À RETENIR :** L'erreur la plus courante est la **"misconfiguration"** du cloud par le client (bucket S3 public, règles de pare-feu trop permissives). Votre responsabilité est cruciale une fois les services cloud provisionnés.
+
+## **3. Sécurité des Applications Mobiles : OWASP Mobile Top 10**
+
+L'**OWASP** (Open Web Application Security Project) établit une liste des 10 risques les plus critiques pour les applications mobiles.
+
+### **3.1. Présentation de l'OWASP Mobile Top 10 (Édition 2023)**
+Cette liste est le référentiel pour auditer et développer des applications mobiles sécurisées.
+
+### **3.2. Analyse des Risques Critiques et Contremesures**
+**M1: Improper Credential Usage** (Mauvaise utilisation des identifiants)
+*   **Risque :** Stockage en clair des mots de passe/jetons dans la mémoire ou le système de fichiers.
+*   **Contremesure :** Utiliser les **Keychain Services** (iOS) ou **Keystore/Keychain** (Android) pour le stockage sécurisé. Privilégier les flux d'authentification sans mot de passe (biométrie, jetons).
+
+**M2: Inadequate Supply Chain Security** (Sécurité inadéquate de la chaîne d'approvisionnement)
+*   **Risque :** Utilisation de bibliothèques tierces vulnérables (ex: Log4j) ou d'SDK malveillants.
+*   **Contremesure :** Auditer régulièrement les dépendances avec des outils comme **OWASP Dependency-Check**, **Snyk**. Vérifier la provenance des SDK (ex: SDK de paiement mobile Orange Money ou MTN MoMo).
+
+**M5: Insufficient Cryptography** (Chiffrement insuffisant)
+*   **Risque :** Utilisation d'algorithmes de chiffrement faibles (ex: DES, MD5) ou de clés statiques codées en dur.
+*   **Contremesure :** Utiliser des algorithmes robustes (AES-256, RSA-2048). Générer des clés de manière sécurisée et les stocker dans le keystore du dispositif.
+
+**M7: Poor Code Quality** (Mauvaise qualité du code)
+*   **Risque :** Débordement de buffer, injections (même en mobile), gestion d'erreurs révélant trop d'informations.
+*   **Contremesure :** Revue de code, tests statiques (SAST) avec des outils comme **SonarQube**, **MobSF** (Mobile Security Framework).
+
+### **3.3. Outils d'Analyse de Sécurité Mobile**
+*   **MobSF (Mobile Security Framework) :** Outil open-source d'analyse statique et dynamique.
+*   **OWASP ZAP (pour les API) :** Les apps mobiles communiquent avec des API backend, qu'il faut aussi tester.
+*   **Frida / Objection :** Pour l'analyse dynamique et le test de rétro-ingénierie.
+
+**Exemple concret Africain :** Une application de santé mobile ("e-Santé Cameroun") collecte des données médicales.
+*   **Risque M1/M5 :** Si les dossiers patients sont stockés en clair sur le téléphone, violation de la vie privée.
+*   **Contremesure :** Chiffrer la base de données locale avec SQLCipher (AES-256). Utiliser l'empreinte digitale pour déverrouiller l'app.
+*   **Risque M2 :** L'app utilise un SDK de chat tiers vulnérable.
+*   **Contremesure :** Maintenir une **SBOM** (Liste des Matériels Logiciels) et mettre à jour les dépendances.
+
+## **4. Gestion des Terminaux Mobiles (MDM - Mobile Device Management)**
+
+### **4.1. Définition et Objectifs du MDM**
+Le **MDM** est une solution logicielle qui permet à un administrateur IT de gérer, sécuriser et surveiller à distance les terminaux mobiles (smartphones, tablettes) utilisés dans un contexte professionnel.
+
+**Objectifs :**
+*   **Sécurisation :** Appliquer des politiques (chiffrement, code PIN).
+*   **Contrôle :** Restreindre l'installation d'applications non autorisées.
+*   **Déploiement :** Installer des applications métier et des configurations.
+*   **Support à distance :** Effacer les données en cas de perte ou vol (**remote wipe**).
+
+### **4.2. Politiques de Sécurité MDM Courantes**
+*   **Chiffrement obligatoire** du stockage du terminal.
+*   **Politique de mot de passe/complexité** (longueur minimale, expiration).
+*   **Liste blanche/noire d'applications.**
+*   **Désactivation de l'appareil photo** dans les zones sensibles.
+*   **Séparation des données professionnelles et personnelles** (Conteneurisation / BYOD - Bring Your Own Device).
+
+### **4.3. Solutions MDM sur le marché**
+*   **Microsoft Intune** (intégré à Azure AD, très courant).
+*   **VMware Workspace ONE.**
+*   **IBM MaaS360.**
+*   **Solutions open-source :** **Miradore** (version gratuite).
+
+**Exemple concret en entreprise Camerounaise :** Une banque à Yaoundé équipe ses agents terrain de tablettes.
+*   **MDM utilisé :** Microsoft Intune.
+*   **Politiques appliquées :**
+    1.  Chiffrement BitLocker (Windows) / FileVault (macOS) activé.
+    2.  Code PIN à 6 chiffres requis.
+    3.  Seules les applications bancaires internes et Microsoft 365 sont autorisées.
+    4.  En cas de vol de la tablette, le service IT peut la localiser et déclencher un **wipe sélectif** (effacement uniquement des données de l'entreprise).
+
+## **5. Chiffrement des Données au Repos**
+
+### **5.1. Définition et Importance**
+Le **chiffrement des données au repos** consiste à protéger les données stockées sur un support (disque dur, SSD, base de données, sauvegarde) en les transformant à l'aide d'un algorithme cryptographique et d'une clé.
+
+**Importance :** C'est la dernière ligne de défense en cas de vol physique d'un serveur, d'une fuite de données ou d'un accès non autorisé au stockage.
+
+### **5.2. Méthodes et Technologies de Chiffrement**
+*   **Chiffrement Full-Disk (FDE) :** Chiffre l'intégralité du disque (ex: BitLocker sur Windows, LUKS sur Linux, FileVault sur macOS). Transparent pour l'utilisateur.
+*   **Chiffrement au niveau des fichiers/dossiers :** Chiffrement spécifique (ex: EFS sous Windows).
+*   **Chiffrement au niveau de la base de données :**
+    *   **TDE (Transparent Data Encryption)** : Dans SQL Server, Oracle. Chiffre les fichiers de la base.
+    *   **Chiffrement au niveau colonne** : Pour des champs spécifiques (ex: numéro de carte bancaire).
+*   **Chiffrement côté client dans le Cloud :** Le client chiffre ses données AVANT de les envoyer dans le cloud. Seul le client possède la clé. C'est le niveau de sécurité maximal (**Zero-Knowledge**).
+
+### **5.3. Gestion des Clés de Chiffrement (Key Management)**
+La sécurité du chiffrement dépend entièrement de la **protection des clés**. Une clé stockée à côté des données chiffrées est inutile.
+
+*   **HSM (Hardware Security Module) :** Appareil physique dédié à la génération et au stockage sécurisé des clés. Offert en service cloud (**AWS CloudHSM**, **Azure Dedicated HSM**).
+*   **KMS (Key Management Service) :** Service managé pour créer et contrôler les clés de chiffrement (**AWS KMS**, **Azure Key Vault**, **GCP Cloud KMS**).
+*   **Bonnes pratiques :** Rotation régulière des clés, séparation des rôles, audit des accès.
+
+**Exemple concret avec le Cloud :** Une société camerounaise de e-commerce stocke les profils clients dans **Azure SQL Database**.
+1.  **Scénario de base (responsabilité Azure) :** Azure assure le chiffrement au repos par défaut avec des clés managées par Microsoft (Service-Managed Keys).
+2.  **Scénario renforcé (responsabilité Client) :** Pour se conformer à des règles internes strictes, l'entreprise active **TDE avec BYOK (Bring Your Own Key)**. La

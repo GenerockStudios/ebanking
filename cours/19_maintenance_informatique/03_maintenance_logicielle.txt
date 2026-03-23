@@ -1,0 +1,147 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière 19 : Maintenance Informatique**
+## **Chapitre : Maintenance logicielle : mises à jour, patch management, antivirus, désinstallation, registre Windows**
+
+---
+
+### **1. Introduction à la maintenance logicielle**
+
+La maintenance logicielle est l'ensemble des activités visant à maintenir un système informatique en état de fonctionnement optimal, à corriger les défauts, à prévenir les pannes et à l'adapter aux évolutions technologiques ou métier. Dans un contexte professionnel camerounais, avec la digitalisation croissante des entreprises (banques, télécoms comme MTN, Orange, Camtel, administrations), une maintenance rigoureuse est cruciale pour assurer la continuité des services, la sécurité des données et la conformité aux cadres légaux comme l'**OHADA** en matière de conservation et d'intégrité de l'information.
+
+**Objectifs de la maintenance logicielle :**
+*   **Correction** : Éliminer les bugs et les vulnérabilités.
+*   **Adaptation** : Faire évoluer le logiciel face à de nouveaux environnements (matériel, OS, réglementation).
+*   **Prévention** : Anticiper et éviter les pannes par des mises à jour.
+*   **Optimisation** : Améliorer les performances et l'expérience utilisateur.
+
+---
+
+### **2. Gestion des mises à jour logicielles**
+
+Les mises à jour (updates) sont des correctifs ou des améliorations publiés par un éditeur pour son logiciel ou son système d'exploitation.
+
+#### **2.1. Importance des mises à jour**
+*   **Sécurité** : Combler les failles de sécurité critiques (ex: vulnérabilités exploitées par des ransomwares).
+*   **Stabilité** : Corriger les bugs provoquant des plantages.
+*   **Fonctionnalités** : Ajouter de nouvelles options ou améliorer l'existant.
+*   **Compatibilité** : Assurer le bon fonctionnement avec du nouveau matériel ou logiciel.
+*   **Conformité** : Se mettre en conformité avec les standards ou réglementations (ex: protection des données).
+
+#### **2.2. Outils de mise à jour par système d'exploitation**
+
+**Tableau comparatif des outils de mise à jour**
+
+| **Système d'Exploitation** | **Outil de Gestion de Paquets / Mise à jour** | **Commandes Principales (en ligne de commande)** | **Usage typique au Cameroun** |
+| :--- | :--- | :--- | :--- |
+| **Windows** | Windows Update, WSUS (corporate) | `wuauclt /detectnow` (ancien), paramètres graphiques | Parc informatique des administrations, entreprises, cybercafés, universités. |
+| **Linux (Debian/Ubuntu)** | **APT** (Advanced Package Tool) | `sudo apt update` <br> `sudo apt upgrade` <br> `sudo apt dist-upgrade` | Serveurs web/mail (hébergement), postes développeurs, systèmes embarqués. |
+| **Linux (RHEL/CentOS/Fedora)** | **YUM/DNF** (Yellowdog Updater Modified) | `sudo yum check-update` <br> `sudo yum update` <br> `sudo dnf upgrade` (Fedora) | Serveurs d'entreprise, infrastructures critiques. |
+
+**À retenir :**
+*   **`apt update`** : Met à jour la liste des paquets disponibles depuis les dépôts.
+*   **`apt upgrade`** : Installe les nouvelles versions des paquets déjà installés.
+*   **Windows Update** : Service intégré à Windows. Il peut être configuré pour télécharger et installer les mises à jour automatiquement ou manuellement.
+
+**Exemple concret (Contexte Camerounais) :** Un administrateur réseau d'une PME à Douala utilisant Ubuntu Server pour son serveur de fichiers et son logiciel de gestion (comptabilité OHADA) doit régulièrement exécuter `sudo apt update && sudo apt upgrade` pour sécuriser son serveur contre les intrusions et assurer la stabilité du service.
+
+---
+
+### **3. Gestion centralisée des correctifs (Patch Management) et WSUS**
+
+Le **Patch Management** est le processus cyclique d'acquisition, de test et d'installation de correctifs (patches) sur des applications et systèmes. C'est une discipline essentielle de la cybersécurité en entreprise.
+
+#### **3.1. Pourquoi une gestion centralisée ?**
+Dans un parc de plus de 10 machines, mettre à jour manuellement chaque poste est inefficace, risqué et chronophage. Une gestion centralisée permet :
+*   **Contrôle** : Décider quels correctifs installer et quand.
+*   **Test** : Valider les correctifs en environnement de test avant déploiement général.
+*   **Planification** : Déployer hors des heures de travail pour éviter les interruptions.
+*   **Reporting** : Avoir une vue d'ensemble des machines à jour ou vulnérables.
+*   **Bande passante** : Télécharger le correctif une seule fois depuis Internet et le redistribuer en local (économique pour les connexions coûteuses).
+
+#### **3.2. Windows Server Update Services (WSUS)**
+**WSUS** est un rôle gratuit des serveurs Windows qui permet aux administrateurs de gérer et distribuer les mises à jour Microsoft (Windows, Office) au sein d'un réseau local.
+
+**Fonctionnement de WSUS :**
+1.  Le **serveur WSUS** se connecte à Microsoft Update pour télécharger les mises à jour.
+2.  L'administrateur **approuve** les mises à jour après éventuels tests.
+3.  Les **clients Windows** (postes de travail, autres serveurs) sont configurés pour se connecter au serveur WSUS interne au lieu de Microsoft.
+4.  Ils téléchargent et installent **uniquement** les mises à jour approuvées depuis le serveur local.
+
+**Avantages pour une entreprise camerounaise :**
+*   **Économie de bande passante** : Un seul téléchargement Internet pour tout le parc. Critique avec des fournisseurs comme **Camtel**, **MTN Business**, **Orange Business** où les forfaits data volumineux sont coûteux.
+*   **Contrôle total** : Évite qu'une mise à jour instable ne paralyse l'ensemble du parc.
+*   **Conformité et audit** : Preuve que les correctifs de sécurité sont bien déployés.
+
+**Schéma simplifié :**
+`Internet (Microsoft) --> Serveur WSUS (à Yaoundé) --> Postes clients (dans toute l'entreprise)`
+
+---
+
+### **4. Logiciels antivirus et anti-malwares**
+
+Un **antivirus** est un logiciel conçu pour détecter, neutraliser et éliminer les logiciels malveillants (malwares : virus, vers, chevaux de Troie, ransomwares, spyware).
+
+#### **4.1. Principes de fonctionnement**
+*   **Analyse par signature** : Compare les fichiers à une base de données de signatures de virus connus. Efficace mais impuissant contre les menaces "zero-day".
+*   **Analyse heuristique** : Détecte les comportements suspects ou les codes similaires à des virus connus. Permet de détecter des menaces nouvelles.
+*   **Analyse en temps réel (moniteur resident)** : Surveille en continu les activités du système (fichiers, mémoire, réseau).
+*   **Mise en quarantaine** : Isole un fichier suspect pour empêcher son exécution sans le supprimer immédiatement.
+
+#### **4.2. Choix et déploiement en entreprise**
+*   **Solutions grand public** : Avast, AVG, Kaspersky, Norton.
+*   **Solutions professionnelles/entreprise** : Symantec Endpoint Protection, McAfee ePolicy Orchestrator, Sophos Central, Microsoft Defender for Endpoint. Elles offrent une **console de gestion centralisée** similaire à WSUS.
+*   **Contexte local** : Les entreprises camerounaises doivent privilégier des solutions avec des serveurs de mise à jour locaux ou régionaux pour éviter de saturer la bande passante internationale. La sensibilisation des utilisateurs reste primordiale (méfiance face aux pièces jointes, clés USB inconnues).
+
+**À retenir :** Un antivirus n'est efficace que si ses **bases de signatures sont régulièrement mises à jour**. Une solution non managée devient rapidement obsolète.
+
+---
+
+### **5. Désinstallation propre des applications**
+
+La désinstallation ne doit pas se résumer à supprimer le dossier de l'application. Une méthode propre est nécessaire pour éviter :
+*   Les fichiers orphelins qui gaspillent l'espace disque.
+*   Les entrées résiduelles dans le registre Windows qui peuvent ralentir le système.
+*   Les conflits avec d'autres logiciels.
+
+#### **5.1. Méthodes de désinstallation**
+1.  **Via le Panneau de configuration / Paramètres Windows** (`Ajout/Suppression de programmes`) : Méthode standard.
+2.  **Utilisation du programme de désinstallation inclus** (`uninstall.exe` ou `uninst.exe` dans le dossier de l'app).
+3.  **Utilisation d'outils dédiés** : Revo Uninstaller, Geek Uninstaller, CCleaner. Ils traquent les résidus après la désinstallation standard.
+4.  **Pour Linux (APT)** : `sudo apt remove [nom_paquet]` (supprime le paquet mais garde les fichiers de configuration). `sudo apt purge [nom_paquet]` (supprime tout, y compris les fichiers de configuration).
+
+**Bonnes pratiques :** Toujours redémarrer l'ordinateur après une désinstallation si demandé, pour permettre la suppression complète des fichiers verrouillés.
+
+---
+
+### **6. Le Registre Windows (Windows Registry)**
+
+#### **6.1. Définition et rôle**
+Le **Registre Windows** est une base de données hiérarchique centrale qui stocke les paramètres de configuration de Windows, des applications, des pilotes matériels et des comptes utilisateurs. C'est l'**annuaire** du système d'exploitation.
+
+#### **6.2. Structure hiérarchique (Ruches principales)**
+Le registre est organisé en **clés** et **valeurs**. Les ruches principales (hives) sont :
+*   **HKEY_CLASSES_ROOT (HKCR)** : Associations de fichiers et objets COM.
+*   **HKEY_CURRENT_USER (HKCU)** : Configuration de l'utilisateur actuellement connecté.
+*   **HKEY_LOCAL_MACHINE (HKLM)** : Configuration globale de la machine (matériel, logiciels). **La plus importante pour l'admin**.
+*   **HKEY_USERS (HKU)** : Profils de tous les utilisateurs.
+*   **HKEY_CURRENT_CONFIG (HKCC)** : Informations sur le profil matériel au démarrage.
+
+#### **6.3. Accès et manipulation**
+*   **Éditeur de registre** : Exécuter `regedit.exe`. **ATTENTION : Une modification erronée dans le registre peut rendre le système instable ou incapable de démarrer.**
+*   **Sauvegarde (Exportation)** : Avant toute modification, exporter la clé concernée via `Fichier -> Exporter`.
+*   **En ligne de commande** : Utiliser la commande `reg` pour ajouter, supprimer ou modifier des clés/valeurs via des scripts (utile pour le déploiement automatisé).
+
+#### **6.4. Applications en maintenance**
+*   **Nettoyage** : Suppression manuelle (prudente) ou via des outils spécialisés (CCleaner) d'entrées obsolètes laissées par des désinstallations incorrectes.
+*   **Dépannage** : Corriger des paramètres corrompus (ex: politiques de sécurité, associations de fichiers).
+*   **Déploiement** : Appliquer des paramètres système standardisés sur plusieurs postes via des fichiers `.reg`.
+
+**Exemple concret :** Pour forcer tous les postes d'une salle informatique d'une université à afficher les extensions de fichiers (meilleure visibilité des virus .exe déguisés), l'administrateur peut créer et déployer un fichier `.reg` modifiant la valeur `HideFileExt` dans `HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced`.
+
+---
+
+### **7. Synthèse et bonnes pratiques pour le technicien BTS GL**
+
+1.  **Planifier** : Établir un calendrier de maintenance (mises à jour critiques immédiates, mises à jour mensuelles, révisions trimestrielles).
+2.  **Tester** : Jamais de déploiement massif sans test préalable sur un échantillon de machines représentatives.
+3.  **Sauvegarder** : Toujours vérifier l'existence de sauvegardes récentes du système et des données avant des opérations m

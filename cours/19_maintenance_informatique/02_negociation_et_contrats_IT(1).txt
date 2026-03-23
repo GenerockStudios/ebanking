@@ -1,0 +1,118 @@
+CHAPITRE 2 — NÉGOCIATION ET CONTRATS INFORMATIQUES (IGL126)
+BTS Génie Logiciel — Maintenance et Négociation Informatique
+
+1. LA NÉGOCIATION EN INFORMATIQUE
+
+La négociation est le processus par lequel deux ou plusieurs parties cherchent à parvenir à un accord mutuellement acceptable.
+
+En informatique, les occasions de négociation :
+- Achat de matériel (ordinateurs, serveurs, imprimantes)
+- Achat de licences logicielles
+- Contrats de maintenance et de support
+- Contrats de développement ou de prestation de services
+- Contrats d'infogérance (outsourcing)
+- Accords de niveau de service (SLA)
+
+Types de négociation :
+Négociation distributive (gagnant-perdant) : un gain pour l'un = une perte pour l'autre. Prix pur.
+Négociation intégrative (gagnant-gagnant) : chercher des solutions créatives qui satisfont les deux parties.
+
+2. PROCESSUS DE NÉGOCIATION
+
+Étape 1 — Préparation :
+- Définir ses objectifs (position idéale, position de repli, point de rupture)
+- Connaître son interlocuteur (son entreprise, ses contraintes, ses intérêts)
+- Étudier le marché (prix, concurrents, alternatives)
+- Préparer ses arguments et anticiper les objections
+- BATNA (Best Alternative To a Negotiated Agreement) : quelle est votre meilleure alternative si la négociation échoue ?
+
+Étape 2 — Ouverture :
+- Établir un climat de confiance
+- Poser des questions ouvertes pour comprendre les besoins de l'autre partie
+- Présenter sa position initiale (légèrement plus haute que sa position cible)
+
+Étape 3 — Exploration et échanges :
+- Écouter activement
+- Identifier les zones d'accord potentielles
+- Faire des concessions stratégiques (concéder sur ce qui est peu coûteux pour soi mais important pour l'autre)
+
+Étape 4 — Accord et conclusion :
+- Reformuler l'accord pour s'assurer de la compréhension mutuelle
+- Formaliser par écrit (bon de commande, contrat, avenant)
+
+Techniques de négociation :
+Le silence : après une proposition, rester silencieux force l'autre à parler ou à justifier.
+L'ancrage : la première offre influence fortement l'accord final (faire la première offre si on a l'information).
+Le bon et le méchant cop : deux négociateurs, l'un intransigeant, l'autre conciliant.
+La fausse concession : céder sur quelque chose sans importance pour obtenir quelque chose d'important.
+Le deadline : créer une urgence artificielle.
+
+3. LES CONTRATS INFORMATIQUES
+
+Types de contrats clés :
+
+A) Contrat de maintenance informatique :
+Définit les modalités de maintenance d'un système.
+Clauses importantes :
+- Périmètre : quels équipements ou logiciels sont couverts ?
+- Niveaux de service (SLA) : temps de réponse, temps de résolution
+- Heures d'intervention : 8h-18h en semaine, 24h/7j, 365j/an
+- Astreinte et délai d'intervention (sur site ou à distance)
+- Pièces détachées : incluses ou facturées en plus ?
+- Prix : forfaitaire (mensuel/annuel) ou à l'acte (régie)
+- Durée et reconduction : tacite, préavis de résiliation
+
+SLA (Service Level Agreement — Accord de Niveau de Service) :
+- P1 (Critique) : système totalement arrêté → intervention en 1h, résolution en 4h
+- P2 (Majeur) : dégradation significative → intervention en 4h, résolution en 8h
+- P3 (Mineur) : impact limité → résolution en 48h
+- P4 (Cosmétique) → résolution dans la prochaine version
+
+Disponibilité garantie : souvent exprimée en % ou en "nombre de 9" :
+99% → 87,6 heures d'arrêt/an
+99,9% → 8,76 heures/an
+99,99% → 52,6 minutes/an (four nines)
+99,999% → 5,26 minutes/an (five nines — systèmes critiques)
+
+B) Contrat de développement logiciel :
+Voir cours Droit commercial. Points spécifiques :
+- Définition précise des livrables (cahier des charges fonctionnel)
+- Propriété intellectuelle : le logiciel développé sur mesure appartient au client si cédé par contrat
+- Par défaut en droit d'auteur : le développeur garde les droits ! → Il faut une cession explicite.
+- Clause de garantie : délai de garantie sur les bugs (6 mois minimum recommandé)
+- Recette (acceptance testing) : conditions dans lesquelles le client valide la livraison
+
+C) Contrat de licence logicielle :
+Une licence ne transfère pas la propriété du logiciel ; elle accorde le droit d'utilisation.
+Types :
+- Licence propriétaire : conditions restrictives, code source non accessible. Ex : Microsoft Windows, Oracle DB.
+- Licence Open Source : code source accessible, redistribution permise.
+  GPL (copyleft) : les modifications doivent rester sous GPL
+  MIT, BSD, Apache : très permissives, peuvent être intégrées dans des logiciels propriétaires
+- Licence SaaS (Software as a Service) : abonnement, pas d'installation. Ex : Office 365, Google Workspace.
+
+4. CAHIER DES CHARGES INFORMATIQUE
+
+Document qui exprime les besoins du client de manière précise et complète.
+
+Structure type :
+1. Présentation du contexte et de l'organisation
+2. Objectifs du projet
+3. Périmètre fonctionnel (ce qui est dans le scope)
+4. Exigences fonctionnelles détaillées
+5. Exigences techniques (technologies, performances, sécurité)
+6. Contraintes (budget, délai, interopérabilité)
+7. Critères d'acceptation et de recette
+8. Planning indicatif et jalons
+9. Conditions contractuelles (pénalités, garanties)
+
+5. GESTION DES INCIDENTS ET TICKETS
+
+Systèmes ITSM (IT Service Management) : ITIL (Information Technology Infrastructure Library)
+
+Cycle de vie d'un incident :
+Ouverture → Catégorisation → Priorisation → Affectation → Investigation → Résolution → Clôture
+
+Outils de ticketing : JIRA Service Management, Freshdesk, Zendesk, GLPI (open source — populaire en Afrique francophone), OsTicket.
+
+Base de connaissances : documentation des solutions aux incidents récurrents → réduit le temps de résolution.

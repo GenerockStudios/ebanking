@@ -109,7 +109,7 @@ class CompteModel {
             // Requête complexe pour récupérer l'ID du compte et toutes les transactions associées
             $sql = "
                 SELECT 
-                    T.horodatage_transaction, 
+                    T.date_transaction, 
                     T.type_transaction, 
                     T.montant, 
                     T.reference_externe,
@@ -121,7 +121,7 @@ class CompteModel {
                 LEFT JOIN Comptes C_Source ON T.compte_source_id = C_Source.compte_id
                 LEFT JOIN Comptes C_Dest ON T.compte_destination_id = C_Dest.compte_id
                 WHERE C_Source.numero_compte = :numCompte OR C_Dest.numero_compte = :numCompte
-                ORDER BY T.horodatage_transaction DESC
+                ORDER BY T.date_transaction DESC
                 LIMIT 100
             ";
             

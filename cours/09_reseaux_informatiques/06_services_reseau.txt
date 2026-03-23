@@ -1,0 +1,232 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 09 Réseaux Informatiques**
+## **Chapitre : Services réseau : DHCP, DNS, HTTP/HTTPS, FTP, SMTP/POP3/IMAP, SSH, SNMP — serveurs et clients**
+
+---
+
+### **1. Introduction aux services réseau**
+
+Un service réseau est une fonctionnalité logicielle fournie par un serveur à des clients via un réseau, utilisant des protocoles de communication standardisés. Ces services sont essentiels au fonctionnement d'Internet et des réseaux d'entreprise.
+
+**À retenir** : Un service réseau repose toujours sur une architecture **client-serveur** : le serveur héberge et fournit le service, le client le consomme.
+
+---
+
+### **2. Le service DHCP (Dynamic Host Configuration Protocol)**
+
+#### **2.1. Définition et rôle**
+DHCP est un protocole qui attribue automatiquement des adresses IP et d'autres paramètres de configuration réseau (masque de sous-réseau, passerelle par défaut, serveurs DNS) aux équipements d'un réseau.
+
+**Avantages** :
+- Évite la configuration manuelle fastidieuse et les conflits d'adresses IP
+- Centralise la gestion des adresses IP
+- Optimise l'utilisation du pool d'adresses
+
+#### **2.2. Mécanisme d'attribution (DORA)**
+Le processus d'attribution suit 4 étapes (DORA) :
+1. **D**iscover : Le client envoie un message de découverte en broadcast
+2. **O**ffer : Le serveur DHCP propose une adresse IP
+3. **R**equest : Le client accepte l'offre
+4. **A**cknowledgement : Le serveur confirme l'attribution
+
+#### **2.3. Serveurs et clients DHCP**
+- **Serveurs** : Windows Server (rôle DHCP), Linux (isc-dhcp-server), routeurs (Cisco, MikroTik)
+- **Clients** : Tous les systèmes d'exploitation modernes (Windows, Linux, macOS, Android, iOS)
+
+#### **2.4. Exemple concret camerounais**
+Dans un cybercafé à Douala, le propriétaire configure son routeur (souvent un MikroTik ou TP-Link) comme serveur DHCP. Quand un client se connecte au Wi-Fi, son téléphone reçoit automatiquement une adresse IP dans la plage 192.168.1.100-200, la passerelle (192.168.1.1) et les serveurs DNS de MTN ou Orange.
+
+**Tableau : Comparaison DHCP vs configuration manuelle**
+| Aspect | DHCP | Configuration manuelle |
+|--------|------|----------------------|
+| Gestion | Centralisée | Décentralisée |
+| Risque de conflits | Faible | Élevé |
+| Temps de configuration | Rapide | Lent |
+| Adapté pour | Grands réseaux, utilisateurs mobiles | Serveurs, équipements fixes |
+
+---
+
+### **3. Le service DNS (Domain Name System)**
+
+#### **3.1. Définition et rôle**
+DNS est un service qui traduit les noms de domaine (ex: www.minpostel.gov.cm) en adresses IP (ex: 196.200.111.15). C'est "l'annuaire téléphonique d'Internet".
+
+#### **3.2. Architecture hiérarchique**
+- **Racine** : Serveurs racine (.)
+- **TLD (Top Level Domain)** : .cm (Cameroun), .sn (Sénégal), .ci (Côte d'Ivoire), .com, .org
+- **Domaines secondaires** : minpostel.gov.cm, univ-yaounde.cm
+- **Sous-domaines** : www.minpostel.gov.cm
+
+#### **3.3. Types d'enregistrements DNS**
+- **A** : Adresse IPv4
+- **AAAA** : Adresse IPv6
+- **MX** : Serveur de messagerie
+- **CNAME** : Alias
+- **NS** : Serveur de noms
+
+#### **3.4. Serveurs DNS au Cameroun**
+- **Fournisseurs d'accès** : MTN (196.200.111.X), Orange, Camtel
+- **Serveurs publics** : Google DNS (8.8.8.8), Cloudflare (1.1.1.1)
+- **Serveurs d'entreprise** : Windows Server (rôle DNS), BIND (Linux)
+
+**Exemple** : Quand un étudiant à l'Université de Yaoundé I tape "www.ohada.org" dans son navigateur, une requête DNS est envoyée au serveur DNS de l'université, qui la résout vers l'adresse IP du site de l'OHADA.
+
+---
+
+### **4. Les services Web : HTTP et HTTPS**
+
+#### **4.1. HTTP (HyperText Transfer Protocol)**
+- Protocole de communication client-serveur pour le Web
+- Port 80 par défaut
+- Stateless (sans état)
+- Méthodes principales : GET, POST, PUT, DELETE
+
+#### **4.2. HTTPS (HTTP Secure)**
+- HTTP sécurisé avec TLS/SSL
+- Port 443 par défaut
+- Chiffrement des données, authentification du serveur
+- **Obligatoire pour les sites sensibles** (banques, e-commerce, administrations)
+
+#### **4.3. Serveurs et clients Web**
+- **Serveurs** : Apache, Nginx, IIS (Microsoft)
+- **Clients** : Navigateurs (Chrome, Firefox, Edge), applications mobiles
+
+**Contexte camerounais** : Les sites gouvernementaux (www.prc.cm, www.minpostel.gov.cm) et bancaires (www.afrilandfirstbank.com, www.sgbcameroun.com) utilisent HTTPS. Les cybercafés doivent sensibiliser les clients à vérifier le cadenas HTTPS avant toute transaction.
+
+---
+
+### **5. Le service FTP (File Transfer Protocol)**
+
+#### **5.1. Définition et utilisation**
+Protocole pour le transfert de fichiers entre un client et un serveur sur un réseau.
+- Port 21 (contrôle), Port 20 (données en mode actif)
+- **FTP sécurisé** : FTPS (FTP over SSL) ou SFTP (SSH File Transfer Protocol)
+
+#### **5.2. Modes de connexion**
+- **Mode actif** : Le serveur initie la connexion de données (problèmes avec les firewalls)
+- **Mode passif** : Le client initie la connexion de données (recommandé)
+
+#### **5.3. Applications pratiques**
+- Hébergement web : Upload des fichiers vers un serveur
+- Partage de fichiers volumineux dans les entreprises
+- **Exemple** : Une PME camerounaise utilise un serveur FTP interne pour partager les documents comptables entre ses agences de Douala, Yaoundé et Garoua.
+
+**Logiciels** :
+- **Serveurs** : FileZilla Server, vsftpd (Linux), IIS FTP
+- **Clients** : FileZilla Client, WinSCP, navigateurs web
+
+---
+
+### **6. Les services de messagerie : SMTP, POP3, IMAP**
+
+#### **6.1. SMTP (Simple Mail Transfer Protocol)**
+- Envoi des emails
+- Port 25 (non sécurisé), 587 (avec authentification), 465 (SSL/TLS)
+- **Serveurs SMTP camerounais** : smtp.mtn.cm, smtp.orange.cm, smtp.camtel.cm
+
+#### **6.2. POP3 (Post Office Protocol version 3)**
+- Récupération des emails depuis le serveur vers le client
+- Port 110 (non sécurisé), 995 (SSL/TLS)
+- **Caractéristique** : Télécharge les emails sur l'appareil local (supprime du serveur par défaut)
+
+#### **6.3. IMAP (Internet Message Access Protocol)**
+- Consultation des emails directement sur le serveur
+- Port 143 (non sécurisé), 993 (SSL/TLS)
+- **Avantages** : Synchronisation multi-appareils, conservation des emails sur le serveur
+
+**Tableau comparatif POP3 vs IMAP**
+| Critère | POP3 | IMAP |
+|---------|------|------|
+| Stockage | Local | Serveur |
+| Synchronisation | Limitée | Complète |
+| Accès multi-appareils | Non | Oui |
+| Utilisation bande passante | Plus faible | Plus élevée |
+| Recommandation pour | Utilisateur unique appareil | Utilisateurs mobiles, multiples appareils |
+
+**Exemple** : Un entrepreneur camerounais configure son client Thunderbird avec :
+- SMTP : smtp.orange.cm:587 avec STARTTLS
+- IMAP : imap.orange.cm:993 avec SSL/TLS
+Ainsi, il peut consulter ses emails sur son ordinateur et son téléphone en synchronisation.
+
+---
+
+### **7. Le service SSH (Secure Shell)**
+
+#### **7.1. Définition et utilité**
+Protocole sécurisé pour l'accès à distance à des systèmes, l'exécution de commandes et le transfert de fichiers.
+- Port 22 par défaut
+- Remplace les protocoles non sécurisés (Telnet, rsh)
+
+#### **7.2. Mécanismes de sécurité**
+- Chiffrement fort des communications
+- Authentification par clé publique/privée (recommandée) ou mot de passe
+- Intégrité des données
+
+#### **7.3. Applications en entreprise**
+- Administration à distance des serveurs Linux
+- Transfert sécurisé de fichiers (SCP, SFTP)
+- Tunneling sécurisé (port forwarding)
+
+**Outils** :
+- **Clients** : OpenSSH (Linux/macOS), PuTTY (Windows), Bitvise
+- **Serveurs** : OpenSSH-server, Dropbear
+
+**Cas pratique** : L'administrateur réseau de l'ANTIC (Agence Nationale des Technologies de l'Information et de la Communication) utilise SSH pour administrer à distance les serveurs CentOS depuis son poste à Yaoundé.
+
+---
+
+### **8. Le service SNMP (Simple Network Management Protocol)**
+
+#### **8.1. Définition et objectifs**
+Protocole pour la supervision et la gestion des équipements réseau (routeurs, switches, serveurs, imprimantes).
+- Permet de collecter des informations, surveiller les performances, détecter les pannes
+
+#### **8.2. Composants SNMP**
+- **Manager** : Station de supervision (ex: Centre de supervision à Camtel)
+- **Agent** : Logiciel installé sur l'équipement à superviser
+- **MIB (Management Information Base)** : Base de données des objets gérés
+- **Communauté** : Chaîne d'authentification (similaire à un mot de passe)
+
+#### **8.3. Versions et sécurité**
+- **SNMPv1/v2c** : Authentification par communauté (peu sécurisé)
+- **SNMPv3** : Authentification et chiffrement forts (recommandé)
+
+#### **8.4. Outils de supervision**
+- **Libres** : Nagios, Zabbix, Cacti, Observium
+- **Commercialux** : SolarWinds, PRTG, ManageEngine
+
+**Application au contexte africain** : Une grande université camerounaise utilise Zabbix avec SNMP pour surveiller :
+- La disponibilité des routeurs Cisco dans les campus
+- L'utilisation de la bande passante Internet
+- Le statut des serveurs informatiques
+- Les alertes sont envoyées par SMS via une passerelle GSM locale.
+
+---
+
+### **9. Mise en œuvre pratique des services**
+
+#### **9.1. Considérations de sécurité**
+- **Toujours privilégier les versions sécurisées** : HTTPS au lieu de HTTP, SSH au lieu de Telnet, SNMPv3 au lieu de v2c
+- **Mettre à jour régulièrement** les serveurs et clients
+- **Configurer correctement les pare-feux** : Ouvrir uniquement les ports nécessaires
+- **Utiliser l'authentification forte** (clés SSH, certificats SSL)
+
+#### **9.2. Intégration dans l'écosystème numérique camerounais**
+- **Conformité OHADA** : Les entreprises doivent sécuriser leurs communications électroniques
+- **Réglementation ARCEP** : Respect des standards techniques
+- **Stratégie "Cameroon Digital 2025"** : Promotion des infrastructures réseau modernes
+
+#### **9.3. Compétences professionnelles attendues**
+Un technicien BTS GL doit être capable de :
+1. Installer et configurer un serveur DHCP pour un réseau d'entreprise
+2. Configurer un serveur DNS interne avec forwarder vers les DNS publics
+3. Déployer un serveur web avec certificat SSL (Let's Encrypt ou certificat local)
+4. Mettre en place un serveur de messagerie avec authentification
+5. Administrer à distance des serveurs Linux via SSH
+6. Superviser un réseau avec SNMP et un outil comme Zabbix
+
+---
+
+### **10. Conclusion**
+
+Les services réseau sont les piliers de l'infrastructure informatique moderne. Leur maîtrise est essentielle pour tout profession

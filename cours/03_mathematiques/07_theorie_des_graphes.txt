@@ -1,0 +1,145 @@
+# **Notes de cours — 03 Mathématiques**
+## **Théorie des graphes : définitions, représentations, parcours BFS/DFS, arbre couvrant, Dijkstra, Bellman-Ford**
+
+**Public cible :** Étudiants en BTS Génie Logiciel (MINPOSTEL/MINESUP)
+**Objectif pédagogique :** Maîtriser les concepts fondamentaux de la théorie des graphes et leurs applications algorithmiques pour la résolution de problèmes concrets en informatique.
+
+---
+
+### **1. Introduction et définitions fondamentales**
+
+#### **1.1. Qu'est-ce qu'un graphe ?**
+Un **graphe** est une structure mathématique composée d'un ensemble d'**objets** et de **relations** entre ces objets. C'est un outil puissant pour modéliser des réseaux, des relations et des dépendances.
+
+**Définition formelle :** Un graphe `G` est un couple `(V, E)` où :
+- `V` est un ensemble fini non vide de **sommets** (ou nœuds).
+- `E` est un ensemble de **arêtes** (ou arcs) reliant des paires de sommets. Si `E` est un ensemble de paires **non ordonnées**, le graphe est **non orienté**. Si `E` est un ensemble de paires **ordonnées**, le graphe est **orienté** (ou digraphe).
+
+**Exemple concret (Contexte OHADA) :** Modélisation des flux financiers entre les 17 pays membres de l'OHADA. Chaque pays est un sommet. Une arête orientée de `Pays A` vers `Pays B` représente un transfert financier important de `A` vers `B`. Une arête non orientée pourrait représenter l'existence d'un accord commercial bilatéral.
+
+#### **1.2. Terminologie essentielle**
+- **Ordre d'un graphe :** Nombre de sommets `|V|`.
+- **Taille d'un graphe :** Nombre d'arêtes `|E|`.
+- **Degré d'un sommet (graphe non orienté) :** Nombre d'arêtes incidentes à ce sommet.
+- **Degré entrant/sortant (graphe orienté) :** Nombre d'arcs arrivant/partant d'un sommet.
+- **Chaîne/Chemin :** Séquence de sommets reliés par des arêtes. Dans un graphe orienté, on parle de **chemin** et les arcs doivent être suivis dans le bon sens.
+- **Cycle/Circuit :** Chemin qui commence et finit au même sommet.
+- **Graphe connexe :** Un graphe non orienté où il existe un chemin entre toute paire de sommets.
+- **Graphe fortement connexe :** Un graphe orienté où il existe un chemin dans les deux sens entre toute paire de sommets.
+- **Graphe pondéré :** Un graphe où chaque arête/arc possède une valeur numérique (coût, distance, temps, capacité).
+
+**À retenir :** La théorie des graphes est le langage universel pour modéliser les réseaux (informatiques, sociaux, de transport). Sa maîtrise est indispensable pour concevoir des algorithmes efficaces.
+
+---
+
+### **2. Représentation des graphes en mémoire**
+
+Pour manipuler un graphe dans un programme, il faut choisir une structure de données adaptée. Le choix impacte l'efficacité des algorithmes.
+
+#### **2.1. Matrice d'adjacence**
+- **Principe :** Matrice carrée `M` de taille `n x n` (où `n = |V|`).
+- `M[i][j] = 1` (ou le poids) s'il existe une arête du sommet `i` vers le sommet `j`. Sinon, `0` (ou `∞` pour les poids).
+- **Avantages :** Accès en `O(1)` à l'existence d'une arête. Simple pour les graphes denses.
+- **Inconvénients :** Consommation mémoire `O(n²)`, même pour les graphes peu denses (creux). Parcours des voisins en `O(n)`.
+
+#### **2.2. Listes d'adjacence**
+- **Principe :** Tableau de listes (ou de listes chaînées) de taille `n`. La liste à l'indice `i` contient tous les sommets voisins du sommet `i` (et éventuellement le poids des arêtes).
+- **Avantages :** Mémoire `O(|V| + |E|)`. Idéal pour les graphes creux. Parcours des voisins efficace.
+- **Inconvénients :** Vérifier l'existence d'une arête `(i, j)` peut être en `O(deg(i))`.
+
+**Tableau comparatif :**
+
+| Critère                | Matrice d'adjacence       | Listes d'adjacence          |
+|------------------------|---------------------------|-----------------------------|
+| **Espace mémoire**     | `O(|V|²)`                 | `O(|V| + |E|)`              |
+| **Tester (i,j) ∈ E ?** | `O(1)`                    | `O(deg(i))`                 |
+| **Parcourir les voisins de i** | `O(|V|)`            | `O(deg(i))`                 |
+| **Graphe dense**       | **Efficace**              | Moins efficace              |
+| **Graphe creux**       | Peu efficace              | **Très efficace**           |
+
+**Exemple d'implémentation (Contexte Camtel) :** Pour modéliser le réseau de fibre optique entre les 10 régions du Cameroun (graphe peu dense), les **listes d'adjacence** sont préférables. Chaque région a une liste des régions directement connectées avec la distance en km.
+
+**Outils en entreprise :** En Python, on utilise souvent `networkx` pour la modélisation et l'analyse. En C++/Java, on implémente manuellement les listes d'adjacence avec des `vector<vector<pair<int, int>>>` ou des `HashMap<Sommet, List<Sommet>>`.
+
+---
+
+### **3. Algorithmes de parcours de graphes**
+
+Ces algorithmes permettent d'explorer systématiquement tous les sommets et arêtes d'un graphe. Ils sont la base d'algorithmes plus complexes.
+
+#### **3.1. Parcours en largeur (BFS - Breadth-First Search)**
+- **Principe :** Explorer le graphe niveau par niveau, en partant d'un sommet source. On utilise une **file (FIFO)**.
+- **Applications :** Trouver le plus court chemin (en nombre d'arêtes) dans un graphe non pondéré, tester la connexité, propagation dans un réseau (ex: diffusion d'une mise à jour logicielle).
+- **Algorithme (idée) :**
+  1. Marquer le sommet de départ et l'ajouter à une file.
+  2. Tant que la file n'est pas vide :
+      a. Défiler un sommet `u`.
+      b. Pour chaque voisin `v` non visité de `u` : marquer `v`, enregistrer son prédécesseur (`u`), et enfiler `v`.
+
+**Exemple concret :** Propagation d'une offre promotionnelle MTN dans un réseau social. Le BFS simule comment l'information se diffuse d'abord aux amis directs (niveau 1), puis aux amis des amis (niveau 2), etc.
+
+#### **3.2. Parcours en profondeur (DFS - Depth-First Search)**
+- **Principe :** Explorer le graphe en s'enfonçant le plus possible le long d'une branche avant de revenir en arrière (backtracking). On utilise une **pile (LIFO)**, souvent de manière récursive.
+- **Applications :** Détection de cycles, tri topologique (ordonnancement de tâches), recherche de composantes connexes, résolution de labyrinthes.
+- **Algorithme (idée récursive) :**
+  1. Marquer le sommet courant `u` comme visité.
+  2. Pour chaque voisin `v` non visité de `u` : appeler récursivement `DFS(v)`.
+
+**Tableau comparatif BFS vs DFS :**
+
+| Critère                     | BFS                                  | DFS                                  |
+|-----------------------------|--------------------------------------|--------------------------------------|
+| **Structure de données**    | File (FIFO)                          | Pile (LIFO) / Récursivité            |
+| **Chemin trouvé**           | Plus court (en nb d'arêtes)          | Pas nécessairement le plus court     |
+| **Complexité**              | `O(|V| + |E|)`                       | `O(|V| + |E|)`                       |
+| **Utilisation mémoire**     | Peut être importante (file)          | Liée à la profondeur (pile d'appels) |
+| **Cas d'usage**             | Réseaux, recherche de proximité      | Détection de cycles, backtracking    |
+
+---
+
+### **4. Arbre couvrant de poids minimum (Minimum Spanning Tree - MST)**
+
+#### **4.1. Définition et utilité**
+Un **arbre couvrant** d'un graphe connexe non orienté `G` est un sous-graphe qui :
+1. Contient **tous les sommets** de `G`.
+2. Est un **arbre** (connexe et sans cycle).
+Si le graphe est pondéré, l'**arbre couvrant de poids minimum (MST)** est celui dont la somme des poids des arêtes est minimale.
+
+**Application majeure :** Conception de réseaux à moindre coût (réseau électrique, téléphonique, routier).
+
+**Exemple africain :** Relier les capitales des pays de la CEMAC par un réseau fibre optique au coût minimal. Chaque liaison possible (arête) a un coût de déploiement (poids). Le MST donne le réseau le moins cher qui connecte toutes les capitales.
+
+#### **4.2. Algorithme de Kruskal (approche gloutonne)
+- **Principe :** Trier toutes les arêtes par poids croissant. Les ajouter une à une à l'arbre en cours de construction, **à condition de ne pas créer de cycle**. On utilise une structure **Union-Find (DSU)** pour tester efficacement la connexité.
+- **Complexité :** `O(|E| log |E|)` à cause du tri.
+
+#### **4.3. Algorithme de Prim (approche gloutonne)
+- **Principe :** Partir d'un sommet arbitraire et construire l'arbre progressivement. À chaque étape, on ajoute l'arête de poids minimum qui connecte un sommet déjà dans l'arbre à un sommet hors de l'arbre. On utilise une **file de priorité (min-heap)**.
+- **Complexité :** `O(|E| log |V|)` avec un tas binaire.
+
+**À retenir :** Les deux algorithmes sont gloutons et donnent un MST optimal. Kruskal est souvent plus simple à implémenter avec l'Union-Find. Prim est plus efficace sur les graphes denses.
+
+---
+
+### **5. Algorithmes de plus court chemin**
+
+#### **5.1. Problématique**
+Trouver le chemin de **coût total minimal** entre un sommet source et tous les autres sommets (ou une destination cible) dans un graphe **pondéré**.
+
+#### **5.2. Algorithme de Dijkstra**
+- **Conditions :** **Poids des arêtes doivent être non négatifs** (ex: distances, temps, coûts).
+- **Principe :** Algorithme glouton similaire à Prim. Il maintient une estimation de distance pour chaque sommet. À chaque itération, il traite le sommet non traité le plus proche de la source et met à jour les distances de ses voisins (**relaxation**).
+- **Structures :** File de priorité (min-heap) pour choisir efficacement le prochain sommet.
+- **Complexité :** `O((|V| + |E|) log |V|)` avec un tas de Fibonacci, `O(|E| log |V|)` avec un tas binaire.
+
+**Exemple concret (Livraison Orange) :** Un livreur à Douala doit trouver le trajet le plus rapide pour livrer un colis à un client, en connaissant le temps de trajet moyen (non négatif) entre les carrefours (sommets). Dijkstra fournit le meilleur itinéraire.
+
+**Pseudo-code clé (Relaxation) :**
+```
+Si distance[u] + poids(u, v) < distance[v] alors
+    distance[v] = distance[u] + poids(u, v)
+    prédecesseur[v] = u
+```
+
+#### **5.3. Algorithme de Bellman-Ford**
+- **Conditions :** Accepte les **poids négatifs**. **Détecte les cycles de poids négatif atte

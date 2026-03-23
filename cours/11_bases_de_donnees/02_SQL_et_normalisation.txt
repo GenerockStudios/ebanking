@@ -1,0 +1,112 @@
+CHAPITRE 2 — SQL ET NORMALISATION
+BTS Génie Logiciel — Bases de données
+
+1. DU MCD AU MLD (MODÈLE RELATIONNEL)
+
+Règles de passage MCD → MLD :
+1. Toute entité → table (clé primaire = identifiant de l'entité)
+2. Association (1,1) — (0,N) : la clé de l'entité du côté (1,1) migre comme clé étrangère dans l'entité (0,N)
+3. Association (0,N) — (0,N) : devient une table intermédiaire avec les deux clés primaires + attributs de l'association
+4. Association (1,1) — (1,1) : fusionner les deux tables (ou clé étrangère)
+
+Exemple (suite du chapitre 1) :
+ETUDIANT (id_etudiant PK, nom, prenom, date_naissance, email)
+COURS (id_cours PK, libelle, volume_horaire, coefficient, id_enseignant_responsable FK)
+ENSEIGNANT (id_enseignant PK, nom, prenom, specialite, grade)
+INSCRIPTION (id_etudiant FK, id_cours FK, note, date_inscription) — clé primaire composite (id_etudiant, id_cours)
+ENSEIGNE (id_enseignant FK, id_cours FK) — pour la relation N-N
+
+2. LANGAGE SQL
+
+SQL (Structured Query Language) se divise en :
+- DDL (Data Definition Language) : CREATE, ALTER, DROP, TRUNCATE
+- DML (Data Manipulation Language) : SELECT, INSERT, UPDATE, DELETE
+- DCL (Data Control Language) : GRANT, REVOKE
+- TCL (Transaction Control Language) : BEGIN, COMMIT, ROLLBACK
+
+2.1 DDL — Définition des structures
+CREATE TABLE etudiant (
+    id_etudiant INT PRIMARY KEY AUTO_INCREMENT,
+    nom         VARCHAR(50) NOT NULL,
+    prenom      VARCHAR(50) NOT NULL,
+    email       VARCHAR(100) UNIQUE,
+    date_nais   DATE
+);
+
+ALTER TABLE etudiant ADD COLUMN telephone VARCHAR(20);
+DROP TABLE etudiant;
+
+2.2 DML — Manipulation des données
+INSERT INTO etudiant (nom, prenom, email) VALUES ('DJOMO', 'Paul', 'paul@bts.cm');
+
+UPDATE etudiant SET email = 'pdjomo@bts.cm' WHERE id_etudiant = 1;
+
+DELETE FROM etudiant WHERE id_etudiant = 5;
+
+SELECT * FROM etudiant WHERE nom LIKE 'DJ%' ORDER BY prenom ASC LIMIT 10;
+
+2.3 SELECT avancé
+-- Jointures
+SELECT e.nom, e.prenom, c.libelle, i.note
+FROM etudiant e
+INNER JOIN inscription i ON e.id_etudiant = i.id_etudiant
+INNER JOIN cours c ON i.id_cours = c.id_cours
+WHERE i.note >= 10;
+
+-- Fonctions d'agrégation
+SELECT c.libelle, COUNT(*) AS nb_etudiants, AVG(i.note) AS moyenne
+FROM cours c
+JOIN inscription i ON c.id_cours = i.id_cours
+GROUP BY c.id_cours, c.libelle
+HAVING AVG(i.note) >= 12
+ORDER BY moyenne DESC;
+
+-- Sous-requêtes
+SELECT nom, prenom FROM etudiant
+WHERE id_etudiant IN (
+    SELECT id_etudiant FROM inscription WHERE note >= 16
+);
+
+3. LES JOINTURES
+
+INNER JOIN : seulement les lignes avec correspondance dans les deux tables
+LEFT JOIN : toutes les lignes de la table gauche + correspondances (NULL si pas de correspondance droite)
+RIGHT JOIN : toutes les lignes de la table droite + correspondances
+FULL OUTER JOIN : toutes les lignes des deux tables
+CROSS JOIN : produit cartésien (toutes les combinaisons)
+SELF JOIN : jointure d'une table avec elle-même
+
+4. NORMALISATION
+
+Objectif : éliminer les redondances et les anomalies de mise à jour.
+
+Dépendances fonctionnelles (DF) : A → B signifie que la valeur de A détermine la valeur de B.
+
+1ère Forme Normale (1FN) :
+- Tous les attributs sont atomiques (indivisibles)
+- Pas de groupes répétitifs
+- Chaque table a une clé primaire
+
+2ème Forme Normale (2FN) :
+- Est en 1FN
+- Tout attribut non-clé dépend de la totalité de la clé primaire (pas de dépendances partielles)
+- Concerne surtout les tables avec clé composite
+
+3ème Forme Normale (3FN) :
+- Est en 2FN
+- Aucun attribut non-clé ne dépend d'un autre attribut non-clé (pas de dépendances transitives)
+- A → B → C interdit si A est la clé, B et C sont non-clés
+
+Forme Normale de Boyce-Codd (FNBC) :
+- Version renforcée de la 3FN
+- Pour tout DF X → Y non triviale, X est une super-clé
+
+5. INDEX ET PERFORMANCE
+
+CREATE INDEX idx_email ON etudiant(email);
+CREATE UNIQUE INDEX idx_email_unique ON etudiant(email);
+
+Un index accélère les recherches (comme l'index d'un livre) mais ralentit les insertions/mises à jour.
+Types : B-Tree (défaut), Hash (égalité seule), Full-Text (recherche textuelle).
+
+EXPLAIN SELECT ... : analyser le plan d'exécution d'une requête pour optimisation.

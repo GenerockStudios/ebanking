@@ -1,0 +1,94 @@
+CHAPITRE 4 — CALCUL INTÉGRAL
+BTS Génie Logiciel — Mathématiques
+
+1. PRIMITIVES ET INTÉGRALE INDÉFINIE
+
+Définition : F est une primitive de f sur I si F'(x) = f(x) pour tout x de I.
+L'ensemble des primitives est F(x) + C (constante arbitraire).
+
+Tableau des primitives fondamentales :
+f(x)             F(x)
+-----------      ----------------------
+k (constante)    kx + C
+x^n (n≠-1)      x^(n+1) / (n+1) + C
+1/x              ln|x| + C
+e^x              e^x + C
+e^(ax)           e^(ax) / a + C
+sin(x)           −cos(x) + C
+cos(x)           sin(x) + C
+1/(1+x²)         arctan(x) + C
+1/√(1-x²)        arcsin(x) + C
+
+2. INTÉGRALE DÉFINIE (RIEMANN)
+
+∫[a,b] f(x) dx = F(b) − F(a)   (théorème fondamental de l'analyse)
+Représente l'aire algébrique sous la courbe de f entre a et b.
+- Si f(x) ≥ 0 sur [a,b] : l'intégrale est l'aire exacte (positive)
+- Si f(x) ≤ 0 sur [a,b] : l'intégrale est négative (aire comptée négativement)
+
+Propriétés :
+∫[a,b] f = −∫[b,a] f
+∫[a,a] f = 0
+∫[a,b] (f+g) = ∫[a,b] f + ∫[a,b] g   (linéarité)
+∫[a,b] k×f = k × ∫[a,b] f
+∫[a,b] f = ∫[a,c] f + ∫[c,b] f   (relation de Chasles)
+
+3. TECHNIQUES D'INTÉGRATION
+
+A) Intégration par parties (IPP) :
+∫ u × v' dx = [u × v] − ∫ u' × v dx
+
+Règle mnémotechnique LIATE pour choisir u (dans l'ordre de priorité) :
+L : fonctions Logarithmiques
+I : fonctions Inverses trigonométriques
+A : fonctions Algébriques (polynômes)
+T : fonctions Trigonométriques
+E : fonctions Exponentielles
+
+Exemple : ∫ x × e^x dx
+u = x → u' = 1
+v' = e^x → v = e^x
+∫ x × e^x dx = x × e^x − ∫ 1 × e^x dx = x × e^x − e^x + C = e^x (x − 1) + C
+
+B) Intégration par changement de variable :
+Poser t = g(x), dt = g'(x)dx
+∫ f(g(x)) × g'(x) dx = ∫ f(t) dt
+
+Exemple : ∫ 2x × e^(x²) dx
+t = x², dt = 2x dx
+= ∫ e^t dt = e^t + C = e^(x²) + C
+
+C) Décomposition en éléments simples (pour les fractions rationnelles) :
+1/(x²-1) = 1/[(x-1)(x+1)] = A/(x-1) + B/(x+1)
+→ trouver A et B par la méthode des résidus ou en développant.
+
+4. CALCUL D'AIRES
+
+Aire entre la courbe de f et l'axe des abscisses sur [a,b] :
+A = ∫[a,b] |f(x)| dx
+
+Si f change de signe sur [a,b], on découpe en sous-intervalles et on prend les valeurs absolues.
+
+Aire entre deux courbes f et g sur [a,b] (avec f ≥ g) :
+A = ∫[a,b] [f(x) − g(x)] dx
+
+5. INTÉGRALES IMPROPRES
+
+Quand la borne est infinie ou f non bornée :
+∫[a,+∞[ f(x) dx = lim(b→+∞) ∫[a,b] f(x) dx
+Converge si la limite est finie, diverge sinon.
+
+Exemple : ∫[1,+∞[ 1/x² dx = lim[−1/x]₁ᵇ = lim(−1/b + 1) = 1   (converge)
+∫[1,+∞[ 1/x dx = lim[ln x]₁ᵇ = +∞   (diverge)
+
+6. APPLICATIONS
+
+Valeur moyenne d'une fonction sur [a,b] :
+f̄ = (1/(b-a)) × ∫[a,b] f(x) dx
+
+En probabilité : espérance d'une variable continue X de densité f :
+E(X) = ∫[-∞,+∞] x × f(x) dx
+V(X) = ∫[-∞,+∞] (x − E(X))² × f(x) dx = E(X²) − [E(X)]²
+
+En informatique/signal : énergie d'un signal s(t) sur [0,T] :
+E = ∫[0,T] s²(t) dt

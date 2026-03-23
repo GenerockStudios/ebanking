@@ -1,0 +1,177 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 03 Mathématiques**
+## **Chapitre : Algèbre linéaire : vecteurs, matrices, systèmes d'équations**
+
+---
+
+### **1. Introduction et importance en génie logiciel**
+
+L'algèbre linéaire est un pilier mathématique fondamental pour le génie logiciel. Elle fournit les outils nécessaires pour modéliser et résoudre des problèmes complexes rencontrés dans le développement logiciel, notamment dans les domaines suivants :
+
+- **Graphisme 3D et jeux vidéo** : transformations géométriques (rotation, translation, mise à l'échelle) utilisant des matrices.
+- **Science des données et IA** : apprentissage automatique (réseaux de neurones, régression linéaire, traitement du langage naturel).
+- **Cryptographie** : algorithmes de chiffrement basés sur l'algèbre linéaire.
+- **Optimisation** : résolution de problèmes de planification des ressources (allocation de bande passante, gestion de stocks).
+- **Simulations** : modélisation de systèmes complexes (trafic réseau, files d'attente).
+
+**Exemple concret camerounais** : Une startup de Yaoundé développant une application de gestion logistique pour les transporteurs (comme les entreprises de transport interurbain *ABC Transport* ou *Guaranti Express*) utilise des matrices pour optimiser les itinéraires, minimiser les coûts de carburant et maximiser le nombre de livraisons.
+
+---
+
+### **2. Vecteurs**
+
+#### **2.1. Définition et représentation**
+Un **vecteur** est un objet mathématique caractérisé par une **magnitude** (longueur) et une **direction**. En algèbre linéaire, on le représente souvent comme une liste ordonnée de nombres (coordonnées).
+
+- **Notation** : \( \vec{v} = \begin{pmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{pmatrix} \) ou \( \vec{v} = (v_1, v_2, ..., v_n) \)
+- **Dimension** : Nombre de composantes (ex: \( \mathbb{R}^2 \), \( \mathbb{R}^3 \)).
+
+**Exemple** : Dans un système de géolocalisation pour une appli de taxi-moto (*TchopTchop*), la position d'un conducteur à Douala peut être représentée par un vecteur \( \vec{pos} = (4.0511, 9.7679) \) (latitude, longitude).
+
+#### **2.2. Opérations fondamentales sur les vecteurs**
+
+| Opération | Définition | Exemple (avec \( \vec{u} = (2,3), \vec{v} = (1,-1) \)) |
+|-----------|------------|------------------------------------------------------|
+| **Addition** | \( \vec{u} + \vec{v} = (u_1+v_1, u_2+v_2, ...) \) | \( (2+1, 3+(-1)) = (3, 2) \) |
+| **Multiplication par un scalaire** | \( k \cdot \vec{u} = (k \cdot u_1, k \cdot u_2, ...) \) | \( 2 \cdot (2,3) = (4, 6) \) |
+| **Produit scalaire** | \( \vec{u} \cdot \vec{v} = u_1v_1 + u_2v_2 + ... \) | \( (2)(1) + (3)(-1) = -1 \) |
+
+**À retenir** : Le produit scalaire est utile pour calculer des angles (cosinus) et vérifier l'orthogonalité. Deux vecteurs sont orthogonaux si leur produit scalaire est nul.
+
+---
+
+### **3. Matrices**
+
+#### **3.1. Définition et terminologie**
+Une **matrice** est un tableau rectangulaire de nombres, de symboles ou d'expressions, arrangés en lignes et colonnes.
+
+- **Notation** : \( A_{m \times n} \) où \( m \) = nombre de lignes, \( n \) = nombre de colonnes.
+- **Élément** : \( a_{ij} \) désigne l'élément à la ligne \( i \), colonne \( j \).
+- **Matrice carrée** : \( m = n \) (ex: 2x2, 3x3).
+
+**Exemple concret** : Une matrice peut représenter les tarifs de données mobiles de *MTN*, *Orange* et *Camtel* sur différents forfaits (1 Go, 3 Go, 10 Go) sur une semaine.
+
+\[
+\text{Tarifs (FCFA)} = \begin{pmatrix}
+1500 & 3500 & 8000 \\
+1400 & 3400 & 7900 \\
+1600 & 3700 & 8200
+\end{pmatrix}
+\]
+(Lignes : Opérateurs MTN, Orange, Camtel. Colonnes : Forfaits 1Go, 3Go, 10Go).
+
+#### **3.2. Opérations sur les matrices**
+
+1.  **Addition/ Soustraction** : Possible seulement si les matrices ont **mêmes dimensions**. On additionne/soustrait les éléments correspondants.
+2.  **Multiplication par un scalaire** : Chaque élément est multiplié par le scalaire.
+3.  **Multiplication de matrices** :
+    - Condition : \( A_{m \times n} \times B_{n \times p} = C_{m \times p} \)
+    - L'élément \( c_{ij} \) est le produit scalaire de la **ligne i** de A et de la **colonne j** de B.
+    - **Non commutative** : \( A \times B \neq B \times A \) en général.
+
+**Exemple appliqué** : Calcul du coût total des forfaits pour 100, 50 et 20 clients respectivement.
+\[
+\begin{pmatrix}
+1500 & 3500 & 8000
+\end{pmatrix}
+\times
+\begin{pmatrix}
+100 \\ 50 \\ 20
+\end{pmatrix}
+= [1500\times100 + 3500\times50 + 8000\times20] = [150000 + 175000 + 160000] = [485000]
+\]
+Coût total = 485 000 FCFA.
+
+#### **3.3. Matrice inverse**
+- **Définition** : Pour une matrice carrée \( A \), son inverse \( A^{-1} \) vérifie \( A \times A^{-1} = A^{-1} \times A = I \), où \( I \) est la matrice identité (des 1 sur la diagonale, des 0 ailleurs).
+- **Condition d'existence** : \( A \) est **inversible** (ou régulière) si et seulement si son **déterminant est non nul** (\( \det(A) \neq 0 \)).
+
+**Application** : En cryptographie, pour coder et décoder un message. Une matrice sert de clé de chiffrement, son inverse de clé de déchiffrement.
+
+#### **3.4. Déterminant d'une matrice**
+- **Notation** : \( \det(A) \) ou \( |A| \).
+- **Signification géométrique** : Facteur de mise à l'échelle de l'aire/volume lors d'une transformation linéaire. Un déterminant nul indique une "perte de dimension" (matrice singulière).
+- **Calcul (matrices 2x2 et 3x3)** :
+    - **2x2** : \( A = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \), \( \det(A) = ad - bc \)
+    - **3x3 (Règle de Sarrus)** : Répéter les deux premières colonnes à droite, somme des produits des diagonales descendantes moins somme des produits des diagonales montantes.
+
+**Exemple 2x2** : Pour une matrice de transformation d'image dans un logiciel de retouche, \( A = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix} \), \( \det(A) = (2\times2) - (1\times1) = 3 \).
+
+---
+
+### **4. Systèmes d'équations linéaires**
+
+Un système de \( m \) équations à \( n \) inconnues peut s'écrire sous forme matricielle : \( A\vec{X} = \vec{B} \).
+- \( A \) : Matrice des coefficients.
+- \( \vec{X} \) : Vecteur des inconnues.
+- \( \vec{B} \) : Vecteur des termes constants.
+
+**Exemple de modélisation OHADA** : Une petite entreprise soumise aux règles OHADA produit deux articles A et B. Les contraintes de ressources (main d'œuvre, matière première) donnent un système :
+\[
+\begin{cases}
+2x_A + 3x_B = 120 \quad \text{(Heures de travail)} \\
+4x_A + x_B = 80 \quad \text{(Kg de matière)}
+\end{cases}
+\]
+Où \( x_A \) et \( x_B \) sont les quantités produites.
+
+#### **4.1. Méthode de résolution par substitution et combinaison**
+Méthodes de base apprises au secondaire, utiles pour des petits systèmes (2 ou 3 inconnues).
+
+#### **4.2. Méthode de Cramer (utilise les déterminants)**
+- **Applicable uniquement si** : Système **carré** (\( n \) équations, \( n \) inconnues) et \( \det(A) \neq 0 \).
+- **Formule** : Pour chaque inconnue \( x_i \), \( x_i = \frac{\det(A_i)}{\det(A)} \).
+    - \( A_i \) est la matrice \( A \) où la colonne \( i \) est remplacée par le vecteur \( \vec{B} \).
+
+**Avantage/Inconvénient** :
+- **+** Conceptuellement clair, formule directe.
+- **–** Très coûteux en calculs pour les grands systèmes (\( n > 4 \)).
+
+**Exemple avec le système OHADA** :
+\[
+A = \begin{pmatrix} 2 & 3 \\ 4 & 1 \end{pmatrix}, \quad \vec{B} = \begin{pmatrix} 120 \\ 80 \end{pmatrix}
+\]
+\[
+\det(A) = (2\times1) - (3\times4) = 2 - 12 = -10
+\]
+\[
+A_1 = \begin{pmatrix} 120 & 3 \\ 80 & 1 \end{pmatrix}, \quad \det(A_1) = 120 - 240 = -120 \Rightarrow x_A = \frac{-120}{-10} = 12
+\]
+\[
+A_2 = \begin{pmatrix} 2 & 120 \\ 4 & 80 \end{pmatrix}, \quad \det(A_2) = 160 - 480 = -320 \Rightarrow x_B = \frac{-320}{-10} = 32
+\]
+**Solution** : Produire 12 unités de A et 32 unités de B.
+
+#### **4.3. Méthode de Gauss (élimination gaussienne)**
+C'est l'algorithme **le plus important et le plus utilisé en pratique** (implémenté dans les logiciels).
+
+**Principe** : Transformer le système (ou sa matrice augmentée \([A | B]\)) en un système **triangulaire supérieur** par des opérations élémentaires sur les lignes (échange, multiplication par un scalaire, addition d'une ligne à une autre).
+
+**Étapes** :
+1.  **Échelonnage** : Obtenir une matrice triangulaire.
+2.  **Substitution arrière** : Résoudre de la dernière équation vers la première.
+
+**Avantage** :
+- **Efficace** pour les grands systèmes.
+- **Fondamental** en informatique. C'est la base de nombreuses méthodes numériques (calcul de l'inverse, du rang, du déterminant).
+
+**Exemple rapide** : Reprenons le système OHADA sous forme de matrice augmentée :
+\[
+\left[\begin{array}{cc|c}
+2 & 3 & 120 \\
+4 & 1 & 80
+\end{array}\right]
+\]
+\( L2 \leftarrow L2 - 2\times L1 \) : \( \left[\begin{array}{cc|c} 2 & 3 & 120 \\ 0 & -5 & -160 \end{array}\right] \)
+Système triangulaire : \( \begin{cases} 2x_A + 3x_B = 120 \\ -5x_B = -160 \end{cases} \)
+Par substitution arrière : \( x_B = 32 \), puis \( 2x_A + 96 = 120 \Rightarrow x_A = 12 \).
+
+---
+
+### **5. Outils logiciels et technologies**
+
+En entreprise, on n'implémente **jamais** ces algorithmes à partir de zéro pour les problèmes réels. On utilise des bibliothèques optimisées :
+
+| Outil / Technologie | Usage en algèbre linéaire | Contexte d'application |
+| :--- | :--- | :--- |
+| **Python (NumPy, SciPy)** | Standard de l'industrie pour le calcul scientifique. `numpy.linalg` offre `inv()`, `det()`, `solve()`. | Data

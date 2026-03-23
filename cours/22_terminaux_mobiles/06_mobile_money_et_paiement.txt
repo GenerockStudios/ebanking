@@ -1,0 +1,146 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 22 Terminaux Mobiles**
+## **Chapitre : Mobile Money et paiement mobile : MTN MoMo API, Orange Money API (Cameroun), processus d'intégration (sandbox, webhook, PIN USSD), sécurisation**
+
+---
+
+### **1. Introduction au Mobile Money et au Paiement Mobile**
+
+#### **1.1. Définitions et Contexte**
+*   **Mobile Money (M-Money)** : Service financier permettant d'effectuer des opérations bancaires (dépôt, retrait, transfert, paiement) via un téléphone mobile, sans nécessiter de compte bancaire traditionnel. Il repose sur un réseau d'agents physiques.
+*   **Paiement Mobile** : Concept plus large désignant tout règement de biens ou services effectué à l'aide d'un appareil mobile (smartphone, tablette). Cela inclut le Mobile Money, mais aussi les paiements par carte bancaire via une appli, les portefeuilles électroniques (wallets), etc.
+*   **Contexte Camerounais et Africain** : Le Mobile Money est un pilier de l'inclusion financière en Afrique subsaharienne. Au Cameroun, il est dominé par **MTN MoMo** (MTN Cameroon) et **Orange Money** (Orange Cameroun). Ces services sont régis par la réglementation de la **BANQUE DES ÉTATS DE L'AFRIQUE CENTRALE (BEAC)** et s'inscrivent dans le cadre juridique de l'**OHADA** pour les aspects contractuels et commerciaux.
+
+#### **1.2. Importance pour le Génie Logiciel**
+L'intégration des APIs de paiement mobile est une compétence cruciale pour les développeurs camerounais. Elle permet de :
+*   Développer des applications e-commerce locales (ex: Jumia, Kaymu).
+*   Créer des solutions de gestion pour les PME (paiement des factures, salaires).
+*   Automatiser les collectes de fonds (églises, associations).
+*   Intégrer des modules de paiement dans des applications de service (transport, livraison, énergie).
+
+---
+
+### **2. Les APIs de Paiement Mobile au Cameroun : MTN MoMo et Orange Money**
+
+#### **2.1. MTN MoMo API**
+*   **Description** : Interface de programmation permettant aux développeurs d'intégrer les services financiers de MTN Mobile Money dans leurs applications, sites web ou systèmes d'information.
+*   **Principales Fonctionnalités (Endpoints)** :
+    *   **Paiement de Marchand (Collection)** : Permet à un business de collecter de l'argent d'un client.
+    *   **Paiement de Particulier à Particulier (Disbursement)** : Permet d'envoyer de l'argent à un utilisateur MoMo.
+    *   **Vérification de Solde** : Pour les comptes marchands.
+    *   **Vérification de Transaction** : Obtenir le statut d'une transaction.
+*   **Modèle de Tarification** : Généralement un pourcentage ou un montant fixe par transaction réussie, prélevé sur le compte marchand.
+*   **Exemple concret** : Une boutique en ligne à Douala utilise l'API "Collection" de MTN MoMo. Lors du checkout, le client choisit "Payer avec MoMo", saisit son numéro, et reçoit une demande de paiement USSD sur son téléphone. Après confirmation, la boutique reçoit une notification de paiement réussi.
+
+#### **2.2. Orange Money API (Cameroun)**
+*   **Description** : API similaire proposée par Orange Cameroun pour intégrer les services Orange Money.
+*   **Principales Fonctionnalités** :
+    *   **Paiement Direct (Pay-In)** : Collecte de fonds.
+    *   **Paiement Inverse (Pay-Out)** : Envoi de fonds.
+    *   **Vérification de Compte** : Vérifier si un numéro est éligible Orange Money.
+    *   **Consultation de l'historique des transactions**.
+*   **Spécificités** : L'écosystème Orange peut offrir des passerelles supplémentaires vers les services Orange (SMS, forfaits internet).
+
+#### **2.3. Tableau Comparatif des APIs**
+| **Caractéristique**          | **MTN MoMo API**                              | **Orange Money API**                          |
+| ---------------------------- | --------------------------------------------- | --------------------------------------------- |
+| **Opérateur**                | MTN Cameroon                                  | Orange Cameroun                               |
+| **Portée Utilisateurs**      | Très large, fort réseau d'agents              | Large, réseau d'agents compétitif             |
+| **Documentation**            | Disponible sur le portail développeurs MTN    | Disponible sur le portail développeurs Orange |
+| **Méthodes d'Auth**          | Clé API (API Key), OAuth 2.0                  | Clé API, Tokens                               |
+| **Format des Données**       | JSON (majoritairement)                        | JSON / XML                                    |
+| **Environnement de Test**    | Sandbox (bac à sable) disponible              | Sandbox disponible                            |
+| **Support Webhook**          | Oui (pour les notifications)                  | Oui                                           |
+
+---
+
+### **3. Processus d'Intégration Technique**
+
+#### **3.1. Inscription et Obtention des Crédentials**
+1.  **Création d'un Compte Marchand** : L'entreprise doit souscrire un compte marchand auprès de MTN ou Orange (contrat, documents légaux).
+2.  **Portail Développeur** : S'inscrire sur le portail développeur de l'opérateur (ex: `developer.mtn.cm`).
+3.  **Création d'une Application** : Enregistrer son application pour obtenir des identifiants uniques : **`API Key`**, **`API Secret`**, **`Subscription Key`** (ou `Ocp-Apim-Subscription-Key`). Ces clés authentifient toutes les requêtes.
+
+#### **3.2. L'Environnement Sandbox (Bac à Sable)**
+*   **Définition** : Environnement de test isolé qui simule le comportement de l'API de production, mais sans transactions financières réelles.
+*   **Utilité** :
+    *   Développer et déboguer l'intégration sans risque.
+    *   Utiliser des numéros de test et des soldes fictifs.
+    *   Tester tous les scénarios (succès, échec, timeout).
+*   **Processus** : Utiliser l'URL de base de la sandbox (ex: `https://sandbox.momodeveloper.mtn.com`) et les clés spécifiques à la sandbox.
+
+#### **3.3. Le Mécanisme des Webhooks (Callbacks)**
+*   **Définition** : Un webhook est une URL de callback fournie par votre serveur à l'API du Mobile Money. L'opérateur appelle cette URL pour notifier votre système d'un événement asynchrone (ex: résultat d'une transaction initiée par USSD).
+*   **Fonctionnement** :
+    1.  Votre application initie une transaction (ex: demande de paiement de 5000 FCFA à `2376XXXXXXX`).
+    2.  L'API répond immédiatement avec un `status` "`PENDING`" et une `reference` (ID de transaction).
+    3.  **En parallèle** : L'opérateur envoie une demande USSD au client pour confirmation.
+    4.  Le client saisit son **PIN USSD** pour valider ou refuser.
+    5.  L'opérateur envoie une requête **POST** au **webhook** que vous avez configuré, avec le statut final (`SUCCESSFUL`, `FAILED`).
+*   **Sécurité des Webhooks** : Vérifier les signatures des requêtes ou les tokens pour s'assurer qu'elles viennent bien de l'opérateur.
+
+#### **3.4. Le Rôle du PIN USSD**
+*   **Définition** : Code secret personnel (généralement 4 à 6 chiffres) que l'utilisateur saisit dans le menu USSD (`#150#` ou `#144#`) pour authentifier et autoriser une transaction financière.
+*   **Dans le flux d'intégration** : Le PIN n'est **JAMAIS** collecté ou traité par l'application du développeur. L'authentification forte est déléguée à l'opérateur via le canal USSD sécurisé. Votre API ne manipule que le numéro de téléphone.
+
+#### **3.5. Flux Typique d'une Transaction "Collection"**
+```mermaid
+sequenceDiagram
+    participant C as Client (Mobile)
+    participant A as App/Serveur (Dev)
+    participant M as API MTN/Orange
+    participant U as Core USSD
+
+    A->>M: 1. POST /collection (API Key, amount, phone)
+    M-->>A: 2. Réponse: transactionRef, status=PENDING
+    M->>U: 3. Déclenche session USSD
+    U->>C: 4. Pop-up USSD "Payer 5000 FCFA ?"
+    C->>U: 5. Saisie du PIN USSD (Validation)
+    U->>M: 6. Notification résultat
+    M->>A: 7. POST Webhook (transactionRef, status=SUCCESSFUL)
+    A->>C: 8. Notification dans l'app "Paiement confirmé"
+```
+
+---
+
+### **4. Sécurisation des Intégrations de Paiement Mobile**
+
+#### **4.1. Bonnes Pratiques de Sécurité**
+1.  **Protection des Clés API** :
+    *   **Ne jamais** les hard-coder dans le code source ou les versionner sur Git.
+    *   Les stocker dans des variables d'environnement (`ENV`) ou des services de gestion de secrets (ex: HashiCorp Vault, AWS Secrets Manager).
+2.  **Utilisation du HTTPS (TLS)** : Toutes les communications avec l'API doivent se faire exclusivement en **HTTPS** pour chiffrer les données en transit.
+3.  **Validation des Entrées** : Valider et assainir rigoureusement tous les paramètres entrants (montant, numéro de téléphone) pour prévenir les injections.
+4.  **Idempotence** : Utiliser un `X-Reference-Id` unique pour chaque requête de transaction afin d'éviter les doubles paiements en cas de requête répétée.
+5.  **Logging Sécurisé** : Journaliser les événements de transaction sans stocker d'informations sensibles (PIN, clés complètes).
+
+#### **4.2. Conformité et Réglementation**
+*   **RGPD/LOI N°2010/012** : Protéger les données personnelles des clients (numéros, historiques).
+*   **Normes PCI DSS** : Bien que centrées sur la carte, leurs principes de sécurité s'appliquent (réseau sécurisé, gestion des vulnérabilités).
+*   **Directives BEAC** : Respecter les plafonds de transaction et les obligations de reporting.
+
+---
+
+### **5. Outils et Technologies Utilisés**
+
+*   **Langages/Backend** : Node.js (Express), Python (Django, Flask), Java (Spring Boot), PHP (Laravel).
+*   **Outils de Test API** : **Postman**, Insomnia (pour tester les endpoints de la sandbox).
+*   **Gestion de Dépendances** : npm, pip, Maven.
+*   **Sécurité** : Bibliothèques de chiffrement, outils d'analyse statique de code (SAST).
+*   **Monitoring** : Outils de surveillance des logs et des performances des APIs (Prometheus, Grafana).
+
+---
+
+### **À RETENIR – Points Clés du Chapitre**
+
+1.  Le **Mobile Money** est un service financier basé sur le mobile, différent mais inclus dans le **paiement mobile**.
+2.  Les **APIs** de MTN et Orange permettent l'intégration de ces services dans des applications tierces.
+3.  Le processus d'intégration passe obligatoirement par la **sandbox** pour les tests.
+4.  Les **Webhooks** sont essentiels pour gérer les réponses asynchrones des transactions initiées par USSD.
+5.  **Le PIN USSD est géré uniquement par l'opérateur** ; l'application du développeur ne doit jamais le demander.
+6.  La **sécurité** est primordiale : protéger les clés API, utiliser HTTPS, valider les entrées, et respecter les réglementations locales (BEAC, OHADA).
+
+---
+
+### **6. Étude de Cas : Intégration d'un Paiement d'Abonnement**
+**Scénario** : Une startup yaoundéaise "EduCam" propose une application de cours en ligne avec un

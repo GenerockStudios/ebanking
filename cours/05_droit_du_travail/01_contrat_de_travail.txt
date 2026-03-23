@@ -1,0 +1,87 @@
+CHAPITRE 1 — LE CONTRAT DE TRAVAIL
+BTS Génie Logiciel — Droit du travail
+
+1. SOURCES DU DROIT DU TRAVAIL AU CAMEROUN
+
+- Code du travail camerounais (Loi n° 92/007 du 14 août 1992 et ses modifications)
+- Conventions collectives (accord entre syndicats d'employeurs et syndicats de salariés)
+- Règlement intérieur de l'entreprise
+- Contrat de travail individuel
+- Décrets d'application
+- Droit OHADA (pour les aspects commerciaux liés au travail)
+
+2. DÉFINITION ET CRITÈRES DU CONTRAT DE TRAVAIL
+
+Définition : convention par laquelle une personne physique (le travailleur/salarié) s'engage à mettre son activité professionnelle sous la direction et l'autorité d'une autre personne physique ou morale (l'employeur) moyennant une rémunération (salaire).
+
+TROIS ÉLÉMENTS CONSTITUTIFS :
+a) La prestation de travail : exécuter personnellement une tâche
+b) La rémunération : contrepartie obligatoire (salaire, traitement, commissions)
+c) Le lien de subordination juridique : c'est l'élément DISTINCTIF. Le salarié est soumis aux ordres et directives de l'employeur, qui contrôle son travail et peut le sanctionner.
+
+Distinction contrat de travail / contrat d'entreprise :
+- Contrat de travail : lien de subordination, intégration dans l'organisation, horaires fixés par l'employeur
+- Contrat d'entreprise (freelance) : indépendance, liberté d'organisation, pas de lien de subordination
+
+3. FORMES DU CONTRAT DE TRAVAIL
+
+Contrat à Durée Indéterminée (CDI) :
+- Forme normale et générale du contrat de travail
+- Peut être verbal (mais risqué) ou écrit
+- Fin : démission, licenciement, retraite, décès, force majeure, accord mutuel
+
+Contrat à Durée Déterminée (CDD) :
+- Pour tâche précise, temporaire, dont l'échéance est fixée à l'avance
+- Durée maximale : 2 ans (renouvelable 1 fois) au Cameroun
+- Doit être écrit, sous peine de requalification en CDI
+- Fin normale : arrivée du terme. Rupture anticipée : force majeure ou accord. Faute grave.
+
+Contrat d'apprentissage :
+- Lier la formation professionnelle à un employeur
+- Apprenti bénéficie d'une indemnité et doit être formé
+
+Contrat de travail temporaire (intérim) :
+- L'entreprise de travail temporaire (ETT) met à disposition un travailleur auprès d'une entreprise utilisatrice
+
+4. EXÉCUTION DU CONTRAT DE TRAVAIL
+
+Obligations de l'employeur :
+- Fournir le travail convenu et les outils nécessaires
+- Payer le salaire à la date convenue
+- Respecter la durée légale du travail (40h/semaine au Cameroun, 173,33h/mois)
+- Assurer la sécurité et la santé du travailleur
+- Affiliation à la CNPS (Caisse Nationale de Prévoyance Sociale)
+- Délivrer un bulletin de paie
+
+Obligations du salarié :
+- Exécuter personnellement la prestation convenue
+- Respecter le règlement intérieur et les instructions de l'employeur
+- Observer le secret professionnel
+- Ne pas exercer une activité concurrente pendant l'exécution du contrat
+
+Durée du travail :
+- Durée normale : 40 heures par semaine (8h/jour × 5 jours)
+- Heures supplémentaires : majorées de 20% (de la 41e à la 48e heure), 30% (nuit et jours fériés)
+- Repos hebdomadaire : au moins 24 heures consécutives (généralement dimanche)
+- Congé annuel : 18 jours ouvrables minimum par an (1,5 jour par mois)
+
+5. RÉMUNÉRATION
+
+Salaire Minimum Interprofessionnel Garanti (SMIG) : fixé par décret. Il est de 36 270 FCFA/mois depuis 2014 (en cours de révision). En pratique, la plupart des conventions collectives prévoient des minima supérieurs.
+
+Accessoires du salaire :
+- Heures supplémentaires
+- Primes (d'ancienneté, de rendement, de transport, de logement)
+- Avantages en nature (logement, véhicule, téléphone)
+- Gratifications (13e mois, bonus)
+
+Bulletin de paie : document obligatoire. Doit mentionner : identité de l'employeur et du salarié, période, salaire brut, cotisations sociales (part salariale et patronale), salaire net.
+
+Retenues sociales (part salariale) :
+- CNPS (vieillesse, invalidité, décès) : 4,2% du salaire brut plafonné
+- CSPH : contribution salariale au développement de l'habitat
+
+Cotisations patronales :
+- CNPS prestations familiales : 7% du salaire brut plafonné
+- CNPS AT/MP (accidents du travail) : 1,75% à 5% selon le secteur
+- Impôt sur le revenu (IRPP) : retenu à la source par l'employeur

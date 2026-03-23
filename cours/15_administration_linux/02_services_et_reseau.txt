@@ -1,0 +1,175 @@
+CHAPITRE 2 — SERVICES, RÉSEAU ET SÉCURITÉ LINUX
+BTS Génie Logiciel — Administration Linux
+
+1. GESTION DES SERVICES (SYSTEMD)
+
+systemd est le système d'initialisation (init) dominant sur les distributions modernes (Ubuntu 15.04+, Debian 8+, CentOS 7+).
+
+Commandes de gestion des services :
+systemctl start nginx           # démarrer le service nginx
+systemctl stop nginx            # arrêter
+systemctl restart nginx         # redémarrer
+systemctl reload nginx          # recharger la configuration (sans interrompre)
+systemctl status nginx          # afficher l'état et les derniers logs
+systemctl enable nginx          # activer au démarrage (lien symbolique)
+systemctl disable nginx         # désactiver au démarrage
+systemctl is-active nginx       # retourne 0 si actif
+systemctl list-units --type=service  # lister tous les services
+
+journalctl -u nginx             # logs du service nginx
+journalctl -u nginx -f          # suivre les logs en temps réel
+journalctl --since "2024-01-01" # logs depuis une date
+
+Unités systemd : services (.service), montages (.mount), timers (.timer), sockets (.socket)
+
+Créer un service personnalisé :
+Fichier /etc/systemd/system/monapp.service :
+[Unit]
+Description=Mon Application Python
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/opt/monapp
+ExecStart=/usr/bin/python3 app.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+
+systemctl daemon-reload         # recharger les fichiers unit
+systemctl enable --now monapp   # activer et démarrer
+
+2. CONFIGURATION RÉSEAU
+
+Afficher la configuration réseau :
+ip addr show                    # interfaces et adresses IP
+ip link show                    # interfaces et état
+ip route show                   # table de routage
+ss -tuln                        # ports ouverts (successeur de netstat)
+hostname -I                     # IP de la machine
+
+Configuration statique (Ubuntu/Debian — Netplan) :
+# /etc/netplan/01-netcfg.yaml
+network:
+  version: 2
+  ethernets:
+    eth0:
+      dhcp4: false
+      addresses: [192.168.1.100/24]
+      gateway4: 192.168.1.1
+      nameservers:
+        addresses: [8.8.8.8, 1.1.1.1]
+
+netplan apply                   # appliquer la configuration
+
+Outils de diagnostic réseau :
+ping 8.8.8.8                    # tester la connectivité (ICMP)
+ping -c 4 google.com            # 4 pings seulement
+traceroute 8.8.8.8              # chemin des paquets
+nslookup example.com            # résolution DNS
+dig example.com A               # requête DNS détaillée
+curl -I https://google.com      # en-têtes HTTP d'une URL
+wget https://exemple.com/fichier.tar.gz  # télécharger un fichier
+nmap -sV 192.168.1.0/24        # scanner un réseau (ports et services)
+
+3. PARE-FEU (FIREWALL)
+
+A) UFW (Uncomplicated Firewall) — Ubuntu :
+ufw enable                      # activer le pare-feu
+ufw status verbose              # afficher les règles
+ufw allow 22/tcp                # autoriser SSH
+ufw allow 80/tcp                # autoriser HTTP
+ufw allow 443/tcp               # autoriser HTTPS
+ufw deny 3306/tcp               # bloquer MySQL depuis l'extérieur
+ufw allow from 192.168.1.0/24 to any port 5432   # PostgreSQL depuis LAN seul
+ufw delete allow 80/tcp         # supprimer une règle
+
+B) iptables (plus bas niveau) :
+iptables -L -n -v               # lister les règles
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -P INPUT DROP          # politique par défaut : refuser tout
+
+4. SERVEUR WEB NGINX
+
+Installation :
+apt update && apt install nginx -y
+
+Configuration principale : /etc/nginx/nginx.conf
+Sites disponibles : /etc/nginx/sites-available/
+Sites activés : /etc/nginx/sites-enabled/ (liens symboliques)
+
+Virtual host exemple :
+# /etc/nginx/sites-available/monsite.conf
+server {
+    listen 80;
+    server_name monsite.cm www.monsite.cm;
+    root /var/www/monsite;
+    index index.html index.php;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}
+
+ln -s /etc/nginx/sites-available/monsite.conf /etc/nginx/sites-enabled/
+nginx -t                        # tester la configuration
+systemctl reload nginx
+
+5. GESTION DES PAQUETS
+
+Debian/Ubuntu (apt) :
+apt update                      # mettre à jour la liste des paquets
+apt upgrade                     # mettre à jour les paquets installés
+apt install paquet              # installer
+apt remove paquet               # désinstaller (garde la config)
+apt purge paquet                # désinstaller + supprimer la config
+apt autoremove                  # supprimer les dépendances orphelines
+apt search motclé               # rechercher un paquet
+apt show paquet                 # informations sur un paquet
+dpkg -l                         # lister tous les paquets installés
+dpkg -i paquet.deb              # installer un .deb manuellement
+
+Red Hat/CentOS (dnf/yum) :
+dnf install paquet              # installer
+dnf update                      # mettre à jour tout
+dnf remove paquet               # désinstaller
+
+6. SAUVEGARDES ET TÂCHES PLANIFIÉES
+
+rsync : synchronisation efficace de fichiers (transfère seulement les différences)
+rsync -avz /var/www/ user@backup:/backup/www/   # vers serveur distant
+rsync -avz --delete /src/ /dest/               # miroir exact
+
+tar : archivage
+tar -czf archive.tar.gz dossier/   # créer archive compressée
+tar -xzf archive.tar.gz            # décompresser
+tar -tzf archive.tar.gz            # lister le contenu
+
+CRON — planification des tâches :
+crontab -e                          # éditer le crontab de l'utilisateur courant
+crontab -l                          # lister le crontab
+
+Format : minute heure jour_mois mois jour_semaine commande
+# Chaque jour à 2h30 du matin :
+30 2 * * * /opt/scripts/backup.sh
+
+# Chaque heure :
+0 * * * * commande
+
+# Chaque lundi à 8h :
+0 8 * * 1 commande
+
+# Chaque 5 minutes :
+*/5 * * * * commande
+
+Fichiers cron système : /etc/cron.d/, /etc/cron.daily/, /etc/cron.hourly/

@@ -1,0 +1,143 @@
+CHAPITRE 1 — ALGORITHMIQUE ET STRUCTURES DE DONNÉES
+BTS Génie Logiciel — Programmation structurée avancée
+
+1. NOTION D'ALGORITHME
+
+Un algorithme est une suite finie et ordonnée d'instructions permettant de résoudre un problème donné.
+
+Propriétés d'un bon algorithme :
+- Finitude : se termine en un nombre fini d'étapes
+- Déterminisme : chaque étape est précisément définie
+- Correction : produit le résultat attendu pour toutes les entrées valides
+- Efficacité : temps d'exécution et mémoire acceptables
+
+Notation algorithmique (pseudocode) :
+ALGORITHME Nom
+  DONNÉES : liste des entrées avec types
+  RÉSULTATS : liste des sorties avec types
+  VARIABLES : déclarations locales
+DÉBUT
+  ...instructions...
+FIN
+
+2. STRUCTURES DE CONTRÔLE
+
+Séquence : les instructions s'exécutent l'une après l'autre.
+
+Condition (sélection) :
+SI condition ALORS
+  instructions_si_vrai
+SINON
+  instructions_si_faux
+FIN SI
+
+Condition multiple :
+SELON x FAIRE
+  CAS valeur1 : instruction1
+  CAS valeur2 : instruction2
+  DEFAUT : instruction_defaut
+FIN SELON
+
+Boucle TANT QUE (test avant) :
+TANT QUE condition FAIRE
+  corps_de_boucle
+FIN TANT QUE
+
+Boucle REPETER (test après) — s'exécute au moins une fois :
+REPETER
+  corps_de_boucle
+JUSQU'A condition
+
+Boucle POUR :
+POUR i DE debut JUSQU'A fin AVEC PAS pas FAIRE
+  corps
+FIN POUR
+
+3. COMPLEXITÉ ALGORITHMIQUE
+
+La complexité mesure l'efficacité d'un algorithme en termes de temps (nombre d'opérations) ou d'espace (mémoire utilisée) en fonction de la taille n de l'entrée.
+
+Notation O (Big-O) : borne supérieure asymptotique.
+
+Ordres de complexité (du meilleur au pire) :
+O(1)      : constant — accès à un tableau par indice
+O(log n)  : logarithmique — recherche binaire
+O(n)      : linéaire — parcours de tableau
+O(n log n): quasi-linéaire — tri fusion, tri rapide (cas moyen)
+O(n²)     : quadratique — tri à bulles, tri par insertion (cas général)
+O(2^n)    : exponentiel — problèmes NP (backtracking non optimisé)
+O(n!)     : factoriel — permutations
+
+4. TABLEAUX ET TRIS
+
+Tri à bulles (Bubble Sort) — O(n²) :
+Comparer et échanger chaque paire d'éléments adjacents, répéter n-1 fois.
+
+POUR i DE 0 À n-2 FAIRE
+  POUR j DE 0 À n-i-2 FAIRE
+    SI tab[j] > tab[j+1] ALORS
+      echanger(tab[j], tab[j+1])
+    FIN SI
+  FIN POUR
+FIN POUR
+
+Tri par sélection (Selection Sort) — O(n²) :
+Trouver le minimum, le placer en première position, recommencer sur le reste.
+
+Tri par insertion (Insertion Sort) — O(n²) moyen, O(n) si déjà trié :
+Insérer chaque élément à sa bonne place dans la partie déjà triée.
+
+Tri fusion (Merge Sort) — O(n log n) :
+Diviser le tableau en deux moitiés, trier récursivement chacune, fusionner.
+
+Tri rapide (Quick Sort) — O(n log n) moyen, O(n²) pire cas :
+Choisir un pivot, partitionner les éléments < et > pivot, trier récursivement.
+
+5. RECHERCHE
+
+Recherche séquentielle — O(n) :
+Parcourir le tableau de bout en bout.
+
+Recherche binaire (dichotomique) — O(log n) : tableau TRIÉ requis.
+FONCTION recherche_binaire(tab, cible) :
+  gauche ← 0 ; droite ← n-1
+  TANT QUE gauche <= droite FAIRE
+    milieu ← (gauche + droite) / 2
+    SI tab[milieu] = cible : RETOURNER milieu
+    SI tab[milieu] < cible : gauche ← milieu + 1
+    SINON                  : droite ← milieu - 1
+  FIN TANT QUE
+  RETOURNER -1 (non trouvé)
+
+6. POINTEURS ET GESTION MÉMOIRE (C)
+
+En C, un pointeur est une variable qui contient l'adresse mémoire d'une autre variable.
+
+int x = 10;
+int *p = &x;    // p contient l'adresse de x
+*p = 20;        // modifie x via le pointeur
+
+Allocation dynamique :
+int *tab = malloc(n * sizeof(int));  // alloue n entiers
+free(tab);                           // libère la mémoire (OBLIGATOIRE !)
+
+Tableau et pointeurs : le nom d'un tableau est un pointeur vers son premier élément.
+tab[i] équivaut à *(tab + i)
+
+7. RÉCURSIVITÉ
+
+Une fonction récursive s'appelle elle-même.
+Deux parties obligatoires : cas de base (arrêt) + appel récursif.
+
+Exemple : factorielle
+FONCTION fact(n) :
+  SI n <= 1 ALORS RETOURNER 1
+  SINON RETOURNER n * fact(n-1)
+FIN
+
+Exemple : Fibonacci
+FONCTION fib(n) :
+  SI n <= 1 ALORS RETOURNER n
+  SINON RETOURNER fib(n-1) + fib(n-2)
+
+Attention : fib récursif naïf est O(2^n). Utiliser la mémoïsation ou l'itération pour O(n).

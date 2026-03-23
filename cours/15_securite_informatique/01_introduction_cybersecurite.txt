@@ -1,0 +1,134 @@
+# **Notes de Cours - BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière 15 : Sécurité Informatique**
+## **Chapitre : Introduction à la cybersécurité**
+
+---
+
+### **1. Introduction et Définitions Fondamentales**
+
+#### **1.1. Qu'est-ce que la Cybersécurité ?**
+La cybersécurité est l'ensemble des **mesures techniques, organisationnelles et juridiques** conçues pour protéger les systèmes d'information, les réseaux, les programmes et les données contre les accès non autorisés, les attaques, les dommages ou les détournements. Son objectif principal est d'assurer la **confidentialité, l'intégrité et la disponibilité** des informations, souvent appelée la **triade CIA** (Confidentiality, Integrity, Availability).
+
+*   **Confidentialité** : Garantir que l'information n'est accessible qu'aux personnes autorisées.
+*   **Intégrité** : S'assurer que l'information n'est pas altérée de manière non autorisée.
+*   **Disponibilité** : Garantir que les systèmes et les données sont accessibles aux utilisateurs autorisés quand ils en ont besoin.
+
+#### **1.2. Pourquoi la Cybersécurité est-elle Cruciale au Cameroun et en Afrique ?**
+Avec la **poussée de la digitalisation** (e-gouvernement, mobile money, e-commerce), le Cameroun et l'Afrique sont devenus des cibles de choix pour les cybercriminels. Les enjeux sont multiples :
+*   **Économiques** : Protection des transactions financières (Mobile Money MTN MoMo, Orange Money, services bancaires).
+*   **Souveraineté nationale** : Protection des infrastructures critiques (Camtel, réseaux énergétiques, administration).
+*   **Confiance numérique** : Essor du commerce électronique et des services en ligne.
+*   **Conformité légale** : Respect du cadre juridique, notamment la **Loi n°2010/012 du 21 décembre 2010 relative à la cybersécurité et la cybercriminalité au Cameroun**.
+
+---
+
+### **2. Les Menaces Cybernétiques (Cybermenaces)**
+
+Une cybermenace est toute action ou événement potentiel susceptible de porter atteinte à un système d'information.
+
+#### **2.1. Les Logiciels Malveillants (Malware)**
+Programmes conçus pour infiltrer ou endommager un système sans le consentement de l'utilisateur.
+
+*   **Types principaux :**
+    *   **Virus** : S'attache à un programme légitime et se réplique.
+    *   **Ver (Worm)** : Se propage de manière autonome à travers un réseau.
+    *   **Cheval de Troie (Trojan)** : Se fait passer pour un logiciel utile pour installer une porte dérobée (*backdoor*).
+    *   **Spyware** : Collecte des informations à l'insu de l'utilisateur (mots de passe, habitudes de navigation).
+    *   **Adware** : Affiche des publicités intrusives.
+
+*   **Exemple concret (Contexte Camerounais)** : Un étudiant télécharge un "crack" pour un logiciel payant depuis un site non officiel. Le fichier contient un **Trojan** qui vole les identifiants de sa session Mobile Money.
+
+#### **2.2. Le Rançongiciel (Ransomware)**
+Un type de malware qui **chiffre les données** de la victime et exige une rançon (souvent en cryptomonnaie comme le Bitcoin) pour les restaurer.
+
+*   **Mode opératoire** : Phishing → Exécution → Chiffrement → Demande de rançon.
+*   **Impact** : Paralysie totale des activités (hôpitaux, mairies, entreprises).
+*   **Exemple concret** : Une PME à Douala reçoit une facture supposément de l'**ARSEL** ou de l'**impôt**. En l'ouvrant, le ransomware s'exécute et chiffre tous les dossiers clients et comptables. Les attaquants demandent 5 000 000 FCFA en Bitcoin.
+
+#### **2.3. L'Hameçonnage (Phishing)**
+Technique de **ingénierie sociale** visant à tromper l'utilisateur pour qu'il divulgue des informations sensibles (identifiants, cartes bancaires) en se faisant passer pour un tiers de confiance.
+
+*   **Vecteurs** : Email, SMS (*Smishing*), appels téléphoniques (*Vishing*).
+*   **Signes distinctifs** : Urgence, fautes d'orthographe, liens douteux, expéditeur suspect.
+*   **Exemple concret** : Un SMS semblant provenir de **MTN** : "Votre compte MoMo a été suspendu. Cliquez sur [lien frauduleux] pour le réactiver." Le lien mène à une fausse page de connexion qui capture le numéro et le PIN de l'utilisateur.
+
+#### **2.4. L'Attaque par Déni de Service Distribué (DDoS)**
+Attaque qui consiste à **saturer un serveur, un service ou une infrastructure réseau** avec un flux massif de trafic, le rendant indisponible pour ses utilisateurs légitimes.
+
+*   **Mécanisme** : Les attaquants utilisent un réseau d'ordinateurs infectés (un **botnet**) pour envoyer des requêtes simultanées.
+*   **Objectifs** : Perturbation, chantage, diversion pour une autre attaque.
+*   **Exemple concret** : Le site de vente en ligne d'une grande enseigne camerounaise est inaccessible pendant le **Black Friday** à cause d'une attaque DDoS. Les attaquants contactent ensuite l'entreprise pour exiger de l'argent afin d'arrêter l'attaque.
+
+**Tableau Comparatif des Menaces**
+
+| **Menace** | **Objectif Principal** | **Vecteur Principal** | **Impact Typique** |
+| :--- | :--- | :--- | :--- |
+| **Malware** | Infiltration, sabotage | Fichiers, vulnérabilités | Vol de données, dysfonctionnement |
+| **Ransomware** | Extorsion financière | Pièces jointes, liens | Chiffrement des données, paralysie |
+| **Phishing** | Vol d'identifiants | Email, SMS, appels | Usurpation d'identité, fraude financière |
+| **DDoS** | Indisponibilité du service | Trafic réseau massif | Interruption de service, perte de revenus |
+
+---
+
+### **3. Les Acteurs de la Cybersécurité : Les "Hackers"**
+
+Le terme "hacker" est neutre à l'origine. La communauté les classe par métaphore des chapeaux de cow-boys.
+
+#### **3.1. Hackers au Chapeau Noir (Black Hat)**
+*   **Profil** : Cybercriminels agissant avec une **intention malveillante** pour un gain personnel (financier, politique, espionnage).
+*   **Activités** : Création de virus, vols de données, fraudes, attaques DDoS.
+*   **Exemple** : Un groupe qui exploite des failles dans les passerelles de paiement de sites web camerounais pour siphonner des fonds.
+
+#### **3.2. Hackers au Chapeau Blanc (White Hat)**
+*   **Profil** : **Experts en sécurité éthique**, souvent employés par des entreprises ou des gouvernements.
+*   **Activités** : **Tests d'intrusion (pentests)**, recherche de vulnérabilités pour les corriger, renforcement des systèmes. Ils opèrent **avec autorisation**.
+*   **Exemple** : Un consultant en sécurité mandaté par **Camtel** pour tester la résistance de son nouveau réseau fibre optique avant son déploiement.
+
+#### **3.3. Hackers au Chapeau Gris (Grey Hat)**
+*   **Profil** : Agissent **sans autorisation** mais **sans intention malveillante** pure. Ils naviguent dans une zone d'ombre éthique.
+*   **Activités** : Piratent un système pour découvrir une faille, puis informent le propriétaire (parfois en demandant une récompense) ou publient la faille.
+*   **Exemple** : Un chercheur indépendant découvre une faille critique dans l'application mobile d'une banque camerounaise. Il contacte la banque pour l'informer mais menace de rendre la faille publique si elle n'est pas corrigée rapidement.
+
+> **À RETENIR** : La distinction ne tient pas seulement à l'action, mais à **l'autorisation, l'intention et la légalité**. Un pentester (White Hat) et un Black Hat utilisent les mêmes techniques, mais le premier a une autorisation écrite (*scope*), le second non.
+
+---
+
+### **4. Le Cadre Légal Camerounais : La Loi de 2010 sur la Cybercriminalité**
+
+La **Loi n°2010/012 du 21 décembre 2010** est la pierre angulaire de la lutte contre la cybercriminalité au Cameroun. Elle s'inscrit dans le cadre plus large de la **Convention de l'Union Africaine sur la Cybersécurité et la Protection des Données (Convention de Malabo)**.
+
+#### **4.1. Infractions et Sanctions Clés**
+La loi criminalise une large gamme d'activités, notamment :
+
+*   **L'accès et le maintien frauduleux dans un STAD** (Système de Traitement Automatisé de Données) : **Art. 74** (Emprisonnement de 01 à 03 ans, amende).
+*   **L'entrave au fonctionnement d'un STAD** (ex: attaques DDoS) : **Art. 75** (Emprisonnement de 06 mois à 02 ans, amende).
+*   **L'introduction frauduleuse de données** (ex: propagation de malware) : **Art. 76**.
+*   **L'interception et la divulgation de données** : **Art. 77-78**.
+*   **La falsification de cartes bancaires** : **Art. 80** (Sanctions très lourdes).
+*   **L'escroquerie en ligne** (ex: phishing) : **Art. 84**.
+
+#### **4.2. Portée et Responsabilités**
+*   **Compétence extraterritoriale** : La loi s'applique même si l'infraction est commise depuis l'étranger si le système cible est au Cameroun.
+*   **Responsabilité des personnes morales** : Les entreprises (FAI comme **Camtel**, banques) peuvent être tenues responsables pénalement et civilement.
+*   **Coopération internationale** : Prévoit l'entraide judiciaire avec d'autres pays.
+
+#### **4.3. Importance pour les Futurs Professionnels du GL**
+1.  **Conformité** : Tout logiciel ou système développé doit intégrer des mesures de sécurité pour éviter de rendre ses clients passibles de poursuites.
+2.  **Preuve électronique** : La loi reconnaît la valeur juridique de la preuve électronique (Art. 10). Les logs, signatures électroniques doivent être conçus pour être robustes.
+3.  **Protection des données** : Bien que spécifique, la loi aborde la protection des données. Elle est complétée par les principes de l'**Acte Uniforme de l'OHADA sur le Droit des Sociétés Commerciales et du GIE** concernant les registres électroniques et leur sécurité.
+
+---
+
+### **5. Outils et Bonnes Pratiques de Défense**
+
+#### **5.1. Outils Techniques de Sécurité**
+*   **Antivirus/Antimalware** : Kaspersky, Bitdefender, solutions open-source (ClamAV).
+*   **Pare-feu (Firewall)** : Filtrage du trafic réseau (ex: pfSense, pare-feu intégrés aux routeurs).
+*   **Systèmes de Détection/Prévention d'Intrusion (IDS/IPS)** : Surveillent le réseau pour détecter des activités suspectes (ex: Snort, Suricata).
+*   **Chiffrement** : Protéger les données au repos (disques) et en transit (HTTPS, VPN).
+*   **Sauvegarde (Backup)** : La défense ultime contre les ransomwares. Règle du **3-2-1** : 3 copies, sur 2 supports différents, dont 1 hors site.
+
+#### **5.2. Bonnes Pratiques Organisationnelles et Humaines**
+*   **Politique de Sécurité des Systèmes d'Information (PSSI)** : Document cadre définissant les règles de sécurité dans l'organisation.
+*   **Formation et Sensibilisation des Utilisateurs** : L'humain est le premier maillon faible. Former à reconnaître le phishing.
+*   **Mises à jour régulières (Patching)** : Corriger les vul

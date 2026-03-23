@@ -1,0 +1,165 @@
+# **Notes de cours — BTS Génie Logiciel**
+## **Matière : 02 Comptabilité Générale**
+## **Chapitre : Comptabilité des sociétés : constitution, augmentation de capital, résultats, dividendes — OHADA**
+
+---
+
+### **1. Introduction à la comptabilité des sociétés dans l’espace OHADA**
+
+#### **1.1. Cadre juridique et normatif**
+La comptabilité des sociétés au Cameroun et dans la plupart des pays d’Afrique francophone est régie par le droit comptable de l’**Organisation pour l’Harmonisation en Afrique du Droit des Affaires (OHADA)**. L’Acte Uniforme relatif au Droit des Sociétés Commerciales et du Groupement d’Intérêt Économique (AUSCGIE) et l’Acte Uniforme relatif au Droit Comptable et à l’Information Financière (AUDCIF) constituent le socle juridique.
+
+*   **AUSCGIE** : Définit les types de sociétés (SARL, SA, SAS, etc.), leurs règles de constitution, de fonctionnement et de dissolution.
+*   **AUDCIF** : Fixe les règles et principes comptables (principe de prudence, d’indépendance des exercices, des coûts historiques), le plan comptable général (SYSCOHADA), et les états financiers obligatoires.
+
+**À retenir** : Le SYSCOHADA est le plan comptable général de l’espace OHADA. Il structure les comptes en classes (1 à 8) et est obligatoire pour toutes les entreprises.
+
+#### **1.2. Rôle du génie logiciel dans la comptabilité des sociétés**
+L’expertise en génie logiciel est cruciale pour :
+*   Développer, implémenter et maintenir des **logiciels de gestion comptable et financière** adaptés aux normes OHADA.
+*   Automatiser les processus de traitement des opérations de capital, de résultat et de dividendes.
+*   Concevoir des modules de reporting financier pour générer automatiquement le bilan, le compte de résultat, et l’annexe.
+*   Assurer la sécurité, l’intégrité et la traçabilité des données financières (audit trail).
+
+**Outils et technologies** : ERP (Enterprise Resource Planning) comme **Sage, SAP, Oracle Financials**, ou des solutions locales développées sur mesure avec des langages comme **Java, Python (Django), C# (.NET)** et des bases de données **MySQL, PostgreSQL, ou Oracle DB**.
+
+---
+
+### **2. La constitution de la société et la formation du capital**
+
+#### **2.1. Les apports et leur comptabilisation**
+Lors de la création d’une société, les associés ou actionnaires effectuent des **apports** en contrepartie desquels ils reçoivent des parts sociales (SARL) ou des actions (SA). Il existe trois types d’apports :
+
+| Type d'apport | Nature | Compte SYSCOHADA | Exemple concret |
+| :--- | :--- | :--- | :--- |
+| **Apport en Numéraire** | Sommes d'argent versées | **101 Capital souscrit - appelé, versé** | Un fondateur verse 5 000 000 FCFA sur le compte bancaire de la startup "TechInnov Yaoundé". |
+| **Apport en Nature** | Biens corporels ou incorporels (local, véhicule, brevet, logiciel) | **261 Immobilisations corporelles** <br> **281 Immobilisations incorporelles** | Un associé apporte un serveur informatique évalué à 2 000 000 FCFA. |
+| **Apport en Industrie** | Compétences, savoir-faire, travail. *Non représentatif du capital social dans les SA.* | Non comptabilisé à l'actif. Donne droit à des parts bénéficiaires. | Un ingénieur logiciel senior apporte son expertise pour développer le produit minimum viable (MVP). |
+
+**Écriture comptable type pour un apport en numéraire :**
+```
+Débit : 512 Banque (Actif)         5 000 000
+Crédit : 101 Capital social (Capitaux propres)  5 000 000
+```
+*Libellé : Constitution de la société - Apport en numéraire de l'associé X.*
+
+#### **2.2. Les frais de constitution**
+Ce sont les dépenses engagées pour créer la société (rédaction des statuts, enregistrement, publicité légale, honoraires). Ils sont comptabilisés dans le compte **201 Frais d'établissement** et doivent être **amortis** sur une courte période (max 5 ans selon l'OHADA).
+
+---
+
+### **3. L’augmentation du capital social**
+
+Une société peut augmenter son capital pour financer sa croissance, renforcer ses fonds propres ou accueillir de nouveaux investisseurs.
+
+#### **3.1. Les modalités d’augmentation de capital**
+1.  **Par apports nouveaux** : De nouveaux ou anciens associés effectuent des apports en numéraire ou en nature.
+2.  **Par incorporation des réserves** : Transformation des bénéfices mis en réserve (réserves légales, statutaires, facultatives) en capital. Aucune entrée d'argent nouvelle, mais consolidation des fonds propres.
+    *Exemple : La société "Orange Cameroun" peut incorporer une partie de ses réserves pour augmenter son capital sans appel de fonds aux actionnaires.*
+3.  **Par conversion de dettes** : Transformation d'une dette en capital (créditeur devient associé/actionnaire).
+
+#### **3.2. Comptabilisation d’une augmentation de capital par apports nouveaux**
+**Étapes et écritures :**
+1.  **Décision et ouverture de la souscription** : Comptabilisation des engagements.
+    ```
+    Débit : 4561 Associés - Compte d'apport (Actif)
+    Crédit : 1011 Capital souscrit - non appelé (Capitaux propres)
+    ```
+2.  **Appel des fonds** :
+    ```
+    Débit : 1011 Capital souscrit - non appelé
+    Crédit : 1012 Capital souscrit - appelé, non versé
+    ```
+3.  **Versement des fonds par les actionnaires** :
+    ```
+    Débit : 512 Banque
+    Crédit : 4561 Associés - Compte d'apport
+    ```
+4.  **Constation des versements** :
+    ```
+    Débit : 1012 Capital souscrit - appelé, non versé
+    Crédit : 1013 Capital souscrit - appelé, versé
+    ```
+
+**À retenir** : Dans les SA, l'augmentation de capital peut se faire avec ou sans **droit préférentiel de souscription (DPS)** pour les anciens actionnaires. Le DPS est un titre négociable qui compense la dilution de leur participation.
+
+---
+
+### **4. Le résultat et son affectation**
+
+#### **4.1. Détermination du résultat**
+À la clôture de l'exercice (généralement annuel), l'entreprise détermine son **bénéfice** ou sa **perte** en soldant le **compte de résultat** (Classe 6 "Charges" et Classe 7 "Produits").
+
+*   **Produits (Classe 7) > Charges (Classe 6)** = **Bénéfice net**
+*   **Charges (Classe 6) > Produits (Classe 7)** = **Perte nette**
+
+Le résultat est viré au compte **120 Résultat de l'exercice (bénéfice)** ou **129 Résultat de l'exercice (perte)**.
+
+#### **4.2. L’affectation du bénéfice (L’article de l’AUSCGIE)**
+Le bénéfice net est affecté selon un ordre légal précis, souvent représenté par le **tableau d'affectation des résultats**.
+
+**Ordre d'affectation du bénéfice :**
+1.  **Report à nouveau (déficitaire ou créditeur) de l'exercice précédent.**
+2.  **Dotation à la réserve légale** : 5% du bénéfice net, jusqu'à ce qu'elle atteigne 10% du capital social. **Obligatoire.**
+3.  **Dotation aux réserves statutaires** : Si prévues par les statuts (ex : réserve pour investissement R&D).
+4.  **Proposition de dividendes aux actionnaires** par l'assemblée générale.
+5.  **Report à nouveau (créditeur) pour le nouvel exercice.**
+
+**Exemple concret :** Supposons que la société **MTN Cameroon SA** réalise un bénéfice net de 10 000 000 000 FCFA.
+*   Report à nouveau déficitaire : -500 000 000 FCFA
+*   Réserve légale (5%) : 475 000 000 FCFA (calculé sur 9.5 milliards après absorption du report)
+*   Réserves statutaires : 1 000 000 000 FCFA (selon ses statuts)
+*   Dividendes proposés : 6 000 000 000 FCFA
+*   Report à nouveau créditeur (solde) : 2 025 000 000 FCFA
+
+**Écriture de dotation à la réserve légale :**
+```
+Débit : 120 Résultat de l'exercice (bénéfice)  475 000 000
+Crédit : 1013 Réserve légale (Capitaux propres)         475 000 000
+```
+
+---
+
+### **5. Les dividendes**
+
+#### **5.1. Définition et principe**
+Le dividende est la part du bénéfice distribuée aux actionnaires (ou associés) en rémunération de leur investissement. La décision de distribution et son montant sont votés par l'**Assemblée Générale Ordinaire (AGO)** sur proposition du Conseil d'Administration.
+
+#### **5.2. Comptabilisation des dividendes**
+Le processus se déroule en deux phases :
+
+1.  **Mise en paiement (Décision de l'AGO) :** On constate la dette envers les actionnaires.
+    ```
+    Débit : 120 Résultat de l'exercice (bénéfice)  6 000 000 000
+    Crédit : 457 Associés - Dividendes à payer (Passif)  6 000 000 000
+    ```
+
+2.  **Paiement effectif :** Lorsque les actionnaires perçoivent leur dividende (en numéraire).
+    ```
+    Débit : 457 Associés - Dividendes à payer  6 000 000 000
+    Crédit : 512 Banque                         6 000 000 000
+    ```
+
+#### **5.3. Dividende interimaire et acompte sur dividende**
+*   **Dividende intérimaire** : Dividende versé en cours d'exercice, avant la connaissance du résultat annuel. Soumis à des conditions légales strictes (réserves suffisantes, bénéfice réalisé).
+*   **Acompte sur dividende** : Similaire, mais versé après la fin de l'exercice mais avant l'AGO qui statue sur les comptes. Pratique courante dans les grandes sociétés cotées.
+
+**Contexte camerounais :** Des entreprises comme **SOCAPALM** ou **Camerounaise des Eaux (CDE)** peuvent, sous certaines conditions, verser des acomptes sur dividende à leurs actionnaires, dont l'État camerounais.
+
+---
+
+### **6. Logiciels et automatisation des processus**
+
+Pour un ingénieur logiciel en BTS GL, comprendre ces flux est essentiel pour développer des systèmes fiables.
+
+*   **Module "Capital & Actionnariat"** : Gère le registre des actionnaires, les augmentations de capital, le calcul des DPS, les cessions de titres.
+*   **Module "Clôture & Résultat"** : Automatise les écritures de régularisation, de provisions, calcule le résultat, génère le tableau d'affectation.
+*   **Module "Dividendes"** : Calcule le dividende par action, génère les ordres de virement, gère les relances pour les dividendes non réclamés.
+*   **Reporting & Business Intelligence (BI)** : Outils comme **Power BI, Tableau, ou des rapports SQL** pour analyser la structure du capital, l'évolution des réserves, la politique de dividendes.
+
+**Cas pratique de développement :** Concevoir une fonction en **Python** qui, à partir du bénéfice net, du capital social et des reports, calcule automatiquement l'affectation légale OHADA (réserve légale) et propose un schéma d'affectation.
+
+```python
+def affectation_benefice_ohada(benefice_net, capital_social, report_a_nouveau_anterieur):
+    # 1. Absorption du report à nouveau antérieur
+    base_calcul = benefice_net + report_a_nouveau_anterieur  # Si report déficitaire,

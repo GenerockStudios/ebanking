@@ -1,0 +1,131 @@
+# **Notes de Cours - BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : Sécurité Informatique (Code 15)**
+## **Chapitre : Authentification et Contrôle d’Accès**
+
+---
+
+### **1. Introduction et Définitions Fondamentales**
+
+#### **1.1. Contexte et Enjeux**
+Dans l’espace numérique camerounais et africain en pleine croissance (déploiement de la 4G/5G, services financiers mobiles comme Orange Money et MTN Mobile Money, digitalisation des administrations), la sécurisation des accès aux systèmes d’information est critique. Les cyberattaques ciblant les fuites de données, l’usurpation d’identité et les fraudes financières rendent la maîtrise de l’authentification et du contrôle d’accès indispensable pour tout ingénieur logiciel.
+
+#### **1.2. Définitions Clés**
+*   **Authentification :** Vérification de l’identité d’un utilisateur, d’un système ou d’une entité. Répond à la question : **« Qui êtes-vous ? »**.
+*   **Autorisation (Contrôle d’Accès) :** Définition des droits et permissions accordés à une identité authentifiée. Répond à la question : **« Qu’avez-vous le droit de faire ? »**.
+*   **Comptabilité (Accounting/Audit) :** Traçabilité des actions d’un utilisateur authentifié. Ces trois concepts forment le modèle **AAA** (Authentication, Authorization, Accounting).
+
+> **À retenir :** L’authentification précède toujours l’autorisation. Une carte d’étudiant (authentification) ne vous donne pas automatiquement accès à la salle des serveurs de l’école (autorisation).
+
+---
+
+### **2. Mécanismes d’Authentification Robustes**
+
+#### **2.1. Authentification par Mot de Passe : Au-delà du Stockage en Clair**
+Le stockage simple des mots de passe est une faute grave. Ils doivent être **hachés** de manière sécurisée.
+
+*   **Fonction de Hachage Cryptographique :** Fonction unidirectionnelle qui transforme une donnée en une empreinte unique (hash). Idéalement, elle est résistante aux collisions et lente à calculer pour contrer les attaques par force brute.
+*   **Le Sel (Salt) :** Chaîne aléatoire unique ajoutée au mot de passe avant hachage. Elle empêche l’utilisation de **tables arc-en-ciel** (rainbow tables) pré-calculées.
+    *   *Exemple Camerounais :* Deux clients de la **Camtel** ayant le même mot de passe « Douala2024 » auront des hachages complètement différents en base de données grâce à des sels distincts.
+
+#### **2.2. Algorithmes de Hachage Adaptés pour les Mots de Passe**
+| Algorithme | Principe Clé | Avantages | Inconvénients/Contextes d'Usage |
+| :--- | :--- | :--- | :--- |
+| **bcrypt** | Adapte son coût de calcul (facteur de travail). Résistant aux attaques matérielles (GPU/ASIC). | Très robuste, standard éprouvé. | Légèrement plus lent, mais c’est une caractéristique de sécurité. |
+| **PBKDF2** (Password-Based Key Derivation Function 2) | Applique itérativement une fonction de hachage (ex: SHA-256) avec un sel. | Standardisé, flexible, largement supporté. | Plus vulnérable aux attaques matérielles que bcrypt si mal configuré. |
+| **Argon2** | Vainqueur du PHC 2015. Utilise la mémoire et le CPU pour résister aux attaques matérielles. | Considéré comme l’état de l’art actuel. | Configuration plus complexe, adoption en cours. |
+
+**Recommandation :** Privilégier **bcrypt** ou **Argon2** pour les nouvelles applications. **PBKDF2** reste acceptable avec un nombre d’itérations suffisamment élevé (≥ 100 000).
+
+*Exemple de Code (Node.js - bcrypt) :*
+```javascript
+const bcrypt = require('bcrypt');
+const saltRounds = 12; // Facteur de travail
+const myPlaintextPassword = 'Mot2P@$$eCameroun';
+
+// Hachage
+bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
+  // Stocker 'hash' en base de données
+});
+
+// Vérification
+bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
+  // result == true si correspondance
+});
+```
+
+#### **2.3. Authentification Multifactorielle (MFA / 2FA)**
+Renforce l’authentification en exigeant deux preuves ou plus (**facteurs**) parmi :
+1.  **Ce que vous savez** (mot de passe, PIN).
+2.  **Ce que vous possédez** (téléphone, clé USB sécurisée comme YubiKey, token).
+3.  **Ce que vous êtes** (empreinte digitale, reconnaissance faciale).
+
+*   **Application au Contexte Africain :**
+    *   **OTP par SMS :** Très répandu (banques, **Orange Money**). Risque lié au SIM swapping.
+    *   **Applications Authentificatrices :** Google Authenticator, Authy. Plus sécurisé, ne nécessite pas de réseau.
+    *   **Biométrie :** Déploiement dans les passeports électroniques, les services bancaires (ex: **Ecobank**).
+
+> **À retenir :** Le MFA est désormais une **norme de sécurité essentielle**, surtout pour les accès administrateurs, les services financiers et les données sensibles.
+
+#### **2.4. Authentification Unique (SSO - Single Sign-On)**
+Permet à un utilisateur de s’authentifier une seule fois pour accéder à plusieurs applications indépendantes.
+
+**Avantages :**
+*   Expérience utilisateur améliorée (moins de mots de passe à retenir).
+*   Réduction des coûts de support (réinitialisation de mots de passe).
+*   Centralisation de la gestion des comptes et de la sécurité.
+
+#### **2.5. Protocoles SSO Majeurs**
+| Protocole | Rôle Principal | Métaphore Courante | Cas d'Usage Typique |
+| :--- | :--- | :--- | :--- |
+| **SAML 2.0** (Security Assertion Markup Language) | **Authentification et Autorisation.** Échange d’assertions XML signées entre un Fournisseur d’Identité (IdP) et un Fournisseur de Service (SP). | **Carte d’identité numérique.** L’IdP (ex: l’État) délivre une assertion signée que vous présentez au SP (ex: une banque). | Entreprises, éducation, gouvernement. Intégration d’applications internes. |
+| **OAuth 2.0** (Open Authorization) | **Délégation d’Autorisation.** Permet à une application d’obtenir un **jeton d’accès** limité pour accéder à des ressources protégées, **sans partager le mot de passe principal**. | **Valet de clés.** Vous donnez un jeton temporaire et limité (valet) à un service de livraison pour déposer un colis dans votre maison, sans lui donner votre clé principale. | Autoriser une app à accéder à votre compte Google/Facebook/API. |
+| **OpenID Connect (OIDC)** | Couche **d’authentification** construite **sur OAuth 2.0**. Ajoute un **jeton d’identité (ID Token)** standardisé (JWT) qui prouve « qui » est l’utilisateur. | **Carte d’identité + Valet.** Combine la preuve d’identité (OIDC) avec la délégation d’accès (OAuth). | Connexion utilisateur sur des sites web grand public (« Se connecter avec Google »). |
+
+*   **Exemple d’Intégration :** Une université camerounaise pourrait utiliser un **IdP SAML** (comme **Keycloak** ou **Microsoft ADFS**) pour permettre aux étudiants de se connecter une fois et d’accéder à la plateforme pédagogique, à la bibliothèque en ligne et à leur messagerie. Une startup développant une app mobile pourrait utiliser **« Se connecter avec Facebook » (OIDC)** pour simplifier l’inscription.
+
+---
+
+### **3. Modèles de Contrôle d’Accès (Autorisation)**
+
+#### **3.1. RBAC - Contrôle d’Accès Basé sur les Rôles (Role-Based Access Control)**
+*   **Principe :** Les permissions sont assignées à des **rôles**, et les utilisateurs se voient attribuer un ou plusieurs rôles.
+*   **Structure :** **Utilisateurs → Rôles → Permissions**.
+*   **Exemple dans une Entreprise Camerounaise :**
+    *   Rôle `EMPLOYE_BANQUE` : Peut consulter les comptes clients.
+    *   Rôle `CHEF_AGENCE` : `EMPLOYE_BANQUE` + Peut approuver les découverts.
+    *   Rôle `AUDITEUR` : Peut tout lire, mais ne peut rien modifier.
+*   **Avantage :** Gestion simplifiée et scalable pour des organisations structurées.
+
+#### **3.2. ABAC - Contrôle d’Accès Basé sur les Attributs (Attribute-Based Access Control)**
+*   **Principe :** La décision d’accès est dynamique, basée sur des **attributs** de l’utilisateur, de la ressource, de l’action et de l’environnement, évalués via des **politiques**.
+*   **Structure :** **POLITIQUE : SI (conditions sur attributs) ALORS (Permettre/Refuser)**.
+*   **Exemple Concret (Système OHADA) :**
+    *   *Politique :* « Un avocat peut accéder au dossier juridique d’une société **SI** il est inscrit au barreau du Cameroun (`user.profession == "Avocat"`), **ET** si son cabinet est mandaté par cette société (`user.firm in resource.mandated_firms`), **ET** si l’accès a lieu pendant les heures ouvrables (`environment.time between 08:00 and 18:00`). »
+*   **Avantage :** Granularité et flexibilité extrêmes, adapté aux besoins complexes et contextuels.
+
+**Tableau Comparatif RBAC vs ABAC**
+| Critère | RBAC | ABAC |
+| :--- | :--- | :--- |
+| **Granularité** | Grossière (niveau rôle) | Fine (niveau attribut/condition) |
+| **Flexibilité** | Limitée, changes nécessitent de re-catégoriser les rôles | Très élevée, changement par politique |
+| **Complexité** | Simple à comprendre et implémenter | Complexe à modéliser et administrer |
+| **Cas d'Usage** | Organisations hiérarchiques (entreprises, écoles) | Environnements dynamiques (cloud, santé, gouvernement) |
+
+---
+
+### **4. Le Modèle Zero Trust (Confiance Zéro)**
+
+#### **4.1. Philosophie et Principes Fondamentaux**
+Le modèle **Zero Trust** part du postulat : **« Ne jamais faire confiance, toujours vérifier »**. Il abandonne le concept traditionnel de périmètre réseau sécurisé (château-fort) où tout ce qui est à l’intérieur est considéré comme sûr.
+
+**Principes Clés :**
+1.  **Vérification explicite :** Authentifier et autoriser chaque requête, quelle que soit son origine.
+2.  **Accès à privilège minimum :** Accorder uniquement les permissions nécessaires pour une tâche donnée.
+3.  **Présomption de violation :** Agir comme si le réseau était déjà compromis. Segmenter, chiffrer, journaliser.
+
+#### **4.2. Mise en Œuvre et Technologies Associées**
+*   **Micro-segmentation :** Diviser le réseau en petits segments isolés pour contenir les menaces.
+*   **SASE / ZTNA :** Les architectures (Secure Access Service Edge, Zero Trust Network Access) fournissent un accès sécurisé basé sur l’identité, où les utilisateurs se connectent directement aux applications, pas au réseau.
+*   **Gestion des Identités et des Accès (IAM) :** Cœur du Zero Trust. Utilise les mécanismes vus précédemment (MFA, SSO, RBAC/ABAC).
+
+*   **Application au Contexte :** Une institution comme **l’Agence de Régulation des Télécommunications (ART)** du Cameroun, gérant des données sensibles, devrait adopter une approche Zero Trust. Un agent ne pourrait accéder aux données d

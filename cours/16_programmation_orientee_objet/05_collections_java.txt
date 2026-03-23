@@ -1,0 +1,326 @@
+# **Notes de Cours - BTS Génie Logiciel (Cameroun)**
+## **Matière : 16 Programmation Orientée Objet**
+## **Chapitre : Collections Java (java.util)**
+
+---
+
+### **1. Introduction aux Collections Java**
+
+#### **1.1. Définition et Importance**
+Une **collection** en Java est un framework qui fournit une architecture pour stocker et manipuler un groupe d'objets. Le framework `java.util` contient toutes les classes et interfaces nécessaires.
+
+**À retenir** : Les collections permettent de gérer des données dynamiquement, contrairement aux tableaux traditionnels qui ont une taille fixe.
+
+#### **1.2. Architecture du Framework Collections**
+L'architecture repose sur plusieurs interfaces fondamentales :
+- **Collection** : Racine de la hiérarchie (sauf pour Map)
+- **List** : Collections ordonnées et indexées
+- **Set** : Collections sans doublons
+- **Map** : Stockage sous forme clé-valeur (n'étend pas Collection)
+
+**Contexte camerounais** : Dans le système OHADA, les collections pourraient modéliser des registres de sociétés, des listes de clients pour MTN/Orange, ou des inventaires de produits.
+
+---
+
+### **2. L'Interface List et ses Implémentations**
+
+#### **2.1. Caractéristiques de List**
+- **Ordre préservé** : Les éléments sont accessibles par index
+- **Doublons autorisés**
+- **Principales méthodes** : `add()`, `get()`, `remove()`, `size()`
+
+#### **2.2. ArrayList**
+**Définition** : Implémentation basée sur un tableau redimensionnable.
+
+**Avantages** :
+- Accès rapide aux éléments par index (O(1))
+- Performant pour les lectures
+
+**Inconvénients** :
+- Insertions/suppressions lentes au milieu (O(n))
+- Redimensionnement coûteux
+
+**Exemple camerounais** :
+```java
+// Gestion des abonnés Orange Money
+List<String> abonnesOrangeMoney = new ArrayList<>();
+abonnesOrangeMoney.add("237655123456"); // Numéro Cameroun
+abonnesOrangeMoney.add("237677987654");
+abonnesOrangeMoney.add("237699456123");
+```
+
+#### **2.3. LinkedList**
+**Définition** : Implémentation basée sur une liste doublement chaînée.
+
+**Avantages** :
+- Insertions/suppressions rapides (O(1))
+- Performant pour les opérations en début/fin
+
+**Inconvénients** :
+- Accès séquentiel aux éléments (O(n))
+- Utilise plus de mémoire
+
+**Exemple camerounais** :
+```java
+// File d'attente dans une agence Camtel
+LinkedList<String> fileAttenteCamtel = new LinkedList<>();
+fileAttenteCamtel.add("Client1");
+fileAttenteCamtel.add("Client2");
+String premierClient = fileAttenteCamtel.poll(); // Retire le premier
+```
+
+#### **2.4. Tableau Comparatif ArrayList vs LinkedList**
+| Critère | ArrayList | LinkedList |
+|---------|-----------|------------|
+| Structure interne | Tableau dynamique | Liste doublement chaînée |
+| Accès par index | O(1) - Rapide | O(n) - Lent |
+| Insertion début | O(n) - Lent | O(1) - Rapide |
+| Insertion fin | O(1) (amorti) | O(1) - Rapide |
+| Suppression milieu | O(n) - Lent | O(n) - Lent |
+| Utilisation mémoire | Moins | Plus (pointeurs) |
+| Cas d'usage | Lectures fréquentes | Modifications fréquentes |
+
+---
+
+### **3. L'Interface Set et ses Implémentations**
+
+#### **3.1. Caractéristiques de Set**
+- **Pas de doublons** (unicité garantie)
+- **Pas d'ordre garanti** (sauf TreeSet)
+- **Basé sur equals() et hashCode()**
+
+#### **3.2. HashSet**
+**Définition** : Implémentation basée sur une table de hachage.
+
+**Caractéristiques** :
+- Ordre non garanti
+- Opérations add/remove/contains en O(1)
+- Utilise hashCode() pour le stockage
+
+**Exemple camerounais** :
+```java
+// Numéros uniques d'employés dans une entreprise OHADA
+Set<String> matriculesEmployes = new HashSet<>();
+matriculesEmployes.add("EMP-2023-001");
+matriculesEmployes.add("EMP-2023-002");
+matriculesEmployes.add("EMP-2023-001"); // Ignoré - doublon
+```
+
+#### **3.3. TreeSet**
+**Définition** : Implémentation basée sur un arbre rouge-noir.
+
+**Caractéristiques** :
+- Éléments triés (ordre naturel ou Comparator)
+- Opérations en O(log n)
+- Implémente SortedSet
+
+**Exemple camerounais** :
+```java
+// Tri des villes camerounaises par ordre alphabétique
+Set<String> villesCameroun = new TreeSet<>();
+villesCameroun.add("Yaoundé");
+villesCameroun.add("Douala");
+villesCameroun.add("Garoua");
+villesCameroun.add("Bafoussam");
+// Affichage automatiquement trié
+```
+
+---
+
+### **4. L'Interface Map et ses Implémentations**
+
+#### **4.1. Caractéristiques de Map**
+- Stockage **clé-valeur**
+- **Clés uniques**, valeurs peuvent être dupliquées
+- **Pas d'ordre garanti** (sauf TreeMap)
+
+#### **4.2. HashMap**
+**Définition** : Implémentation basée sur une table de hachage.
+
+**Caractéristiques** :
+- Accès rapide aux valeurs par clé (O(1))
+- Permet une clé null et plusieurs valeurs null
+- Non synchronisée
+
+**Exemple camerounais** :
+```java
+// Gestion des offres MTN par code
+Map<String, String> offresMTN = new HashMap<>();
+offresMTN.put("#123#", "Forfait 1000F - 1Go");
+offresMTN.put("#124#", "Forfait 500F - 500Mo");
+offresMTN.put("#125#", "Forfait 200F - 100Mo");
+
+String offre123 = offresMTN.get("#123#"); // Récupération rapide
+```
+
+#### **4.3. TreeMap**
+**Définition** : Implémentation basée sur un arbre rouge-noir.
+
+**Caractéristiques** :
+- Clés triées (ordre naturel ou Comparator)
+- Opérations en O(log n)
+- Implémente SortedMap
+
+**Exemple camerounais** :
+```java
+// Classement des régions par nombre d'abonnés
+Map<String, Integer> abonnesParRegion = new TreeMap<>();
+abonnesParRegion.put("Centre", 1500000);
+abonnesParRegion.put("Littoral", 2000000);
+abonnesParRegion.put("Extrême-Nord", 800000);
+// Les régions seront affichées triées
+```
+
+#### **4.4. Tableau Comparatif HashMap vs TreeMap**
+| Critère | HashMap | TreeMap |
+|---------|---------|---------|
+| Structure interne | Table de hachage | Arbre rouge-noir |
+| Ordre des clés | Non garanti | Trié (naturel ou Comparator) |
+| Performance | O(1) pour get/put | O(log n) pour get/put |
+| Clés null | Autorisées | Non autorisées (sauf Comparator) |
+| Synchronisation | Non | Non |
+| Cas d'usage | Accès rapide, ordre non important | Clés triées nécessaires |
+
+---
+
+### **5. Parcours des Collections : Iterator**
+
+#### **5.1. Définition et Principe**
+**Iterator** est un design pattern qui permet de parcourir une collection sans exposer sa structure interne.
+
+**Méthodes principales** :
+- `hasNext()` : Vérifie s'il reste des éléments
+- `next()` : Retourne l'élément suivant
+- `remove()` : Supprime l'élément courant
+
+#### **5.2. Utilisation d'Iterator**
+```java
+// Parcours des transactions bancaires OHADA
+List<String> transactions = new ArrayList<>();
+transactions.add("Virement Client A");
+transactions.add("Retrait Client B");
+transactions.add("Dépôt Client C");
+
+Iterator<String> it = transactions.iterator();
+while(it.hasNext()) {
+    String transaction = it.next();
+    System.out.println(transaction);
+}
+```
+
+#### **5.3. Boucle for-each (améliorée)**
+**À retenir** : La boucle for-each utilise Iterator en interne.
+```java
+// Parcours simplifié des agences Camtel
+Set<String> agencesCamtel = new HashSet<>();
+for(String agence : agencesCamtel) {
+    System.out.println("Agence : " + agence);
+}
+```
+
+---
+
+### **6. Tri et Comparaison : Comparable et Comparator**
+
+#### **6.1. Interface Comparable**
+**Définition** : Interface utilisée pour définir l'**ordre naturel** d'une classe.
+
+**Méthode** : `compareTo(T o)` retourne :
+- **Négatif** : this < o
+- **Zéro** : this == o
+- **Positif** : this > o
+
+**Exemple camerounais** :
+```java
+public class Client implements Comparable<Client> {
+    private String nom;
+    private double solde;
+    
+    // Tri naturel par nom
+    @Override
+    public int compareTo(Client autre) {
+        return this.nom.compareTo(autre.nom);
+    }
+}
+
+// Utilisation
+Set<Client> clients = new TreeSet<>(); // Tri automatique par nom
+```
+
+#### **6.2. Interface Comparator**
+**Définition** : Interface utilisée pour définir un **ordre personnalisé**, différent de l'ordre naturel.
+
+**Méthode** : `compare(T o1, T o2)` avec même logique de retour que compareTo.
+
+**Exemple camerounais** :
+```java
+// Tri des employés par salaire (ordre personnalisé)
+public class ComparateurSalaire implements Comparator<Employe> {
+    @Override
+    public int compare(Employe e1, Employe e2) {
+        return Double.compare(e1.getSalaire(), e2.getSalaire());
+    }
+}
+
+// Utilisation
+List<Employe> employes = new ArrayList<>();
+employes.sort(new ComparateurSalaire()); // Tri par salaire
+```
+
+#### **6.3. Tableau Comparatif Comparable vs Comparator**
+| Critère | Comparable | Comparator |
+|---------|------------|------------|
+| Méthode | compareTo(T o) | compare(T o1, T o2) |
+| Package | java.lang | java.util |
+| Implémentation | Dans la classe à trier | Classe séparée |
+| Ordre | Naturel (unique) | Personnalisé (multiple) |
+| Modification classe | Requise | Non requise |
+| Cas d'usage | Ordre par défaut | Ordres alternatifs |
+
+---
+
+### **7. Bonnes Pratiques et Applications Professionnelles**
+
+#### **7.1. Choix de la Collection Appropriée**
+**Guide de sélection** :
+1. **Besoin d'ordre et d'index** → List
+   - Lectures fréquentes → ArrayList
+   - Modifications fréquentes → LinkedList
+2. **Unicité des éléments** → Set
+   - Ordre non important → HashSet
+   - Éléments triés → TreeSet
+3. **Association clé-valeur** → Map
+   - Accès rapide, ordre non important → HashMap
+   - Clés triées → TreeMap
+
+#### **7.2. Applications dans le Contexte Camerounais**
+1. **Système OHADA** :
+   - TreeMap pour les registres de sociétés triés par numéro d'immatriculation
+   - HashSet pour les numéros de compte uniques
+
+2. **Télécommunications (MTN, Orange, Camtel)** :
+   - HashMap pour le routage des appels (numéro → tour)
+   - ArrayList pour les historiques d'appels
+   - TreeSet pour les forfaits triés par prix
+
+3. **Systèmes Bancaires** :
+   - LinkedList pour les files d'opérations
+   - TreeMap pour les comptes clients triés
+
+#### **7.3. Outils et Technologies Entreprise**
+- **IDE** : IntelliJ IDEA, Eclipse, VS Code
+- **Build Tools** : Maven, Gradle
+- **Frameworks** : Spring (Spring Boot), Jakarta EE
+- **Tests** : JUnit, Mockito
+- **Contrôle version** : Git (GitLab, GitHub)
+
+#### **7.4. Performances et Complexités Algorithmiques**
+**À retenir** :
+- ArrayList : get/set O(1), add/remove O(n)
+- LinkedList : get/set O(n), add/remove O(1)
+- HashSet/HashMap : opérations O(1) en moyenne
+- TreeSet/TreeMap : opérations O(log n)
+
+---
+
+### **8.

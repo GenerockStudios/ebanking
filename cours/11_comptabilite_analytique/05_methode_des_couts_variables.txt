@@ -1,0 +1,153 @@
+# **Notes de cours — BTS Génie Logiciel**
+## **Matière : 11 Comptabilité Analytique**
+## **Chapitre : Méthode des coûts variables (Direct Costing)**
+
+---
+
+### **1. Introduction et contexte**
+
+#### **1.1. Définition et objectifs de la comptabilité analytique**
+La comptabilité analytique est une branche de la comptabilité générale qui a pour objectif d’analyser les coûts de l’entreprise pour :
+*   **Connaître** le coût de revient des produits, services ou activités.
+*   **Expliquer** les résultats obtenus.
+*   **Éclairer** la prise de décision (fixation des prix, choix de production, etc.).
+*   **Prévoir** et **contrôler** les performances.
+
+Dans le contexte du BTS Génie Logiciel, cette compétence est cruciale pour les futurs chefs de projet, analystes ou entrepreneurs du numérique, leur permettant de budgétiser un projet, de facturer un développement ou d’évaluer la rentabilité d’une application.
+
+#### **1.2. La méthode des coûts variables (Direct Costing)**
+Le **Direct Costing** (ou méthode des coûts variables) est une méthode de comptabilité analytique qui distingue les charges selon leur comportement par rapport au niveau d’activité (volume de production ou de vente). Elle est particulièrement adaptée pour l’analyse de la rentabilité à court terme et la prise de décisions managériales.
+
+**Principe fondamental :** Seules les **charges variables** sont imputées aux coûts des produits. Les **charges fixes** sont considérées comme des charges de période, directement déduites de la **marge sur coût variable** totale pour déterminer le résultat.
+
+---
+
+### **2. Classification des charges : Fixes vs Variables**
+
+#### **2.1. Charges Variables (CV)**
+*   **Définition :** Charges qui varient **proportionnellement** au niveau d’activité (volume de production, nombre d’unités vendues, nombre d’heures travaillées).
+*   **Exemples concrets dans le secteur des TIC au Cameroun :**
+    *   **Coût des licences d’exploitation par utilisateur** (pour un logiciel SaaS développé localement).
+    *   **Frais de bande passante / data** proportionnels au trafic d’une application hébergée (utilisation des services de MTN Mobile Money ou Orange Money).
+    *   **Commission versée aux plateformes** par transaction (pour une app de e-commerce).
+    *   **Coût des SMS API** envoyés pour la validation OTP (avec Orange ou Camtel).
+    *   **Sous-traitance ponctuelle** pour un module spécifique d’un projet.
+*   **Formule :** `CV totale = CV unitaire * Quantité (Q)`
+
+#### **2.2. Charges Fixes (CF)**
+*   **Définition :** Charges qui restent **stables** sur une période donnée, quel que soit le niveau d’activité (dans une certaine fourchette d’activité, appelée "pertinence").
+*   **Exemples concrets dans le secteur des TIC au Cameroun :**
+    *   **Salaires du personnel permanent** (développeurs, administrateur système).
+    *   **Loyer des bureaux** (à Douala ou Yaoundé).
+    *   **Amortissement du matériel informatique** (serveurs, ordinateurs).
+    *   **Abonnements mensuels fixes** (électricité, internet fibre de Camtel).
+    *   **Prime d’assurance**.
+    *   **Dépenses de marketing structurel** (salaires du commercial).
+*   **Caractéristique :** Elles sont exprimées en **montant global** pour la période.
+
+#### **2.3. Tableau comparatif et pièges à éviter**
+
+| Critère | Charges Variables (CV) | Charges Fixes (CF) |
+| :--- | :--- | :--- |
+| **Lien avec l'activité** | Varient proportionnellement | Constantes sur une période |
+| **Unité de mesure** | Coût par unité (FCFA/unité) | Montant global (FCFA) |
+| **Exemples TIC** | - Coût cloud à l'usage<br>- Commission transaction | - Salaire du chef de projet<br>- Loyer du data center |
+| **Prise en compte** | Imputées au coût du produit | Imputées à la période |
+
+**À retenir :** Une charge peut être fixe pour un centre de responsabilité et variable pour l’entreprise. Exemple : Le salaire du responsable commercial est une charge fixe pour le service commercial, mais l’ensemble des commissions sur ventes est une charge variable pour l’entreprise.
+
+---
+
+### **3. Concepts clés du Direct Costing**
+
+#### **3.1. Marge sur Coût Variable (MCV)**
+C’est le **concept central** de la méthode.
+
+*   **Définition :** Différence entre le Chiffre d’Affaires (CA) et l’ensemble des Charges Variables (CV). Elle représente la contribution du produit/du projet à la couverture des charges fixes et à la formation du bénéfice.
+*   **Formules :**
+    *   **MCV unitaire = Prix de vente unitaire - CV unitaire**
+    *   **MCV globale = Chiffre d'Affaires - CV totales**
+    *   **Taux de MCV = (MCV / CA) * 100**
+*   **Interprétation :** Plus la MCV est élevée, plus le produit contribue fortement à absorber les charges fixes.
+
+**Exemple concret :** Une startup camerounaise vend une application de gestion scolaire à 50 000 FCFA/licence annuelle.
+*   CV unitaire (hébergement, support technique) = 15 000 FCFA.
+*   **MCV unitaire = 50 000 - 15 000 = 35 000 FCFA.**
+*   **Taux de MCV = (35 000 / 50 000) * 100 = 70%.**
+Cela signifie que pour chaque licence vendue, 35 000 FCFA sont disponibles pour couvrir les charges fixes.
+
+#### **3.2. Seuil de Rentabilité (SR)**
+*   **Définition :** Niveau de chiffre d’affaires (ou quantité de ventes) pour lequel l’entreprise ne réalise **ni bénéfice, ni perte**. À ce point, la MCV globale est exactement égale aux Charges Fixes totales.
+*   **Formules :**
+    *   **SR en valeur (CA) = Charges Fixes Totales / Taux de MCV**
+    *   **SR en quantité (Q) = Charges Fixes Totales / MCV unitaire**
+*   **Signification :** Le SR indique le niveau d’activité minimum à atteindre pour commencer à être rentable.
+
+**Exemple (suite) :** La startup a des Charges Fixes annuelles (salaires, loyer, marketing) de 10 500 000 FCFA.
+*   **SR en quantité = 10 500 000 / 35 000 = 300 licences.**
+*   **SR en valeur = 10 500 000 / 0.70 = 15 000 000 FCFA.**
+L’entreprise doit donc vendre au moins **300 licences** (pour un CA de 15 millions FCFA) dans l’année pour couvrir tous ses coûts.
+
+#### **3.3. Point Mort (PM)**
+*   **Définition :** C’est la **date** à laquelle le seuil de rentabilité est atteint au cours d’une période (généralement l’année). Il répond à la question : "Quand l’entreprise va-t-elle commencer à gagner de l’argent ?"
+*   **Formule (si l’activité est régulière) :**
+    *   **Point Mort (en mois) = (Seuil de Rentabilité en valeur / Chiffre d'Affaires prévisionnel annuel) * 12**
+*   **Exemple (suite) :** Si la startup prévoit un CA annuel de 25 000 000 FCFA.
+    *   **Point Mort = (15 000 000 / 25 000 000) * 12 = 7.2 mois.**
+    *   **Interprétation :** L’entreprise atteindra son seuil de rentabilité vers la mi-juillet. Tous les revenus générés après cette date constitueront son bénéfice.
+
+---
+
+### **4. Représentation graphique et indicateurs dérivés**
+
+#### **4.1. Graphique du seuil de rentabilité**
+Un outil visuel puissant pour la prise de décision.
+*   **Axe des X :** Volume d'activité (quantité ou CA).
+*   **Axe des Y :** Montants en FCFA.
+*   **Droites à tracer :**
+    1.  **Droite des Charges Totales** = CF + (CV unitaire * Q).
+    2.  **Droite du Chiffre d'Affaires** = Prix de vente * Q.
+*   **Le point d'intersection** de ces deux droites est le **Seuil de Rentabilité**.
+
+#### **4.2. Marge de sécurité et Indice de sécurité**
+*   **Marge de Sécurité (MS) :** Différence entre le CA réalisé (ou prévu) et le CA du seuil de rentabilité.
+    *   `MS = CA réel - SR`
+    *   Plus elle est grande, plus l'entreprise est à l'abri d'une baisse d'activité.
+*   **Indice de Sécurité (IS) :** Exprime la marge de sécurité en pourcentage du CA.
+    *   `IS = (MS / CA réel) * 100`
+    *   Dans notre exemple, si CA prévu = 25M FCFA : `MS = 25M - 15M = 10M FCFA`. `IS = (10M / 25M)*100 = 40%`. L'activité peut baisser de 40% avant d'atteindre la zone de perte.
+
+---
+
+### **5. Applications et prise de décision (pour l'ingénieur logiciel)**
+
+La méthode du Direct Costing est un outil d’aide à la décision précieux :
+
+1.  **Calcul de rentabilité d'un projet/produit :** Quel est l'apport (MCV) du développement de cette nouvelle feature ou de cette application mobile ?
+2.  **Choix de production (en cas de contrainte de capacité) :** Prioriser les projets ou produits qui dégagent la **MCV unitaire la plus élevée**.
+3.  **Décision d'accepter ou non une commande exceptionnelle :** À condition d'avoir de la capacité disponible, une commande à un prix bas (supérieur seulement au CV unitaire) améliore la MCV globale et donc le résultat.
+4.  **Détermination de la structure de coûts optimale :** Arbitrage entre internalisation (augmente les CF) et externalisation (augmente les CV).
+
+---
+
+### **6. Outils, logiciels et technologies**
+
+Dans l'environnement professionnel camerounais et selon le SYSCOHADA (Système Comptable OHADA), ces analyses sont facilitées par des outils :
+
+*   **Logiciels de comptabilité et ERP :** Sage Paie, SAP Business One, Odoo (de plus en plus répandu). Ils permettent de ventiler les charges et de générer des états analytiques.
+*   **Tableurs :** **Microsoft Excel** ou **Google Sheets** restent des outils incontournables pour modéliser les scénarios, créer des graphiques de seuil de rentabilité et effectuer des simulations ("What-if analysis").
+*   **Logiciels de Business Intelligence (BI) :** Power BI, Tableau. Ils peuvent agréger des données de vente et de coûts pour visualiser en temps réel les MCV par produit ou projet.
+*   **Outils de gestion de projet :** Jira, Asana, Trello couplés à des modules de suivi de temps et de coûts (ex : Tempo Timesheets) pour suivre les CV liées aux heures de développement.
+
+---
+
+### **7. Limites de la méthode**
+
+*   **Arbitrage parfois difficile** entre charges fixes et variables.
+*   **Validité à court terme :** Les CF ne sont fixes que dans une **fourchette d'activité pertinente**. Une forte croissance peut nécessiter plus d'espace, plus de serveurs (donc augmentation des CF).
+*   **Ignore la notion d'engagement sur le long terme** (coûts irréversibles).
+*   **Ne convient pas pour la fixation des prix de vente à long terme**, car elle ne prend pas en compte la totalité des coûts.
+
+### **Conclusion**
+
+La méthode des coûts variables est une **méthode simple, pragmatique et orientée décision**. Pour le futur professionnel du génie logiciel, maîtriser ces concepts (MCV, SR, Point Mort) est essentiel

@@ -1,0 +1,151 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 03 Mathématiques**
+## **Chapitre : Mathématiques financières : intérêts simples et composés, annuités, VAN, TRI, actualisation, emprunt**
+
+---
+
+### **1. Introduction aux mathématiques financières**
+
+#### **1.1. Définition et importance**
+Les mathématiques financières sont l’application des outils mathématiques à l’analyse des opérations financières. Pour un ingénieur logiciel, elles sont essentielles pour :
+- Évaluer la rentabilité d’un projet informatique (développement d’une application, achat de licences, investissement en infrastructure cloud).
+- Comprendre les mécanismes de crédit pour l’acquisition de matériel informatique.
+- Analyser les flux financiers dans le cadre de la gestion de projets (cahier des charges financier).
+- Prendre des décisions d’investissement éclairées dans un contexte professionnel, notamment en respect des normes OHADA (Organisation pour l’Harmonisation en Afrique du Droit des Affaires).
+
+#### **1.2. Concepts fondamentaux**
+- **Capital (C ou K)** : Somme d’argent placée, prêtée ou empruntée.
+- **Intérêt (I)** : Rémunération du capital. C’est le prix du temps et du risque.
+- **Taux d’intérêt (t ou i)** : Pourcentage appliqué au capital pour calculer l’intérêt, généralement exprimé sur une base annuelle.
+- **Durée (n)** : Période de placement ou d’emprunt (en années, mois, jours).
+- **Valeur acquise (Vₐ)** : Capital initial + intérêts à la fin de la période.
+- **Actualisation** : Opération inverse de la capitalisation. Elle permet de déterminer la valeur actuelle d’une somme future.
+
+---
+
+### **2. Les intérêts simples**
+
+#### **2.1. Définition et formule**
+L’intérêt simple est calculé uniquement sur le capital initial. Il ne produit pas lui-même d’intérêts. C’est souvent utilisé pour les placements ou prêts de courte durée (< 1 an).
+
+**Formule fondamentale :**
+`I = C * t * n`
+Où :
+- `I` : Intérêt
+- `C` : Capital initial
+- `t` : Taux d’intérêt annuel (en décimal, ex: 5% = 0.05)
+- `n` : Durée en années
+
+**Valeur acquise :** `Vₐ = C + I = C * (1 + t * n)`
+
+#### **2.2. Calculs avec durées en jours/mois**
+Dans la pratique, on adapte la durée :
+- **Année commerciale** : 360 jours, mois de 30 jours (norme OHADA/pratique bancaire courante).
+- Formule avec jours : `I = C * t * (nombre de jours / 360)`
+
+#### **2.3. Exemple concret (Contexte camerounais)**
+Un développeur freelance à Douala place 750 000 FCFA sur un compte d’épargne à intérêts simples chez Afriland First Bank pour 90 jours. Le taux annuel est de 4.5%.
+- `I = 750 000 * 0.045 * (90/360)`
+- `I = 750 000 * 0.045 * 0.25 = 8 437.5 FCFA`
+- `Vₐ = 750 000 + 8 437.5 = 758 437.5 FCFA`
+
+**À retenir :** Les intérêts simples sont linéaires. Le graphique `Vₐ = f(n)` est une droite.
+
+---
+
+### **3. Les intérêts composés**
+
+#### **3.1. Définition et principe**
+L’intérêt composé est calculé sur le capital initial **et** sur les intérêts accumulés des périodes précédentes. C’est le cas des placements à moyen/long terme, des comptes d’épargne capitalisants. C’est la **capitalisation des intérêts**.
+
+**Formule fondamentale (capitalisation annuelle) :**
+`Vₐ = C * (1 + t)^n`
+Où `(1 + t)^n` est le **coefficient de capitalisation**.
+
+#### **3.2. Exemple concret (Contexte africain)**
+Un incubateur tech à Yaoundé investit 5 000 000 FCFA dans une startup. Il prévoit un rendement annuel composé de 12% pendant 3 ans.
+- `Vₐ = 5 000 000 * (1 + 0.12)^3`
+- `Vₐ = 5 000 000 * (1.12)^3 = 5 000 000 * 1.404928 = 7 024 640 FCFA`
+- Intérêt total : `7 024 640 - 5 000 000 = 2 024 640 FCFA`
+
+#### **3.3. Tableau comparatif Intérêts Simples vs Composés**
+| Critère | Intérêts Simples | Intérêts Composés |
+| :--- | :--- | :--- |
+| **Base de calcul** | Capital initial constant | Capital recalculé chaque période |
+| **Croissance** | Linéaire (`Vₐ = C(1+tn)`) | Exponentielle (`Vₐ = C(1+t)^n`) |
+| **Usage typique** | Prêts courts, découverts | Placements, épargne, investissement |
+| **Effet à long terme** | Moins rentable pour le prêteur | Plus rentable (effet "boule de neige") |
+
+**À retenir :** "Les intérêts composés sont la huitième merveille du monde. Celui qui le comprend, le gagne ; celui qui ne le comprend pas, le paie." – Attribué à Albert Einstein.
+
+---
+
+### **4. Les annuités**
+
+#### **4.1. Définition**
+Une annuité est une suite de versements (ou flux financiers) constants, effectués à intervalles de temps réguliers (annuels, mensuels, trimestriels). Exemples : remboursement d’un crédit, souscription à un plan d’épargne, paiement d’un abonnement SaaS.
+
+#### **4.2. Valeur acquise d’une suite d’annuités**
+C’est la somme capitalisée de `n` annuités constantes `a`, placées au taux `t`.
+`Vₐ = a * [ ((1 + t)^n - 1) / t ]`
+Le terme `[ ((1 + t)^n - 1) / t ]` est le **coefficient d’accumulation des annuités**.
+
+#### **4.3. Valeur actuelle d’une suite d’annuités**
+C’est la somme actualisée de `n` annuités constantes `a`, au taux `t`. C’est le capital équivalent aujourd’hui à ces flux futurs.
+`V₀ = a * [ (1 - (1 + t)^-n) / t ]`
+Le terme `[ (1 - (1 + t)^-n) / t ]` est le **coefficient d’actualisation des annuités**.
+
+#### **4.4. Exemple concret (Contexte TIC Cameroun)**
+Une ESN (Entreprise de Services du Numérique) à Bafoussam souscrit à un abonnement annuel pour une licence Microsoft 365 Entreprise. Le coût est de 1 200 000 FCFA par an, payable en fin d’année. Elle veut comparer avec un paiement unique aujourd’hui. Le taux d’actualisation est de 10% pour 5 ans.
+- `V₀ = 1 200 000 * [ (1 - (1.10)^-5) / 0.10 ]`
+- `V₀ = 1 200 000 * [ (1 - 0.620921) / 0.10 ] = 1 200 000 * (0.379079/0.10)`
+- `V₀ = 1 200 000 * 3.79079 = 4 548 948 FCFA`
+Cela signifie que payer 4 548 948 FCFA aujourd’hui est équivalent à payer 1.2 million par an pendant 5 ans, compte tenu d’un coût du capital de 10%.
+
+---
+
+### **5. L’actualisation et les critères de choix d’investissement (VAN, TRI)**
+
+#### **5.1. Le principe d’actualisation**
+L’actualisation permet de ramener des flux financiers futurs (recettes, dépenses) à une date présente (généralement la date de l’investissement initial), en utilisant un **taux d’actualisation (k)**. Ce taux représente le coût du capital ou le rendement minimum exigé par l’investisseur.
+`Valeur Actuelle d’un flux F dans n années = F / (1 + k)^n`
+
+#### **5.2. La Valeur Actuelle Nette (VAN)**
+- **Définition** : Différence entre la valeur actuelle des cash-flows futurs et le montant de l’investissement initial.
+- **Formule** : `VAN = Σ [CFₜ / (1 + k)^t] - I₀` où `CFₜ` est le cash-flow de l’année t, `I₀` l’investissement initial, `k` le taux d’actualisation.
+- **Règle de décision** :
+    - `VAN > 0` : Le projet est rentable, il crée de la valeur. **ACCEPTER**.
+    - `VAN < 0` : Le projet détruit de la valeur. **REJETER**.
+    - `VAN = 0` : Indifférent.
+
+#### **5.3. Le Taux de Rentabilité Interne (TRI)**
+- **Définition** : Taux d’actualisation `r` qui annule la VAN du projet. C’est le taux de rendement généré par le projet lui-même.
+- **Formule** : Trouver `r` tel que `Σ [CFₜ / (1 + r)^t] - I₀ = 0`.
+- **Règle de décision** :
+    - Si `TRI > k` (coût du capital) : **ACCEPTER** le projet.
+    - Si `TRI < k` : **REJETER** le projet.
+- **Limite** : Problème avec les flux non conventionnels (plusieurs changements de signe) où le TRI peut être multiple ou inexistant.
+
+#### **5.4. Exemple d’analyse de projet (Contexte startup camerounaise)**
+Une startup de Yaoundé développe une appli de livraison (type Glovo). Investissement initial : 10 000 000 FCFA (serveurs, développement). Cash-flows prévus sur 3 ans : Année 1 = 3 000 000 FCFA, Année 2 = 5 000 000 FCFA, Année 3 = 6 000 000 FCFA. Coût du capital (k) = 15%.
+
+**Calcul de la VAN :**
+`VAN = [3M/(1.15)^1 + 5M/(1.15)^2 + 6M/(1.15)^3] - 10M`
+`VAN = [3M/1.15 + 5M/1.3225 + 6M/1.520875] - 10M`
+`VAN = [2 608 696 + 3 780 718 + 3 944 154] - 10 000 000`
+`VAN = 10 333 568 - 10 000 000 = **333 568 FCFA**`
+**Conclusion :** VAN > 0 → Le projet est acceptable.
+
+**Estimation du TRI (par interpolation ou logiciel) :** Ici, `VAN` à 15% est positive. Pour annuler la VAN, il faut un taux plus élevé. Supposons qu’un calcul itératif donne `TRI ≈ 17.2%`.
+**Conclusion :** TRI (17.2%) > k (15%) → Le projet est acceptable.
+
+---
+
+### **6. Les emprunts indivis (remboursement par annuités constantes)**
+
+#### **6.1. Mécanisme**
+Un emprunt indivis est contracté auprès d’un seul prêteur (banque). Le remboursement se fait par **annuités constantes**. Chaque annuité (`A`) comprend une part d’intérêt (`I`) et une part de capital remboursé (`K`), avec `A = I + K`.
+- **Intérêt** : Calculé sur le capital restant dû en début de période.
+- **Amortissement** : Part du capital remboursé. Il augmente au fil du temps tandis que la part d’intérêt diminue.
+
+#### **6.2. Tableau d’amortissement (Plan de remb

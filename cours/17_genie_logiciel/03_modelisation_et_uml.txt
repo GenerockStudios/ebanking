@@ -1,0 +1,124 @@
+# **Notes de cours — 17 Génie Logiciel**
+## **Chapitre : Modélisation et UML**
+
+### **1. Introduction à la modélisation en génie logiciel**
+
+#### **1.1. Définition et rôle de la modélisation**
+La modélisation est l'activité qui consiste à **créer une représentation simplifiée et abstraite** d'un système logiciel (ou d'un de ses aspects) afin de le comprendre, de le concevoir, de le documenter et de communiquer à son sujet.
+
+**Rôles essentiels de la modélisation :**
+*   **Abstraction :** Se concentrer sur les aspects essentiels en ignorant les détails de bas niveau.
+*   **Compréhension :** Faciliter la compréhension d'un système complexe par toutes les parties prenantes (clients, développeurs, testeurs).
+*   **Communication :** Servir de langage commun et de support de discussion entre les différents acteurs du projet.
+*   **Documentation :** Produire une documentation précise et pérenne du système, indépendante de l'implémentation.
+*   **Prédiction et analyse :** Permettre de simuler, valider des choix de conception et détecter des problèmes avant le codage (réduction des coûts et des risques).
+
+> **À retenir :** Modéliser, c'est **"dessiner" le logiciel avant de le construire**, comme un architecte dessine les plans d'un bâtiment. C'est une étape cruciale pour la réussite des projets, notamment dans le contexte OHADA où la traçabilité et la documentation des processus métier sont primordiales.
+
+#### **1.2. Présentation d'UML (Unified Modeling Language)**
+**UML** est un **langage de modélisation graphique standardisé** (norme OMG - Object Management Group) conçu pour spécifier, visualiser, construire et documenter les artefacts d'un système logiciel orienté objet.
+
+**Historique succinct :** Fusion des méthodes de trois méthodologistes (Booch, Rumbaugh, Jacobson) dans les années 1990.
+**Philosophie :** UML est un **langage**, pas une **méthode**. Il fournit un vocabulaire et des règles de syntaxe (les diagrammes), mais n'impose pas de démarche de développement. Il est utilisé dans des méthodes comme le cycle en V, RUP ou les approches agiles.
+
+**Outils de modélisation UML (utilisés en entreprise) :**
+*   **Outils professionnels payants :** IBM Rational Rose, Sparx Systems Enterprise Architect, Visual Paradigm.
+*   **Outils libres/Open Source :** StarUML, Umbrello, Modelio.
+*   **Plugins pour IDE :** PlantUML (intégration par code), plugins pour Eclipse, IntelliJ IDEA.
+*   **Logiciels de dessin génériques :** Draw.io (diagrams.net), Lucidchart, très utilisés pour leur simplicité et leur collaboration en ligne.
+
+### **2. Classification des diagrammes UML : Structurels vs Comportementaux**
+
+Les 14 diagrammes UML sont classés en deux grandes catégories, résumées dans le tableau ci-dessous.
+
+**Tableau comparatif : Diagrammes Structurels vs Comportementaux**
+
+| Critère | Diagrammes Structurels (Statiques) | Diagrammes Comportementaux (Dynamiques) |
+| :--- | :--- | :--- |
+| **Question répondue** | **De quoi le système est-il composé ?** | **Comment le système se comporte-t-il ?** |
+| **Nature** | Description de l'architecture et des éléments permanents. | Description des interactions et des changements dans le temps. |
+| **Focus** | Structure, organisation, relations. | Fonctionnalités, flux, séquences d'actions. |
+| **Analogie** | Plan des pièces et des murs porteurs d'une maison. | Scénarios d'utilisation des pièces (cuisiner, dormir). |
+| **Principaux diagrammes** | Diagramme de Classes, d'Objets, de Composants, de Déploiement, de Paquetages. | Diagramme de Cas d'Utilisation, de Séquence, de Communication, d'Activités, d'États-Transitions. |
+| **Moment d'utilisation** | Phase de conception détaillée. | Phase d'analyse des besoins et de conception. |
+
+### **3. Diagramme de Cas d'Utilisation (Use Case Diagram)**
+
+#### **3.1. Définition et objectifs**
+Un **diagramme de cas d'utilisation** modélise les **fonctionnalités** (services) offertes par un système du point de vue de ses **utilisateurs externes**. Il délimite le système et identifie "**QUOI**" il fait, sans préciser "**COMMENT**".
+
+**Concepts clés :**
+*   **Système :** Représenté par un rectangle. C'est la frontière du logiciel à développer.
+*   **Acteur :** Rôle joué par une entité externe (humain, système) qui interagit avec le système. Ex: `Client`, `Caissier`, `Système de Paiement Mobile`.
+*   **Cas d'utilisation :** Ellipse représentant une unité de fonctionnalité observable et complète. Ex: `Commander un repas`, `Vérifier solde MOMO`.
+*   **Relations :**
+    *   **Association :** Lien entre un acteur et un cas d'utilisation.
+    *   **Inclusion (`<<include>>`) :** Relation obligatoire. Le cas source ne peut s'exécuter sans le cas cible. (Ex: `Payer` **inclut** `S'authentifier`).
+    *   **Extension (`<<extend>>`) :** Relation conditionnelle. Le cas cible étend le cas source dans des conditions précises. (Ex: `Commander` peut être **étendu** par `Appliquer un coupon de réduction`).
+    *   **Généralisation :** Relation "est un sorte de" entre acteurs ou entre cas d'utilisation.
+
+#### **3.2. Exemple concret : Application de Mobile Banking (MTN Mobile Money)**
+Imaginons la modélisation des fonctionnalités de base d'une appli MOMO.
+*   **Acteurs :** `Abonné`, `Agent MTN`, `Système de Transfert Interbancaire (S2C)`.
+*   **Cas d'utilisation principaux :** `Déposer de l'argent`, `Retirer de l'argent`, `Acheter du crédit téléphonique`, `Payer une facture (Camtel, ENEO)`, `Vérifier son solde`, `Consulter l'historique`.
+*   **Relations :** `Payer une facture` **inclut** `S'authentifier par PIN`. `Retirer de l'argent` peut être **étendu** par `Imprimer un reçu` si l'agent a une imprimante.
+
+> **À retenir :** Le diagramme de cas d'utilisation est le **point de départ** de l'analyse. Il sert de base à la rédaction des **scénarios** (flux normal, alternatifs, exceptions) qui détaillent chaque cas.
+
+### **4. Diagramme de Classes (Class Diagram)**
+
+#### **4.1. Définition et objectifs**
+C'est le **diagramme structurel le plus important**. Il décrit la structure statique du système en montrant les **classes**, leurs **attributs**, leurs **opérations (méthodes)** et les **relations** entre elles. Il répond à la question "**AVEC QUOI** le système est-il bâti ?".
+
+**Concepts clés d'une Classe :**
+Représentée par un rectangle à 3 compartiments :
+1.  **Nom de la classe** (ex: `CompteBancaire`).
+2.  **Attributs** (propriétés, données). Ex: `-numeroCompte : String`, `-solde : Double`, `-dateOuverture : Date`. Visibilité : `-` (privé), `+` (public), `#` (protégé).
+3.  **Opérations** (comportements, méthodes). Ex: `+deposer(montant: Double) : Boolean`, `+retirer(montant: Double) : Double`.
+
+#### **4.2. Types de relations entre classes**
+1.  **Association :** Lien sémantique entre instances de classes. Peut être nommée, orientée (flèche) et avoir des multiplicités.
+    *   **Multiplicité :** Ex: `1` (exactement un), `0..1` (zéro ou un), `*` ou `0..*` (plusieurs), `1..*` (au moins un).
+    *   **Exemple :** Un `Client` **possède** `1..*` `CompteBancaire`. Un `CompteBancaire` **appartient à** exactement `1` `Client`.
+
+2.  **Agrégation :** Relation "est composé de" de type **partie-tout**, où la partie peut exister sans le tout (relation faible). Représentée par un losange vide du côté du tout.
+    *   **Exemple :** Une `Promotion` (BTS GL 2024) **contient** plusieurs `Étudiants`. Si la promotion est dissoute, les étudiants existent toujours.
+
+3.  **Composition :** Relation "est composé de" **plus forte**. La partie ne peut exister sans le tout. Représentée par un losange plein.
+    *   **Exemple :** Un `DossierJudiciaire` (OHADA) **est composé de** plusieurs `Feuillet`. Si le dossier est détruit, les feuillets le sont aussi.
+
+4.  **Généralisation/Spécialisation (Héritage) :** Relation "est un". La classe enfant hérite des attributs et méthodes de la classe parent.
+    *   **Exemple :** `Utilisateur` (parent) avec `Admin` et `Client` (enfants).
+
+5.  **Dépendance :** Relation d'utilisation temporaire. Un changement dans une classe affecte l'autre. Représentée par une flèche pointillée.
+    *   **Exemple :** La classe `Facture` **dépend** de la classe `ParametreTVA` pour calculer le montant des taxes.
+
+#### **4.3. Exemple concret : Système de gestion de coopérative agricole**
+```
+Classe "ProduitAgricole" : -code: String, -nom: String, -prixUnitaire: Double, +calculerPrixSac(quantite: int): Double
+Classe "Agriculteur" : -id: String, -nom: String, -localisation: String
+Classe "Vente" : -date: Date, -quantite: int
+```
+**Relations :** Un `Agriculteur` **effectue** `0..*` `Vente`. Une `Vente` **concerne** `1..*` `ProduitAgricole`. La classe `Vente` **dépend** de `CalculateurSubvention` pour appliquer les règles locales.
+
+### **5. Diagramme de Séquence (Sequence Diagram)**
+
+#### **5.1. Définition et objectifs**
+C'est un **diagramme comportemental dynamique** qui montre **comment les objets interagissent dans le temps** pour réaliser un **scénario précis** d'un cas d'utilisation. Il met l'accent sur **l'ordre chronologique des messages**.
+
+#### **5.2. Éléments constitutifs**
+*   **Ligne de vie (Lifeline) :** Représente un objet (ou un acteur) participant à l'interaction. Notation : `nomObjet : NomClasse`.
+*   **Rectangle d'activation (Activation Bar) :** Rectangle sur la ligne de vie montrant la période d'exécution d'une méthode.
+*   **Message :** Communication entre lignes de vie, représentée par une flèche.
+    *   **Message synchrone** (flèche pleine) : L'émetteur attend la réponse.
+    *   **Message asynchrone** (flèche en demi-flèche) : L'émetteur ne s'arrête pas.
+    *   **Message de retour** (flèche pointillée) : Retour d'un appel synchrone (souvent implicite).
+*   **Cadre (Frame) :** Encadré pour structurer le diagramme (ex: `alt` pour alternative, `loop` pour boucle, `opt` pour optionnel).
+
+#### **5.3. Exemple concret : Scénario "Paiement de facture ENEO via Orange Money"
+**Scénario principal :**
+1.  L'`Abonné` lance le paiement dans l'application.
+2.  L'appli (`InterfaceUtilisateur`) demande `saisirNumeroCompteur()`.
+3.  L'`Abonné` saisit le numéro.
+4.  L'appli envoie un message synchrone `verifierFacture(numero)` au `SystemeENEO`.
+5.  Le `SystemeENEO` retour

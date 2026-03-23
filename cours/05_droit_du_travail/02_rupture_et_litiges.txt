@@ -1,0 +1,67 @@
+CHAPITRE 2 — RUPTURE DU CONTRAT DE TRAVAIL ET LITIGES
+BTS Génie Logiciel — Droit du travail
+
+1. LA DÉMISSION
+
+Acte unilatéral du salarié qui met fin au contrat. Doit être claire et non équivoque.
+Préavis : délai à respecter avant le départ effectif. Durée fixée par le contrat ou la convention collective selon la catégorie du salarié.
+
+Salarié qui ne respecte pas le préavis → dommages et intérêts à l'employeur.
+Le salarié démissionnaire n'a droit ni à l'indemnité de licenciement, ni aux allocations de chômage (sauf exceptions).
+
+2. LE LICENCIEMENT
+
+Définition : rupture du CDI à l'initiative de l'employeur.
+
+A) Licenciement pour motif personnel :
+Faute légère : simple avertissement ou mise à pied disciplinaire (pas de licenciement)
+Faute sérieuse : manquement professionnel répété, incompétence → licenciement avec préavis et indemnités
+Faute grave : acte délibéré rendant impossible le maintien du salarié (vol, violence, harcèlement) → licenciement sans préavis mais avec indemnité de licenciement
+Faute lourde : acte intentionnel causant un préjudice grave (sabotage, détournement de fonds) → licenciement sans préavis NI indemnité de licenciement
+
+B) Licenciement pour motif économique :
+Raisons économiques, restructuration, difficultés financières, suppression de postes.
+Procédure : consultation des représentants du personnel, notification à l'Inspection du Travail, ordre des licenciements (ancienneté, charges de famille), priorité de réembauche.
+
+3. PROCÉDURE DE LICENCIEMENT
+
+Entretien préalable : l'employeur doit convoquer le salarié par écrit, lui permettre de se défendre (assisté si possible d'un représentant du personnel).
+Notification du licenciement : lettre recommandée avec accusé de réception, mentionnant les motifs précis.
+Préavis : durée variable selon ancienneté et catégorie professionnelle. Peut être remplacé par une indemnité compensatrice de préavis.
+
+4. INDEMNITÉS DE RUPTURE
+
+Indemnité de licenciement :
+Calculée sur la base de l'ancienneté et du salaire moyen des 12 derniers mois.
+Taux (Code du travail camerounais) :
+- 20% du salaire mensuel par année d'ancienneté pour les 10 premières années
+- 25% par année de la 11e à la 20e année
+- 30% par année au-delà de 20 ans
+
+Exemple : salarié avec 8 ans d'ancienneté, salaire mensuel moyen 250 000 FCFA
+Indemnité = 250 000 × 20% × 8 = 400 000 FCFA
+
+Indemnité compensatrice de préavis : salaire dû pendant la période de préavis non effectué.
+
+Indemnité compensatrice de congés payés : solde des congés non pris.
+
+5. LE TRIBUNAL DU TRAVAIL
+
+Juridiction spécialisée pour les litiges individuels du travail (contestation de licenciement, non-paiement de salaires, harcèlement).
+
+Procédure :
+1. Tentative de conciliation devant l'Inspecteur du Travail (obligatoire avant saisine du tribunal)
+2. En cas d'échec : saisine du Tribunal du Travail
+3. Jugement → appel possible devant la Cour d'Appel
+
+Délai de prescription : 2 ans pour les actions nées du contrat de travail (1 an pour les salaires).
+
+6. LES REPRÉSENTANTS DU PERSONNEL
+
+Délégués du personnel : obligatoires dans les entreprises de 10 salariés et plus.
+Mission : présenter les réclamations individuelles ou collectives des salariés à l'employeur.
+Statut protégé : ne peuvent être licenciés sans autorisation de l'Inspection du Travail.
+
+Comité d'entreprise : entreprises de 50 salariés et plus. Consulté sur les décisions économiques et sociales (licenciements collectifs, organisation du travail).
+
+Syndicats : organisations de défense des intérêts collectifs. Droit de négocier des conventions collectives avec les employeurs.

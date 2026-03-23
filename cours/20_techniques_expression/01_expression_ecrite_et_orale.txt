@@ -1,0 +1,115 @@
+CHAPITRE 1 — EXPRESSION ORALE ET ÉCRITE (IGL127)
+BTS Génie Logiciel — EOE et Techniques d'Expression
+
+1. COMMUNICATION PROFESSIONNELLE
+
+La communication est le processus de transmission d'un message entre un émetteur et un récepteur via un canal.
+
+Modèle de Shannon et Weaver :
+Émetteur → Encodage → Message → Canal → Décodage → Récepteur
+(avec feedback et bruit parasite)
+
+Types de communication en milieu professionnel :
+- Orale : réunions, présentations, appels téléphoniques, entretiens
+- Écrite formelle : rapports, e-mails professionnels, comptes-rendus, notes de service
+- Non-verbale : posture, regard, gestuelle, expression du visage
+
+Registres de langue :
+- Soutenu : textes formels, discours officiels
+- Courant / standard : communication professionnelle quotidienne
+- Familier : conversation informelle (à éviter dans les communications professionnelles écrites)
+
+2. LA COMMUNICATION ÉCRITE PROFESSIONNELLE
+
+A) La lettre professionnelle :
+Structure d'une lettre :
+- En-tête : coordonnées de l'expéditeur (en haut à gauche ou à droite)
+- Coordonnées du destinataire (à gauche)
+- Lieu et date
+- Objet (résumé du contenu en quelques mots)
+- Formule d'appel : "Monsieur," / "Madame," / "Monsieur le Directeur,"
+- Corps : introduction (contexte) + développement (faits, arguments) + conclusion (appel à l'action)
+- Formule de politesse finale : "Veuillez agréer, Monsieur, l'expression de mes salutations distinguées."
+- Signature (avec nom, prénom, fonction)
+
+Règles de style :
+- Phrases courtes et claires
+- Un paragraphe = une idée
+- Vouvoiement systématique
+- Éviter le jargon technique quand on écrit à des non-techniciens
+- Relire et corriger l'orthographe avant d'envoyer
+
+B) L'e-mail professionnel :
+- Objet : précis et informatif (pas "Bonjour", mais "Demande de devis — Serveur NAS")
+- Formule d'appel (même si bref : "Bonjour Monsieur Kamga,")
+- Message concis et structuré
+- Formule de clôture ("Cordialement," ou "Bien à vous,")
+- Signature automatique (nom, poste, coordonnées, entreprise)
+- Pièces jointes : les mentionner explicitement dans le corps du mail
+- Cc : mettre en copie uniquement les personnes concernées
+- Cci : pour les envois groupés (cacher les adresses)
+- Répondre à tous : utiliser avec discernement
+
+C) Le compte-rendu de réunion :
+Structure :
+- Titre, date, lieu, participants (présents, absents excusés)
+- Ordre du jour
+- Pour chaque point : résumé des discussions et décisions prises
+- Plan d'action : qui fait quoi, pour quand
+- Prochaine réunion (si applicable)
+- Distribuer dans les 24-48h après la réunion
+
+D) Le rapport technique :
+Structure type :
+- Page de garde (titre, auteurs, date, version)
+- Résumé exécutif (1 page max — les décideurs lisent souvent seulement ça)
+- Sommaire
+- Introduction (contexte, objectifs, portée)
+- Corps (développement structuré en sections numérotées)
+- Conclusion et recommandations
+- Annexes (schémas détaillés, code, données brutes)
+
+3. L'EXPRESSION ORALE PROFESSIONNELLE
+
+A) La prise de parole en public (présentation) :
+Structure (règle des 3 : DIRE ce qu'on va dire / DIRE / DIRE ce qu'on a dit) :
+1. Introduction : accrocher l'attention, se présenter, annoncer le plan et la durée
+2. Développement : 3-5 points maximum, transitions claires
+3. Conclusion : résumé des points clés, ouverture, appel à l'action
+4. Questions-Réponses : ouvrir le débat
+
+Conseils de communication orale :
+- Regarder le public (ne pas lire ses notes en permanence)
+- Varier le débit, le volume et le ton
+- Faire des pauses (le silence ponctue le discours)
+- Utiliser des exemples concrets
+- Gérer le stress : respiration profonde, préparation, visualisation
+
+Supports visuels (PowerPoint, Google Slides) :
+Règle 10-20-30 (Guy Kawasaki) : 10 diapositives, 20 minutes, police ≥ 30 points
+Règle générale : 1 idée par diapositive, beaucoup d'images, peu de texte
+Éviter les effets de transition excessifs
+
+B) L'entretien professionnel :
+Entretien d'embauche :
+- Avant : rechercher l'entreprise, préparer ses questions, relire son CV
+- Pendant : écoute active, exemples concrets (méthode STAR : Situation, Tâche, Action, Résultat)
+- Questions fréquentes : "Présentez-vous", "Pourquoi ce poste ?", "Vos forces et faiblesses ?", "Votre projet professionnel ?"
+
+Méthode STAR pour structurer une réponse :
+S — Situation : contexte (où, quand, quelle équipe)
+T — Tâche : quel était votre rôle et l'objectif
+A — Action : ce que vous avez fait concrètement
+R — Résultat : le résultat obtenu (chiffres si possible)
+
+4. LE COMPTE-RENDU DE STAGE (RAPPORT DE STAGE)
+
+Structure du rapport de stage BTS :
+Page de garde → Remerciements → Sommaire → Introduction → Présentation de l'entreprise → Déroulement du stage (missions, outils utilisés) → Analyse critique et apports personnels → Conclusion → Bibliographie → Annexes
+
+Conseils de rédaction :
+- Écrire au présent ou au passé composé pour les activités réalisées
+- Être précis : nommer les outils, langages, méthodes utilisés
+- Volume : 20 à 40 pages hors annexes
+- Illustrer avec des captures d'écran, schémas, extraits de code (en annexe)
+- Mettre en valeur ses apprentissages et sa contribution

@@ -1,0 +1,123 @@
+# **Notes de Cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 02 Comptabilité Générale**
+## **Chapitre : Gestion des stocks et inventaire : méthodes FIFO, LIFO, coût moyen pondéré, dépréciations**
+
+---
+
+### **1. Introduction et Définitions Fondamentales**
+
+#### **1.1. Définition et Importance des Stocks**
+Dans le cadre du **Système Comptable OHADA** (précisément le **SYSCOHADA**), les stocks sont définis comme des actifs :
+*   **Détenus pour être vendus** dans le cours normal de l'activité (marchandises, produits finis).
+*   **En cours de production** en vue de cette vente (produits en cours).
+*   **Sous forme de matières ou de fournitures** devant être consommées dans le processus de production ou de prestation de services (matières premières, fournitures).
+
+**À retenir :** Pour une entreprise de services informatiques (développement logiciel, maintenance réseau), les "stocks" peuvent être les **licences logicielles invendues**, les **composants matériels** (cartes mères, routeurs) pour la maintenance, ou les **produits finis** comme une application packagée.
+
+#### **1.2. L'Inventaire : Obligation et Principes**
+L'inventaire est l'opération matérielle et comptable qui consiste à **recenser, compter, évaluer et vérifier** l'existence et la valeur de tous les éléments d'actif et de passif à une date donnée.
+
+*   **Obligation légale (OHADA) :** L'article 19 du SYSCOHADA impose un inventaire **au moins une fois par an**.
+*   **Principe de Prudence :** Il commande l'évaluation des stocks à la **plus faible valeur** entre le coût d'acquisition (ou de production) et la valeur nette de réalisation (prix de vente estimé moins les coûts de distribution).
+*   **Principe de Spécialisation des Exercices :** Permet de déterminer avec exactitude le résultat de l'exercice en rattachant les charges et les produits à la période qui les concerne.
+
+**Exemple concret (Cameroun) :** Une entreprise comme **Camtel** doit réaliser un inventaire annuel de ses stocks de câbles de fibre optique, routeurs, modems et pièces de rechange pour s'assurer que sa comptabilité reflète la réalité de ses actifs.
+
+---
+
+### **2. Les Méthodes de Valorisation des Sorties de Stocks**
+
+Lorsqu'une entreprise achète des marchandises à des prix différents au cours du temps, se pose la question : **à quel coût valorise-t-on les marchandises vendues ?** Trois méthodes principales sont utilisées.
+
+#### **2.1. Méthode FIFO (First In, First Out - Premier Entré, Premier Sorti)**
+*   **Principe :** On considère que les premiers articles entrés en stock sont les premiers à en sortir. Les stocks restants sont donc valorisés aux **coûts d'acquisition les plus récents**.
+*   **Impact :** En période d'inflation (hausse des prix), cette méthode **minimise le coût des marchandises vendues (CMV)** et **maximise le résultat et la valeur du stock final**.
+*   **Formule :** CMV = Valorisation des sorties en partant des lots les plus anciens.
+
+**Exemple appliqué :** Un revendeur de smartphones à Douala (MTN, Orange).
+*   Stock initial (01/01) : 10 téléphones à 45 000 FCFA l'unité.
+*   Achat 15/01 : 20 téléphones à 48 000 FCFA l'unité.
+*   Vente 20/01 : 25 téléphones.
+
+**Valorisation FIFO des 25 unités vendues :**
+*   10 unités du stock initial à 45 000 FCFA = 450 000 FCFA
+*   15 unités du lot du 15/01 à 48 000 FCFA = 720 000 FCFA
+*   **Coût des Marchandises Vendues (CMV) = 1 170 000 FCFA**
+*   **Stock final (5 unités restantes) :** 5 unités à 48 000 FCFA = 240 000 FCFA.
+
+#### **2.2. Méthode LIFO (Last In, First Out - Dernier Entré, Premier Sorti)**
+*   **Principe :** On considère que les derniers articles entrés en stock sont les premiers à en sortir. Les stocks restants sont donc valorisés aux **coûts d'acquisition les plus anciens**.
+*   **Impact :** En période d'inflation, cette méthode **augmente le CMV** et **minimise le résultat et la valeur du stock final**. **Important :** Cette méthode est **interdite** par le **SYSCOHADA** pour l'établissement des états financiers légaux, car elle ne reflète pas la réalité physique des flux. Elle peut être utilisée en gestion interne.
+*   **Formule :** CMV = Valorisation des sorties en partant des lots les plus récents.
+
+**Exemple appliqué (mêmes données) :**
+**Valorisation LIFO des 25 unités vendues :**
+*   20 unités du lot du 15/01 à 48 000 FCFA = 960 000 FCFA
+*   5 unités du stock initial à 45 000 FCFA = 225 000 FCFA
+*   **Coût des Marchandises Vendues (CMV) = 1 185 000 FCFA**
+*   **Stock final (5 unités restantes) :** 5 unités à 45 000 FCFA = 225 000 FCFA.
+
+#### **2.3. Méthode du Coût Moyen Pondéré (CMP ou CMUP)**
+*   **Principe :** Après chaque entrée, on calcule un nouveau coût unitaire moyen pondéré de l'ensemble du stock. Toutes les sorties sont valorisées à ce coût moyen jusqu'à la prochaine entrée.
+*   **Impact :** Cette méthode **lisse les effets de l'inflation** et est **simple à mettre en œuvre**. Elle est **largement utilisée et conforme au SYSCOHADA**.
+*   **Formule :**
+    `CMP unitaire = (Valeur totale du stock après entrée) / (Quantité totale en stock après entrée)`
+
+**Exemple appliqué (mêmes données) :**
+1.  **Après l'achat du 15/01 :**
+    *   Valeur totale du stock = (10 * 45 000) + (20 * 48 000) = 450 000 + 960 000 = **1 410 000 FCFA**
+    *   Quantité totale = 30 unités
+    *   **CMP = 1 410 000 / 30 = 47 000 FCFA/unité**
+2.  **Valorisation de la vente du 20/01 :**
+    *   25 unités vendues à 47 000 FCFA = **1 175 000 FCFA (CMV)**
+    *   **Stock final (5 unités) :** 5 * 47 000 = **235 000 FCFA**
+
+#### **2.4. Tableau Comparatif des Méthodes**
+
+| Critère / Méthode          | **FIFO**                              | **LIFO**                              | **CMP**                                |
+| -------------------------- | ------------------------------------- | ------------------------------------- | -------------------------------------- |
+| **Principe de sortie**     | Premier entré, premier sorti          | Dernier entré, premier sorti          | Sortie au coût moyen                   |
+| **Valeur du stock final**  | Plus élevée (coûts récents)           | Plus faible (coûts anciens)           | Intermédiaire (moyenne)                |
+| **Coût des Marchandises Vendues (CMV)** | Plus faible                           | Plus élevé                            | Intermédiaire                          |
+| **Résultat**               | Plus élevé                            | Plus faible                           | Intermédiaire                          |
+| **Conformité OHADA**       | **Autorisée**                         | **Interdite** (pour états légaux)     | **Autorisée et courante**              |
+| **Adéquation avec la réalité physique** | Souvent oui (périssables)             | Rarement (sauf stocks en vrac)        | Non, méthode purement comptable        |
+
+**À retenir pour le BTS GL :** Le choix de la méthode a un impact direct sur le **résultat comptable**, donc sur l'**impôt sur les sociétés**, et sur la **valeur de l'actif au bilan**. Il doit être **appliqué avec constance** d'un exercice à l'autre.
+
+---
+
+### **3. Les Dépréciations des Stocks**
+
+#### **3.1. Définition et Justification**
+Une dépréciation des stocks est la constatation comptable d'une **perte de valeur** d'un élément de stock. Elle est obligatoire en application du **principe de prudence**.
+*   **Causes :** Obsolescence (ex: anciens modèles de téléphones), détérioration physique, chute du prix de marché, ralentissement de la rotation.
+*   **Objectif :** Présenter les stocks à leur **valeur actuelle** (Valeur Nette Comptable).
+
+#### **3.2. Calcul de la Dépréciation : Coût vs Valeur Nette de Réalisation (VNR)**
+*   **Valeur Nette de Réalisation (VNR)** = Prix de vente estimé - Coûts estimés de finition et de vente/distribution.
+*   **Règle :** Si la **VNR** d'un article est **inférieure à son coût d'acquisition**, une **provision pour dépréciation** doit être constituée pour la différence.
+*   **Écriture comptable (SYSCOHADA) :**
+    *   Débit : **Compte 65. Dépenses pour dépréciation des stocks** (Charge)
+    *   Crédit : **Compte 39. Provisions pour dépréciation des stocks** (Contre-actif)
+
+#### **3.3. Exemple Concret (Contexte Africain)**
+Une société de distribution informatique à Yaoundé détient 100 licences d'un ancien système d'exploitation.
+*   **Coût d'acquisition unitaire :** 25 000 FCFA
+*   **Prix de vente estimé aujourd'hui :** 18 000 FCFA
+*   **Coûts de vente (publicité, commission) :** 1 000 FCFA/unité
+*   **VNR unitaire =** 18 000 - 1 000 = **17 000 FCFA**
+*   **Perte de valeur unitaire =** 25 000 - 17 000 = **8 000 FCFA**
+*   **Dépréciation totale à provisionner =** 100 * 8 000 = **800 000 FCFA**
+
+Cette provision réduit la valeur des stocks au bilan et enregistre une charge dans le compte de résultat.
+
+---
+
+### **4. Outils et Technologies de Gestion des Stocks**
+
+Pour le **Génie Logiciel**, comprendre les besoins métiers est crucial pour développer ou implémenter des solutions adaptées.
+
+#### **4.1. Logiciels et Systèmes d'Information**
+*   **ERP (Enterprise Resource Planning - PGI) :** Solutions intégrées comme **SAP**, **Oracle ERP**, **Microsoft Dynamics**. Ils gèrent les stocks, la comptabilité, les achats et les ventes dans un seul système. De nombreuses grandes entreprises camerounaises (banques, télécoms) les utilisent.
+*   **Logiciels de Gestion Commerci

@@ -1,0 +1,260 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 22 Terminaux Mobiles**
+## **Chapitre : Stockage Android et Gestion des Permissions**
+
+---
+
+### **1. Introduction au Stockage Android**
+
+#### **1.1. Définition et Importance**
+Le stockage Android désigne l'ensemble des mécanismes permettant de persister des données localement sur l'appareil ou dans le cloud. Dans le contexte camerounais, où la connectivité peut être intermittente (zones rurales, coupures) et les forfaits data limités, une gestion optimale du stockage local est cruciale pour offrir une expérience utilisateur fluide.
+
+#### **1.2. Classification des Mécanismes de Stockage**
+| **Type de Stockage** | **Données Adaptées** | **Persistance** | **Accès** |
+|----------------------|----------------------|-----------------|-----------|
+| **SharedPreferences** | Préférences utilisateur, petits états (ex: langue, thème) | Jusqu'à désinstallation | Privé à l'app |
+| **Base de données (Room)** | Données structurées complexes (ex: clients, transactions) | Jusqu'à désinstallation | Privé à l'app |
+| **Fichiers Internes** | Fichiers cache ou privés à l'application | Peut être effacé par le système | Privé à l'app |
+| **Fichiers Externes** | Documents utilisateur (photos, PDF téléchargés) | Persistant | Public ou privé |
+| **Firebase Firestore** | Données nécessitant synchronisation cloud, multi-appareils | Persistant dans le cloud | Authentifié et sécurisé |
+
+**À retenir** : Le choix du mécanisme dépend du **volume**, de la **structure**, de la **durée de vie** et de l'**accessibilité** souhaitée des données.
+
+---
+
+### **2. SharedPreferences**
+
+#### **2.1. Concept et Cas d'Usage**
+SharedPreferences est une API légère pour stocker des paires **clé-valeur** primitives (String, int, boolean, etc.). Idéal pour :
+- Les paramètres de l'application (ex: choix de la langue entre français, anglais, pidgin).
+- Les états de session (ex: utilisateur connecté OUI/NON).
+- Les préférences utilisateur (ex: notifications activées pour les promotions MTN/Orange).
+
+#### **2.2. Mise en Œuvre**
+```kotlin
+// 1. Obtention d'une instance
+val prefs = getSharedPreferences("Mes_Prefs_Cameroun", Context.MODE_PRIVATE)
+
+// 2. Écriture (nécessite un éditeur)
+val editor = prefs.edit()
+editor.putString("operateur_prefere", "MTN") // Exemple concret
+editor.putBoolean("afficher_solde", true)
+editor.apply() // Asynchrone et sécurisé
+
+// 3. Lecture
+val operateur = prefs.getString("operateur_prefere", "Orange") // Valeur par défaut
+```
+
+#### **2.3. Bonnes Pratiques**
+- Utiliser `apply()` plutôt que `commit()` pour des performances optimales.
+- Éviter de stocker des données sensibles (mots de passe) sans chiffrement.
+- Structurer les clés dans un objet `companion object` pour éviter les erreurs.
+
+---
+
+### **3. Room Persistence Library (ORM pour SQLite)**
+
+#### **3.1. Architecture Room**
+Room est une couche d'abstraction au-dessus de SQLite qui simplifie la gestion des bases de données tout en offrant la puissance du SQL. Architecture en 3 composants :
+1.  **Entity** : Classe qui représente une table dans la base de données.
+2.  **DAO (Data Access Object)** : Interface contenant les méthodes (annotées) pour accéder aux données (CRUD).
+3.  **Database** : Classe abstraite qui étend `RoomDatabase` et fait le lien entre les Entities et les DAOs.
+
+#### **3.2. Exemple Contexte OHADA/Cameroun**
+Imaginons une application de gestion de micro-crédit pour les tontines.
+
+**a) Entity (Table "Client")**
+```kotlin
+@Entity(tableName = "clients")
+data class Client(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val nom: String,
+    val prenom: String,
+    val ville: String, // Douala, Yaoundé, Garoua...
+    val telephone: String, // Format camerounais (+237 6...)
+    val soldeTontine: Double,
+    val dateAdhesion: String // Format JJ/MM/AAAA
+)
+```
+
+**b) DAO (Opérations sur la table)**
+```kotlin
+@Dao
+interface ClientDao {
+    @Insert
+    suspend fun insererClient(client: Client)
+
+    @Query("SELECT * FROM clients WHERE ville = :villeCible")
+    fun getClientsParVille(villeCible: String): Flow<List<Client>>
+
+    @Query("UPDATE clients SET soldeTontine = soldeTontine + :montant WHERE telephone = :tel")
+    suspend fun crediterCompte(tel: String, montant: Double)
+}
+```
+
+**c) Database**
+```kotlin
+@Database(entities = [Client::class], version = 1, exportSchema = false)
+abstract class TontineDatabase : RoomDatabase() {
+    abstract fun clientDao(): ClientDao
+
+    companion object {
+        // Instance unique (Singleton)
+        @Volatile
+        private var INSTANCE: TontineDatabase? = null
+
+        fun getInstance(context: Context): TontineDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    TontineDatabase::class.java,
+                    "tontine_database.db"
+                ).build()
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
+}
+```
+
+#### **3.3. Avantages de Room**
+- **Vérification à la compilation** des requêtes SQL (évite les erreurs à l'exécution).
+- **Support natif** de `LiveData` et `Flow` pour une réactivité optimale.
+- **Facilité de migration** de schéma de base de données.
+
+---
+
+### **4. Fichiers Internes et Externes**
+
+#### **4.1. Stockage Interne (`/data/data/<package_name>/`)**
+- **Accès** : Privé et exclusif à l'application. Supprimé à la désinstallation.
+- **Cas d'usage** : Cache d'images, fichiers de configuration sensibles.
+- **Exemple** : Sauvegarder temporairement le reçu d'une transaction mobile money (Camtel, Orange Money) avant upload.
+
+```kotlin
+// Écrire un fichier en interne
+val filename = "recu_transaction.txt"
+val contenu = "TX456 - Orange Money - 5000 FCFA - 15/10/2023"
+openFileOutput(filename, Context.MODE_PRIVATE).use {
+    it.write(contenu.toByteArray())
+}
+```
+
+#### **4.2. Stockage Externe (`/storage/emulated/0/`)**
+- **Accès** : Public (partagé) ou privé à l'app (dossier `Android/data/`).
+- **Cas d'usage** : Documents téléchargés par l'utilisateur (ex: bulletin de paie PDF, photos de profil).
+- **Permissions** : Nécessite une **permission runtime** (`READ/WRITE_EXTERNAL_STORAGE`) pour l'accès public.
+
+```kotlin
+// Vérifier si le stockage externe est disponible
+val etat = Environment.getExternalStorageState()
+if (etat == Environment.MEDIA_MOUNTED) {
+    // Écrire dans le dossier Documents public
+    val fichier = File(
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+        "contrat_OHADA.pdf"
+    )
+    fichier.writeText("Contenu du contrat...")
+}
+```
+
+**Tableau Comparatif**
+| **Critère**          | **Stockage Interne**          | **Stockage Externe (Public)**       |
+|----------------------|-------------------------------|-------------------------------------|
+| **Accès**            | Privé (application seule)     | Public (autres apps, utilisateur)   |
+| **Persistance**      | Désinstallation               | Persiste après désinstallation      |
+| **Permissions**      | Aucune                        | `MANAGE_EXTERNAL_STORAGE` (Android 11+) ou `READ/WRITE` |
+| **Espace**           | Limité                        | Généralement plus large             |
+| **Typique au Cameroun** | Cache d'app, données temporaires | Photos, musique, documents téléchargés |
+
+---
+
+### **5. Firebase Firestore (Stockage Cloud)**
+
+#### **5.1. Présentation**
+Firestore est une base de données NoSQL, orientée document, hébergée dans le cloud (Google). Elle excelle pour les applications nécessitant une **synchronisation en temps réel** et un **accès multi-plateformes**.
+
+#### **5.2. Cas d'Usage en Contexte Africain**
+- **Application de covoiturage interurbain** (ex: Douala-Yaoundé) : synchronisation des trajets et des réservations entre passagers et conducteurs en temps réel.
+- **Plateforme de vente en ligne agricole** : mise à jour instantanée des stocks de produits (plantains, cacao) pour tous les acheteurs.
+- **Chat de groupe communautaire** : messages synchronisés sur tous les appareils.
+
+#### **5.3. Mise en Œuvre de Base**
+**a) Configuration**
+- Ajouter le SDK dans `build.gradle`.
+- Télécharger le fichier `google-services.json` depuis la console Firebase et le placer dans le dossier `app/`.
+
+**b) Structure des Données**
+Les données sont organisées en **collections** (équivalent de tables) contenant des **documents** (équivalent de lignes, au format JSON).
+
+Exemple pour une collection `trajets` :
+```javascript
+// Document ID généré automatiquement
+trajets/ABC123 {
+  villeDepart: "Douala",
+  villeArrivee: "Yaoundé",
+  prix: 5000, // FCFA
+  placesDisponibles: 4,
+  conducteur: "Paul M.",
+  date: "October 26, 2023 at 10:00:00 AM UTC-1"
+}
+```
+
+**c) Opérations CRUD en Kotlin**
+```kotlin
+val db = Firebase.firestore
+
+// CREATE - Ajouter un trajet
+val nouveauTrajet = hashMapOf(
+    "villeDepart" to "Bafoussam",
+    "villeArrivee" to "Bamenda",
+    "prix" to 3000
+)
+db.collection("trajets").add(nouveauTrajet)
+
+// READ - Écouter en temps réel les trajets vers Yaoundé
+db.collection("trajets")
+    .whereEqualTo("villeArrivee", "Yaoundé")
+    .addSnapshotListener { snapshots, error ->
+        // Mettre à jour l'UI avec la liste des trajets
+    }
+```
+
+#### **5.4. Avantages et Considérations**
+- **Avantages** : Synchronisation temps réel, scalabilité automatique, sécurité via Firebase Authentication et Security Rules.
+- **Considérations** : **Nécessite une connexion Internet** (coût data pour l'utilisateur), modèle de facturation à l'usage (attention aux coûts en cas de succès).
+
+---
+
+### **6. Gestion des Permissions (Manifest + Runtime)**
+
+#### **6.1. Permissions dans le `AndroidManifest.xml`**
+Déclaration statique des permissions dont l'application a besoin.
+```xml
+<!-- Exemple : Pour enregistrer un fichier sur le stockage externe public -->
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+                 android:maxSdkVersion="28" /> <!-- Pour Android <= 9 -->
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+<!-- Pour Android 10 (API 29) et +, l'accès scoped est recommandé -->
+<!-- Pour Android 11 (API 30) et +, accès étendu nécessite une permission spéciale -->
+<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+                 tools:ignore="ScopedStorage" />
+```
+
+#### **6.2. Permissions à l'Exécution (Runtime)**
+Depuis Android 6.0 (API 23), les permissions "dangereuses" (qui touchent à la vie privée) doivent être demandées et accordées par l'utilisateur **pendant l'exécution** de l'app.
+
+**Processus en 3 étapes :**
+1.  **Vérifier** si la permission est déjà accordée.
+2.  **Demander** la permission si ce n'est pas le cas.
+3.  **Traiter** la réponse de l'utilisateur.
+
+```kotlin
+// Constante pour la permission
+private val PERMISSION_REQUEST_CODE = 100
+
+// 1. Vérifier et demander
+if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ

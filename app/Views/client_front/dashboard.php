@@ -80,7 +80,7 @@ $userName = $data['client_name'] ?? 'Client'; // Devrait être chargé par Clien
                 <tbody>
                     <?php foreach ($transactions as $txn): ?>
                         <tr>
-                            <td><?= date('Y-m-d H:i', strtotime($txn['horodatage_transaction'])) ?></td>
+                            <td><?= date('Y-m-d H:i', strtotime($txn['date_transaction'])) ?></td>
                             <td><?= htmlspecialchars($txn['type_transaction']) ?></td>
                             <td><?= htmlspecialchars($txn['reference_externe']) ?></td>
                             <td class="amount-col"><?= number_format($txn['montant'], 2, ',', ' ') ?></td>

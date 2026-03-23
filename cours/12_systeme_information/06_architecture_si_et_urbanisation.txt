@@ -1,0 +1,150 @@
+# **Notes de Cours — BTS Génie Logiciel**
+**Matière :** 12 Système d'Information
+**Chapitre :** Architecture SI et urbanisation : cartographie applicative, ESB, SOA, microservices vs monolithe
+
+---
+
+## **1. Introduction : L'urbanisation du Système d'Information (SI)**
+
+### 1.1. Définition et Enjeux
+L'**urbanisation du SI** est une démarche qui consiste à concevoir, organiser et faire évoluer le système d'information d'une entreprise en s'inspirant des principes d'urbanisme d'une ville. L'objectif est de créer un SI **agile, évolutif, interopérable et aligné** sur les processus métiers de l'organisation.
+
+**Enjeux dans le contexte camerounais/africain :**
+*   **Interopérabilité des systèmes :** Harmoniser des systèmes souvent hétérogènes (ex: un système de gestion des étudiants d'une université avec la plateforme de paiement en ligne de MTN Mobile Money ou Orange Money).
+*   **Flexibilité face à la croissance :** Permettre aux entreprises africaines en forte croissance (startups, fintechs, opérateurs télécoms) d'adapter rapidement leur SI.
+*   **Conformité réglementaire :** Intégrer les spécificités des cadres juridiques comme l'**OHADA** (comptabilité, droit des affaires) dans les systèmes d'information.
+*   **Réduction des coûts :** Éviter la redondance des fonctionnalités et optimiser l'utilisation des ressources informatiques.
+
+**À retenir :** Urbaniser un SI, c'est passer d'un "bazar" d'applications difficile à maintenir à une "ville organisée" où chaque composant a un rôle clair et communique efficacement.
+
+---
+
+## **2. La Cartographie Applicative**
+
+### 2.1. Définition et Objectifs
+La **cartographie applicative** est une représentation visuelle (souvent sous forme de diagrammes) de l'ensemble des applications du SI, de leurs interdépendances et de leur alignement sur les processus métiers. C'est la **"carte" de la ville SI**.
+
+**Objectifs :**
+*   **Comprendre** le patrimoine applicatif existant.
+*   **Identifier** les redondances, les obsolescences et les points de fragilité.
+*   **Planifier** les évolutions, les migrations ou les retraits d'applications.
+*   **Faciliter la communication** entre les métiers et la DSI.
+
+### 2.2. Composants d'une Cartographie
+Une cartographie complète représente :
+1.  **Les Applications :** Logiciels, progiciels (ex: SAP, Sage).
+2.  **Les Flux :** Échanges de données entre applications (fichiers, API, messages).
+3.  **Les Technologies :** Langages, serveurs, bases de données (Oracle, MySQL, PostgreSQL).
+4.  **Les Acteurs Métiers :** Directions, services utilisateurs.
+5.  **Les Processus Métiers :** Chaîne de valeur supportée (ex: processus "Gestion de la paie", "Suivi des commandes clients").
+
+### 2.3. Exemple Concret : Une PME Camerounaise de Distribution
+*   **Application 1 :** Logiciel de gestion des stocks (développé en interne, base de données MySQL).
+*   **Application 2 :** Progiciel de comptabilité conforme OHADA (Sage Paie).
+*   **Application 3 :** Interface de vente en ligne.
+*   **Flux :** L'application de vente en ligne envoie chaque soir un fichier Excel des commandes vers le logiciel de stocks. La comptabilité reçoit manuellement des états PDF pour la saisie.
+*   **Problème identifié :** Double saisie, erreurs, manque de temps réel. La cartographie met en évidence le besoin d'automatiser ces flux via un **ESB**.
+
+**Outils de Cartographie :** LeanIX, Alfabet, Mega, Orbus iServer, ou même des outils de modélisation comme **draw.io** ou **Lucidchart**.
+
+---
+
+## **3. L'Enterprise Service Bus (ESB) : L'artère de communication du SI**
+
+### 3.1. Concept et Rôle
+Un **ESB (Enterprise Service Bus)** est une plateforme logicielle d'intégration qui agit comme un **"bus de services"** ou un **"carrefour routier"** centralisé pour les échanges entre applications. Il standardise et facilite la communication.
+
+**Rôle principal :** **Découpler** les applications. Au lieu de communiquer directement en point-à-point (un réseau complexe et fragile), les applications envoient et reçoivent des messages via l'ESB.
+
+### 3.2. Fonctionnalités Clés d'un ESB
+*   **Routage intelligent :** Acheminer un message vers la bonne destination.
+*   **Transformation de données :** Convertir un format de données en un autre (ex: XML d'Orange Money vers JSON pour le système bancaire).
+*   **Gestion des protocoles :** Adapter les différents protocoles de communication (HTTP, JMS, FTP, etc.).
+*   **Orchestration :** Coordonner une séquence d'appels à plusieurs services pour réaliser un processus métier.
+*   **Sécurité et supervision :** Authentification, chiffrement, journalisation, monitoring.
+
+### 3.3. Exemple : Intégration d'un Service de Paiement Mobile
+**Scénario :** Une plateforme e-commerce camerounaise doit accepter le paiement par MTN Mobile Money et Orange Money.
+*   **Sans ESB :** La plateforme doit développer deux connecteurs spécifiques, gérer deux formats d'API différents, augmentant la complexité.
+*   **Avec ESB :**
+    1.  La plateforme envoie une requête de paiement standardisée à l'ESB.
+    2.  L'ESB, selon l'opérateur choisi par le client, transforme la requête dans le format API spécifique (MTN ou Orange).
+    3.  L'ESB route la requête vers le bon opérateur, reçoit la réponse, la transforme en format standard et la renvoie à la plateforme.
+    *   **Avantage :** La plateforme ne parle qu'un seul "langage". L'ESB gère la complexité d'intégration.
+
+**Solutions ESB populaires :** **MuleSoft Anypoint Platform**, **Apache Camel**, **IBM Integration Bus**, **Oracle Service Bus**. Les solutions open-source comme **Apache Camel** sont très pertinentes pour les budgets des entreprises africaines.
+
+---
+
+## **4. La SOA (Service-Oriented Architecture)**
+
+### 4.1. Principes Fondamentaux
+La **SOA (Architecture Orientée Services)** est un **style architectural** qui structure une application comme une collection de **services** faiblement couplés, interopérables et réutilisables. Un service expose une **fonctionnalité métier précise** via une interface standard (généralement une **API web** : SOAP ou REST).
+
+**Les 4 Principes de Base de la SOA :**
+1.  **Frontière explicite :** Le service a un contrat clair (interface).
+2.  **Autonomie :** Le service contrôle sa logique et ses données.
+3.  **Partage de schémas et contrats, pas de classes :** Communication par messages standardisés.
+4.  **Compatibilité basée sur les politiques :** Les exigences non-fonctionnelles (sécurité, performance) sont déclarées.
+
+### 4.2. Composants d'une SOA
+*   **Fournisseur de Service :** L'application qui implémente et expose le service.
+*   **Consommateur de Service :** L'application qui utilise le service.
+*   **Registre de Services (Annuaire) :** Répertoire où les services sont publiés et peuvent être découverts (ex: **UDDI** - moins utilisé aujourd'hui, souvent remplacé par des API Gateways).
+*   **Contrat de Service :** Description de l'interface (WSDL pour SOAP, Swagger/OpenAPI pour REST).
+
+### 4.3. SOA vs ESB : Complémentarité
+L'ESB est souvent l'**infrastructure d'exécution** qui permet la mise en œuvre pratique d'une SOA. Il connecte, transforme et orchestre les services définis par l'architecture SOA.
+
+**Exemple SOA dans le secteur public :** Le projet de **"e-gouvernement"** au Cameroun pourrait être conçu en SOA :
+*   **Service "Vérification Identité Nationale"** (exposé par le MINAT).
+*   **Service "Paiement des Amendes"** (exposé par le Trésor Public, utilisant les services MTN/Orange).
+*   **Service "Immatriculation Véhicule"** (exposé par la Délégation à la Sûreté Nationale).
+*   Une application "Portail Usager Citoyen" consommerait ces services pour offrir un guichet unique en ligne.
+
+---
+
+## **5. Microservices vs Architecture Monolithique**
+
+### 5.1. L'Architecture Monolithique
+**Définition :** Une application unique, autonome, où tous les composants (interface utilisateur, logique métier, accès aux données) sont étroitement couplés et déployés ensemble dans un seul processus.
+
+**Avantages :**
+*   **Simplicité initiale :** Développement, test, déploiement et débogage plus simples pour les petites applications.
+*   **Exemple :** Une application de gestion de bibliothèque universitaire développée en PHP/MySQL avec un seul codebase.
+
+**Inconvénients :**
+*   **Complexité accrue avec la croissance :** Le code devient un "gros tas" (big ball of mud) difficile à comprendre.
+*   **Déploiement lent :** Un petit changement nécessite de re-déployer toute l'application.
+*   **Évolutivité limitée :** On doit scaler l'ensemble de l'application même si une seule partie est sollicitée.
+*   **Blocage technologique :** Difficile d'adopter de nouvelles technologies pour une partie du système.
+
+### 5.2. L'Architecture Microservices
+**Définition :** Approche qui décompose une application en une suite de **services fins, indépendants, autonomes et spécialisés**. Chaque microservice :
+*   Gère **une capacité métier unique** (ex: "Gestion Utilisateurs", "Service de Notification SMS", "Calcul des Impôts").
+*   Possède **sa propre base de données** (principe de "Database per Service").
+*   Peut être **développé, déployé et scalé indépendamment**.
+*   Communique avec les autres via des **API légères** (REST, gRPC, messages asynchrones).
+
+**Avantages :**
+*   **Agilité et livraison continue :** Des équipes autonomes peuvent développer et déployer leurs services rapidement.
+*   **Évolutivité granulaire :** On ne scale que le service sous charge (ex: le service de paiement pendant les soldes).
+*   **Résilience :** La défaillance d'un service n'entraîne pas nécessairement la chute de toute l'application.
+*   **Liberté technologique :** Chaque service peut utiliser la stack technologique la plus adaptée (Node.js pour un service de notifications, Python pour du machine learning, Java pour le cœur métier).
+
+**Inconvénients :**
+*   **Complexité opérationnelle accrue :** Nécessite une forte culture DevOps, conteneurisation (Docker), orchestration (Kubernetes), monitoring distribué.
+*   **Surcharge réseau et latence :** La communication inter-services introduit de la latence.
+*   **Gestion des données distribuées :** La cohérence des données devient un défi (modèle de cohérence éventuelle, patterns comme Saga).
+
+### 5.3. Tableau Comparatif
+
+| Critère | Architecture Monolithique | Architecture Microservices |
+| :--- | :--- | :--- |
+| **Couplage** | Fort couplage des composants | **Faible couplage** entre services |
+| **Déploiement** | Déploiement unique de l'ensemble | **Déploiement indépendant** par service |
+| **Base de Données** | Base de données unique et partagée | **Base de données par service** (privée) |
+| **Évolutivité (Scaling)** | Scaling vertical de l'ensemble | **Scaling horizontal granulaire** par service |
+| **Résilience** | Point de défaillance unique | **Isolation des pannes**, résilience accrue |
+| **Complexité** | Simple au début, complexe à grande échelle | **Complexe dès le départ** (DevOps, réseau) |
+| **Taille de l'équipe**| Adaptée aux petites équipes/ projets | Adaptée aux **équ

@@ -1,0 +1,232 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 22 Terminaux Mobiles**
+## **Chapitre : Navigation multi-écrans Android**
+
+---
+
+### **1. Introduction à la navigation multi-écrans**
+
+La navigation est un aspect fondamental de l'expérience utilisateur (UX) dans les applications mobiles. Une navigation fluide et intuitive permet à l'utilisateur de comprendre la structure de l'application et d'accéder facilement à ses fonctionnalités. Dans le contexte camerounais, avec la démocratisation des smartphones et l'essor des applications locales (paiement mobile, e-commerce, services administratifs comme le portail de l'OHADA pour les actes uniformes), une navigation bien conçue est cruciale pour l'adoption et la rétention des utilisateurs.
+
+**Objectifs pédagogiques :** À la fin de ce chapitre, l'étudiant doit être capable de :
+-   Différencier et implémenter les Intents explicites et implicites.
+-   Comprendre et gérer la **Back Stack**.
+-   Utiliser le **Navigation Component** de Jetpack pour une navigation déclarative.
+-   Créer et gérer des **Fragments**.
+-   Implémenter une navigation par onglets avec **Bottom Navigation**.
+
+**Outils & Technologies :** Android Studio, Kotlin/Java, Android SDK, Android Jetpack (Navigation Component, Fragment), Material Design Components.
+
+---
+
+### **2. Les Intents : Mécanisme de communication et de navigation**
+
+Un **Intent** est un objet de messagerie qui permet de demander une action à un autre composant d'application (Activity, Service, Broadcast Receiver). C'est le mécanisme principal pour lancer une nouvelle Activity.
+
+#### **2.1. Intent Explicite**
+Utilisé pour lancer un composant spécifique **à l'intérieur de votre propre application**. Vous devez nommer explicitement la classe de l'Activity cible.
+
+**Structure :**
+```kotlin
+val intentExplicite = Intent(this, DetailActivity::class.java)
+// Ajout de données (extras)
+intentExplicite.putExtra("CLIENT_ID", clientId)
+intentExplicite.putExtra("CLIENT_NOM", "M. Fotso")
+startActivity(intentExplicite)
+```
+
+**Exemple concret (Cameroun) :** Dans une application de gestion des dossiers OHADA pour une étude notariale à Douala, un Intent explicite est utilisé pour passer de la liste des dossiers (`ListeDossiersActivity`) à l'écran de détail d'un dossier spécifique (`DetailDossierActivity`).
+
+#### **2.2. Intent Implicite**
+Déclare une action générale à effectuer, permettant à une application externe de la gérer. Le système Android trouve le(s) composant(s) approprié(s). Il repose sur le **filtre d'intent** (`<intent-filter>`) déclaré dans le `AndroidManifest.xml`.
+
+**Actions courantes :** `ACTION_VIEW`, `ACTION_SEND`, `ACTION_DIAL`.
+```kotlin
+// Ouvrir le site web de l'ARMP (Autorité de Régulation des Marchés Publics)
+val uri = Uri.parse("https://www.armp.cm")
+val intentImplicite = Intent(Intent.ACTION_VIEW, uri)
+startActivity(intentImplicite)
+
+// Composer un numéro MTN/Orange
+val intentDial = Intent(Intent.ACTION_DIAL).apply {
+    data = Uri.parse("tel:+237677123456")
+}
+startActivity(intentDial)
+
+// Partager un reçu de paiement Camtel
+val intentShare = Intent(Intent.ACTION_SEND).apply {
+    type = "text/plain"
+    putExtra(Intent.EXTRA_TEXT, "Reçu de paiement internet #12345 - Montant : 10 000 FCFA")
+}
+startActivity(Intent.createChooser(intentShare, "Partager via"))
+```
+
+**À retenir :**
+| **Critère**          | **Intent Explicite**                                  | **Intent Implicite**                                  |
+| -------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| **Cible**            | Composant spécifique (classe nommée)                  | Action générale (système choisit)                     |
+| **Portée**           | Interne à l'application                               | Peut impliquer d'autres applications                  |
+| **Utilisation**      | Navigation interne, passage de données                | Actions système (appel, web, partage, carte)          |
+| **Sécurité**         | Plus sécurisé                                         | Nécessite des permissions et une gestion des risques  |
+
+---
+
+### **3. La Back Stack (Pile de Retour)**
+
+La **Back Stack** est une pile (structure LIFO - Last In, First Out) gérée par le système qui conserve l'historique des Activities visitées. Lorsque l'utilisateur appuie sur le bouton "Back", l'Activity au sommet de la pile est détruite et la précédente est restaurée.
+
+**Gestion avancée :** `startActivityForResult()` (déprécié, remplacé par l'API `Activity Result`) et les **flags** d'intent (`FLAG_ACTIVITY_CLEAR_TOP`, `FLAG_ACTIVITY_NEW_TASK`) permettent de contrôler le comportement de la pile.
+
+**Exemple :** Navigation dans une appli de microfinance.
+1.  `AccueilActivity` -> Lance `ConnexionActivity` (empilée)
+2.  `ConnexionActivity` -> Lance `TableauBordActivity` (empilée)
+3.  `TableauBordActivity` -> Lance `VirementActivity` (empilée)
+4.  Appui sur "Back" : `VirementActivity` est dépilée/détruite, retour à `TableauBordActivity`.
+
+---
+
+### **4. Navigation Component (Jetpack)**
+
+Le **Navigation Component** est une bibliothèque Jetpack qui simplifie la navigation entre les destinations (Fragments, Activities, Dialogs) dans une application Android. Il suit une approche **déclarative** et **visuelle**.
+
+#### **4.1. Avantages**
+-   Gestion automatique de la **Back Stack** des Fragments.
+-   Gestion simplifiée des arguments (données) entre destinations.
+-   Intégration avec l'UI (`BottomNavigationView`, `Toolbar`).
+-   Support des **Deep Links**.
+-   Visualisation du graphe de navigation dans Android Studio.
+
+#### **4.2. Composants principaux**
+1.  **Graphe de navigation (`nav_graph.xml`)** : Fichier XML qui contient toutes les destinations et les actions de navigation.
+2.  **`NavHostFragment`** : Conteneur vide dans votre layout qui affiche la destination courante.
+3.  **`NavController`** : Objet qui gère la navigation au sein d'un `NavHostFragment`. On l'obtient via `findNavController()`.
+
+#### **4.3. Mise en œuvre pratique**
+**Scénario :** Application "Marché Central de Yaoundé" (E-commerce local).
+
+1.  **Créer le graphe de navigation** (`res/navigation/mobile_navigation.xml`) :
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mobile_navigation"
+        app:startDestination="@id/accueilFragment">
+
+        <fragment
+            android:id="@+id/accueilFragment"
+            android:name="cm.marchecentral.AccueilFragment"
+            android:label="Produits Frais"
+            tools:layout="@layout/fragment_accueil" >
+            <action
+                android:id="@+id/action_accueil_to_detail"
+                app:destination="@id/detailProduitFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/panierFragment"
+            android:name="cm.marchecentral.PanierFragment"
+            android:label="Mon Panier"
+            tools:layout="@layout/fragment_panier" />
+
+        <fragment android:id="@+id/detailProduitFragment"
+            android:name="cm.marchecentral.DetailProduitFragment"
+            android:label="Détail"
+            tools:layout="@layout/fragment_detail_produit">
+            <argument
+                android:name="produit_id"
+                app:argType="string" />
+        </fragment>
+    </navigation>
+    ```
+
+2.  **Ajouter le `NavHostFragment`** dans l'Activity principale (`activity_main.xml`) :
+    ```xml
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/mobile_navigation" />
+    ```
+
+3.  **Naviguer entre Fragments** :
+    ```kotlin
+    // Dans AccueilFragment.kt
+    val action = AccueilFragmentDirections.actionAccueilToDetail(produitId = "MANGO_123")
+    findNavController().navigate(action)
+
+    // Pour revenir en arrière
+    findNavController().navigateUp()
+    ```
+
+---
+
+### **5. Les Fragments**
+
+Un **Fragment** représente un comportement réutilisable ou une portion d'UI dans une Activity. Une Activity peut héberger plusieurs fragments, permettant de créer des interfaces multi-panes (sur tablettes) ou une navigation dynamique.
+
+#### **5.1. Cycle de vie d'un Fragment**
+Étroitement lié à celui de son Activity hôte. Méthodes clés : `onCreateView()`, `onViewCreated()`, `onDestroyView()`.
+
+#### **5.2. Communication entre Fragments**
+**À FAIRE :** Utiliser le **ViewModel** partagé (recommandé) ou passer des arguments via le Navigation Component.
+**À NE PAS FAIRE :** Communication directe Fragment-à-Fragment.
+
+**Exemple (ViewModel partagé) :** Un `PanierViewModel` partagé entre `AccueilFragment` et `PanierFragment` pour gérer les articles ajoutés au panier d'achat.
+
+#### **5.3. Avantages dans le contexte africain**
+-   **Réutilisation :** Un fragment "Formulaire de paiement MTN Mobile Money/Orange Money" peut être utilisé dans plusieurs applications (e-commerce, services publics).
+-   **Adaptabilité :** Permet de créer des interfaces qui s'adaptent aux écrans de faible résolution (nombreux smartphones d'entrée de gamme) et aux tablettes.
+
+---
+
+### **6. Bottom Navigation**
+
+La **Bottom Navigation** est un motif de navigation Material Design qui donne un accès rapide aux destinations principales d'une application via une barre fixée en bas de l'écran. Idéal pour 3 à 5 destinations.
+
+#### **6.1. Implémentation avec Navigation Component**
+1.  **Ajouter le `BottomNavigationView`** dans le layout :
+    ```xml
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
+    ```
+2.  **Créer le menu** (`res/menu/bottom_nav_menu.xml`) :
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@id/accueilFragment"
+            android:icon="@drawable/ic_home"
+            android:title="Marché" />
+        <item
+            android:id="@id/panierFragment"
+            android:icon="@drawable/ic_basket"
+            android:title="Panier" />
+        <item
+            android:id="@+id/compteFragment"
+            android:icon="@drawable/ic_account"
+            android:title="Mon Compte" />
+    </menu>
+    ```
+    *⚠️ Les `android:id` doivent correspondre aux `id` des destinations dans le `nav_graph.xml`.*
+
+3.  **Connecter le `BottomNavigationView` au `NavController`** (dans `MainActivity.kt`) :
+    ```kotlin
+    val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+    val navController = navHostFragment.navController
+    val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+    // Liaison automatique
+    bottomNavView.setupWithNavController(navController)
+    ```
+
+#### **6.2. Bonnes pratiques**
+-   **Icônes et labels clairs** (ex: "Accueil", "Historique", "Paiements", "Aide").
+-   **Ne pas l'utiliser pour des actions** (comme "Ajouter" ou "Envoyer") ; préf

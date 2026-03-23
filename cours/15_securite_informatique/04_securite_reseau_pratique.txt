@@ -1,0 +1,174 @@
+# **Notes de Cours - BTS Génie Logiciel (Cameroun)**
+## **Matière 15 : Sécurité Informatique**
+## **Chapitre : Sécurité réseau pratique : configuration firewall (iptables, UFW), VPN (OpenVPN, WireGuard), détection d'intrusion (Snort/Suricata)**
+
+---
+
+### **1. Introduction à la Sécurité Réseau Pratique**
+
+#### **1.1. Contexte et Importance**
+La sécurité réseau est une composante critique de la sécurité informatique, surtout dans un contexte camerounais marqué par une **digitalisation accélérée** (e-gouvernement, mobile money, e-commerce) et des cybermenaces croissantes. Les entreprises comme **MTN Cameroon, Orange Cameroun, Camtel, les banques (Afriland First Bank, BICEC)** et les administrations publiques doivent protéger leurs infrastructures contre les intrusions, les fuites de données et les attaques par déni de service.
+
+**Objectif du chapitre** : Acquérir des compétences pratiques pour implémenter et administrer des mécanismes de sécurité réseau essentiels : les pare-feux, les réseaux privés virtuels (VPN) et les systèmes de détection d'intrusion (IDS).
+
+#### **1.2. Concepts Fondamentaux**
+*   **Pare-feu (Firewall)** : Système (matériel, logiciel ou les deux) qui contrôle le trafic réseau entrant et sortant selon des règles de sécurité prédéfinies. Il constitue une première ligne de défense.
+*   **Réseau Privé Virtuel (VPN)** : Technologie qui crée un tunnel chiffré à travers un réseau non sécurisé (comme Internet), permettant une connexion sécurisée et privée entre des sites distants ou des utilisateurs nomades.
+*   **Système de Détection d'Intrusion (IDS - Intrusion Detection System)** : Dispositif ou logiciel qui surveille le trafic réseau ou les activités système pour détecter des activités malveillantes ou des violations de politiques de sécurité.
+
+---
+
+### **2. Configuration des Pare-feux : iptables et UFW**
+
+#### **2.1. Le Pare-feu Netfilter/iptables (Niveau Avancé)**
+**Iptables** est l'outil en ligne de commande de l'utilisateur pour configurer le pare-feu **Netfilter** du noyau Linux. Il est puissant et présent sur la plupart des distributions Linux.
+
+*   **Architecture et Tables** : iptables utilise des tables contenant des chaînes de règles.
+    *   **Table `filter`** (par défaut) : Pour le filtrage des paquets. Chaînes principales : `INPUT` (paquets destinés à l'hôte), `OUTPUT` (paquets générés par l'hôte), `FORWARD` (paquets à router).
+    *   **Table `nat`** : Pour la traduction d'adresses réseau (NAT).
+    *   **Table `mangle`** : Pour la modification spécialisée des paquets.
+
+*   **Syntaxe de Base d'une Règle iptables** :
+    ```bash
+    iptables -A <CHAINE> -i <interface> -p <protocole> --dport <port> -s <adresse_source> -j <ACTION>
+    ```
+    *   `-A` : Ajoute une règle en fin de chaîne.
+    *   `-j` : Spécifie la cible (`ACCEPT`, `DROP`, `REJECT`, `LOG`).
+
+*   **Exemple Pratique Camerounais** :
+    *   **Scénario** : Configuration d'un serveur web hébergeant le site d'une PME camerounaise (sous OHADA). On veut autoriser le HTTP/HTTPS pour tous, le SSH uniquement depuis le réseau du siège à Yaoundé, et bloquer tout le reste.
+    ```bash
+    # 1. Politique par défaut DROP (Tout refuser)
+    iptables -P INPUT DROP
+    iptables -P FORWARD DROP
+    iptables -P OUTPUT ACCEPT
+
+    # 2. Autoriser le trafic local (loopback)
+    iptables -A INPUT -i lo -j ACCEPT
+
+    # 3. Autoriser les réponses aux connexions établies
+    iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+    # 4. Autoriser HTTP (80) et HTTPS (443) depuis n'importe où
+    iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+    iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+
+    # 5. Autoriser SSH (22) uniquement depuis le réseau 192.168.1.0/24 (siège social)
+    iptables -A INPUT -p tcp -s 192.168.1.0/24 --dport 22 -j ACCEPT
+
+    # 6. Journaliser (log) les paquets rejetés (pour analyse)
+    iptables -A INPUT -j LOG --log-prefix "IPTABLES-DROPPED: "
+    ```
+    **À retenir** : L'ordre des règles est crucial. iptables traite les règles de haut en bas.
+
+#### **2.2. Uncomplicated Firewall (UFW) - Niveau Débutant/Intermédiaire**
+**UFW** est une interface simplifiée pour iptables, recommandée pour les utilisateurs moins expérimentés. Elle est souvent installée par défaut sur Ubuntu.
+
+*   **Commandes Essentielles** :
+    ```bash
+    sudo ufw enable          # Activer le pare-feu
+    sudo ufw disable         # Désactiver le pare-feu
+    sudo ufw status verbose  # Voir le statut et les règles
+    sudo ufw default deny incoming # Politique par défaut : refuser l'entrée
+    sudo ufw default allow outgoing # Politique par défaut : autoriser la sortie
+
+    # Ajouter des règles
+    sudo ufw allow 80/tcp                 # Autoriser HTTP
+    sudo ufw allow from 192.168.1.0/24 to any port 22 # SSH depuis un réseau spécifique
+    sudo ufw deny from 41.202.XXX.XXX     # Bloquer une IP suspecte (ex: attaque venant d'un autre pays africain)
+    ```
+
+*   **Tableau Comparatif iptables vs UFW**
+| **Critère**               | **iptables**                                      | **UFW (Uncomplicated Firewall)**          |
+|---------------------------|---------------------------------------------------|-------------------------------------------|
+| **Complexité**            | Élevée, syntaxe complexe                          | Faible, commandes simplifiées             |
+| **Contrôle**              | Granulaire, contrôle total                        | Basique à intermédiaire                   |
+| **Public cible**          | Administrateurs systèmes, experts sécurité        | Débutants, administrateurs généralistes  |
+| **Adaptation au contexte**| Idéal pour les infrastructures critiques (banques, opérateurs) | Parfait pour les PME, startups, serveurs web simples |
+| **Persistance des règles**| Nécessite un script ou `iptables-persistent`      | Persistantes par défaut                   |
+
+---
+
+### **3. Réseaux Privés Virtuels (VPN) : OpenVPN et WireGuard**
+
+#### **3.1. Concepts des VPN et Applications en Afrique**
+Un VPN permet de relier de manière sécurisée :
+*   **Des succursales** : Exemple : Relier le siège de **Camtel** à Douala avec ses agences régionales.
+*   **Des télétravailleurs** : Permettre aux agents du **MINPOSTEL** d'accéder aux ressources internes depuis leur domicile.
+*   **Sécuriser des communications** : Pour une étude notariale sous **OHADA** échangeant des documents sensibles avec ses clients.
+
+**Technologies clés** : Tunneling, Chiffrement (AES, ChaCha20), Authentification (certificats, clés pré-partagées).
+
+#### **3.2. OpenVPN : La Solution Traditionnelle et Robuste**
+OpenVPN est un logiciel open-source, très mature, utilisant une pile réseau utilisateur et des certificats SSL/TLS.
+
+*   **Avantages** : Très sécurisé, flexible, supporte de nombreux systèmes d'exploitation, bien documenté.
+*   **Inconvénients** : Configuration complexe, performances inférieures à WireGuard.
+
+*   **Mise en œuvre typique (Serveur)** :
+    1.  Installation : `sudo apt install openvpn easy-rsa`
+    2.  Création d'une Autorité de Certification (CA) et génération des certificats serveur/client.
+    3.  Configuration des fichiers `server.conf` et `client.ovpn`.
+    4.  Activation du routage IP sur le serveur.
+    5.  Distribution sécurisée du fichier `.ovpn` au client.
+
+#### **3.3. WireGuard : La Solution Moderne et Performante**
+WireGuard est un VPN moderne, simple, rapide et sécurisé, intégré directement dans le noyau Linux depuis la version 5.6.
+
+*   **Avantages** : Code minimal (~4000 lignes), performances excellentes (idéal pour les liens à faible bande passante), configuration simple basée sur des paires de clés publiques/privées.
+*   **Inconvénients** : Moins mature qu'OpenVPN, gestion des clients moins centralisée.
+
+*   **Exemple de Configuration Basique** :
+    *   **Serveur (`/etc/wireguard/wg0.conf`)** :
+        ```ini
+        [Interface]
+        Address = 10.8.0.1/24
+        PrivateKey = <Clé_Privée_du_Serveur>
+        ListenPort = 51820
+        PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+        PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+
+        [Peer] # Client Administrateur
+        PublicKey = <Clé_Publique_du_Client_1>
+        AllowedIPs = 10.8.0.2/32
+        ```
+    *   **Client** :
+        ```ini
+        [Interface]
+        PrivateKey = <Clé_Privée_du_Client>
+        Address = 10.8.0.2/24
+
+        [Peer]
+        PublicKey = <Clé_Publique_du_Serveur>
+        Endpoint = serveur.domaine.cm:51820
+        AllowedIPs = 0.0.0.0/0 # Pour router tout le trafic via le VPN
+        ```
+
+#### **3.4. Comparatif OpenVPN vs WireGuard**
+| **Critère**         | **OpenVPN**                                      | **WireGuard**                              |
+|---------------------|--------------------------------------------------|--------------------------------------------|
+| **Performance**     | Bonne                                            | **Excellente** (débit plus haut, latence basse) |
+| **Simplicité**      | Configuration complexe                           | **Configuration très simple**              |
+| **Sécurité**        | Très solide (SSL/TLS, bibliothèque mature)       | Solide (cryptographie état de l'art, code minimal) |
+| **Adoption**        | **Large, standard de fait**                      | Croissante, très populaire pour les nouveaux déploiements |
+| **Cas d'usage au Cameroun** | Infrastructures existantes, besoins complexes | Nouvelles installations, cloud, besoins haute performance |
+
+---
+
+### **4. Détection d'Intrusion Réseau (NIDS) : Snort et Suricata**
+
+#### **4.1. Principes d'un Système de Détection d'Intrusion (IDS)**
+Un **NIDS (Network IDS)** analyse le trafic en temps réel pour détecter des signatures d'attaques connues (détection basée signature) ou des comportements anormaux (détection basée anomalie).
+
+*   **Mode de déploiement** : En général, une sonde est placée en **miroir de port (SPAN)** sur un commutateur stratégique pour surveiller tout le trafic sans l'affecter.
+
+#### **4.2. Snort : Le NIDS Historique et Référence**
+Snort est un IDS open-source très populaire, basé sur des règles.
+
+*   **Architecture d'une Règle Snort** :
+    `Action Protocole Adresse_Source Port_Source -> Adresse_Destination Port_Destination (Options)`
+    *   **Exemple de Règle** : Détecter un scan de port SSH depuis l'extérieur vers un serveur interne.
+        ```bash
+        alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (msg:"ET SCAN Potential SSH Scan"; flags:S; threshold: type both, track by_src, count 5, seconds 60; sid:1000001; rev:1;)
+        ```
+*   **M

@@ -1,0 +1,97 @@
+CHAPITRE 1 — STATISTIQUES À UNE VARIABLE
+BTS Génie Logiciel — Mathématiques
+
+1. VOCABULAIRE FONDAMENTAL
+
+Population : ensemble des individus étudiés (ex : tous les étudiants de BTS GL du Cameroun).
+Individu (ou unité statistique) : chaque élément de la population.
+Échantillon : sous-ensemble représentatif de la population.
+Caractère (ou variable statistique) : propriété mesurée sur chaque individu.
+- Caractère qualitatif : non numérique (couleur, sexe, profession)
+- Caractère quantitatif discret : valeurs entières isolées (nombre d'enfants, nombre de bugs)
+- Caractère quantitatif continu : toute valeur dans un intervalle (taille, durée, temps de traitement)
+
+2. REPRÉSENTATION DES DONNÉES
+
+Série brute → Tableau de fréquences
+ni : effectif de la valeur xi (nombre d'individus ayant cette valeur)
+N : effectif total = Σni
+fi : fréquence relative = ni / N
+fi% : fréquence en pourcentage = ni / N × 100
+Fi : fréquence cumulée croissante = somme des fréquences jusqu'à xi
+
+Représentations graphiques :
+- Diagramme en barres : caractères discrets
+- Histogramme : caractères continus groupés en classes
+- Diagramme circulaire (camembert) : fréquences relatives
+- Courbe des effectifs cumulés (ogive)
+
+3. PARAMÈTRES DE POSITION (TENDANCE CENTRALE)
+
+A) Moyenne arithmétique :
+x̄ = (Σ xi × ni) / N = Σ xi × fi
+
+Exemple : notes de 5 étudiants : 12, 15, 10, 18, 13
+x̄ = (12 + 15 + 10 + 18 + 13) / 5 = 68 / 5 = 13,6
+
+Avec tableau de fréquences :
+xi : 10, 12, 14, 16
+ni :  3,  5,  4,  2   (N = 14)
+x̄ = (10×3 + 12×5 + 14×4 + 16×2) / 14 = (30+60+56+32)/14 = 178/14 ≈ 12,71
+
+B) Médiane (Me) :
+Valeur qui partage la distribution en deux moitiés égales (50% en dessous, 50% au-dessus).
+- N pair : moyenne des deux valeurs centrales
+- N impair : valeur centrale
+
+Pour des données groupées en classes : interpolation linéaire
+Me = L + [(N/2 − Fi-1) / ni] × h
+Où L = borne inférieure de la classe médiane, h = largeur de la classe
+
+C) Mode (Mo) :
+Valeur ou classe ayant la plus grande fréquence.
+Pour une classe : classe modale = classe de plus grande fréquence.
+Mode précis (Czuber) : Mo = L + [d1 / (d1 + d2)] × h
+Où d1 = ni − ni-1, d2 = ni − ni+1, h = largeur de classe
+
+4. PARAMÈTRES DE DISPERSION
+
+A) Étendue : E = valeur maximale − valeur minimale. Très sensible aux valeurs extrêmes.
+
+B) Variance :
+V = (1/N) × Σ ni × (xi − x̄)²
+ou formule de König : V = (Σ ni × xi²) / N − x̄²
+
+C) Écart-type :
+σ = √V
+Interprétation : mesure la dispersion autour de la moyenne. Plus σ est grand, plus les données sont dispersées.
+
+Coefficient de variation : CV = σ / x̄ × 100 (en %)
+Permet de comparer des dispersions de variables d'unités différentes.
+
+D) Quartiles :
+Q1 : 1er quartile → 25% des valeurs sont en dessous
+Q2 : 2e quartile = médiane
+Q3 : 3e quartile → 75% des valeurs sont en dessous
+Intervalle interquartile : IQ = Q3 − Q1
+
+Calcul des quartiles (données groupées) :
+Qi = L + [(i × N/4 − Fi-1) / ni] × h
+
+5. EXEMPLES NUMÉRIQUES COMPLETS
+
+Données : temps de réponse (en ms) d'un serveur sur 30 mesures
+Classes [0;10[ [10;20[ [20;30[ [30;40[ [40;50[
+ni       4      9      10      5       2    (N=30)
+Fi       4      13     23      28      30
+
+Moyenne : centre de classe ci = 5, 15, 25, 35, 45
+x̄ = (4×5 + 9×15 + 10×25 + 5×35 + 2×45) / 30 = (20+135+250+175+90)/30 = 670/30 ≈ 22,33 ms
+
+Médiane : N/2 = 15 → classe [20;30[
+Me = 20 + [(15 − 13) / 10] × 10 = 20 + 2 = 22 ms
+
+Variance : V = (4×5² + 9×15² + 10×25² + 5×35² + 2×45²)/30 − 22,33²
+= (100+2025+6250+6125+4050)/30 − 498,63
+= 18550/30 − 498,63 = 618,33 − 498,63 = 119,70
+Écart-type : σ = √119,70 ≈ 10,94 ms

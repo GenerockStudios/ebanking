@@ -1,0 +1,159 @@
+# **Notes de Cours — BTS Génie Logiciel**
+**Matière :** 01 Économie et Gestion d’Entreprise  
+**Chapitre :** Marketing et Stratégie Commerciale : Segmentation, Ciblage, Positionnement, Mix Marketing 4P, CRM  
+**Durée indicative :** 4 à 6 heures de cours  
+
+---
+
+## **1. Introduction au Marketing et à la Stratégie Commerciale**
+
+### **1.1. Définition et Enjeux**
+Le **marketing** est l’ensemble des techniques et des actions utilisées par une organisation pour **promouvoir**, **vendre** et **distribuer** ses produits ou services à un public cible. Il vise à satisfaire les besoins et désirs des clients tout en atteignant les objectifs de l’entreprise (rentabilité, part de marché, image).
+
+Dans le contexte du **BTS Génie Logiciel**, comprendre le marketing est crucial car :
+*   Les logiciels et services informatiques sont des produits à forte valeur ajoutée.
+*   Le développement logiciel doit être guidé par les besoins du marché.
+*   Les compétences en commercialisation sont essentielles pour l'entrepreneuriat tech (start-ups, ESN).
+
+**Enjeux au Cameroun/Afrique :** Concurrence accrue (MTN vs Orange), digitalisation rapide, spécificités des consommateurs locaux (accès internet, pouvoir d'achat, habitudes), cadre légal OHADA pour les contrats commerciaux.
+
+### **1.2. La Démarche Marketing**
+C'est un processus en **4 étapes** :
+1.  **Analyse** du marché (concurrents, clients, environnement).
+2.  **Définition** de la stratégie (segmentation, ciblage, positionnement - STP).
+3.  **Mise en œuvre** opérationnelle (mix marketing - 4P).
+4.  **Contrôle** et ajustement (CRM, indicateurs de performance).
+
+---
+
+## **2. Le Triptyque Stratégique : Segmentation, Ciblage, Positionnement (STP)**
+
+C'est le cœur de la stratégie marketing. On ne peut pas plaire à tout le monde, il faut choisir ses combats.
+
+### **2.1. La Segmentation du Marché**
+**Définition :** Découper un marché hétérogène en **sous-ensembles homogènes** (segments) de consommateurs ayant des besoins, comportements ou caractéristiques similaires.
+
+**Critères de Segmentation (Variables) :**
+
+| **Type de Critère** | **Exemples d'Application au Contexte Camerounais/Tech** |
+| :--- | :--- |
+| **Géographiques** | Régions (Littoral, Centre, Extrême-Nord) ; Urbain/Rural ; Densité de population. *Ex: Offre internet fibre de Camtel vs forfaits mobiles 4G de Nexttel pour zones moins couvertes.* |
+| **Démographiques** | Âge, sexe, revenu, profession, éducation. *Ex: Application de finance mobile (Orange Money) ciblant les jeunes actifs vs les agriculteurs.* |
+| **Psychographiques** | Style de vie, personnalité, valeurs. *Ex: Offre "Premium" pour les entreprises soucieuses d'image vs offre "Économique" pour les startups.* |
+| **Comportementaux** | **Usage, fidélité, bénéfices recherchés.** Très important en BTS GL. *Ex: Segment des "gros consommateurs de data", des "utilisateurs d'apps de gaming", des "clients sensibles au service après-vente".* |
+
+**À retenir :** Une segmentation est efficace si les segments sont **Mesurables, Accessibles, Substantiels (rentables) et Actionnables**.
+
+### **2.2. Le Ciblage**
+**Définition :** Choix d'un ou plusieurs segments sur lesquels l'entreprise va concentrer ses efforts marketing.
+
+**Stratégies de Ciblage :**
+*   **Marketing indifférencié :** Une seule offre pour tout le marché. Rare aujourd'hui. *Ex: Service de base de SMS.*
+*   **Marketing différencié :** Une offre adaptée pour chaque segment ciblé. Coûteux mais efficace. *Ex: MTN proposant des forfaits "Étudiant", "Pro", "Famille".*
+*   **Marketing concentré :** Se concentrer sur un seul segment de niche. Idéal pour une PME/Startup. *Ex: Une ESN camerounaise se spécialisant dans les logiciels de gestion pour les coopératives agricoles.*
+*   **Marketing personnalisé (One-to-One) :** L'idéal, rendu possible par le digital et le CRM. *Ex: Recommandations personnalisées sur une plateforme de streaming ou un site e-commerce.*
+
+### **2.3. Le Positionnement**
+**Définition :** C'est l'**image** que le produit/la marque occupe dans l'esprit du consommateur **par rapport à la concurrence**. C'est la promesse faite au segment cible.
+
+**Comment se positionner ?** En se basant sur des **attributs différenciants** :
+*   **Prix/Qualité :** Leader par les coûts (low-cost) vs Premium.
+*   **Bénéfice/Attribut :** "La connexion la plus rapide" (Camtel fibre) vs "La couverture la plus étendue" (MTN).
+*   **Contre un concurrent :** Se comparer directement. *Ex: "Une solution plus intuitive que [Logiciel X]".*
+*   **Innovation/Technologie :** Se présenter comme le plus moderne.
+
+**Carte de Positionnement (Perceptuelle) :** Outil visuel pour analyser son positionnement et celui des concurrents sur deux axes (ex: Prix vs Qualité).
+
+**Exemple concret (Cameroun) :** Positionnement des opérateurs télécoms.
+*   **MTN :** Leader du marché, réseau étendu, offre complète. Positionnement sur la **fiabilité et l'omniprésence**.
+*   **Orange :** Innovateur, services digitaux (Orange Money), clientèle jeune. Positionnement sur **l'innovation et la vie digitale**.
+*   **Camtel :** Opérateur historique, propriétaire du backbone national. Positionnement sur **l'infrastructure nationale et la souveraineté** (fibre, entreprises).
+
+---
+
+## **3. Le Mix Marketing Opérationnel : Les 4P (de McCarthy)**
+
+Ce sont les **leviers d'action** pour concrétiser la stratégie sur le marché.
+
+### **3.1. Produit (Product)**
+Tout ce qui est offert au marché pour satisfaire un besoin.
+*   **Niveaux du produit :** Coeur (fonction de base), produit tangible (qualité, design), produit augmenté (SAV, garantie, formation). **En BTS GL, le SAV et la formation sont critiques.**
+*   **Cycle de Vie du Produit (CVL) :** Lancement, Croissance, Maturité, Déclin. Il faut adapter la stratégie à chaque phase.
+*   **Décisions :** Gamme de produits, marque, packaging, qualité. *Ex: Une société de développement propose une gamme : app mobile sur mesure, logiciel de gestion standard, maintenance.*
+
+### **3.2. Prix (Price)**
+La valeur monétaire échangée contre le produit.
+*   **Objectifs :** Rentabilité, part de marché, image.
+*   **Méthodes de fixation :**
+    *   **Par les coûts :** Coût de revient + Marge.
+    *   **Par la demande :** Prix accepté par le marché (étude).
+    *   **Par la concurrence :** Alignement, pénétration (bas prix), écréimage (haut prix).
+*   **Stratégies :** Prix psychologique, abonnements (SaaS - **très important en BTS GL**), réductions.
+*   **Contexte OHADA :** Les conditions générales de vente et les clauses de prix doivent respecter le **Droit Commercial Uniforme**.
+
+### **3.3. Place (Distribution)**
+Comment le produit arrive-t-il jusqu'au client ?
+*   **Canaux de distribution :** Direct (vente sur site web, équipe commerciale) ou Indirect (revendeurs, intégrateurs).
+*   **Enjeux pour les ESN/Editeurs de logiciels au Cameroun :**
+    *   **Direct :** Site web, salons professionnels (SIIM), réseaux sociaux.
+    *   **Indirect :** Partenariats avec des sociétés de conseil, des distributeurs de matériel informatique.
+*   **Logistique :** Délivrance des licences, téléchargement, support technique à distance.
+
+### **3.4. Promotion (Communication)**
+Toutes les actions pour informer, persuader et rappeler le produit au marché.
+*   **Outils (Mix de communication) :**
+    *   **Publicité (Médias)** : TV, radio, affichage, web (Google Ads, réseaux sociaux).
+    *   **Promotion des ventes** : Réductions, démos gratuites, essais.
+    *   **Relations Publiques** : Sponsoring, articles de presse.
+    *   **Vente personnelle** : Force de vente, démonstrateurs.
+    *   **Marketing Direct** : Email, SMS marketing.
+*   **Exemple Cameroun :** Campagne de lancement d'un nouveau forfait data avec pub TV (publicité), concert sponsorisé (RP), offre "3 mois à -50%" (promotion), et envoi de SMS ciblés (marketing direct).
+
+**Tableau Synthèse des 4P pour un Logiciel :**
+
+| **4P** | **Décisions Clés pour un Éditeur de Logiciel (Ex: Gestion Scolaire)** |
+| :--- | :--- |
+| **Produit** | Fonctionnalités, ergonomie, compatibilité, langues (FR/EN), niveaux de licence (Standard, Pro). |
+| **Prix** | Licence perpétuelle vs abonnement SaaS, prix par utilisateur, tarifs éducation vs entreprise. |
+| **Place** | Vente directe en ligne, partenariat avec des revendeurs agréés dans les régions, téléchargement. |
+| **Promotion** | Site web de démo, webinaires, participation au salon Educatech, référencement Google, contenu sur LinkedIn. |
+
+---
+
+## **4. La Relation Client : Le CRM (Customer Relationship Management)**
+
+### **4.1. Définition et Objectifs**
+Le **CRM** est une **stratégie** et un ensemble **d'outils technologiques** visant à **capter, gérer et analyser** les interactions avec les clients actuels et potentiels, dans le but d'optimiser la fidélisation, la vente croisée et la rentabilité à long terme.
+
+**Objectifs :**
+*   **Fidéliser** les clients (moins coûteux que d'en acquérir de nouveaux).
+*   **Personnaliser** l'offre et la communication.
+*   **Améliorer** le service client.
+*   **Augmenter** le chiffre d'affaires par client.
+
+### **4.2. Les 3 Facettes du CRM**
+1.  **CRM Opérationnel :** Automatisation des processus front-office (vente, marketing, service). *Ex: Suivi des leads, gestion des tickets SAV.*
+2.  **CRM Analytique :** Analyse des données clients pour prendre des décisions (segmentation, prévision). *Ex: Identifier les clients les plus rentables.*
+3.  **CRM Collaboratif :** Gestion des points de contact avec le client (email, téléphone, réseaux sociaux, chat).
+
+### **4.3. Outils et Technologies CRM**
+*   **Logiciels CRM :** Solutions cloud (SaaS) dominantes.
+    *   **Salesforce** : Leader mondial.
+    *   **HubSpot** : Très populaire pour les PME (version gratuite).
+    *   **Microsoft Dynamics 365** : Intégré à l'écosystème Microsoft.
+    *   **Solutions locales/nationales** : Adaptées au contexte.
+*   **Intégration en BTS GL :** Les développeurs peuvent être amenés à :
+    *   **Intégrer** une API CRM dans une application (ex: envoyer les données d'un formulaire web vers Salesforce).
+    *   **Développer** des modules CRM sur mesure pour un client.
+    *   **Maintenir** et personnaliser des plateformes CRM existantes.
+
+### **4.4. Application au Cameroun : Fidélisation dans les Télécoms**
+Les opérateurs comme **MTN et Orange** utilisent intensément le CRM :
+*   Programmes de fidélité (points Y'ello, points Orange).
+*   Offres de reprise (win-back) pour les clients qui partent.
+*   Service client 24/7 via les réseaux sociaux.
+*   Analyse du comportement d'achat de data pour proposer des forfaits adaptés.
+
+---
+
+##

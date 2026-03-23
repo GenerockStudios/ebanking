@@ -33,9 +33,11 @@ class PlafondChecker {
         // Ajouter le plafonds par défaut pour les transaction
 
         if (!$plafonds) {
-
-            // C'est critique : un compte sans plafond est non sécurisé.
-            throw new Exception("Plafonds non définis pour le compte ID: " . $accountId);
+            // Plafond par défaut si aucune entrée n'existe pour ce compte
+            $plafonds = (object)[
+                'plafond_retrait_journalier'  => 500000,
+                'plafond_transfert_mensuel'   => 2000000,
+            ];
         }
 
         // 2. Déterminer le type de vérification

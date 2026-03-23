@@ -1,0 +1,233 @@
+# **Notes de Cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 08 Algorithme Programmation**
+## **Chapitre : Programmation en Python : Syntaxe de Base, Structures de Données, Modularité, Gestion des Erreurs et POO**
+
+---
+
+### **1. Introduction à Python et Syntaxe de Base**
+
+#### **1.1. Présentation de Python**
+Python est un langage de programmation interprété, de haut niveau, orienté objet et à typage dynamique. Sa syntaxe claire et sa grande bibliothèque standard en font un choix privilégié pour le développement logiciel, l'analyse de données, l'automatisation et le web.
+
+**Outils et Environnements de Développement (IDE) :**
+*   **PyCharm** (JetBrains) : IDE professionnel très utilisé en entreprise.
+*   **Visual Studio Code** (Microsoft) : Éditeur léger et extensible, très populaire.
+*   **Jupyter Notebook** : Idéal pour l'analyse de données et le prototypage.
+*   **IDLE** : Environnement intégré fourni avec Python.
+
+#### **1.2. Éléments Fondamentaux de la Syntaxe**
+*   **Indentation :** En Python, les blocs de code sont définis par l'indentation (généralement 4 espaces). C'est une règle syntaxique, pas une convention.
+    ```python
+    if solde > 0:
+        print("Transaction autorisée")  # Bloc du if
+        debiter(solde)                  # Bloc du if
+    ```
+*   **Variables et Types de Base :** Pas de déclaration de type explicite.
+    ```python
+    nom_client = "M. Ndiaye"      # str (chaîne de caractères)
+    age = 25                      # int (entier)
+    montant_facture = 75000.50    # float (réel)
+    est_abonne = True             # bool (booléen)
+    ```
+*   **Opérateurs :** Arithmétiques (`+, -, *, /, %, **`), de comparaison (`==, !=, >, <`), logiques (`and, or, not`), d'affectation (`=, +=, -=`).
+*   **Structures de Contrôle :**
+    *   **Conditionnelles :** `if`, `elif`, `else`.
+        ```python
+        # Exemple : Vérification d'éligibilité à un crédit mobile (MTN MoMo, Orange Money)
+        revenu_mensuel = 200000
+        if revenu_mensuel > 500000:
+            limite_credit = 500000
+        elif revenu_mensuel > 200000:
+            limite_credit = 200000
+        else:
+            limite_credit = 50000
+        print(f"Votre limite de crédit proposée est de {limite_credit} FCFA")
+        ```
+    *   **Boucles :** `for` (itération sur une séquence) et `while` (tant qu'une condition est vraie).
+        ```python
+        # Boucle for : Traitement d'une liste de villes
+        villes_ohada = ["Yaoundé", "Dakar", "Abidjan", "Lomé"]
+        for ville in villes_ohada:
+            print(f"Siège OHADA possible : {ville}")
+
+        # Boucle while : Simulation de tentatives de connexion
+        tentatives = 0
+        while tentatives < 3:
+            code = input("Entrez votre code PIN Camtel : ")
+            if code == "0000":
+                print("Connexion réussie")
+                break
+            tentatives += 1
+        ```
+
+**À RETENIR :** En Python, l'indentation est obligatoire et structure le code. Les variables sont dynamiquement typées.
+
+---
+
+### **2. Structures de Données Avancées : Listes et Dictionnaires**
+
+#### **2.1. Les Listes (`list`)**
+Collection **ordonnée**, **modifiable (mutable)** et qui autorise les doublons.
+*   **Création et Accès :**
+    ```python
+    produits = ["SMS", "Data", "Appels", "Forfait Nuit"]
+    print(produits[0])  # Affiche "SMS" (indexation à partir de 0)
+    ```
+*   **Opérations Courantes :** `append()`, `insert()`, `remove()`, `pop()`, `sort()`, `len()`.
+    ```python
+    # Gestion d'une file d'attente de tickets dans une entreprise
+    tickets_support = ["INC-001", "INC-002"]
+    tickets_support.append("INC-003")  # Ajout en fin
+    incident_traite = tickets_support.pop(0)  # Retrait du premier (principe FIFO)
+    print(f"Ticket traité : {incident_traite}. File restante : {tickets_support}")
+    ```
+
+#### **2.2. Les Dictionnaires (`dict`)**
+Collection **non ordonnée (avant Python 3.7), modifiable** qui stocke des paires **clé:valeur**. Les clés doivent être uniques et immuables.
+*   **Création et Accès :**
+    ```python
+    # Modélisation d'un compte client Orange
+    compte_client = {
+        "numero": "+237 6XX XXX XXX",
+        "nom": "Fatou Diallo",
+        "solde": 1500,
+        "forfait": "Illimité Appels"
+    }
+    print(f"Client : {compte_client['nom']}, Solde : {compte_client['solde']} FCFA")
+    ```
+*   **Opérations Courantes :** `keys()`, `values()`, `items()`, `get()`, `update()`.
+    ```python
+    # Mise à jour du solde après une recharge
+    compte_client['solde'] += 5000
+    # Vérification sécurisée d'une clé avec .get()
+    ville = compte_client.get('ville', 'Non renseignée')
+    ```
+
+**Tableau Comparatif Listes vs Dictionnaires**
+| Caractéristique          | Liste (`list`)                          | Dictionnaire (`dict`)                   |
+|--------------------------|-----------------------------------------|-----------------------------------------|
+| **Indexation**           | Par index numérique (0, 1, 2...)       | Par clé (chaîne, nombre, tuple...)     |
+| **Ordre**                | Garanti (ordre d'insertion)            | Garanti à partir de Python 3.7         |
+| **Mutabilité**           | Oui                                     | Oui                                     |
+| **Accès aux éléments**   | `ma_liste[2]`                          | `mon_dict['cle']` ou `mon_dict.get('cle')` |
+| **Cas d'usage typique**  | Collections ordonnées (files, séries)  | Représentation d'objets, données structurées (fiches, comptes) |
+
+---
+
+### **3. Modularité et Réutilisation du Code : Les Modules**
+
+#### **3.1. Définition et Utilité**
+Un module est un fichier Python (`.py`) contenant des définitions (fonctions, classes, variables) réutilisables. Cela permet d'organiser le code, d'éviter la duplication et de faciliter la maintenance.
+
+#### **3.2. Création et Utilisation**
+*   **Créer un module :** Sauvegarder du code dans un fichier, par exemple `calculs_financiers.py`.
+    ```python
+    # Fichier : calculs_financiers.py
+    TAUX_TVA = 0.1925  # TVA camerounaise (19.25%)
+
+    def calculer_tva(montant_ht):
+        """Calcule la TVA à partir d'un montant HT."""
+        return montant_ht * TAUX_TVA
+
+    def appliquer_remise(montant, pourcentage):
+        """Applique une remise en pourcentage."""
+        return montant * (1 - pourcentage / 100)
+    ```
+*   **Importer un module :**
+    ```python
+    # Fichier principal : main.py
+    import calculs_financiers
+    # Utilisation
+    montant_projet = 5000000
+    tva_a_payer = calculs_financiers.calculer_tva(montant_projet)
+    print(f"TVA due : {tva_a_payer:.2f} FCFA")
+
+    # Import spécifique
+    from calculs_financiers import appliquer_remise
+    prix_solde = appliquer_remise(30000, 15)
+    ```
+
+#### **3.3. Modules de la Bibliothèque Standard**
+Python dispose d'une riche bibliothèque standard.
+*   **`math`** : Fonctions mathématiques (`sqrt`, `ceil`, `pi`).
+*   **`random`** : Génération de nombres aléatoires.
+    ```python
+    import random
+    # Tirage au sort pour un concours MTN
+    gagnants_potentiels = ["Alice", "Bob", "Charlie", "Diane"]
+    gagnant = random.choice(gagnants_potentiels)
+    print(f"Le gagnant du smartphone est : {gagnant}")
+    ```
+*   **`datetime`** : Manipulation de dates et heures.
+    ```python
+    from datetime import datetime, timedelta
+    date_souscription = datetime(2023, 10, 1)
+    date_expiration = date_souscription + timedelta(days=365)  # Abonnement annuel
+    print(f"Votre forfait expire le : {date_expiration.strftime('%d/%m/%Y')}")
+    ```
+
+---
+
+### **4. Interaction avec le Système de Fichiers**
+
+#### **4.1. Principes d'Ouverture et de Fermeture**
+On utilise la fonction `open()` avec un mode d'accès (`'r'` lecture, `'w'` écriture (écrase), `'a'` ajout, `'r+'` lecture/écriture). Il est **crucial** de fermer le fichier avec la méthode `close()` ou d'utiliser l'instruction `with` qui le fait automatiquement.
+
+#### **4.2. Lecture et Écriture**
+```python
+# Exemple : Journalisation des activités d'une application (log)
+# ÉCRITURE
+with open("journal_systeme.log", "a", encoding="utf-8") as fichier_log:
+    fichier_log.write(f"{datetime.now()} : Utilisateur connecté via l'agent Orange.\n")
+
+# LECTURE
+with open("liste_clients.txt", "r", encoding="utf-8") as fichier:
+    lignes = fichier.readlines()  # Lit toutes les lignes dans une liste
+    for ligne in lignes:
+        print(ligne.strip())  # .strip() enlève les sauts de ligne
+```
+
+---
+
+### **5. Gestion des Erreurs : Les Exceptions**
+
+#### **5.1. Concept**
+Une exception est une erreur qui survient pendant l'exécution et interrompt le flux normal du programme. La gestion des exceptions permet de contrôler cette interruption et d'offrir une alternative ou un message clair.
+
+#### **5.2. Blocs `try`, `except`, `else`, `finally`**
+```python
+# Simulation d'un retrait Mobile Money avec gestion d'erreurs
+try:
+    solde_compte = 10000
+    montant_demande = int(input("Montant à retirer (FCFA) : "))
+
+    if montant_demande > solde_compte:
+        # Lève une exception personnalisée
+        raise ValueError("Solde insuffisant pour effectuer cette opération.")
+
+    solde_compte -= montant_demande
+    print(f"Retrait réussi. Nouveau solde : {solde_compte} FCFA")
+
+except ValueError as e:
+    # Capture les erreurs de conversion (int()) ou l'exception levée manuellement
+    print(f"Erreur de saisie ou de fonds : {e}")
+except Exception as e:
+    # Capture toute autre exception non prévue (générique)
+    print(f"Une erreur inattendue est survenue : {e}")
+else:
+    # Exécuté si AUCUNE exception n'est levée dans le try
+    print("Transaction terminée avec succès.")
+finally:
+    # Exécuté TOUJOURS, erreur ou non (idéal pour les nettoyages)
+    print("Merci d'utiliser nos services.")
+```
+
+---
+
+### **6. Programmation Orientée Objet (POO) de Base**
+
+#### **6.1. Concepts Fondamentaux**
+*   **Classe :** Plan de construction, modèle qui définit les attributs (données) et méthodes (actions) d'un type d'objet.
+*   **Objet :** Instance concrète créée à partir d'une classe.
+*   **Encapsulation :** Regroupement des données et des méthodes dans une unité (la classe), et contrôle de l'accès (via `public`, `protected`, `private` – convention `_` et `__` en Python).
+*   **Constructeur (`__init__`) :** Méthode spéciale appelée automatiquement à la création d'un objet

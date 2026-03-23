@@ -1,0 +1,148 @@
+# **Notes de cours — BTS Génie Logiciel**
+## **Matière : 11 Comptabilité Analytique**
+## **Chapitre : Méthode des sections homogènes (centres d'analyse) : sections auxiliaires et principales, unités d'œuvre, taux de cession interne**
+
+---
+
+### **1. Introduction et objectifs du chapitre**
+
+La comptabilité analytique est un outil essentiel pour le contrôle de gestion et la prise de décision dans une entreprise. Elle permet de connaître le coût de revient des produits, services ou activités. Dans le secteur des technologies de l'information et des services (TIC), où opèrent des entreprises comme MTN Cameroun, Orange Cameroun ou Camtel, la maîtrise des coûts est cruciale pour la rentabilité et la compétitivité.
+
+**Objectifs pédagogiques :**
+*   Comprendre le principe de la méthode des sections homogènes (centres d'analyse).
+*   Distinguer les sections (centres) auxiliaires des sections principales.
+*   Définir et calculer une unité d'œuvre (UO).
+*   Maîtriser le mécanisme de la répartition des charges indirectes, y compris la cession interne entre centres.
+*   Appliquer ces concepts à des cas concrets dans le secteur des services informatiques et télécoms.
+
+**Contexte normatif :** Ces méthodes s'inscrivent dans le cadre du **Système Comptable OHADA**, notamment le modèle développé dans le **Syscohada**.
+
+---
+
+### **2. Définition et principe de la méthode des sections homogènes**
+
+#### **2.1. Qu'est-ce qu'une section homogène (ou centre d'analyse) ?**
+Une **section homogène** (appelée aussi **centre d'analyse**) est une division de l'entreprise, réelle ou fictive, à laquelle on regroupe des éléments de charges indirectes qui présentent une même nature ou qui concourent à une même activité.
+
+**Exemple dans une ESN (Entreprise de Services du Numérique) camerounaise :**
+*   **Centre "Administration & Gestion"** : Salaires du directeur, loyer du siège, frais de secrétariat.
+*   **Centre "Développement Logiciel"** : Salaires des développeurs, amortissement des ordinateurs, licences logicielles (IDE, GitHub).
+*   **Centre "Support Technique & Hébergement"** : Salaires des techniciens, coût des serveurs, électricité de la salle serveur, abonnement internet (Camtel, Ringo).
+
+#### **2.2. Pourquoi utiliser cette méthode ?**
+Les charges directes (ex: salaire d'un développeur affecté à 100% sur un projet) sont faciles à imputer à un coût. Les charges **indirectes** (ex: loyer, électricité, salaire du chef de projet qui supervise plusieurs projets) doivent être **réparties** de manière logique et équitable entre les différents coûts (projets, produits, services). La méthode des centres d'analyse permet cette répartition.
+
+**Principe général :** Répartir les charges indirectes en deux grandes étapes :
+1.  **Répartition primaire** : Ventiler les charges du compte de résultat dans les différents centres.
+2.  **Répartition secondaire** : Redistribuer les coûts des centres auxiliaires vers les centres principaux.
+3.  **Imputation aux coûts** : Répartir le coût total des centres principaux sur les produits/services via des clés de répartition appelées **unités d'œuvre**.
+
+---
+
+### **3. Classification des sections : Auxiliaires et Principales**
+
+#### **3.1. Sections (Centres) Auxiliaires**
+*   **Définition :** Ce sont des centres dont l'activité ne concourt pas directement à la production du bien ou du service final, mais qui rendent service aux **autres centres** (aussi bien auxiliaires que principaux).
+*   **Caractéristique :** Leurs coûts ne sont **pas imputés directement** aux coûts des produits. Ils sont d'abord cédés (répartis) aux autres centres.
+*   **Exemples concrets :**
+    *   **Centre "Ressources Humaines"** : Recrutement, paie, formation.
+    *   **Centre "Informatique Interne"** : Maintenance du parc informatique, gestion du réseau local.
+    *   **Centre "Comptabilité & Finance"**.
+    *   **Centre "Entretien & Sécurité"**.
+
+#### **3.2. Sections (Centres) Principales**
+*   **Définition :** Ce sont des centres dont l'activité est directement liée à la production du bien ou à la réalisation du service vendu au client.
+*   **Caractéristique :** Leurs coûts sont **imputés directement** aux coûts des produits/services via une **unité d'œuvre**.
+*   **Exemples concrets dans le BTS GL :**
+    *   **Centre "Conception & Analyse"** : Équipe d'architectes logiciels et d'analystes.
+    *   **Centre "Développement & Codage"** : Équipe de développeurs front-end, back-end, mobile.
+    *   **Centre "Tests & Assurance Qualité"** : Équipe de testeurs.
+    *   **Centre "Déploiement & Maintenance"** : Équipe d'administration système et de support client.
+    *   Pour un opérateur télécoms (**MTN, Orange**) : Centres "Réseau Mobile", "Service Client", "Marketing Digital".
+
+#### **3.3. Tableau comparatif**
+
+| Critère | Section Auxiliaire | Section Principale |
+| :--- | :--- | :--- |
+| **Lien avec le produit final** | Indirect | Direct |
+| **Destination des coûts** | Cédés à d'autres centres | Imputés aux coûts des produits |
+| **Existence d'une Unité d'Œuvre** | Non (sauf pour cession interne) | **Oui, indispensable** |
+| **Exemple dans une SSII** | Service RH, Comptabilité | Centre de Développement Web |
+
+**À RETENIR :** Un centre est classé selon sa fonction, pas son nom. L'**Informatique Interne** est un centre auxiliaire, tandis que le **Développement Logiciel** est un centre principal.
+
+---
+
+### **4. Les Unités d'Œuvre (UO)**
+
+#### **4.1. Définition**
+L'**Unité d'Œuvre (UO)** est une unité de mesure de l'activité d'un **centre principal**. Elle doit être :
+1.  **Représentative** de l'activité du centre.
+2.  **Mesurable** et **homogène**.
+3.  **Proportionnelle** aux charges du centre.
+
+#### **4.2. Calcul du coût d'une Unité d'Œuvre**
+> **Coût de l'UO = Coût total du centre principal / Nombre total d'UO du centre**
+
+#### **4.3. Exemples d'Unités d'Œuvre adaptés au BTS GL**
+| Centre Principal | Unité d'Œuvre possible | Explication |
+| :--- | :--- | :--- |
+| **Conception/Analyse** | Heure d'étude / Nombre de diagrammes UML | Mesure l'effort de modélisation |
+| **Développement** | **Heure de programmation (Heure/homme)** / Nombre de lignes de code (moins utilisé) | Standard dans le devis de projet logiciel |
+| **Tests (QA)** | Heure de test / Nombre de cas de test exécutés | Mesure l'effort de validation |
+| **Hébergement & Infra** | Go de stockage / Mois | Pour un service cloud (hébergement de sites web) |
+| **Support Technique** | Ticket résolu / Heure d'intervention | Pour un contrat de maintenance |
+
+**Application :** Si le Centre "Développement" a un coût total de 5 000 000 FCFA et a consommé 1 000 heures de programmation sur un mois, le coût de l'UO "heure de programmation" est de **5 000 FCFA/heure**.
+
+---
+
+### **5. Mécanisme complet de la répartition : De la répartition primaire à l'imputation**
+
+#### **5.1. Étape 1 : Répartition Primaire**
+On répartit **toutes** les charges indirectes de l'entreprise entre **tous** les centres (auxiliaires et principaux) selon des **clés de répartition** (pourcentages, surface occupée, nombre de salariés, etc.).
+
+**Exemple de clés :**
+*   Loyer : réparti selon la surface occupée par chaque centre (m²).
+*   Électricité : réparti selon la puissance des équipements ou la surface.
+*   Salaires du siège : répartis selon le nombre d'employés par centre.
+
+#### **5.2. Étape 2 : Répartition Secondaire & Taux de Cession Interne**
+C'est l'étape de **redistribution des coûts des centres auxiliaires** vers les autres centres. On utilise pour cela des **Taux de Cession Interne (TCI)**.
+
+*   **Définition du Taux de Cession Interne (TCI) :** C'est le coût unitaire du service rendu par un centre auxiliaire. Il sert de base pour facturer (en interne) l'utilisation de ce service aux autres centres bénéficiaires.
+    > **TCI = Coût total du centre auxiliaire / Quantité de service fournie**
+
+*   **Méthodes de cession :**
+    *   **Prestation mesurée** : On utilise un **TCI**. (Ex: Coût de l'heure d'intervention du support informatique interne).
+    *   **Prestation non mesurée** : On utilise une **clé de répartition** fixe. (Ex: Les coûts des RH sont souvent répartis au prorata des effectifs ou des masses salariales).
+
+**Exemple concret :** Le centre auxiliaire **"Informatique Interne"** a un coût de 800 000 FCFA. Il a effectué 200 interventions ce mois-ci.
+*   **TCI (Informatique) = 800 000 / 200 = 4 000 FCFA par intervention.**
+*   Si le centre principal **"Développement"** a bénéficié de 50 interventions, il recevra une charge de : **50 interventions * 4 000 FCFA = 200 000 FCFA** en répartition secondaire.
+
+**À RETENIR :** Après la répartition secondaire, le **coût des centres auxiliaires est ZÉRO**. Tout a été cédé. Seuls les **centres principaux** ont un coût, qui est la somme de leurs charges primaires + les charges cédées par les centres auxiliaires.
+
+#### **5.3. Étape 3 : Imputation aux coûts des produits/services**
+On utilise le **coût de l'Unité d'Œuvre** calculé pour chaque centre principal.
+> **Coût imputé au produit = Nombre d'UO consommées par le produit * Coût de l'UO**
+
+**Exemple final :** Pour un projet de développement d'une **application mobile de paiement** (style "Orange Money", "MTN Mobile Money") :
+*   Le projet a consommé **150 heures** dans le centre "Développement" (UO = 5 000 FCFA/h).
+*   Il a consommé **30 heures** dans le centre "Tests" (UO = 3 000 FCFA/h).
+*   **Coût indirect imputé au projet = (150h * 5 000) + (30h * 3 000) = 750 000 + 90 000 = 840 000 FCFA.**
+*   À cela, on ajoutera les **charges directes** (ex: salaire d'un expert sécurité dédié au projet) pour obtenir le **coût de revient complet** du projet.
+
+---
+
+### **6. Outils et logiciels utilisés en entreprise**
+
+La gestion manuelle des centres d'analyse est lourde. En entreprise, on utilise des logiciels qui automatisent ces calculs, souvent intégrés dans des ERP.
+
+1.  **ERP (Enterprise Resource Planning) / PGI :**
+    *   **SAP, Oracle ERP, Microsoft Dynamics 365** : Solutions internationales utilisées par les grandes entreprises (comme les filiales de MTN Group).
+    *   **Sage, Cegid, EBP** : Solutions plus accessibles pour les PME camerounaises.
+    *   Ces ERP ont des modules de **comptabilité analytique** et de **controlling** qui gèrent nativement les centres d'analyse, les unités d'œuvre et les cessions internes.
+
+2.  **Logiciels spécialisés de gestion de projet & temps :**
+    *

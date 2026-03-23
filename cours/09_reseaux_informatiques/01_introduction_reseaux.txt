@@ -1,0 +1,232 @@
+# **Notes de cours — 09 Réseaux Informatiques**
+## **Chapitre 1 : Introduction aux réseaux informatiques**
+
+---
+
+### **1. Définitions fondamentales**
+
+#### **1.1. Qu'est-ce qu'un réseau informatique ?**
+
+Un **réseau informatique** est un ensemble d'équipements informatiques (ordinateurs, serveurs, imprimantes, routeurs, commutateurs) interconnectés par des supports de transmission (câbles, ondes radio) permettant l'échange d'informations et le partage de ressources selon des règles de communication prédéfinies appelées **protocoles**.
+
+**Éléments constitutifs d'un réseau :**
+- **Nœuds** : équipements terminaux (ordinateurs, smartphones, serveurs)
+- **Supports de transmission** : câbles (cuivre, fibre optique) ou sans fil (Wi-Fi, ondes radio)
+- **Équipements d'interconnexion** : commutateurs (switch), routeurs, points d'accès
+- **Logiciels** : systèmes d'exploitation réseau, protocoles, applications
+
+#### **1.2. Terminologie essentielle**
+
+- **Protocole** : ensemble de règles qui régissent la communication entre équipements (ex: TCP/IP, HTTP)
+- **Bande passante** : débit maximal d'un canal de communication (mesuré en bits par seconde - bps)
+- **Latence** : temps de transmission d'un paquet de données entre source et destination
+- **Topologie** : disposition physique ou logique des équipements d'un réseau
+- **Adressage** : système d'identification unique des équipements sur un réseau (adresse IP, adresse MAC)
+
+**À retenir :** Un réseau permet de **partager des ressources** (fichiers, imprimantes, connexion Internet), de **faciliter la communication** (email, messagerie instantanée) et d'**améliorer la productivité** dans une organisation.
+
+---
+
+### **2. Topologies des réseaux**
+
+La topologie définit l'architecture physique ou logique selon laquelle les équipements sont interconnectés.
+
+#### **2.1. Topologie en bus (linéaire)**
+
+**Description :** Tous les équipements sont connectés à un câble principal unique appelé **bus** ou **backbone**.
+
+**Caractéristiques :**
+- Câble coaxial (historiquement) ou paire torsadée
+- Terminateurs aux extrémités pour éviter les réflexions de signal
+- Communication en **broadcast** : toutes les stations reçoivent toutes les données
+
+**Exemple concret au Cameroun :** Anciennes installations dans certaines administrations publiques ou établissements scolaires avec budget limité.
+
+**Avantages :**
+- Simple à installer et économique (moins de câblage)
+- Facile à étendre
+
+**Inconvénients :**
+- Panne du bus principal = panne de tout le réseau
+- Détection difficile des pannes
+- Performances qui se dégradent avec l'augmentation du nombre d'utilisateurs
+- Risques de collisions élevés
+
+#### **2.2. Topologie en étoile**
+
+**Description :** Tous les équipements sont connectés à un dispositif central (commutateur/switch ou concentrateur/hub).
+
+**Caractéristiques :**
+- Point central unique de connexion
+- Communication point à point entre le dispositif central et chaque équipement
+- Technologie la plus répandue actuellement
+
+**Exemple concret au Cameroun :**
+- Réseau d'une PME à Douala utilisant un switch central
+- Cybercafé à Yaoundé avec un routeur/switch connectant tous les ordinateurs
+- Réseau Wi-Fi domestique (le routeur étant le point central)
+
+**Avantages :**
+- Panne d'un équipement n'affecte pas le reste du réseau
+- Dépannage et maintenance faciles
+- Haute performance et stabilité
+- Évolutivité aisée
+
+**Inconvénients :**
+- Dépendance au dispositif central (sa panne paralyse tout le réseau)
+- Coût plus élevé (nécessité d'un équipement central)
+- Consommation importante de câbles
+
+#### **2.3. Topologie en anneau**
+
+**Description :** Les équipements sont connectés en boucle fermée, chaque station étant reliée à deux voisins.
+
+**Caractéristiques :**
+- Données circulent dans un seul sens (anneau simple) ou double sens (anneau double)
+- Utilisation d'un **jeton** (token) pour contrôler l'accès au support (Token Ring)
+- Chaque station régénère le signal
+
+**Exemple concret en Afrique :** Certains réseaux métropolitains (MAN) ou réseaux de campus universitaires (ex: Université de Yaoundé I pour certaines infrastructures critiques).
+
+**Avantages :**
+- Organisation ordonnée des communications (pas de collisions)
+- Performances stables même avec de nombreux utilisateurs
+- Égalité d'accès au réseau pour toutes les stations
+
+**Inconvénients :**
+- Panne d'une station ou d'un câble peut rompre l'anneau entier
+- Difficulté à localiser les pannes
+- Complexité d'installation et de modification
+
+#### **2.4. Topologie maillée (mesh)**
+
+**Description :** Chaque équipement est connecté à un ou plusieurs autres équipements, créant des chemins redondants.
+
+**Variantes :**
+- **Maillage complet** : chaque nœud est connecté à tous les autres
+- **Maillage partiel** : certains nœuds ont plusieurs connexions, d'autres non
+
+**Exemple concret au Cameroun :**
+- Réseaux de télécommunications nationaux (Camtel interconnectant ses centraux)
+- Réseaux bancaires interagences (système OHADA de communication financière)
+- Infrastructure de fibre optique nationale
+
+**Avantages :**
+- Grande fiabilité et redondance (chemins alternatifs en cas de panne)
+- Équilibrage de charge possible
+- Sécurité renforcée (plus difficile d'intercepter toutes les communications)
+
+**Inconvénients :**
+- Coût très élevé (beaucoup de câbles et d'interfaces)
+- Complexité d'installation, de configuration et de maintenance
+- Consommation importante de ressources
+
+#### **2.5. Tableau comparatif des topologies**
+
+| **Topologie** | **Coût** | **Fiabilité** | **Évolutivité** | **Maintenance** | **Usage typique au Cameroun** |
+|---------------|----------|---------------|-----------------|-----------------|-------------------------------|
+| **Bus**       | Faible   | Faible        | Limitée         | Difficile       | Réseaux éducatifs anciens     |
+| **Étoile**    | Moyen    | Bonne*        | Excellente      | Facile          | Entreprises, cybercafés, foyers |
+| **Anneau**    | Moyen    | Moyenne       | Moyenne         | Complexe        | Campus universitaires         |
+| **Maillée**   | Élevé    | Excellente    | Bonne           | Très complexe   | Opérateurs télécoms, banques  |
+
+*Dépend du dispositif central
+
+---
+
+### **3. Types de réseaux selon l'étendue géographique**
+
+#### **3.1. LAN (Local Area Network - Réseau Local)**
+
+**Définition :** Réseau couvrant une zone géographique limitée (bâtiment, campus, parc industriel).
+
+**Caractéristiques :**
+- Étendue : jusqu'à quelques kilomètres
+- Débit élevé : 10 Mbps à 100 Gbps
+- Appartenance à une seule organisation
+- Technologies : Ethernet (câblé), Wi-Fi (sans fil)
+
+**Exemples camerounais :**
+- Réseau d'une administration publique (MINPOSTEL, MINESUP)
+- Réseau d'une entreprise locale (BICEC, SONARA)
+- Réseau d'un établissement scolaire ou universitaire
+- Réseau domestique avec partage d'imprimante et d'accès Internet
+
+**Technologies utilisées :**
+- **Ethernet** (normes IEEE 802.3) : 100BASE-TX, 1000BASE-T, 10GBASE-T
+- **Wi-Fi** (normes IEEE 802.11) : Wi-Fi 5 (802.11ac), Wi-Fi 6 (802.11ax)
+- **Commutateurs** (switches) Cisco, HP, Ubiquiti
+- **Protocoles** : IP, ARP, DHCP, DNS local
+
+#### **3.2. MAN (Metropolitan Area Network - Réseau Métropolitain)**
+
+**Définition :** Réseau interconnectant plusieurs LANs sur une zone métropolitaine (ville ou agglomération).
+
+**Caractéristiques :**
+- Étendue : une ville ou une région métropolitaine
+- Débit : moyen à élevé
+- Appartenance : opérateur ou consortium
+- Technologies : fibre optique, liaisons radio dédiées
+
+**Exemples camerounais :**
+- Réseau de la ville de Douala interconnectant les administrations municipales
+- Réseau métropolitain d'enseignement supérieur à Yaoundé
+- Infrastructure de fibre optique déployée par Camtel dans les grandes villes
+- Réseau inter-agences bancaires dans une même ville
+
+**Technologies utilisées :**
+- **Fibre optique** (SONET/SDH, CWDM/DWDM)
+- **Radio** : liaisons point à point (Ubiquiti, MikroTik)
+- **Ethernet métropolitain** (Carrier Ethernet)
+- **Protocoles** : MPLS, OSPF, BGP
+
+#### **3.3. WAN (Wide Area Network - Réseau Étendu)**
+
+**Définition :** Réseau couvrant une vaste zone géographique (pays, continent, monde).
+
+**Caractéristiques :**
+- Étendue : illimitée géographiquement
+- Débit : variable (souvent inférieur aux LAN)
+- Appartenance : opérateurs télécoms, consortiums internationaux
+- Technologies variées : fibres sous-marines, satellites, liaisons terrestres
+
+**Exemples africains/camerounais :**
+- Internet (réseau mondial)
+- Réseau interurbain de Camtel reliant les régions camerounaises
+- Réseau de la CEMAC (Communauté Économique et Monétaire de l'Afrique Centrale)
+- Interconnexion des systèmes bancaires OHADA en Afrique centrale
+- Réseaux des opérateurs mobiles (MTN, Orange) couvrant plusieurs pays africains
+
+**Technologies utilisées :**
+- **Fibres sous-marines** : SAT-3, WACS, ACE desservant le Cameroun
+- **Satellites** : Intelsat, Eutelsat
+- **Réseaux cellulaires** : 4G/LTE, 5G
+- **Protocoles** : TCP/IP, BGP, MPLS, VPN
+
+#### **3.4. Tableau comparatif des types de réseaux**
+
+| **Critère**         | **LAN**                    | **MAN**                      | **WAN**                      |
+|---------------------|----------------------------|------------------------------|------------------------------|
+| **Étendue**         | ≤ 1 km                     | Ville/région                 | Pays/continent/monde         |
+| **Débit**           | 10 Mbps - 100 Gbps         | 1 Mbps - 10 Gbps             | 64 Kbps - 10 Gbps            |
+| **Coût**            | Faible (organisation)      | Élevé (opérateur)            | Très élevé (opérateurs)      |
+| **Technologies**    | Ethernet, Wi-Fi            | Fibre optique, radio         | Fibre, satellite, 4G/5G      |
+| **Exemple local**   | Réseau universitaire       | Fibre de Yaoundé             | Internet au Cameroun         |
+| **Gestion**         | Organisation locale        | Opérateur municipal          | Opérateurs nationaux/internationaux |
+
+---
+
+### **4. Avantages des réseaux informatiques**
+
+#### **4.1. Avantages économiques**
+- **Partage des ressources** : réduit les coûts d'équipement (une imprimante pour plusieurs utilisateurs)
+- **Réduction des coûts de communication** : emails moins chers que courrier postal, VoIP moins chère que téléphonie traditionnelle
+- **Optimisation des achats** : licences logicielles en réseau souvent plus économiques
+
+**Exemple camerounais :** Une PME à Bafoussam peut partager une connexion Internet et une imprimante entre 10 postes, divisant les coûts par 10.
+
+#### **4.2. Avantages organisationnels**
+- **Partage de l'information** : accès centralisé aux données (serveur de fichiers)
+- **Communication améliorée** : email, messagerie instantanée, visioconférence
+- **Travail collaboratif** : outils partagés (Google Workspace, Microsoft 365)
+- **Gestion centralisée

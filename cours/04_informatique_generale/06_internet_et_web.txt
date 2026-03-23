@@ -1,0 +1,175 @@
+# **Notes de cours — 04 Informatique Générale**
+## **Chapitre : Internet et Web : protocoles TCP/IP, HTTP/HTTPS, DNS, navigateurs, moteurs de recherche, HTML/CSS de base**
+
+---
+
+### **1. Introduction : Internet et le Web**
+
+**Internet** est un réseau mondial de réseaux informatiques interconnectés utilisant des protocoles standardisés pour échanger des données. Il constitue l'infrastructure physique et logique.
+
+Le **World Wide Web (Web)** est un service d'information fonctionnant sur Internet, basé sur des pages liées par des hyperliens et accessibles via des navigateurs. C'est une application parmi d'autres sur Internet (comme le courriel, le FTP).
+
+**À retenir** : Internet est l'autoroute, le Web est un type de véhicule (comme un bus) qui y circule.
+
+---
+
+### **2. Les protocoles fondamentaux : TCP/IP**
+
+#### **2.1. Le modèle TCP/IP**
+Modèle en 4 couches, plus simple que le modèle OSI à 7 couches, qui est la base d'Internet.
+
+**Tableau : Les 4 couches du modèle TCP/IP**
+| **Couche** | **Rôle** | **Protocoles/Équipements** | **Exemple concret** |
+|------------|----------|----------------------------|----------------------|
+| **4. Application** | Interface avec l'utilisateur, services réseau | HTTP, HTTPS, DNS, FTP, SMTP | Navigateur (Chrome, Firefox) demandant une page web |
+| **3. Transport** | Gestion de la communication entre applications, fiabilité | **TCP** (Transmission Control Protocol), **UDP** (User Datagram Protocol) | TCP garantit la livraison complète d'un formulaire OHADA en ligne ; UDP pour un streaming vidéo (rapide mais moins fiable) |
+| **2. Internet** | Adressage et routage des paquets à travers les réseaux | **IP** (Internet Protocol), ICMP, Routers | Routeur Camtel déterminant le meilleur chemin pour envoyer des données de Yaoundé à Douala |
+| **1. Accès réseau** | Transmission physique des données sur le support | Ethernet, Wi-Fi, Filaire, Fibre optique | Câble Ethernet, antenne Wi-Fi MTN, fibre Orange |
+
+#### **2.2. Adressage IP et masque de sous-réseau**
+*   **Adresse IP (IPv4)** : Identifiant unique d'un appareil sur un réseau (format : 192.168.1.10). Exemple : L'adresse IP publique d'un serveur de l'ARMP (Autorité de Régulation des Marchés Publics) du Cameroun.
+*   **Masque de sous-réseau** : Définit quelle partie de l'adresse IP identifie le réseau et quelle partie identifie l'hôte (ex: 255.255.255.0).
+*   **IPv6** : Nouvelle version (format hexadécimal : 2001:0db8:85a3::8a2e:0370:7334) pour pallier la pénurie d'adresses IPv4.
+
+**Exemple Camerounais** : Un cybercafé à Bafoussam reçoit un bloc d'adresses IP publiques de son FAI (Camtel). Le routeur local utilise le masque de sous-réseau pour gérer les connexions de tous les ordinateurs du cyber.
+
+---
+
+### **3. Protocoles du Web : HTTP et HTTPS**
+
+#### **3.1. HTTP (HyperText Transfer Protocol)**
+Protocole de la couche application qui définit comment les clients (navigateurs) et les serveurs web communiquent.
+*   **Fonctionnement sans état** : Chaque requête est indépendante.
+*   **Méthodes (Verbes) principales** :
+    *   `GET` : Récupère une ressource (page, image).
+    *   `POST` : Envoie des données au serveur (formulaire de connexion, paiement).
+    *   `PUT`, `DELETE`, etc.
+*   **Codes de statut** :
+    *   `200 OK` : Succès.
+    *   `404 Not Found` : Ressource introuvable.
+    *   `500 Internal Server Error` : Erreur serveur.
+
+#### **3.2. HTTPS (HTTP Secure)**
+Extension sécurisée de HTTP utilisant le protocole **TLS/SSL** (Transport Layer Security / Secure Sockets Layer).
+*   **Chiffrement** : Les données échangées sont cryptées (illisibles si interceptées).
+*   **Authentification** : Vérifie l'identité du serveur via un **certificat numérique** délivré par une Autorité de Certification.
+*   **Intégrité** : Garantit que les données n'ont pas été altérées.
+
+**À retenir** : **TOUS** les sites web traitant des données sensibles (banque en ligne, e-commerce, administrations) **DOIVENT** utiliser HTTPS.
+**Exemple Africain** : Lorsque vous payez vos frais universitaires sur le site de l'Université de Yaoundé I ou que vous consultez votre solde Orange Money via l'application, la connexion **DOIT** être en HTTPS (cadenas vert dans la barre d'adresse).
+
+---
+
+### **4. Le système de noms de domaine (DNS)**
+
+#### **4.1. Rôle du DNS**
+Traduit les noms de domaine lisibles par l'homme (ex: `www.minpostel.gov.cm`) en adresses IP compréhensibles par les machines (ex: 196.200.111.10). C'est "l'annuaire téléphonique" d'Internet.
+
+#### **4.2. Processus de résolution DNS**
+1.  Vous tapez `www.ohada.org` dans votre navigateur.
+2.  Votre ordinateur interroge le **résolveur DNS** (souvent celui de votre FAI : MTN, Nexttel, Orange).
+3.  Le résolveur interroge les **serveurs racine DNS**, puis les serveurs **TLD** (.org), puis les serveurs **autoritatifs** pour `ohada.org`.
+4.  L'adresse IP est renvoyée à votre navigateur, qui peut alors se connecter au serveur.
+
+**Exemple concret** : Accéder au site de la **CAMPOST** (`www.campost.cm`). Sans DNS, il faudrait mémoriser son adresse IP numérique.
+
+---
+
+### **5. Navigateurs Web et Moteurs de Recherche**
+
+#### **5.1. Navigateurs Web (Browsers)**
+Logiciels clients permettant d'accéder et d'afficher les ressources du Web.
+*   **Fonctions principales** : Interpréter le HTML/CSS/JS, gérer les requêtes HTTP(S), afficher le contenu, gérer les favoris, l'historique, les cookies.
+*   **Moteur de rendu** : Composant cœur qui affiche la page (ex: Blink pour Chrome/Edge, Gecko pour Firefox, WebKit pour Safari).
+*   **Outils pour développeurs** : Intégrés (F12) pour déboguer HTML, CSS, JS, analyser les performances et les requêtes réseau. **Indispensable pour un génie logiciel**.
+
+**Principaux navigateurs (Contexte Entreprise)** : Google Chrome (le plus utilisé), Mozilla Firefox, Microsoft Edge, Safari.
+
+#### **5.2. Moteurs de Recherche (Search Engines)**
+Systèmes logiciels complexes qui indexent le web et permettent de trouver des informations.
+*   **Fonctionnement en 3 étapes** :
+    1.  **Exploration (Crawling)** : Les "robots" (spiders) parcourent le web en suivant les liens.
+    2.  **Indexation** : Les pages explorées sont analysées et stockées dans un immense index.
+    3.  **Résultats de recherche** : Classement des pages pertinentes selon un algorithme (ex: PageRank de Google) en réponse à une requête.
+*   **Référencement (SEO)** : Ensemble de techniques pour améliorer la visibilité d'un site dans les résultats *organiques* (non payants) des moteurs.
+
+**Exemple Local** : Un entrepreneur de Douala créant un site e-commerce pour vendre des produits locaux doit comprendre le SEO pour que son site apparaisse lorsque quelqu'un recherche "acheter tissu pagne camerounais en ligne".
+
+**Tableau comparatif : Navigateur vs Moteur de Recherche**
+| **Critère** | **Navigateur** | **Moteur de Recherche** |
+|-------------|----------------|--------------------------|
+| **Nature** | Logiciel applicatif installé localement | Service en ligne (site web) |
+| **Rôle** | Afficher les pages web | Trouver des pages web sur un sujet donné |
+| **Exemples** | Chrome, Firefox, Edge | Google, Bing, DuckDuckGo, Ecosia |
+| **Interface** | Barre d'adresse, onglets | Barre de recherche, page de résultats |
+
+---
+
+### **6. Bases du HTML et du CSS**
+
+#### **6.1. HTML (HyperText Markup Language)**
+Langage de balisage utilisé pour structurer le contenu d'une page web. Ce n'est pas un langage de programmation.
+
+*   **Structure de base d'un document HTML5 :**
+    ```html
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8"> <!-- Important pour afficher les accents -->
+        <title>Mon Site Camerounais</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <header><h1>Bienvenue au Marché Central de Yaoundé</h1></header>
+        <nav>...</nav>
+        <main>
+            <section>
+                <article><p>Vente de produits agricoles...</p></article>
+            </section>
+        </main>
+        <footer>© 2023 - Tous droits réservés</footer>
+    </body>
+    </html>
+    ```
+*   **Balises essentielles** : `<h1> à <h6>` (titres), `<p>` (paragraphe), `<a href="...">` (lien), `<img src="...">` (image), `<ul>/<li>` (liste), `<div>` (division), `<span>` (portion en ligne).
+
+#### **6.2. CSS (Cascading Style Sheets)**
+Langage de feuille de style utilisé pour décrire la présentation (couleurs, polices, mise en page) d'un document HTML.
+
+*   **Trois méthodes d'intégration** :
+    1.  **Interne** : Balise `<style>` dans le `<head>`.
+    2.  **Externe** (Recommandée) : Fichier `.css` lié via `<link>`.
+    3.  **En ligne** : Attribut `style` sur une balise HTML (à éviter si possible).
+
+*   **Syntaxe d'une règle CSS :**
+    ```css
+    sélecteur {
+        propriété: valeur;
+        /* Exemple */
+        color: green; /* Couleur du texte en vert */
+        background-color: yellow; /* Fond jaune */
+        font-family: Arial, sans-serif;
+        margin: 10px;
+    }
+    ```
+*   **Sélecteurs courants** :
+    *   `p` : Sélectionne tous les éléments `<p>`.
+    *   `.ma-classe` : Sélectionne tous les éléments dont l'attribut `class="ma-classe"`.
+    *   `#mon-id` : Sélectionne l'élément unique dont l'attribut `id="mon-id"`.
+
+**Exemple Pratique Intégré** : Créer une page simple présentant une entreprise locale (ex: une boulangerie à Garoua) avec un en-tête vert (couleur de l'espoir), des textes bien structurés en HTML et stylisés avec CSS.
+
+---
+
+### **7. Synthèse et Applications en Contexte Professionnel Camerounais**
+
+**Outils & Technologies pour le Génie Logiciel** :
+*   **Développement Web** : Éditeurs (VS Code, Sublime Text), navigateurs avec outils développeurs.
+*   **Analyse Réseau** : Wireshark (pour analyser les paquets TCP/IP, HTTP), `ping`, `tracert`/`traceroute` (pour diagnostiquer des pannes réseau).
+*   **Validation HTML/CSS** : Validateurs en ligne du W3C.
+
+**Cas d'étude** : Développement d'une plateforme de **déclaration d'impôts en ligne** pour la DGI (Direction Générale des Impôts) du Cameroun.
+1.  **Infrastructure** : Serveurs avec adresses IP fixes, connectés via les réseaux de FAI nationaux (Camtel).
+2.  **Sécurité** : **HTTPS obligatoire** avec certificat valide pour chiffrer les données fiscales sensibles.
+3.  **Nom** : Achat d'un nom de domaine `.cm` et configuration des enregistrements DNS.
+4.  **Frontend** : Interface

@@ -1,0 +1,152 @@
+CHAPITRE 1 — COMMANDES FONDAMENTALES ET SHELL BASH
+BTS Génie Logiciel — Administration Linux
+
+1. INTRODUCTION À LINUX
+
+Linux est un noyau (kernel) open source créé par Linus Torvalds en 1991. Les distributions (distros) combinent ce noyau avec des logiciels pour former un OS complet.
+
+Distributions populaires :
+- Serveurs : Ubuntu Server, Debian, CentOS/AlmaLinux, Red Hat Enterprise Linux (RHEL)
+- Desktop : Ubuntu, Fedora, Linux Mint, Arch Linux
+- Embarqué : Raspberry Pi OS, OpenWRT
+- Sécurité : Kali Linux, Parrot OS
+
+Architecture Linux :
+Matériel → Noyau (gestion ressources, pilotes) → Bibliothèques système (libc) → Shell → Applications
+
+2. LE SHELL BASH
+
+Le shell est l'interface en ligne de commande entre l'utilisateur et le noyau.
+Bash (Bourne Again Shell) est le shell le plus répandu sous Linux.
+
+Prompt : [user@hostname répertoire_courant]$
+# ou $ pour utilisateur ordinaire ; # pour root (super-administrateur)
+
+2.1 NAVIGATION DANS LE SYSTÈME DE FICHIERS
+
+pwd                 # afficher le répertoire courant (Print Working Directory)
+ls                  # lister les fichiers
+ls -l               # liste longue (permissions, propriétaire, taille, date)
+ls -la              # inclut les fichiers cachés (commençant par .)
+ls -lh              # taille en format humain (Ko, Mo, Go)
+cd /etc             # aller dans /etc (chemin absolu)
+cd ..               # remonter d'un niveau
+cd ~                # aller dans le dossier home de l'utilisateur courant
+cd -                # revenir au répertoire précédent
+
+2.2 GESTION DES FICHIERS ET RÉPERTOIRES
+
+mkdir nouveau_dossier       # créer un répertoire
+mkdir -p a/b/c              # créer une arborescence récursive
+rmdir vide                  # supprimer un répertoire VIDE
+rm fichier.txt              # supprimer un fichier
+rm -rf dossier/             # supprimer récursivement (DANGEREUX !)
+cp source destination       # copier
+cp -r dossier/ dest/        # copier récursivement
+mv ancien nouveau           # déplacer/renommer
+touch fichier.txt           # créer un fichier vide ou mettre à jour la date
+ln -s cible lien            # créer un lien symbolique
+
+2.3 LECTURE ET MANIPULATION DU CONTENU
+
+cat fichier.txt             # afficher tout le contenu
+less fichier.txt            # afficher page par page (q pour quitter)
+head -20 fichier.txt        # 20 premières lignes
+tail -20 fichier.txt        # 20 dernières lignes
+tail -f /var/log/syslog     # suivre un fichier en temps réel
+grep "motif" fichier.txt    # rechercher un motif
+grep -r "motif" /etc/       # recherche récursive
+grep -i "Linux" *.txt       # insensible à la casse
+wc -l fichier.txt           # compter les lignes
+sort fichier.txt            # trier
+sort -k2 -n fichier.txt     # trier sur la 2e colonne numérique
+uniq                        # supprimer les doublons consécutifs
+cut -d: -f1 /etc/passwd     # extraire le 1er champ délimité par :
+awk '{print $1, $3}' f.txt  # imprimer colonnes 1 et 3
+sed 's/ancien/nouveau/g' f  # remplacer dans un fichier
+
+2.4 PIPELINES ET REDIRECTIONS
+
+|   (pipe) : rediriger la sortie d'une commande vers l'entrée d'une autre
+>   : rediriger la sortie standard vers un fichier (écrase)
+>>  : ajouter à la fin d'un fichier
+<   : entrée depuis un fichier
+2>  : rediriger les erreurs
+&>  : rediriger sortie + erreurs
+
+Exemples :
+ls -la | grep ".py" | wc -l     # compter les fichiers Python
+cat /var/log/auth.log | grep "Failed" | tail -20
+find / -name "*.conf" 2>/dev/null   # cacher les erreurs
+echo "Bonjour" >> salutations.txt
+
+3. GESTION DES PERMISSIONS
+
+chmod 755 script.sh         # rwxr-xr-x
+chmod u+x,g-w script.sh    # ajouter x au propriétaire, enlever w au groupe
+chmod -R 644 /var/www/html/ # récursivement
+chown user:groupe fichier   # changer propriétaire
+chown -R www-data:www-data /var/www/
+
+SUID (4xxx) : exécution avec les droits du propriétaire du fichier (ex: /usr/bin/passwd)
+SGID (2xxx) : exécution avec les droits du groupe
+Sticky bit (1xxx) : seul le propriétaire peut supprimer ses fichiers (ex: /tmp)
+
+4. GESTION DES PROCESSUS
+
+ps aux              # lister tous les processus
+top                 # affichage dynamique (q pour quitter)
+htop                # version améliorée de top
+kill PID            # envoyer SIGTERM à un processus
+kill -9 PID         # SIGKILL (force)
+killall nom_prog    # tuer par nom
+jobs                # lister les processus en arrière-plan du shell
+&                   # lancer en arrière-plan : commande &
+fg %1               # ramener au premier plan
+bg %1               # reprendre en arrière-plan
+nohup commande &    # continuer après déconnexion
+nice -n 10 cmd      # lancer avec priorité basse
+
+5. GESTION DES UTILISATEURS
+
+useradd -m -s /bin/bash jean    # créer utilisateur avec home et shell
+passwd jean                     # définir/changer le mot de passe
+usermod -aG sudo jean           # ajouter jean au groupe sudo
+userdel -r jean                 # supprimer l'utilisateur et son home
+groupadd developpeurs           # créer un groupe
+id jean                         # voir UID, GID, groupes de jean
+who                             # utilisateurs connectés
+su - jean                       # changer d'utilisateur
+sudo commande                   # exécuter en tant que root
+
+6. SCRIPTS BASH DE BASE
+
+#!/bin/bash
+# Shebang : indique l'interpréteur
+
+# Variables
+NOM="Cameroun"
+echo "Bonjour depuis $NOM"
+
+# Condition
+if [ -f "/etc/passwd" ]; then
+    echo "Fichier existant"
+fi
+
+# Boucle
+for i in 1 2 3 4 5; do
+    echo "Itération $i"
+done
+
+# Boucle while
+compteur=0
+while [ $compteur -lt 5 ]; do
+    echo $compteur
+    ((compteur++))
+done
+
+# Fonction
+saluer() {
+    echo "Bonjour, $1 !"
+}
+saluer "Paul"

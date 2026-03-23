@@ -1,0 +1,117 @@
+# **Notes de cours — 03 Mathématiques**
+## **Analyse : Fonctions, limites, continuité, dérivées, intégrales**
+
+### **1. Introduction à l'Analyse et son importance en Génie Logiciel**
+L'analyse mathématique est le fondement de nombreux algorithmes et modèles utilisés en informatique. En génie logiciel, elle permet de :
+- Modéliser des problèmes réels (coûts, croissance d'utilisateurs, performances).
+- Optimiser des algorithmes (analyse de complexité).
+- Comprendre le comportement des fonctions dans les programmes (graphiques, simulations).
+- Calculer des valeurs critiques pour la prise de décision (seuils de rentabilité, tailles de données).
+
+**Exemple concret :** Une startup camerounaise développant une application de livraison utilise des fonctions pour modéliser les coûts de transport en fonction de la distance (Yaoundé → Douala) et optimiser ses tarifs.
+
+### **2. Les Fonctions Numériques**
+#### **2.1. Définition et Notations**
+Une fonction `f` d'une variable réelle `x` est une relation qui à tout `x` d'un ensemble de départ `D` (domaine de définition) associe **un et un seul** réel `y` dans un ensemble d'arrivée.
+Notation : `f : D → ℝ` et `y = f(x)`.
+
+**Domaine de Définition (Df) :** Ensemble des valeurs de `x` pour lesquelles `f(x)` est calculable.
+- Pour `f(x) = √(x-2)`, `Df = [2, +∞[` car l'expression sous la racine doit être ≥ 0.
+- Pour `f(x) = 1/(x-5)`, `Df = ℝ \ {5}` car le dénominateur ne doit pas être nul.
+
+#### **2.2. Types de Fonctions (Référentiel BTS GL)**
+| Type de Fonction | Forme Générale | Exemple | Application en Contexte |
+| :--- | :--- | :--- | :--- |
+| **Affine** | `f(x) = ax + b` | Coût fixe + coût variable | Modélisation du coût mensuel d'un abonnement internet **Camtel** : `C(x)=5000 + 1000x` (x en Go supplémentaires). |
+| **Polynôme (2nd degré)** | `f(x)=ax²+bx+c` | Courbe parabolique | Modélisation du bénéfice d'une PME sous **OHADA** en fonction du nombre d'articles vendus, avec coûts fixes et variables. |
+| **Racine Carrée** | `f(x)=√(ax+b)` | Fonction de croissance lente | Évolution de la base d'utilisateurs d'une nouvelle appli mobile. |
+| **Exponentielle** | `f(x)=e^(kx)` ou `a^x` | Croissance/ décroissance rapide | Décroissance du capital d'un investissement tech avec un taux d'intérêt fixe. |
+| **Logarithme (Népérien)** | `f(x)=ln(x)` | Fonction réciproque de l'exponentielle | Analyse de la performance d'un serveur (temps de réponse en fonction de la charge). |
+
+#### **2.3. Représentation Graphique et Propriétés**
+- **Parité :** `f` est **paire** si `f(-x)=f(x)` (symétrie par rapport à l'axe des ordonnées). `f` est **impaire** si `f(-x) = -f(x)` (symétrie par rapport à l'origine).
+- **Monotonie :** Une fonction est **croissante** (resp. **décroissante**) sur un intervalle I si pour tout `x1 < x2` dans I, on a `f(x1) ≤ f(x2)` (resp. `f(x1) ≥ f(x2)`).
+- **Extremums :** Un **maximum** (resp. **minimum**) local en `x0` si `f(x0)` est la plus grande (resp. petite) valeur de `f` autour de `x0`.
+
+**À retenir :** La première étape de l'étude d'une fonction est toujours la détermination de son **domaine de définition**.
+
+### **3. Limites et Continuité**
+#### **3.1. Notion intuitive de Limite**
+La limite de `f(x)` quand `x` tend vers `a` (notée `lim (x→a) f(x)`) est la valeur dont s'approche `f(x)` lorsque `x` s'approche de `a`, sans nécessairement l'atteindre.
+
+**Exemple concret (Télécoms) :** Modélisons le temps de latence `L(n)` (en ms) d'un réseau **MTN Mobile Money** en fonction du nombre `n` de transactions simultanées : `L(n) = 50 + (200/(n+1))`.
+- `lim (n→+∞) L(n) = 50 ms`. Le temps de latence minimal théorique est de 50 ms, même avec un très grand nombre d'utilisateurs.
+- `lim (n→(-1)+) L(n) = +∞`. Si le nombre de transactions approche -1 (impossible en pratique), la fonction "explose". Cela montre l'importance du domaine (`n ≥ 0`).
+
+#### **3.2. Calcul des Limites (Règles Opératoires)**
+- **Somme, Produit, Quotient :** Les limites se combinent (sous réserve de non-indétermination).
+- **Formes Indéterminées (FI) :** `∞ - ∞`, `0 × ∞`, `∞/∞`, `0/0`. Elles nécessitent une transformation (factorisation, simplification).
+- **Limites usuelles à connaître :**
+    - `lim (x→+∞) e^x = +∞` ; `lim (x→-∞) e^x = 0`.
+    - `lim (x→+∞) ln(x) = +∞` ; `lim (x→0+) ln(x) = -∞`.
+    - `lim (x→±∞) 1/x = 0`.
+
+#### **3.3. Continuité en un Point**
+Une fonction `f` est **continue en un point `a`** si :
+1. `f(a)` est définie ( `a ∈ Df` ).
+2. `lim (x→a) f(x)` existe (finie).
+3. `lim (x→a) f(x) = f(a)`.
+
+**Interprétation graphique :** La courbe de `f` ne présente pas de "saut" ou de "trou" en `a`.
+
+**Application en Assurance (OHADA) :** Une compagnie d'assurance propose un tarif `T(k)` pour assurer `k` appareils dans un cybercafé. Si la fonction est discontinue, un petit changement (passer de 10 à 11 appareils) pourrait entraîner un saut de tarif déraisonnable et illégal. La continuité assure une progressivité loyale des prix.
+
+**Théorème des Valeurs Intermédiaires (TVI) :** Si `f` est continue sur `[a, b]` et que `k` est compris entre `f(a)` et `f(b)`, alors il existe au moins un `c` dans `[a, b]` tel que `f(c) = k`. Utilisé pour trouver des solutions d'équations.
+
+### **4. Dérivation des Fonctions**
+#### **4.1. Nombre Dérivé et Fonction Dérivée**
+- **Taux d'accroissement :** `(f(x) - f(a))/(x - a)`. C'est la pente de la sécante à la courbe entre les points d'abscisses `a` et `x`.
+- **Nombre dérivé en `a` :** `f'(a) = lim (h→0) (f(a+h) - f(a))/h` (si la limite existe). C'est la pente de la **tangente** à la courbe au point d'abscisse `a`.
+- **Fonction dérivée :** La fonction `f' : x → f'(x)` qui donne le nombre dérivé en tout point.
+
+#### **4.2. Règles de Dérivation (Tableau Indispensable)**
+| Fonction `f(x)` | Dérivée `f'(x)` | Condition |
+| :--- | :--- | :--- |
+| `k` (constante) | `0` | |
+| `x^n` | `n*x^(n-1)` | `n ∈ ℝ` |
+| `√x` | `1/(2√x)` | `x > 0` |
+| `e^x` | `e^x` | |
+| `ln(x)` | `1/x` | `x > 0` |
+| `u + v` | `u' + v'` | |
+| `k*u` | `k*u'` | |
+| `u*v` | `u'v + uv'` | |
+| `u/v` | `(u'v - uv') / v²` | `v(x) ≠ 0` |
+| `u ∘ v` (`u(v(x))`) | `v'(x) * u'(v(x))` | (Dérivée d'une composée) |
+
+#### **4.3. Applications de la Dérivée**
+1. **Étude des Variations :** Théorème fondamental :
+    - Si `f'(x) > 0` sur I, alors `f` est **strictement croissante** sur I.
+    - Si `f'(x) < 0` sur I, alors `f` est **strictement décroissante** sur I.
+    - Si `f'(x) = 0` en `x0`, alors `f` possède un **extremum local** possible en `x0` (point critique).
+
+2. **Recherche d'Extremums (Optimisation) :**
+    **Problème concret :** Une entreprise de logiciels à Douala a un coût de production `C(q) = 500000 + 5000q` (FCFA) pour `q` licences, et une recette `R(q) = 15000q - 0.1q²`.
+    - Le bénéfice est `B(q) = R(q) - C(q) = -0.1q² + 10000q - 500000`.
+    - `B'(q) = -0.2q + 10000`. `B'(q) = 0 ⇔ q = 50000`.
+    - `B''(q) = -0.2 < 0`, donc **maximum** en `q=50000`. Le bénéfice maximal est `B(50000)`.
+
+3. **Élasticité (Économie Numérique) :** Mesure la sensibilité de la demande `D(p)` d'un service (ex: forfait **Orange**) au prix `p`. `E(p) = p * (D'(p)/D(p))`. Si `|E(p)| > 1`, la demande est élastique (une hausse de prix fait baisser fortement la demande).
+
+### **5. Intégration et Calcul d'Aires**
+#### **5.1. Primitive d'une Fonction**
+Une fonction `F` est une **primitive** de `f` sur un intervalle I si pour tout `x` de I, `F'(x) = f(x)`.
+- **Propriété :** Si `F` est une primitive de `f`, alors `F + k` (où `k` est une constante) l'est aussi. Toutes les primitives diffèrent d'une constante.
+
+**Tableau des Primitives Usuelles :**
+| Fonction `f(x)` | Une primitive `F(x)` | Condition |
+| :--- | :--- | :--- |
+| `k` (constante) | `k*x` | |
+| `x^n` | `(x^(n+1))/(n+1)` | `n ≠ -1` |
+| `1/x` | `ln(\|x\|)` | `x ≠ 0` |
+| `e^x` | `e^x` | |
+| `u'(x) * u(x)^n` | `(u(x)^(n+1))/(n+1)` | (Primitive d'une composée) |
+
+#### **5.2. Intégrale Définie et Calcul d'Aire**
+- **Définition (Intégrale de Riemann) :** L'intégrale de `a` à `b` de `f`, notée `∫_a^b f(x) dx`, représente l'**aire algébrique** (comptée positivement au-dessus de l'axe des abscisses et négativement en dessous) du domaine délimité par la courbe de `f`, l'axe des abscisses et les droites verticales `x=a` et `x=b`.
+- **Théorème Fondamental :** Si `F` est une primitive de `f` sur `[a, b]`, alors :
+    `∫_a^b f(x) dx = [F(x)]_a^b

@@ -1,0 +1,137 @@
+# **Notes de Cours — BTS Génie Logiciel**
+**Matière :** 12 Système d'Information
+**Chapitre :** Passage MCD → MLD → MPD : règles de transformation, clés étrangères, tables de jointure, dénormalisation
+
+---
+
+## **1. Introduction : La chaîne de conception des bases de données**
+
+La conception d'une base de données relationnelle suit une démarche rigoureuse et progressive, souvent matérialisée par trois modèles clés :
+*   **MCD (Modèle Conceptuel de Données)** : Modèle indépendant de toute considération technique, centré sur les données et leurs relations (modèle entité-association).
+*   **MLD (Modèle Logique de Données)** : Traduction du MCD en structures de données exploitables par un SGBD relationnel (tables, colonnes, clés).
+*   **MPD (Modèle Physique de Données)** : Adaptation du MLD à un SGBD spécifique (Oracle, MySQL, PostgreSQL) avec des choix d'optimisation physique (index, partitions, types de données précis).
+
+**Objectif du chapitre :** Maîtriser les règles de transformation systématiques permettant de passer d'un MCD (vision métier) à un MLD exploitable, puis à un MPD optimisé pour la performance.
+
+> **À retenir :** Le MCD répond à la question "QUOI ?" (quelles données ?), le MLD au "COMMENT ?" (comment les structurer en tables ?), et le MPD au "AVEC QUOI et POUR QUEL PERFORMANCE ?" (sur quel SGBD et avec quelle optimisation ?).
+
+---
+
+## **2. Du MCD au MLD : Règles fondamentales de transformation**
+
+### **2.1. Règle 1 : Transformation des Entités**
+Chaque **entité** du MCD devient une **table** (ou relation) dans le MLD.
+*   Les **attributs** de l'entité deviennent les **colonnes** (attributs) de la table.
+*   L'**identifiant** de l'entité devient la **clé primaire** de la table. Elle est soulignée.
+
+**Exemple concret (Contexte OHADA) :**
+*   **MCD :** Entité `CLIENT` avec id_client (NIU*), nom, prénom, téléphone, ville.
+*   **MLD :** Table `CLIENT` (**id_client** INT, nom VARCHAR(50), prenom VARCHAR(50), telephone VARCHAR(15), ville VARCHAR(30)).
+> *NIU : Numéro d'Identification Unique des entreprises dans l'espace OHADA.*
+
+### **2.2. Règle 2 : Transformation des Associations**
+Le traitement dépend du **degré** et de la **cardinalité** de l'association.
+
+#### **2.2.1. Association de type 1,1 — 0,1 ou 1,1 — 1,1 (Association porteuse)**
+L'association est transformée par **intégration de la clé étrangère**.
+*   La clé primaire de l'une des entités est intégrée comme **clé étrangère** dans la table correspondant à l'autre entité.
+*   Choix de la table recevant la clé étrangère : généralement celle du côté "1,1" si l'association est 1,1 — 0,1.
+
+**Exemple :** Un `EMPLOYE` (1,1) est affecté à au plus un `BUREAU` (0,1).
+*   Table `EMPLOYE` (id_emp, nom, ..., **id_bureau** INT)
+*   Table `BUREAU` (id_bureau, nom_bureau, étage)
+*   `id_bureau` dans `EMPLOYE` est une **clé étrangère** référençant `BUREAU(id_bureau)`.
+
+#### **2.2.2. Association de type 0,n — 1,1 ou 1,n — 1,1**
+L'association est transformée par **intégration de la clé étrangère du côté "n"**.
+*   La clé primaire de l'entité du côté "1" est intégrée comme clé étrangère dans la table du côté "n".
+
+**Exemple (Contexte Camtel) :** Une `REGION` (1,1) comprend plusieurs `AGENCES` (0,n).
+*   Table `REGION` (id_region, nom_region)
+*   Table `AGENCE` (id_agence, nom_agence, adresse, **id_region** INT)
+*   `id_region` dans `AGENCE` est une clé étrangère référençant `REGION(id_region)`.
+
+#### **2.2.3. Association de type 0,n — 0,n ou 1,n — 1,n**
+L'association est transformée par **création d'une nouvelle table**, appelée **table de jointure** (ou table d'association).
+*   Cette nouvelle table est composée **au minimum** des clés primaires des deux entités associées, qui forment ensemble une clé primaire composite.
+*   Elle peut également porter les **attributs de l'association** s'il en existe.
+
+**Exemple (Système de Vente) :** Une `COMMANDE` (0,n) contient plusieurs `PRODUIT` (0,n). L'association `CONTENIR` a un attribut `quantite`.
+*   Table `COMMANDE` (num_cmd, date, id_client)
+*   Table `PRODUIT` (id_produit, libelle, prix)
+*   **Table de jointure `LIGNE_COMMANDE`** (**num_cmd** INT, **id_produit** INT, quantite INT, prix_unitaire DECIMAL)
+*   La clé primaire de `LIGNE_COMMANDE` est (num_cmd, id_produit). `num_cmd` est clé étrangère vers `COMMANDE`. `id_produit` est clé étrangère vers `PRODUIT`.
+
+### **2.3. Règle 3 : Transformation des Associations réflexives**
+On applique les mêmes règles (2.2.1 à 2.2.3) en considérant l'entité comme jouant deux rôles distincts.
+*   **Pour une réflexive 1,n (hiérarchique)** : On ajoute à la table une clé étrangère référençant la clé primaire de la même table (ex: `id_supérieur` dans `EMPLOYE` référençant `EMPLOYE(id_emp)`).
+*   **Pour une réflexive n,n** : On crée une table de jointure à deux colonnes, chacune étant une clé étrangère vers la même table primaire (ex: Table `COMPOSITION`(id_produit_composant, id_produit_compose)).
+
+---
+
+## **3. Concepts Clés du MLD : Clés Étrangères et Tables de Jointure**
+
+### **3.1. La Clé Étrangère (Foreign Key - FK)**
+**Définition :** Une clé étrangère est un attribut (ou un ensemble d'attributs) d'une table `T1` qui référence la **clé primaire** d'une table `T2`. Elle matérialise un lien de dépendance logique et assure **l'intégrité référentielle**.
+
+**Rôles :**
+1.  **Lier les données** entre tables.
+2.  **Garantir l'intégrité référentielle** : Empêche la création d'une référence ("enfant") vers une donnée qui n'existe pas ("parent"). Un SGBD peut appliquer des règles (`ON DELETE CASCADE`, `ON UPDATE RESTRICT`).
+
+**Exemple MLD complet (Mini-gestion de Commandes) :**
+```sql
+CLIENT (id_client, nom, prenom, ville)
+COMMANDE (num_cmd, date_cmd, #id_client) -- #id_client est FK vers CLIENT
+PRODUIT (id_produit, libelle, categorie, prix)
+LIGNE_COMMANDE (#num_cmd, #id_produit, quantite) -- Table de jointure
+```
+*(La notation `#attribut` indique une clé étrangère)*
+
+### **3.2. La Table de Jointure (Table d'Association)**
+**Définition :** Table créée spécifiquement pour résoudre une association de type "plusieurs-à-plusieurs" (n,n) entre deux entités. C'est la matérialisation physique de cette association complexe.
+
+**Caractéristiques :**
+*   Sa clé primaire est souvent **composite**, formée par la concaténation des clés étrangères.
+*   Elle est au **centre des requêtes de jointure** pour reconstituer l'information.
+*   Elle peut évoluer pour devenir une **entité à part entière** si elle acquiert de nombreux attributs propres.
+
+**Exemple Africain (Service de Mobile Money - MTN MoMo / Orange Money) :**
+*   **Entités :** `UTILISATEUR`, `TRANSACTION`.
+*   **Association :** Un UTILISATEUR (1,n) effectue plusieurs TRANSACTION (0,n). Une TRANSACTION lie un expéditeur et un bénéficiaire (tous deux UTILISATEUR). Cela nécessite une modélisation précise avec potentiellement deux FKs dans `TRANSACTION` vers `UTILISATEUR` (id_expediteur, id_beneficiaire) ou une table de jointure si plus complexe.
+
+---
+
+## **4. Du MLD au MPD : Optimisation et Dénormalisation**
+
+### **4.1. Principes du MPD**
+Le MPD est la **déclinaison physique** du MLD pour un **SGBD précis** (MySQL, PostgreSQL, Oracle, Microsoft SQL Server). Il prend en compte :
+*   Les **types de données physiques** (`VARCHAR(255)`, `INT`, `DATE`, `DECIMAL(10,2)`).
+*   Les **contraintes d'intégrité** (`PRIMARY KEY`, `FOREIGN KEY`, `UNIQUE`, `CHECK`, `NOT NULL`).
+*   Les **structures d'optimisation** : **Index**, vues matérialisées, partitions, tablespace.
+*   Les **règles de sécurité** : Utilisateurs, rôles, privilèges.
+*   Les **choix de dénormalisation**.
+
+### **4.2. La Dénormalisation Contrôlée**
+**Définition :** Technique consistant à **introduire une redondance maîtrisée** dans le schéma de la base de données (en violant partiellement les formes normales) dans le but **d'améliorer les performances des requêtes de lecture**.
+
+**Justification :** Un schéma parfaitement normalisé (MLD) minimise la redondance et les anomalies, mais peut nécessiter de nombreuses **jointures** (JOIN) pour reconstituer une information fréquemment demandée, ce qui est coûteux en temps d'exécution.
+
+#### **4.2.1. Techniques de Dénormalisation Courantes**
+1.  **Duplication d'attributs :** Ajouter dans une table "enfant" un attribut dérivé ou copié de la table "parent" pour éviter une jointure.
+    *   *Exemple :* Ajouter `nom_region` dans la table `AGENCE` (en plus de `id_region`).
+2.  **Regroupement de tables (Tables pré-jointes) :** Fusionner des tables liées par une relation 1,1 ou 1,n si elles sont toujours interrogées ensemble.
+3.  **Ajout de colonnes dérivées/calculées :** Stocker le résultat d'un calcul (`total_ttc`, `age`, `montant_total_commandes_année`) pour éviter de le recalculer à chaque requête.
+4.  **Création de tables de résumé (Agrégats) :** Tables contenant des données agrégées (`CA_par_mois_par_boutique`) pour les rapports lourds.
+
+#### **4.2.2. Avantages et Inconvénients**
+| **Avantages (Performance)**                                  | **Inconvénients (Intégrité/Maintenance)**                  |
+| ------------------------------------------------------------ | ---------------------------------------------------------- |
+| Réduction du nombre de jointures (requêtes plus rapides).    | **Redondance des données** (consommation d'espace accrue). |
+| Simplification des requêtes complexes.                       | **Risque d'anomalies de mise à jour** (incohérence).       |
+| Amélioration des performances pour les opérations de lecture (OLAP*, reporting). | Complexité accrue des procédures de mise à jour (triggers). |
+| *OLAP : Traitement Analytique en Ligne (analyse décisionnelle). | La logique métier est partiellement codée dans la structure. |
+
+#### **4.2.3. Bonnes Pratiques pour la Dénormalisation**
+*   **Ne pas dénormaliser prématurément.** Partir d'un MLD normalisé et optimiser seulement si des problèmes de performance sont avérés.
+*   **Bien documenter** toute redondance introduite.
+*

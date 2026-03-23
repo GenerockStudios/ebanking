@@ -1,0 +1,136 @@
+# Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)
+## Matière : 06 Expression Française
+## Chapitre : Grammaire et orthographe professionnelle : accords (participes, adjectifs), ponctuation, homophones, registres de langue
+
+---
+
+### Introduction
+Dans le monde professionnel, en particulier dans le génie logiciel, la maîtrise de l'expression écrite est une compétence transversale essentielle. Une documentation technique claire, des spécifications fonctionnelles précises, des rapports de projet bien rédigés et des communications professionnelles sans ambiguïté sont indispensables à la réussite des projets informatiques. Ce chapitre aborde les fondamentaux de la grammaire et de l'orthographe appliqués au contexte professionnel camerounais et africain.
+
+---
+
+### 1. Les accords : une exigence de précision
+
+#### 1.1. L'accord du participe passé
+Le participe passé conjugué avec l'auxiliaire **être** s'accorde en genre et en nombre avec le **sujet**.
+*Exemple :* "L'équipe de développement **est arrivée** hier à Douala." (équipe = féminin singulier)
+
+Le participe passé conjugué avec l'auxiliaire **avoir** s'accorde en genre et en nombre avec le **complément d'objet direct (COD)** si celui-ci est placé **avant** le verbe.
+*Exemple :* "Les spécifications que nous **avons rédigées** sont exhaustives." (COD "que" mis pour "spécifications", placé avant "avons rédigées")
+
+**Cas particuliers professionnels :**
+- **Participe passé suivi d'un infinitif** : Il s'accorde si le COD fait l'action de l'infinitif.
+  *Exemple :* "Les développeuses que j'ai **vues** coder étaient très concentrées." (Ce sont elles qui codent).
+- **Participe passé des verbes impersonnels** : Il reste invariable.
+  *Exemple :* "Les heures de travail qu'il a **fallu** pour ce projet."
+
+#### 1.2. L'accord de l'adjectif qualificatif
+L'adjectif s'accorde en genre (masculin/féminin) et en nombre (singulier/pluriel) avec le nom ou le pronom auquel il se rapporte.
+
+**À retenir :**
+- **Adjectifs de couleur** : Ils s'accordent sauf s'ils sont composés ou s'ils sont des noms utilisés comme adjectifs.
+  *Exemple :* "Des interfaces **bleues**" (accord) vs "Des thèmes **orange**" (invariable, car c'est un nom).
+- **Adjectifs composés** : Seul le premier élément s'accorde si les deux sont des adjectifs. Aucun n'accorde si le second est un adjectif invariable ou un nom.
+  *Exemple :* "Des applications **nouveau-nées**" (nouveau s'accorde, né s'accorde) vs "Des designs **avant-garde**" (invariable).
+
+**Application en contexte GL :**
+> "La dernière **version stable** du logiciel de gestion OHADA est **opérationnelle**. Les **nouveaux modules** intégrés sont **conformes** aux normes. Nous avons reçu des **retours positifs** de nos clients **cameroonais** et **ivoiriens**."
+
+---
+
+### 2. La ponctuation : l'art de structurer la pensée technique
+
+La ponctuation guide la lecture, hiérarchise l'information et évite les contresens, cruciaux dans les documents techniques.
+
+#### 2.1. Les signes essentiels et leur usage professionnel
+
+| Signe | Usage principal | Exemple dans un contexte GL |
+| :--- | :--- | :--- |
+| **Point (.)** | Fin d'une phrase déclarative. | "Le déploiement est terminé." |
+| **Virgule (,)** | Énumération, incise, séparation de propositions. | "Le framework utilise Python, Django, et PostgreSQL." |
+| **Point-virgule (;)** | Lien logique entre deux phrases ; séparation dans une liste complexe. | "Le front-end est prêt ; cependant, l'API backend nécessite des tests supplémentaires." |
+| **Deux-points (:)** | Introduction d'une liste, d'une explication, d'une citation. | "Les prérequis sont : un serveur Linux, 8 Go de RAM, Java 11." |
+| **Points de suspension (...)** | Inachèvement, énumération non exhaustive. | "Les langages supportés sont C++, Java, Python..." |
+| **Guillemets (« »)** | Citation, terme spécifique, distance. | "L'erreur « NullPointerException » est fréquente." |
+| **Tiret (–)** | Dialogue (dans un compte-rendu), énumération en alinéa. | "– L'équipe a validé le sprint. – Le client a approuvé la démo." |
+
+#### 2.2. Importance dans la rédaction technique
+- **Spécifications** : Une virgule mal placée peut changer les conditions d'une règle métier.
+- **Commentaires de code** : Une ponctuation claire améliore la lisibilité du code pour les autres développeurs.
+- **Courriels professionnels** : Une ponctuation appropriée (éviter le point excessif !!!) renforce le ton professionnel.
+
+---
+
+### 3. Les homophones : éliminer les ambiguïtés lexicales
+
+Les homophones sont des mots qui se prononcent de la même manière mais s'écrivent différemment et ont des sens différents. Leur confusion est source d'erreurs graves dans la documentation.
+
+#### 3.1. Tableau des homophones fréquents en milieu professionnel
+
+| Homophones | Règle / Différence | Exemple concret (Contexte Camerounais) |
+| :--- | :--- | :--- |
+| **a / à** | "a" = verbe avoir ; "à" = préposition. | "MTN **a** lancé un nouveau service. Il est disponible **à** Yaoundé et **à** Douala." |
+| **et / est** | "et" = conjonction ; "est" = verbe être. | "Le réseau **est** stable **et** la latence est faible." |
+| **son / sont** | "son" = adjectif possessif ; "sont" = verbe être. | "**Son** équipe **sont** les meilleurs développeurs du projet Camtel." |
+| **ces / ses / c'est / s'est** | "ces" = démonstratif ; "ses" = possessif ; "c'est" = ce est ; "s'est" = se est + verbe. | "**C'est** pour **ces** raisons que l'équipe **s'est** réunie pour présenter **ses** résultats." |
+| **ou / où** | "ou" = conjonction (alternative) ; "où" = pronom relatif (lieu/temps). | "Voulez-vous une réunion physique **ou** virtuelle ? Le bureau **où** nous nous réunissons est équipé." |
+| **différent / différant** | "différent" = adjectif ; "différant" = participe présent de différer. | "Nous avons testé **différents** navigateurs. En **différant** la date de livraison, nous risquons des pénalités." |
+
+**À retenir :** Dans un rapport de bug : écrire "Le site **s'est** planté" et non "Le site **c'est** planté".
+
+---
+
+### 4. Les registres de langue : adapter sa communication au contexte
+
+Le choix du registre de langue (niveau de langage) dépend du destinataire, du support et de l'objectif de la communication.
+
+#### 4.1. Les trois registres principaux
+
+1.  **Registre soutenu / formel** :
+    *   **Caractéristiques** : Syntaxe complexe, vocabulaire riche et précis, tournures impersonnelles.
+    *   **Contexte d'usage** : Rapports officiels (MINPOSTEL), appels d'offres, contrats (conventions OHADA), thèse, communication avec la hiérarchie.
+    *   **Exemple** : "Nous avons l'honneur de vous soumettre la présente proposition technique relative à la refonte du système d'information. Les présentes spécifications détaillées en annexe font foi."
+
+2.  **Registre courant / standard** :
+    *   **Caractéristiques** : Syntaxe correcte et claire, vocabulaire usuel. C'est le registre de référence en communication professionnelle écrite.
+    *   **Contexte d'usage** : Courriels professionnels, documentation utilisateur, spécifications techniques, comptes-rendus de réunion, articles de blog technique.
+    *   **Exemple** : "Bonjour l'équipe, Veuillez trouver ci-joint le compte-rendu de la réunion de sprint. La prochaine revue de code est prévue pour vendredi. Cordialement."
+
+3.  **Registre familier / informel** :
+    *   **Caractéristiques** : Syntaxe relâchée, vocabulaire colloquial, abréviations.
+    *   **Contexte d'usage** : Discussions informelles sur Slack/Teams, commentaires entre collègues proches sur un dépôt Git (e.g., "Fix un bug chelou sur le module paiement"). **À éviter absolument** dans tout document formel ou externe.
+
+#### 4.2. Application dans les métiers du GL
+- **Documentation pour les utilisateurs finaux** (d'une application Orange Money) : Registre **courant**, simple et pédagogique.
+- **Commentaires dans le code source** : Registre **courant**, concis et technique. *Exemple : `// Vérifie la conformité du numéro MTN avant envoi de la transaction`*
+- **Échange avec un client (Camtel)** : Registre **courant à formel**, selon la relation.
+- **Chat d'équipe de développement** : Registre **courant à informel**.
+
+---
+
+### 5. Outils et technologies d'aide à la rédaction professionnelle
+
+Tout professionnel du GL doit intégrer des outils de vérification dans son workflow.
+
+- **Correcteurs intégrés** : Grammarly, LanguageTool, Antidote (payant mais très puissant).
+- **Extensions pour IDE/Éditeurs de code** : Extensions pour VS Code (Code Spell Checker, Grammarly), intégration dans JetBrains IDE.
+- **Fonctionnalités des suites bureautiques** : Vérificateur orthographique et grammatical de Microsoft Word ou LibreOffice Writer (à configurer en français).
+- **Bonnes pratiques** :
+    1.  **Ne pas se fier à 100% aux correcteurs automatiques.** Ils ne comprennent pas le contexte.
+    2.  **Relire à haute voix** pour détecter les fautes de syntaxe et les lourdeurs.
+    3.  **Faire relire par un pair** (Peer review), y compris pour la documentation.
+
+---
+
+### Conclusion et synthèse
+
+La maîtrise de la grammaire, de l'orthographe et de l'adaptation du registre de langue n'est pas un détail ornemental. C'est une **composante fondamentale de la qualité professionnelle** en génie logiciel. Elle :
+- **Réduit les ambiguïtés** et les erreurs d'interprétation coûteuses.
+- **Améliore la collaboration** au sein d'équipes souvent pluriculturelles et plurilingues en Afrique.
+- **Renforce la crédibilité** du développeur, de l'analyste et de l'entreprise (start-up camerounaise, filiale d'Orange, etc.).
+- **Garantit la pérennité et la maintenabilité** de la documentation technique.
+
+**Exercice pratique suggéré :** Prendre un commentaire de code ou un courriel rédigé de manière informelle et le réécrire dans un registre professionnel courant, en appliquant les règles d'accord et de ponctuation étudiées.
+
+---
+*Références implicites : Programme officiel BTS GL Camerounais - MINESUP/MINPOSTEL ; Guides de rédaction technique ; Conventions de l'OHADA.*

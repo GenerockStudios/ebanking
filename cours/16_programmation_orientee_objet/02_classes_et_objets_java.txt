@@ -1,0 +1,233 @@
+# **Notes de Cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 16 Programmation Orientée Objet**
+## **Chapitre : Classes et objets en Java : déclaration, constructeurs, attributs (static, final), méthodes, surcharge, toString, equals**
+
+---
+
+### **1. Introduction à la Programmation Orientée Objet (POO) et à Java**
+
+#### **1.1. Concepts Fondamentaux de la POO**
+La Programmation Orientée Objet est un paradigme de programmation qui structure le code autour de la notion d'**objet**, une entité regroupant des données (attributs) et des comportements (méthodes). Ce paradigme est au cœur du développement logiciel moderne, utilisé dans les systèmes d'information des entreprises camerounaises (banques, télécoms, administrations OHADA).
+
+**Les 4 piliers de la POO :**
+1.  **Encapsulation :** Regroupement des données et des méthodes dans une classe, avec contrôle d'accès (`private`, `public`).
+2.  **Héritage :** Création de nouvelles classes basées sur des classes existantes.
+3.  **Polymorphisme :** Capacité d'un objet à prendre plusieurs formes (surcharge, redéfinition).
+4.  **Abstraction :** Modélisation des caractéristiques essentielles d'un objet, en masquant les détails complexes.
+
+**Java dans le contexte camerounais :** Java est un langage de programmation orienté objet, multiplateforme, robuste et sécurisé. Il est largement utilisé dans le développement :
+*   **Backend d'applications web et mobiles** (systèmes bancaires, plateformes de mobile money comme Orange Money, MTN Mobile Money).
+*   **Applications d'entreprise** (gestion des ressources humaines, comptabilité selon le système OHADA).
+*   **Environnements Android** (développement d'applications natives).
+
+**Outils et Technologies :**
+*   **JDK (Java Development Kit) :** Nécessaire pour compiler et exécuter du code Java.
+*   **IDE (Environnements de Développement Intégrés) :** IntelliJ IDEA, Eclipse, NetBeans. En entreprise, IntelliJ IDEA (version Ultimate ou Community) est très répandu pour sa productivité.
+*   **Build Tools :** Maven ou Gradle pour la gestion des dépendances et l'automatisation des builds.
+
+---
+
+### **2. Classes et Objets : Déclaration et Instanciation**
+
+#### **2.1. Définition et Relation**
+*   **Classe :** C'est un **plan de construction**, un modèle ou un moule qui définit la structure et le comportement des objets. C'est une abstraction.
+*   **Objet :** C'est une **instance** concrète d'une classe, créée en mémoire à l'exécution. Un objet possède un état (valeurs de ses attributs) et un comportement (méthodes).
+
+**Analogie Camerounaise :**
+*   La classe `**ContratOHADA**` est le modèle standardisé de contrat défini par l'Organisation pour l'Harmonisation en Afrique du Droit des Affaires.
+*   L'objet `**contratVenteTerrainDouala**` est une instance spécifique de ce modèle, avec des valeurs précises (noms des parties, prix, date).
+
+#### **2.2. Déclaration d'une Classe en Java**
+La déclaration d'une classe suit la syntaxe suivante :
+```java
+[modificateurs d'accès] class NomDeLaClasse {
+    // Déclaration des attributs (variables)
+    // Déclaration des constructeurs
+    // Déclaration des méthodes
+}
+```
+
+**Exemple Concret : Modélisation d'un Abonné Camtel**
+```java
+public class AbonneCamtel {
+    // Attributs décrivant l'état d'un abonné
+    private String numeroTelephone; // Ex: "237 6XX XX XX XX"
+    private String nom;
+    private String prenom;
+    private String typeAbonnement; // "Prépayé", "Postpayé"
+    private double soldeCredit; // En FCFA
+
+    // Constructeur(s) et Méthodes seront ajoutés après
+}
+```
+
+#### **2.3. Instanciation d'un Objet (Mot-clé `new`)**
+L'instanciation crée un objet en mémoire en utilisant le mot-clé `new` et un constructeur.
+```java
+// Déclaration d'une variable de référence de type 'AbonneCamtel'
+AbonneCamtel client;
+
+// Instanciation : création effective de l'objet en mémoire
+client = new AbonneCamtel();
+
+// Déclaration et instanciation combinées
+AbonneCamtel autreClient = new AbonneCamtel();
+```
+
+**À retenir :** `new` alloue la mémoire pour l'objet et appelle le **constructeur** de la classe pour l'initialiser.
+
+---
+
+### **3. Les Constructeurs**
+
+#### **3.1. Rôle et Définition**
+Un constructeur est une **méthode spéciale** qui porte le même nom que la classe. Il est automatiquement appelé lors de l'instanciation (`new`). Son rôle principal est d'**initialiser les attributs** du nouvel objet.
+
+**Caractéristiques :**
+*   Pas de type de retour (pas même `void`).
+*   Nom identique à celui de la classe.
+*   Surcharge possible (plusieurs constructeurs avec des paramètres différents).
+
+#### **3.2. Constructeur par Défaut et Constructeurs Personnalisés**
+*   **Constructeur par défaut :** Fourni automatiquement par Java si aucun constructeur n'est défini. Il n'a pas de paramètres et initialise les attributs aux valeurs par défaut (0, `null`, `false`).
+*   **Constructeur personnalisé :** Permet de forcer l'initialisation des objets avec des valeurs spécifiques.
+
+**Exemple : Constructeurs pour la classe `AbonneCamtel`**
+```java
+public class AbonneCamtel {
+    private String numeroTelephone;
+    private String nom;
+    // ... autres attributs
+
+    // Constructeur par défaut (explicite)
+    public AbonneCamtel() {
+        this.numeroTelephone = "Non attribué";
+        this.nom = "Inconnu";
+        this.soldeCredit = 0.0;
+    }
+
+    // Constructeur personnalisé avec paramètres
+    public AbonneCamtel(String numero, String nomClient, String prenomClient, String type) {
+        this.numeroTelephone = numero;
+        this.nom = nomClient;
+        this.prenom = prenomClient;
+        this.typeAbonnement = type;
+        this.soldeCredit = (type.equals("Prépayé")) ? 100.0 : 0.0; // Crédit de bienvenue
+    }
+
+    // Utilisation
+    // AbonneCamtel client1 = new AbonneCamtel(); // Utilise le 1er constructeur
+    // AbonneCamtel client2 = new AbonneCamtel("237 699 101 112", "FOTSO", "Arsène", "Prépayé");
+}
+```
+
+**Mot-clé `this` :** Fait référence à l'instance courante de l'objet. Il est utilisé pour lever l'ambiguïté entre les attributs de la classe et les paramètres de la méthode/constructeur.
+
+---
+
+### **4. Les Attributs : Variables d'Instance, `static` et `final`**
+
+#### **4.1. Attributs d'Instance (Variables d'Instance)**
+Ce sont les attributs déclarés dans la classe sans le mot-clé `static`. Chaque objet (**instance**) possède **sa propre copie** de ces variables. Leur valeur définit l'**état** unique de chaque objet.
+
+```java
+public class CompteBancaire {
+    private String numeroCompte; // Variable d'instance
+    private double solde;        // Variable d'instance
+    // Chaque compte a son propre numéro et son propre solde.
+}
+```
+
+#### **4.2. Attributs de Classe (Mot-clé `static`)**
+Un attribut déclaré avec le mot-clé `static` est un **attribut de classe**. Il est partagé par **toutes les instances** de la classe. Il existe en un seul exemplaire en mémoire, associé à la classe elle-même, pas aux objets.
+
+**Exemple Contexte Africain : Taux d'Intérêt de la BEAC**
+```java
+public class CompteEpargne {
+    private String client;
+    private double depot;
+
+    // Attribut STATIQUE : partagé par tous les comptes
+    public static double tauxInteretAnnuel = 3.5; // Taux directeur supposé de la BEAC
+
+    // Méthode utilisant l'attribut statique
+    public double calculerInterets() {
+        return depot * (tauxInteretAnnuel / 100);
+    }
+}
+// Accès via la classe, sans avoir besoin d'un objet :
+// System.out.println("Taux actuel : " + CompteEpargne.tauxInteretAnnuel + "%");
+// CompteEpargne.tauxInteretAnnuel = 4.0; // Modification pour tous les comptes
+```
+
+#### **4.3. Constantes (Mot-clé `final`)**
+Un attribut déclaré avec `final` ne peut pas être modifié après son initialisation. Couplé avec `static`, il définit une **constante de classe**.
+
+**Exemple : Paramètres Système**
+```java
+public class ConfigApplication {
+    // Constante statique : convention de nommage MAJUSCULES_AVEC_UNDERSCORE
+    public static final String NOM_BANQUE = "Afriland First Bank";
+    public static final double FRAIS_TRANSFERT_INTERNATIONAL = 5000.0; // FCFA
+    public static final int CODE_PAYS_CMR = 237;
+}
+```
+
+**Tableau Comparatif : Types d'Attributs**
+| Caractéristique          | Variable d'Instance (`non-static`) | Variable de Classe (`static`) | Constante (`static final`) |
+| ------------------------ | ---------------------------------- | ----------------------------- | -------------------------- |
+| **Appartient à**         | Chaque objet (Instance)            | La Classe                     | La Classe                  |
+| **Nombre en mémoire**    | Une copie par objet                | Une seule copie               | Une seule copie            |
+| **Accès recommandé**     | Via un objet (`objet.attribut`)    | Via la classe (`Classe.attribut`) | Via la classe (`Classe.ATTRIBUT`) |
+| **Modifiable ?**         | Oui (si `public` ou via méthodes)  | Oui                           | **NON** (après init)       |
+| **Exemple**              | `client.solde`                     | `CompteEpargne.tauxInteret`   | `ConfigApplication.CODE_PAYS_CMR` |
+
+---
+
+### **5. Les Méthodes et la Surcharge (`Overloading`)**
+
+#### **5.1. Définition et Structure d'une Méthode**
+Une méthode définit un **comportement** ou une **opération** que l'objet peut exécuter.
+```java
+[modificateurs] typeDeRetour nomMethode([listeParametres]) {
+    // Corps de la méthode
+    [return valeur;] // si typeDeRetour n'est pas void
+}
+```
+
+**Exemple : Méthodes pour un Abonné**
+```java
+public class AbonneCamtel {
+    // ... attributs
+
+    // Méthode pour recharger le crédit
+    public void rechargerCredit(double montant) {
+        if (montant > 0 && this.typeAbonnement.equals("Prépayé")) {
+            this.soldeCredit += montant;
+            System.out.println("Recharge de " + montant + " FCFA effectuée.");
+        } else {
+            System.out.println("Recharge impossible.");
+        }
+    }
+
+    // Méthode avec retour d'information
+    public String getInfosClient() {
+        return "Client : " + nom + " " + prenom + " - Tel : " + numeroTelephone;
+    }
+}
+```
+
+#### **5.2. Surcharge de Méthodes (Overloading)**
+La surcharge permet de définir **plusieurs méthodes dans la même classe avec le même nom**, mais avec des **listes de paramètres différentes** (type, nombre ou ordre). Le compilateur détermine quelle méthode appeler en fonction des arguments fournis.
+
+**Exemple Concret : Service de Paiement**
+```java
+public class ServicePaiement {
+    // Surcharge de la méthode 'effectuerPaiement'
+
+    // 1. Paiement avec numéro de téléphone (Mobile Money)
+    public boolean effectuerPaiement(String numeroTel, double montant) {
+        System.out.println("Paiement de " + montant + " FCFA vers " + numeroTel + " via Mobile Money.");
+        // Logique de connexion à l'API MTN/Orange...
+        return true; // Simulé
+    }

@@ -1,0 +1,151 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 07 Bases De Donnees**
+## **Chapitre : Introduction aux SGBD : données, information, base de données, modèles (hiérarchique, réseau, relationnel, NoSQL), ACID**
+
+---
+
+### **1. Introduction et définitions fondamentales**
+
+#### **1.1. Données vs Information**
+**Donnée** : C'est un fait brut, une valeur élémentaire non interprétée, représentée sous forme de symboles (chiffres, lettres, images). Une donnée isolée n'a pas de sens en soi.
+*Exemple* : `"YAOUNDE"`, `25`, `"M"`.
+
+**Information** : C'est le résultat du traitement, de l'organisation ou de la structuration des données dans un contexte qui leur donne un sens et une utilité pour la prise de décision.
+*Exemple* : `"La ville de Yaoundé compte 25 districts municipaux."`
+
+**Relation** : **Information = Données + Contexte + Traitement**
+
+**À retenir** : Les systèmes d'information transforment des **données** en **informations** actionnables.
+
+#### **1.2. Base de Données (BD)**
+**Définition** : Une Base de Données est une collection organisée et persistante de données, structurée pour modéliser les aspects pertinents de la réalité et répondre efficacement aux besoins des utilisateurs et des applications.
+
+**Caractéristiques principales** :
+*   **Persistance** : Les données survivent à l'exécution des programmes.
+*   **Partage** : Les données sont accessibles par plusieurs utilisateurs et applications.
+*   **Intégrité** : Les données respectent des règles de cohérence et de validité.
+*   **Indépendance** : Séparation entre les données et les applications qui les utilisent.
+
+*Exemple concret (Cameroun)* :
+*   **Base de données du Registre du Commerce et du Crédit Mobilier (RCCM - OHADA)** : Contient les données juridiques et financières de toutes les entreprises enregistrées dans l'espace OHADA.
+*   **Base de données des abonnés MTN/Orange/Camtel** : Gère les informations clients, les forfaits, les consommations et les transactions.
+
+#### **1.3. Système de Gestion de Base de Données (SGBD)**
+**Définition** : Un SGBD est un logiciel système qui permet de **créer**, **manipuler**, **administrer** et **contrôler** l'accès à une base de données.
+
+**Rôles et fonctions d'un SGBD** :
+1.  **Définition des données** : Via un Langage de Définition de Données (LDD ou DDL).
+2.  **Manipulation des données** : Via un Langage de Manipulation de Données (LMD ou DML) comme SQL.
+3.  **Contrôle d'accès et sécurité** : Gestion des utilisateurs, rôles et permissions.
+4.  **Gestion de la concurrence** : Gère les accès simultanés pour éviter les conflits.
+5.  **Gestion de l'intégrité** : Assure le respect des contraintes (clés, références).
+6.  **Gestion de la sauvegarde et de la restauration**.
+
+**Architecture à 3 niveaux (ANSI/SPARC)** :
+*   **Niveau Interne** : Description physique du stockage (fichiers, index).
+*   **Niveau Conceptuel** : Structure logique globale de la BD (schéma).
+*   **Niveau Externe** : Vues partielles adaptées aux besoins des utilisateurs ou applications.
+
+**Outils SGBD populaires en entreprise** :
+*   **Relationnels** : Oracle Database, Microsoft SQL Server, **PostgreSQL** (open-source), MySQL/MariaDB, IBM Db2.
+*   **NoSQL** : MongoDB (document), Redis (clé-valeur), Cassandra (colonne), Neo4j (graphe).
+
+---
+
+### **2. Évolution des modèles de données**
+
+#### **2.1. Modèle Hiérarchique**
+*   **Principe** : Les données sont organisées en une **structure arborescente** (parent-enfants). Une relation est de type **1:N** (un parent, plusieurs enfants).
+*   **Avantage** : Simplicité pour les données naturellement hiérarchiques.
+*   **Inconvénient** : Rigidité, redondance, difficulté pour représenter des relations complexes (M:N).
+*   **Exemple** : Une ancienne base d'organisation administrative : **Région** > **Départements** > **Arrondissements**.
+
+#### **2.2. Modèle en Réseau (CODASYL)**
+*   **Principe** : Généralisation du modèle hiérarchique. Les enregistrements sont liés par des **pointeurs**, formant un réseau. Permet des relations **M:N**.
+*   **Avantage** : Plus de flexibilité que le modèle hiérarchique.
+*   **Inconvénient** : Complexité de navigation, forte dépendance physique.
+*   **Exemple** : Gestion des inscriptions dans une université camerounaise : Un **Étudiant** peut être inscrit à plusieurs **Cours**, et un **Cours** contient plusieurs **Étudiants**.
+
+#### **2.3. Modèle Relationnel (Edgar F. Codd, 1970)**
+*   **Principe** : Les données sont représentées sous forme de **tables (relations)** à deux dimensions. Les liens entre les tables sont établis via des valeurs de données (clés étrangères), et non par des pointeurs physiques.
+*   **Concepts clés** :
+    *   **Relation/Table** : Ensemble de tuples (lignes).
+    *   **Tuple/Enregistrement** : Ligne de la table.
+    *   **Attribut/Colonne** : Caractéristique d'une entité.
+    *   **Domaine** : Ensemble des valeurs possibles d'un attribut.
+    *   **Clé Primaire (PK)** : Attribut(s) identifiant de manière unique un tuple.
+    *   **Clé Étrangère (FK)** : Attribut(s) qui référence la clé primaire d'une autre table.
+*   **Avantages** : Simplicité conceptuelle, indépendance physique/logique, fondement mathématique solide (algèbre relationnelle), langage standardisé (SQL).
+*   **Exemple** : Base de données d'une microfinance :
+    *   Table `CLIENT` (NumClient, Nom, Telephone, Ville)
+    *   Table `COMPTE` (NumCompte, Solde, NumClient_FK)
+    *   La relation est établie via `NumClient_FK` qui référence `NumClient`.
+
+#### **2.4. Modèles NoSQL ("Not Only SQL")**
+Émergés pour répondre aux limites du relationnel face au **Big Data**, aux données non-structurées et aux besoins de scalabilité horizontale.
+
+**Principales catégories** :
+
+| Catégorie | Modèle | Principe | Exemple d'usage (Contexte Africain) | Produit |
+| :--- | :--- | :--- | :--- | :--- |
+| **Document** | Collection de documents (JSON/BSON) | Stocke des documents semi-structurés. Schéma flexible. | Catalogue de produits e-commerce, fiches patients dans une app santé mobile. | **MongoDB**, Couchbase |
+| **Clé-Valeur** | Table de hachage distribuée | Accès ultra-rapide via une clé unique. | Panier d'achat en ligne, session utilisateur, cache. | **Redis**, DynamoDB |
+| **Colonne** | Familles de colonnes | Optimisé pour les requêtes agrégatives sur grandes colonnes. | Analyse de logs de transactions télécoms (MTN/Orange), données IoT. | **Cassandra**, HBase |
+| **Graphe** | Nœuds et arcs | Modélise et interroge efficacement les relations complexes. | Réseaux sociaux, détection de fraude, recommandation. | **Neo4j**, Amazon Neptune |
+
+**À retenir** : Le choix du modèle dépend des **besoins métier** : cohérence forte (relationnel) vs. scalabilité et flexibilité (NoSQL). Les architectures **polyglottes** (utilisation de plusieurs modèles) sont courantes.
+
+---
+
+### **3. Propriétés ACID des transactions**
+
+Une **transaction** est une séquence d'opérations sur la base de données traitée comme une **unité logique indivisible** (ex: virement bancaire).
+
+Les propriétés **ACID** garantissent la fiabilité des transactions, surtout dans les SGBD relationnels.
+
+#### **3.1. Atomicité (A)**
+*   **Principe** : "Tout ou Rien". Soit **toutes** les opérations de la transaction sont exécutées, soit **aucune** ne l'est.
+*   **Mécanisme** : Gérée par le SGBD via un journal des transactions (log). En cas d'échec, un **rollback** annule les effets partiels.
+*   **Exemple** : Virement de 10 000 FCFA du compte A vers le compte B. Si le débit sur A réussit mais le crédit sur B échoue, le débit est annulé.
+
+#### **3.2. Cohérence (C)**
+*   **Principe** : Une transaction valide fait passer la base d'un **état cohérent** à un **autre état cohérent**. Elle respecte toutes les contraintes d'intégrité définies (clés, types de données, règles métier).
+*   **Exemple** : La transaction de virement doit garantir que le solde d'un compte ne devient jamais négatif (contrainte métier `Solde >= 0`).
+
+#### **3.3. Isolation (I)**
+*   **Principe** : L'exécution **concurrente** de plusieurs transactions doit donner l'illusion qu'elles s'exécutent **séquentiellement**. Les transactions ne doivent pas s'interférer.
+*   **Problèmes évités** :
+    *   **Lecture sale** : Lire des données non validées d'une autre transaction.
+    *   **Lecture non reproductible** : Une valeur lue change si relue dans la même transaction.
+    *   **Phantom read** : Apparition de nouvelles lignes entre deux lectures.
+*   **Mécanisme** : Géré via des **niveaux d'isolation** (Read Uncommitted, Read Committed, Repeatable Read, Serializable) et des verrous.
+
+#### **3.4. Durabilité (D)**
+*   **Principe** : Une fois une transaction **validée (commit)**, ses modifications sont **permanentes**, même en cas de panne système (coupure de courant, crash).
+*   **Mécanisme** : Assurée par l'écriture sur un support de stockage persistant (disque) et la gestion d'un **journal de transactions (redo log)** permettant de rejouer les transactions validées non encore écrites sur les données principales.
+
+**Tableau synthèse ACID** :
+
+| Propriété | Question répondue | Mécanisme SGBD typique |
+| :--- | :--- | :--- |
+| **Atomicité** | Que se passe-t-il en cas d'échec ? | Journal des transactions (Undo Log) |
+| **Cohérence** | Les règles métier sont-elles respectées ? | Contrôles d'intégrité, triggers |
+| **Isolation** | Que voient les transactions concurrentes ? | Verrous (Locks), versions (MVCC) |
+| **Durabilité** | Que se passe-t-il après une panne ? | Journal des transactions (Redo Log) |
+
+---
+
+### **4. Conclusion et perspectives**
+
+L'introduction aux SGBD pose les fondements essentiels pour la conception et l'administration des systèmes de données. La compréhension de la distinction **Donnée/Information**, des **différents modèles** (avec leurs forces et faiblesses) et des garanties **ACID** est cruciale pour l'ingénieur logiciel.
+
+**Tendances actuelles** :
+*   **Cloud Databases** : Services managés de bases de données dans le cloud (AWS RDS/Aurora, Azure SQL, Google Cloud SQL).
+*   **NewSQL** : SGBD qui visent à combiner la scalabilité du NoSQL avec les garanties ACID du relationnel (ex: Google Spanner, CockroachDB).
+*   **Data Lakes & Warehouses** : Pour l'analyse de grandes masses de données hétérogènes.
+
+**Compétences visées pour le BTS GL** :
+1.  Savoir choisir un modèle de données adapté à un problème métier camerounais donné.
+2.  Comprendre l'architecture et le fonctionnement d'un SGBD relationnel.
+3.  Maîtriser les principes de conception d'une base de données relationnelle (Merise, UML).
+4.  Être capable d'utiliser le langage SQL pour

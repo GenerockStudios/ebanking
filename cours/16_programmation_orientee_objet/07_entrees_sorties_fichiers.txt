@@ -1,0 +1,316 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 16 Programmation Orientée Objet**
+## **Chapitre : Entrées/Sorties et fichiers Java : File, InputStream/OutputStream, Reader/Writer, BufferedReader, NIO (Path, Files), sérialisation**
+
+---
+
+### **1. Introduction aux Entrées/Sorties (E/S) en Java**
+
+#### **1.1. Définition et importance**
+Les opérations d'Entrées/Sorties (I/O - Input/Output) permettent à un programme Java de **lire des données** provenant de diverses sources (clavier, fichiers, réseau) et d'**écrire des données** vers différentes destinations. Dans le contexte professionnel camerounais, la maîtrise des E/S est cruciale pour :
+- Développer des applications de gestion (paie, stocks, clients) conformes aux normes **OHADA**
+- Traiter les fichiers d'exportation/importation des systèmes bancaires
+- Gérer les logs et données des applications télécoms (**MTN, Orange, Camtel**)
+
+#### **1.2. Flux (Streams) : concept fondamental**
+Un **flux** est une séquence de données qui circule entre une source et une destination.
+- **Flux d'entrée** : lit des données depuis une source → `InputStream`, `Reader`
+- **Flux de sortie** : écrit des données vers une destination → `OutputStream`, `Writer`
+
+**À retenir** : Toutes les classes d'E/S se trouvent dans le package `java.io` (et `java.nio` pour NIO).
+
+---
+
+### **2. La classe File : manipulation des fichiers et répertoires**
+
+#### **2.1. Création et représentation d'un fichier**
+La classe `File` représente un chemin abstrait vers un fichier ou un répertoire.
+
+```java
+import java.io.File;
+
+// Exemple adapté : gestion des dossiers clients d'une entreprise camerounaise
+public class GestionFichiersOHADA {
+    public static void main(String[] args) {
+        // Créer un objet File pour un répertoire de facturation
+        File repertoireFactures = new File("C:/Entreprise/Factures/2024");
+        
+        // Créer le répertoire s'il n'existe pas
+        if (!repertoireFactures.exists()) {
+            boolean cree = repertoireFactures.mkdirs();
+            System.out.println("Répertoire créé : " + cree);
+        }
+        
+        // Créer un fichier de facture
+        File facture = new File(repertoireFactures, "facture_CLT_001.txt");
+        
+        // Vérifier les propriétés
+        System.out.println("Nom du fichier : " + facture.getName());
+        System.out.println("Chemin absolu : " + facture.getAbsolutePath());
+        System.out.println("Taille (si existe) : " + facture.length() + " octets");
+    }
+}
+```
+
+#### **2.2. Méthodes principales de la classe File**
+| Méthode | Description | Retour |
+|---------|-------------|---------|
+| `exists()` | Vérifie l'existence du fichier | boolean |
+| `isFile()` / `isDirectory()` | Détermine le type | boolean |
+| `mkdir()` / `mkdirs()` | Crée un/des répertoire(s) | boolean |
+| `listFiles()` | Liste les fichiers d'un répertoire | File[] |
+| `delete()` | Supprime le fichier/répertoire | boolean |
+| `renameTo(File dest)` | Renomme ou déplace | boolean |
+
+---
+
+### **3. Les flux d'octets : InputStream et OutputStream**
+
+#### **3.1. Hiérarchie et principe**
+Les flux d'octets travaillent sur des données **binaires** (octets - 8 bits).
+
+**InputStream (abstraite)** → `FileInputStream`, `BufferedInputStream`, `ObjectInputStream`
+**OutputStream (abstraite)** → `FileOutputStream`, `BufferedOutputStream`, `ObjectOutputStream`
+
+#### **3.2. Lecture/écriture de fichiers binaires**
+```java
+import java.io.*;
+
+public class FluxOctetsExemple {
+    // Exemple : sauvegarde des données binaires d'une image logo d'entreprise
+    public static void copierLogoEntreprise() {
+        try (FileInputStream fis = new FileInputStream("logo_mtn_cameroun.jpg");
+             FileOutputStream fos = new FileOutputStream("logo_backup.jpg")) {
+            
+            int octet;
+            while ((octet = fis.read()) != -1) {
+                fos.write(octet);
+            }
+            System.out.println("Copie du logo MTN terminée.");
+            
+        } catch (IOException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+    }
+    
+    // Version optimisée avec buffer
+    public static void copierAvecBuffer() {
+        try (FileInputStream fis = new FileInputStream("rapport_financier.pdf");
+             FileOutputStream fos = new FileOutputStream("rapport_backup.pdf");
+             BufferedInputStream bis = new BufferedInputStream(fis);
+             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+            
+            byte[] buffer = new byte[8192]; // 8KB - taille optimale
+            int bytesLus;
+            
+            while ((bytesLus = bis.read(buffer)) != -1) {
+                bos.write(buffer, 0, bytesLus);
+            }
+            System.out.println("Rapport financier copié avec buffer.");
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+**À retenir** : Toujours utiliser `try-with-resources` (Java 7+) pour garantir la fermeture automatique des flux.
+
+---
+
+### **4. Les flux de caractères : Reader et Writer**
+
+#### **4.1. Différence octets/caractères**
+- **Octets** : données brutes (8 bits), pour fichiers binaires
+- **Caractères** : texte encodé (16 bits Unicode), pour fichiers texte
+
+#### **4.2. Classes principales et utilisation**
+```java
+import java.io.*;
+
+public class FluxCaracteresExemple {
+    // Exemple : journalisation des transactions Orange Money
+    public static void journaliserTransaction() {
+        String transaction = "2024-03-15 14:30:45 | Client: 677123456 | " +
+                            "Montant: 5000 FCFA | Type: Transfert | Statut: Réussi";
+        
+        try (FileWriter fw = new FileWriter("transactions_orange.log", true);
+             BufferedWriter bw = new BufferedWriter(fw)) {
+            
+            bw.write(transaction);
+            bw.newLine(); // Saut de ligne adapté au système
+            System.out.println("Transaction journalisée.");
+            
+        } catch (IOException e) {
+            System.out.println("Erreur de journalisation : " + e.getMessage());
+        }
+    }
+    
+    // Lecture d'un fichier de configuration OHADA
+    public static void lireConfigOHADA() {
+        try (FileReader fr = new FileReader("config_ohada.properties");
+             BufferedReader br = new BufferedReader(fr)) {
+            
+            String ligne;
+            System.out.println("Configuration OHADA :");
+            while ((ligne = br.readLine()) != null) {
+                System.out.println("> " + ligne);
+            }
+            
+        } catch (IOException e) {
+            System.out.println("Fichier de configuration non trouvé.");
+        }
+    }
+}
+```
+
+#### **4.3. Tableau comparatif BufferedReader vs Reader standard**
+| Critère | BufferedReader | Reader standard |
+|---------|---------------|-----------------|
+| Performance | Haute (buffer interne) | Faible (lecture caractère par caractère) |
+| Méthodes utiles | `readLine()`, `lines()` | Méthodes basiques seulement |
+| Usage recommandé | Fichiers texte volumineux | Petits fichiers ou flux simples |
+| Exemple concret | Lecture journal système Camtel | Lecture petit fichier de config |
+
+---
+
+### **5. NIO (New I/O) : Path et Files**
+
+#### **5.1. Introduction à NIO.2 (Java 7+)**
+NIO.2 offre une API moderne pour les opérations sur fichiers, plus intuitive et performante que `java.io.File`.
+
+#### **5.2. La classe Path**
+```java
+import java.nio.file.*;
+import java.util.*;
+
+public class NIOExemple {
+    // Exemple : gestion des dossiers employés dans une administration camerounaise
+    public static void gestionChemins() {
+        // Création d'un Path
+        Path cheminBase = Paths.get("C:/Administration/MINPOSTEL/Employes");
+        
+        // Résolution de chemins
+        Path fichierPaie = cheminBase.resolve("paie_mars_2024.xlsx");
+        Path parent = fichierPaie.getParent();
+        Path nomFichier = fichierPaie.getFileName();
+        
+        System.out.println("Chemin complet : " + fichierPaie.toAbsolutePath());
+        System.out.println("Parent : " + parent);
+        System.out.println("Nom fichier : " + nomFichier);
+    }
+```
+
+#### **5.3. La classe Files : opérations avancées**
+```java
+    // Opérations courantes avec Files
+    public static void operationsFichiers() throws IOException {
+        // Création de répertoire
+        Path nouveauDir = Paths.get("archives_camtel_2024");
+        if (!Files.exists(nouveauDir)) {
+            Files.createDirectory(nouveauDir);
+        }
+        
+        // Copie de fichier
+        Path source = Paths.get("rapport_annuel.pdf");
+        Path cible = nouveauDir.resolve("rapport_annuel_backup.pdf");
+        Files.copy(source, cible, StandardCopyOption.REPLACE_EXISTING);
+        
+        // Lecture de toutes les lignes
+        Path fichierLog = Paths.get("logs_systeme.txt");
+        List<String> lignes = Files.readAllLines(fichierLog, 
+                                                StandardCharsets.UTF_8);
+        
+        // Écriture
+        List<String> nouvellesDonnees = Arrays.asList(
+            "Nouvelle entrée 1",
+            "Nouvelle entrée 2"
+        );
+        Files.write(fichierLog, nouvellesDonnees, 
+                   StandardOpenOption.APPEND);
+        
+        // Surveillance de répertoire (WatchService) - utile pour les dossiers partagés
+        WatchService watchService = FileSystems.getDefault().newWatchService();
+        Path dir = Paths.get("C:/PartageReseau");
+        dir.register(watchService, StandardWatchEventKinds.ENTRY_CREATE,
+                                      StandardWatchEventKinds.ENTRY_MODIFY);
+    }
+}
+```
+
+#### **5.4. Avantages de NIO sur l'ancienne API**
+1. **Chemins relatifs/absolus** mieux gérés
+2. **Symbolic links** supportés
+3. **API plus riche** : `Files.copy()`, `Files.move()`, `Files.walk()`
+4. **Performance améliorée** avec buffer natif
+5. **WatchService** pour surveillance en temps réel
+
+---
+
+### **6. Sérialisation en Java**
+
+#### **6.1. Concept et utilité**
+La sérialisation est le processus de conversion d'un **objet Java** en un flux d'octets pour :
+- Sauvegarde persistante
+- Transmission réseau
+- Mécanisme de cache distribué
+
+**Désérialisation** : reconstruction de l'objet à partir du flux d'octets.
+
+#### **6.2. Implémentation de base**
+```java
+import java.io.*;
+import java.util.Date;
+
+// Exemple : objet représentant un client d'une banque camerounaise
+class ClientBanque implements Serializable {
+    // Numéro de série pour la compatibilité des versions
+    private static final long serialVersionUID = 1L;
+    
+    private String nom;
+    private String numeroCompte;
+    private transient double solde; // transient = non sérialisé
+    private Date dateInscription;
+    
+    public ClientBanque(String nom, String numeroCompte, double solde) {
+        this.nom = nom;
+        this.numeroCompte = numeroCompte;
+        this.solde = solde;
+        this.dateInscription = new Date();
+    }
+    
+    // Getters et setters...
+}
+
+public class SerialisationExemple {
+    // Sérialisation d'un client
+    public static void serialiserClient(ClientBanque client, String fichier) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(
+                new FileOutputStream(fichier))) {
+            
+            oos.writeObject(client);
+            System.out.println("Client sérialisé : " + client.getNom());
+            
+        } catch (IOException e) {
+            System.out.println("Erreur sérialisation : " + e.getMessage());
+        }
+    }
+    
+    // Désérialisation
+    public static ClientBanque deserialiserClient(String fichier) {
+        try (ObjectInputStream ois = new ObjectInputStream(
+                new FileInputStream(fichier))) {
+            
+            ClientBanque client = (ClientBanque) ois.readObject();
+            System.out.println("Client désérialisé : " + client.getNom());
+            return client;
+            
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Erreur désérialisation : " + e.getMessage());
+            return null;
+        }
+    }
+    
+    public static void main(String[] args) {
+        // Simulation : client d'une banque camerounaise

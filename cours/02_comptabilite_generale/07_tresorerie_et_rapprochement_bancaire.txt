@@ -1,0 +1,129 @@
+# **Notes de Cours - BTS Génie Logiciel**
+## **Matière : 02 Comptabilité Générale**
+## **Chapitre : Gestion de la Trésorerie**
+
+---
+
+### **1. Introduction à la gestion de la trésorerie**
+
+La trésorerie représente l'ensemble des disponibilités immédiates d'une entreprise (argent en caisse et sur les comptes bancaires). Pour une entreprise de génie logiciel, une bonne gestion de la trésorerie est vitale pour financer les salaires des développeurs, les licences logicielles, les infrastructures cloud (comme AWS ou les services locaux d'hébergement), et assurer la continuité des projets.
+
+**Objectifs de la gestion de la trésorerie :**
+*   Assurer la solvabilité de l'entreprise (pouvoir payer ses dettes à échéance).
+*   Optimiser les ressources financières (minimiser les frais bancaires, placer les excédents).
+*   Prévenir les risques de découvert non autorisé.
+*   Fournir une information fiable pour la prise de décision.
+
+**À retenir :** En contexte OHADA (Organisation pour l'Harmonisation en Afrique du Droit des Affaires), la gestion de la trésorerie doit respecter les principes comptables édictés par le SYSCOHADA (Système Comptable OHADA), notamment le principe de régularité et de sincérité.
+
+---
+
+### **2. Le rapprochement bancaire**
+
+#### **2.1. Définition et objectifs**
+Le rapprochement bancaire est une procédure de contrôle qui consiste à comparer et à expliquer les différences entre le solde du compte "Banque" enregistré dans la comptabilité de l'entreprise (le **solde comptable**) et le solde figurant sur le relevé bancaire envoyé par la banque (le **solde bancaire**). Ces deux soldes sont rarement identiques à une date donnée.
+
+**Objectifs :**
+*   Vérifier l'exactitude et l'exhaustivité des écritures comptables.
+*   Identifier et comptabiliser les opérations connues par la banque mais pas encore par l'entreprise (et vice-versa).
+*   Détecter d'éventuelles erreurs (de la banque ou de l'entreprise).
+*   S'assurer de la fiabilité des informations de trésorerie.
+
+#### **2.2. Causes des écarts entre le solde comptable et le solbe bancaire**
+Les écarts sont normaux et proviennent principalement des **décalages dans le traitement des opérations**.
+
+| **Opérations augmentant l'écart** | **Exemples concrets** |
+| :--- | :--- |
+| **Chèques émis et non encore encaissés par le bénéficiaire** | Un chèque émis pour payer un abonnement à une plateforme de développement (GitHub) fin décembre, mais que le fournisseur n'encaisse qu'en janvier. |
+| **Virements émis non encore portés au compte du bénéficiaire** | Un virement ordonné le 30 décembre pour régler un freelance, traité par votre banque (Afriland First Bank, BICEC) mais crédité sur son compte seulement le 2 janvier. |
+| **Débits opérés par la banque non encore connus de l'entreprise** | Frais de tenue de compte, commissions sur transactions, intérêts débiteurs, prélèvements automatiques (ex: facture Camtel pour la connexion internet de l'entreprise). |
+| **Opérations diminuant l'écart** | **Exemples concrets** |
+| **Dépôts en caisse non encore crédités par la banque** | Les espèces ou chèques reçus d'un client et déposés en banque le 31 décembre après l'heure de clôture. Ils n'apparaîtront sur le relevé qu'en janvier. |
+| **Crédits opérés par la banque non encore connus de l'entreprise** | Virements entrants reçus (ex: paiement d'un client via MTN Mobile Money ou Orange Money vers le compte bancaire de l'entreprise), intérêts créditeurs. |
+
+#### **2.3. Méthodologie du rapprochement bancaire**
+1.  **Relever les soldes** : Solde comptable (extrait du grand livre) et solde bancaire (relevé).
+2.  **Identifier les opérations à ajouter/soustraire** pour chaque colonne.
+3.  **Établir l'état de rapprochement** (tableau en T).
+4.  **Passer les écritures de régularisation** dans la comptabilité de l'entreprise pour les opérations bancaires non encore enregistrées.
+
+**Exemple simplifié :**
+*Solde comptable au 31/12 : 2 500 000 FCFA*
+*Solde bancaire au 31/12 : 3 100 000 FCFA*
+
+**État de rapprochement :**
+
+| **Pour arriver au solde bancaire** | **Montant (FCFA)** | **Pour arriver au solde comptable** | **Montant (FCFA)** |
+| :--- | :--- | :--- | :--- |
+| Solde comptable | 2 500 000 | Solde bancaire | 3 100 000 |
+| + Virement reçu (non comptabilisé) | + 800 000 | - Chèque émis non encaissé | - 400 000 |
+| - Frais bancaires (non connus) | - 200 000 | | |
+| **Solde bancaire ajusté** | **3 100 000** | **Solde comptable ajusté** | **2 700 000** |
+
+*Ici, une erreur de 200 000 FCFA est à identifier (différence entre les colonnes ajustées).*
+
+#### **2.4. Outils et logiciels**
+*   **Logiciels de comptabilité** : Sage, Ciel, EBP, des solutions locales adaptées au SYSCOHADA.
+*   **Modules de trésorerie intégrés** dans les ERP (Enterprise Resource Planning).
+*   **Services de banque en ligne** (BICEC Online, SG Cameroon Internet Banking) pour télécharger les relevés électroniques (fichiers OFX, CSV) et les importer dans le logiciel comptable.
+*   **Développements spécifiques** : Une entreprise de génie logiciel peut développer des scripts ou des interfaces API pour automatiser la récupération et le rapprochement des données bancaires.
+
+---
+
+### **3. La gestion de caisse**
+
+#### **3.1. Rôle et importance**
+La caisse enregistre les mouvements d'argent liquide (espèces). Même dans une entreprise de services comme le génie logiciel, des opérations en espèces peuvent exister (petites dépenses, remboursements de frais, vente occasionnelle de matériel).
+
+**Principe de base :** Toute entrée ou sortie de caisse doit être justifiée par un **document probant** (reçu, facture, note de frais).
+
+#### **3.2. Procédures de contrôle interne**
+Une gestion rigoureuse de la caisse est impérative pour éviter les détournements.
+*   **Séparation des fonctions** : La personne qui tient la caisse (caissier) ne doit pas être celle qui tient la comptabilité ou qui a le pouvoir d'approuver les dépenses.
+*   **Plafond de caisse** : Définir un montant maximum d'argent liquide pouvant être conservé. Les excédents doivent être déposés en banque.
+*   **Contrôle inopiné** : Vérification surprise du solge de caisse par un responsable.
+*   **Justificatifs obligatoires** : Aucune sortie de caisse sans pièce justificative signée.
+*   **Journal de caisse** : Enregistrement chronologique de toutes les opérations.
+
+**Exemple concret :** Une société de développement à Douala utilise une caisse pour les petites dépenses : achat de cartouches d'encre (50 000 FCFA), frais de taxi pour une course urgente (3 000 FCFA), achat de café pour l'équipe (10 000 FCFA). Chaque sortie est appuyée d'une facture ou d'une note de frais signée.
+
+#### **3.3. Logiciels de gestion de caisse**
+*   Modules "Caisse" des logiciels comptables.
+*   Applications de caisse électronique, même pour les petites dépenses.
+*   Pour les entreprises de génie logiciel, il peut être pertinent de développer une application interne simple de suivi des notes de frais et des avances de caisse, intégrée au système de gestion de projet.
+
+---
+
+### **4. Les effets de commerce et lettres de change**
+
+#### **4.1. Définitions et cadre juridique (OHADA)**
+Ce sont des titres négociables qui constatent une créance commerciale et facilitent son recouvrement ou son financement. Ils sont régis par l'**Acte Uniforme de l'OHADA sur le Droit Commercial Général**.
+
+*   **Lettre de Change (Traite)** : Écrite par le créancier (le **tireur**), elle donne l'ordre à son débiteur (le **tiré**) de payer à une échéance fixée une somme d'argent à une tierce personne (le **bénéficiaire** ou **preneur**). C'est l'instrument de crédit le plus utilisé.
+    *   *Parties* : Tireur / Tiré / Bénéficiaire.
+*   **Billet à Ordre** : Écrit par le débiteur (le **souscripteur**), qui promet de payer une somme à l'échéance à son créancier (le **bénéficiaire**).
+    *   *Parties* : Souscripteur / Bénéficiaire.
+
+#### **4.2. Fonctions et avantages**
+1.  **Instrument de paiement** : Sécurise le règlement à crédit.
+2.  **Instrument de crédit** : Permet au bénéficiaire d'obtenir des fonds avant l'échéance en **escomptant** l'effet auprès de sa banque (la banque lui avance les fonds moins des agios).
+3.  **Instrument de recouvrement** : En cas de non-paiement, la procédure de recouvrement est rapide via une **protêt** (acte notarié constatant le refus de paiement).
+
+#### **4.3. Cycle de vie d'une lettre de change : Exemple camerounais**
+Une société de services informatiques "TechSolutions Ltd" (Yaoundé) vend et installe un logiciel de gestion à l'hôtel "Mont Fébé" pour 5 000 000 FCFA, avec un crédit de 60 jours.
+
+1.  **Création (Tirage)** : TechSolutions (tireur et bénéficiaire) tire une lettre de change sur l'hôtel Mont Fébé (tiré) pour 5 000 000 FCFA, échéance dans 60 jours.
+2.  **Acceptation** : L'hôtel Mont Fébé signe la lettre de change pour l'accepter ("bon pour aval"), s'engageant ainsi à payer.
+3.  **Endossement (optionnel)** : TechSolutions peut transmettre la traite à son propre fournisseur (ex: un revendeur de licences Microsoft) en signant au dos (**endossement**).
+4.  **Escompte (optionnel)** : Si TechSolutions a besoin de liquidités, il peut présenter la traite à sa banque (ex: UBA Cameroon) pour escompte. La banque lui avance immédiatement les fonds, moins les intérêts (agios).
+5.  **Encaissement à l'échéance** : À l'échéance, la banque de TechSolutions présente la traite à la banque de l'hôtel Mont Fébé pour encaissement.
+6.  **Paiement/Impayé** : Si l'hôtel paie, l'opération est close. S'il ne paie pas, un protêt est dressé, permettant des poursuites judiciaires accélérées.
+
+#### **4.4. Comptabilisation (Principes de base)**
+*   **Chez le fournisseur (créancier, tireur)** : La créance client est transformée en un compte d'effets à recevoir (ex: "Clients - Effets à recevoir").
+*   **Chez le client (débiteur, tiré)** : La dette fournisseur est transformée en un compte d'effets à payer (ex: "Fournisseurs - Effets à payer").
+*   **Lors de l'escompte** : Le compte "Banque" est débité du montant net reçu, et le compte "Effets à recevoir" est crédité. La différence (agios) est une charge financière.
+
+---
+
+### **5

@@ -1,0 +1,126 @@
+CHAPITRE 1 — MAINTENANCE MATÉRIELLE ET DIAGNOSTIC (IGL126)
+BTS Génie Logiciel — Maintenance et Négociation Informatique
+
+1. TYPES DE MAINTENANCE INFORMATIQUE
+
+La maintenance informatique englobe l'ensemble des activités qui assurent le bon fonctionnement des systèmes informatiques.
+
+A) Maintenance préventive :
+Actions planifiées avant qu'une panne ne survienne.
+- Nettoyage physique : soufflage poussière, nettoyage ventilateurs, contacts
+- Mise à jour des logiciels et du système d'exploitation
+- Vérification et remplacement des piles (BIOS, onduleur)
+- Défragmentation des disques HDD (pas nécessaire pour les SSD)
+- Vérification des sauvegardes
+- Surveillance des températures (logiciels : HWMonitor, SpeedFan, lm-sensors Linux)
+- Vérification de l'état des disques : S.M.A.R.T. (Self-Monitoring, Analysis and Reporting Technology)
+
+B) Maintenance corrective :
+Réparer après une panne. Urgente (corriger ce qui est en panne) ou différée (peut attendre).
+
+C) Maintenance évolutive :
+Faire évoluer le matériel pour s'adapter aux nouveaux besoins (ajout de RAM, remplacement GPU, SSD).
+
+D) Maintenance adaptative :
+Adapter le système aux changements d'environnement (nouveau OS, nouvelles normes).
+
+2. DIAGNOSTIC DE PANNES MATÉRIELLES
+
+Démarche systématique :
+1. Recueillir les informations : quand est-ce arrivé ? Que faisait l'utilisateur ? Y a-t-il eu des changements récents ?
+2. Reproduire le problème
+3. Localiser le composant défaillant (élimination par substitution)
+4. Corriger et vérifier
+5. Documenter
+
+Pannes courantes et diagnostics :
+
+PC ne démarre pas (no POST) :
+- Vérifier l'alimentation (branché ? voyant allumé ?)
+- Retirer tous les périphériques USB
+- Tester avec un seul barrette de RAM, changer de slot
+- Vérifier les connexions internes (câbles, connecteurs)
+- Tester avec une autre alimentation
+- Vérifier les beeps du BIOS (codes d'erreur sonores)
+
+Codes beep BIOS AMI courants :
+1 beep court : POST OK
+3 beeps : problème mémoire RAM
+5 beeps : problème CPU
+8 beeps : problème carte graphique
+
+Surchauffe (redémarrages intempestifs, performances dégradées) :
+- Vérifier les températures (CPU < 80°C en charge normale, < 90°C maximum)
+- Nettoyer les filtres, ventilateurs, dissipateurs
+- Remplacer la pâte thermique sur le processeur
+- Vérifier que les ventilateurs fonctionnent
+- Améliorer le flux d'air dans le boîtier
+
+Écran noir / problème d'affichage :
+- Tester avec un autre câble (HDMI, DisplayPort, VGA)
+- Tester sur un autre écran
+- Vérifier le câblage de la carte graphique (dans son slot ?)
+- Tester avec le port vidéo intégré (iGPU)
+
+Disque dur défaillant :
+- S.M.A.R.T. : utiliser CrystalDiskInfo (Windows) ou smartctl (Linux)
+- Attributs critiques : Reallocated Sectors Count, Current Pending Sectors, Uncorrectable Sector Count
+- Si SMART alerte → SAUVEGARDER IMMÉDIATEMENT puis remplacer
+- Cloner le disque avant remplacement : Clonezilla, dd (Linux)
+
+3. DÉMONTAGE ET REMONTAGE D'UN PC
+
+Règles de sécurité :
+- Éteindre et débrancher l'alimentation
+- Décharger les condensateurs : appuyer sur le bouton power 5 secondes après débranchement
+- Porter un bracelet anti-statique (ESD) ou toucher régulièrement un objet métallique mis à la terre
+- Travailler sur une surface non conductrice
+
+Ordre de démontage recommandé :
+1. Déconnecter tous les câbles
+2. Retirer la carte graphique et les cartes d'extension
+3. Retirer les disques et lecteurs
+4. Retirer les barrettes de RAM
+5. Retirer le ventirad CPU (radiateur + ventilateur)
+6. Retirer la carte mère
+7. Retirer l'alimentation
+
+Installation de RAM : identifier le bon type (DDR4, DDR5), la fréquence, le nombre de slots.
+Pour activer le dual-channel : insérer les deux barrettes dans les slots de même couleur (A1+B1 ou A2+B2 selon la carte mère).
+
+4. GESTION DES PÉRIPHÉRIQUES
+
+Ports et interfaces :
+USB 2.0 : 480 Mbps — périphériques lents (claviers, souris, webcams)
+USB 3.0/3.2 Gen1 : 5 Gbps — clés USB rapides, disques externes
+USB 3.2 Gen2 : 10 Gbps
+USB 3.2 Gen2×2 : 20 Gbps
+USB4 / Thunderbolt 4 : 40 Gbps — docks, écrans haute résolution
+
+Identifier les problèmes de pilotes (Windows) :
+Gestionnaire de périphériques → icône jaune = problème de pilote
+→ Mettre à jour le pilote ou réinstaller depuis le site du fabricant
+
+Imprimante : dépannage courant :
+- File d'impression bloquée : services.msc → Print Spooler → Arrêter → vider C:\Windows\System32\spool\PRINTERS → Redémarrer
+- Cartouche encre : nettoyage des têtes depuis le pilote
+- Papier coincé : retirer délicatement dans le sens d'avancement du papier
+
+5. OUTILS DE DIAGNOSTIC LOGICIELS
+
+Windows :
+- Événements Windows (Observateur d'événements) : erreurs système, pannes
+- Gestionnaire des tâches : CPU, RAM, réseau, processus
+- msinfo32 : informations complètes sur le matériel
+- dxdiag : information DirectX et matériel graphique
+- sfc /scannow : vérification des fichiers système Windows
+- chkdsk C: /f /r : vérification et réparation du disque
+
+Linux :
+- dmesg : messages du noyau, erreurs matérielles
+- lshw : inventaire matériel complet
+- lsblk : liste des disques et partitions
+- df -h : espace disque disponible
+- free -h : mémoire disponible
+- iostat, iotop : activité des disques
+- lscpu : informations processeur

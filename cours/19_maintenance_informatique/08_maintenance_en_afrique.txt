@@ -1,0 +1,145 @@
+# **Notes de Cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière 19 : Maintenance Informatique**
+## **Chapitre : Maintenance informatique en contexte africain**
+
+---
+
+### **1. Introduction : Spécificités du contexte africain et camerounais**
+
+La maintenance informatique ne s’opère pas dans un vide technique ou environnemental. En Afrique, et particulièrement au Cameroun, le technicien de maintenance doit composer avec un ensemble de contraintes spécifiques qui impactent directement la disponibilité, la fiabilité et la durée de vie du parc informatique. Ces contraintes transforment les bonnes pratiques générales en impératifs adaptés.
+
+**Contexte opérationnel :**
+*   **Alimentation électrique :** Instable, avec des coupures fréquentes (délestages), des variations de tension (surtensions, sous-tensions).
+*   **Environnement climatique :** Températures élevées et humidité, favorisant la surchauffe.
+*   **Environnement physique :** Poussière et sable omniprésents, surtout en saison sèche.
+*   **Logistique et approvisionnement :** Difficultés d'accès rapide à des pièces détachées authentiques et à un coût raisonnable.
+*   **Géographie et support :** Dispersion géographique des sites (agences bancaires en région, succursales d'entreprises), nécessitant des solutions de support à distance efficaces.
+
+**À retenir :** Le maintenancier en contexte africain est un **gestionnaire de risques** anticipant les pannes liées à l'environnement, et un **optimiseur de ressources** dans un contexte de contraintes logistiques.
+
+---
+
+### **2. Gestion de l'alimentation électrique instable**
+
+#### **2.1. Problématique et impacts**
+L'instabilité du réseau (ENEO Cameroun) est la première cause de panne matérielle et de perte de données.
+*   **Coupures brutales (Blackouts) :** Endommagent les disques durs (têtes de lecture), corrompent les systèmes de fichiers et les bases de données.
+*   **Micro-coupures :** Provoquent des redémarrages intempestifs des serveurs et équipements actifs (switch, routeur).
+*   **Variations de tension (Brownouts/Surtensions) :** Endommagent les alimentations (PSU), les cartes mères et les composants électroniques.
+
+**Exemple concret :** Une agence **MTN Money** ou **Orange Money** en zone rurale qui subit une coupure pendant une transaction peut corrompre la base de données des opérations, entraînant des litiges financiers et une perte de confiance des clients.
+
+#### **2.2. Solutions techniques et leur maintenance**
+
+**2.2.1. Onduleurs (UPS - Uninterruptible Power Supply)**
+*   **Définition :** Appareil fournissant une alimentation électrique filtrée et de secours via des batteries lors d'une coupure.
+*   **Types et choix :**
+    *   **UPS Off-line / Standby :** Économique, pour les postes de travail individuels. Temps de bascule (quelques ms).
+    *   **UPS Line-Interactive :** Standard pour les serveurs et équipements réseaux. Régulateur de tension intégré (AVR).
+    *   **UPS On-line / Double Conversion :** Haut de gamme, pour les serveurs critiques (centraux téléphoniques **Camtel**, data centers). Fournit une tension parfaite en permanence.
+*   **Maintenance préventive :**
+    *   **Test mensuel des batteries :** Décharge contrôlée pour vérifier l'autonomie.
+    *   **Nettoyage des ventilateurs et des filtres** contre la poussière.
+    *   **Vérification des connexions et du remplacement des batteries** tous les 2 à 3 ans (cycle de vie tropical réduit).
+*   **Logiciels de gestion :** Utilisation des logiciels fournis (APC PowerChute, Eaton Intelligent Power) pour l'arrêt automatique des serveurs en cas de panne prolongée.
+
+**2.2.2. Groupes électrogènes**
+*   **Rôle :** Source d'alimentation principale de secours pour les longues coupures, alimentant tout le bâtiment ou la salle serveur.
+*   **Maintenance impérative (planifiée) :**
+    *   **Tests de démarrage automatique (ATS - Automatic Transfer Switch) :** Hebdomadaires.
+    *   **Changement des filtres à air, à huile et à carburant** selon les heures de fonctionnement.
+    *   **Vidange et contrôle des niveaux** (huile, liquide de refroidissement).
+    *   **Contrat de maintenance** avec un prestataire spécialisé pour les gros groupes (essentiel pour les banques, opérateurs télécoms).
+
+**Tableau comparatif : Stratégie d'alimentation**
+
+| Équipement | Rôle | Niveau de protection | Maintenance clé | Exemple d'usage |
+| :--- | :--- | :--- | :--- | :--- |
+| **UPS Line-Interactive** | Protection immédiate, filtrage | Moyen à Élevé | Batteries, ventilation | Serveur de fichier PME, switch principal |
+| **Groupe Électrogène** | Alimentation de secours longue durée | Fondamentale | Moteur, carburant, ATS | Siège social, data center, hôpital |
+| **Régulateur de tension (Stabilisateur)** | Correction uniquement des variations | Basique | Nettoyage | Postes de travail non-critiques |
+
+**À retenir :** Une chaîne de protection complète est **Réseau → Régulateur → UPS → Serveur/Équipement**, avec le groupe électrogène qui prend le relais via l'ATS après quelques secondes.
+
+---
+
+### **3. Lutte contre la chaleur et la poussière**
+
+#### **3.1. Impacts de la chaleur (Loi d'Arrhenius)**
+La fiabilité des composants électroniques diminue exponentiellement avec l'augmentation de la température.
+*   **Loi d'Arrhenius (simplifiée) :** Pour une augmentation de 10°C au-dessus de la température nominale, le taux de défaillance d'un composant **double**.
+*   **Conséquences :** Blocages système (freeze), redémarrages aléatoires, usure accélérée des condensateurs, diminution de la durée de vie des disques durs et des alimentations.
+
+#### **3.2. Impacts de la poussière**
+La poussière agit comme un isolant thermique et un abrasif.
+*   **Effet "couverture" :** Elle obstrue les ventilateurs, les radiateurs et les grilles d'aération, empêchant le refroidissement.
+*   **Conductivité :** La poussière mélangée à l'humidité peut créer des ponts électriques et causer des courts-circuits.
+*   **Abrasion :** Endommage les lecteurs optiques (disques rayés) et les ventilateurs.
+
+#### **3.3. Solutions de maintenance préventive**
+*   **Climatisation des salles serveurs :**
+    *   Maintenir une température **entre 18°C et 24°C** et une humidité relative **entre 40% et 60%**.
+    *   Maintenance semestrielle des climatiseurs : nettoyage des filtres, des batteries, vérification du gaz.
+*   **Nettoyage physique régulier et méthodique :**
+    *   **Fréquence :** Trimestriel pour les environnements très poussiéreux.
+    * **Procédure :** Utilisation d'**air comprimé sec** (bombe ou compresseur avec filtre déshumidificateur) et de **chiffons microfibres antistatiques**. **Jamais d'aspirateur standard** (électricité statique).
+    *   **Points critiques :** Ventilateurs CPU/PSU, radiateurs, grilles d'entrée/sortie d'air, intérieur des alimentations.
+*   **Amélioration de la circulation d'air :**
+    *   Respect des **allées chaudes/froides** dans les baies.
+    *   Utilisation de **rack fermés** avec ventilation dirigée.
+    *   Éviter d'empiler les équipements ou de boucher les ouvertures.
+
+**Exemple concret :** Une cybercafé à Douala ou à Garoua dont les tours ne sont jamais nettoyées verra ses ventilateurs tomber en panne en moins d'un an, entraînant la surchauffe et la destruction du processeur ou de la carte graphique.
+
+---
+
+### **4. Gestion des pièces détachées et du parc vieillissant**
+
+#### **4.1. Problématique de l'approvisionnement**
+*   **Délais d'obtention longs** pour les pièces spécifiques.
+*   **Problème de contrefaçon** (pièces "compatibles" de faible qualité).
+*   **Coût élevé** de l'importation et des droits de douane.
+*   **Obsolescence accélérée** des modèles.
+
+#### **4.2. Stratégies de gestion de stock et d'approvisionnement**
+*   **Établir un stock critique (Stock de sécurité) :**
+    *   **Pièces couramment défaillantes :** Alimentations, barrettes de RAM, disques durs, câbles d'alimentation, ventilateurs.
+    *   **Équipements réseaux :** Adaptateurs SFP, blocs d'alimentation pour switch.
+*   **Politique de standardisation du parc :**
+    *   Privilégier quelques modèles de PC, serveurs et imprimantes pour limiter la variété des pièces à stocker.
+    *   Ex: Une administration publique standardise sur des modèles **Dell ou HP** pour faciliter les échanges et la négociation de contrats de maintenance.
+*   **Sources d'approvisionnement fiables :**
+    *   Développer des relations avec des distributeurs agréés à Yaoundé ou Douala.
+    *   Utiliser les garanties constructeurs, même si le processus est long.
+    *   Pour l'urgence, identifier des revendeurs locaux réputés pour la qualité de leurs pièces.
+*   **Réutilisation et cannibalisation :**
+    *   Dans un contexte de ressources limitées, prélever une pièce fonctionnelle sur un équipement irréparable pour dépanner un équipement critique est une pratique courante et rationnelle. **Elle doit être documentée.**
+
+**À retenir :** La fiche d'inventaire du parc (marque, modèle, n° de série, date d'achat) est l'outil de base pour anticiper les pannes et gérer les garanties.
+
+---
+
+### **5. Support et maintenance à distance**
+
+#### **5.1. Nécessité et avantages**
+Face aux distances, aux coûts de déplacement et à l'urgence des pannes logicielles, le support à distance est indispensable.
+*   **Réduction des coûts** (déplacement, temps).
+*   **Intervention plus rapide** sur les incidents logiciels ou de configuration.
+*   **Suivi et surveillance proactive** du parc.
+
+#### **5.2. Outils et technologies du support distant**
+*   **Logiciels de prise de contrôle à distance :**
+    *   **TeamViewer, AnyDesk, Splashtop :** Solutions grand public et PME. Simples à déployer.
+    *   **Remote Desktop (RDP - Microsoft) :** Intégré à Windows Pro/Server, puissant mais nécessite une configuration réseau (VPN, redirection de ports).
+    *   **Solutions professionnelles :** **ConnectWise Control**, **NinjaRMM** (incluant la surveillance et la gestion des correctifs).
+*   **Supervision à distance :**
+    *   **Outils :** PRTG Network Monitor, Zabbix, Nagios.
+    *   **Surveillance :** Disponibilité des serveurs (ping), utilisation du CPU/RAM, espace disque, température des équipements, état des sauvegardes.
+    *   **Alerte :** Envoi d'emails ou de SMS au technicien en cas de seuil critique.
+*   **Infrastructure réseau nécessaire :**
+    *   Une connexion Internet **stable** (même lente) est le prérequis.
+    *   Utilisation de **VPN (Virtual Private Network)** pour un accès sécurisé au réseau interne de l'entreprise. Ex: Installation d'un VPN entre le siège à Douala et les agences régionales.
+    *   **Redondance de liaison :** Utiliser deux fournisseurs d'accès (ex: **Camtel** fibre + **Orange** 4G) pour le siège ou les sites critiques.
+
+#### **5.3. Limites et bonnes pratiques**
+*   **Limites :** Impossible pour les pannes matérielles

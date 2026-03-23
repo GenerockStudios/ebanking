@@ -1,0 +1,379 @@
+# Notes de cours — BTS Génie Logiciel
+## Matière : 14 Développement Web
+### Chapitre : JavaScript fondamentaux : variables, fonctions, DOM, événements, AJAX, Fetch API, JSON, ES6+
+
+---
+
+## 1. Introduction à JavaScript
+
+### 1.1. Définition et rôle dans le développement web
+JavaScript est un langage de programmation de script orienté objet, principalement utilisé pour créer des pages web interactives. Contrairement aux langages serveur comme PHP ou Python, JavaScript s'exécute côté client (dans le navigateur).
+
+**À retenir** : JavaScript permet de rendre les pages web dynamiques sans rechargement complet de la page.
+
+### 1.2. Environnement d'exécution
+- **Navigateurs web** : Chrome, Firefox, Safari, Edge
+- **Outils de développement** : Chrome DevTools, Firefox Developer Tools
+- **Éditeurs recommandés** : VS Code, Sublime Text, WebStorm
+- **Environnement Node.js** pour l'exécution côté serveur
+
+---
+
+## 2. Variables et types de données
+
+### 2.1. Déclaration des variables
+```javascript
+// Avant ES6
+var nom = "Jean"; // Portée fonctionnelle
+
+// Avec ES6+
+let age = 25; // Portée bloc
+const PI = 3.14; // Constante non réassignable
+```
+
+### 2.2. Types de données
+```javascript
+// Types primitifs
+let nom = "MTN Cameroun"; // String
+let chiffreAffaire = 1500000000; // Number
+let estActif = true; // Boolean
+let valeur = null; // Null
+let nonDefini; // Undefined
+
+// Types complexes
+let operateurs = ["MTN", "Orange", "Camtel"]; // Array
+let client = { // Object
+    nom: "Entreprise OHADA",
+    solde: 500000,
+    devise: "FCFA"
+};
+```
+
+### 2.3. Tableau comparatif des déclarations
+| Mot-clé | Portée | Réassignable | Hoisting | Bonne pratique |
+|---------|--------|--------------|----------|----------------|
+| var | Fonction | Oui | Oui | À éviter |
+| let | Bloc | Oui | Non (TDZ) | Variables mutables |
+| const | Bloc | Non | Non (TDZ) | Constantes |
+
+---
+
+## 3. Fonctions en JavaScript
+
+### 3.1. Déclaration de fonctions
+```javascript
+// Déclaration classique
+function calculerTVA(montant) {
+    return montant * 0.1925; // TVA camerounaise 19.25%
+}
+
+// Expression de fonction
+const calculerFrais = function(montant) {
+    return montant * 0.01; // Frais de transaction 1%
+};
+
+// Fonction fléchée (ES6+)
+const convertirFCFA_Euro = (montantFCFA) => {
+    const taux = 655.957; // Taux approximatif
+    return montantFCFA / taux;
+};
+```
+
+### 3.2. Paramètres et valeurs par défaut
+```javascript
+function transfertMobile(operateur, montant, frais = 50) {
+    // Exemple adapté au contexte camerounais
+    let operateursValides = ["MTN Mobile Money", "Orange Money", "Express Union"];
+    
+    if (!operateursValides.includes(operateur)) {
+        return "Opérateur non supporté";
+    }
+    
+    let total = montant + frais;
+    return `Transfert ${operateur}: ${montant} FCFA + ${frais} FCFA de frais`;
+}
+```
+
+---
+
+## 4. DOM (Document Object Model)
+
+### 4.1. Qu'est-ce que le DOM ?
+Le DOM est une interface de programmation qui représente la structure d'un document HTML comme un arbre d'objets, permettant à JavaScript de manipuler le contenu, la structure et le style d'une page web.
+
+### 4.2. Sélection d'éléments
+```javascript
+// Méthodes de sélection
+let titre = document.getElementById("titre-principal");
+let articles = document.getElementsByClassName("article");
+let liens = document.getElementsByTagName("a");
+
+// Méthodes modernes (ES6+)
+let formulaire = document.querySelector("#formulaire-inscription");
+let boutons = document.querySelectorAll(".btn-cameroun");
+```
+
+### 4.3. Manipulation du DOM
+```javascript
+// Exemple : Système de gestion de commandes
+function ajouterCommande(produit, prix) {
+    let liste = document.getElementById("liste-commandes");
+    let nouvelElement = document.createElement("li");
+    
+    nouvelElement.innerHTML = `
+        <span class="produit">${produit}</span>
+        <span class="prix">${prix} FCFA</span>
+        <button class="btn-supprimer">Supprimer</button>
+    `;
+    
+    liste.appendChild(nouvelElement);
+    
+    // Calcul du total
+    calculerTotal();
+}
+
+function calculerTotal() {
+    let prixElements = document.querySelectorAll(".prix");
+    let total = 0;
+    
+    prixElements.forEach(element => {
+        let prix = parseInt(element.textContent);
+        total += prix;
+    });
+    
+    document.getElementById("total").textContent = `${total} FCFA`;
+}
+```
+
+---
+
+## 5. Gestion des événements
+
+### 5.1. Types d'événements courants
+```javascript
+// Événements de souris
+element.addEventListener('click', fonction);
+element.addEventListener('mouseover', fonction);
+element.addEventListener('mouseout', fonction);
+
+// Événements de clavier
+element.addEventListener('keydown', fonction);
+element.addEventListener('keyup', fonction);
+
+// Événements de formulaire
+element.addEventListener('submit', fonction);
+element.addEventListener('change', fonction);
+element.addEventListener('focus', fonction);
+```
+
+### 5.2. Exemple pratique : Formulaire d'inscription
+```javascript
+document.getElementById("form-inscription").addEventListener("submit", function(e) {
+    e.preventDefault(); // Empêche le rechargement de la page
+    
+    let nom = document.getElementById("nom").value;
+    let email = document.getElementById("email").value;
+    let telephone = document.getElementById("telephone").value;
+    let region = document.getElementById("region").value;
+    
+    // Validation adaptée au Cameroun
+    if (!telephone.match(/^(6|2)[0-9]{8}$/)) {
+        afficherErreur("Numéro de téléphone invalide. Format: 6XXXXXXXX ou 2XXXXXXXX");
+        return;
+    }
+    
+    if (!email.includes("@") || !email.includes(".")) {
+        afficherErreur("Adresse email invalide");
+        return;
+    }
+    
+    // Simulation d'envoi de données
+    console.log(`Inscription: ${nom}, ${email}, ${telephone}, ${region}`);
+    afficherMessage("Inscription réussie! Un SMS de confirmation a été envoyé.");
+});
+
+function afficherErreur(message) {
+    let divErreur = document.getElementById("message-erreur");
+    divErreur.textContent = message;
+    divErreur.style.display = "block";
+    divErreur.style.color = "red";
+}
+```
+
+---
+
+## 6. AJAX et Fetch API
+
+### 6.1. Introduction à AJAX
+AJAX (Asynchronous JavaScript and XML) permet d'envoyer et recevoir des données d'un serveur sans recharger la page.
+
+### 6.2. Fetch API (ES6+)
+```javascript
+// Exemple : Récupération des taux de change
+async function getTauxChange() {
+    try {
+        const response = await fetch('https://api.exemple.com/taux-change');
+        
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        afficherTaux(data);
+        
+    } catch (error) {
+        console.error("Erreur de récupération:", error);
+        // Fallback : valeurs par défaut pour le Cameroun
+        afficherTaux({
+            "EUR_FCFA": 655.957,
+            "USD_FCFA": 600.5,
+            "date": new Date().toLocaleDateString()
+        });
+    }
+}
+
+function afficherTaux(data) {
+    let contenu = `
+        <h3>Taux de change (${data.date})</h3>
+        <p>1 EUR = ${data.EUR_FCFA} FCFA</p>
+        <p>1 USD = ${data.USD_FCFA} FCFA</p>
+    `;
+    document.getElementById("taux-change").innerHTML = contenu;
+}
+```
+
+### 6.3. Tableau comparatif AJAX vs Fetch
+| Aspect | XMLHttpRequest (AJAX) | Fetch API |
+|--------|----------------------|-----------|
+| Syntaxe | Verbose, basée sur callbacks | Basée sur Promises, plus lisible |
+| Gestion erreurs | Manuel | .catch() intégré |
+| Support navigateurs | Large | Moderne (IE non supporté) |
+| Flexibilité | Bonne | Excellente avec options |
+| Corps réponse | Manuel | Méthodes .json(), .text(), etc. |
+
+---
+
+## 7. JSON (JavaScript Object Notation)
+
+### 7.1. Définition et structure
+JSON est un format léger d'échange de données, facile à lire et écrire pour les humains, et facile à parser et générer pour les machines.
+
+### 7.2. Manipulation en JavaScript
+```javascript
+// Exemple : Données d'une entreprise camerounaise
+let entreprise = {
+    "nom": "Startup Innovante Cameroun",
+    "siege": "Douala",
+    "secteur": "Technologie",
+    "employes": 45,
+    "chiffreAffaire": 250000000, // En FCFA
+    "services": ["Développement Web", "Mobile Apps", "Consultance"],
+    "contact": {
+        "email": "contact@startup-cm.cm",
+        "telephone": "+237 6 99 88 77 66",
+        "site": "https://www.startup-cm.cm"
+    }
+};
+
+// Conversion en chaîne JSON
+let jsonString = JSON.stringify(entreprise);
+console.log(jsonString);
+
+// Conversion d'une chaîne JSON en objet
+let entrepriseParse = JSON.parse(jsonString);
+console.log(entrepriseParse.nom); // "Startup Innovante Cameroun"
+```
+
+### 7.3. Utilisation avec Fetch API
+```javascript
+// Envoi de données au format JSON
+async function envoyerDonneesClient(clientData) {
+    const response = await fetch('https://api.exemple.com/clients', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer token-securite'
+        },
+        body: JSON.stringify(clientData)
+    });
+    
+    return await response.json();
+}
+
+// Exemple d'utilisation
+let nouveauClient = {
+    nom: "SARL Business CM",
+    ville: "Yaoundé",
+    telephone: "677112233",
+    secteur: "Commerce"
+};
+
+envoyerDonneesClient(nouveauClient)
+    .then(reponse => console.log("Client ajouté:", reponse))
+    .catch(erreur => console.error("Erreur:", erreur));
+```
+
+---
+
+## 8. Fonctionnalités ES6+ essentielles
+
+### 8.1. Let et Const (déjà vu)
+### 8.2. Fonctions fléchées
+```javascript
+// Syntaxe concise
+const double = x => x * 2;
+
+// Retour implicite
+const calculTaxe = montant => montant * 0.1925;
+
+// Plusieurs paramètres
+const calculInteret = (capital, taux, duree) => capital * taux * duree;
+
+// Pas de binding de 'this'
+class CompteBancaire {
+    constructor(solde) {
+        this.solde = solde;
+    }
+    
+    // Fonction fléchée conserve le contexte
+    afficherSolde = () => {
+        console.log(`Solde: ${this.solde} FCFA`);
+    }
+}
+```
+
+### 8.3. Template literals
+```javascript
+let nomEntreprise = "OHADA Consulting";
+let ville = "Douala";
+let annee = 2024;
+
+// Ancienne méthode
+let message1 = "Bienvenue chez " + nomEntreprise + " à " + ville + " en " + annee;
+
+// Nouvelle méthode (ES6+)
+let message2 = `Bienvenue chez ${nomEntreprise} à ${ville} en ${annee}`;
+
+// Multi-lignes
+let facture = `
+    FACTURE PROFORMA
+    ================
+    Client: ${nomEntreprise}
+    Date: ${new Date().toLocaleDateString()}
+    Montant: 1,500,000 FCFA
+    TVA (19.25%): 288,750 FCFA
+    Total: 1,788,750 FCFA
+`;
+```
+
+### 8.4. Déstructuration
+```javascript
+// Déstructuration d'objet
+let employe = {
+    nom: "Fatima",
+    poste: "Développeuse",
+    salaire: 750000,
+    ville: "Yaoundé"
+};
+
+let { nom

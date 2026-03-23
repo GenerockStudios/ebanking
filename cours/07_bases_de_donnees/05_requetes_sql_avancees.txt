@@ -1,0 +1,260 @@
+# **Notes de Cours - BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 07 Bases De Donnees**
+## **Chapitre : Requêtes SQL avancées : SELECT avec JOIN, GROUP BY, HAVING, sous-requêtes, vues**
+
+---
+
+### **1. Introduction aux Requêtes SQL Avancées**
+
+#### **1.1. Contexte et Objectifs**
+Les requêtes SQL de base (SELECT, INSERT, UPDATE, DELETE) permettent des opérations simples sur une seule table. Dans les systèmes d'information réels, comme ceux utilisés par les entreprises camerounaises (MTN, Orange Cameroun, Camtel, banques, administrations OHADA), les données sont **réparties dans plusieurs tables** pour éviter la redondance et garantir l'intégrité. Les requêtes avancées permettent de :
+- **Combiner** des données provenant de plusieurs tables.
+- **Agréger** et synthétiser des informations.
+- **Structurer** des requêtes complexes pour des rapports détaillés.
+- **Créer des vues** persistantes pour simplifier l'accès aux données.
+
+**Outils & Technologies :** MySQL, PostgreSQL, Microsoft SQL Server, Oracle Database. Dans le contexte professionnel camerounais, MySQL/PostgreSQL sont très répandus pour les applications web et métier.
+
+---
+
+### **2. Les Jointures (JOIN) : Combiner des Tables**
+
+#### **2.1. Concept Fondamental et Clés Étrangères**
+Une jointure permet d'associer les lignes de deux (ou plusieurs) tables en fonction d'une **relation logique**, matérialisée par une **clé étrangère (Foreign Key)**.
+
+**Exemple Contextuel :** Base de données d'un opérateur télécom (MTN).
+- Table `CLIENTS` (`client_id`, `nom`, `numero_telephone`, `ville`)
+- Table `CONTRATS` (`contrat_id`, `client_id`, `type_forfait`, `date_activation`, `montant_mensuel`)
+
+La colonne `CONTRATS.client_id` est une clé étrangère référençant `CLIENTS.client_id`.
+
+#### **2.2. INNER JOIN (Jointure Interne)**
+Retourne **uniquement** les enregistrements qui ont des correspondances dans **les deux tables**.
+
+**Syntaxe :**
+```sql
+SELECT colonnes
+FROM table1
+INNER JOIN table2 ON table1.cle = table2.cle;
+```
+
+**Exemple :** Lister tous les clients ayant un contrat actif avec leur forfait.
+```sql
+SELECT CLIENTS.nom, CLIENTS.numero_telephone, CONTRATS.type_forfait
+FROM CLIENTS
+INNER JOIN CONTRATS ON CLIENTS.client_id = CONTRATS.client_id;
+```
+
+#### **2.3. LEFT JOIN (Jointure Gauche)**
+Retourne **tous les enregistrements de la table de gauche (FROM)**, même s'il n'y a pas de correspondance dans la table de droite. Les colonnes de la table de droite seront `NULL` en l'absence de correspondance.
+
+**Exemple :** Lister tous les clients, même ceux sans contrat (prospects ou anciens clients).
+```sql
+SELECT CLIENTS.nom, CONTRATS.type_forfait
+FROM CLIENTS
+LEFT JOIN CONTRATS ON CLIENTS.client_id = CONTRATS.client_id;
+-- Un client sans contrat aura NULL dans `type_forfait`.
+```
+
+#### **2.4. RIGHT JOIN (Jointure Droite)**
+L'inverse du `LEFT JOIN`. Retourne tous les enregistrements de la table de droite. Moins utilisé, car on peut souvent réécrire avec un `LEFT JOIN`.
+
+#### **2.5. FULL OUTER JOIN (Jointure Complète)**
+Retourne tous les enregistrements lorsqu'il y a une correspondance dans la table de gauche **OU** la table de droite. MySQL ne supporte pas `FULL JOIN` natif, on le simule avec `UNION` de `LEFT JOIN` et `RIGHT JOIN`.
+
+**Tableau Comparatif des JOINs**
+
+| Type de JOIN | Description | Résultat |
+| :--- | :--- | :--- |
+| **INNER JOIN** | Intersection des tables. | Lignes avec correspondance dans les DEUX tables. |
+| **LEFT JOIN** | Toute la table de gauche + intersection. | Toutes les lignes de la table1, avec les correspondances de la table2 ou NULL. |
+| **RIGHT JOIN** | Toute la table de droite + intersection. | Toutes les lignes de la table2, avec les correspondances de la table1 ou NULL. |
+| **FULL JOIN** | Union des tables. | Toutes les lignes des deux tables, avec correspondances où elles existent. |
+
+> **À RETENIR :** `INNER JOIN` est le plus courant. `LEFT JOIN` est essentiel pour détecter les données manquantes (ex: clients sans commande).
+
+---
+
+### **3. Agrégation et Regroupement : GROUP BY et HAVING**
+
+#### **3.1. Fonctions d'Agrégation**
+Elles opèrent sur un ensemble de lignes pour retourner une valeur unique.
+- `COUNT()` : Compte le nombre de lignes.
+- `SUM()` : Fait la somme d'une colonne numérique.
+- `AVG()` : Calcule la moyenne.
+- `MAX()` / `MIN()` : Retourne la valeur maximale/minimale.
+
+**Exemple Simple :** Nombre total de clients chez Orange Cameroun.
+```sql
+SELECT COUNT(*) AS nombre_total_clients FROM CLIENTS;
+```
+
+#### **3.2. La Clause GROUP BY**
+Permet de regrouper les lignes qui ont des valeurs identiques dans les colonnes spécifiées, **afin d'appliquer une fonction d'agrégation à chaque groupe**.
+
+**Exemple Contextuel (OHADA) :** Une table `VENTES` (`vente_id`, `entreprise_id`, `montant`, `date_vente`, `ville`) pour différentes sociétés.
+```sql
+-- Chiffre d'affaires total par ville
+SELECT ville, SUM(montant) AS CA_total
+FROM VENTES
+GROUP BY ville;
+-- Donne un résultat du type : Douala | 25 000 000, Yaoundé | 18 500 000, etc.
+```
+
+#### **3.3. La Clause HAVING**
+Filtre les résultats **après** l'agrégation (`GROUP BY`), contrairement à `WHERE` qui filtre **avant**.
+
+**Exemple :** Trouver les villes où le chiffre d'affaires total dépasse 20 millions de FCFA.
+```sql
+SELECT ville, SUM(montant) AS CA_total
+FROM VENTES
+GROUP BY ville
+HAVING SUM(montant) > 20000000;
+```
+
+**Différence CRUCIALE WHERE vs HAVING :**
+```sql
+-- WHERE filtre les lignes AVANT regroupement
+SELECT ville, SUM(montant)
+FROM VENTES
+WHERE date_vente >= '2024-01-01' -- Seules les ventes de 2024 sont considérées
+GROUP BY ville;
+
+-- HAVING filtre les groupes APRES regroupement
+SELECT ville, SUM(montant)
+FROM VENTES
+GROUP BY ville
+HAVING SUM(montant) > 10000000; -- Seules les villes avec CA > 10M sont affichées
+```
+
+---
+
+### **4. Les Sous-Requêtes (Subqueries)**
+
+#### **4.1. Définition et Utilité**
+Une sous-requête est une **requête imbriquée** à l'intérieur d'une autre requête (principale). Elle peut être utilisée dans les clauses `SELECT`, `FROM`, `WHERE`, et `HAVING`.
+
+#### **4.2. Sous-Requête dans la Clause WHERE**
+La plus courante. Utilisée avec des opérateurs comme `=`, `>`, `IN`, `EXISTS`.
+
+**Exemple :** Trouver les clients de Camtel qui ont un forfait plus cher que le forfait moyen.
+```sql
+SELECT nom, type_forfait, montant_mensuel
+FROM CLIENTS
+INNER JOIN CONTRATS ON CLIENTS.client_id = CONTRATS.client_id
+WHERE montant_mensuel > (
+    SELECT AVG(montant_mensuel) FROM CONTRATS
+);
+```
+
+**Exemple avec `IN` :** Clients ayant souscrit à un forfait "Illimité" ou "Business".
+```sql
+SELECT nom FROM CLIENTS
+WHERE client_id IN (
+    SELECT client_id FROM CONTRATS
+    WHERE type_forfait IN ('Illimité', 'Business')
+);
+```
+
+#### **4.3. Sous-Requête dans la Clause FROM (Table Dérivée)**
+La sous-requête agit comme une table temporaire.
+
+**Exemple :** Calculer le montant moyen des ventes par région et le comparer à la moyenne nationale.
+```sql
+SELECT region, AVG(montant_region) AS moyenne_region,
+       (SELECT AVG(montant) FROM VENTES) AS moyenne_nationale
+FROM (
+    SELECT region, AVG(montant) AS montant_region
+    FROM VENTES
+    GROUP BY region
+) AS sous_table
+GROUP BY region;
+```
+
+> **À RETENIR :** Les sous-requêtes peuvent impacter les performances. Il faut toujours vérifier si une `JOIN` ne serait pas plus efficace.
+
+---
+
+### **5. Les Vues (Views)**
+
+#### **5.1. Définition et Avantages**
+Une **vue** est une **table virtuelle** dont le contenu est défini par une requête `SELECT`. Elle ne stocke pas physiquement les données, mais offre une **perspective** sur celles-ci.
+
+**Avantages :**
+- **Sécurité :** Restreindre l'accès à certaines colonnes ou lignes (ex: masquer les salaires).
+- **Simplicité :** Cacher la complexité des jointures et agrégations aux utilisateurs finaux.
+- **Cohérence :** Permettre un accès standardisé à des données calculées fréquemment.
+
+#### **5.2. Création et Utilisation d'une Vue**
+
+**Syntaxe de Création :**
+```sql
+CREATE VIEW nom_de_la_vue AS
+requete_select_complexe;
+```
+
+**Exemple Concret :** Créer une vue pour le service commercial d'une banque, montrant le solde total par client et sa ville.
+```sql
+CREATE VIEW vue_solde_clients AS
+SELECT c.nom, c.prenom, c.ville,
+       SUM(cp.solde) AS solde_total
+FROM CLIENTS c
+INNER JOIN COMPTES cp ON c.client_id = cp.client_id
+GROUP BY c.client_id, c.nom, c.prenom, c.ville;
+```
+
+**Utilisation :** Une fois créée, on interroge la vue **exactement comme une table**.
+```sql
+SELECT * FROM vue_solde_clients WHERE ville = 'Douala' ORDER BY solde_total DESC;
+```
+
+#### **5.3. Vues Matérialisées (Notion Avancée)**
+Certains SGBD (PostgreSQL, Oracle) proposent des **vues matérialisées** qui stockent physiquement le résultat de la requête. Elles sont très rapides à interroger mais doivent être **rafraîchies** périodiquement. Utiles pour les tableaux de bord complexes.
+
+---
+
+### **6. Étude de Cas Synthèse : Système de Gestion des Appels d'un Opérateur**
+
+**Contexte :** Analyse des performances réseau pour Orange Cameroun.
+
+**Tables :**
+- `TOURS` (`tour_id`, `nom_tour`, `ville`, `region`)
+- `APPELS` (`appel_id`, `tour_id_origine`, `tour_id_destination`, `duree_secondes`, `date_appel`)
+
+**Requêtes Complexes :**
+
+**1. Trafic total (en minutes) par région d'origine :**
+```sql
+SELECT t.region, SUM(a.duree_secondes)/60 AS duree_minutes_total
+FROM APPELS a
+INNER JOIN TOURS t ON a.tour_id_origine = t.tour_id
+GROUP BY t.region
+ORDER BY duree_minutes_total DESC;
+```
+
+**2. Tours n'ayant émis aucun appel (détection de panne potentielle) :**
+```sql
+SELECT t.nom_tour, t.ville
+FROM TOURS t
+LEFT JOIN APPELS a ON t.tour_id = a.tour_id_origine
+WHERE a.appel_id IS NULL;
+```
+
+**3. Création d'une vue pour le rapport quotidien du trafic :**
+```sql
+CREATE VIEW vue_trafic_quotidien AS
+SELECT DATE(date_appel) AS jour,
+       COUNT(*) AS nombre_appels,
+       SUM(duree_secondes)/60 AS minutes_total,
+       region_origine
+FROM APPELS
+INNER JOIN TOURS ON APPELS.tour_id_origine = TOURS.tour_id
+GROUP BY DATE(date_appel), region_origine;
+```
+
+---
+
+### **7. Bonnes Pratiques et Pièges à Éviter**
+
+1. **Alias de Tables :** Utilisez des alias courts et clairs (`CLIENTS c`) pour améliorer la lisibilité.
+2. **Performance des JOIN :** Indexez systématiquement les **clés étrangères** et les colonnes utilisées dans les clauses `

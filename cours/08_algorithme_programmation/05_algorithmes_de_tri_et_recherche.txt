@@ -1,0 +1,176 @@
+# **Notes de Cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 08 Algorithme & Programmation**
+## **Chapitre : Algorithmes de Tri et Algorithmes de Recherche**
+
+---
+
+### **1. Introduction et Définitions Fondamentales**
+
+#### **1.1. Qu'est-ce qu'un algorithme de tri ?**
+Un algorithme de tri est une suite finie et non ambiguë d'instructions permettant de réorganiser une collection de données (un tableau, une liste) selon un ordre spécifique (croissant ou décroissant). Le tri est une opération fondamentale en informatique, omniprésente dans les systèmes réels.
+
+**Exemple concret Camerounais :** Trier la liste des abonnés MTN par numéro de téléphone, classer les dossiers des entreprises inscrites au **RCCM (Registre du Commerce et du Crédit Mobilier, OHADA)** par ordre alphabétique, ou ordonner les transactions d'une journée dans l'application **Orange Money** par montant décroissant.
+
+#### **1.2. Complexité Algorithmique : Notion de "Big O" (O)**
+La notation **O()** (grand O) décrit le comportement asymptotique d'un algorithme, c'est-à-dire comment son temps d'exécution ou son besoin en mémoire évolue en fonction de la taille des données en entrée, notée **n**.
+
+*   **O(1)** : Temps constant (ex: accéder à un élément d'un tableau par son index).
+*   **O(n)** : Temps linéaire (ex: parcourir un tableau une fois).
+*   **O(n²)** : Temps quadratique. Le temps est proportionnel au carré de `n`. Caractéristique des algorithmes de tri simples mais lents sur de grands volumes.
+*   **O(n log n)** : Temps quasi-linéaire. Beaucoup plus efficace que O(n²) pour de grandes valeurs de `n`. Caractéristique des algorithmes de tri performants.
+
+**À retenir :** Pour de grandes bases de données (ex: les millions d'utilisateurs de **Camtel**), le choix entre un algorithme en **O(n²)** et un en **O(n log n)** fait la différence entre une opération instantanée et une opération qui peut bloquer le système pendant des heures.
+
+---
+
+### **2. Algorithmes de Tri de Complexité O(n²)**
+
+Ces algorithmes sont simples à comprendre et à implémenter, mais deviennent inefficaces lorsque le nombre de données `n` est important. Ils sont adaptés pour de petits jeux de données ou des données partiellement triées.
+
+#### **2.1. Tri à Bulles (Bubble Sort)**
+**Principe :** Parcourir le tableau en comparant les éléments adjacents et en les échangeant s'ils sont dans le mauvais ordre. Répéter ce processus jusqu'à ce qu'aucun échange ne soit nécessaire. Les plus grands éléments "remontent" comme des bulles vers la fin du tableau.
+
+**Pseudo-code :**
+```
+Pour i allant de 0 à n-2
+    Pour j allant de 0 à n-i-2
+        Si tableau[j] > tableau[j+1]
+            Échanger(tableau[j], tableau[j+1])
+```
+
+**Exemple adapté :** Trier par ordre croissant les soldes de 5 comptes **MobiCash (Camtel)** : [1500, 300, 7500, 450, 200].
+*   **1ère passe :** [300, 1500, 450, 200, 7500]
+*   **2ème passe :** [300, 450, 200, 1500, 7500]
+*   **3ème passe :** [300, 200, 450, 1500, 7500]
+*   **4ème passe :** [200, 300, 450, 1500, 7500] → Tableau trié.
+
+**Complexité :** Pire cas et cas moyen : **O(n²)**. Meilleur cas (tableau déjà trié) : O(n).
+
+#### **2.2. Tri par Sélection (Selection Sort)**
+**Principe :** Diviser le tableau en deux parties : une partie triée (à gauche, initialement vide) et une partie non triée (à droite). À chaque itération, on recherche l'élément minimum dans la partie non triée et on l'échange avec le premier élément de la partie non triée, agrandissant ainsi la partie triée.
+
+**Pseudo-code :**
+```
+Pour i allant de 0 à n-2
+    minIndex = i
+    Pour j allant de i+1 à n-1
+        Si tableau[j] < tableau[minIndex]
+            minIndex = j
+    Échanger(tableau[i], tableau[minIndex])
+```
+
+**Exemple adapté :** Trier par ordre alphabétique les noms de villes camerounaises : ["Garoua", "Douala", "Yaoundé", "Bafoussam", "Maroua"].
+*   **1ère itération :** Trouve "Bafoussam", l'échange avec "Garoua" → ["**Bafoussam**", "Douala", "Yaoundé", "Garoua", "Maroua"]
+*   **2ème itération :** Trouve "Douala" (déjà en place) → ["Bafoussam", "**Douala**", "Yaoundé", "Garoua", "Maroua"]
+*   **Etc.**
+
+**Complexité :** Toujours **O(n²)**, peu importe l'état initial des données.
+
+#### **2.3. Tri par Insertion (Insertion Sort)**
+**Principe :** Similaire à la manière dont on trie des cartes à jouer. On considère un élément à la fois et on l'insère à sa position correcte dans la partie déjà triée du tableau.
+
+**Pseudo-code :**
+```
+Pour i allant de 1 à n-1
+    cle = tableau[i]
+    j = i - 1
+    Tant que j >= 0 et tableau[j] > cle
+        tableau[j+1] = tableau[j]
+        j = j - 1
+    tableau[j+1] = cle
+```
+
+**Exemple adapté :** Trier par date de transaction (la plus ancienne d'abord) un relevé de 4 opérations **MTN Mobile Money**.
+Transactions : [10/03 (5000F), 05/03 (2000F), 08/03 (10000F), 01/03 (1500F)].
+L'algorithme insère chaque date à sa place dans la séquence déjà triée.
+
+**Complexité :** Pire cas : **O(n²)**. **Meilleur cas (tableau presque trié) : O(n).** C'est pourquoi il est souvent utilisé en pratique pour optimiser d'autres algorithmes (ex: pour de petits sous-tableaux dans Quick Sort) ou pour des données en flux continu.
+
+---
+
+### **3. Algorithmes de Tri de Complexité O(n log n)**
+
+Ces algorithmes, plus sophistiqués, sont indispensables pour traiter efficacement de grands volumes de données.
+
+#### **3.1. Tri Rapide (Quick Sort)**
+**Principe :** Algorithme **"diviser pour régner"**.
+1.  **Choix d'un pivot** (ex: dernier élément).
+2.  **Partitionnement :** Réorganiser le tableau pour que tous les éléments plus petits que le pivot soient à sa gauche, et les plus grands à sa droite.
+3.  **Récursion :** Appliquer récursivement les étapes 1 et 2 aux sous-tableaux gauche et droit.
+
+**Pseudo-code (fonction partition et tri rapide) :**
+```
+Fonction partition(tableau, debut, fin):
+    pivot = tableau[fin]
+    i = (debut - 1)
+    Pour j allant de debut à fin-1
+        Si tableau[j] <= pivot
+            i = i + 1
+            Échanger(tableau[i], tableau[j])
+    Échanger(tableau[i + 1], tableau[fin])
+    Retourner (i + 1)
+
+Fonction triRapide(tableau, debut, fin):
+    Si debut < fin
+        indicePivot = partition(tableau, debut, fin)
+        triRapide(tableau, debut, indicePivot - 1)
+        triRapide(tableau, indicePivot + 1, fin)
+```
+
+**Exemple adapté :** Trier les montants de factures d'électricité (**ENEO**) d'un quartier pour analyse. L'efficacité de Quick Sort permet de traiter rapidement des milliers de factures.
+
+**Complexité :** **Cas moyen : O(n log n).** Pire cas (mauvais choix de pivot sur tableau déjà trié) : O(n²). En pratique, très rapide car la constante cachée dans O(n log n) est petite.
+
+#### **3.2. Tri Fusion (Merge Sort)**
+**Principe :** Algorithme **"diviser pour régner"** stable (il préserve l'ordre des éléments égaux).
+1.  **Division :** Diviser récursivement le tableau en deux moitiés jusqu'à obtenir des sous-tableaux de taille 1 (déjà triés).
+2.  **Fusion :** Fusionner de manière répétée les sous-tableaux triés pour produire des tableaux triés plus grands, jusqu'à reconstituer le tableau complet trié.
+
+**Pseudo-code (fonction fusion et tri fusion) :**
+```
+Fonction fusion(gauche, droite):
+    resultat = []
+    Tant que gauche non vide et droite non vide
+        Si premier(gauche) <= premier(droite)
+            Ajouter premier(gauche) à resultat
+            Supprimer premier(gauche)
+        Sinon
+            Ajouter premier(droite) à resultat
+            Supprimer premier(droite)
+    Ajouter le reste de gauche et de droite à resultat
+    Retourner resultat
+
+Fonction triFusion(tableau):
+    Si longueur(tableau) <= 1
+        Retourner tableau
+    milieu = longueur(tableau) / 2
+    gauche = triFusion(tableau[0:milieu])
+    droite = triFusion(tableau[milieu:fin])
+    Retourner fusion(gauche, droite)
+```
+
+**Exemple adapté :** Trier et fusionner les listes d'étudiants de plusieurs instituts de formation (ISTA, ISF) pour créer une base de données nationale des apprenants en BTS. La stabilité de Merge Sort est importante si on trie d'abord par nom, puis par promotion.
+
+**Complexité :** **Toujours O(n log n)**, que ce soit dans le pire, meilleur ou cas moyen. Inconvénient : il nécessite un espace mémoire supplémentaire O(n) pour les tableaux temporaires lors de la fusion.
+
+---
+
+### **4. Comparaison et Synthèse des Algorithmes de Tri**
+
+**Tableau Comparatif :**
+
+| Algorithme       | Complexité (Pire Cas) | Complexité (Meilleur Cas) | Complexité Moyenne | En Place ? | Stable ? | Commentaire                                                                 |
+|------------------|-----------------------|---------------------------|--------------------|------------|----------|-----------------------------------------------------------------------------|
+| **Bubble Sort**  | O(n²)                 | O(n)                      | O(n²)              | Oui        | Oui      | Simple, pédagogique. Inefficace.                                            |
+| **Selection Sort**| O(n²)                 | O(n²)                     | O(n²)              | Oui        | Non      | Nombre d'échanges minimal (O(n)). Toujours lent.                            |
+| **Insertion Sort**| O(n²)                 | O(n)                      | O(n²)              | Oui        | Oui      | Excellent pour petits tableaux ou données presque triées.                   |
+| **Quick Sort**   | O(n²)*                | O(n log n)                | O(n log n)         | Oui        | Non      | **Le plus rapide en pratique.** Choix du pivot crucial pour éviter O(n²).   |
+| **Merge Sort**   | O(n log n)            | O(n log n)                | O(n log n)         | Non        | Oui      | Performances garanties, stable. Utilise de la mémoire supplémentaire.       |
+
+*\*Le pire cas de Quick Sort est rare et peut être évité par un choix intelligent du pivot (ex: "médiane de trois").*
+
+**Choix en Contexte Professionnel Camerounais :**
+*   **Petites collections (< 100 éléments) :** `Insertion Sort` ou les fonctions de tri de la bibliothèque standard.
+*   **Collections générales, performances critiques :** `Quick Sort` est l'algorithme de choix. C'est celui utilisé dans les fonctions `sort()` de nombreuses bibliothèques standard (ex: en C++ `std::sort`, en Python `list.sort()`).
+*   **Stabilité requise ou données liées :** `Merge Sort` (ex: trier des transactions financières par date, puis par montant).
+*   **Don

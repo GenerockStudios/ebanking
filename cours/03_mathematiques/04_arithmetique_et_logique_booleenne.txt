@@ -1,0 +1,136 @@
+# **Notes de cours — 03 Mathématiques**
+## **Chapitre : Arithmétique et logique booléenne**
+
+### **1. Introduction et objectifs du chapitre**
+Ce chapitre constitue le fondement mathématique de l’informatique et du génie logiciel. Il permet de comprendre comment l’ordinateur représente et traite l’information (nombres, textes, instructions) à l’aide de systèmes de numération simples (binaire, hexadécimal) et d’une logique formelle (algèbre de Boole). La maîtrise de ces concepts est indispensable pour la programmation bas niveau, la conception de circuits logiques, l’analyse d’algorithmes et la compréhension du fonctionnement interne des systèmes informatiques.
+
+**Objectifs d’apprentissage :**
+*   Maîtriser les conversions entre les bases numériques 2, 8, 10, 16.
+*   Comprendre et appliquer les principes de l’algèbre de Boole.
+*   Identifier et utiliser les portes logiques de base.
+*   Analyser et simplifier des circuits logiques combinatoires.
+
+---
+
+### **2. Systèmes de numération et conversions**
+
+#### **2.1. Définitions et bases usuelles en informatique**
+Un **système de numération** est un ensemble de règles pour représenter les nombres à l’aide de symboles (chiffres). Sa **base** (ou **radix**) définit le nombre de chiffres distincts utilisés, y compris le zéro.
+
+*   **Système Décimal (Base 10)** : Système usuel. Chiffres : 0 à 9. Chaque position représente une puissance de 10.
+    *   *Exemple :* 475₁₀ = (4 × 10²) + (7 × 10¹) + (5 × 10⁰)
+*   **Système Binaire (Base 2)** : Langage interne de l’ordinateur. Chiffres : 0 et 1 (bits). Chaque position représente une puissance de 2.
+    *   *Exemple :* 1101₂ = (1 × 2³) + (1 × 2²) + (0 × 2¹) + (1 × 2⁰) = 13₁₀
+*   **Système Octal (Base 8)** : Utilisé historiquement. Chiffres : 0 à 7.
+    *   *Exemple :* 745₈ = (7 × 8²) + (4 × 8¹) + (5 × 8⁰) = 485₁₀
+*   **Système Hexadécimal (Base 16)** : Très utilisé en informatique pour représenter de manière compacte les nombres binaires (adresses mémoire, codes couleurs). Chiffres : 0 à 9, puis A(10), B(11), C(12), D(13), E(14), F(15).
+    *   *Exemple :* A3F₁₆ = (10 × 16²) + (3 × 16¹) + (15 × 16⁰) = 2623₁₀
+
+**À retenir :** Un octet (8 bits) peut être représenté par exactement deux chiffres hexadécimaux (de 00₁₆ à FF₁₆).
+
+#### **2.2. Techniques de conversion**
+**Tableau récapitulatif des correspondances (4 bits / 1 chiffre hex) :**
+
+| Décimal | Binaire (4 bits) | Hexadécimal |
+| :------ | :--------------- | :---------- |
+| 0       | 0000             | 0           |
+| 1       | 0001             | 1           |
+| 2       | 0010             | 2           |
+| 3       | 0011             | 3           |
+| 4       | 0100             | 4           |
+| 5       | 0101             | 5           |
+| 6       | 0110             | 6           |
+| 7       | 0111             | 7           |
+| 8       | 1000             | 8           |
+| 9       | 1001             | 9           |
+| 10      | 1010             | A           |
+| 11      | 1011             | B           |
+| 12      | 1100             | C           |
+| 13      | 1101             | D           |
+| 14      | 1110             | E           |
+| 15      | 1111             | F           |
+
+**Méthodes principales :**
+
+1.  **Décimal → Base B** : Méthode des divisions successives par la base B. On divise le nombre décimal par B, le reste donne le chiffre de poids faible (LSB). On répète avec le quotient jusqu'à obtenir un quotient nul. Lecture des restes de bas en haut.
+    *   *Exemple (Contexte OHADA) :* Convertir le montant 250₁₀ (FCFA) en binaire.
+        *   250 / 2 = 125, reste **0**
+        *   125 / 2 = 62, reste **1**
+        *   62 / 2 = 31, reste **0**
+        *   31 / 2 = 15, reste **1**
+        *   15 / 2 = 7, reste **1**
+        *   7 / 2 = 3, reste **1**
+        *   3 / 2 = 1, reste **1**
+        *   1 / 2 = 0, reste **1**
+        *   Résultat : 250₁₀ = **11111010₂**
+
+2.  **Base B → Décimal** : Méthode de la somme des puissances (décomposition polynomiale). Chaque chiffre est multiplié par la base élevée à la puissance de sa position (en partant de 0 à droite).
+    *   *Exemple (Contexte télécoms) :* L'adresse MAC d'un équipement réseau contient souvent des segments hexadécimaux. Convertir A5₁₆ en décimal.
+        *   A5₁₆ = (10 × 16¹) + (5 × 16⁰) = 160 + 5 = **165₁₀**
+
+3.  **Binaire ↔ Hexadécimal/Octal** : Regroupement par paquets.
+    *   **Binaire → Hex** : Grouper les bits par 4 en partant de la droite. Compléter avec des 0 à gauche si nécessaire. Convertir chaque groupe en un chiffre hexadécimal.
+        *   *Exemple :* 11010111₂ → (1101)(0111) → D 7 → **D7₁₆**
+    *   **Hex → Binaire** : Remplacer chaque chiffre hexadécimal par son équivalent binaire sur 4 bits.
+        *   *Exemple :* 3E₁₆ → (3)(E) → (0011)(1110) → **00111110₂**
+    *   **Binaire → Octal** : Grouper par 3 bits.
+
+**Outils en entreprise :** Les programmeurs utilisent constamment ces conversions. Les débogueurs (GDB, Visual Studio Debugger) affichent souvent les valeurs mémoire en hexadécimal. Les langages de programmation (C, C++, Java, Python) permettent de déclarer des constantes en hexadécimal (`0xA5`) ou binaire (`0b1010`). Les calculatrices d'ingénierie (mode `PROG`) disposent de ces fonctions de conversion.
+
+---
+
+### **3. Algèbre de Boole**
+
+#### **3.1. Définition et principes**
+L'**algèbre de Boole**, du nom du mathématicien George Boole, est une structure algébrique qui opère sur des variables qui ne peuvent prendre que deux états : **VRAI (1, HIGH)** ou **FAUX (0, LOW)**. C'est la base mathématique de la logique numérique et de la conception des circuits des processeurs et des mémoires.
+
+*   **Variable booléenne** : Symbole (ex: A, B, S) représentant un état logique (0 ou 1).
+*   **Fonction booléenne** : Expression reliant des variables booléennes par des opérateurs logiques. Elle décrit le comportement d'un circuit.
+    *   *Exemple concret (Système d'alarme OHADA pour un entrepôt) :* Alarme (S) = (Détecteur de mouvement (A) **ET** Alarme activée (B)) **OU** Panneau de contrôle en mode test (C). `S = (A . B) + C`
+
+#### **3.2. Opérateurs logiques fondamentaux (ET, OU, NON)**
+*   **NON (NOT, Complémentation)** : Inverse l'état. Notation : `Ā` ou `!A` ou `NOT(A)`.
+*   **ET (AND, Conjonction)** : Le résultat est VRAI (1) **si et seulement si** toutes les entrées sont VRAIES. Notation : `A . B` ou `A ∧ B` ou `A && B`.
+*   **OU (OR, Disjonction)** : Le résultat est VRAI (1) si **au moins une** entrée est VRAIE. Notation : `A + B` ou `A ∨ B` ou `A || B`.
+
+**Tables de vérité :**
+
+| A | B | NON A (Ā) | A ET B (A.B) | A OU B (A+B) |
+|---|---|-----------|--------------|--------------|
+| 0 | 0 | 1         | 0            | 0            |
+| 0 | 1 | 1         | 0            | 1            |
+| 1 | 0 | 0         | 0            | 1            |
+| 1 | 1 | 0         | 1            | 1            |
+
+#### **3.3. Lois et théorèmes de l'algèbre de Boole**
+Ces lois permettent de simplifier les expressions logiques, conduisant à des circuits moins coûteux et plus rapides.
+
+*   **Loi de l'identité** : `A + 0 = A` ; `A . 1 = A`
+*   **Loi de nullité** : `A + 1 = 1` ; `A . 0 = 0`
+*   **Loi d'idempotence** : `A + A = A` ; `A . A = A`
+*   **Loi de complément** : `A + Ā = 1` ; `A . Ā = 0`
+*   **Loi de double négation** : `̅(Ā) = A`
+*   **Lois commutatives** : `A + B = B + A` ; `A . B = B . A`
+*   **Lois associatives** : `(A+B)+C = A+(B+C)` ; `(A.B).C = A.(B.C)`
+*   **Lois distributives** :
+    *   `A . (B + C) = (A . B) + (A . C)` (Distributivité du ET sur le OU)
+    *   `A + (B . C) = (A + B) . (A + C)` (Distributivité du OU sur le ET)
+*   **Lois de De Morgan (ESSENTIELLES)** :
+    *   **Le complément d'une somme est le produit des compléments** : `̅(A + B) = Ā . B̄`
+    *   **Le complément d'un produit est la somme des compléments** : `̅(A . B) = Ā + B̄`
+    *   *Application :* Simplifier la vérification d'éligibilité à une offre mobile **MTN** ou **Orange**. Au lieu de vérifier `NOT (MTN_Client OR Orange_Client)`, on vérifie `(NOT MTN_Client) AND (NOT Orange_Client)`.
+
+**À retenir :** Les lois de De Morgan permettent de convertir toute expression utilisant des ET et des OU en une expression utilisant uniquement des OU et des ET respectivement, en changeant l'opérateur principal.
+
+---
+
+### **4. Portes logiques et circuits combinatoires**
+
+#### **4.1. Portes logiques de base**
+Une **porte logique** est un circuit électronique élémentaire qui implémente une fonction booléenne. Elle possède une ou plusieurs entrées et une sortie.
+
+| Porte   | Symbole (ANSI/IEC) | Fonction booléenne | Table de vérité (sortie) |
+| :------ | :----------------- | :----------------- | :----------------------- |
+| **NON** (NOT) | ![NOT Gate] (Triangle avec cercle sortie) | S = Ā              | 0→1, 1→0                 |
+| **ET** (AND)  | ![AND Gate] (Forme en D)                  | S = A . B          | 00→0, 01→0, 10→0, 11→1   |
+| **OU** (OR)   | ![OR Gate] (Forme convexe)                | S = A + B          |

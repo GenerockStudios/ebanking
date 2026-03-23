@@ -1,0 +1,170 @@
+# **Notes de Cours — BTS Génie Logiciel (Cameroun)**
+**Matière : 08 Algorithme Programmation**
+**Chapitre : Introduction aux algorithmes : définition, propriétés, pseudo-code, organigramme**
+
+---
+
+## **1. Introduction et Définition Fondamentale**
+
+### **1.1. Contexte et Importance**
+Dans le monde numérique actuel, où les entreprises camerounaises comme **MTN Mobile Money**, **Orange Money**, **Camtel** et les institutions de l'**OHADA** digitalisent leurs services, la conception de solutions logicielles efficaces est cruciale. Le point de départ de toute solution logicielle est un **algorithme**. Comprendre les algorithmes, c'est maîtriser l'art de résoudre des problèmes de manière structurée et automatisable, compétence essentielle pour tout technicien supérieur en génie logiciel.
+
+### **1.2. Définition Formelle d'un Algorithme**
+Un **algorithme** est une suite finie, non ambiguë et ordonnée d'instructions ou d'opérations élémentaires qui, lorsqu'elles sont exécutées dans un ordre précis, permettent de résoudre un problème ou d'atteindre un objectif donné en un nombre fini d'étapes.
+
+**À retenir :** Un algorithme transforme des **données d'entrée** en **résultats de sortie** via un **traitement** défini.
+
+### **1.3. Caractéristiques Essentielles d'un Algorithme**
+Pour être valide, un algorithme doit posséder les caractéristiques suivantes :
+*   **Finité** : Il doit s'exécuter et se terminer après un nombre fini d'étapes.
+*   **Déterminisme** : Chaque instruction est claire, précise et sans ambiguïté. Pour les mêmes entrées, on obtient toujours les mêmes résultats.
+*   **Généralité** : Il doit résoudre une classe de problèmes, pas un cas unique.
+*   **Entrées/Sorties** : Il prend zéro ou plusieurs données en entrée et produit au moins un résultat en sortie.
+
+**Exemple concret (Contexte Camerounais) :** L'algorithme de vérification d'un code **MTN Mobile Money** lors d'un paiement en ligne.
+1.  **Entrée** : Le code à 4 chiffres saisi par l'utilisateur.
+2.  **Traitement** : Comparer le code saisi avec le code PIN enregistré et sécurisé dans la base de données.
+3.  **Sortie** : "Transaction approuvée" ou "Code incorrect, veuillez réessayer".
+
+---
+
+## **2. Propriétés Fondamentales d'un Algorithme**
+
+Pour qu'un algorithme soit de qualité et utilisable en entreprise, il doit satisfaire à trois propriétés fondamentales : la **correction**, la **terminaison** et l'**efficacité**.
+
+### **2.1. La Correction (Validité)**
+Un algorithme est **correct** s'il produit toujours le résultat attendu pour toutes les entrées légitimes.
+
+*   **Définition** : Il réalise exactement la tâche pour laquelle il a été conçu.
+*   **Comment la vérifier ?** Par des **tests** rigoureux (jeux de données variés) et par la **preuve formelle** (raisonnement mathématique/logique) pour les algorithmes complexes.
+*   **Exemple** : Un algorithme de calcul de la **TVA** selon le droit OHADA camerounais (19.25% pour la plupart des biens) doit toujours retourner le bon montant de taxe pour n'importe quel prix hors taxes saisi.
+
+### **2.2. La Terminaison**
+Un algorithme doit **toujours se terminer** après un temps fini, quelles que soient les entrées fournies.
+
+*   **Risque** : La **boucle infinie**, où une condition de sortie n'est jamais atteinte.
+*   **Condition** : Chaque répétition (boucle) doit se rapprocher inévitablement de sa condition d'arrêt.
+*   **Exemple** : Un algorithme de recherche d'un client dans la base de données de **Camtel** doit s'arrêter, que le client soit trouvé ou non. Une boucle qui parcourt une liste finie de clients garantit la terminaison.
+
+### **2.3. L'Efficacité (Complexité)**
+L'efficacité mesure les **ressources** (temps d'exécution et espace mémoire) consommées par un algorithme. C'est un critère économique vital pour les entreprises.
+
+*   **Complexité Temporelle** : Estimation du temps d'exécution en fonction de la taille `n` des données d'entrée (ex: nombre d'éléments dans une liste).
+*   **Complexité Spatiale** : Quantité de mémoire utilisée en fonction de la taille des données.
+*   **Notation "Grand O" (O)** : Utilisée pour classifier les algorithmes selon leur croissance. Les ordres de complexité courants sont :
+    *   **O(1)** : Temps constant (accès à un élément d'un tableau par son index).
+    *   **O(log n)** : Temps logarithmique (recherche dichotomique dans un annuaire téléphonique trié).
+    *   **O(n)** : Temps linéaire (parcourir une liste de `n` clients pour trouver un numéro).
+    *   **O(n²)** : Temps quadratique (algorithmes avec deux boucles imbriquées, comme certains tris simples).
+
+**Tableau Comparatif : Impact de la Complexité**
+
+| Taille des données (n) | O(1) | O(log n) | O(n) | O(n²) |
+| :--- | :--- | :--- | :--- | :--- |
+| **n=100** | 1 étape | ~7 étapes | 100 étapes | 10 000 étapes |
+| **n=10 000** | 1 étape | ~14 étapes | 10 000 étapes | 100 000 000 étapes |
+| **Impact** | Idéal | Très efficace | Acceptable | **À éviter pour les grandes données** |
+
+**Exemple Africain :** Lors du **recensement électoral**, trier une base de données de 8 millions d'électeurs par nom avec un algorithme **O(n log n)** (comme le Tri Fusion) sera des milliers de fois plus rapide qu'avec un algorithme **O(n²)** (comme le Tri à Bulles), permettant un gain de temps et de coûts de calcul considérable.
+
+---
+
+## **3. Représentation des Algorithmes : Pseudo-code et Organigramme**
+
+Avant de coder dans un langage de programmation (Java, Python, C#), on représente l'algorithme de manière claire et compréhensible.
+
+### **3.1. Le Pseudo-code**
+Le **pseudo-code** est une description textuelle, structurée et en langage presque naturel (mélange de français/anglais et de structures de programmation) des étapes d'un algorithme.
+
+*   **Avantages** :
+    *   Indépendant de tout langage de programmation.
+    *   Facile à lire, écrire et comprendre par les humains.
+    *   Se concentre sur la logique, pas sur la syntaxe.
+*   **Conventions courantes** :
+    *   Mots-clés : `Début`, `Fin`, `Si...Alors...Sinon...FinSi`, `TantQue...Faire...FinTantQue`, `Pour...De...À...Faire...FinPour`.
+    *   Affectation : `←` ou `:=` (Ex: `somme ← a + b`).
+    *   Commentaires : `// Ceci est un commentaire`.
+
+**Exemple : Algorithme de Conversion FCFA -> EUR (Taux approximatif)**
+```
+Début
+    // Saisie
+    Afficher("Entrez le montant en FCFA : ")
+    Lire(montantFCFA)
+
+    // Traitement
+    taux ← 655.96   // Taux de change fixe CFA/EUR
+    montantEUR ← montantFCFA / taux
+
+    // Sortie
+    Afficher(montantFCFA, " FCFA = ", montantEUR, " EUR")
+Fin
+```
+
+### **3.2. L'Organigramme (Flowchart)**
+Un **organigramme** est une représentation graphique d'un algorithme utilisant des symboles normalisés reliés par des flèches indiquant le flux d'exécution.
+
+*   **Avantages** : Visuel, excellent pour voir le flux de contrôle et les décisions.
+*   **Symboles principaux (Norme ISO)** :
+    *   **Ovale** : Début / Fin.
+    *   **Parallélogramme** : Entrée / Sortie (`Lire`, `Afficher`).
+    *   **Rectangle** : Traitement / Instruction (`calcul`, `affectation`).
+    *   **Losange** : Décision / Test (`Si...Alors`).
+    *   **Flèches** : Flux d'exécution.
+
+**Exemple Visuel (Logique d'un retrait Mobile Money) :**
+*(Description textuelle de l'organigramme)*
+1.  **DÉBUT**
+2.  **ENTRÉE** : Saisir Numéro Tél. et Montant.
+3.  **TRAITEMENT** : Vérifier solde du compte.
+4.  **DÉCISION** : Solde >= Montant ?
+    *   **SI OUI** :
+        1.  *TRAITEMENT* : Débiter le compte.
+        2.  *TRAITEMENT* : Générer un code de transaction.
+        3.  *SORTIE* : "Succès. Code : XXX".
+    *   **SI NON** :
+        1.  *SORTIE* : "Solde insuffisant".
+5.  **FIN**
+
+**Tableau Comparatif : Pseudo-code vs Organigramme**
+
+| Critère | Pseudo-code | Organigramme |
+| :--- | :--- | :--- |
+| **Nature** | Textuelle | Graphique |
+| **Force** | Détail des opérations, proche du code | Visualisation du flux, des décisions |
+| **Utilisation** | Conception détaillée, communication entre développeurs | Conception initiale, documentation pour non-techniciens |
+| **Outils** | Éditeur de texte simple (VS Code, Notepad++) | **Logiciels spécialisés** : Draw.io, Lucidchart, Microsoft Visio, yEd. |
+
+---
+
+## **4. Méthodologie de Conception et Outils Professionnels**
+
+### **4.1. Étapes de Conception d'un Algorithme**
+1.  **Analyse du problème** : Comprendre le besoin (ex: "Calculer les notes semestrielles d'un étudiant à l'Université de Yaoundé I").
+2.  **Spécification** : Définir clairement les **entrées** (notes CC, notes Examen), les **sorties** (Moyenne, Mention) et les **contraintes** (coefficients, plages de notes).
+3.  **Conception** : Choisir une méthode de résolution et la représenter (Pseudo-code/Organigramme).
+4.  **Vérification** : Tester mentalement ou sur papier avec des cas concrets (étudiant admis, recalé).
+5.  **Implémentation** : Traduire en langage de programmation (Python, Java).
+6.  **Test et Validation** : Exécuter le programme avec divers jeux de données.
+
+### **4.2. Outils et Technologies Utilisés en Entreprise**
+*   **Conception/Modélisation** :
+    *   **Draw.io / diagrams.net** : Gratuit, en ligne, idéal pour les organigrammes. Très utilisé dans les startups.
+    *   **Lucidchart** : Outil professionnel collaboratif.
+    *   **Microsoft Visio** : Standard dans de nombreuses grandes entreprises.
+*   **Environnements de Développement (IDE)** : Où le pseudo-code devient du code réel.
+    *   **Visual Studio Code** : Léger, polyvalent, extensions pour tous langages.
+    *   **IntelliJ IDEA / Eclipse** : Pour le développement Java, très répandu.
+    *   **PyCharm** : Pour le développement Python.
+
+---
+
+## **5. Conclusion et Synthèse**
+
+**À retenir : Points Clés du Chapitre**
+1.  Un **algorithme** est une recette logique, finie et non ambiguë pour résoudre un problème.
+2.  Ses **trois propriétés cardinales** sont :
+    *   **Correction** : Il fait ce qu'on attend de lui.
+    *   **Terminaison** : Il s'arrête toujours.
+    *   **Efficacité** : Il utilise les ressources de manière optimale (penser **Complexité algorithmique**).
+3.  On le conço

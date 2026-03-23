@@ -1,0 +1,113 @@
+# **Notes de Cours — BTS Génie Logiciel**
+## **Matière : 11 Comptabilité Analytique**
+## **Chapitre : Introduction à la comptabilité analytique : objectifs, différences avec la comptabilité générale, coûts et charges**
+
+---
+
+### **1. Introduction et Définition**
+
+La comptabilité analytique est une discipline comptable qui constitue un **sous-système d'information** au sein de l'entreprise. Elle est souvent appelée **comptabilité de gestion** car elle est principalement tournée vers les besoins internes des dirigeants pour piloter l'activité.
+
+**Définition :** La comptabilité analytique est une technique de traitement des données financières et économiques ayant pour objectif de **calculer les coûts** (coût de revient, coût de production, coût d'achat) et d'**analyser les résultats** par produit, par activité, par centre de responsabilité ou par projet. Elle permet de connaître la formation du résultat de l'entreprise de manière analytique.
+
+**Contexte OHADA (Organisation pour l'Harmonisation en Afrique du Droit des Affaires) :** Le système comptable OHADA (via l'Acte Uniforme révisé) définit le cadre de la comptabilité générale. La comptabilité analytique, bien que non obligatoire légalement, est fortement recommandée et découle logiquement de la comptabilité générale pour une gestion performante, notamment pour les entreprises soumises aux normes OHADA.
+
+---
+
+### **2. Objectifs de la Comptabilité Analytique**
+
+La mise en place d'une comptabilité analytique répond à quatre objectifs principaux :
+
+#### **2.1. Objectif de Connaissance**
+*   **Calculer les coûts :** Déterminer avec précision le coût de revient d'un produit (ex: une ligne de code, un module logiciel), d'un service (ex: maintenance informatique) ou d'un projet (ex: développement d'une application mobile pour MTN Money).
+*   **Analyser la performance :** Évaluer la rentabilité de chaque activité, gamme de produits ou centre de profit (ex: comparer la rentabilité du développement d'applications web vs. applications mobiles).
+*   **Déterminer les bases de tarification :** Fournir une base rationnelle pour fixer les prix de vente, notamment dans les appels d'offres (ex: soumission pour un projet de digitalisation avec l'État camerounais).
+
+#### **2.2. Objectif de Gestion et de Pilotage**
+*   **Éclairer la prise de décision :** Aider le management à prendre des décisions stratégiques (ex: faut-il internaliser le développement ou sous-traiter ? Quel projet prioriser ?).
+*   **Contrôler et maîtriser les charges :** Identifier les dérives de coûts et les goulots d'étranglement dans les processus de production (ex: suivi des heures de travail sur un projet logiciel).
+*   **Évaluer les stocks :** En production, elle permet de valoriser les en-cours et les produits finis.
+
+#### **2.3. Objectif de Prévision (Budget)**
+*   **Établir des budgets prévisionnels :** Les coûts analytiques passés servent de référence pour construire des budgets réalistes pour les futurs projets ou exercices.
+*   **Établir des standards et des coûts cibles :** Définir ce que *devrait* coûter un produit dans des conditions d'efficience données.
+
+#### **2.4. Objectif de Communication Interne**
+*   **Responsabiliser les managers :** En affectant les coûts aux centres de responsabilité (ex: équipe de développement, équipe de test, département commercial), elle permet d'évaluer la performance de chaque responsable.
+
+**À RETENIR :** Les 4 objectifs clés de la comptabilité analytique sont **Connaître, Gérer, Prévoir et Communiquer.**
+
+---
+
+### **3. Différences Fondamentales avec la Comptabilité Générale**
+
+Il est crucial de distinguer ces deux disciplines complémentaires mais distinctes.
+
+| **Critère de Différence**       | **Comptabilité Générale (CG)**                                                                 | **Comptabilité Analytique (CA)**                                                                                                                              |
+| ------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **1. Obligation Légale**        | **Obligatoire** pour toutes les entreprises (normes OHADA).                                    | **Facultative**, mais indispensable pour une bonne gestion.                                                                                                   |
+| **2. Destinataires (Public)**   | **Externe** : État (fisc), actionnaires, banques, fournisseurs (information financière).       | **Interne** : Direction, managers, chefs de service (information de gestion).                                                                                  |
+| **3. Objectif Principal**       | **Décrire le patrimoine** et déterminer le **résultat global** de l'entreprise (bénéfice/perte). | **Expliquer le résultat** en le décomposant et **calculer les coûts** internes pour **prendre des décisions**.                                                |
+| **4. Périodicité**              | **Exercice comptable** (généralement annuel).                                                  | **Périodicité variable** (mensuelle, trimestrielle, par projet) selon les besoins de gestion.                                                                 |
+| **5. Normes de Présentation**   | **Normalisée et réglementée** (Plan Comptable OHADA).                                          | **Libre et adaptable** à la structure, aux besoins et aux méthodes de gestion de l'entreprise.                                                                |
+| **6. Champ d'Application**      | **Entreprise dans son ensemble** (vision globale).                                             | **Segments de l'entreprise** : produits, activités, projets, centres de responsabilité (vision analytique).                                                   |
+| **7. Type d'Information**       | **Information financière** (monétaire, historique, synthétique).                               | **Information économique et financière** (monétaire et physique - heures, quantités -, plus détaillée, peut être prévisionnelle).                             |
+| **8. Principe de Prudence**     | **Strictement appliqué** (dépréciations, provisions).                                          | **Non appliqué** ; on cherche le coût "réel" économique, pas un résultat fiscalement prudent.                                                                 |
+
+**Exemple concret (Contexte Camerounais) :**
+Une ESN (Entreprise de Services du Numérique) à Douala développe une application pour **Camtel**.
+*   **CG :** Enregistre toutes les charges (salaires, loyer, électricité, achat de licences logicielles) et tous les produits (chiffre d'affaires du projet) pour établir le bilan et le compte de résultat annuel de l'ESN.
+*   **CA :** Isole et regroupe **toutes les charges spécifiques au projet Camtel** (heures des développeurs, coût des serveurs de test, frais de déplacement chez le client) pour calculer le **coût de revient exact du projet** et déterminer si ce projet a été rentable en lui-même.
+
+---
+
+### **4. Concepts Fondamentaux : Charges et Coûts**
+
+#### **4.1. Les Charges (Inputs)**
+Une charge est une **consommation de ressources** par l'entreprise, entraînant un appauvrissement. En CA, on reclasse les charges de la CG.
+
+*   **Charges Directes (CD) :** Charges qui peuvent être **affectées directement et sans ambiguïté** à un coût (un produit, un projet). Le lien de causalité est évident.
+    *   *Exemple 1 (Projet Logiciel) :* Le salaire du développeur travaillant à 100% sur le projet Orange Money. La licence d'un logiciel utilisé exclusivement pour ce projet.
+    *   *Exemple 2 (Production) :* Le bois pour fabriquer une table.
+*   **Charges Indirectes (CI) :** Charges qui **concernent plusieurs coûts** simultanément. Elles ne peuvent pas être affectées directement. Elles nécessitent une **clé de répartition** (ou unité d'œuvre).
+    *   *Exemple 1 (Projet Logiciel) :* Le loyer du siège de l'entreprise, le salaire du directeur technique qui supervise plusieurs projets, l'électricité du bureau.
+    *   *Exemple 2 (Production) :* L'amortissement de la machine qui produit plusieurs articles.
+
+#### **4.2. Les Coûts (Outputs)**
+Un coût est une **accumulation de charges** sur un objet de coût (produit, service, projet, client). C'est le résultat d'un calcul.
+
+*   **Différence entre Charge et Coût :** Une charge est un flux (une dépense de la période). Un coût est un calcul qui peut agréger des charges de périodes différentes (ex: coût d'un produit en cours depuis 3 mois).
+*   **Hiérarchie des Coûts (Méthode des Coûts Complets) :**
+    1.  **Coût d'Achat** = Prix d'achat + Frais d'achat directs (transport, assurance)
+    2.  **Coût de Production** = Coût d'achat des matières consommées + Charges directes de production + Quote-part des charges indirectes de production
+    3.  **Coût de Revient** = Coût de production des produits vendus + Charges directes de distribution + Quote-part des charges indirectes de distribution et d'administration
+*   **Résultat Analytique (par objet) :**
+    > **Chiffre d'Affaires de l'objet - Coût de Revient de l'objet = Résultat Analytique de l'objet**
+
+**Exemple Structuré : Calcul du coût de revient d'un projet de développement d'API pour une banque (Contexte Yaoundé)**
+
+| **Étapes / Objets de Coût**       | **Calcul / Composition**                                                                                                                               | **Montant (FCFA)** |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
+| **1. Charges Directes du Projet** | - 200h de travail développeur senior x 5 000 FCFA/h<br>- Licence logiciel spécifique (pour 3 mois)<br>- Frais de mission chez le client                | 1 000 000<br>300 000<br>150 000 |
+|                                   | **Total Charges Directes (CD)**                                                                                                                        | **1 450 000**      |
+| **2. Charges Indirectes (CI)**    | - Quote-part du loyer (surface utilisée)<br>- Quote-part du salaire du chef de projet (temps passé)<br>- Quote-part de l'électricité, internet         | 200 000<br>450 000<br>100 000 |
+|                                   | **Total Charges Indirectes Réparties (via clés)**                                                                                                      | **750 000**        |
+| **3. Coût de Revient du Projet**  | **CD + CI = 1 450 000 + 750 000**                                                                                                                      | **2 200 000**      |
+| **4. Chiffre d'Affaires du Projet** | Facture client                                                                                                                                         | **3 000 000**      |
+| **5. Résultat Analytique Projet** | **CA - Coût de Revient = 3 000 000 - 2 200 000**                                                                                                       | **+ 800 000**      |
+
+*Interprétation : Ce projet a dégagé une marge bénéficiaire de 800 000 FCFA.*
+
+---
+
+### **5. Méthodes et Outils de la Comptabilité Analytique**
+
+#### **5.1. Méthodes Principales (à développer dans les chapitres suivants)**
+*   **Méthode des Coûts Complets :** Intègre **toutes les charges** de l'entreprise dans le calcul des coûts. C'est la méthode de référence présentée ci-dessus.
+*   **Méthode des Coûts Partiels (ou Direct Costing) :** Ne prend en compte que les **charges variables** (qui varient avec le niveau d'activité) pour calculer une **marge sur coût variable**. Très utile pour les décisions à court terme.
+*   **Méthode ABC (Activity-Based Costing) :** Méthode moderne qui répartit les charges indirectes en se basant sur les **activités** qui les consomment (ex: activité "réunion client", activité "test unitaire"), et non sur des clés de répartition volumiques. Très adaptée aux services et aux ESN.
+
+#### **5.2. Outils et Technologies (Logiciels)**
+*   **Modules intégrés aux ERP :** Les grands logiciels de gestion (ERP) comme **SAP, Oracle ERP, Microsoft Dynamics 365** possèdent des modules avancés de comptabilité analytique et de contrôle de gestion.
+*   **Logiciels spécialisés de gestion de projet :** Des outils comme **Jira** (avec des add-ons comme Tempo Timesheets), **Microsoft Project**, ou **Asana** permettent de suivre les temps passés par projet, qui constituent la base des charges directes dans une ESN.
+*   **Solutions locales et sur mesure

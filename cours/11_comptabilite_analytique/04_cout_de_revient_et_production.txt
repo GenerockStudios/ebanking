@@ -1,0 +1,132 @@
+# **Notes de Cours - BTS Génie Logiciel**
+**Matière : 11 Comptabilité Analytique**
+**Chapitre : Le Coût de Revient - Calcul Pas à Pas**
+
+---
+
+## **1. Introduction et Définitions Fondamentales**
+
+### **1.1. Rôle de la Comptabilité Analytique dans le Génie Logiciel**
+La comptabilité analytique est une branche de la comptabilité qui a pour objectif d’**analyser les coûts** et les résultats de l’entreprise par produit, service, projet ou activité. Pour un ingénieur logiciel, elle est cruciale pour :
+*   **Évaluer la rentabilité** d’un projet ou d’un produit logiciel.
+*   **Fixer un prix de vente** compétitif et justifié.
+*   **Prendre des décisions stratégiques** (sous-traiter ou produire en interne, abandonner un produit, etc.).
+*   **Contrôler et optimiser** les ressources consommées (temps de développement, licences, hébergement).
+
+### **1.2. Définition du Coût de Revient**
+Le **coût de revient** est la somme de toutes les charges (directes et indirectes) engagées pour la conception, la production, la distribution et la vente d’un **produit fini** (un logiciel, une application) ou d’un **service** (maintenance, développement sur mesure). C'est le coût total supporté par l'entreprise jusqu'à la mise à disposition du produit/service chez le client.
+
+**À retenir :** Coût de Revient = Coût d'Achat ou de Production + Coût de Distribution
+
+---
+
+## **2. Les Différentes Étapes du Calcul du Coût de Revient (Méthode des Coûts Complets)**
+
+Le calcul suit un **cheminement logique** qui retrace le parcours d'un produit. Pour un éditeur de logiciels, ce parcours peut être schématisé ainsi :
+
+`Achat de ressources (licences, services cloud) → Production/Développement → Distribution/Commercialisation → Client`
+
+### **2.1. Le Coût d'Achat**
+C'est le coût de tous les biens et services **achetés à l'extérieur** et incorporés directement au produit.
+
+**Formule :** **Coût d'Achat = Prix d'Achat Hors Taxes (PA HT) + Frais d'Achat Directs**
+
+*   **Prix d'Achat (PA HT)** : Coût facturé par le fournisseur (ex: achat d'une licence Windows Server, d'un module ERP, d'un service d'API payante).
+*   **Frais d'Achat Directs** : Charges directement liées à l'achat (frais de transport, droits de douane, commission d'achat). Dans le contexte OHADA, il faut bien distinguer la TVA (charge déductible, non incluse dans le coût) des frais accessoires.
+
+**Exemple concret (Cameroun) :**
+Une SSII (Société de Services en Ingénierie Informatique) à Douala achète 50 licences Microsoft Office 365 pour son équipe de développement.
+*   Prix d'achat HT par licence : 12 000 FCFA
+*   Frais de transaction bancaire internationale (pour le paiement) : 25 000 FCFA pour la commande totale.
+*   **Coût d'achat total** = (50 * 12 000) + 25 000 = 600 000 + 25 000 = **625 000 FCFA**.
+*   Coût d'achat unitaire = 625 000 / 50 = **12 500 FCFA**.
+
+### **2.2. Le Coût de Production**
+C'est le coût de **transformation** des matières/ressources achetées en produit fini. C'est le cœur de l'activité pour un développeur.
+
+**Formule :** **Coût de Production = Coût d'Achat des Ressources Consommées + Charges Directes de Production + Charges Indirectes de Production (Atelier/Projet)**
+
+*   **Coût d'Achat des Ressources Consommées** : Valeur des licences, services cloud, etc., utilisées spécifiquement pour ce projet.
+*   **Charges Directes de Production** :
+    *   **Main d'Œuvre Directe (MOD)** : Salaires et charges sociales des **développeurs** affectés directement au projet. C'est souvent le poste le plus important.
+    *   **Autres charges directes** : Coût des tests externalisés, achats de composants spécifiques.
+*   **Charges Indirectes de Production** : Frais généraux du service développement/atelier projet qu'il faut répartir (loyer de l'espace bureau, salaire du chef de projet, électricité, amortissement des ordinateurs). On utilise une **clé de répartition** (ex: nombre d'heures de développement, coût de la MOD).
+
+**Exemple concret (Projet de développement d'une app mobile) :**
+Une startup yaoundéenne développe une application de livraison de produits frais "AgriQuick".
+*   **Ressources consommées** : Coût des services AWS (hébergement, base de données) pour le développement : 300 000 FCFA.
+*   **Charges Directes (MOD)** : 2 développeurs travaillent 3 mois sur le projet. Leur coût salarial mensuel est de 400 000 FCFA chacun. MOD = 2 * 3 * 400 000 = **2 400 000 FCFA**.
+*   **Charges Indirectes** : Le coût du "pôle développement" (loyer partagé, manager, outils communs) est de 1 500 000 FCFA pour la période. On le répartit au prorata de la MOD. Si la MOD totale de tous les projets est de 6 000 000 FCFA, la part pour AgriQuick est : (2 400 000 / 6 000 000) * 1 500 000 = **600 000 FCFA**.
+*   **Coût de production total AgriQuick** = 300 000 + 2 400 000 + 600 000 = **3 300 000 FCFA**.
+
+### **2.3. Le Coût de Distribution (ou Coût Hors Production)**
+C'est l'ensemble des charges engagées pour **vendre le produit et le mettre à disposition du client**. Souvent sous-estimé dans le logiciel.
+
+**Formule :** **Coût de Distribution = Charges Directes de Distribution + Charges Indirectes de Distribution (Service Commercial)**
+
+*   **Charges Directes de Distribution** : Commission des commerciaux sur la vente, frais de publicité spécifique pour le produit, coût de participation à un salon (FUTURCOM à Douala).
+*   **Charges Indirectes de Distribution** : Salaires du personnel commercial non affecté à un seul produit, frais de marketing général, coût du service après-vente (support client).
+
+**Exemple concret (Lancement d'un logiciel de paie) :**
+Une entreprise édite un logiciel de paie conforme à la CNAMGS et à la réglementation OHADA.
+*   **Charges Directes** : Campagne Facebook Ads ciblant les entreprises camerounaises : 200 000 FCFA. Commission pour un commercial : 50 000 FCFA par vente.
+*   **Charges Indirectes** : Part des salaires du service marketing et du support téléphonique : 800 000 FCFA (répartis sur l'ensemble des produits).
+*   Si on vend 20 licences, le **Coût de Distribution Total** = 200 000 + (20 * 50 000) + 800 000 = 200 000 + 1 000 000 + 800 000 = **2 000 000 FCFA**.
+*   Coût de distribution unitaire = 2 000 000 / 20 = **100 000 FCFA**.
+
+---
+
+## **3. Synthèse : Le Coût Complet et le Coût de Revient**
+
+### **3.1. Le Coût Complet (ou Coût de Production + Distribution)**
+C'est la somme du Coût de Production et du Coût de Distribution. Il représente le coût total supporté par l'entreprise pour un produit, **hors coût administratif général**.
+
+**Formule :** **Coût Complet = Coût de Production + Coût de Distribution**
+
+### **3.2. Le Coût de Revient**
+Dans la méthode des coûts complets, le **Coût de Revient est souvent assimilé au Coût Complet**. Il s'agit du coût total du produit ou du service vendu.
+
+**Formule pour un produit :** **Coût de Revient Unitaires = (Coût Complet Total) / Quantité de produits vendus**
+
+**Tableau Récapitulatif du Calcul Pas à Pas :**
+
+| Étape | Composantes | Exemple pour un Logiciel "ÉduSoft" vendu 100 fois |
+| :--- | :--- | :--- |
+| **1. Coût d'Achat** | Licences tierces, Assets graphiques | 500 000 FCFA |
+| **2. Coût de Production** | (1) + MOD Développeurs + Frais généraux projet | 500 000 + 3 000 000 + 1 000 000 = **4 500 000 FCFA** |
+| **3. Coût de Distribution** | Pub + Commissions + Service Commercial | 300 000 + (100*20 000) + 1 500 000 = **3 800 000 FCFA** |
+| **4. Coût Complet/Revient Total** | (2) + (3) | 4 500 000 + 3 800 000 = **8 300 000 FCFA** |
+| **5. Coût de Revient Unitaire** | (4) / Quantité vendue | 8 300 000 / 100 = **83 000 FCFA** |
+| **6. Prix de Vente Unitaires HT** | Prix facturé au client | 120 000 FCFA |
+| **7. Résultat Unitaire** | (6) - (5) | 120 000 - 83 000 = **37 000 FCFA de marge** |
+
+### **3.3. Lien avec le Compte de Résultat**
+Le coût de revient correspond au **coût des produits (ou services) vendus (CPV)** qui apparaît dans le compte de résultat.
+*   **Chiffre d'Affaires (CA)** = Prix de vente * Quantité vendue
+*   **Résultat** = CA - Coût de Revient Total - Charges Administratives Générales (direction, siège)
+
+---
+
+## **4. Outils, Logiciels et Technologies**
+
+Pour un ingénieur logiciel, maîtriser ces outils est un atout pour intégrer des modules de calcul de coûts dans les systèmes d'information.
+
+*   **Logiciels Comptables Spécialisés** : CIEL Compta, Sage Paie (très répandus en Afrique francophone), SAP, Oracle Financials (pour les grandes entreprises comme MTN ou Orange Cameroun).
+*   **Feuilles de Calcul** : Microsoft Excel / Google Sheets restent des outils pivots pour les calculs analytiques, les simulations et les tableaux de bord. La maîtrise des formules, des tableaux croisés dynamiques et des graphiques est essentielle.
+*   **Outils de Gestion de Projet** : Jira, Trello, Asana. Ils permettent de **suivre le temps passé (timesheet)** par les développeurs sur chaque tâche, ce qui est la **base pour calculer la Main d'Œuvre Directe (MOD)** avec précision.
+*   **Outils de Facturation et Devis** : Des modules souvent intégrés aux ERP ou des solutions comme Zoho Invoice, qui doivent s'appuyer sur des coûts de revient bien calculés.
+*   **Technologies de Développement** : Concevoir des bases de données (SQL) qui permettent de tracer les coûts par projet, par lot de production (version d'un logiciel), ou par client. Développer des APIs pour connecter l'outil de gestion de projet (source du temps) au logiciel de comptabilité analytique.
+
+---
+
+## **5. Étude de Cas Contextualisée : Développement d'un Module USSD pour une Télécom**
+
+**Scénario :** Une société de services informatiques est engagée par **Camtel** pour développer un service USSD "*#123#" permettant de consulter son solde data.
+
+*   **Coût d'Achat** :
+    *   Achat d'un simulateur USSD pour les tests : 800 000 FCFA.
+    *   **Total Coût d'Achat = 800 000 FCFA.**
+
+*   **Coût de Production** :
+    *   Coût d'achat consommé (simulateur amorti sur 4 projets) : 800 000 / 4 = **200 000 FCFA**.
+    *   MOD : 1 ingénieur télécoms (500 000 F

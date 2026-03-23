@@ -1,0 +1,244 @@
+# **Notes de cours — Développement Web**
+## **Chapitre : Frameworks frontend : React.js, Vue.js, introduction à Angular, comparaison**
+
+### **1. Introduction aux frameworks frontend modernes**
+
+#### **1.1. Définition et rôle d'un framework frontend**
+Un **framework frontend** est une structure logicielle qui fournit un ensemble d'outils, de bibliothèques et de conventions pour faciliter le développement d'interfaces utilisateur (UI) web dynamiques, interactives et performantes. Il permet de structurer le code, de gérer l'état de l'application et de simplifier les interactions avec le DOM (Document Object Model).
+
+**À retenir :** Un framework n'est pas une bibliothèque. Un framework impose une architecture, tandis qu'une bibliothèque (comme jQuery) offre des fonctions que vous appelez selon vos besoins.
+
+#### **1.2. Pourquoi utiliser un framework frontend ?**
+*   **Productivité accrue :** Réutilisation du code via les composants.
+*   **Maintenabilité :** Code mieux structuré et plus lisible.
+*   **Performance :** Gestion optimisée des mises à jour du DOM (DOM virtuel).
+*   **Écosystème riche :** Outils de développement, extensions, communauté.
+*   **Expérience utilisateur (UX) :** Création d'applications monopages (SPA - Single Page Application) fluides.
+
+**Contexte camerounais :** Les entreprises comme **MTN Mobile Money**, **Orange Money** ou les portails de l'**OHADA** nécessitent des interfaces complexes, sécurisées et réactives. Un framework frontend est indispensable pour développer de telles applications.
+
+---
+
+### **2. React.js : Une bibliothèque pour construire des interfaces utilisateur**
+
+Développé par Facebook, React est une **bibliothèque** JavaScript déclarative, efficace et flexible pour construire des interfaces utilisateur.
+
+#### **2.1. Concepts fondamentaux de React**
+
+**2.1.1. Les Composants**
+Brique de base d'une application React. Un composant est une fonction ou une classe qui retourne des éléments React (JSX) décrivant ce qui doit apparaître à l'écran.
+*   **Composant Fonctionnel :** Fonction JavaScript qui accepte des `props` et retourne du JSX.
+*   **Composant à base de Classe :** Classe ES6 qui étend `React.Component` et possède une méthode `render()`.
+
+**Exemple concret (Contexte Camerounais) :**
+```jsx
+// Composant fonctionnel pour afficher un produit local
+function ProduitArtisanal({ nom, prix, region }) {
+  return (
+    <div className="produit">
+      <h3>{nom} (de {region})</h3>
+      <p>Prix : {prix} FCFA</p>
+    </div>
+  );
+}
+// Utilisation
+<ProduitArtisanal nom="Statue en bois" prix="15000" region="Ouest" />
+```
+
+**2.1.2. Le JSX (JavaScript XML)**
+Syntaxe extension de JavaScript qui ressemble à du HTML. Il est **transpilé** (converti) en appels à `React.createElement()` par Babel.
+
+**2.1.3. Les Props (Propriétés)**
+Mécanisme pour passer des données d'un composant parent à un composant enfant. Elles sont **en lecture seule** (immutables).
+
+**2.1.4. Le State (État)**
+Représente les données qui peuvent changer au cours du temps au sein d'un composant. Lorsque l'état change, le composant se re-rend.
+
+**2.1.5. Le Cycle de vie des composants (pour les classes)**
+Méthodes spéciales (`componentDidMount`, `componentDidUpdate`, `componentWillUnmount`) qui s'exécutent à des moments précis de la vie d'un composant.
+
+#### **2.2. Les Hooks React (à partir de React 16.8)**
+Les Hooks permettent d'utiliser l'état et d'autres fonctionnalités de React dans des **composants fonctionnels**.
+
+**2.2.1. `useState` : Gérer l'état local**
+```jsx
+import React, { useState } from 'react';
+function CompteurOrange() {
+  const [solde, setSolde] = useState(5000); // Solde initial de 5000 FCFA
+  const recharger = () => setSolde(solde + 1000);
+  return (
+    <div>
+      <p>Votre solde Orange Money : {solde} FCFA</p>
+      <button onClick={recharger}>Recharger 1000 FCFA</button>
+    </div>
+  );
+}
+```
+
+**2.2.2. `useEffect` : Gérer les effets de bord**
+Permet d'exécuter du code après le rendu du composant (ex: appel API, abonnements).
+```jsx
+useEffect(() => {
+  // Code exécuté après chaque rendu (équivalent à componentDidMount + componentDidUpdate)
+  fetch('https://api.ohada.org/textes')
+    .then(response => response.json())
+    .then(data => setTextes(data));
+
+  return () => {
+    // Fonction de nettoyage (équivalent à componentWillUnmount)
+  };
+}, []); // Tableau de dépendances vide = exécuté une fois après le premier rendu
+```
+
+**2.2.3. Autres Hooks importants :** `useContext`, `useReducer`, `useMemo`, `useCallback`.
+
+**2.2.4. Création de Hooks personnalisés**
+Permet d'extraire et de réutiliser une logique avec état entre plusieurs composants.
+
+**Outils associés :** Create React App (CLI), Next.js (framework React SSR), Vite, ESLint, React Developer Tools (extension navigateur).
+
+---
+
+### **3. Vue.js : Le framework progressif**
+
+Développé par Evan You, Vue.js est un **framework progressif** conçu pour être adopté progressivement. Son cœur se concentre sur la couche vue (view layer).
+
+#### **3.1. Concepts fondamentaux de Vue.js**
+
+**3.1.1. L'instance Vue et les Options d'instance**
+Une application Vue commence par créer une nouvelle **instance Vue** avec un objet d'options.
+```js
+new Vue({
+  el: '#app', // Élément DOM à monter
+  data: {     // État réactif
+    message: 'Bienvenue sur Camtel Services',
+    forfait: 'Illimité 4G'
+  },
+  methods: {  // Méthodes
+    changerForfait() { this.forfait = 'Forfait Nuit'; }
+  }
+});
+```
+
+**3.1.2. La Syntaxe de Template**
+Vue utilise un template basé sur le HTML avec des directives (attributs spéciaux préfixés par `v-`).
+```html
+<div id="app">
+  <p>{{ message }}</p>
+  <p>Forfait actuel : {{ forfait }}</p>
+  <button v-on:click="changerForfait">Changer de forfait</button>
+  <!-- Liaison de données bidirectionnelle avec v-model -->
+  <input v-model="message" placeholder="Modifier le message">
+</div>
+```
+
+**3.1.3. Les Directives**
+*   `v-bind:` (`:`) : Lie un attribut à une expression.
+*   `v-on:` (`@`) : Attache un écouteur d'événement.
+*   `v-model` : Crée une liaison bidirectionnelle sur un élément de formulaire.
+*   `v-for` : Boucle sur un tableau ou un objet.
+*   `v-if` / `v-else` / `v-show` : Affichage conditionnel.
+
+**3.1.4. Les Composants Vue**
+Les composants sont des instances Vue réutilisables avec un nom personnalisé.
+```js
+Vue.component('produit-local', {
+  props: ['nom', 'prix'],
+  template: '<div class="produit"><h4>{{ nom }}</h4><p>Coûte {{ prix }} FCFA</p></div>'
+});
+```
+
+#### **3.2. Vue.js 3 : Composition API et Reactivity**
+Vue 3 introduit la **Composition API** (similaire aux Hooks React) pour une meilleure organisation du code dans les composants complexes.
+```js
+import { ref, computed } from 'vue';
+export default {
+  setup() {
+    const solde = ref(0); // Variable réactive
+    const soldeFormate = computed(() => `${solde.value} FCFA`); // Propriété calculée
+    const crediter = (montant) => { solde.value += montant; };
+    return { solde, soldeFormate, crediter };
+  }
+}
+```
+
+**Outils associés :** Vue CLI, Vite, Vuex (gestion d'état), Vue Router, Vue DevTools.
+
+---
+
+### **4. Introduction à Angular : Le framework full-stack**
+
+Développé par Google, Angular est un **framework complet et opinionated** basé sur TypeScript pour construire des applications web et mobiles.
+
+#### **4.1. Concepts fondamentaux d'Angular**
+
+**4.1.1. TypeScript**
+Angular est écrit en TypeScript, un sur-ensemble typé de JavaScript. Il améliore la maintenabilité et la détection d'erreurs.
+
+**4.1.2. Les Modules (`NgModule`)**
+Un module Angular (`@NgModule`) déclare un ensemble de composants, directives, pipes et services qui appartiennent à un même domaine fonctionnel.
+```typescript
+@NgModule({
+  declarations: [AppComponent, ProduitComponent],
+  imports: [BrowserModule, FormsModule],
+  providers: [ApiService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+**4.1.3. Les Composants**
+Un composant Angular contrôle un patch d'écran appelé vue. Il est défini par une classe TypeScript, un template HTML et des styles CSS.
+```typescript
+@Component({
+  selector: 'app-produit',
+  template: `
+    <h3>{{ produit.nom }}</h3>
+    <p>Prix : {{ produit.prix | currency:'XAF':'symbol' }}</p>
+  `,
+  styleUrls: ['./produit.component.css']
+})
+export class ProduitComponent {
+  @Input() produit: Produit; // Propriété d'entrée (similaire aux props)
+}
+```
+
+**4.1.4. Le Data Binding (Liaison de données)**
+Angular offre une syntaxe puissante pour coordonner le template et la classe du composant.
+*   **Interpolation :** `{{ valeur }}`
+*   **Property Binding :** `[property]="expression"`
+*   **Event Binding :** `(event)="handler()"`
+*   **Two-Way Binding :** `[(ngModel)]="property"` (nécessite `FormsModule`)
+
+**4.1.5. Les Services et l'Injection de Dépendances (DI)**
+Les services sont des classes qui contiennent la logique métier réutilisable. Le système de DI d'Angular les fournit aux composants qui en ont besoin.
+```typescript
+@Injectable({ providedIn: 'root' })
+export class TransactionService {
+  constructor(private http: HttpClient) {}
+  getTransactions() { return this.http.get('/api/transactions'); }
+}
+```
+
+**4.1.6. Le Routing (Angular Router)**
+Gère la navigation entre les vues (composants) dans une SPA.
+
+**Outils associés :** Angular CLI, RxJS (programmation réactive), Angular Material.
+
+---
+
+### **5. Tableau comparatif des trois technologies**
+
+| Critère | **React** | **Vue.js** | **Angular** |
+| :--- | :--- | :--- | :--- |
+| **Type** | Bibliothèque UI | Framework Progressif | Framework Complet |
+| **Architecture** | Basée sur les Composants | Basée sur les Composants | Basée sur les Modules et Composants |
+| **Langage** | JSX (JavaScript) | Templates HTML / JS | TypeScript (Obligatoire) |
+| **Courbe d'apprentissage** | Modérée (JSX, Hooks) | Douce (HTML-like) | Raide (TS, nombreux concepts) |
+| **Flexibilité** | Très élevée (choix des outils) | Élevée (adoption progressive) | Structurée (opinionated) |
+| **Gestion d'état** | Context API, Redux, MobX | Vuex, Pinia (Vue 3) | Services + RxJS, NgRx |
+| **Performance** | Excellente (DOM virtuel) | Excellente (DOM virtuel) | Bonne (Change Detection) |
+| **Taille** | ~40 kB (React seul) | ~20 kB (Vue 3) | ~150 kB (compilé) |
+| **Communauté** | Très large, mature | Large et croissante | Large, entreprise |
+| **Backers** | Facebook | Communauté / Équipe dédiée | Google |
+| **Cas d'usage typique** | SPAs complexes, apps mobiles (React Native) | SPAs, prototypes rapides, intégration progressive | Applications d'entreprise complexes, projets à grande

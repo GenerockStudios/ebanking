@@ -1,0 +1,153 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 07 Bases De Donnees**
+## **Chapitre : SGBD populaires et NoSQL : MySQL/MariaDB, PostgreSQL, Oracle, MongoDB, Redis, Cassandra**
+
+---
+
+### **1. Introduction et Contexte**
+
+#### **1.1. Définition et Rôle d'un SGBD**
+Un **Système de Gestion de Base de Données (SGBD)** est un logiciel système qui permet de **créer, manipuler, gérer et administrer** une ou plusieurs bases de données. Il sert d'interface entre la base de données physique, les applications et les utilisateurs.
+
+**Fonctions principales :**
+*   **Définition des données** (langage DDL : `CREATE`, `ALTER`, `DROP`)
+*   **Manipulation des données** (langage DML : `SELECT`, `INSERT`, `UPDATE`, `DELETE`)
+*   **Contrôle d'accès et sécurité** (langage DCL : `GRANT`, `REVOKE`)
+*   **Gestion de la concurrence** et intégrité transactionnelle (ACID)
+*   **Sauvegarde et récupération** (Backup & Recovery)
+
+#### **1.2. Évolution : Du Relationnel (SQL) au NoSQL**
+*   **Années 1970-2000 :** Domination du modèle **relationnel (SQL)** pour les données structurées (tables, lignes, colonnes). Idéal pour la comptabilité, la gestion client, etc.
+*   **Années 2000 à aujourd'hui :** Explosion du **Volume, Vélocité et Variété** des données (Big Data). Émergence des modèles **NoSQL** ("Not Only SQL") pour gérer des données non-structurées ou semi-structurées (logs, posts réseaux sociaux, données IoT, contenus multimédias).
+
+**Contexte Africain/Camerounais :** Les entreprises comme **MTN Mobile Money**, **Orange Money** ou les institutions **OHADA** doivent gérer à la fois des transactions financières strictes (nécessitant SQL/ACID) et des flux massifs de logs, d'historiques de transactions ou de données clients comportementales (orientées NoSQL).
+
+---
+
+### **2. Les SGBD Relationnels (SQL) Populaires**
+
+#### **2.1. MySQL / MariaDB**
+*   **Type :** SGBD Relationnel Open Source.
+*   **Historique :** MariaDB est un "fork" de MySQL, créé après le rachat de MySQL par Oracle.
+*   **Caractéristiques :**
+    *   **Très populaire pour le web** (couple classique LAMP : Linux, Apache, **MySQL**, PHP/Python).
+    *   **Performance et simplicité** d'installation et d'administration.
+    *   Supporte les transactions ACID avec le moteur de stockage **InnoDB**.
+*   **Cas d'usage au Cameroun :**
+    *   Sites web d'e-commerce, CMS (WordPress, Joomla) pour les PME.
+    *   Applications de gestion interne pour les startups tech (Yaoundé, Douala).
+    *   Base de données backend pour des applications mobiles légères.
+*   **Outils :** phpMyAdmin (administration web), MySQL Workbench (modélisation, administration).
+
+#### **2.2. PostgreSQL**
+*   **Type :** SGBD Relationnel Open Source avancé.
+*   **Caractéristiques :**
+    *   Surnommé le SGBD "open source le plus avancé au monde".
+    *   Conformité stricte aux standards SQL.
+    *   Support étendu des types de données (JSON, géospatial, tableaux).
+    *   **Intégrité transactionnelle robuste** et mécanismes de concurrence sophistiqués (MVCC).
+*   **Cas d'usage au Cameroun :**
+    *   Applications géomatiques (cartographie, gestion foncière).
+    *   Systèmes de gestion académique complexes (universités).
+    *   Applications financières nécessitant une grande fiabilité.
+*   **Outils :** pgAdmin, DBeaver.
+
+#### **2.3. Oracle Database**
+*   **Type :** SGBD Relationnel Propriétaire et Commercial.
+*   **Caractéristiques :**
+    *   Leader du marché des bases de données d'entreprise.
+    *   **Haute performance, scalabilité verticale, sécurité poussée**.
+    *   Fonctionnalités avancées (Partitionnement, Data Guard pour la récupération, RAC pour la haute disponibilité).
+    *   **Coût de licence élevé**.
+*   **Cas d'usage au Cameroun/Afrique :**
+    *   **Systèmes centraux des grandes banques** (Afriland First Bank, BICEC).
+    *   **Applications de gestion intégrée (ERP)** dans les grandes entreprises (CIMENCAM, Brasseries du Cameroun).
+    *   Ministères et grandes administrations publiques.
+*   **Outils :** Oracle SQL Developer, Oracle Enterprise Manager.
+
+#### **2.4. Tableau Comparatif des SGBD Relationnels**
+
+| Critère                | MySQL / MariaDB       | PostgreSQL            | Oracle Database       |
+|------------------------|-----------------------|-----------------------|-----------------------|
+| **Licence**            | Open Source (GPL)     | Open Source (PostgreSQL) | Propriétaire, Commercial |
+| **Performance**        | Excellente pour le web | Excellente, très robuste | Exceptionnelle, optimisée pour charges lourdes |
+| **Complexité/Coût**    | Faible coût, simple   | Faible coût, complexité moyenne | Coût très élevé, complexe |
+| **Cas d'usage typique**| Applications Web, PME | Applications complexes, Géodonnées | Grandes entreprises, Secteur bancaire |
+| **Force principale**   | Simplicité & Vitesse  | Conformité & Extensibilité | Performance & Sécurité Entreprise |
+
+**À RETENIR :** Le choix entre ces SGBD dépend du **budget**, des **besoins fonctionnels** (géodonnées, transactions complexes), de l'**expertise disponible** et de l'**échelle** du projet.
+
+---
+
+### **3. Les Bases de Données NoSQL**
+
+Le NoSQL répond au théorème **CAP** (Conjecture de Brewer) qui stipule qu'un système distribué ne peut garantir simultanément plus de deux des trois propriétés suivantes :
+*   **C**onsistency (Cohérence) : Tous les nœuds voient les mêmes données au même moment.
+*   **A**vailability (Disponibilité) : Toute requête reçoit une réponse (succès ou échec).
+*   **P**artition tolerance (Tolérance au partitionnement) : Le système fonctionne malgré des pannes de communication entre nœuds.
+
+#### **3.1. Modèle Document : MongoDB**
+*   **Concept :** Stocke des données sous forme de **documents** flexibles de type **BSON** (binaire JSON). Pas de schéma fixe.
+*   **Structure :** `Base de données → Collections → Documents {champ: valeur}`.
+*   **Cas d'usage :**
+    *   **Catalogues de produits** pour des marketplaces africaines (Jumia, Kaymu) où les attributs des produits varient.
+    *   **Gestion de profils utilisateurs** et de leurs activités sur des applications sociales ou de gaming.
+    *   **Stockage de logs d'application** ou de données de capteurs IoT.
+*   **Exemple Camerounais :** Une application de **livraison de colis** à Douala pourrait stocker dans MongoDB la trace GPS du livreur, les statuts de livraison et les informations clients, toutes dans un document flexible par livraison.
+*   **Outils :** MongoDB Compass, MongoDB Atlas (cloud).
+
+#### **3.2. Modèle Clé-Valeur : Redis**
+*   **Concept :** Dictionnaire géant en mémoire (`RAM`). **Extrêmement rapide**. Structure : `clé → valeur`. La valeur peut être une chaîne, liste, hash, etc.
+*   **Caractéristiques :**
+    *   Stockage **volatil** (persistance optionnelle sur disque).
+    *   Idéal pour le **caching**, les **sessions utilisateur**, les **files de messages**.
+*   **Cas d'usage :**
+    *   **Cache de pages web** pour un site d'actualités très fréquenté (CRTV, Cameroon Tribune).
+    *   **Panier d'achat temporaire** sur un site e-commerce.
+    *   **Classement en temps réel** (leaderboards) pour une application de jeu ou de sport.
+*   **Exemple :** **MTN** pourrait utiliser Redis pour mettre en cache les soldes des comptes Mobile Money lors des pics de transaction (fins de mois), réduisant la charge sur la base de données principale Oracle.
+
+#### **3.3. Modèle Colonne (Wide-Column) : Apache Cassandra**
+*   **Concept :** Stocke les données dans des **tables, lignes et colonnes dynamiques**. Optimisé pour l'**écriture massive** et la **distribution horizontale** sur plusieurs nœuds (scalabilité linéaire).
+*   **Architecture :** **Décentralisée**, sans point de défaillance unique. Résiliente.
+*   **Cas d'usage :**
+    *   **Données de séries temporelles** : logs de téléphonie chez **Orange** ou **Camtel**.
+    *   **Traçabilité et suivi** : historique des transactions financières pour des audits **OHADA**.
+    *   **Plateformes de recommandation** analysant les comportements des utilisateurs.
+*   **Exemple :** Une application de **météo agricole** collectant des données de capteurs (humidité, température) de milliers de fermes à travers le Cameroun utiliserait Cassandra pour ingérer et stocker ces flux massifs de données.
+
+#### **3.4. Tableau Synoptique des Modèles NoSQL**
+
+| Modèle       | Représentant | Structure          | Forces                                      | Faiblesses                              | Cas d'usage type                          |
+|--------------|--------------|--------------------|---------------------------------------------|-----------------------------------------|-------------------------------------------|
+| **Document** | MongoDB      | Collections / Documents BSON | Flexibilité, Développement rapide           | Pas de jointures natives, Cohérence éventuelle | Catalogues, Profils utilisateurs, Contenu        |
+| **Clé-Valeur**| Redis       | Dictionnaire en RAM | Vitesse extrême (<1ms), Simplicité          | Volatilité, Taille limitée par la RAM   | Cache, Session, Données temporaires, Pub/Sub |
+| **Colonnes** | Cassandra    | Tables distribuées  | Scalabilité linéaire, Haute disponibilité, Écritures performantes | Requêtes complexes difficiles, Latence de lecture | Série temporelle, Logs, IoT, Traçabilité |
+
+---
+
+### **4. Stratégie de Choix et Tendances**
+
+#### **4.1. Comment choisir entre SQL et NoSQL ?**
+*   **Choisir un SGBD SQL (MySQL, PostgreSQL, Oracle) si :**
+    *   Vos données sont **structurées** et les relations sont complexes.
+    *   L'**intégrité** des données est critique (transactions ACID : Bancaire, Comptabilité OHADA).
+    *   Vous avez besoin de **requêtes ad-hoc** complexes et de rapports.
+*   **Choisir un SGBD NoSQL (MongoDB, Redis, Cassandra) si :**
+    *   Vous avez un **volume de données massif** et à croissance rapide (Big Data).
+    *   La **flexibilité du schéma** est nécessaire (données non-structurées).
+    *   Vous avez besoin d'une **scalabilité horizontale** extrême ou de performances de lecture/écriture ultra-rapides.
+
+#### **4.2. L'Approche Polyglotte**
+Une tendance forte dans l'architecture moderne est **la persistance polyglotte** : utiliser **plusieurs types de SGBD** dans une même application, chacun pour ce qu'il fait de mieux.
+
+**Exemple d'Architecture pour une FinTech Camerounaise :**
+1.  **Oracle Database** : Pour le **cœur métier** (comptes clients, transactions financières critiques) → **Intégrité ACID**.
+2.  **Redis** : En **cache** pour les soldes de comptes et les sessions actives → **Performance**.
+3.  **Cassandra** : Pour l'**historique détaillé** de toutes les transactions (logs de traçabilité) → **Scalabilité des écritures**.
+4.  **MongoDB** : Pour stocker les **profils clients élargis** et leurs préférences → **Flexibilité**.
+
+#### **4.3. Compétences Marché au Cameroun**
+*   **SQL** reste une compétence **obligatoire** et fondamentale pour tout développeur ou administrateur de bases de données.
+*   La maîtrise d'un SGBD **Open Source (MySQL/PostgreSQL)** est très demandée dans les startups et PME.
+*   La

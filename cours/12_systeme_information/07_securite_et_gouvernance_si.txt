@@ -1,0 +1,119 @@
+# **Notes de Cours - BTS Génie Logiciel (Cameroun)**
+## **Matière : 12 Système d'Information**
+## **Chapitre : Sécurité et gouvernance du SI : COBIT, ITIL, ISO 27001, RGPD/loi camerounaise sur les données personnelles, PCA/PRA**
+
+---
+
+### **1. Introduction : La Gouvernance et la Sécurité des SI, un impératif stratégique**
+
+Dans l'économie numérique actuelle, le Système d'Information (SI) est le système nerveux de toute organisation. Sa **gouvernance** (piloter, contrôler, évaluer) et sa **sécurité** (protéger, garantir la continuité) sont devenues des enjeux critiques pour la performance, la conformité légale et la pérennité des entreprises, y compris au Cameroun et en Afrique.
+
+**Objectifs du chapitre :** Comprendre les principaux cadres de référence et normes qui aident les organisations à maîtriser leurs SI, à gérer les risques et à se conformer aux réglementations.
+
+---
+
+### **2. Cadres de Gouvernance et de Gestion des SI**
+
+#### **2.1. COBIT (Control Objectives for Information and Related Technologies)**
+*   **Définition :** Cadre de référence pour la gouvernance et le management des technologies de l'information, créé par l'ISACA. Il aligne les objectifs métier avec les objectifs IT.
+*   **Principes clés (COBIT 2019) :**
+    1.  Fournir de la valeur aux parties prenantes.
+    2.  Adopter une approche holistique (intégrer tous les aspects du SI).
+    3.  Gouverner de manière dynamique (s'adapter aux changements).
+    4.  Séparer la gouvernance (décision, orientation) du management (exécution).
+*   **Modèle en cascade :** Les besoins des parties prenantes → Objectifs d'entreprise → Objectifs IT → Cadre de gouvernance (40 objectifs de gouvernance et de management).
+*   **Exemple concret (Cameroun) :** Une banque comme **Afriland First Bank** utilise les principes COBIT pour s'assurer que ses investissements IT (nouvelle application mobile, sécurisation des transactions) répondent bien aux attentes de sécurité, de disponibilité et de conformité (règlement COBAC) tout en créant de la valeur pour les clients.
+
+#### **2.2. ITIL (Information Technology Infrastructure Library)**
+*   **Définition :** Bibliothèque de bonnes pratiques pour la **gestion des services informatiques (ITSM)**. Elle se concentre sur la **livraison de services IT** alignés sur les besoins du métier.
+*   **Cycle de vie des services ITIL v4 :**
+    1.  **Engager** (Service Desk, Gestion des demandes).
+    2.  **Concevoir** (Conception des services).
+    3.  **Transmettre et supporter** (Gestion des incidents, des problèmes).
+    4.  **Améliorer** (Amélioration continue).
+*   **Concepts clés :** **Service Desk**, **Incident** (panne à réparer vite), **Problème** (cause racine à identifier), **Changement** (modification contrôlée).
+*   **Exemple concret (Afrique) :** L'opérateur télécoms **MTN Cameroon** utilise les processus ITIL pour gérer les incidents réseau (ex : coupure de service à Douala), restaurer le service rapidement (gestion des incidents), puis analyser la cause profonde pour éviter la répétition (gestion des problèmes).
+
+**Tableau comparatif COBIT vs ITIL :**
+| Critère | **COBIT** | **ITIL** |
+| :--- | :--- | :--- |
+| **Focus principal** | Gouvernance et contrôle | Gestion des services opérationnels |
+| **Question centrale** | "Que faut-il gouverner et contrôler ?" | "Comment fournir un service de qualité ?" |
+| **Public cible** | Direction, auditeurs, responsables SI | Managers opérationnels, équipes support |
+| **Relation** | Donne le "QUOI" (objectifs de contrôle) | Donne le "COMMENT" (processus pour les atteindre) |
+
+> **À retenir :** COBIT est souvent utilisé pour définir **ce qu'il faut faire** (cadre de gouvernance), tandis qu'ITIL est utilisé pour **comment le faire** au niveau opérationnel. Ils sont complémentaires.
+
+---
+
+### **3. Normes de Sécurité de l'Information**
+
+#### **3.1. ISO/CEI 27001 : Système de Management de la Sécurité de l'Information (SMSI)**
+*   **Définition :** Norme internationale qui spécifie les exigences pour établir, mettre en œuvre, maintenir et améliorer un SMSI. C'est une approche **par les risques**.
+*   **Structure clé (PDCA - Roue de Deming) :**
+    *   **Plan (Planifier) :** Établir la politique, les objectifs de sécurité, évaluer les risques.
+    *   **Do (Mettre en œuvre) :** Déployer les mesures de sécurité (Annexe A : 93 contrôles).
+    *   **Check (Vérifier) :** Surveiller, auditer le SMSI.
+    *   **Act (Agir/Améliorer) :** Actions correctives et amélioration continue.
+*   **Domaines de contrôle (exemples) :** Politiques de sécurité, sécurité physique, contrôle d'accès, cryptographie, sécurité des opérations, conformité.
+*   **Exemple concret (Cameroun) :** Une institution comme **l'Agence de Régulation des Télécommunications (ART)** pourrait exiger ou recommander une certification ISO 27001 pour les opérateurs (**Camtel**, **Nexttel**) traitant des données sensibles d'infrastructure nationale. Une fintech camerounaise visant l'international chercherait cette certification pour gagner la confiance des partenaires.
+
+---
+
+### **4. Cadres Juridiques et Réglementaires sur les Données Personnelles**
+
+#### **4.1. Le RGPD (Règlement Général sur la Protection des Données - UE)**
+*   **Définition :** Règlement européen entré en vigueur en 2018, protégeant les données personnelles des résidents de l'UE. Il a une **portée extraterritoriale**.
+*   **Principes fondamentaux :** Licéité, loyauté, transparence ; Limitation des finalités ; Minimisation des données ; Exactitude ; Limitation de la conservation ; Intégrité et confidentialité ; Responsabilité (*accountability*).
+*   **Droits des personnes :** Droit d'accès, de rectification, à l'effacement ("droit à l'oubli"), à la portabilité, d'opposition.
+*   **Impact pour les entreprises camerounaises :** Toute entreprise traitant des données de citoyens européens (e-commerce, sous-traitance, filiales) doit s'y conformer sous peine de lourdes amendes. Exemple : Une startup camerounaise de e-commerce vendant à des clients en France.
+
+#### **4.2. La Loi Camerounaise n°2010/012 du 21 Décembre 2010 sur la Cybersécurité et la Cybercriminalité**
+*   **Contexte :** C'est la principale loi cadre au Cameroun traitant de la protection des données à caractère personnel, intégrée dans un texte plus large sur la cybersécurité.
+*   **Dispositions clés sur les données personnelles (Titre III) :**
+    *   **Consentement :** Nécessité du consentement exprès, libre et informé de la personne.
+    *   **Finalité :** Les données doivent être collectées pour des finalités déterminées, explicites et légitimes.
+    *   **Droits des personnes :** Droit d'accès, de rectification et de suppression.
+    *   **Sécurité et confidentialité :** Obligation pour le responsable du traitement de prendre des mesures techniques et organisationnelles pour protéger les données.
+    *   **Transferts :** Restrictions sur le transfert de données hors du territoire camerounais.
+*   **Autorité de contrôle :** L'**Agence Nationale des Technologies de l'Information et de la Communication (ANTIC)** est chargée de veiller à l'application, de recevoir les déclarations de traitements et de contrôler.
+*   **Exemple concret :** Une université privée à Yaoundé qui gère les données administratives et académiques de ses étudiants (noms, notes, photos) doit se conformer à cette loi : informer les étudiants, sécuriser ses serveurs, ne pas transférer les données sans base légale, et pourrait avoir à faire une déclaration à l'ANTIC.
+
+**Tableau comparatif RGPD vs Loi Camerounaise :**
+| Aspect | **RGPD (UE)** | **Loi Camerounaise (2010)** |
+| :--- | :--- | :--- |
+| **Nature** | Règlement (directement applicable) | Loi nationale |
+| **Champ** | Très large, détaillé | Plus général, intégré dans une loi sur la cybercriminalité |
+| **Consentement** | Explicite ("opt-in" clair) | Exprès, libre et informé |
+| **Droit à l'effacement** | Oui ("droit à l'oubli") | Oui (droit de suppression) |
+| **Portabilité des données** | Oui | Non explicitement mentionné |
+| **Sanctions** | Très lourdes (jusqu'à 4% du CA mondial) | Amendes et peines d'emprisonnement (moins élevées) |
+| **Autorité** | Autorités nationales (CNIL en France) | **ANTIC** |
+
+> **À retenir :** Les entreprises camerounaises doivent d'abord appliquer la loi nationale. Si elles ciblent le marché européen, elles doivent **cumuler** la conformité avec la loi camerounaise **et** le RGPD.
+
+---
+
+### **5. Continuité d'Activité : PCA et PRA**
+
+#### **5.1. Définitions et Différences**
+*   **PCA (Plan de Continuité d'Activité) :** Plan global qui vise à maintenir ou à reprendre les **activités métier essentielles** en cas de sinistre majeur (incendie, inondation, crise sociale). Il est **métier-centré**.
+*   **PRA (Plan de Reprise d'Activité) :** Plan technique, souvent partie du PCA, qui se concentre sur la **restauration de l'infrastructure informatique** (serveurs, données, réseaux) après un sinistre. Il est **IT-centré**.
+*   **Relation :** Le PRA supporte le PCA. Sans IT, les activités métier ne peuvent souvent pas reprendre.
+
+#### **5.2. Étapes clés de mise en œuvre**
+1.  **Analyse d'Impact sur l'Activité (BIA) :** Identifier les processus métier critiques et leurs besoins IT (délai de reprise acceptable - RTO, perte de données acceptable - RPO).
+    *   **RTO (Recovery Time Objective) :** Temps max. d'indisponibilité tolérable. *Ex: Le système de paiement d'une banque a un RTO de 4h.*
+    *   **RPO (Recovery Point Objective) :** Perte de données max. tolérable. *Ex: Perdre plus de 15 minutes de transactions n'est pas acceptable (RPO=15min).*
+2.  **Stratégie :** Choisir les solutions (redondance, site miroir, site chaud/froid, sauvegarde externalisée).
+3.  **Rédaction des plans :** Procédures détaillées, rôles et responsabilités.
+4.  **Tests et exercices réguliers :** Indispensable pour valider l'efficacité.
+5.  **Mise à jour continue.**
+
+#### **5.3. Exemple concret adapté (Cameroun)**
+*   **Scénario :** Une grande entreprise de distribution à Douala (comme **Mahima** ou **Santa Lucia**).
+*   **Risque :** Inondation du data center principal (fréquent en saison des pluies).
+*   **PCA (Métier) :** Organiser la relocalisation du personnel clé, les communications avec les fournisseurs, les modes dégradés de vente (caisse manuelle si possible).
+*   **PRA (IT) :**
+    *   **Solution :** Contracter avec un prestataire hébergeant un **site de secours "à chaud"** à Yaoundé.
+    *   **Procédure :** Les sauvegardes incrémentielles sont répliquées en temps réel (RPO faible). En

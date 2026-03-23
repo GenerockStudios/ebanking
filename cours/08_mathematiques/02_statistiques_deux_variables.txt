@@ -1,0 +1,95 @@
+CHAPITRE 2 — STATISTIQUES À DEUX VARIABLES ET RÉGRESSION
+BTS Génie Logiciel — Mathématiques
+
+1. NUAGE DE POINTS ET CORRÉLATION
+
+On étudie la relation entre deux variables quantitatives X et Y mesurées sur les mêmes individus.
+Représentation : nuage de points (xi, yi) dans un repère orthogonal.
+
+Covariance :
+Cov(X,Y) = (1/N) × Σ ni × (xi − x̄)(yi − ȳ) = (Σ ni × xi × yi)/N − x̄ × ȳ
+
+Coefficient de corrélation linéaire de Pearson :
+r = Cov(X,Y) / (σX × σY)
+
+Propriétés de r :
+−1 ≤ r ≤ 1
+- r proche de 1 : corrélation linéaire positive forte (X et Y augmentent ensemble)
+- r proche de −1 : corrélation linéaire négative forte (quand X augmente, Y diminue)
+- r proche de 0 : pas de corrélation linéaire (attention : peut y avoir une relation non-linéaire)
+- |r| > 0,9 : corrélation très forte
+
+Coefficient de détermination : r² (entre 0 et 1)
+Interprétation : r² × 100% de la variance de Y est expliquée par X.
+
+2. DROITE DE RÉGRESSION
+
+Droite de régression de Y en X (y = ax + b) :
+Permet de prédire Y à partir de X.
+
+Formules :
+a = Cov(X,Y) / V(X) = Cov(X,Y) / σX²
+b = ȳ − a × x̄
+
+La droite passe toujours par le point moyen (x̄, ȳ).
+
+Exemple complet :
+Données : 5 entreprises, X = effectif (dizaines), Y = CA (millions FCFA)
+
+xi : 1, 2, 3, 4, 5    x̄ = 3
+yi : 2, 4, 5, 4, 7    ȳ = 4,4
+
+Σ xi×yi = 1×2 + 2×4 + 3×5 + 4×4 + 5×7 = 2+8+15+16+35 = 76
+Σ xi² = 1+4+9+16+25 = 55
+
+Cov(X,Y) = 76/5 − 3×4,4 = 15,2 − 13,2 = 2
+V(X) = 55/5 − 3² = 11 − 9 = 2
+
+a = 2/2 = 1
+b = 4,4 − 1×3 = 1,4
+
+Droite de régression : y = x + 1,4
+
+Prévision : pour une entreprise de 60 salariés (x=6) : y = 6 + 1,4 = 7,4 M FCFA
+
+Calcul de r :
+Σ yi² = 4+16+25+16+49 = 110
+V(Y) = 110/5 − 4,4² = 22 − 19,36 = 2,64
+σY = √2,64 ≈ 1,625
+
+r = 2 / (√2 × 1,625) = 2 / (1,414 × 1,625) = 2 / 2,298 ≈ 0,87
+
+r ≈ 0,87 → corrélation linéaire positive forte entre effectif et CA.
+
+3. LISSAGE EXPONENTIEL (MOYENNES MOBILES)
+
+Moyennes mobiles d'ordre n : remplace chaque valeur par la moyenne des n valeurs centrées autour d'elle. Élimine les fluctuations saisonnières.
+
+Lissage exponentiel simple : méthode de prévision récursive
+Lt = α × yt + (1−α) × Lt-1
+Où α est le coefficient de lissage (0 < α < 1), souvent entre 0,1 et 0,3.
+Lt : valeur lissée à la période t
+yt : valeur observée à la période t
+
+Plus α est proche de 1 : grande réactivité aux variations récentes (lissage peu fort)
+Plus α est proche de 0 : forte pondération des valeurs passées (lissage fort)
+
+4. AJUSTEMENT PAR LES MOINDRES CARRÉS
+
+La droite des moindres carrés minimise la somme des carrés des écarts verticaux entre les points observés et la droite.
+
+C'est exactement la droite de régression y = ax + b avec :
+a = [N×Σ(xi×yi) − Σxi×Σyi] / [N×Σxi² − (Σxi)²]
+b = (Σyi − a×Σxi) / N = ȳ − a×x̄
+
+Formule équivalente (à utiliser selon les données du problème).
+
+5. CORRÉLATION DES RANGS DE SPEARMAN
+
+Utilisée quand les variables sont qualitatives ordonnées ou quand la relation n'est pas linéaire.
+
+Coefficient de Spearman :
+rs = 1 − [6×Σ(di²)] / [n×(n²−1)]
+Où di = rang(xi) − rang(yi) pour chaque individu i, n = nombre d'individus.
+
+Interprétation identique à r de Pearson (entre −1 et 1).

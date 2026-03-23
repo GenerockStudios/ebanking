@@ -1,0 +1,120 @@
+CHAPITRE 1 — IMAGES NUMÉRIQUES ET COMPRESSION (IGL116)
+BTS Génie Logiciel — Traitement des données multimédia
+
+1. INTRODUCTION AU MULTIMÉDIA NUMÉRIQUE
+
+Le multimédia désigne la combinaison de différents types de médias numériques : texte, images, sons, vidéos, animations, données interactives. Le traitement numérique de ces données est fondamental en développement logiciel moderne (applications mobiles, web, jeux, IA).
+
+Types de données multimédia :
+- Images fixes : JPEG, PNG, GIF, BMP, SVG, WebP
+- Audio : MP3, WAV, AAC, FLAC, OGG
+- Vidéo : MP4 (H.264/H.265), AVI, MKV, WebM
+- Animation : GIF animé, CSS animations, SVG animé
+- 3D : OBJ, FBX, GLTF
+
+2. REPRÉSENTATION NUMÉRIQUE DES IMAGES
+
+A) Images matricielles (raster/bitmap) :
+L'image est composée d'une grille de pixels (picture elements).
+
+Résolution : nombre de pixels par unité (DPI — Dots Per Inch, ou PPI — Pixels Per Inch)
+72 DPI : écran standard
+96 DPI : écran Windows
+300 DPI : impression de qualité
+Taille de fichier brut = largeur × hauteur × profondeur de couleur (en bits) / 8 (pour avoir des octets)
+
+Profondeur de couleur :
+- 1 bit/pixel : noir et blanc (2 couleurs)
+- 8 bits/pixel : niveaux de gris (256 nuances) ou couleurs indexées (palette de 256)
+- 24 bits/pixel (RGB) : 8 bits par canal (rouge, vert, bleu) → 16 777 216 couleurs
+- 32 bits/pixel (RGBA) : 24 bits RGB + 8 bits alpha (transparence)
+
+Modèles de couleurs :
+RGB (Rouge, Vert, Bleu) : synthèse additive pour les écrans.
+  Noir = (0,0,0) ; Blanc = (255,255,255) ; Rouge = (255,0,0)
+CMJN (Cyan, Magenta, Jaune, Noir) : synthèse soustractive pour l'impression.
+HSV/HSL (Teinte, Saturation, Valeur/Luminosité) : plus intuitif pour les humains.
+YCbCr : séparation luminance (Y) / chrominance (Cb, Cr) — utilisé en vidéo et JPEG.
+
+Exemple : calcul de taille d'une image non compressée
+Image 1920×1080 en RGB 24 bits :
+Taille = 1920 × 1080 × 24 / 8 = 1920 × 1080 × 3 = 6 220 800 octets ≈ 5,93 Mo
+
+B) Images vectorielles :
+Décrites par des formules mathématiques (courbes de Bézier, formes géométriques).
+Avantage : mise à l'échelle sans perte de qualité (logos, icônes, polices).
+Formats : SVG, AI (Adobe Illustrator), EPS.
+Inconvénient : inadapté pour les photos (trop complexe à vectoriser).
+
+3. COMPRESSION DES IMAGES
+
+La compression réduit la taille des fichiers.
+
+Compression sans perte (lossless) : on peut reconstituer exactement l'image originale.
+Algorithmes : RLE (Run-Length Encoding), LZ77/LZ78, Huffman, Deflate
+Formats : PNG, GIF, BMP (optionnel), TIFF
+
+Compression avec perte (lossy) : on accepte une légère dégradation pour réduire davantage la taille.
+Formats : JPEG, WebP, HEIC, AVIF
+
+COMPRESSION JPEG (détail) :
+1. Conversion RGB → YCbCr (séparation luminance/chrominance)
+2. Sous-échantillonnage chrominance : l'œil humain est moins sensible aux couleurs qu'à la luminosité
+3. Découpage en blocs 8×8 pixels
+4. DCT (Discrete Cosine Transform) appliquée à chaque bloc → coefficients fréquentiels
+5. Quantification : division des coefficients par une table de quantification (paramètre qualité 0-100). Les hautes fréquences (détails fins) sont plus agressivement quantifiées.
+6. Entropie : codage de Huffman sur les coefficients quantifiés
+
+Taux de compression typique JPEG qualité 75 : 10:1 à 20:1
+
+PNG (Portable Network Graphics) :
+Filtre prédictif sur chaque ligne (méthode Sub, Up, Average, Paeth), puis compression Deflate.
+Supporte la transparence (canal alpha). Meilleur pour graphiques, screenshots, logos.
+
+4. TRAITEMENT D'IMAGES — OPÉRATIONS DE BASE
+
+Filtres et convolutions :
+Une convolution applique un noyau (kernel) à chaque pixel et ses voisins.
+
+Exemples de kernels 3×3 :
+Flou (blur) : tous les coefficients = 1/9 (moyenne de voisinage)
+Netteté (sharpen) :
+  [ 0, -1,  0]
+  [-1,  5, -1]
+  [ 0, -1,  0]
+Détection de contours (Sobel X) :
+  [-1,  0,  1]
+  [-2,  0,  2]
+  [-1,  0,  1]
+
+Formule de convolution 2D :
+G(x,y) = Σ Σ f(x+i, y+j) × K(i,j)
+Où f est l'image source, K le kernel, G l'image résultat.
+
+Histogramme d'une image : distribution des valeurs de gris ou de couleurs.
+Égalisation d'histogramme : redistribue les valeurs pour améliorer le contraste.
+
+Seuillage (binarisation) : transformer en noir/blanc selon un seuil T.
+Si f(x,y) ≥ T → pixel blanc (255) ; sinon → pixel noir (0)
+Méthode de seuillage automatique de Otsu : trouve le seuil T qui minimise la variance intra-classe.
+
+5. FORMATS AUDIO NUMÉRIQUES
+
+Numérisation du son :
+Échantillonnage : mesurer l'amplitude du signal à intervalles réguliers.
+Fréquence d'échantillonnage (sample rate) : 44 100 Hz (CD audio), 48 000 Hz (vidéo/pro).
+Théorème de Nyquist-Shannon : pour numériser sans distorsion, il faut fe ≥ 2 × fmax
+L'oreille humaine entend jusqu'à ~20 000 Hz → fe ≥ 40 000 Hz → 44 100 Hz suffisant.
+
+Quantification : coder l'amplitude sur n bits.
+16 bits : 65 536 niveaux (CD audio). 24 bits : audio professionnel (studio).
+Rapport signal/bruit (SNR) ≈ 6,02 × n + 1,76 dB
+Pour 16 bits : SNR ≈ 98 dB
+
+Taille d'un fichier WAV non compressé :
+Taille (octets) = durée (s) × fe (Hz) × nb_canaux × bits/8
+Exemple : 3 minutes stéréo 44100 Hz 16 bits :
+= 180 × 44100 × 2 × 2 = 31 752 000 octets ≈ 30 Mo
+
+MP3 : compression avec perte basée sur la psychoacoustique (masquage fréquentiel et temporel).
+Taux de compression typique : 10:1 à 12:1 (128 kbps pour un audio stéréo de qualité raisonnable).

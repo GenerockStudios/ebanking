@@ -1,0 +1,253 @@
+# **Notes de Cours - BTS Génie Logiciel (Cameroun)**
+## **Matière 19 : Maintenance Informatique**
+## **Chapitre : Maintenance réseau et sécurité**
+
+---
+
+### **1. Introduction à la maintenance réseau et sécurité**
+
+La maintenance réseau est un ensemble d'activités préventives et correctives visant à garantir le bon fonctionnement, la disponibilité, la performance et la sécurité des infrastructures réseau. Dans un contexte camerounais marqué par la digitalisation croissante des entreprises (banques, administrations, PME), la maîtrise de ces compétences est cruciale pour le technicien en génie logiciel.
+
+**Objectifs du chapitre :**
+- Comprendre les standards de câblage structuré
+- Configurer et sécuriser des équipements réseau sans fil et filaires
+- Mettre en œuvre des outils de supervision adaptés aux entreprises locales
+- Gérer le cycle de vie des firmwares pour la sécurité et la stabilité
+
+---
+
+### **2. Câblage structuré et normes EIA/TIA 568**
+
+#### **2.1. Définition et importance du câblage structuré**
+Le câblage structuré est une infrastructure de câbles normalisée, flexible et évolutive qui supporte les systèmes de communication (voix, données, vidéo). Il est indépendant des applications et des équipements.
+
+**Pourquoi au Cameroun ?**
+- Standardisation des installations dans les entreprises (OHADA, banques, universités)
+- Facilité de maintenance et d'extension (ex: ajout de postes dans une administration)
+- Réduction des coûts à long terme
+
+#### **2.2. Normes EIA/TIA 568 : Présentation**
+Ces normes, développées par l'Electronic Industries Alliance et la Telecommunications Industry Association, définissent les spécifications pour le câblage des bâtiments commerciaux.
+
+**Normes principales :**
+- **TIA-568-C.0** : Principes généraux
+- **TIA-568-C.1** : Câblage commercial
+- **TIA-568-C.2** : Câbles et composants cuivre
+- **TIA-568-C.3** : Câbles et composants fibre optique
+
+#### **2.3. Topologie et sous-systèmes (Modèle à 6 sous-systèmes)**
+
+**Tableau 1 : Sous-systèmes du câblage structuré**
+| Sous-système | Description | Exemple d'application au Cameroun |
+|--------------|-------------|-----------------------------------|
+| **1. Entrée de campus** | Point d'entrée des services extérieurs | Connexion à un FAI (Camtel, MTN, Orange) |
+| **2. Salle des équipements** | Local technique principal | Salle serveur d'une entreprise à Douala |
+| **3. Câblage dorsal** | Interconnexion des armoires | Liaison entre bâtiments d'une université |
+| **4. Salle de télécommunications** | Armoire de brassage intermédiaire | Local technique d'un étage (immeuble administratif) |
+| **5. Câblage horizontal** | Du TR au poste de travail | Câble vers le bureau d'un agent (Ministère) |
+| **6. Zone de travail** | Prise murale au poste utilisateur | Bureau avec prise RJ45 et téléphonique |
+
+#### **2.4. Câbles et connectique**
+
+**Types de câbles couramment utilisés :**
+- **Catégorie 5e (Cat5e)** : 100 MHz, 1 Gbps sur 100m - *Standard dans les PME*
+- **Catégorie 6 (Cat6)** : 250 MHz, 1 Gbps sur 100m, 10 Gbps sur 55m - *Recommandé pour les nouvelles installations*
+- **Catégorie 6A (Cat6A)** : 500 MHz, 10 Gbps sur 100m - *Pour les data centers et infrastructures critiques*
+- **Fibre optique** : Monomode (longues distances) et multimode (courtes distances)
+
+#### **2.5. Schémas de brochage : T568A vs T568B**
+
+**À RETENIR :** Au Cameroun, le schéma **T568B** est le plus répandu dans les installations professionnelles.
+
+**Tableau 2 : Comparaison des schémas de brochage**
+| Broche | T568A | T568B | Couleur T568B |
+|--------|-------|-------|---------------|
+| 1 | Blanc/Vert | Blanc/Orange | Transmit+ |
+| 2 | Vert | Orange | Transmit- |
+| 3 | Blanc/Orange | Blanc/Vert | Receive+ |
+| 4 | Bleu | Bleu | Non utilisé (voix) |
+| 5 | Blanc/Bleu | Blanc/Bleu | Non utilisé (voix) |
+| 6 | Orange | Vert | Receive- |
+| 7 | Blanc/Marron | Blanc/Marron | Non utilisé |
+| 8 | Marron | Marron | Non utilisé |
+
+**Types de câbles :**
+- **Droit (straight-through)** : Pour connecter des équipements différents (PC → Switch)
+- **Croisé (crossover)** : Pour connecter des équipements similaires (Switch → Switch, PC → PC)
+
+---
+
+### **3. Bornes WiFi et réseaux sans fil**
+
+#### **3.1. Technologies et standards WiFi**
+
+**Évolution des standards :**
+- **802.11b/g/n** : 2.4 GHz, encore très répandu
+- **802.11ac (WiFi 5)** : 5 GHz, débits élevés
+- **802.11ax (WiFi 6)** : Efficacité améliorée en environnement dense
+
+#### **3.2. Configuration et sécurité des bornes WiFi**
+
+**Bonnes pratiques pour une entreprise camerounaise :**
+1. **Changer les identifiants par défaut** (admin/admin)
+2. **Activer le chiffrement WPA3** (ou WPA2 si WPA3 non supporté)
+3. **Désactiver le WPS** (vulnérabilités connues)
+4. **Filtrer par adresse MAC** (liste blanche d'appareils autorisés)
+5. **Créer un réseau invité isolé** (pour les visiteurs)
+
+**Exemple concret :** Configuration d'un réseau WiFi pour un cybercafé à Yaoundé
+- SSID principal : "Cyber_Pro" (WPA2-Enterprise pour la gestion)
+- SSID invité : "Cyber_Visiteurs" (accès limité avec portail captif)
+- Puissance d'émission ajustée pour couvrir uniquement la salle
+
+#### **3.3. Problématiques spécifiques au contexte africain**
+- **Interférences** : Beaucoup d'appareils sur la bande 2.4 GHz
+- **Coupures de courant** : Nécessité d'onduleurs pour les points d'accès
+- **Coût des licences** : Privilégier les solutions open source (pfSense, OPNsense)
+
+---
+
+### **4. Switches et commutation réseau**
+
+#### **4.1. Types de switches**
+
+**Tableau 3 : Classification des switches**
+| Type | Caractéristiques | Utilisation typique |
+|------|-----------------|---------------------|
+| **Non managé** | Plug & Play, pas de configuration | Petits bureaux, réseaux domestiques |
+| **Smart/Web** | Interface web limitée | PME, succursales |
+| **Managé** | Configuration avancée (CLI), VLAN, QoS | Entreprises, campus universitaires |
+| **Couche 3** | Routage inter-VLAN, fonctions avancées | Grandes entreprises, data centers |
+
+#### **4.2. Configuration de base d'un switch managé**
+
+**Commandes essentielles (syntaxe Cisco-like) :**
+```bash
+enable                          # Passer en mode privilégié
+configure terminal              # Mode configuration globale
+hostname Switch-BTS-DLA         # Nommer le switch
+enable secret mot2passeComplexe # Définir mot de passe enable
+line console 0                  # Configuration console
+password consolePass
+login
+interface vlan 1                # Configuration IP de gestion
+ip address 192.168.1.250 255.255.255.0
+no shutdown
+exit
+```
+
+#### **4.3. VLAN (Virtual Local Area Network)**
+
+**Application dans une administration camerounaise :**
+- **VLAN 10** : Administration (192.168.10.0/24)
+- **VLAN 20** : Comptabilité (192.168.20.0/24)
+- **VLAN 30** : Serveurs (192.168.30.0/24)
+- **VLAN 99** : Management (192.168.99.0/24)
+
+**Avantages :**
+- Segmentation logique (sécurité)
+- Réduction du broadcast domain
+- Gestion simplifiée des politiques
+
+---
+
+### **5. Supervision réseau avec Nagios et Zabbix**
+
+#### **5.1. Importance de la supervision**
+
+Dans un contexte où la continuité de service est cruciale (banques, opérateurs télécoms), la supervision permet :
+- Détection proactive des pannes
+- Mesure des performances
+- Planification des capacités
+- Génération de rapports pour la direction
+
+#### **5.2. Nagios : L'outil historique**
+
+**Architecture :**
+- **Nagios Core** : Moteur open source gratuit
+- **Nagios XI** : Version commerciale avec interface web avancée
+
+**Fonctionnalités clés :**
+- Surveillance des services (HTTP, SSH, SMTP, etc.)
+- Surveillance des ressources (CPU, RAM, disque)
+- Notifications par email, SMS (intégration avec API Orange, MTN)
+- Tableaux de bord personnalisables
+
+**Exemple de configuration pour surveiller un serveur web :**
+```bash
+# Définition d'un hôte
+define host {
+    host_name               Serveur_Web_MINFOF
+    alias                   Serveur principal MINPOSTEL
+    address                 196.200.12.45
+    check_command           check-host-alive
+    max_check_attempts      3
+    notification_interval   60
+    notification_period     24x7
+}
+
+# Définition d'un service
+define service {
+    host_name               Serveur_Web_MINFOF
+    service_description     HTTP
+    check_command           check_http
+    notification_interval   30
+    notification_period     24x7
+}
+```
+
+#### **5.3. Zabbix : Solution moderne et scalable**
+
+**Avantages pour les grandes infrastructures camerounaises :**
+- Découverte automatique des équipements
+- Stockage des données dans une base de données (MySQL, PostgreSQL)
+- Cartographie réseau visuelle
+- Modèles de surveillance réutilisables
+
+**Composants :**
+- **Zabbix Server** : Collecte et analyse des données
+- **Zabbix Agent** : Installé sur les hôtes surveillés
+- **Zabbix Proxy** : Pour la collecte distribuée (succursales en région)
+- **Interface Web** : Pour la configuration et la visualisation
+
+**Tableau 4 : Comparaison Nagios vs Zabbix**
+| Critère | Nagios | Zabbix |
+|---------|--------|--------|
+| **Courbe d'apprentissage** | Raide | Plus progressive |
+| **Interface web** | Basique (Core) / Avancée (XI) | Moderne et complète |
+| **Découverte auto** | Limitée | Excellente |
+| **Base de données** | Fichiers plats | Base de données relationnelle |
+| **Adaptation PME** | Bonne | Très bonne |
+| **Coût** | Core gratuit, XI payant | Entièrement gratuit |
+
+#### **5.4. Intégration dans l'écosystème camerounais**
+
+**Surveillance des liens internet :**
+- Supervision des connexions vers les FAI (Camtel, MTN, Orange)
+- Mesure du temps de réponse vers les services gouvernementaux
+- Surveillance de la qualité de service (QoS)
+
+**Alertes adaptées :**
+- Email vers les administrateurs
+- SMS via passerelles locales (utile lors des coupures internet)
+- Notifications sur applications mobiles
+
+---
+
+### **6. Mises à jour firmware**
+
+#### **6.1. Définition et importance**
+
+Le firmware est le logiciel intégré aux équipements réseau (switches, routeurs, bornes WiFi). Ses mises à jour sont cruciales pour :
+- **Corriger des vulnérabilités de sécurité** (ex: failles dans les routeurs Camtel)
+- **Ajouter de nouvelles fonctionnalités**
+- **Améliorer la stabilité et les performances**
+- **Assurer la compatibilité avec les nouveaux standards**
+
+#### **6.2. Cycle de vie des firmwares**
+
+**Étapes du processus :**
+1. **Vérification des versions** : Identifier le firmware actuel
+2. **Recherche des mises à jour** : Site du fabricant, bulletins de sécurité
+3. **Évaluation des correctifs** : Lire les release notes
+4. **Sauvegarde de la configuration** : Toujours avant une mise à jour

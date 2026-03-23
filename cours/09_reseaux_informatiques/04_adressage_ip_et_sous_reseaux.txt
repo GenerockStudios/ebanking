@@ -1,0 +1,145 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 09 Réseaux Informatiques**
+## **Chapitre : Adressage IP**
+
+---
+
+### **1. Introduction à l’adressage IP**
+
+L’adressage IP est un mécanisme fondamental permettant d’identifier de manière unique chaque périphérique connecté à un réseau utilisant le protocole IP (Internet Protocol). Il est à la base de la communication sur Internet et les réseaux locaux. Au Cameroun, avec la croissance des services numériques (mobile money, e-gouvernement, télémédecine), la maîtrise de l’adressage IP est cruciale pour tout ingénieur logiciel.
+
+**Objectifs du chapitre :**
+*   Comprendre la structure et les limites d’IPv4.
+*   Maîtriser le calcul des masques et la création de sous-réseaux (subnetting).
+*   Saisir les principes et l’urgence de la transition vers IPv6.
+*   Comprendre les mécanismes NAT/PAT utilisés par les FAI (MTN, Orange, Camtel) et dans les entreprises.
+
+---
+
+### **2. IPv4 (Internet Protocol version 4)**
+
+#### **2.1. Définition et format**
+IPv4 est la quatrième version du protocole Internet, déployée depuis les années 1980. Une adresse IPv4 est un identifiant numérique de **32 bits**, généralement représenté en **notation décimale pointée** pour faciliter la lecture humaine.
+
+**Format :** `xxx.xxx.xxx.xxx` (où chaque `xxx` est un octet, soit un nombre décimal entre 0 et 255).
+*Exemple :* `192.168.1.10`, `41.202.207.5` (une adresse publique attribuée au Cameroun).
+
+#### **2.2. Classes d’adresses IPv4**
+Historiquement, les adresses IPv4 étaient divisées en classes pour faciliter l’allocation en fonction de la taille du réseau.
+
+| Classe | Plage du premier octet | Masque par défaut | Usage | Exemple Camerounais |
+| :--- | :--- | :--- | :--- | :--- |
+| **A** | 1 - 126 | 255.0.0.0 (/8) | Très grands réseaux (gouvernements, grands opérateurs) | Peu utilisé aujourd’hui. |
+| **B** | 128 - 191 | 255.255.0.0 (/16) | Réseaux de taille moyenne (universités, grandes entreprises) | L’Université de Yaoundé I pourrait utiliser une plage de classe B en interne. |
+| **C** | 192 - 223 | 255.255.255.0 (/24) | Petits réseaux (PME, cybercafés) | Très courant dans les réseaux locaux d’entreprise. |
+| **D** | 224 - 239 | N/A | Multicast (diffusion de groupe) | Utilisé pour la vidéoconférence ou la diffusion vidéo en streaming. |
+| **E** | 240 - 255 | N/A | Réservée (recherche) | Non utilisée en production. |
+
+**À retenir :** Les adresses **127.x.x.x** sont réservées pour la boucle locale (localhost, `127.0.0.1`). Les classes A, B, C sont dites **"avec classe"** (classful). Cette approche est aujourd’hui obsolète et a été remplacée par le **CIDR**.
+
+#### **2.3. Adresses publiques et privées**
+*   **Adresses publiques :** Uniques au monde, routables sur Internet. Attribuées par l’ICANN via les registres régionaux (AFRINIC pour l’Afrique). Les FAI camerounais (Camtel, MTN Business, Orange Business) en possèdent des blocs.
+*   **Adresses privées :** Réservées pour les réseaux locaux (LAN), non routables sur Internet. Elles doivent être traduites (NAT) pour accéder à Internet.
+    *   Classe A : `10.0.0.0` à `10.255.255.255` (Masque : 255.0.0.0 ou /8)
+    *   Classe B : `172.16.0.0` à `172.31.255.255` (Masque : 255.240.0.0 ou /12)
+    *   Classe C : `192.168.0.0` à `192.168.255.255` (Masque : 255.255.0.0 ou /16)
+
+**Exemple concret :** Le réseau Wi-Fi de votre domicile utilise très probablement une adresse privée comme `192.168.1.x`. Votre box (Livebox Orange, MTN Router) fait le lien entre cette adresse privée et l’adresse publique fournie par votre FAI.
+
+---
+
+### **3. Masque de sous-réseau et Notation CIDR**
+
+#### **3.1. Le masque de sous-réseau**
+Un masque de sous-réseau est un nombre de 32 bits qui permet de distinguer la partie **réseau** et la partie **hôte** d’une adresse IP.
+*   Les bits à `1` identifient le réseau.
+*   Les bits à `0` identifient les hôtes.
+
+**Exemple :** Avec l’adresse `192.168.1.10` et le masque `255.255.255.0` :
+*   Partie réseau : `192.168.1`
+*   Partie hôte : `.10`
+
+#### **3.2. Notation CIDR (Classless Inter-Domain Routing)**
+Le CIDR a remplacé le système par classes. Il permet une allocation plus flexible des adresses en ajoutant un suffixe `/n` à l’adresse IP, où **`n`** est le nombre de bits à `1` dans le masque.
+
+**Correspondance :**
+*   `255.0.0.0` = `/8`
+*   `255.255.0.0` = `/16`
+*   `255.255.255.0` = `/24`
+
+**Exemple CIDR :** `41.202.207.0/24` représente un bloc de 256 adresses (de `41.202.207.0` à `41.202.207.255`) attribuées à un opérateur au Cameroun. C’est beaucoup plus efficace que d’attribuer une classe C entière de manière rigide.
+
+---
+
+### **4. Sous-réseaux (Subnetting)**
+
+#### **4.1. Définition et objectifs**
+Le **subnetting** est la technique qui consiste à diviser un grand réseau (défini par une adresse IP et un masque) en plusieurs sous-réseaux plus petits et indépendants.
+**Objectifs :**
+*   **Optimiser l’espace d’adressage** (réduire le gaspillage d’adresses).
+*   **Améliorer la sécurité** et la performance en segmentant le trafic.
+*   **Simplifier la gestion** administrative.
+
+**Contexte camerounais :** Une université comme l’**Université de Douala** possède un seul bloc d’adresses publiques. Elle utilise le subnetting pour créer des sous-réseaux distincts pour : la bibliothèque (`/26`), les laboratoires informatiques (`/25`), l’administration (`/28`), le réseau invité (`/26`).
+
+#### **4.2. Méthodologie de calcul (Subnetting)**
+**Étapes pour créer des sous-réseaux :**
+1.  **Déterminer le nombre de sous-réseaux (S)** ou le nombre d’hôtes par sous-réseau (H) nécessaires.
+2.  **Calculer le nombre de bits à emprunter** à la partie hôte.
+    *   Pour les sous-réseaux : `2^n >= S` (où `n` = bits empruntés).
+    *   Pour les hôtes : `2^m - 2 >= H` (où `m` = bits hôtes restants ; -2 pour l’adresse réseau et l’adresse broadcast).
+3.  **Déduire le nouveau masque de sous-réseau** : Masque initial + `n`.
+4.  **Déterminer le "pas" ou l’incrément** entre chaque sous-réseau : `2^m`.
+5.  **Lister les plages d’adresses** (adresse réseau, plage hôte, adresse broadcast).
+
+**Exemple pratique :**
+L’entreprise **OHADA** (siège à Yaoundé) a le réseau `192.168.100.0/24`. Elle a besoin de 4 sous-réseaux pour ses départements (Juridique, Finances, IT, Communication).
+*   Bits empruntés : `2^n >= 4` => `n=2`.
+*   Nouveau masque : `/24 + 2 = /26` ou `255.255.255.192`.
+*   Bits hôtes restants : `8 - 2 = 6`. Hôtes par sous-réseau : `2^6 - 2 = 62`.
+*   Incrément : `2^6 = 64`.
+
+**Tableau des sous-réseaux :**
+
+| Sous-réseau | Adresse Réseau | Plage Hôtes Utilisables | Broadcast |
+| :--- | :--- | :--- | :--- |
+| 1 (Juridique) | 192.168.100.0/26 | 192.168.100.1 - 192.168.100.62 | 192.168.100.63 |
+| 2 (Finances) | 192.168.100.64/26 | 192.168.100.65 - 192.168.100.126 | 192.168.100.127 |
+| 3 (IT) | 192.168.100.128/26 | 192.168.100.129 - 192.168.100.190 | 192.168.100.191 |
+| 4 (Communication) | 192.168.100.192/26 | 192.168.100.193 - 192.168.100.254 | 192.168.100.255 |
+
+---
+
+### **5. IPv6 (Internet Protocol version 6)**
+
+#### **5.1. Nécessité et avantages**
+L’**épuisement des adresses IPv4** (déjà effectif au niveau mondial) est la raison principale de l’introduction d’IPv6.
+**Principaux avantages :**
+*   **Espace d’adressage colossal :** 128 bits, soit environ 3.4 x 10^38 adresses (des milliards d’adresses par m² sur Terre).
+*   **Configuration automatique** (SLAAC - Stateless Address Autoconfiguration).
+*   **Sécurité intégrée** (IPsec).
+*   **Meilleure gestion de la qualité de service (QoS)**.
+*   **Simplification de l’en-tête** pour un routage plus efficace.
+
+**Enjeu pour l’Afrique et le Cameroun :** Le continent africain a reçu une part limitée d’IPv4. IPv6 représente une **opportunité stratégique** de se développer sans les contraintes du NAT et d’innover dans l’IoT, les villes intelligentes (Smart Cities).
+
+#### **5.2. Format et notation**
+Une adresse IPv6 de 128 bits est représentée en **hexadécimal**, par groupes de 16 bits séparés par deux-points.
+
+**Format complet :** `2001:0db8:85a3:0000:0000:8a2e:0370:7334`
+**Règles de simplification :**
+1.  Supprimer les zéros non significatifs dans chaque groupe : `2001:db8:85a3:0:0:8a2e:370:7334`
+2.  Remplacer **une seule fois** la séquence la plus longue de groupes nuls par `::` : `2001:db8:85a3::8a2e:370:7334`
+
+**Types d’adresses IPv6 :**
+*   **Unicast Globale (Publique) :** `2000::/3` (équivalent IPv4 publique). Exemple d’un bloc Camtel.
+*   **Unicast Locale (Link-Local) :** `fe80::/10` (auto-configurée, pour la communication sur un lien).
+*   **Multicast :** `ff00::/8`.
+*   **Unicast Unique Locale (ULA) :** `fc00::/7` (équivalent IPv4 privée).
+
+---
+
+### **6. NAT et PAT (Translation d’Adresses)**
+
+#### **6.1. NAT (Network Address Translation)**
+Le NAT permet à plusieurs hôtes d’un réseau privé de partager **une seule adresse IP publique** pour accéder à Internet. Il traduit les adresses IP privées en une adresse IP publique (et vice-versa) dans l’en

@@ -1,0 +1,120 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : Maintenance Informatique (19)**
+## **Chapitre : Inventaire et CMDB : Gestion des actifs informatiques, logiciels de découverte réseau, CMDB ITIL**
+
+---
+
+### **1. Introduction et Définitions Fondamentales**
+
+#### **1.1. Contexte et Enjeux en Afrique et au Cameroun**
+Dans un environnement économique marqué par la rareté des ressources et l'impératif d'optimisation (OHADA, normes de bonne gouvernance), la gestion rigoureuse des actifs informatiques (Asset Management) devient un levier stratégique. Pour une entreprise camerounaise comme **MTN Cameroon**, **Orange Cameroun** ou **Camtel**, disposer de milliers d'ordinateurs, serveurs, licences logicielles et équipements réseau sans visibilité précise entraîne :
+*   Des coûts incontrôlés (licences inutilisées, maintenance sur des équipements obsolètes).
+*   Des risques juridiques (non-conformité aux licences logicielles).
+*   Une inefficacité opérationnelle (temps perdu à rechercher un équipement, interventions correctives rallongées).
+
+#### **1.2. Définitions Clés**
+*   **Actif Informatique (IT Asset) :** Toute ressource matérielle, logicielle ou informationnelle qui possède une valeur pour l'organisation et qui est utilisée dans le cadre de ses activités informatiques.
+*   **Inventaire Informatique :** Processus consistant à **recenser, identifier et enregistrer** tous les actifs informatiques de l'organisation. C'est une **photographie statique** à un instant T.
+*   **Gestion des Actifs Informatiques (ITAM - IT Asset Management) :** **Processus dynamique et stratégique** qui englobe la gestion du cycle de vie complet d'un actif, depuis son acquisition (planification, achat) jusqu'à sa mise au rebut, en passant par son déploiement, sa maintenance et son suivi. L'ITAM vise à maximiser la valeur, contrôler les coûts et gérer les risques.
+*   **CMDB (Configuration Management Database) :** **Base de données centrale** qui stocke non seulement les informations sur tous les actifs (CI - Configuration Items), mais aussi et surtout **les relations entre ces actifs**. Elle est au cœur de la gestion des services IT selon ITIL.
+
+**À retenir :** L'*inventaire* est le "quoi" et le "où". La *Gestion des Actifs (ITAM)* est le "comment" et le "pourquoi". La *CMDB* est l'outil qui modélise les actifs et leurs interdépendances.
+
+---
+
+### **2. La Gestion des Actifs Informatiques (ITAM)**
+
+#### **2.1. Objectifs et Bénéfices**
+*   **Maîtrise des Coûts :** Éviter les achats inutiles, négocier les contrats de maintenance, optimiser l'utilisation des licences.
+*   **Conformité et Gestion des Risques :** Respect des licences logicielles (audits par Microsoft, Oracle), sécurité (suivi des correctifs), conformité aux réglementations (OHADA sur la transparence financière).
+*   **Support Efficace :** Accès rapide à l'historique d'un équipement pour les techniciens, réduction du temps de résolution des incidents (MTTR).
+*   **Aide à la Décision :** Données fiables pour planifier les renouvellements, les migrations (ex: migration vers Windows 11), les investissements.
+
+#### **2.2. Cycle de Vie d'un Actif Informatique (Modèle ITIL)**
+Chaque actif suit un cycle en 5 phases :
+
+1.  **Planification & Acquisition :** Définition du besoin, budgétisation, appel d'offres, achat (ex: achat de 100 laptops Dell pour équiper une nouvelle agence de la **BICEC** à Douala).
+2.  **Déploiement :** Installation, configuration, attribution à un utilisateur, enregistrement dans l'inventaire.
+3.  **Exploitation & Maintenance :** Utilisation quotidienne, interventions correctives et préventives, mises à jour, audits.
+4.  **Mise à Jour / Renouvellement :** Upgrade matériel ou logiciel, décision de remplacement.
+5.  **Mise au Rebut (Disposal) :** Processus sécurisé d'effacement des données (nettoyage conforme), recyclage ou revente. **Exemple concret :** Une université publique camerounaise doit s'assurer que les disques durs des vieux PC sont formatés de manière sécurisée avant de les céder.
+
+**Tableau : Types d'Actifs et Informations à Suivre**
+| **Type d'Actif** | **Exemples** | **Informations Critiques à Inventorier** |
+| :--- | :--- | :--- |
+| **Matériel (Hardware)** | PC, serveurs, imprimantes, switchs, routeurs | N° de série, modèle, fabricant, date d'achat, garantie, localisation, utilisateur attribué |
+| **Logiciels (Software)** | OS, Microsoft Office, Antivirus, ERP | Nom, éditeur, version, n° de licence, type de licence (volume, OEM), date d'expiration |
+| **Ressources Réseau** | Adresses IP, bande passante, VLAN | Adresse IP/MAC, nom d'hôte, affectation, état |
+| **Contrats** | Contrats de maintenance, SLA avec fournisseurs | Référence, fournisseur (ex: **GVA** pour Cisco), dates, coût, contacts |
+
+---
+
+### **3. Les Logiciels de Découverte et d'Inventaire Automatique**
+
+Faire un inventaire manuel est long, coûteux et sujet aux erreurs. Les outils de découverte réseau automatisent cette tâche.
+
+#### **3.1. Principe de Fonctionnement**
+Ces outils scannent le réseau en utilisant divers protocoles (SNMP, WMI, SSH, etc.) pour interroger les équipements et collecter automatiquement les informations matérielles et logicielles.
+
+#### **3.2. Outils Populaires et Comparaison**
+
+**OCS Inventory NG**
+*   **Description :** Outil **open-source** et gratuit, très puissant et modulaire.
+*   **Fonctionnement :** Utilise un **agent** (petit programme installé sur chaque machine) pour une collecte très détaillée. Une console web centralise les données.
+*   **Points forts :** Inventaire extrêmement précis (matériel, logiciels, plugins), gestion des déploiements de packages, idéal pour un parc homogène (Windows).
+*   **Points faibles :** Nécessite l'installation et la maintenance des agents.
+*   **Contexte Camerounais :** Solution **très adaptée** pour les administrations publiques, les PME et les établissements scolaires/universitaires (ex: **Université de Yaoundé I**) en raison de son coût nul et de sa richesse fonctionnelle.
+
+**Lansweeper**
+*   **Description :** Outil **commercial** (avec une version d'essai gratuite limitée) réputé pour sa simplicité et son efficacité.
+*   **Fonctionnement :** Principalement **sans agent (agentless)**. Il scanne le réseau à partir d'un serveur central en utilisant les comptes administrateur du domaine.
+*   **Points forts :** Déploiement rapide, interface intuitive, reporting excellent, découverte des périphériques réseau (imprimantes, switchs) très efficace.
+*   **Points faibles :** Coût des licences pour de grands parcs, collecte logicielle moins fine sans agent sur certains postes.
+*   **Contexte Camerounais :** Solution **idéale pour les entreprises et ESN** ayant un budget dédié et recherchant un ROI rapide, comme une grande banque (**Afriland First Bank**) ou une télécom (**NexTTel**).
+
+**Autres outils :** GLPI (open-source, avec plugin d'inventaire), PDQ Inventory (commercial, orienté Windows), Snipe-IT (open-source, focus gestion de parc).
+
+**Tableau Comparatif OCS Inventory vs Lansweeper**
+| **Critère** | **OCS Inventory NG** | **Lansweeper** |
+| :--- | :--- | :--- |
+| **Licence** | Open-Source (Gratuit) | Commerciale (Payante) |
+| **Modèle de collecte** | Principalement avec **Agent** | Principalement **Sans Agent (Agentless)** |
+| **Mise en œuvre** | Plus complexe (serveur + agents) | Plus simple et rapide |
+| **Précision inventaire** | **Très élevée** (grâce à l'agent) | **Élevée** (excellente sur réseau) |
+| **Coût Total de Possession** | **Faible** (coûts de mise en œuvre/maintenance internes) | **Élevé** (coûts de licences) |
+| **Cible idéale** | Administrations, Éducation, PME, Parcs homogènes | Entreprises, ESN, Parcs hétérogènes, Budget alloué |
+
+---
+
+### **4. La CMDB (Configuration Management Database) et le Cadre ITIL**
+
+#### **4.1. Définition et Différence avec un Inventaire Simple**
+La CMDB va au-delà d'un simple inventaire. C'est une base de données conçue pour gérer des **Éléments de Configuration (CI - Configuration Items)**.
+*   **CI (Élément de Configuration) :** Tout composant ou service qui doit être géré pour délivrer un service IT. Cela inclut les actifs matériels/logiciels, mais aussi les documents, les processus, les personnes.
+*   **Relation :** Le cœur de la CMDB. Elle modélise les liens entre les CI (ex: "Ce **serveur physique (CI-01)** héberge cette **machine virtuelle (CI-02)** qui exécute cette **base de données (CI-03)** utilisée par l'**application de paie (CI-04)**").
+
+**Exemple concret :** Un incident sur l'application de paie d'une mairie camerounaise. Avec une CMDB, on voit immédiatement que l'application dépend d'un serveur spécifique, lui-même sous un contrat de maintenance géré par un fournisseur local. Cela accélère le diagnostic et la résolution.
+
+#### **4.2. Rôle dans le Cycle de Vie des Services ITIL**
+ITIL (Information Technology Infrastructure Library) est le référentiel de bonnes pratiques pour la gestion des services IT. La CMDB est **l'épine dorsale** de plusieurs processus ITIL :
+*   **Gestion des Incidents/Problèmes :** Identifier l'impact d'une panne (quels services/utilisateurs sont touchés ?).
+*   **Gestion des Changements :** Évaluer l'impact d'un changement avant de l'autoriser (si je mets à jour ce switch, quels serveurs seront affectés ?).
+*   **Gestion des Versions et Déploiements :** Suivre les versions logicielles déployées sur chaque poste.
+*   **Gestion de la Capacité et de la Disponibilité :** Planifier les ressources en connaissant les dépendances.
+
+#### **4.3. Implémentation et Bonnes Pratiques**
+*   **Démarrer petit :** Modéliser d'abord un service critique (ex: la messagerie d'entreprise).
+*   **Définir un modèle de CI :** Quels attributs sont essentiels pour chaque type de CI (serveur, licence, contrat) ?
+*   **Maintenir la qualité des données :** Une CMDB périmée est pire que pas de CMDB. Il faut des processus pour la mettre à jour (automatisation, validation des changements).
+*   **Intégrer avec d'autres outils :** La CMDB doit échanger des données avec l'outil de ticketing (ex: **GLPI**, **Jira**), les outils de monitoring (**Nagios**, **Zabbix**) et les outils de déploiement.
+
+**À retenir sur la CMDB :** Sa valeur n'est pas dans la **quantité** de données, mais dans la **qualité** des données et la **précision** des **relations** qu'elle décrit. C'est une représentation fidèle de votre système d'information.
+
+---
+
+### **5. Étude de Cas : Mise en Œuvre dans une Entreprise Camerounaise**
+
+**Scénario :** **CAMTEL** souhaite améliorer la gestion de son parc informatique interne (siège + agences régionales).
+
+1.  **Problématique :** Manque de visibilité sur les actifs, difficulté à appliquer les correctifs de sécurité, audits logiciels coûteux et stressants.
+2.  **Solution Propos

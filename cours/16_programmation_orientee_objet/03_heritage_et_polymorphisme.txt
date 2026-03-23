@@ -1,0 +1,253 @@
+# **Notes de Cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière 16 : Programmation Orientée Objet**
+## **Chapitre : Héritage et Polymorphisme en Java**
+
+---
+
+### **1. Introduction et Contexte**
+
+#### **1.1. Importance dans le Développement Logiciel**
+L'héritage et le polymorphisme sont des piliers fondamentaux de la Programmation Orientée Objet (POO). Ils permettent de créer des systèmes logiciels **modulaires, extensibles et maintenables**, qualités essentielles pour les applications d'entreprise modernes comme les systèmes de gestion (OHADA), les plateformes bancaires ou les services de téléphonie (MTN, Orange, Camtel). En maîtrisant ces concepts, vous serez capable de concevoir des architectures logicielles robustes, adaptées au marché technologique camerounais et africain en pleine croissance.
+
+#### **1.2. Outils et Environnement**
+- **Langage** : Java (JDK 11 ou supérieur)
+- **Environnements de Développement Intégrés (IDE)** : IntelliJ IDEA, Eclipse, NetBeans — largement utilisés dans les entreprises locales et les SSII.
+- **Outils de construction** : Maven, Gradle — pour la gestion des dépendances.
+- **Pratique en entreprise** : Ces concepts sont utilisés dans le développement d'APIs, d'applications web (Spring Boot) et mobiles (Android), ainsi que dans les systèmes legacy modernisés.
+
+---
+
+### **2. L'Héritage (Inheritance)**
+
+#### **2.1. Définition et Principe**
+L'héritage est un mécanisme qui permet à une classe (dite **classe fille** ou **sous-classe**) d'**hériter** des attributs et des méthodes d'une autre classe (dite **classe mère** ou **superclasse**). Cela favorise la **réutilisation du code** (DRY - Don't Repeat Yourself) et établit une relation "est-un" (*is-a*) entre les classes.
+
+**Forme générale :**
+```java
+class SousClasse extends SuperClasse {
+    // Attributs et méthodes spécifiques à la sous-classe
+}
+```
+
+#### **2.2. Le mot-clé `extends`**
+Le mot-clé `extends` est utilisé pour déclarer qu'une classe hérite d'une autre.
+
+**Exemple concret adapté :** Modélisation d'un système de gestion des employés d'un opérateur télécom.
+```java
+// Superclasse
+class EmployeCamtel {
+    String nom;
+    String matricule;
+    double salaireDeBase;
+
+    public void calculerSalaire() {
+        System.out.println("Salaire de base : " + salaireDeBase + " FCFA");
+    }
+}
+
+// Sous-classe héritant d'EmployeCamtel
+class IngenieurReseau extends EmployeCamtel {
+    String specialite; // Ex: "Fibre optique", "Réseaux 4G/5G"
+    double primeTechnique;
+
+    public void superviserReseau() {
+        System.out.println("Supervision du réseau en cours...");
+    }
+}
+```
+Ici, `IngenieurReseau` **est un** `EmployeCamtel` avec des caractéristiques supplémentaires.
+
+#### **2.3. Le mot-clé `super`**
+Le mot-clé `super` a deux utilisations principales :
+1. **Appeler le constructeur de la superclasse** : `super(...)` doit être la première instruction dans le constructeur de la sous-classe.
+2. **Accéder aux membres (attributs/méthodes) de la superclasse** : `super.membre`.
+
+**Exemple :**
+```java
+class CommercialOrange extends EmployeCamtel {
+    String region; // Ex: "Littoral", "Centre"
+    double chiffreAffaires;
+
+    // Constructeur utilisant super()
+    public CommercialOrange(String nom, String matricule, double salaireBase, String region) {
+        super.nom = nom; // Accès à l'attribut de la superclasse
+        super.matricule = matricule;
+        super.salaireDeBase = salaireBase;
+        this.region = region;
+    }
+
+    // Redéfinition de calculerSalaire avec une prime
+    @Override
+    public void calculerSalaire() {
+        double prime = chiffreAffaires * 0.05; // Prime de 5% sur le CA
+        double salaireTotal = salaireDeBase + prime;
+        System.out.println("Salaire Commercial " + nom + " : " + salaireTotal + " FCFA");
+    }
+}
+```
+
+**À retenir :** L'héritage simple est la norme en Java (une classe ne peut étendre qu'une seule classe). Cela évite les ambiguïtés.
+
+---
+
+### **3. Le Polymorphisme**
+
+#### **3.1. Définition**
+Le polymorphisme (du grec "plusieurs formes") permet à un **objet** de prendre différentes formes. Concrètement, une référence de type superclasse peut pointer vers un objet de type sous-classe. Cela permet d'écrire du code plus **générique** et **extensible**.
+
+#### **3.2. Redéfinition de méthodes : `@Override`**
+La redéfinition (*overriding*) permet à une sous-classe de fournir une implémentation spécifique d'une méthode déjà définie dans sa superclasse. On utilise l'annotation **`@Override`** (recommandée) pour une meilleure lisibilité et pour que le compilateur vérifie la signature.
+
+**Règles de redéfinition :**
+- Même nom, même type de retour (ou sous-type covariant), mêmes paramètres.
+- La méthode redéfinie ne peut avoir des restrictions d'accès plus strictes (ex: `public` → `private` interdit).
+- Ne pas confondre avec la **surcharge** (*overloading*) : même nom, paramètres différents.
+
+**Exemple :**
+```java
+class AgentOHADA extends EmployeCamtel {
+    String codeUnite; // Ex: "OHADA-CM-001"
+
+    @Override
+    public void calculerSalaire() {
+        double indemniteFixe = 50000;
+        double salaireTotal = salaireDeBase + indemniteFixe;
+        System.out.println("Salaire Agent OHADA " + nom + " : " + salaireTotal + " FCFA");
+    }
+}
+```
+
+#### **3.3. Polymorphisme en Action**
+```java
+public class GestionPaie {
+    public static void main(String[] args) {
+        EmployeCamtel[] employes = new EmployeCamtel[3];
+
+        // Polymorphisme : Référence EmployeCamtel, objets de types différents
+        employes[0] = new IngenieurReseau();
+        employes[1] = new CommercialOrange("Moussa", "C001", 300000, "Nord");
+        employes[2] = new AgentOHADA();
+
+        for (EmployeCamtel emp : employes) {
+            emp.calculerSalaire(); // Appel polymorphique : la JVM détermine la méthode à exécuter à l'exécution (liaison tardive).
+        }
+    }
+}
+```
+**Résultat :** Chaque type d'employé exécute sa propre version de `calculerSalaire()`.
+
+**Tableau Comparatif : Liaison Early vs. Late Binding**
+
+| Caractéristique | Liaison Statique (Early Binding) | Liaison Dynamique (Late Binding) |
+| :--- | :--- | :--- |
+| **Moment de résolution** | À la compilation | À l'exécution |
+| **Mécanisme en Java** | Surcharge de méthodes, méthodes `private`, `static`, `final` | Redéfinition de méthodes (polymorphisme) |
+| **Performance** | Légèrement plus rapide | Légèrement plus lente (négligeable avec JVM moderne) |
+| **Flexibilité** | Moins flexible | Très flexible, cœur du polymorphisme |
+
+---
+
+### **4. Classes Abstraites et Interfaces**
+
+#### **4.1. Classes Abstraites (`abstract`)**
+Une classe abstraite est une classe qui **ne peut pas être instanciée**. Elle sert de modèle pour les sous-classes. Elle peut contenir des **méthodes abstraites** (sans corps) et des méthodes concrètes.
+
+**Motivation :** Modéliser un concept générique incomplet. Ex: "Document OHADA" est un concept, mais on gère des "Factures", "Contrats", "Procès-verbaux".
+
+**Exemple :**
+```java
+abstract class DocumentOHADA {
+    String numeroEnregistrement;
+    String dateCreation;
+
+    // Méthode concrète
+    public void archiver() {
+        System.out.println("Document archivé selon normes OHADA.");
+    }
+
+    // Méthode abstraite - à implémenter par les sous-classes
+    public abstract void genererCodeLegal();
+}
+
+class Facture extends DocumentOHADA {
+    double montantTTC;
+    String client;
+
+    @Override
+    public void genererCodeLegal() {
+        // Implémentation spécifique pour une facture
+        this.numeroEnregistrement = "FACT-" + System.currentTimeMillis();
+        System.out.println("Code légal facture généré : " + numeroEnregistrement);
+    }
+}
+```
+
+#### **4.2. Interfaces (`interface`)**
+Une interface est un **contrat** qui définit un ensemble de **méthodes abstraites** (et depuis Java 8, des méthodes `default` et `static`). Une classe **implémente** une ou plusieurs interfaces.
+
+**Motivation :** Définir des capacités ou des rôles transversaux, indépendants de la hiérarchie de classe. Ex: un objet peut être "Authentifiable", "Exportable en PDF".
+
+**Exemple :** Modélisation d'un service de paiement mobile.
+```java
+// Interface définissant le contrat pour un service de paiement
+interface ServicePaiementMobile {
+    // Constante (implicitement public static final)
+    double FRAIS_TRANSACTION = 100.0; // FCFA
+
+    // Méthode abstraite (implicitement public abstract)
+    boolean effectuerPaiement(String numeroTel, double montant);
+
+    // Méthode default (Java 8+)
+    default void envoyerReçu(String numeroTel) {
+        System.out.println("Reçu envoyé par SMS au " + numeroTel + " (Service MTN/Orange).");
+    }
+}
+
+// Une classe peut implémenter plusieurs interfaces
+class ApplicationMobile implements ServicePaiementMobile, Authentifiable {
+    String nomApp; // Ex: "MyCamtelPay", "Orange Money"
+
+    @Override
+    public boolean effectuerPaiement(String numeroTel, double montant) {
+        System.out.println("Tentative de paiement de " + montant + " FCFA vers " + numeroTel);
+        // Logique métier...
+        return true;
+    }
+
+    // Implémentation de l'interface Authentifiable
+    @Override
+    public boolean login(String user, String password) {
+        return /* logique d'authentification */;
+    }
+}
+```
+
+#### **4.3. Comparatif Classe Abstraite vs Interface**
+| Critère | **Classe Abstraite** | **Interface** |
+| :--- | :--- | :--- |
+| **Mot-clé** | `abstract class` | `interface` |
+| **Instanciation** | Impossible | Impossible |
+| **Contenu** | Méthodes abstraites **et** concrètes, attributs d'instance, constructeurs. | Méthodes abstraites, `default`, `static` ; constantes (`public static final`). |
+| **Héritage** | Une classe peut étendre **une seule** classe abstraite. | Une classe peut implémenter **plusieurs** interfaces. |
+| **Relation** | "EST-UN" (spécialisation). | "SE COMPORTE COMME" ou "A LA CAPACITÉ DE" (contrat). |
+| **Usage** | Partager du code et un état commun entre des classes très liées. | Définir des comportements/capacités que des classes non liées peuvent avoir. |
+
+**Bonnes pratiques en entreprise :** Préférer les interfaces pour définir les APIs publiques (plus flexibles). Les classes abstraites sont utiles pour les squelettes d'implémentation au sein d'un module.
+
+---
+
+### **5. Opérateurs `instanceof` et Cast**
+
+#### **5.1. L'opérateur `instanceof`**
+`instanceof` est un opérateur booléen qui vérifie si un objet est une **instance** d'une classe donnée ou d'une de ses sous-classes, ou s'il implémente une interface spécifique.
+
+**Utilité :** Éviter les erreurs de `ClassCastException` et appliquer un traitement spécifique selon le type réel de l'objet.
+
+**Exemple :**
+```java
+public void traiterEmploye(EmployeCamtel emp) {
+    emp.calculerSalaire(); // Appel polymorphique
+
+    // Traitement spécifique selon le type réel
+    if (emp instanceof CommercialOrange) {
+        CommercialOrange com = (CommercialOrange) emp; //

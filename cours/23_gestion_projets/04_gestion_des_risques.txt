@@ -1,0 +1,125 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 23 Gestion Projets**
+## **Chapitre : Gestion des risques**
+
+---
+
+### **1. Introduction à la gestion des risques**
+
+#### **1.1. Définition et importance**
+La **gestion des risques** est un processus systématique d'identification, d'analyse, de planification de réponses, de suivi et de contrôle des événements incertains qui pourraient affecter les objectifs d'un projet. Dans le contexte du génie logiciel, ces risques peuvent concerner les délais, les coûts, la qualité technique, la satisfaction client ou la conformité légale.
+
+**À retenir** : Un risque n'est pas nécessairement négatif. Il existe des **risques positifs** (opportunités) et des **risques négatifs** (menaces). La gestion des risques vise à maximiser les premiers et à minimiser les seconds.
+
+**Exemple concret (contexte camerounais)** : Le développement d'une application mobile de microfinance pour une startup de Douala. Un risque négatif pourrait être un retard dans l'obtention de l'agrément de la COBAC (Commission Bancaire de l'Afrique Centrale). Un risque positif pourrait être une adoption plus rapide que prévu grâce à un partenariat avec une grande mutuelle comme *Mutuelle Générale du Cameroun (MGC)*.
+
+#### **1.2. Le cycle de gestion des risques**
+Le processus standard suit un cycle en 5 étapes :
+1. **Identification** des risques
+2. **Analyse qualitative** (évaluation probabilité/impact)
+3. **Analyse quantitative** (si nécessaire)
+4. **Planification des réponses**
+5. **Surveillance et contrôle**
+
+Ce chapitre se concentre sur les étapes 1, 2 et 4.
+
+---
+
+### **2. Identification des risques**
+
+L'identification est l'étape fondamentale qui consiste à lister tous les risques potentiels avant qu'ils ne se réalisent. Deux techniques principales sont au programme.
+
+#### **2.1. Le Brainstorming**
+*   **Définition** : Technique de créativité collective et structurée visant à générer un maximum d'idées (de risques) dans un temps limité, sans critique immédiate.
+*   **Mise en œuvre** :
+    *   Réunir l'équipe projet, des experts métier, et éventuellement le client.
+    *   Animer une session où chacun propose librement des risques potentiels.
+    *   Noter toutes les suggestions sur un tableau (physique ou numérique).
+    *   Classer et regrouper les idées après la phase de génération.
+*   **Avantages** : Simple, rapide, favorise l'engagement de l'équipe.
+*   **Inconvénients** : Peut être influencé par les personnalités dominantes ; nécessite un bon animateur.
+
+**Exemple d'application** : Pour un projet de déploiement d'un système de gestion scolaire dans un lycée de Yaoundé, un brainstorming pourrait révéler des risques comme : "Panne fréquente du réseau électrique (ENEO)", "Résistance des enseignants peu familiarisés avec l'outil informatique", "Piratage des données des élèves".
+
+#### **2.2. L'analyse SWOT**
+*   **Définition** : Outil stratégique utilisé pour identifier les **Forces** (Strengths), **Faiblesses** (Weaknesses), **Opportunités** (Opportunities) et **Menaces** (Threats) d'un projet. Les **Faiblesses** et **Menaces** sont des sources de risques négatifs. Les **Forces** et **Opportunités** peuvent être des leviers pour créer ou saisir des risques positifs.
+*   **Structure** :
+
+| Interne (au projet/organisation) | Externe (à l'environnement du projet) |
+| :--- | :--- |
+| **POSITIF** | **FORCES** <br>Ex: Équipe expérimentée en Java, bonne connaissance du client | **OPPORTUNITÉS** <br>Ex: Subvention du gouvernement pour la digitalisation, nouveau marché régional (CEMAC) |
+| **NÉGATIF** | **FAIBLESSES** <br>Ex: Dépendance à un seul développeur clé, documentation obsolète | **MENACES** <br>Ex: Concurrence d'Orange Money, évolution de la réglementation OHADA sur les contrats électroniques |
+
+**Exemple concret** : Analyse SWOT pour le projet de développement d'une plateforme e-commerce pour un producteur de café de l'Ouest-Cameroun.
+*   **Faiblesse (Risque interne)** : Serveur d'hébergement local peu fiable. → Risque de disponibilité du site.
+*   **Menace (Risque externe)** : Fluctuation des coûts de livraison par *Cam Post* ou *DHL*. → Risque sur le budget.
+*   **Opportunité (Risque positif)** : Partenariat potentiel avec *Afriland First Bank* pour intégrer un paiement en ligne local. → Opportunité d'augmenter les ventes.
+
+**Autres techniques d'identification mentionnées** : Entrevues, analyse de la documentation, checklistes historiques (basées sur les leçons apprises des projets passés), analyse des hypothèses.
+
+---
+
+### **3. Analyse qualitative : La Matrice Probabilité / Impact**
+
+Une fois les risques identifiés, il faut les prioriser. L'analyse qualitative utilise la **matrice Probabilité/Impact**.
+
+#### **3.1. Définitions**
+*   **Probabilité (P)** : Vraisemblance qu'un risque se produise. Elle est souvent notée sur une échelle de 1 à 5 ou de 1 à 3 (Ex: 1=Très faible, 3=Moyenne, 5=Très élevée).
+*   **Impact (I)** : Conséquence sur les objectifs du projet (coût, délai, portée, qualité) si le risque se réalise. Même principe d'échelle.
+
+#### **3.2. La Matrice et le Niveau de Risque (NR)**
+La matrice croise les deux dimensions. Le **Niveau de Risque (NR)** ou criticité se calcule souvent par la formule simple :
+**NR = Probabilité (P) x Impact (I)**
+
+**Tableau : Exemple de matrice Probabilité/Impact (Échelle 1-3)**
+
+| Impact → <br> Probabilité ↓ | **1 (Faible)** | **2 (Moyen)** | **3 (Fort)** |
+| :--- | :--- | :--- | :--- |
+| **3 (Forte)** | NR = 3 (Zone Jaune) | NR = 6 (Zone Rouge) | NR = 9 (Zone Rouge) |
+| **2 (Moyenne)** | NR = 2 (Zone Verte) | NR = 4 (Zone Jaune) | NR = 6 (Zone Rouge) |
+| **1 (Faible)** | NR = 1 (Zone Verte) | NR = 2 (Zone Verte) | NR = 3 (Zone Jaune) |
+
+*   **Zone Rouge (NR Élevé : 6-9)** : Risques critiques. **Action prioritaire** requise. Doivent être suivis de près par le chef de projet.
+*   **Zone Jaune (NR Moyen : 3-4)** : Risques à surveiller. Une planification de réponse est nécessaire.
+*   **Zone Verte (NR Faible : 1-2)** : Risques acceptables. Peuvent être simplement notés et surveillés périodiquement.
+
+#### **3.3. Application avec un exemple camerounais**
+**Projet** : Migration des serveurs d'une PME de Douala vers un cloud local (ex: *Camtel Cloud* ou *Data Center* d'*MTN Business*).
+
+| Risque Identifié | Probabilité (P) | Impact (I) | Niveau Risque (PxI) | Priorité |
+| :--- | :--- | :--- | :--- | :--- |
+| **Coupure internet prolongée pendant la migration** | 2 (Moyenne) | 3 (Fort - arrêt activité) | **6** | **Élevée (Rouge)** |
+| **Perte de données non structurées (documents partagés)** | 3 (Forte) | 2 (Moyen - temps de reconstitution) | **6** | **Élevée (Rouge)** |
+| **Dépassement du budget prévu pour la bande passante** | 2 (Moyenne) | 2 (Moyen) | **4** | **Moyenne (Jaune)** |
+| **Résistance du personnel au changement de procédure** | 3 (Forte) | 1 (Faible - formation possible) | **3** | **Moyenne (Jaune)** |
+
+---
+
+### **4. Planification des réponses aux risques (Stratégies)**
+
+Pour chaque risque prioritaire (surtout ceux en zone rouge), on planifie une réponse proactive. Il existe 4 stratégies de base pour les **risques négatifs (menaces)** et 4 pour les **risques positifs (opportunités)**.
+
+#### **4.1. Stratégies pour les Menaces (Risques Négatifs)**
+
+| Stratégie | Description | Exemple concret (Contexte Camerounais/GL) |
+| :--- | :--- | :--- |
+| **1. Évitement** | Modifier le plan du projet pour éliminer la menace ou protéger les objectifs. Cela peut impliquer de changer la portée, la technologie, etc. | *Risque* : L'API de paiement de *Express Union Mobile* prévue est instable. <br>*Évitement* : Changer de fournisseur et utiliser l'API plus mature d'*Orange Money* ou de *Momo (MTN)*, même si les frais d'intégration sont différents. |
+| **2. Réduction (Atténuation)** | Réduire la probabilité et/ou l'impact du risque à un niveau acceptable. C'est la stratégie la plus courante. | *Risque* : Dépendance à un expert technique unique (le "Single Point of Failure"). <br>*Réduction* : Mettre en place un *pair programming*, exiger une documentation rigoureuse, former un autre développeur. |
+| **3. Transfert** | Déplacer la responsabilité et l'impact financier du risque à un tiers (assureur, sous-traitant, partenaire). **Le risque n'est pas éliminé, mais son coût est transféré.** | *Risque* : Vol ou incendie des équipements de développement dans les locaux. <br>*Transfert* : Souscrire une assurance tous risques auprès d'une compagnie comme *AXA Cameroun* ou *NSIA*. |
+| **4. Acceptation** | Reconnaître le risque et décider de ne pas agir de manière proactive, car le coût de la réponse est supérieur à l'impact potentiel. On peut l'accepter **passivement** (on subit) ou **activement** (on crée un plan de contingence/plan B). | *Risque* : Légère hausse du prix des licences logicielles Microsoft. <br>*Acceptation (active)* : Prévoir une réserve budgétaire de 5% pour les imprévus logiciels. <br>*Acceptation (passive)* : Pour un risque faible (NR vert), on le note simplement dans le registre. |
+
+#### **4.2. Stratégies pour les Opportunités (Risques Positifs)**
+
+| Stratégie | Description | Exemple concret |
+| :--- | :--- | :--- |
+| **1. Exploitation** | S'assurer que l'opportunité se réalise. Allouer les meilleures ressources pour en tirer profit. | Une version bêta de l'application est très bien accueillie. On *exploite* en accélérant le marketing et en préparant l'équipe support. |
+| **2. Partage** | Associer un tiers qui peut aider à réaliser l'opportunité (partenariat, co-entreprise). | Opportunité de vendre un logiciel de gestion à une chaîne de supermarchés en Afrique de l'Ouest. On *partage* avec un partenaire local au Sénégal pour la distribution et le support. |
+| **3. Amélioration** | Augmenter la probabilité et/ou l'impact positif de l'opportunité. | Un développeur montre un talent particulier pour l'UX/UI. On *améliore* en lui finançant une certification en ligne pour renforcer cette force. |
+| **4. Acceptation** | Rester prêt à bénéficier de l'opportunité si elle se présente, sans action proactive. | Une nouvelle technologie émerge mais n'est pas encore mature. On l'*accepte* en restant informé, sans l'adopter immédiatement. |
+
+---
+
+### **5. Outils et mise en pratique**
+
+#### **5.1. Le Registre des Risques**
+C'est l'outil central de gestion des risques. Un tableau dynamique qui recense tous les risques ident

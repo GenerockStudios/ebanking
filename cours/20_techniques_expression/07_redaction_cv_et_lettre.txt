@@ -1,0 +1,139 @@
+# **Notes de cours — 20 Techniques Expression**
+## **Chapitre : Rédaction du CV et lettre de motivation : structure, mise en page, verbes d'action, adaptation à l'offre, portfolio de projets**
+
+---
+
+### **1. Introduction : L’importance des outils de candidature en Génie Logiciel**
+
+Dans un secteur concurrentiel comme l’informatique et le génie logiciel au Cameroun, vos compétences techniques ne suffisent pas. Votre CV et votre lettre de motivation sont votre **première interface** avec un recruteur. Ils doivent démontrer non seulement vos aptitudes, mais aussi votre professionnalisme, votre capacité à communiquer et votre adéquation avec la culture d’entreprise. Ces documents sont des **produits marketing** dont vous êtes le concepteur et le bénéficiaire.
+
+**À retenir :** Un CV et une lettre de motivation efficaces transforment une liste de compétences en une proposition de valeur convaincante pour l’employeur.
+
+---
+
+### **2. Le Curriculum Vitæ (CV) : Structure et Mise en Page**
+
+#### **2.1. Définition et Objectifs**
+Un CV (Curriculum Vitæ, « parcours de la vie ») est un document synthétique qui présente de manière structurée votre parcours professionnel, académique et vos compétences. Son objectif est d’**obtenir un entretien**.
+
+#### **2.2. Les Principes Fondamentaux (Les 4 C)**
+*   **Clarté :** Information facile à trouver et à comprendre.
+*   **Concision :** Idéalement 1 à 2 pages maximum pour un jeune diplômé BTS.
+*   **Cohérence :** Uniformité des polices, tailles, couleurs et formats.
+*   **Ciblage :** Adaptation au poste et à l’entreprise visés.
+
+#### **2.3. Structure Type d’un CV pour un BTS GL**
+**En-tête (Identité)**
+*   Nom et prénom en gros.
+*   Titre du poste visé (ex: « Développeur d’Applications Junior »).
+*   Coordonnées : Téléphone, email professionnel (prenom.nom@domaine), ville.
+*   Liens professionnels : LinkedIn, GitHub/GitLab (indispensable en GL), lien vers portfolio en ligne.
+
+**Section 1 : Profil Professionnel ou Objectif de Carrière (Accroche)**
+*   Paragraphe de 3-4 lignes résumant votre profil, vos compétences clés et votre objectif.
+*   *Exemple adapté :* « Jeune diplômé du BTS Génie Logiciel, passionné par le développement backend avec Java/Spring Boot. Je recherche un stage au sein d’une équipe dynamique comme celle d’Orange Cameroun pour contribuer à des projets innovants de services numériques. »
+
+**Section 2 : Formations**
+*   Liste anti-chronologique (du plus récent au plus ancien).
+*   **BTS Génie Logiciel** – [Nom de votre établissement, Ville, Cameroun] – Année d’obtention.
+*   Mentionner les **modules clés** : Conception des SI, Développement Web/Mobile, Bases de données, Gestion de projet (Cycle en V, Agile).
+*   Baccalauréat (série pertinente : C, D, TI, etc.).
+
+**Section 3 : Expériences Professionnelles & Stages (Le cœur pour un recruteur)**
+*   Liste anti-chronologique.
+*   Pour chaque expérience : **Période, Intitulé du poste, Nom de l’entreprise, Ville**.
+*   Description en **puces** avec des **verbes d’action** (voir section 3).
+*   *Exemple concret :*
+    *Stage en Développement Web – MTN Cameroon, Yaoundé – Fév. à Avril 2024*
+    *   Participation à la refonte d’un module interne de gestion des tickets utilisateurs.
+    *   Développement d’interfaces frontend avec React.js en suivant les maquettes Figma.
+    *   Intégration d’APIs RESTful développées en Python (Django).
+    *   Collaboration avec une équipe agile (scrums quotidiens, sprints de 2 semaines).
+
+**Section 4 : Compétences Techniques (Tableau Synoptique)**
+| **Catégorie**          | **Technologies & Outils**                                                                                              |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **Langages**           | Java, Python, JavaScript, PHP, SQL, HTML5/CSS3                                                                         |
+| **Frameworks & Bibliothèques** | Spring Boot, Django, React.js, Angular, Laravel, Bootstrap                                                             |
+| **Bases de Données**   | MySQL, PostgreSQL, MongoDB, Oracle (initiation)                                                                        |
+| **Outils & Méthodes**  | Git/GitHub/GitLab, Docker, Postman, Jira/Trello, Méthodes Agile (Scrum), Modélisation UML (StarUML, Lucidchart)        |
+| **Environnements**     | Windows, Linux (Ubuntu), IDE : IntelliJ IDEA, VS Code, Eclipse                                                         |
+| **Langues**            | Français (courant), Anglais (technique, lu/écrit), Langue locale (atout)                                               |
+
+**Section 5 : Projets Académiques & Personnels (Mini-portfolio intégré)**
+*   Titre du projet, contexte (scolaire/personnel), durée.
+*   Description concise, technologies utilisées, lien vers le dépôt Git.
+*   *Exemple :* « **Application de Gestion de Bibliothèque (Projet de fin de BTS)** : Conception et développement d’une application web full-stack (Java EE/MySQL) permettant la gestion des prêts et des adhérents. Mise en œuvre du pattern MVC et génération d’états avec JasperReports. »
+
+**Section 6 : Centres d’Intérêt (Optionnel mais stratégique)**
+*   Mentionner des activités qui révèlent des soft skills : membre d’un club tech (OSCA, GDG), participation à un hackathon, blog technique, veille technologique, sports d’équipe.
+
+#### **2.4. Mise en Page et Design**
+*   **Police :** Professionnelle et lisible (Calibri, Arial, Garamond, Open Sans). Taille : 10 à 12 pts.
+*   **Espacement :** Aération généreuse. Utiliser des marges et des interlignes.
+*   **Couleurs :** Sobriété. Privilégier le noir sur blanc. Une touche de couleur discrète (bleu professionnel) pour les titres.
+*   **Format de fichier :** **PDF** exclusivement pour garantir la préservation de la mise en forme.
+*   **Outils de création :** Microsoft Word, Google Docs (modèles), LaTeX (pour les puristes), Canva (à utiliser avec parcimonie pour rester professionnel).
+
+---
+
+### **3. Les Verbes d’Action : Donner de l’Impact à vos Réalisations**
+
+Les verbes d’action transforment une tâche passive en une réalisation active. Ils quantifient et qualifient votre contribution.
+
+**Tableau des verbes d’action par catégorie :**
+
+| **Catégorie**          | **Verbes d’action**                                                                 | **Exemple d’application**                                                                 |
+| ---------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| **Développement & Conception** | Développer, Concevoir, Implémenter, Programmer, Modéliser, Architecturer, Tester    | « **Développé** une API REST sécurisée pour un service de mobile banking. »              |
+| **Gestion & Organisation**   | Gérer, Planifier, Coordonner, Organiser, Superviser, Piloter, Livrer                | « **Géré** le backlog du produit en utilisant Jira lors d’un projet scolaire Agile. »    |
+| **Analyse & Résolution**     | Analyser, Diagnostiquer, Résoudre, Optimiser, Auditer, Recommander                 | « **Analysé** les besoins utilisateurs pour un système de gestion des stocks (Cahier des charges). » |
+| **Collaboration & Communication** | Collaborer, Participer, Contribuer, Assister, Former, Documenter, Présenter        | « **Collaboré** avec un designer UI/UX pour l’intégration de maquettes. »                 |
+| **Réalisation & Impact**     | Réaliser, Mettre en œuvre, Automatiser, Améliorer, Réduire, Augmenter, Créer        | « **Automatisé** des scripts de déploiement, **réduisant** le temps de mise en production de 30%. » |
+
+**À retenir :** Évitez les formulations passives (« J’étais responsable de... ») ou les verbes faibles (« Faire », « Avoir »). Privilégiez la forme active et le passé composé pour les réalisations.
+
+---
+
+### **4. La Lettre de Motivation : Complément Indispensable**
+
+#### **4.1. Définition et Rôle**
+La lettre de motivation est un document **argumentatif et personnalisé** qui explique pourquoi vous êtes le candidat idéal pour **ce poste précis dans cette entreprise précise**. Elle fait le lien entre votre CV et l’offre d’emploi.
+
+#### **4.2. Structure en 3 Parties (Formule Classique)**
+**1. L’Accroche (1 paragraphe)**
+*   Mention du poste visé et de la référence de l’annonce.
+*   Présentation concise et **argument de choc** (une compétence ou une motivation forte).
+*   *Exemple adapté :* « Titulaire d’un BTS Génie Logiciel et fort d’un stage où j’ai contribué au développement d’une application de suivi de réseau, je suis vivement intéressé par le poste de Technicien Support Développeur que vous proposez chez **Camtel**, un acteur essentiel de la transformation numérique au Cameroun. »
+
+**2. Le Développement (2-3 paragraphes)**
+*   **Paragraphe 1 : Vous ↔ L’entreprise.** Montrez que vous connaissez l’entreprise et expliquez pourquoi elle vous attire (ses projets, ses valeurs, son secteur). « Votre récent projet d’extension de la fibre optique en zone rurale correspond à mon intérêt pour les technologies à impact social... »
+*   **Paragraphe 2 : Vous ↔ Le poste.** Faites le lien direct entre vos compétences (2-3 max) et les exigences du poste. Utilisez des exemples concrets tirés de votre CV. « Votre recherche d’une maîtrise des bases de données relationnelles fait écho à mon projet de fin d’études où j’ai conçu et optimisé un schéma SQL pour une application de gestion... »
+*   **Paragraphe 3 (optionnel) : La valeur ajoutée.** Mentionnez une soft skill ou une passion en lien avec le poste (ex: esprit d’équipe, autonomie, curiosité technique).
+
+**3. La Conclusion (1 paragraphe)**
+*   Réitérez votre motivation.
+*   Mentionnez les pièces jointes (CV, éventuellement portfolio).
+*   Formule de politesse et disponibilité pour un entretien.
+
+#### **4.3. Adaptation à l’Offre : La Méthode Systématique**
+1.  **Analyse minutieuse de l’annonce :** Surlignez les mots-clés (compétences techniques, qualités, missions).
+2.  **Reprise des mots-clés :** Intégrez ces termes naturellement dans votre lettre et votre CV.
+3.  **Mise en avant sélective :** Dans votre CV, placez en tête les expériences et compétences les plus pertinentes pour ce poste.
+4.  **Personnalisation extrême :** Chaque lettre doit être unique. Mentionnez le nom du recruteur si possible (recherche sur LinkedIn).
+
+---
+
+### **5. Le Portfolio de Projets Numérique (L’Atout Décisif en GL)**
+
+#### **5.1. Définition et Utilité**
+Un portfolio est une **collection organisée de vos travaux** (code, applications, rapports, maquettes) qui prouve concrètement vos compétences. C’est la **preuve par l’exemple** que les recruteurs techniques (CTO, lead dev) consultent.
+
+#### **5.2. Contenu d’un Portfolio pour BTS GL**
+*   **Projets académiques majeurs** (Projet de Fin d’Études, projets intégrateurs).
+*   **Projets personnels** (contributions open source, applications mobiles, sites web).
+*   Pour chaque projet, présenter :
+    *   **Titre et courte description** (contexte, objectif).
+    *   **Défi technique** relevé et **solution** apportée.
+    *   **Stack technique** complète (langages, frameworks, outils, SGBD).
+    *   **Liens actifs :** Lien vers le **dépôt Git** (

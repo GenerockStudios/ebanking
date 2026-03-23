@@ -1,0 +1,65 @@
+CHAPITRE 1 — INTRODUCTION GÉNÉRALE AU DROIT
+BTS Génie Logiciel — Droit général
+
+1. DÉFINITION ET OBJET DU DROIT
+
+Le droit est l'ensemble des règles juridiques qui organisent la vie en société, régissent les rapports entre individus, et entre individus et l'État. Ces règles sont obligatoires, générales, et sanctionnées par la puissance publique.
+
+Le droit objectif : l'ensemble des règles de droit en vigueur dans un État.
+Les droits subjectifs : les prérogatives reconnues à un individu en particulier (droit de propriété, droit de vote, etc.)
+
+2. SOURCES DU DROIT AU CAMEROUN
+
+Sources écrites (formelles) :
+a) La Constitution : loi fondamentale, norme suprême. Au Cameroun : Constitution du 2 juin 1972, révisée en 1996. Elle définit l'organisation de l'État, les droits fondamentaux des citoyens.
+
+b) Les traités et conventions internationaux : supérieurs à la loi ordinaire (ex : Traité OHADA, Charte Africaine des Droits de l'Homme)
+
+c) La loi : texte voté par le Parlement (Assemblée Nationale + Sénat). Ex : Code civil, Code pénal camerounais.
+
+d) Les règlements : textes édictés par le pouvoir exécutif.
+- Décrets : signés par le Président de la République
+- Arrêtés : signés par un ministre, un gouverneur, un préfet
+- Circulaires : instructions internes (pas de portée normative directe)
+
+Sources non écrites :
+- La coutume : pratique ancienne, constante et répétée, considérée comme obligatoire. Importante en droit de la famille camerounais.
+- La jurisprudence : ensemble des décisions de justice qui font autorité. Les décisions des juridictions supérieures (Cour Suprême) guident les juridictions inférieures.
+- La doctrine : travaux des juristes, professeurs, chercheurs. Valeur persuasive, pas obligatoire.
+
+3. CLASSIFICATION DES RÈGLES DE DROIT
+
+Droit impératif (ou d'ordre public) : s'impose à tous sans possibilité d'y déroger par convention. Ex : interdiction du travail des enfants, normes de sécurité.
+
+Droit supplétif : s'applique à défaut d'accord contraire entre les parties. Les personnes peuvent y déroger par contrat.
+
+4. GRANDES BRANCHES DU DROIT
+
+Droit public : régle les rapports entre l'État et les particuliers, et entre organes de l'État.
+- Droit constitutionnel
+- Droit administratif
+- Droit fiscal
+- Droit international public
+
+Droit privé : régle les rapports entre particuliers.
+- Droit civil (personnes, famille, biens, obligations, contrats)
+- Droit commercial (actes de commerce, commerçants, sociétés)
+- Droit du travail
+- Droit de la propriété intellectuelle
+
+Droit mixte : mélange public/privé.
+- Droit pénal (infractions et sanctions)
+- Droit de la procédure civile
+- Droit de la sécurité sociale
+
+5. APPLICATION DE LA LOI
+
+Dans l'espace : la loi camerounaise s'applique sur le territoire camerounais. Principe de territorialité. Exceptions prévues par le droit international privé (ex : statut personnel des étrangers).
+
+Dans le temps : la loi entre en vigueur à sa publication au Journal Officiel. Principe de non-rétroactivité : la loi ne s'applique pas aux situations antérieures à son entrée en vigueur. Exception : loi pénale plus douce.
+
+6. ORGANISATION JUDICIAIRE AU CAMEROUN
+
+Juridictions civiles : Tribunal de Première Instance (TPI), Tribunal de Grande Instance (TGI), Cour d'Appel, Cour Suprême.
+Juridictions pénales : même structure, mais en matière répressive.
+Juridictions spécialisées : Tribunal du Travail, Tribunal de Commerce (OHADA), Tribunal Administratif.

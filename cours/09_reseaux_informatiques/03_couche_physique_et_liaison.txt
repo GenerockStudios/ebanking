@@ -1,0 +1,131 @@
+# **Notes de Cours — BTS Génie Logiciel (Cameroun)**
+## **Matière 09 : Réseaux Informatiques**
+## **Chapitre : Couches Physique et Liaison de Données**
+
+---
+
+### **1. Introduction aux Couches Physique et Liaison de Données**
+
+**1.1. Rappel du Modèle OSI et TCP/IP**
+Le modèle OSI (Open Systems Interconnection) définit 7 couches d'abstraction pour les communications réseau. Dans ce chapitre, nous nous concentrons sur :
+*   **Couche 1 (Physique) :** Définit les caractéristiques matérielles (câbles, connecteurs, signaux électriques/optiques). Elle transmet des **bits**.
+*   **Couche 2 (Liaison de Données) :** Assure la transmission fiable des données entre deux nœuds directement connectés. Elle gère l'adressage physique (MAC), le contrôle d'accès au média (CSMA/CD) et la détection/correction d'erreurs. Elle transmet des **trames**.
+
+Dans le modèle TCP/IP, ces deux couches correspondent à la **couche Accès Réseau**.
+
+**À retenir :** La couche Physique s'occupe du "comment" transporter les bits (support), tandis que la couche Liaison gère le "comment" les échanger de façon fiable entre deux machines voisines.
+
+---
+
+### **2. La Couche Physique : Supports de Transmission**
+
+**2.1. Les Câbles Cuivres et le Connecteur RJ45**
+*   **Définition :** Support de transmission guidé utilisant des impulsions électriques.
+*   **Connecteur RJ45 (Registered Jack 45) :** Connecteur standard à 8 broches pour les réseaux Ethernet. Il termine les câbles à paires torsadées.
+*   **Types de Câbles à Paires Torsadées :**
+    *   **UTP (Unshielded Twisted Pair) :** Non blindé, le plus courant. Catégorie définie par la bande passante.
+    *   **STP (Shielded Twisted Pair) :** Blindé pour réduire les interférences, utilisé en environnements industriels.
+
+**Tableau Comparatif des Catégories de Câbles UTP**
+| Catégorie | Bande Passante Max | Débit Max (Ethernet) | Usage Typique (Contexte Camerounais) |
+| :--- | :--- | :--- | :--- |
+| Cat 5e | 100 MHz | 1 Gbps (sur 100m) | Installations résidentielles et petits bureaux (cybercafés à Douala, Yaoundé) |
+| Cat 6 | 250 MHz | 1 Gbps (sur 100m) / 10 Gbps (sur 55m) | Bâtiments d'entreprise, salles de cours BTS GL |
+| Cat 6a | 500 MHz | 10 Gbps (sur 100m) | Backbone de bâtiment, centres de données d'opérateurs (MTN, Orange) |
+| Cat 7 | 600 MHz | 10 Gbps (sur 100m) | Installations exigeantes, laboratoires de recherche |
+
+*   **Câblage :** Deux normes de brochage existent : **T568A** et **T568B**. La norme B est la plus répandue. Pour un câble droit (PC-Switch), les deux extrémités sont identiques. Pour un câble croisé (PC-PC), une extrémité est en A, l'autre en B.
+
+**2.2. La Fibre Optique**
+*   **Définition :** Support de transmission utilisant la lumière (laser ou LED) pour transporter des données. Insensible aux interférences électromagnétiques.
+*   **Types :**
+    *   **Multimode (MMF) :** Diamètre de cœur large (50 ou 62.5µm). Distance limitée (jusqu'à 2km). Coût modéré. Utilisée dans les campus universitaires ou les réseaux métropolitains.
+    *   **Monomode (SMF) :** Diamètre de cœur très fin (9µm). Très longue portée (jusqu'à 100km). Coût élevé. Utilisée pour les interconnexions longue distance entre villes (backbone national de **Camtel**) ou pays.
+*   **Contexte Africain/Camerounais :** La fibre optique est cruciale pour le développement du haut débit. Des projets comme **Camtel's National Optical Fibre Backbone** ou les câbles sous-marins (WACS, SAT-3) qui atterrissent à Douala, forment l'épine dorsale des communications internationales.
+
+**Tableau Comparatif : Câble Cuivre vs Fibre Optique**
+| Critère | Câble UTP (Cuivre) | Fibre Optique |
+| :--- | :--- | :--- |
+| **Signal** | Électrique | Lumineux (photonique) |
+| **Immunité Bruit** | Faible | Excellente |
+| **Bande Passante** | Limitée (≤10 Gbps) | Très élevée (≥100 Gbps) |
+| **Distance** | ≤ 100m (pour Ethernet) | Jusqu'à 100km (monomode) |
+| **Coût** | Faible (câble, équipements) | Élevé (installation, équipements) |
+| **Sécurité** | Vulnérable au tapping | Très difficile à intercepter |
+| **Usage** | Connexion terminale (bureau) | Backbone, liaisons longue distance |
+
+---
+
+### **3. La Couche Liaison de Données : Ethernet et le Standard IEEE 802.3**
+
+**3.1. Ethernet : Principes Fondamentaux**
+*   **Définition :** Technologie de réseau local (LAN) la plus répandue, standardisée sous **IEEE 802.3**. Elle définit le format des trames et le protocole d'accès au média.
+*   **Format de Trame Ethernet (IEEE 802.3) :**
+    *   **Préambule (7 octets) & SFD (1 octet) :** Synchronisation.
+    *   **Adresse MAC Destination (6 octets)**
+    *   **Adresse MAC Source (6 octets)**
+    *   **Longueur/Type (2 octets) :** Indique le protocole de couche supérieure (ex: 0x0800 pour IPv4) ou la longueur.
+    *   **Données (46-1500 octets) :** Payload de la couche supérieure.
+    *   **FCS (Frame Check Sequence - 4 octets) :** Contrôle d'intégrité (CRC-32).
+
+**3.2. L'Adressage MAC (Media Access Control)**
+*   **Définition :** Adresse physique unique de 48 bits (6 octets) gravée dans la carte réseau (NIC). Format hexadécimal : `00:1A:2B:3C:4D:5E`.
+*   **Structure :**
+    *   **3 premiers octets (OUI) :** Identifiant du fabricant (ex: `00:0C:29` pour VMware, `A4:AE:11` pour Apple).
+    *   **3 derniers octets :** Numéro de série unique attribué par le fabricant.
+*   **Adresses Spéciales :**
+    *   **Broadcast :** `FF:FF:FF:FF:FF:FF` (trame destinée à toutes les machines du LAN).
+    *   **Multicast :** Le bit le moins significatif du premier octet = 1 (ex: `01:00:5E:xx:xx:xx` pour le multicast IP).
+
+**3.3. CSMA/CD (Carrier Sense Multiple Access with Collision Detection)**
+*   **Définition :** Protocole d'accès au média utilisé dans les réseaux Ethernet partagés (en bus ou avec des hubs).
+*   **Fonctionnement :**
+    1.  **CS (Carrier Sense) :** La station écoute le média avant d'émettre.
+    2.  **MA (Multiple Access) :** Si le média est libre, elle émet. Plusieurs stations peuvent tenter d'émettre simultanément.
+    3.  **CD (Collision Detection) :** Si une collision est détectée (interférence de signaux), la station arrête l'émission et envoie un signal de **jam**.
+    4.  **Backoff Algorithm :** Chaque station attend un temps aléatoire (défini par l'algorithme de **backoff exponentiel binaire**) avant de réessayer.
+*   **Contexte Actuel :** CSMA/CD est obsolète dans les réseaux modernes utilisant des **commutateurs (switches)** full-duplex, où chaque lien est dédié et sans collision. Il reste un concept historique fondamental.
+
+---
+
+### **4. Le Wi-Fi et le Standard IEEE 802.11**
+
+**4.1. Principes Généraux**
+*   **Définition :** Technologie de réseau local sans fil (WLAN), standardisée sous **IEEE 802.11**. Utilise des ondes radio comme support physique.
+*   **Topologie :** Mode **Infrastructure** avec un Point d'Accès (AP) central, ou mode **Ad-hoc** (peer-to-peer).
+*   **Exemple Camerounais :** Déploiement massif par les FAI (**MTN**, **Orange**, **Camtel**, **NexTTel**) via des box ADSL/4G, et dans les espaces publics (universités, hôtels, restaurants).
+
+**4.2. Normes 802.11 (a/b/g/n/ac/ax)**
+**Tableau Comparatif des Normes Wi-Fi**
+| Norme | Fréquence | Débit Max Théorique | Portée | Caractéristique |
+| :--- | :--- | :--- | :--- | :--- |
+| **802.11b** | 2.4 GHz | 11 Mbps | Moyenne | Premier grand succès, lent aujourd'hui |
+| **802.11g** | 2.4 GHz | 54 Mbps | Bonne | Rétrocompatible avec le 'b' |
+| **802.11n (Wi-Fi 4)** | 2.4 & 5 GHz | 600 Mbps | Bonne | MIMO, canaux 40MHz |
+| **802.11ac (Wi-Fi 5)** | 5 GHz | 3.4 Gbps | Moyenne | MU-MIMO, canaux 160MHz |
+| **802.11ax (Wi-Fi 6)** | 2.4 & 5 GHz | 9.6 Gbps | Bonne | OFDMA, efficacité dans les zones denses |
+
+**4.3. CSMA/CA (Collision Avoidance)**
+Contrairement à Ethernet, le Wi-Fi utilise **CSMA/CA** car il est impossible de détecter une collision à l'émission (problème du "hidden node").
+*   **Fonctionnement :**
+    1.  **Écoute (Carrier Sense)**.
+    2.  Si libre, attend un temps **DIFS** (Distributed Inter-Frame Space).
+    3.  Envoi d'une trame **RTS** (Request To Send) vers l'AP.
+    4.  L'AP répond par un **CTS** (Clear To Send), réservant le média.
+    5.  Transmission des données, suivie d'un accusé de réception **ACK**.
+
+---
+
+### **5. Protocoles Avancés de la Couche Liaison**
+
+**5.1. Spanning Tree Protocol (STP - IEEE 802.1D)**
+*   **Problème :** Dans un réseau commuté avec des liaisons redondantes pour la résilience, des **boucles de niveau 2** peuvent se former, causant des tempêtes de broadcast et une panne du réseau.
+*   **Solution :** **STP** est un protocole qui permet de créer une topologie logique sans boucle (un arbre) tout en utilisant une topologie physique maillée.
+*   **Fonctionnement :**
+    1.  **Élection d'un Root Bridge** (commutateur racine) : Celui avec le plus faible **Bridge ID** (Priorité + Adresse MAC).
+    2.  **Détermination des Ports :**
+        *   **Root Port** (sur chaque switch non-racine) : Port offrant le meilleur chemin vers le Root Bridge.
+        *   **Designated Port** (sur chaque segment) : Port qui transmet le trafic pour ce segment.
+        *   **Port Bloqué/Alternate** : Port désactivé pour éviter les boucles.
+*   **Évolution :** **Rapid STP (RSTP - 802.1w)** améliore considérablement les temps de convergence (de ~50s à quelques secondes).
+*   **Application en Entreprise :** Indispensable dans tout réseau d'entreprise de taille moyenne à grande (ex: siège d'une banque, ministère, campus

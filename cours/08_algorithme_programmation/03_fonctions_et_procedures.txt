@@ -1,0 +1,225 @@
+# Notes de cours — 08 Algorithme Programmation
+## Chapitre : Fonctions et procédures : définition, paramètres, retour, portée des variables, récursivité
+
+---
+
+### 1. Introduction et objectifs pédagogiques
+
+Dans le développement logiciel, la structuration du code est essentielle pour créer des applications maintenables, réutilisables et fiables. Ce chapitre aborde les concepts fondamentaux des **fonctions** et **procédures**, qui permettent de décomposer un problème complexe en sous-problèmes plus simples. Ces concepts sont au cœur des bonnes pratiques de programmation enseignées dans le BTS Génie Logiciel et sont largement utilisés dans les entreprises camerounaises (MTN, Orange Cameroun, Camtel, banques, startups) comme internationales.
+
+**Objectifs** : À la fin de ce chapitre, l'étudiant doit être capable de :
+- Distinguer une fonction d'une procédure
+- Déclarer, définir et appeler des fonctions/procédures avec différents types de paramètres
+- Comprendre les mécanismes de retour de valeurs
+- Maîtriser la portée des variables (locale, globale)
+- Concevoir et implémenter des algorithmes récursifs simples
+- Appliquer ces concepts à des problèmes concrets du contexte camerounais.
+
+---
+
+### 2. Définitions fondamentales : Procédures et Fonctions
+
+#### 2.1. La Procédure (ou Sous-programme sans retour)
+Une **procédure** est un bloc de code nommé, conçu pour accomplir une tâche spécifique. Elle est appelée pour son **effet** (affichage, modification de variables, écriture dans un fichier) et ne retourne **pas** directement de valeur au programme appelant.
+
+**Définition formelle** : `PROCÉDURE Nom_Procédure(liste_paramètres)`
+
+**Exemple concret (Contexte OHADA)** : Une procédure pour générer un extrait de compte selon les normes OHADA.
+```pseudocode
+PROCÉDURE GénérerExtraitCompte(numeroClient, dateDebut, dateFin)
+    // Connexion à la base de données
+    // Récupération des transactions entre dateDebut et dateFin
+    // Mise en forme selon le plan comptable OHADA
+    // Impression ou enregistrement PDF de l'extrait
+FIN PROCÉDURE
+```
+
+#### 2.2. La Fonction (Sous-programme avec retour)
+Une **fonction** est un bloc de code nommé qui effectue un calcul ou une opération et **retourne une valeur unique** au programme appelant. Elle est souvent utilisée dans des expressions.
+
+**Définition formelle** : `FONCTION Nom_Fonction(liste_paramètres) : Type_Retour`
+
+**Exemple concret (Contexte télécoms)** : Une fonction pour calculer la TVA (19.25% au Cameroun) sur une facture MTN.
+```pseudocode
+FONCTION CalculerTVA(montantHorsTaxe : RÉEL) : RÉEL
+    TVA ← montantHorsTaxe * 0.1925
+    RETOURNER TVA
+FIN FONCTION
+```
+
+#### 2.3. Tableau comparatif Procédure vs Fonction
+
+| Caractéristique | **Procédure** | **Fonction** |
+| :--- | :--- | :--- |
+| **Valeur de retour** | Aucune (void) | Une valeur d'un type défini |
+| **Utilisation** | Instruction indépendante | Dans une expression (affectation, condition) |
+| **Objectif principal** | Effet de bord (affichage, modification) | Calcul, transformation, vérification |
+| **Exemple** | `AfficherMenu()` | `CalculerMoyenne(note1, note2)` |
+| **Mot-clé retour** | Pas de `RETOURNER` (sauf sortie anticipée) | Obligation d'utiliser `RETOURNER` |
+
+**À retenir** : *Une fonction retourne une valeur, une procédure exécute des actions.*
+
+---
+
+### 3. Les paramètres : passage et types
+
+Les paramètres permettent de transmettre des données à une fonction/procédure. Ils rendent le sous-programme générique et réutilisable.
+
+#### 3.1. Paramètres formels vs paramètres effectifs
+- **Paramètre formel** : Variable déclarée dans l'en-tête de la fonction/procédure. Elle reçoit la valeur lors de l'appel.
+  Ex: `FONCTION CalculerIntérêt(capital, taux, durée)`
+- **Paramètre effectif (ou réel)** : Valeur ou variable concrète transmise lors de l'appel.
+  Ex: `intérêt = CalculerIntérêt(500000, 0.05, 12) // 500000, 0.05, 12 sont effectifs`
+
+#### 3.2. Modes de passage des paramètres
+
+##### a) Passage par valeur (défaut dans beaucoup de langages)
+Une **copie** de la valeur du paramètre effectif est transmise. Les modifications à l'intérieur du sous-programme n'affectent **pas** la variable originale.
+```pseudocode
+FONCTION MajorerSalaire(salaire : RÉEL) : RÉEL
+    salaire ← salaire * 1.05 // Modification locale uniquement
+    RETOURNER salaire
+FIN FONCTION
+
+// Programme principal
+monSalaire ← 200000
+nouveauSalaire ← MajorerSalaire(monSalaire)
+// monSalaire reste à 200000, nouveauSalaire = 210000
+```
+
+##### b) Passage par référence (ou par variable)
+L'**adresse mémoire** de la variable est transmise. Le sous-programme travaille directement sur la variable originale. Toute modification est permanente.
+*En pseudo-code, on utilise souvent `VAR` ou `&` pour indiquer un passage par référence.*
+```pseudocode
+PROCÉDURE AppliquerPromotion(VAR prix : RÉEL, reductionPourcent : ENTIER)
+    prix ← prix * (1 - reductionPourcent/100)
+FIN PROCÉDURE
+
+// Programme principal
+prixArticle ← 15000
+AppliquerPromotion(prixArticle, 20) // prixArticle est maintenant 12000
+```
+
+##### c) Passage par constante
+La variable est transmise en lecture seule. Aucune modification n'est autorisée à l'intérieur du sous-programme. Cela garantit l'intégrité des données.
+```pseudocode
+FONCTION CalculerCoutAppel(dureeSecondes : ENTIER CONST, tarifParSeconde : RÉEL) : RÉEL
+    // dureeSecondes ne peut pas être modifiée ici
+    RETOURNER dureeSecondes * tarifParSeconde
+FIN FONCTION
+```
+
+#### 3.3. Tableau synthèse des modes de passage
+
+| Mode | Ce qui est transmis | Modification possible de l'original ? | Usage typique |
+| :--- | :--- | :--- | :--- |
+| **Par valeur** | Copie de la valeur | NON | Données d'entrée à protéger |
+| **Par référence** | Adresse/Référence | OUI | Retourner plusieurs valeurs, modifier l'entrée |
+| **Par constante** | Référence en lecture seule | NON | Données importantes à ne pas altérer (ex: taux banque) |
+
+**Exemple camerounais intégré** : Gestion de solde téléphonique (Camtel).
+```pseudocode
+// Passage par valeur pour la consultation (sécurité)
+FONCTION ConsulterSolde(numeroCompte : CHAINE) : RÉEL
+    // Requête en base de données...
+    RETOURNER soldeTrouvé
+FIN FONCTION
+
+// Passage par référence pour le rechargement (modification)
+PROCÉDURE RechargerCompte(VAR solde : RÉEL, montantRecharge : RÉEL)
+    solde ← solde + montantRecharge
+    EnregistrerTransaction(montantRecharge)
+FIN PROCÉDURE
+```
+
+---
+
+### 4. Retour de valeurs et appels
+
+#### 4.1. Instruction `RETOURNER` (ou `RETURN`)
+Spécifique aux fonctions, elle termine l'exécution de la fonction et renvoie la valeur spécifiée au programme appelant.
+- Une fonction peut avoir **plusieurs** instructions `RETOURNER` (dans des branches conditionnelles), mais **une seule** sera exécutée par appel.
+- Dès qu'un `RETOURNER` est exécuté, le contrôle revient à l'appelant.
+
+**Exemple** : Fonction de vérification d'éligibilité à un crédit mobile (Orange Money).
+```pseudocode
+FONCTION VerifierEligibiliteCredit(soldeMoyen3Mois : RÉEL, historiqueRegulier : BOOLÉEN) : BOOLÉEN
+    SI soldeMoyen3Mois >= 50000 ET historiqueRegulier = VRAI ALORS
+        RETOURNER VRAI
+    SINON
+        RETOURNER FAUX
+    FIN SI
+FIN FONCTION
+```
+
+#### 4.2. Appel de fonctions et procédures
+- **Procédure** : Appelée comme une instruction indépendante.
+  `Nom_Procédure(paramètres_effectifs)`
+- **Fonction** : Appelée dans une expression (affectation, condition, calcul).
+  `variable = Nom_Fonction(paramètres_effectifs)`
+
+**Exemple d'appels imbriqués** (Calcul du coût total TTC d'un achat en ligne).
+```pseudocode
+prixHT ← 75000
+fraisLivraison ← CalculerFraisLivraison("Douala", "Yaoundé")
+tva ← CalculerTVA(prixHT)
+montantTTC ← prixHT + fraisLivraison + tva
+AfficherFacture(prixHT, fraisLivraison, tva, montantTTC) // Appel de procédure
+```
+
+---
+
+### 5. Portée et durée de vie des variables
+
+La **portée** d'une variable définit où dans le code elle est accessible et utilisable.
+
+#### 5.1. Variables locales
+- **Déclaration** : À l'intérieur d'une fonction/procédure.
+- **Portée** : Accessible **uniquement** dans le bloc où elle est déclarée.
+- **Durée de vie** : N'existe qu'**pendant l'exécution** du sous-programme. Elle est créée à l'entrée et détruite à la sortie.
+- **Avantage** : Évite les conflits de noms, favorise l'encapsulation.
+
+```pseudocode
+PROCÉDURE TraiterPaiement(montant : RÉEL)
+    // Variable locale à la procédure
+    fraisTransaction : RÉEL
+    fraisTransaction ← montant * 0.01
+    // 'fraisTransaction' n'est pas accessible en dehors de cette procédure
+FIN PROCÉDURE
+```
+
+#### 5.2. Variables globales
+- **Déclaration** : En dehors de toute fonction/procédure, généralement en début de programme.
+- **Portée** : Accessible **partout** dans le programme (toutes les fonctions/procédures).
+- **Durée de vie** : Existe **tout au long** de l'exécution du programme.
+- **Risque** : Peut être modifiée par n'importe quelle partie du programme, ce qui rend le code difficile à déboguer et à maintenir. **À utiliser avec parcimonie.**
+
+```pseudocode
+// Variable globale (ex: taux de change FCFA/USD utilisé dans tout le système)
+tauxChangeUSD : RÉEL ← 580.0
+
+FONCTION ConvertirEnUSD(montantFCFA : RÉEL) : RÉEL
+    RETOURNER montantFCFA / tauxChangeUSD // Utilisation de la variable globale
+FIN FONCTION
+```
+
+#### 5.3. Règles de priorité et masquage
+Si une variable locale a le **même nom** qu'une variable globale, la variable **locale masque** la globale dans son bloc. La variable globale reste inchangée mais n'est pas accessible directement.
+
+```pseudocode
+tauxTVA : RÉEL ← 0.1925 // Globale
+
+PROCÉDURE CalculerFacture()
+    tauxTVA : RÉEL ← 0.0 // Locale qui masque la globale
+    // Ici, tauxTVA fait référence à la variable locale (0.0)
+FIN PROCÉDURE
+```
+
+**Bonnes pratiques en entreprise** :
+1. **Privilégier les variables locales** et le passage par paramètres.
+2. **Limiter les variables globales** aux constantes de configuration (ex: `TAUX_TVA_CAMEROUN`, `NOM_ENTREPRISE`).
+3. **Utiliser des noms explicites** pour les globales (MAJUSCULES, préfixes).
+
+---
+
+### 6. La récursivité

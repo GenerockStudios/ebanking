@@ -1,0 +1,329 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière 14 : Développement Web**
+## **Chapitre : PHP et développement backend : syntaxe, fonctions, gestion de sessions, formulaires, PDO/MySQLi, sécurité**
+
+---
+
+### **1. Introduction au PHP et au développement backend**
+
+#### **1.1. Définition et rôle du PHP**
+**PHP** (Hypertext Preprocessor) est un langage de script côté serveur, open source, spécialement conçu pour le développement web. Il s'exécute sur le serveur et génère du code HTML, CSS ou JavaScript qui est ensuite envoyé au navigateur du client.
+
+**Rôle du backend** : Le backend constitue la partie "métier" et "données" d'une application web. Il est responsable de :
+- La logique applicative
+- Le traitement des formulaires
+- L'accès et la manipulation des bases de données
+- La gestion des sessions utilisateurs
+- La sécurité des données
+
+**Environnement d'exécution** : Pour exécuter du PHP, il faut un serveur web (Apache, Nginx) avec le module PHP installé, ainsi qu'une base de données (MySQL, PostgreSQL). La solution **XAMPP** ou **WAMP** est couramment utilisée pour le développement local.
+
+#### **1.2. Architecture client-serveur web avec PHP**
+```
+Client (Navigateur) → Requête HTTP → Serveur Web (Apache) → Interpréteur PHP → Base de données
+                                                              ↓
+Client ← Réponse HTML ← Serveur Web ← Résultat du script PHP
+```
+
+**À retenir** : Le code PHP n'est jamais visible par le client, seul le résultat de son exécution (généralement du HTML) est envoyé au navigateur.
+
+---
+
+### **2. Syntaxe de base du PHP**
+
+#### **2.1. Structure d'un script PHP**
+Un script PHP est délimité par les balises `<?php` et `?>`. Tout code en dehors de ces balises est traité comme du HTML.
+
+```php
+<?php
+// Ceci est un commentaire sur une ligne
+# Ceci est aussi un commentaire
+
+/*
+  Ceci est un commentaire
+  sur plusieurs lignes
+*/
+
+echo "Bonjour le monde !"; // Instruction terminée par un point-virgule
+?>
+```
+
+#### **2.2. Variables et types de données**
+En PHP, les variables commencent par le signe `$` et n'ont pas besoin d'être déclarées avec un type.
+
+**Types de données principaux** :
+- **String** (chaîne de caractères) : `$nom = "Jean";`
+- **Integer** (entier) : `$age = 25;`
+- **Float** (nombre à virgule) : `$prix = 14999.99;`
+- **Boolean** (booléen) : `$estActif = true;`
+- **Array** (tableau) : `$produits = array("Sucre", "Riz", "Huile");`
+- **NULL** : `$valeur = null;`
+
+**Exemple camerounais** :
+```php
+<?php
+$entreprise = "MTN Cameroon";
+$chiffreAffaires = 2500000000; // 2.5 milliards de FCFA
+$estOperateurTelecom = true;
+$services = array("Mobile Money", "Forfaits Internet", "Téléphonie mobile");
+?>
+```
+
+#### **2.3. Opérateurs**
+- **Arithmétiques** : `+`, `-`, `*`, `/`, `%` (modulo)
+- **Comparaison** : `==`, `===` (identique), `!=`, `!==`, `<`, `>`, `<=`, `>=`
+- **Logiques** : `&&` (et), `||` (ou), `!` (non)
+- **Concaténation** : `.` (pour les chaînes)
+
+#### **2.4. Structures de contrôle**
+**Conditionnelles** :
+```php
+if ($solde < 0) {
+    echo "Votre compte est débiteur";
+} elseif ($solde == 0) {
+    echo "Votre solde est nul";
+} else {
+    echo "Votre compte est créditeur";
+}
+
+// Switch
+switch ($region) {
+    case "Centre":
+        $chefLieu = "Yaoundé";
+        break;
+    case "Littoral":
+        $chefLieu = "Douala";
+        break;
+    default:
+        $chefLieu = "Inconnu";
+}
+```
+
+**Boucles** :
+```php
+// For
+for ($i = 0; $i < 10; $i++) {
+    echo "Tour numéro " . ($i + 1);
+}
+
+// While
+$compteur = 0;
+while ($compteur < 5) {
+    echo "Compteur : $compteur";
+    $compteur++;
+}
+
+// Foreach (pour les tableaux)
+$villes = array("Douala", "Yaoundé", "Bafoussam", "Garoua");
+foreach ($villes as $ville) {
+    echo "Ville : $ville";
+}
+```
+
+---
+
+### **3. Fonctions en PHP**
+
+#### **3.1. Définition et appel de fonctions**
+```php
+// Définition
+function calculerTVA($montant, $taux = 19.25) {
+    $tva = $montant * ($taux / 100);
+    return $tva;
+}
+
+// Appel
+$tvaProduit = calculerTVA(50000); // TVA à 19.25% sur 50.000 FCFA
+$tvaOHADA = calculerTVA(50000, 17.5); // TVA spécifique OHADA
+```
+
+#### **3.2. Fonctions prédéfinies utiles**
+- **Chaînes** : `strlen()`, `strtoupper()`, `strtolower()`, `substr()`, `trim()`
+- **Tableaux** : `count()`, `array_push()`, `array_pop()`, `in_array()`, `sort()`
+- **Dates** : `date()`, `time()`, `strtotime()`
+- **Fichiers** : `file_get_contents()`, `file_put_contents()`
+
+**Exemple pratique** :
+```php
+// Formatage de numéro de téléphone camerounais
+function formaterNumeroCameroun($numero) {
+    // Supprimer les espaces et caractères spéciaux
+    $numero = preg_replace('/[^0-9]/', '', $numero);
+    
+    // Format standard : +237 6XX XXX XXX
+    if (strlen($numero) == 9) {
+        return "+237 " . substr($numero, 0, 3) . " " . substr($numero, 3, 3) . " " . substr($numero, 6, 3);
+    }
+    
+    return $numero;
+}
+
+echo formaterNumeroCameroun("677123456"); // Affiche : +237 677 123 456
+```
+
+---
+
+### **4. Gestion des sessions et cookies**
+
+#### **4.1. Système de sessions PHP**
+Les sessions permettent de conserver des informations sur l'utilisateur entre différentes pages.
+
+```php
+// Démarrer une session
+session_start();
+
+// Stocker des données en session
+$_SESSION['utilisateur'] = "marc@entreprise.cm";
+$_SESSION['role'] = "administrateur";
+$_SESSION['derniere_connexion'] = date('Y-m-d H:i:s');
+
+// Accéder aux données
+echo "Bienvenue " . $_SESSION['utilisateur'];
+
+// Détruire une session (déconnexion)
+session_destroy();
+```
+
+#### **4.2. Cookies**
+Les cookies sont stockés sur l'ordinateur du client.
+
+```php
+// Créer un cookie (valide 30 jours)
+setcookie('langue', 'fr', time() + (30 * 24 * 3600), '/');
+
+// Lire un cookie
+if (isset($_COOKIE['langue'])) {
+    $languePreferee = $_COOKIE['langue'];
+}
+
+// Supprimer un cookie
+setcookie('langue', '', time() - 3600, '/');
+```
+
+#### **4.3. Tableau comparatif : Sessions vs Cookies**
+| **Critère** | **Sessions** | **Cookies** |
+|-------------|--------------|-------------|
+| Stockage | Serveur | Client |
+| Sécurité | Élevée (ID seulement côté client) | Faible (données accessibles) |
+| Capacité | Illimitée (dépend du serveur) | Limitée (4KB par cookie) |
+| Durée de vie | Jusqu'à fermeture navigateur (par défaut) | Définissable |
+| Utilisation typique | Données sensibles (login, panier) | Préférences utilisateur |
+
+---
+
+### **5. Traitement des formulaires**
+
+#### **5.1. Structure d'un formulaire HTML avec PHP**
+```html
+<form method="POST" action="traitement.php">
+    <div>
+        <label for="nom">Nom complet :</label>
+        <input type="text" id="nom" name="nom" required>
+    </div>
+    
+    <div>
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    
+    <div>
+        <label for="operateur">Opérateur mobile :</label>
+        <select id="operateur" name="operateur">
+            <option value="MTN">MTN Cameroon</option>
+            <option value="Orange">Orange Cameroun</option>
+            <option value="Camtel">Camtel</option>
+        </select>
+    </div>
+    
+    <button type="submit">S'inscrire</button>
+</form>
+```
+
+#### **5.2. Récupération et validation des données**
+**traitement.php** :
+```php
+<?php
+// Vérifier si le formulaire a été soumis
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    // Récupération sécurisée des données
+    $nom = htmlspecialchars(trim($_POST['nom'] ?? ''));
+    $email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL);
+    $operateur = htmlspecialchars($_POST['operateur'] ?? '');
+    
+    // Validation
+    $erreurs = [];
+    
+    if (empty($nom)) {
+        $erreurs[] = "Le nom est obligatoire";
+    }
+    
+    if (!$email) {
+        $erreurs[] = "L'email n'est pas valide";
+    }
+    
+    if (empty($operateur)) {
+        $erreurs[] = "Veuillez sélectionner un opérateur";
+    }
+    
+    // Si pas d'erreurs, traiter les données
+    if (empty($erreurs)) {
+        // Enregistrement en base de données ou traitement
+        echo "Inscription réussie pour $nom ($email) - Opérateur : $operateur";
+        
+        // Exemple : envoi d'email de confirmation
+        $sujet = "Confirmation d'inscription - Plateforme OHADA";
+        $message = "Cher(e) $nom,\n\nVotre inscription a été enregistrée avec succès.";
+        mail($email, $sujet, $message);
+    } else {
+        // Afficher les erreurs
+        foreach ($erreurs as $erreur) {
+            echo "<p class='erreur'>$erreur</p>";
+        }
+    }
+}
+?>
+```
+
+---
+
+### **6. Accès aux bases de données avec PDO et MySQLi**
+
+#### **6.1. Introduction à PDO (PHP Data Objects)**
+PDO est une interface d'abstraction pour accéder aux bases de données de manière sécurisée et portable.
+
+**Connexion avec PDO** :
+```php
+try {
+    $dsn = 'mysql:host=localhost;dbname=entreprise_cameroun;charset=utf8';
+    $utilisateur = 'root';
+    $motdepasse = '';
+    
+    $pdo = new PDO($dsn, $utilisateur, $motdepasse);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    echo "Connexion à la base de données réussie";
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
+}
+```
+
+#### **6.2. Exécution de requêtes avec PDO**
+**Sélection de données (SELECT)** :
+```php
+// Requête préparée (recommandée)
+$stmt = $pdo->prepare("SELECT * FROM clients WHERE region = :region AND solde > :solde_min");
+$stmt->execute([
+    ':region' => 'Littoral',
+    ':solde_min' => 100000
+]);
+
+$clients = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($clients as $client) {
+    echo "Client : " . $client['nom'] . " - Solde : " . $client['solde'] . " FCFA";
+}
+```
+
+**Insertion de données (INSERT)** :
+```php

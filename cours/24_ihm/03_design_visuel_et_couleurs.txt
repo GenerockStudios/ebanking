@@ -1,0 +1,132 @@
+# **Notes de cours — 24 IHM**
+## **Chapitre : Design visuel et couleurs : théorie des couleurs, accessibilité (WCAG 2.1, contraste 4,5:1), typographie, iconographie — contexte africain**
+
+---
+
+### **1. Introduction au design visuel dans les IHM**
+
+Le design visuel est l’art et la science d’organiser les éléments graphiques (couleurs, formes, texte, images) pour créer une interface utilisateur efficace, esthétique et fonctionnelle. Dans le contexte du BTS Génie Logiciel, il s’agit de traduire les besoins fonctionnels en une expérience utilisateur intuitive. En Afrique, et particulièrement au Cameroun, ce design doit tenir compte des réalités culturelles, des infrastructures technologiques (connectivité variable, prédominance du mobile) et des usages locaux.
+
+**Objectifs pédagogiques** : Comprendre et appliquer les principes fondamentaux du design visuel en intégrant les contraintes et opportunités du contexte africain.
+
+---
+
+### **2. Théorie des couleurs**
+
+#### **2.1. Les fondements scientifiques**
+*   **Définition** : La couleur est une perception visuelle résultant de l’interaction entre la lumière, un objet et l’œil humain.
+*   **Modèle RVB (Rouge, Vert, Bleu)** : Modèle additif utilisé pour les écrans (moniteurs, smartphones). Chaque couleur est définie par un triplet de valeurs (0-255). Exemple : Le vert du drapeau camerounais peut être représenté par `R:0, V:122, B:51`.
+*   **Modèle CMJN (Cyan, Magenta, Jaune, Noir)** : Modèle soustractif utilisé pour l’impression.
+
+#### **2.2. Les concepts clés du cercle chromatique**
+*   **Couleurs primaires** : Rouge, Jaune, Bleu (en peinture) / Rouge, Vert, Bleu (en lumière).
+*   **Couleurs secondaires et tertiaires** : Obtenues par mélange.
+*   **Harmonies colorées** (Schémas) :
+    *   **Monochromatique** : Variations de teinte et luminosité d’une seule couleur. *Exemple : Une application bancaire utilisant différentes nuances de bleu (couleur associée à la confiance, utilisée par UBA, Afriland First Bank).*
+    *   **Complémentaire** : Couleurs opposées sur le cercle. Crée un fort contraste. *Exemple : Orange et bleu, comme dans le logo de MTN Cameroon.*
+    *   **Analogique** : Couleurs voisines. Crée une harmonie douce.
+    *   **Triadique** : Trois couleurs équidistantes.
+
+#### **2.3. La psychologie des couleurs et le contexte africain**
+La signification des couleurs varie selon les cultures. Il est impératif de faire des recherches utilisateurs locales.
+*   **Tableau des significations courantes en Afrique de l'Ouest et Centrale** :
+
+| Couleur | Significations positives (Exemples) | Significations à considérer |
+| :--- | :--- | :--- |
+| **Rouge** | Vitalité, sacrifice, spiritualité (rites), richesse. | Danger, interdiction, sang (conflit). |
+| **Jaune/Or** | Richesse, royauté, statut élevé, soleil. | Tromperie, maladie (dans certains contextes). |
+| **Vert** | Prospérité, fertilité de la terre, espoir, Islam. | |
+| **Bleu** | Paix, harmonie, spiritualité (ciel, eau). | Froideur, distance. |
+| **Blanc** | Pureté, spiritualité, paix (deuil dans certaines cultures). | Deuil (culture Akan notamment). |
+| **Noir** | Maturité, masculinité, sophistication. | Deuil, malchance, obscurité. |
+
+*À retenir : Toujours valider le choix des couleurs avec un panel d'utilisateurs camerounais ou africains cibles. Le vert "espoir" d'une appli agricole (comme *AgriTech Cameroun*) n'aura pas la même réception que le rouge "urgence" d'une appli de santé.*
+
+---
+
+### **3. Accessibilité numérique et normes WCAG 2.1**
+
+#### **3.1. Définition et enjeux**
+L'accessibilité numérique vise à concevoir des interfaces utilisables par tous, y compris les personnes en situation de handicap (visuel, auditif, moteur, cognitif). En Afrique, cela inclut aussi les utilisateurs avec des équipements anciens, une connexion faible, ou un faible niveau de littératie numérique.
+
+#### **3.2. Les principes WCAG (Web Content Accessibility Guidelines) 2.1**
+Norme internationale organisée autour de 4 principes (POUR) :
+*   **P**ercevable : L'information doit être présentable à l'utilisateur.
+*   **O**utilisable : Les composants d'interface doivent être utilisables.
+*   **C**ompréhensible : L'information et l'utilisation doivent être compréhensibles.
+*   **R**obuste : Le contenu doit être interprétable par une large variété d'agents utilisateurs (y compris les technologies d'assistance).
+
+#### **3.3. Le ratio de contraste 4.5:1 (Niveau AA)**
+C'est une exigence cruciale pour les personnes malvoyantes ou utilisant un écran en plein soleil (très courant en Afrique).
+*   **Définition** : Mesure de la différence de luminosité entre le texte (ou un élément graphique) et son arrière-plan.
+*   **Formule** : `Contraste = (L1 + 0.05) / (L2 + 0.05)` où L1 est la luminance relative de la couleur la plus claire et L2 celle de la couleur la plus foncée (L1 > L2).
+*   **Exigence** :
+    *   **Texte normal** (≤ 18pt ou ≤ 14pt gras) : **Contraste minimum de 4.5:1**.
+    *   **Texte large** (> 18pt ou > 14pt gras) : Contraste minimum de 3:1.
+    *   **Éléments graphiques et UI** (icônes, boutons) : 3:1.
+*   **Exemple pratique** : Le texte jaune clair sur fond blanc (choix esthétique mais peu accessible) a un contraste très faible (< 2:1). Pour l'application *Orange Money*, utiliser un texte bleu foncé (#003366) sur fond orange clair (#FFCC00) permet d'atteindre un bon contraste.
+*   **Outils de vérification** : Plugin *axe DevTools*, *Color Contrast Analyzer* (CCA), fonctionnalités intégrées dans *Figma* ou *Adobe XD*.
+
+---
+
+### **4. Typographie**
+
+#### **4.1. Rôles et terminologie**
+*   **Lisible** vs **Lisible** : La lisibilité concerne la facilité à distinguer les lettres, la lisibilité la facilité de lecture d'un bloc de texte.
+*   **Termes clés** : Police de caractères (Famille, ex: Roboto), fonte (Variante, ex: Roboto Gras Italique 12pt), interlignage, interlignage, crénage.
+
+#### **4.2. Choix des polices et contexte africain**
+*   **Polices sans sérif** (ex: *Inter, Open Sans, Roboto*) : Souvent préférées pour les écrans (meilleure lisibilité sur les petits écrans de smartphones).
+*   **Polices sérif** (ex: *Merriweather, Noto Serif*) : Peuvent être utilisées pour les titres ou pour évoquer tradition, presse écrite.
+*   **Considérations locales** :
+    1.  **Support des caractères étendus** : La police doit supporter les caractères spéciaux des langues nationales camerounaises (ex: caractères avec accents graves, aigus, trémas pour l'ewondo, le fufuldé, le bassa). *Google Fonts* propose des polices comme *Noto Sans* qui couvrent de nombreux caractères.
+    2.  **Poids des fichiers** : Privilégier les polices standards du système ou les polices web légères pour les zones à faible débit.
+    3.  **Contexte d'usage** : Une application sur le droit OHADA pourra utiliser une police sérif pour évoquer le sérieux des documents juridiques, tandis qu'une appli de musique (*Mdundo*) utilisera une police moderne et dynamique.
+
+#### **4.3. Hiérarchie et mise en page**
+Utiliser la taille, la graisse et la couleur pour créer une hiérarchie visuelle claire.
+*   **Exemple de grille typographique** :
+    *   Titre H1 : 32px, Gras
+    *   Titre H2 : 24px, Demi-Gras
+    *   Corps de texte : 16px, Régulier (Interlignage: 1.5)
+    *   Légende : 14px, Régulier, Couleur gris (#666)
+
+---
+
+### **5. Iconographie et symboles**
+
+#### **5.1. Principes de conception d'icônes**
+*   **Simplicité et clarté** : Une icône doit être comprise en un coup d'œil.
+*   **Cohérence** : Même style (lignes pleines, contours, remplissage), même palette de couleurs, même niveau de détail dans tout l'interface.
+*   **Famille d'icônes** : Utiliser des bibliothèques cohérentes comme *Material Icons* (Google), *FontAwesome*, ou créer une charte personnalisée.
+
+#### **5.2. Iconographie culturellement pertinente**
+C'est un point crucial pour l'adoption locale. Il faut éviter le symbolisme purement occidental.
+*   **Exemples d'adaptation** :
+    *   **"Maison" (Accueil)** : Au lieu d'un chalet occidental, on pourrait utiliser une silhouette de maison africaine moderne ou un toit caractéristique.
+    *   **"Argent/Paiement"** : Plutôt qu'une carte de crédit stylisée (peu utilisée), utiliser un symbole de billet de banque (XAF) ou un téléphone mobile avec un signe "+".
+    *   **"Nourriture"** : Représenter des aliments locaux (plantain, ndolè, bobolo, soya) plutôt qu'un hamburger.
+    *   **"Transport"** : Intégrer des symboles de taxi jaune, de moto-taxi ("bendskin"), ou de bus urbain local.
+*   **Étude de cas** : L'interface de *Camtel Mobile Money* devrait utiliser des icônes représentant des transactions entre personnes, le paiement de factures (SONEL, CAMWATER), et le retrait dans des agents, avec des visuels reconnaissables par la population locale.
+
+---
+
+### **6. Synthèse et outils professionnels**
+
+#### **6.1. Création d'un système de design (Design System)**
+Un ensemble de standards réutilisables (couleurs, polices, composants UI) qui garantit la cohérence et accélère le développement. *Exemple : Créer le "Design System OHADA Digital" pour les applications liées au droit des affaires en Afrique.*
+
+#### **6.2. Outils et technologies utilisés en entreprise**
+*   **Conception & Prototypage** : **Figma** (leader, collaboratif), **Adobe XD**, **Sketch**.
+*   **Vérification d'accessibilité** : *axe DevTools*, *WAVE Evaluation Tool*, *Contrast Checker*.
+*   **Gestion des actifs** : **Zeplin**, **Avocode** (pour la collaboration designer/développeur).
+*   **Développement** : CSS (variables CSS pour les thèmes de couleurs), frameworks UI comme **Material-UI**, **Ant Design**, ou **Chakra UI**.
+
+#### **6.3. Checklist de validation pour un design visuel adapté au Cameroun**
+- [ ] La palette de couleurs a-t-elle été testée pour le contraste (4.5:1) et les significations culturelles ?
+- [ ] Les polices supportent-elles les caractères des langues nationales nécessaires ?
+- [ ] L'interface reste-t-elle lisible et utilisable sur un smartphone bas de gamme en 3G ?
+- [ ] Les icônes et illustrations sont-elles immédiatement compréhensibles par l'utilisateur cible camerounais ?
+- [ ] Les formulaires et les CTA (Call To Action) tiennent-ils compte des niveaux de littératie numérique variés ?
+
+**Conclusion** : Le design visuel en IHM pour le marché camerounais et africain est un équilibre entre l'application des standards internationaux (théorie

@@ -1,0 +1,165 @@
+# **Notes de cours — 03 Mathématiques**
+## **Chapitre : Suites et récurrences : suites arithmétiques et géométriques, convergence, récursivité, complexité O(n)**
+
+---
+
+### **1. Introduction et contexte applicatif**
+
+Dans le domaine du génie logiciel, les suites mathématiques et le raisonnement par récurrence sont des outils fondamentaux pour modéliser des phénomènes discrets, analyser des algorithmes et comprendre leur comportement. Ce chapitre établit le lien entre les concepts mathématiques abstraits et leurs applications concrètes dans le développement logiciel, notamment dans l'analyse de la performance des algorithmes.
+
+**Applications en contexte camerounais et africain :**
+- **Analyse de croissance des abonnés** : Modélisation de l'évolution du nombre d'abonnés MTN, Orange ou Camtel d'une année à l'autre.
+- **Calculs financiers et actuariels** : Évolution des intérêts dans les microfinances, calcul des amortissements pour les entreprises locales, prévisions budgétaires selon les normes OHADA.
+- **Algorithmes de planification** : Gestion des files d'attente dans les systèmes de e-gouvernement ou les services bancaires en ligne.
+- **Analyse de performance** : Évaluation de l'efficacité d'un algorithme de traitement des transactions mobiles (Mobile Money) en fonction du volume de données.
+
+---
+
+### **2. Les suites numériques : définitions et modes de génération**
+
+#### **2.1. Définition générale**
+Une **suite numérique** est une application qui, à tout entier naturel \( n \), associe un nombre réel noté \( U_n \). Elle est notée \( (U_n)_{n \in \mathbb{N}} \).
+
+**Modes de définition :**
+- **Forme explicite** : \( U_n = f(n) \) (ex: \( U_n = 2n + 1 \)).
+- **Forme récurrente** : \( U_{n+1} = f(U_n) \) avec \( U_0 \) donné.
+
+#### **2.2. Suites arithmétiques**
+
+**Définition :** Une suite \( (U_n) \) est dite **arithmétique** si la différence entre deux termes consécutifs est constante. Cette constante est appelée **raison**, notée \( r \).
+\[
+\forall n \in \mathbb{N}, \quad U_{n+1} = U_n + r
+\]
+
+**Formules clés :**
+- **Terme général** : \( U_n = U_0 + n \times r \)
+- **Somme des \( n \) premiers termes** : \( S_n = U_0 + U_1 + ... + U_{n-1} = \frac{n \times (U_0 + U_{n-1})}{2} = n \times \frac{2U_0 + (n-1)r}{2} \)
+
+**Exemple concret (contexte OHADA) :** Une entreprise de Douala prévoit une **dotation aux amortissements linéaire** pour un serveur informatique. La valeur du serveur est de 2 000 000 FCFA, avec une durée de vie de 5 ans.
+- \( U_0 = 2\,000\,000 \) (valeur initiale)
+- \( r = -\frac{2\,000\,000}{5} = -400\,000 \) (amortissement annuel constant)
+- \( U_n = 2\,000\,000 - 400\,000n \) (valeur nette comptable à l'année \( n \))
+
+#### **2.3. Suites géométriques**
+
+**Définition :** Une suite \( (U_n) \) est dite **géométrique** si le quotient entre deux termes consécutifs est constant. Cette constante est appelée **raison**, notée \( q \).
+\[
+\forall n \in \mathbb{N}, \quad U_{n+1} = U_n \times q \quad \text{avec} \quad q \neq 0
+\]
+
+**Formules clés :**
+- **Terme général** : \( U_n = U_0 \times q^n \)
+- **Somme des \( n \) premiers termes** :
+  \[
+  S_n = U_0 + U_1 + ... + U_{n-1} = U_0 \times \frac{1 - q^n}{1 - q} \quad \text{pour} \quad q \neq 1
+  \]
+
+**Exemple concret (Télécoms) :** Modélisation de la **croissance des données mobiles consommées** par un utilisateur moyen de l'opérateur **Camtel**. On estime une croissance mensuelle de 15%.
+- \( U_0 = 3 \) Go (consommation initiale)
+- \( q = 1.15 \) (taux de croissance de 15%)
+- \( U_n = 3 \times (1.15)^n \) (consommation prévue au mois \( n \))
+
+#### **2.4. Tableau comparatif : Arithmétique vs Géométrique**
+
+| Caractéristique | Suite Arithmétique | Suite Géométrique |
+| :--- | :--- | :--- |
+| **Relation de récurrence** | \( U_{n+1} = U_n + r \) | \( U_{n+1} = U_n \times q \) |
+| **Terme général** | \( U_n = U_0 + n \times r \) | \( U_n = U_0 \times q^n \) |
+| **Nature de la variation** | Variation absolue constante (ajout/soustraction) | Variation relative constante (multiplication/%) |
+| **Représentation graphique** | Points alignés | Points sur une courbe exponentielle |
+| **Application type** | Amortissement linéaire, progression salariale fixe | Intérêts composés, croissance démographique, dépréciation monétaire |
+
+---
+
+### **3. Raisonnement par récurrence**
+
+#### **3.1. Principe et démarche**
+Le raisonnement par récurrence est une méthode de démonstration essentielle en informatique pour prouver la **correction d'un algorithme** ou d'une **invariant de boucle**.
+
+**Étapes de la récurrence simple :**
+1. **Initialisation** : Vérifier que la propriété \( P(n) \) est vraie pour le premier rang (souvent \( n=0 \) ou \( n=1 \)).
+2. **Hérédité** : Supposer que \( P(n) \) est vraie pour un rang \( n \) fixé (hypothèse de récurrence). Démontrer que sous cette hypothèse, \( P(n+1) \) est également vraie.
+3. **Conclusion** : Par le principe de récurrence, \( P(n) \) est vraie pour tout entier \( n \).
+
+#### **3.2. Exemple appliqué : Vérification d'une formule de somme**
+Démontrons par récurrence que la somme des \( n \) premiers entiers naturels non nuls est \( S_n = \frac{n(n+1)}{2} \).
+
+1. **Initialisation (n=1)** : \( S_1 = 1 \) et \( \frac{1 \times (1+1)}{2} = 1 \). Vrai.
+2. **Hérédité** : Supposons que pour un entier \( k \geq 1 \), \( S_k = \frac{k(k+1)}{2} \).
+   Alors, \( S_{k+1} = S_k + (k+1) = \frac{k(k+1)}{2} + (k+1) = (k+1)(\frac{k}{2} + 1) = \frac{(k+1)(k+2)}{2} \).
+   La propriété est donc vraie au rang \( k+1 \).
+3. **Conclusion** : La formule est valable pour tout \( n \geq 1 \).
+
+---
+
+### **4. Convergence d'une suite**
+
+#### **4.1. Définitions**
+- Une suite \( (U_n) \) **converge** vers un réel \( L \) si ses termes se rapprochent indéfiniment de \( L \) lorsque \( n \) devient très grand. On note \( \lim_{n \to +\infty} U_n = L \).
+- Une suite qui ne converge pas est dite **divergente**.
+
+#### **4.2. Convergence des suites arithmétiques et géométriques**
+- **Suite arithmétique** (\( U_n = U_0 + nr \)) :
+  - Si \( r > 0 \), \( \lim_{n \to +\infty} U_n = +\infty \) (divergente).
+  - Si \( r < 0 \), \( \lim_{n \to +\infty} U_n = -\infty \) (divergente).
+  - Si \( r = 0 \), la suite est constante et converge vers \( U_0 \).
+
+- **Suite géométrique** (\( U_n = U_0 \times q^n \)) :
+  - Si \( |q| < 1 \), \( \lim_{n \to +\infty} U_n = 0 \). (Convergence)
+  - Si \( q > 1 \) et \( U_0 > 0 \), \( \lim_{n \to +\infty} U_n = +\infty \). (Divergence)
+  - Si \( q = 1 \), la suite est constante.
+  - Si \( q \leq -1 \), la suite diverge (pas de limite finie).
+
+#### **4.3. Application à l'analyse d'algorithmes**
+La convergence est un concept clé pour les **algorithmes itératifs**. Par exemple, une méthode de recherche de racine (comme la méthode de Newton) génère une suite qui, si elle converge, se rapproche de la solution du problème.
+
+**Exemple (Calcul de taux d'intérêt)** : Un développeur d'une fintech à Yaoundé écrit un algorithme pour calculer le **taux d'intérêt effectif** d'un prêt. L'algorithme utilise une suite itérative qui converge vers le taux réel. L'analyse de la convergence permet de garantir que l'algorithme s'arrêtera avec une réponse précise après un nombre fini d'itérations.
+
+---
+
+### **5. Récursivité en informatique**
+
+#### **5.1. Définition et principe**
+Une fonction est dite **récursive** si, dans sa définition, elle fait appel à elle-même. C'est la traduction informatique directe du raisonnement par récurrence.
+
+**Structure d'une fonction récursive :**
+1. **Cas de base** : Condition d'arrêt qui termine la récursion (correspond à l'initialisation en mathématiques).
+2. **Appel récursif** : Appel à la fonction elle-même avec des paramètres modifiés, se rapprochant du cas de base (correspond à l'hérédité).
+
+#### **5.2. Exemple : Calcul de la factorielle en Python**
+La factorielle \( n! = 1 \times 2 \times ... \times n \), avec \( 0! = 1 \), se définit naturellement par récurrence : \( n! = n \times (n-1)! \).
+
+```python
+def factorielle(n):
+    """Calcule n! de manière récursive."""
+    # Cas de base
+    if n == 0:
+        return 1
+    # Appel récursif (étape d'hérédité)
+    else:
+        return n * factorielle(n - 1)
+
+# Exemple d'utilisation
+print(factorielle(5))  # Affiche 120
+```
+
+#### **5.3. Avantages et inconvénients de la récursivité**
+| **Avantages** | **Inconvénients** |
+| :--- | :--- |
+| Code souvent plus lisible et proche de la définition mathématique. | Peut consommer beaucoup de mémoire (pile d'appels). |
+| Idéal pour traiter des structures de données récursives (arbres, graphes). | Risque de **débordement de pile** (Stack Overflow) si la récursion est trop profonde. |
+| Simplifie la résolution de problèmes comme les Tours de Hanoï. | Peut être moins efficace en temps d'exécution qu'une solution itérative. |
+
+**Conseil pratique :** Dans un contexte professionnel au Cameroun (développement d'applications pour **Mtn Mobile Money** ou **Orange Money**), privilégiez l'itération pour les calculs financiers critiques afin d'éviter tout risque de crash et d'optimiser les performances.
+
+---
+
+### **6. Complexité algorithmique et notation O(n)**
+
+#### **6.1. Introduction à la complexité**
+La **complexité algorithmique** évalue l'efficacité d'un algorithme en termes de ressources consommées (temps et espace mémoire) en fonction de la taille \( n \) des données d'entrée.
+
+#### **6.2. Notation Grand O (O)**
+La notation \( O \) (Grand O) décrit le **comportement asymptotique** d'un algorithme, c'est-à-dire son ordre de grandeur lorsque \( n \) tend vers l'infini. Elle caractérise une **borne supérieure** de la complexité dans le pire des cas.
+
+**Dé

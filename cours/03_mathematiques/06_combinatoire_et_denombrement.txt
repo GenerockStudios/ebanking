@@ -1,0 +1,156 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 03 Mathématiques**
+## **Chapitre : Combinatoire : dénombrement, arrangements, permutations, combinaisons, triangle de Pascal, binôme de Newton**
+
+---
+
+### **1. Introduction à la combinatoire et au dénombrement**
+
+#### **1.1. Définition et utilité en génie logiciel**
+La **combinatoire** est la branche des mathématiques qui étudie les configurations d'ensembles finis et les façons de les dénombrer. En génie logiciel, elle est fondamentale pour :
+- L'analyse de la complexité algorithmique (nombre d'opérations, parcours d'arbres).
+- La conception de bases de données (clés primaires, relations).
+- Les tests logiciels (génération de jeux de tests combinatoires).
+- La cryptographie (nombre de clés possibles).
+- L'optimisation des réseaux (chemins dans un graphe).
+
+**Exemple concret (Cameroun)** : Calculer le nombre de codes PIN possibles à 4 chiffres pour une carte SIM **MTN** ou **Orange**. Si chaque chiffre va de 0 à 9, il y a $10 \times 10 \times 10 \times 10 = 10^4 = 10 000$ possibilités. C'est un **dénombrement simple par produit**.
+
+#### **1.2. Principe fondamental du dénombrement**
+- **Principe additif** : Si une tâche peut être réalisée de $m$ façons et une autre de $n$ façons **disjointes**, alors il y a $m + n$ façons de réaliser l'une ou l'autre.
+- **Principe multiplicatif** : Si une tâche se décompose en $k$ étapes successives, avec $n_1$ choix pour l'étape 1, $n_2$ pour l'étape 2, ..., $n_k$ pour l'étape $k$, alors le nombre total de possibilités est $n_1 \times n_2 \times ... \times n_k$.
+
+**À retenir** : **"ET"** se traduit par une multiplication, **"OU"** (exclusif) par une addition.
+
+---
+
+### **2. Arrangements et permutations**
+
+#### **2.1. Arrangements sans répétition**
+On appelle **arrangement de $p$ éléments parmi $n$** (avec $p \leq n$) tout $p$-uplet (liste ordonnée) d'éléments **distincts** choisis parmi $n$.
+
+**Formule** : Le nombre d'arrangements de $p$ éléments parmi $n$, noté $A_n^p$ ou $A(n, p)$, est :
+$$A_n^p = n \times (n-1) \times (n-2) \times ... \times (n-p+1) = \frac{n!}{(n-p)!}$$
+où $n!$ (factorielle $n$) = $1 \times 2 \times ... \times n$, et $0! = 1$.
+
+**Exemple (OHADA)** : Dans le système **OHADA**, un identifiant unique pour une entreprise (RCCM) comprend souvent une séquence de lettres et de chiffres. Si on doit générer un code temporaire de 3 lettres distinctes parmi les 26 de l'alphabet, le nombre de possibilités est $A_{26}^3 = 26 \times 25 \times 24 = 15 600$.
+
+#### **2.2. Permutations**
+Cas particulier d'arrangement où $p = n$. Une **permutation** est un **réarrangement ordonné** de tous les éléments d'un ensemble.
+
+**Formule** : Le nombre de permutations de $n$ éléments distincts est :
+$$P_n = n!$$
+
+**Exemple (Génie Logiciel)** : Déterminer l'ordre d'exécution de 5 modules d'une application (Authentification, Paiement, Notification, Rapport, Sauvegarde). Le nombre d'ordres possibles (permutations) est $5! = 120$. Cela est utile pour l'analyse des workflows ou des séquences de tests.
+
+**Application technologique** : Les algorithmes de tri comparent souvent le pire cas (nombre de permutations désordonnées) pour évaluer leur efficacité.
+
+---
+
+### **3. Combinaisons et triangle de Pascal**
+
+#### **3.1. Combinaisons sans répétition**
+Une **combinaison de $p$ éléments parmi $n$** est un **sous-ensemble** (non ordonné) de $p$ éléments choisis parmi $n$. L'ordre n'a pas d'importance.
+
+**Formule** : Le nombre de combinaisons de $p$ éléments parmi $n$, noté $C_n^p$, $\binom{n}{p}$ ou $C(n, p)$, est :
+$$\binom{n}{p} = C_n^p = \frac{A_n^p}{p!} = \frac{n!}{p!(n-p)!}$$
+
+**Propriétés clés** :
+- $\binom{n}{p} = \binom{n}{n-p}$ (Symétrie)
+- $\binom{n}{0} = \binom{n}{n} = 1$
+- $\binom{n}{1} = n$
+
+**Exemple concret (Cameroun)** : Dans une startup digitale de Douala, l'équipe de développement compte 7 ingénieurs. Pour former un comité de 3 personnes pour évaluer une nouvelle technologie, le nombre de comités possibles est $\binom{7}{3} = \frac{7!}{3!4!} = 35$. L'ordre de sélection dans le comité n'importe pas.
+
+#### **3.2. Triangle de Pascal (ou de Tartaglia)**
+C'est une présentation géométrique des coefficients binomiaux $\binom{n}{p}$.
+
+**Construction** :
+- Chaque ligne commence et finit par 1.
+- Tout autre nombre est la somme des deux nombres situés juste au-dessus à gauche et à droite.
+- La ligne numéro $n$ (en commençant à 0) donne les coefficients $\binom{n}{0}, \binom{n}{1}, ..., \binom{n}{n}$.
+
+**Ligne 0** : 1  
+**Ligne 1** : 1, 1  
+**Ligne 2** : 1, 2, 1  
+**Ligne 3** : 1, 3, 3, 1  
+**Ligne 4** : 1, 4, 6, 4, 1  
+**Ligne 5** : 1, 5, 10, 10, 5, 1
+
+**Relation de récurrence (clé pour la programmation)** :
+$$\binom{n}{p} = \binom{n-1}{p-1} + \binom{n-1}{p} \quad \text{pour } 0 < p < n$$
+
+**Application en programmation** : Cette relation permet de calculer les coefficients binomiaux de manière récursive ou via la **programmation dynamique**, optimisant les calculs évitant de recalculer plusieurs fois les mêmes valeurs.
+
+**Exemple de pseudo-code (récursif)** :
+```
+fonction combinaison(n, p):
+    si p == 0 ou p == n:
+        retourner 1
+    sinon:
+        retourner combinaison(n-1, p-1) + combinaison(n-1, p)
+```
+
+---
+
+### **4. Binôme de Newton**
+
+#### **4.1. Formule du binôme**
+Elle permet de développer une expression de la forme $(a + b)^n$, où $n$ est un entier naturel.
+
+**Formule** :
+$$(a + b)^n = \sum_{p=0}^{n} \binom{n}{p} a^{n-p} b^p = \binom{n}{0}a^n + \binom{n}{1}a^{n-1}b + ... + \binom{n}{n}b^n$$
+
+**Exemple** : $(x + 2)^3 = \binom{3}{0}x^3 + \binom{3}{1}x^2 \cdot 2 + \binom{3}{2}x \cdot 2^2 + \binom{3}{3}2^3 = x^3 + 6x^2 + 12x + 8$
+
+#### **4.2. Applications en informatique et cryptographie**
+- **Algorithmique** : Analyse de la complexité d'algorithmes utilisant des développements.
+- **Cryptographie** : Utilisé dans certains protocoles de chiffrement (comme RSA dans les calculs modulaires).
+- **Théorie des probabilités** : Fondamental pour la loi binomiale (succès/échec), utilisée dans les tests de fiabilité des logiciels.
+
+**Exemple contextualisé** : Un fournisseur d'accès internet comme **Camtel** veut estimer la fiabilité de ses nouveaux routeurs. Si chaque routeur a une probabilité $p$ de fonctionner sans faille sur 24h, le binôme de Newton permet de calculer la probabilité que $k$ routeurs sur $n$ fonctionnent parfaitement, via la loi binomiale : $P(X=k) = \binom{n}{k} p^k (1-p)^{n-k}$.
+
+---
+
+### **5. Tableau comparatif et synthèse**
+
+| Concept | Définition | Ordre important ? | Répétition possible ? | Formule | Exemple concret |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Arrangement** | Liste ordonnée de **p** éléments distincts parmi **n** | **OUI** | **NON** | $A_n^p = \frac{n!}{(n-p)!}$ | Classement des 3 premiers d'une compétition coding (Yaoundé) parmi 20 participants. |
+| **Permutation** | Cas particulier : arrangement de **n** parmi **n** (tous les éléments) | **OUI** | **NON** | $P_n = n!$ | Ordre d'exécution des 6 services d'une API bancaire. |
+| **Combinaison** | Sous-ensemble (groupe) de **p** éléments parmi **n** | **NON** | **NON** | $C_n^p = \frac{n!}{p!(n-p)!}$ | Choix de 2 langages de programmation (Python, Java) parmi 5 pour un projet à l'**INC**. |
+
+**À retenir** :
+- **Ordre important** → Pensez **Arrangement**.
+- **Ordre sans importance** → Pensez **Combinaison**.
+- **Tous les éléments** → Pensez **Permutation**.
+
+---
+
+### **6. Outils, logiciels et applications en entreprise**
+
+1. **Langages de programmation** :
+    - **Python** : Module `math` (`math.comb(n, p)`, `math.perm(n, p)` depuis 3.8).
+    - **Java** : Classe `BigInteger` pour calculs sur de grands nombres factoriels.
+    - **JavaScript** : Bibliothèques comme `math.js`.
+
+2. **Logiciels de calcul formel** : **Maple**, **Mathematica**, utilisés dans la R&D pour modéliser des problèmes complexes de comptage (ex: configurations réseau).
+
+3. **Applications métier** :
+    - **Planification des tests** : Outils comme **Hexawise** ou **PICT** (Microsoft) utilisent la combinatoire pour générer des jeux de tests couvrant toutes les combinaisons de paramètres.
+    - **Analyse de données** : Le data mining utilise les combinaisons pour trouver des règles d'association (ex: "les clients qui achètent un modem **Camtel** achètent aussi un antivirus").
+    - **Génération de mots de passe/identifiants** : Estimation de la force d'un mot de passe par dénombrement des combinaisons possibles.
+
+**Cas pratique intégré** : Une fintech camerounaise développe une fonctionnalité de virement groupé. L'interface doit permettre à un utilisateur de sélectionner **5 bénéficiaires maximum** parmi sa liste de **15 contacts enregistrés**.
+- **Question 1** : Combien de sélections différentes de 5 bénéficiaires peut-il faire ?  
+  *Réponse* : Combinaison → $\binom{15}{5} = 3003$ sélections possibles.
+- **Question 2** : S'il doit aussi définir l'ordre de priorité des virements (qui est servi en premier), combien d'ordonnancements possibles pour 5 bénéficiaires choisis ?  
+  *Réponse* : On choisit d'abord les 5 bénéficiaires ($\binom{15}{5}$), puis on les permute ($5!$) → $\binom{15}{5} \times 5! = A_{15}^5 = 360 360$.
+
+---
+
+### **7. Conclusion et perspectives**
+
+La combinatoire n'est pas une abstraction mathématique, mais un **outil opérationnel puissant** pour l'ingénieur logiciel. Elle permet de **quantifier, modéliser et optimiser** des choix discrets rencontrés quotidiennement :
+- De l'estimation de la complexité d'un algorithme.
+- À la conception d'identifiants uniques dans une base

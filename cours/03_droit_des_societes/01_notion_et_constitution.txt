@@ -1,0 +1,64 @@
+CHAPITRE 1 — NOTION ET CONSTITUTION DES SOCIÉTÉS (DROIT OHADA)
+BTS Génie Logiciel — Droit des sociétés
+
+1. ACTE UNIFORME OHADA SUR LES SOCIÉTÉS COMMERCIALES
+
+Le droit des sociétés au Cameroun est régi par l'Acte Uniforme OHADA relatif aux Sociétés Commerciales et au Groupement d'Intérêt Économique (AUSCGIE), révisé en 2014. Ce texte s'applique dans tous les 17 États membres de l'OHADA.
+
+2. DÉFINITION ET CONDITIONS DE FOND
+
+La société est créée par deux ou plusieurs personnes qui conviennent par un contrat d'affecter à une activité des biens en numéraire (argent) ou en nature (matériels) ou en industrie (savoir-faire), dans le but de partager le bénéfice ou de profiter de l'économie qui pourra en résulter (art. 4 AUSCGIE).
+
+Exception : La SARLU (SARL unipersonnelle) est constituée par une seule personne.
+
+Conditions de fond :
+a) Les apports : chaque associé doit apporter quelque chose.
+   - Apport en numéraire : somme d'argent
+   - Apport en nature : bien (matériel, véhicule, immeuble, brevet). Doit être évalué par un commissaire aux apports.
+   - Apport en industrie : compétences, travail, savoir-faire. Ne contribue pas à la formation du capital.
+
+b) La participation aux bénéfices et aux pertes : chaque associé doit avoir vocation à recevoir des bénéfices ET à contribuer aux pertes, proportionnellement à ses apports. Toute clause léonine (qui prive un associé de tout bénéfice ou l'exonère de toute perte) est réputée non écrite.
+
+c) L'affectio societatis : volonté de collaborer ensemble, sur un pied d'égalité, pour un intérêt commun. C'est ce qui distingue la société du contrat de travail ou du contrat de prêt.
+
+3. CONDITIONS DE FORME
+
+Les statuts : acte constitutif de la société, obligatoirement écrit (acte notarié ou sous seing privé selon le type).
+Contenu obligatoire des statuts :
+- Forme juridique de la société
+- Dénomination sociale
+- Siège social
+- Objet social (activités exercées)
+- Durée (max 99 ans, renouvelable)
+- Montant du capital social
+- Modalités de libération des apports
+- Identité des associés et leurs apports
+
+Formalités de publicité :
+- Immatriculation au RCCM (Registre du Commerce et du Crédit Mobilier)
+- Publication dans un journal d'annonces légales ou au Journal Officiel
+- La société n'acquiert la personnalité morale qu'à compter de son immatriculation
+
+4. PERSONNALITÉ MORALE
+
+À compter de l'immatriculation, la société acquiert la personnalité morale : dénomination propre, siège social, nationalité, patrimoine distinct de celui des associés, capacité juridique.
+
+Conséquences pratiques :
+- La société peut contracter, posséder des biens, ester en justice
+- Les créanciers de la société ne peuvent (en principe) pas se retourner contre le patrimoine personnel des associés (exception : SARL, SA)
+- Les dettes des associés ne sont pas des dettes de la société
+
+5. CLASSIFICATION DES SOCIÉTÉS COMMERCIALES (OHADA)
+
+Sociétés de personnes : fondées sur la confiance entre associés (intuitu personae)
+- Société en Nom Collectif (SNC) : tous les associés sont commerçants, responsabilité illimitée et solidaire
+- Société en Commandite Simple (SCS) : commandités (responsabilité illimitée) + commanditaires (responsabilité limitée)
+
+Sociétés de capitaux : l'identité des associés importe peu
+- Société Anonyme (SA) : capital ≥ 10 millions FCFA, actions librement cessibles
+- Société par Actions Simplifiée (SAS) : grande liberté statutaire, pas de capital minimum
+
+Société hybride :
+- Société à Responsabilité Limitée (SARL) : 1 à 50 associés, capital ≥ 1 million FCFA (libéré au moins 50% à la constitution), parts sociales non librement cessibles
+
+Groupement d'Intérêt Économique (GIE) : faciliter l'activité économique de ses membres, pas nécessairement de capital.

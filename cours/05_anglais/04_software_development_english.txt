@@ -1,0 +1,202 @@
+# **Notes de cours — 05 Anglais**
+## **Chapitre : Software Development in English: Reading Code Documentation, API Docs, GitHub Issues, Stack Overflow**
+
+### **1. Introduction : L’importance de l’anglais dans le génie logiciel**
+
+#### **1.1. Contexte mondial et local**
+Le développement logiciel est une discipline intrinsèquement mondiale. L’anglais s’est imposé comme la *lingua franca* de la technologie, de la programmation et de la collaboration en ligne. Pour un développeur camerounais, maîtriser l’anglais technique n’est pas un luxe, mais une **nécessité professionnelle** pour :
+*   Accéder à l’immense majorité des ressources techniques (documentations, tutoriels, forums).
+*   Collaborer sur des projets open-source internationaux (ex: contributions à des projets utilisés par des entreprises comme MTN Mobile Money ou Orange Bank Africa).
+*   Comprendre et utiliser les outils standard de l’industrie (GitHub, GitLab, Stack Overflow).
+*   Travailler pour des entreprises internationales ou des startups locales tournées vers l’export.
+
+**À retenir :** L’anglais technique est votre clé d’accès au savoir et à la communauté mondiale des développeurs.
+
+#### **1.2. Objectifs du chapitre**
+À la fin de ce chapitre, l’étudiant sera capable de :
+1.  Lire et comprendre la documentation technique écrite en anglais.
+2.  Naviguer et exploiter efficacement la documentation d’API (Application Programming Interface).
+3.  Participer à des discussions techniques sur GitHub (issues, pull requests).
+4.  Formuler des questions et comprendre les réponses sur Stack Overflow.
+5.  Appliquer ces compétences dans un contexte professionnel camerounais/africain.
+
+---
+
+### **2. Lecture et compréhension de la documentation de code (Code Documentation)**
+
+#### **2.1. Définition et types de documentation**
+La **documentation de code** explique le *comment* et le *pourquoi* du code source. Elle est cruciale pour la maintenance, l’intégration d’un nouveau développeur dans une équipe (ex: chez *Camtel* ou *Express Union IT*) et la réutilisation du code.
+
+**Types principaux :**
+*   **Documentation Inline (Commentaires dans le code) :** Explications courtes au sein du code.
+    *   *Exemple :* `// Calculate tax according to OHADA CEMAC regulations - rate: 18.5%`
+*   **Documentation des fonctions/méthodes (Docstrings/JavaDoc) :** Décrit le but, les paramètres, la valeur de retour.
+*   **README Files :** Fichier d’introduction à un projet, souvent sur GitHub/GitLab.
+*   **Guides de contribution (CONTRIBUTING.md) :** Explique comment contribuer au projet.
+
+#### **2.2. Structure et vocabulaire clé**
+**Structure typique d’une docstring (exemple Python) :**
+```python
+def calculate_mobile_bonus(airtime_recharge, is_weekend=False):
+    """
+    Calculates the promotional bonus for mobile airtime recharge.
+
+    This function applies the promotional rules of a local telecom operator
+    (e.g., MTN or Orange Cameroon) to determine the bonus airtime awarded
+    to a customer based on their recharge amount and the day of the week.
+
+    Args:
+        airtime_recharge (float): The amount of airtime recharged in XAF.
+        is_weekend (bool, optional): True if recharge is done on Saturday or Sunday. Defaults to False.
+
+    Returns:
+        float: The bonus airtime awarded in XAF.
+
+    Raises:
+        ValueError: If `airtime_recharge` is negative.
+
+    Example:
+        >>> calculate_mobile_bonus(1000)
+        150.0
+        >>> calculate_mobile_bonus(2000, is_weekend=True)
+        500.0
+    """
+    if airtime_recharge < 0:
+        raise ValueError("Recharge amount cannot be negative.")
+    # ... logic here ...
+```
+
+**Vocabulaire essentiel :**
+*   **Args / Parameters:** Arguments d’entrée de la fonction.
+*   **Returns:** Ce que la fonction renvoie.
+*   **Raises / Throws:** Les exceptions ou erreurs potentielles.
+*   **Example / Usage:** Exemple concret d’utilisation.
+*   **Deprecated:** Indique qu’une fonction est obsolète et ne doit plus être utilisée.
+*   **See also:** Renvoie vers des fonctions liées.
+
+---
+
+### **3. Exploitation de la documentation d’API (API Documentation)**
+
+#### **3.1. Qu’est-ce qu’une API ?**
+Une **API (Application Programming Interface)** est un ensemble de règles et de contrats qui permet à deux applications logicielles de communiquer. Par exemple, une application de paiement mobile au Cameroun peut utiliser l’API de *Stripe* ou de *Flutterwave* pour traiter les cartes, ou une API locale pour vérifier un solde *Mobile Money*.
+
+#### **3.2. Anatomie d’une documentation d’API**
+Une bonne documentation d’API est structurée comme un **manuel d’utilisation**. Elle comprend généralement :
+
+1.  **Vue d’ensemble (Overview) :** Présentation générale et cas d’usage.
+2.  **Guide de démarrage (Getting Started) :** Inscription, obtention d’une clé API (`API Key`), premier appel.
+3.  **Référence des points de terminaison (Endpoint Reference) :** Le cœur de la documentation.
+4.  **Codes d’état HTTP (HTTP Status Codes) :** Signification des réponses (200 OK, 401 Unauthorized, 404 Not Found, 500 Internal Server Error).
+5.  **Taux de limitation (Rate Limiting) :** Nombre d’appels autorisés par minute/heure.
+6.  **Exemples de code (Code Samples) :** En plusieurs langages (Python, JavaScript, etc.).
+7.  **SDK / Bibliothèques (Software Development Kits) :** Librairies qui simplifient l’utilisation de l’API.
+
+#### **3.3. Étude de cas : Documenter une API fictive de paiement OHADA-Compliant**
+Imaginons une API camerounaise `PayCEMAC` pour les transactions financières respectant les normes OHADA.
+
+**Tableau : Endpoints clés de l’API PayCEMAC**
+| Méthode HTTP | Endpoint | Description | Paramètres (Body/Query) |
+| :--- | :--- | :--- | :--- |
+| **POST** | `/api/v1/transactions` | Initier un paiement. | `amount` (XAF), `customer_phone`, `merchant_id` |
+| **GET** | `/api/v1/transactions/{id}` | Récupérer le statut d’une transaction. | `id` (dans l’URL) |
+| **POST** | `/api/v1/webhooks` | Configurer un webhook pour recevoir les notifications. | `url`, `event_type` (e.g., `transaction.completed`) |
+
+**Exemple de lecture :**
+> **Endpoint:** `POST /api/v1/transactions`
+> **Description:** Creates a new payment transaction for goods or services. The transaction is processed according to CEMAC financial regulations.
+> **Request Body (JSON):**
+> ```json
+> {
+>   "amount": 15000,
+>   "currency": "XAF",
+>   "customer": {
+>     "phone": "+2376XXXXXXX",
+>     "name": "Jean Ndongo"
+>   },
+>   "description": "Payment for online course - BTS GL"
+> }
+> ```
+> **Response 201 (Created):**
+> ```json
+> {
+>   "transactionId": "TXN_789012",
+>   "status": "PENDING",
+>   "paymentLink": "https://paycemac.cm/pay/txn_789012"
+> }
+> ```
+> **Possible Errors:** `400 Bad Request` (invalid phone format), `402 Payment Required` (insufficient funds).
+
+---
+
+### **4. Navigation et participation sur GitHub Issues**
+
+#### **4.1. Rôle des Issues sur GitHub**
+Les **Issues** (problèmes/tickets) sont le système de suivi des bugs, des demandes de fonctionnalités (*feature requests*) et des tâches générales d’un projet. C’est l’outil principal de communication asynchrone pour les équipes logicielles, y compris dans les entreprises locales comme *InnovaTech Yaoundé* ou *Kiro'o Games*.
+
+#### **4.2. Structure d’une Issue bien rédigée**
+Une *issue* efficace suit un modèle (*template*) et doit être claire.
+
+**Étapes pour créer une bonne issue (Bug Report) :**
+1.  **Titre clair et concis :** `Bug: Payment fails for amounts over 100,000 XAF on mobile web.`
+2.  **Description détaillée :**
+    *   **Étapes pour reproduire (Steps to reproduce):** "1. Allez sur le site web mobile... 2. Sélectionnez un produit à 120,000 XAF...".
+    *   **Comportement attendu (Expected behavior):** "La transaction devrait être approuvée et une page de succès s'afficher."
+    *   **Comportement actuel (Actual behavior):** "L'écran de paiement se fige et une erreur `500` apparaît dans la console."
+    *   **Contexte supplémentaire (Screenshots, logs, environnement):** "Navigateur: Chrome Mobile 115, Opérateur: MTN, Pays: Cameroun."
+
+#### **4.3. Vocabulaire et étiquettes (Labels) clés**
+*   **Bug:** Comportement incorrect.
+*   **Enhancement / Feature Request:** Nouvelle fonctionnalité.
+*   **Question:** Demande d’information.
+*   **Help Wanted / Good First Issue:** Idéal pour un contributeur débutant.
+*   **Duplicate:** Problème déjà signalé.
+*   **Wontfix:** L’équipe ne corrigera pas ce problème.
+*   **Assignee:** Personne chargée de traiter l’issue.
+*   **Milestone:** Objectif ou version de livraison associée.
+
+**À retenir :** Lire les issues existantes avant d’en créer une nouvelle pour éviter les doublons. Utilisez la recherche !
+
+---
+
+### **5. Poser des questions et trouver des réponses sur Stack Overflow**
+
+#### **5.1. Qu’est-ce que Stack Overflow ?**
+C’est le plus grand forum de questions/réponses pour les développeurs. Son modèle de **votes** (upvote/downvote) et de **réputation** assure une certaine qualité du contenu.
+
+#### **5.2. Comment poser une bonne question ?**
+Une mauvaise question ("Mon code ne marche pas, aidez-moi !") sera fermée ou ignorée. Suivez ce guide :
+
+**Checklist avant de poster :**
+1.  **J’ai cherché** une réponse existante.
+2.  **J’ai réduit** mon problème à un **exemple minimal reproductible (MCVE)**.
+3.  **J’ai décrit** clairement mon objectif, ce que je vois, et ce que j’attendais.
+4.  **J’ai inclus** les messages d’erreur exacts, le code pertinent et mon environnement (langage, OS, bibliothèques).
+
+**Exemple de bonne question (adaptée) :**
+> **Titre:** How to format currency for XAF (Central African CFA) in JavaScript respecting OHADA spacing rules?
+> **Corps:**
+> I'm developing an e-commerce site for the Cameroonian market. According to OHADA/ISO standards, the currency format should be like `1 500 FCFA` (space as thousand separator, currency code after). I'm trying to use `Intl.NumberFormat` but it displays `1,500 XAF` or `1 500 FCFA` without the space as specified.
+>
+> **Expected Output:** `15 000 FCFA`
+> **Current Code:**
+> ```javascript
+> let formatter = new Intl.NumberFormat('fr-CM', {
+>   style: 'currency',
+>   currency: 'XAF'
+> });
+> console.log(formatter.format(15000)); // Outputs: "15 000 FCFA" (using thin space)
+> ```
+> **Question:** How can I enforce a standard space (`U+0020`) instead of the thin non-breaking space (`U+202F`) for the CEMAC region?
+
+#### **5.3. Comment lire et évaluer les réponses**
+*   **Réponse acceptée (Green Tick):** Celle qui a résolu le problème du demandeur.
+*   **Score (Votes):** Le nombre de `upvotes` indique l’utilité de la réponse pour la communauté.
+*   **Commentaires (Comments):** Pour des demandes de clarification ou des discussions mineures.
+*   **Attention aux réponses obsolètes :** Vérifiez la date. Une réponse sur une ancienne version d’un framework peut être dangereuse.
+
+---
+
+### **6. Synthèse et application au contexte professionnel camerounais**
+
+#### **6.1. Tableau comparatif des ressources

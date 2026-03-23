@@ -1,0 +1,145 @@
+# **Notes de cours — BTS Génie Logiciel**
+## **Matière : 11 Comptabilité Analytique**
+## **Chapitre : Budgets et contrôle de gestion : budget prévisionnel, écarts (sur volume, prix, rendement), tableau de bord**
+
+---
+
+### **1. Introduction : Le contrôle de gestion dans l'environnement OHADA et camerounais**
+
+Le contrôle de gestion est un système d’information et de pilotage essentiel pour toute organisation, notamment dans le secteur des technologies et des services où évoluent les futurs ingénieurs logiciels. Dans le contexte camerounais et africain, régi par le droit comptable OHADA (Organisation pour l'Harmonisation en Afrique du Droit des Affaires), la maîtrise des coûts et la planification financière sont cruciales pour la compétitivité des entreprises comme MTN Cameroon, Orange Cameroun, Camtel, ou les nombreuses SSII (Sociétés de Services en Ingénierie Informatique).
+
+**Objectif du chapitre :** Comprendre comment les outils de contrôle de gestion (budget, analyse des écarts, tableau de bord) permettent de piloter la performance d'une entreprise, d'anticiper les risques et de prendre des décisions éclairées.
+
+---
+
+### **2. Le budget prévisionnel**
+
+#### **2.1. Définition et finalités**
+Le **budget prévisionnel** est un plan chiffré, traduisant en termes financiers les objectifs d'une entreprise pour une période future (généralement l'année à venir). Il est l'expression concrète de la stratégie.
+
+**Finalités :**
+*   **Planification :** Anticiper les ressources nécessaires (humaines, matérielles, financières).
+*   **Coordination :** Harmoniser les actions des différents services (développement, commercial, administration).
+*   **Délégation et responsabilisation :** Fixer des objectifs clairs aux responsables de centres de profit ou de coûts.
+*   **Contrôle (A posteriori) :** Servir de référence pour évaluer la performance réelle (c'est le "réel" vs. le "prévu").
+
+#### **2.2. Processus d'élaboration du budget (Boucle budgétaire)**
+1.  **Établissement des prévisions commerciales :** Chiffre d'affaires prévisionnel basé sur les études de marché.
+2.  **Élaboration des budgets opérationnels :**
+    *   Budget des ventes
+    *   Budget de production (pour une SSII : budget des charges de personnel - développeurs, chefs de projet)
+    *   Budget des approvisionnements
+    *   Budget des frais généraux (loyer, électricité, licences logicielles)
+3.  **Élaboration du budget financier :** Trésorerie, investissements (achat de serveurs, matériel informatique).
+4.  **Synthèse :** Établissement du **compte de résultat prévisionnel** et du **budget de trésorerie**.
+5.  **Vote et adoption** par la direction.
+
+#### **2.3. Exemple concret dans une SSII camerounaise**
+**Projet :** Développement d'une application mobile de micro-crédit pour une institution financière de Douala.
+
+| Rubrique budgétaire | Détail prévisionnel | Montant prévu (FCFA) |
+| :--- | :--- | :--- |
+| **Chiffre d'affaires** | Forfait projet | 25 000 000 |
+| **Charges de personnel** | 1 Chef de projet (6 mois), 2 Développeurs (8 mois) | 12 000 000 |
+| **Sous-traitance** | Design UX/UI externe | 2 500 000 |
+| **Frais généraux** | Licences logicielles (IDE, outils de test), Cloud (hébergement), électricité | 3 000 000 |
+| **Marge sur projet** | CA - Charges directes et indirectes imputées | **7 500 000** |
+
+**À retenir :** Le budget est un outil de communication et d'engagement. Dans le contexte OHADA, il doit être réaliste et conforme aux normes comptables pour une image fidèle.
+
+---
+
+### **3. L'analyse des écarts : un outil de pilotage**
+
+L'analyse des écarts consiste à comparer les réalisations (le **réel**) aux prévisions budgétaires (le **prévu** ou **standard**) pour comprendre les causes de dérives et prendre des actions correctrices.
+
+#### **3.1. Principes généraux**
+*   **Écart total = Coût Réel - Coût Prévisionnel**
+*   Un écart peut être **défavorable** (négatif, coût réel > coût prévu) ou **favorable** (positif).
+*   L'objectif n'est pas de blâmer, mais de **comprendre** et **agir**.
+
+#### **3.2. Les trois écarts fondamentaux (sur coût de production/service)**
+On décompose l'écart total sur un coût (ex: coût de la main d'œuvre d'un projet) en trois sous-écarts :
+
+**Formules de base :**
+Soit :
+*   **Qr** = Quantité réelle de ressources consommées (ex: nombre d'heures travaillées)
+*   **Qp** = Quantité prévue de ressources
+*   **Pr** = Prix unitaire réel de la ressource (ex: coût horaire réel)
+*   **Pp** = Prix unitaire prévu (coût horaire budgété)
+
+1.  **Écart sur prix (ou sur coût unitaire)**
+    *   Mesure l'impact de la variation du prix de la ressource.
+    *   **Formule : Écart/Prix = (Pr - Pp) x Qr**
+    *   *Exemple : Le coût horaire d'un développeur senior était budgété à 5 000 FCFA/h, mais en raison d'une pénurie de talents, vous avez dû payer 5 500 FCFA/h.*
+
+2.  **Écart sur quantité (ou sur volume/consommation)**
+    *   Mesure l'impact de la variation de la quantité de ressources utilisée.
+    *   **Formule : Écart/Quantité = (Qr - Qp) x Pp**
+    *   *Exemple : Le projet était budgété pour 1 000 heures de développement, mais il en a finalement requis 1 200 heures en raison de spécifications changeantes.*
+
+3.  **Écart sur rendement (ou sur productivité)**
+    *   Plus subtil, il mesure l'efficacité dans l'utilisation des ressources par rapport à un objectif de production. Il nécessite de distinguer quantité *prévue* (Qp) et quantité *standard allouée pour la production réelle* (Qs).
+    *   **Formule : Écart/Rendement = (Qr - Qs) x Pp**
+    *   Où **Qs** = Quantité de ressources qui *aurait dû* être utilisée pour le niveau d'activité réel, selon le standard de productivité.
+    *   *Exemple : Pour produire 10 modules d'application (production réelle), le standard prévoyait 100h/module, soit Qs = 1000h. Si vous avez utilisé Qr = 1200h, l'écart sur rendement de 200h x Pp mesure la sous-productivité.*
+
+**Vérification : Écart Total = Écart/Prix + Écart/Quantité (ou Écart/Volume + Écart/Rendement selon le modèle).**
+
+#### **3.3. Étude de cas : Projet de développement pour une télécom (Orange Cameroun)**
+**Prévisionnel :** Développement d'un système de gestion des réclamations clients.
+*   Charge prévue (Qp) : 800 heures de travail.
+*   Coût horaire prévu (Pp) : 4 500 FCFA (développeur intermédiaire).
+*   **Coût prévisionnel total : 800h x 4 500 FCFA = 3 600 000 FCFA.**
+
+**Réel :**
+*   Heures réellement consommées (Qr) : 950 heures.
+*   Coût horaire réel (Pr) : 5 000 FCFA (développeur senior mobilisé en urgence).
+*   **Coût réel total : 950h x 5 000 FCFA = 4 750 000 FCFA.**
+
+**Analyse des écarts :**
+*   **Écart Total = 4 750 000 - 3 600 000 = +1 150 000 FCFA (Défavorable).**
+*   **Écart sur Prix = (5 000 - 4 500) x 950h = +475 000 FCFA (Défavorable).** Cause : Mobilisation d'une ressource plus coûteuse.
+*   **Écart sur Quantité = (950 - 800) x 4 500 = +675 000 FCFA (Défavorable).** Cause : Surcharge de travail due à une mauvaise estimation initiale ou changements de spécifications.
+
+**Action correctrice :** Renforcer l'analyse technique en amont (cahier des charges plus précis), mettre en place une grille salariale stable pour les profils techniques.
+
+---
+
+### **4. Le tableau de bord de gestion (TBG)**
+
+#### **4.1. Définition et rôle**
+Le **tableau de bord de gestion** est un outil de pilotage synthétique qui présente sous forme d'indicateurs clés (KPI - Key Performance Indicators) les informations vitales sur l'activité et les résultats d'une entreprise ou d'un service. C'est un instrument d'aide à la décision en temps quasi-réel.
+
+**Différence Budget / Tableau de bord :**
+| **Budget** | **Tableau de bord** |
+| :--- | :--- |
+| Orienté vers le futur (prévision) | Orienté vers le présent et le passé (suivi) |
+| Période fixe (année) | Mise à jour régulière (mensuelle, hebdomadaire) |
+| Chiffré de manière exhaustive | Synthétique, basé sur des indicateurs clés |
+| Outil de planification et de contrôle formel | Outil de pilotage opérationnel et d'alerte |
+
+#### **4.2. Caractéristiques d'un bon indicateur (KPI)**
+Un KPI doit être **SMART** :
+*   **S**pécifique : Clair et précis.
+*   **M**esurable : Quantifiable objectivement.
+*   **A**tteignable : Réaliste.
+*   **R**elevant : En lien direct avec les objectifs stratégiques.
+*   **T**emporel : Suivi dans le temps.
+
+#### **4.3. Exemple de tableau de bord pour un chef de projet logiciel**
+**Objectif :** Livrer le projet "Application Mobile Camtel" dans les délais, le budget et avec la qualité requise.
+
+| **Perspectives** | **Indicateurs Clés (KPI)** | **Cible** | **Réalisé** | **Écart** | **Commentaire/Action** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Délais** | % d'avancement vs. planning (Jalons) | 100% | 85% | -15% | Retard sur le module paiement. Réunion corrective avec l'équipe. |
+| **Coûts** | Coût réel vs. budget (Écart) | 0 FCFA | +500k FCFA | Défavorable | Dérive due à des heures supplémentaires. |
+| **Qualité** | Nombre de bugs critiques détectés | < 5 | 8 | Défavorable | Renforcer les tests unitaires. |
+| **Satisfaction client** | Nombre de réunions de validation réussies | 4/4 | 3/4 | -1 | Point bloquant sur l'ergonomie. Prototype à revoir. |
+| **Ressources** | Taux d'occupation de l'équipe | 90% | 95% | +5% | Équipe sur-sollicitée. Anticiper le prochain recrutement. |
+
+#### **4.4. Outils et technologies**
+Les logiciels sont indispensables pour automatiser la collecte de données et la visualisation :
+*   **ERP/Modules de contrôle de gestion :** SAP, Oracle Financials, SAGE (très répandu en Afrique francophone).
+*   **Outils de Business Intelligence (BI) et de datavisualisation :** Microsoft Power BI, Tableau, Qlik Sense. Ils permettent de connecter des sources de données diverses (feuilles de temps, Git, outils de bug tracking) et de créer des tableaux de bord interactifs.
+*   **Outils de gestion de projet :** Microsoft Project, Jira (avec des rapports avancés), Asana, Trello. Ils fournissent des indicateurs sur l'avancement

@@ -1,0 +1,159 @@
+# **Notes de Cours — BTS Génie Logiciel (Cameroun)**
+**Matière : 04 Informatique Générale**
+**Chapitre : Représentation des données**
+
+---
+
+## **Introduction**
+
+Dans un système informatique, toutes les données (nombres, textes, images, sons) sont finalement réduites à une séquence de bits (0 et 1). La manière dont ces bits sont organisés et interprétés est fondamentale pour le traitement de l'information. Ce chapitre explore les principaux schémas de représentation des données numériques et textuelles, ainsi que les techniques de compression essentielles pour l'optimisation du stockage et de la transmission, particulièrement pertinentes dans un contexte où les ressources réseau et les coûts de données sont des préoccupations majeures (ex: forfaits MTN, Orange, Camtel).
+
+---
+
+## **1. Représentation des nombres entiers**
+
+### **1.1. Notion de base et représentation non-signée**
+Dans un format non-signé sur *n* bits, on peut représenter les entiers de **0** à **2ⁿ - 1**.
+*Exemple sur 8 bits (1 octet) :* Valeurs de **00000000₂ (0₁₀)** à **11111111₂ (255₁₀)**.
+
+### **1.2. Représentation signée : Le complément à deux (Two's Complement)**
+C'est la méthode **universellement utilisée** dans les processeurs modernes pour représenter les entiers signés.
+
+#### **1.2.1. Principe et Définition**
+Sur *n* bits :
+*   Le bit de poids fort (le plus à gauche) représente le signe : **0 pour positif**, **1 pour négatif**.
+*   La plage de valeurs va de **-2ⁿ⁻¹** à **+2ⁿ⁻¹ - 1**.
+*   Pour obtenir la représentation d'un nombre négatif *-X* :
+    1.  Représenter la valeur absolue *X* en binaire sur *n* bits.
+    2.  Inverser tous les bits (complément à un).
+    3.  Ajouter 1 au résultat (complément à deux).
+
+#### **1.2.2. Exemple Concret (Adapté au contexte OHADA)**
+Imaginons un système de comptabilité simplifié dans une PME camerounaise utilisant des entiers sur **8 bits** pour enregistrer de petits soldes journaliers (en milliers de FCFA).
+
+*   **+75 000 FCFA** serait représenté par **+75** en unité de 1000 FCFA.
+    *   `75₁₀` = `01001011₂`
+*   **-75 000 FCFA** (une dette) :
+    1.  `75₁₀` = `01001011₂`
+    2.  Inversion : `10110100₂`
+    3.  Ajout de 1 : `10110100₂ + 1 = 10110101₂`
+    *   `-75₁₀` = `10110101₂`
+
+**Plage sur 8 bits :** de **-128** (-128 000 FCFA) à **+127** (+127 000 FCFA).
+
+#### **1.2.3. Avantages**
+*   **Une seule représentation du zéro** (`00000000`).
+*   Les opérations arithmétiques (addition, soustraction) utilisent le **même circuit électronique** pour les nombres signés et non-signés, simplifiant l'architecture du processeur.
+
+> **À RETENIR :** Le complément à deux est le standard pour les entiers signés. L'opération `X + (-X)` donne toujours 0 avec un dépassement de capacité ignoré.
+
+---
+
+## **2. Représentation des nombres réels (flottants)**
+
+### **2.1. Standard IEEE 754**
+C'est le standard international pour la représentation des nombres à virgule flottante en simple (32 bits) et double précision (64 bits).
+
+### **2.2. Principe de la notation scientifique binaire**
+Tout nombre *N* peut s'écrire : **N = (-1)^S * M * 2^E**
+*   **S (1 bit) :** Signe (0=positif, 1=négatif).
+*   **M (Mantisse) :** Partie fractionnaire normalisée (1 ≤ M < 2 en binaire). Le `1` initial est implicite (bit caché) pour gagner en précision.
+*   **E (Exposant) :** Puissance de 2. Il est stocké sous forme biaisée (exposant + biais) pour faciliter les comparaisons.
+
+### **2.3. Formats principaux**
+
+| Format | Taille totale | Bit de signe (S) | Bits d'exposant (E) | Bits de mantisse (M) | Biais de l'exposant |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Simple Précision** | 32 bits | 1 bit | 8 bits | 23 bits | 127 |
+| **Double Précision** | 64 bits | 1 bit | 11 bits | 52 bits | 1023 |
+
+### **2.4. Exemple et Application**
+Calcul du **taux de change moyen journalier** (ex: 1 USD = 650.25 FCFA) en simple précision.
+
+1.  **Convertir 650.25 en binaire.**
+    *   Partie entière 650₁₀ = `1010001010₂`
+    *   Partie fractionnaire 0.25₁₀ = `.01₂` (car 0.25 = 1/4 = 2⁻²)
+    *   `650.25₁₀` ≈ `1010001010.01₂`
+2.  **Normaliser :** `1.01000101001₂ * 2⁹` (On décale la virgule de 9 positions)
+3.  **Identifier les composants :**
+    *   S = 0 (nombre positif)
+    *   E = 9. En biaisé : 9 + 127 = 136₁₀ = `10001000₂`
+    *   M = `.01000101001₂` (on prend la partie après la virgule, sur 23 bits)
+4.  **Mot final (32 bits) :**
+    `0 10001000 01000101001000000000000`
+
+### **2.5. Cas particuliers et importance**
+*   **Zéros** (+0 et -0).
+*   **Nombres dénormalisés** (très proches de zéro).
+*   **Infinis** (±∞).
+*   **NaN (Not a Number)** : Résultat d'opérations invalides (√-1, 0/0). **Très important pour la robustesse des systèmes financiers (OHADA) et des télécoms (MTN, Orange)**, car il permet de contenir les erreurs sans planter un programme.
+
+> **À RETENIR :** IEEE 754 est omniprésent (CPU, GPU, langages de programmation). Les calculs flottants peuvent entraîner des **erreurs d'arrondi** dues à la conversion base10/base2. Critique pour les calculs monétaires précis.
+
+---
+
+## **3. Représentation des caractères**
+
+### **3.1. ASCII (American Standard Code for Information Interchange)**
+*   Standard historique sur **7 bits** (128 caractères).
+*   Couvre les lettres anglaises (majuscules/minuscules), chiffres, ponctuations et caractères de contrôle.
+*   **Limite majeure :** Absence totale des caractères accentués et des alphabets non-latins (arabe, langues nationales camerounaises).
+
+### **3.2. Unicode : Une solution universelle**
+*   **Objectif :** Assigner un **code point unique** (ex: U+0041 pour 'A', U+00E9 pour 'é') à **tout** caractère de toute langue.
+*   Problème : Comment stocker ces code points (qui peuvent nécessiter plus d'un octet) efficacement ?
+
+### **3.3. UTF-8 (Unicode Transformation Format - 8 bits)**
+*   **Encodage à longueur variable** recommandé par l'IETF et devenu le standard du Web.
+*   **Principe :**
+    *   Compatible **rétrospectif avec ASCII** (les premiers 128 caractères sont identiques).
+    *   Utilise de 1 à 4 octets par caractère selon son code point.
+    *   Les octets de tête indiquent la longueur de la séquence.
+
+**Tableau de structure UTF-8 :**
+| Plage Unicode (hex) | Plage Unicode (déc.) | Format des octets (binaire) |
+| :--- | :--- | :--- |
+| U+0000 à U+007F | 0 - 127 | `0xxxxxxx` |
+| U+0080 à U+07FF | 128 - 2047 | `110xxxxx 10xxxxxx` |
+| U+0800 à U+FFFF | 2048 - 65535 | `1110xxxx 10xxxxxx 10xxxxxx` |
+| U+10000 à U+10FFFF | 65536 - 1114111 | `11110xxx 10xxxxxx 10xxxxxx 10xxxxxx` |
+
+### **3.4. Exemples concrets (Contexte camerounais)**
+*   **"MTN Cameroun"** (ASCII/UTF-8 identique) : Chaque caractère = 1 octet.
+*   **"Bienvenue à Yaoundé"** :
+    *   'B','i','e','n',...' ','à',' ',...'é'...
+    *   Le 'é' (U+00E9) est codé sur **2 octets** en UTF-8 : `11000011 10101001`.
+*   **Caractères en langues nationales** (ex: 'ɓ' (U+0253) en fulfulde) : Codés sur 2 octets.
+*   **Importance :** UTF-8 est **crucial** pour développer des applications web et mobiles **inclusives** au Cameroun, permettant d'afficher correctement le français, l'anglais, l'arabe (utilisé dans le Nord) et les langues locales.
+
+> **À RETENIR :** **Toujours utiliser UTF-8** pour l'encodage des textes dans vos projets (déclaration dans les en-têtes HTML `<meta charset="UTF-8">`, paramétrage des bases de données, des fichiers sources). Éviter l'ANSI/Windows-1252 source d'erreurs ("Ã©" au lieu de "é").
+
+---
+
+## **4. Principes de la compression des données**
+
+### **4.1. Définition et Objectifs**
+La compression réduit la taille d'un fichier pour :
+*   **Économiser l'espace de stockage** (disques durs, serveurs).
+*   **Réduire le temps et le coût de transmission** sur les réseaux (très important avec les forfaits données mobiles).
+*   **Types :** Avec pertes (*lossy*) et sans pertes (*lossless*).
+
+### **4.2. Compression sans pertes (Lossless)**
+Les données décompressées sont **identiques** à l'original. Essentiel pour le texte, les exécutables, les bases de données.
+
+#### **4.2.1. Algorithmes basés sur le dictionnaire**
+*   **LZ77/LZ78, LZW** : Remplacent des séquences répétées par une référence (adresse, longueur).
+*   **Exemple :** Dans un document OHADA, la phrase "Code de Commerce" apparaît des centaines de fois. L'algorithme la stocke une fois et y fait référence ensuite.
+*   **Outils :** ZIP, GZIP, formats d'archive (RAR, 7z). Utilisés quotidiennement pour échanger des bundles de code source ou des documents.
+
+#### **4.2.2. Codage entropique (Huffman, Arithmétique)**
+*   **Principe :** Assigner des codes courts aux symboles les plus fréquents.
+*   **Exemple :** Dans un texte en français, 'e', 'a', 's' sont plus courts à coder que 'w', 'k', 'z'.
+
+### **4.3. Compression avec pertes (Lossy)**
+Élimine des informations **peu perceptibles** pour obtenir un taux de compression très élevé. **Irréversible**.
+
+#### **4.3.1. Applications**
+*   **Images :** **JPEG**. Utilisé pour les photos sur les sites web d'actualités camerounaises (journal en ligne, galeries).
+*   **Audio :** **MP3, AAC**. Format standard pour la musique diffusée sur les plateformes de streaming et les radios en ligne.
+*   **Vidéo :** **H.264/AVC, H.265/HEVC**. Standards pour la vidéo à la demande (VOD), les

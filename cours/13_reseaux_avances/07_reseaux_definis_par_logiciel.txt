@@ -1,0 +1,139 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 13 Réseaux Avancés**
+## **Chapitre : SDN (Software-Defined Networking)**
+
+---
+
+### **1. Introduction au SDN : Définition et Contexte**
+
+#### **1.1. Définition du SDN**
+Le **Software-Defined Networking (SDN)** est une architecture réseau innovante qui **découple le plan de contrôle (intelligence) du plan de données (acheminement)**. Cette séparation permet de centraliser la gestion et le contrôle du réseau via un logiciel, rendant le réseau plus agile, programmable et adaptable aux besoins dynamiques des applications.
+
+**À retenir :** Le SDN transforme le réseau d'une infrastructure statique et complexe en une plateforme dynamique et programmable, comparable à la virtualisation des serveurs.
+
+#### **1.2. Problématique des réseaux traditionnels et justification du SDN**
+Dans les réseaux traditionnels (ex: routeurs et commutateurs classiques), les plans de contrôle et de données sont **étroitement couplés** dans chaque équipement. Cela entraîne :
+*   **Rigidité :** Configuration manuelle et longue sur chaque appareil.
+*   **Complexité :** Difficulté d'implémenter des politiques réseau cohérentes.
+*   **Vendor Lock-in :** Dépendance aux protocoles propriétaires d'un constructeur.
+
+**Exemple concret Camerounais :** Une université comme l'**Université de Yaoundé I** gère un réseau campus complexe. Pour prioriser le trafic de la plateforme d'enseignement à distance sur les liens internet de **Camtel**, un administrateur doit configurer manuellement la qualité de service (QoS) sur des dizaines de commutateurs de différents modèles et marques. Le SDN permettrait de définir cette politique une seule fois, de manière centralisée.
+
+#### **1.3. Architecture SDN : Les trois couches fondamentales**
+L'architecture SDN standard est organisée en trois couches logiques :
+
+1.  **Couche Infrastructure (Plan de Données) :** Composée des équipements réseau (switches, routeurs) simplifiés. Leur seule fonction est de **transférer les paquets** selon les règles reçues.
+2.  **Couche Contrôle (Plan de Contrôle) :** Le "cerveau" du réseau. Un ou plusieurs **contrôleurs SDN** centralisés communiquent avec les équipements de l'infrastructure via une interface standard (ex: OpenFlow) pour leur dicter leur comportement.
+3.  **Couche Application :** Les logiciels et services qui utilisent les API du contrôleur pour implémenter des fonctions réseau (pare-feu, équilibrage de charge, gestion des accès).
+
+**Tableau comparatif : Réseau Traditionnel vs SDN**
+| Caractéristique | Réseau Traditionnel | SDN |
+| :--- | :--- | :--- |
+| **Couplage Plans** | Couplés dans chaque équipement | Découplés |
+| **Intelligence** | Distribuée | Centralisée (Contrôleur) |
+| **Programmabilité** | Limitée, par CLI | Élevée, par API logicielles |
+| **Gestion** | Device-by-Device | Centralisée et automatisée |
+| **Innovation** | Lente (dépend du hardware) | Rapide (par logiciel) |
+| **Coût Opérationnel** | Élevé | Réduit à moyen terme |
+
+---
+
+### **2. Concepts Fondamentaux : Plan de Contrôle vs Plan de Données**
+
+#### **2.1. Plan de Données (Data Plane)**
+*   **Rôle :** C'est le **"tuyau"** ou le **"forwarding plane"**. Il est responsable du **transfert effectif des paquets/trames** d'une interface d'entrée vers une interface de sortie, basé sur des tables de commutation/routage.
+*   **Fonctions :** Encapsulation/décapsulation, vérification de checksum, mise à jour de TTL, application de règles de sécurité (ACL).
+*   **Analogie :** Le système de rails et d'aiguillages d'un réseau ferroviaire. Il exécute les ordres sans prendre de décision.
+
+#### **2.2. Plan de Contrôle (Control Plane)**
+*   **Rôle :** C'est le **"cerveau"** du réseau. Il prend les décisions sur **comment les paquets doivent être acheminés**. Il construit et maintient les tables de commutation/routage (table ARP, table MAC, table de routage).
+*   **Fonctions :** Exécution des protocoles de routage (OSPF, BGP), découverte de topologie, gestion des tables de flux.
+*   **Analogie :** Le centre de contrôle du trafic ferroviaire qui décide du chemin des trains et règle les aiguillages.
+
+**À retenir :** Dans le SDN, le plan de contrôle est **extirpé** des équipements physiques et **centralisé** dans un contrôleur logiciel. Les équipements du plan de données deviennent de simples "forwarders" obéissants.
+
+---
+
+### **3. OpenFlow : Le Protocole Standard du SDN**
+
+#### **3.1. Définition et Rôle**
+**OpenFlow** est le premier et le plus répandu des protocoles standardisés qui matérialise la communication entre le **plan de contrôle (contrôleur)** et le **plan de données (switch SDN)**. Il est défini par l'**Open Networking Foundation (ONF)**.
+
+#### **3.2. Fonctionnement d'un Switch OpenFlow**
+Un switch compatible OpenFlow contient une ou plusieurs **Flow Tables**. Chaque entrée de cette table (une règle de flux) comprend :
+*   **Match Fields** (En-têtes de paquet à inspecter : adresses MAC/IP, ports, VLAN ID...).
+*   **Counters** (Statistiques sur le flux).
+*   **Instructions/Actions** (Que faire du paquet correspondant : forwarder vers un port, modifier l'en-tête, envoyer au contrôleur, drop).
+
+**Processus :**
+1.  Un paquet arrive sur un port du switch.
+2.  Le switch cherche une correspondance dans ses Flow Tables.
+3.  Si une **match** est trouvée, il exécute les **actions** associées.
+4.  Si **pas de match** (miss), le paquet peut être encapsulé et envoyé au **contrôleur SDN** via une connexion OpenFlow sécurisée (TLS). Le contrôleur décide alors de la politique à appliquer et installe une nouvelle règle dans la Flow Table du switch.
+
+#### **3.3. Exemple concret avec un opérateur Africain**
+**Scénario :** **MTN Cameroon** souhaite offrir un service "Internet Étudiant" à bas coût mais avec limitation des applications de streaming pendant les heures de pointe (18h-22h).
+*   **Avec réseau traditionnel :** Configuration complexe de politiques de "shaping" et de filtrage sur chaque routeur d'agrégation en bordure de réseau (PE).
+*   **Avec SDN/OpenFlow :**
+    1.  Une application "Gestion des Abonnés" est développée sur le contrôleur SDN.
+    2.  Lorsqu'un paquet d'un abonné "Étudiant" arrive sur un switch SDN en bordure, et qu'il n'y a pas de règle correspondante, il est envoyé au contrôleur.
+    3.  Le contrôleur consulte son application qui vérifie l'abonnement et l'horaire.
+    4.  Si c'est l'heure de pointe et que le paquet est du streaming (ex: port TCP 443 vers Netflix/YouTube), le contrôleur installe une règle dans le switch pour **limiter le débit (rate-limiting)** de ce flux spécifique.
+    5.  Tous les paquets suivants du même flux seront traités localement par le switch à la vitesse limitée, sans solliciter le contrôleur.
+
+---
+
+### **4. Le Contrôleur SDN : OpenDaylight et autres**
+
+#### **4.1. Rôle du Contrôleur SDN**
+Le contrôleur est la pièce maîtresse de l'architecture SDN. C'est une plateforme logicielle qui :
+*   Fournit une **vue centralisée et unifiée** de l'ensemble du réseau.
+*   Exécute la **logique de contrôle** via des applications.
+*   **Communique avec les équipements** du plan de données via des protocoles sud (ex: OpenFlow, NETCONF).
+*   Offre des **API nord (REST, gRPC)** aux applications pour programmer le réseau.
+
+#### **4.2. OpenDaylight (ODL)**
+**OpenDaylight** est un projet open-source majeur sous l'égide de la **Linux Foundation**. C'est une plateforme de contrôleur SDN modulaire et extensible, très utilisée en entreprise et par les opérateurs.
+*   **Architecture Modulaire (MD-SAL) :** Basé sur OSGi, il permet d'activer uniquement les fonctionnalités nécessaires (modules pour OpenFlow, NETCONF/YANG, L2 Switch, etc.).
+*   **Interface Nord :** API RESTful puissante pour développer des applications.
+*   **Support multi-protocoles :** Ne se limite pas à OpenFlow (support de NETCONF/YANG, BGP, PCEP).
+*   **Exemple d'utilisation :** Un fournisseur de services cloud au Cameroun pourrait utiliser ODL pour orchestrer automatiquement la création de réseaux privés virtuels (VXLAN) pour ses clients, en intégrant la gestion avec son système de facturation basé sur les standards **OHADA**.
+
+#### **4.3. Autres Contrôleurs**
+*   **ONOS (Open Network Operating System) :** Orienté "carrier-grade" (haute disponibilité, performance), cible les opérateurs télécoms.
+*   **RYU (Framework Japonais) :** Léger, entièrement en Python, idéal pour le prototypage et la recherche.
+*   **Contrôleurs commerciaux :** Cisco ACI, VMware NSX, Juniper Contrail.
+
+---
+
+### **5. Network Functions Virtualization (NFV)**
+
+#### **5.1. Définition et Relation avec le SDN**
+La **NFV** est un concept complémentaire mais distinct du SDN. Son objectif est de **découpler les fonctions réseau (Network Functions)** du matériel dédié pour les exécuter sous forme de **logiciels (VNF - Virtual Network Functions)** sur des serveurs standard (x86), dans des environnements virtualisés (VM, conteneurs).
+
+**Fonctions virtualisables (VNF) :** Pare-feu (Firewall), Routeur, Equilibreur de charge (Load Balancer), SON (Self-Organizing Networks), SBC (Session Border Controller).
+
+**Relation SDN-NFV :**
+*   **SDN** concerne **comment le trafic est acheminé** (séparation contrôle/données, programmabilité).
+*   **NFV** concerne **où les fonctions réseau sont exécutées** (virtualisation sur serveur standard).
+*   **Ils sont synergiques :** Le SDN peut fournir la connectivité dynamique et automatisée entre les différentes VNFs déployées par la NFV.
+
+#### **5.2. Avantages de la NFV pour le contexte Africain**
+*   **Réduction des CAPEX/OPEX :** Moins d'achat de boîtiers matériels propriétaires onéreux. Utilisation de serveurs standards.
+*   **Agilité et Time-to-Market :** Déploiement et mise à l'échelle rapide de nouveaux services. Ex: **Orange Cameroun** pourrait déployer un service anti-DDoS (VNF) en quelques minutes sur son cloud, au lieu de commander et installer un appliance physique.
+*   **Innovation ouverte :** Moins de dépendance aux fournisseurs, possibilité de développer des VNFs maison.
+
+**Architecture NFV (ETSI) :**
+1.  **VNFs :** Les fonctions réseau virtualisées.
+2.  **NFVI (NFV Infrastructure) :** La couche matérielle (serveurs, stockage, réseau) et virtualisation (Hyperviseur, KVM, VMware).
+3.  **MANO (Management and Orchestration) :** Le cadre de gestion pour automatiser le déploiement et la vie des VNFs (OpenStack MANO - OSM, Open Source MANO).
+
+---
+
+### **6. Cloud Networking et Convergence avec SDN/NFV**
+
+#### **6.1. Définition du Cloud Networking**
+Le Cloud Networking fait référence aux principes et technologies de mise en réseau qui permettent et supportent les modèles de cloud computing (IaaS, PaaS, SaaS). Il se caractérise par une gestion centralisée, l'automatisation et la fourniture de services réseau à la demande.
+
+#### **6.2. Comment le SDN et la NFV permettent le Cloud Networking**
+*   **SDN pour l

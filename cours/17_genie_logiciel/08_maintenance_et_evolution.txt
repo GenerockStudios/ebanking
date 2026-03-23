@@ -1,0 +1,204 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière 17 : Génie Logiciel**
+## **Chapitre : Maintenance et évolution logicielle**
+
+---
+
+### **1. Introduction à la maintenance et l'évolution logicielle**
+
+#### **1.1. Définition et importance**
+La maintenance logicielle désigne l'ensemble des activités visant à modifier un logiciel après sa livraison pour corriger des défauts, améliorer ses performances ou l'adapter à un environnement changeant. L'évolution logicielle est le processus continu d'adaptation et d'amélioration du logiciel pour répondre aux nouveaux besoins des utilisateurs et aux changements technologiques.
+
+**À retenir** : Un logiciel n'est pas un produit fini, mais une entité vivante qui évolue tout au long de son cycle de vie. Selon les études, la maintenance représente **60 à 80%** du coût total du cycle de vie d'un logiciel.
+
+#### **1.2. Contexte camerounais et africain**
+Dans le contexte des entreprises camerounaises et africaines, la maintenance est cruciale pour :
+- Maintenir opérationnels les systèmes critiques (bancaires, santé, télécoms)
+- Adapter les logiciels aux évolutions réglementaires (OHADA, lois fiscales)
+- Faire face aux contraintes d'infrastructure (intermittence électrique, faible bande passante)
+- Pérenniser les investissements numériques dans un environnement économique contraint
+
+**Exemple concret** : Un logiciel de gestion développé pour une PME camerounaise doit être maintenu pour s'adapter aux nouvelles dispositions du droit OHADA révisé, aux changements de taux de TVA, et pour fonctionner avec les nouvelles versions des systèmes d'exploitation.
+
+---
+
+### **2. Les types de maintenance logicielle (classification Lientz & Swanson)**
+
+#### **2.1. Maintenance corrective**
+**Définition** : Correction des défauts ou bugs découverts pendant l'utilisation du logiciel.
+
+**Caractéristiques** :
+- Réactive (intervient après détection d'un problème)
+- Prioritaire lorsqu'elle affecte les fonctionnalités critiques
+- Représente environ 20% des activités de maintenance
+
+**Exemple** : Correction d'un bug dans l'application mobile Orange Money qui empêche le transfert d'argent vers une banque partenaire camerounaise.
+
+#### **2.2. Maintenance adaptative**
+**Définition** : Modification du logiciel pour l'adapter à des changements de son environnement d'exécution.
+
+**Causes courantes** :
+- Nouveaux systèmes d'exploitation ou versions
+- Changements matériels
+- Évolutions des systèmes avec lesquels le logiciel interagit
+- Modifications légales ou réglementaires
+
+**Exemple** : Adaptation d'un logiciel de paie développé au Cameroun pour tenir compte de la nouvelle grille salariale de la fonction publique ou des modifications du code général des impôts.
+
+#### **2.3. Maintenance perfective**
+**Définition** : Amélioration des performances, de la maintenabilité ou de l'expérience utilisateur sans changer les fonctionnalités de base.
+
+**Objectifs** :
+- Améliorer l'efficacité (temps de réponse, consommation mémoire)
+- Améliorer l'utilisabilité (interface plus intuitive)
+- Ajouter des fonctionnalités mineures demandées par les utilisateurs
+- Représente environ 50% des activités de maintenance
+
+**Exemple** : Optimisation de l'application MTN Mobile Money pour réduire le temps de traitement des transactions pendant les pics d'utilisation (fins de mois, fêtes).
+
+#### **2.4. Maintenance préventive**
+**Définition** : Modifications visant à prévenir l'apparition de défauts futurs ou à améliorer la maintenabilité.
+
+**Activités typiques** :
+- Restructuration du code (refactoring)
+- Mise à jour de bibliothèques obsolètes
+- Amélioration de la documentation
+- Représente environ 5% des activités de maintenance
+
+**Exemple** : Réécriture d'une partie critique du système de facturation de Camtel pour éliminer les dépendances vers des technologies dépréciées.
+
+#### **2.5. Tableau comparatif des types de maintenance**
+
+| **Type** | **Objectif principal** | **Pourcentage moyen** | **Nature** | **Exemple contexte camerounais** |
+|----------|------------------------|------------------------|------------|-----------------------------------|
+| **Corrective** | Corriger les défauts | 20% | Réactive | Bug dans le calcul des intérêts bancaires |
+| **Adaptative** | Adapter à l'environnement | 25% | Proactive | Adaptation à la nouvelle loi OHADA |
+| **Perfective** | Améliorer performances/fonctions | 50% | Évolutive | Optimisation pour connexions lentes |
+| **Préventive** | Prévenir les problèmes futurs | 5% | Proactive | Refactoring avant ajout de fonctionnalités |
+
+---
+
+### **3. La dette technique**
+
+#### **3.1. Définition et métaphore**
+Concept introduit par Ward Cunningham, la dette technique est une métaphore qui compare les raccourcis de développement (code de mauvaise qualité, documentation insuffisante, tests incomplets) à une dette financière.
+
+**Principe** : Comme une dette financière, la dette technique accumule des "intérêts" sous forme de temps supplémentaire nécessaire pour modifier le code, de bugs supplémentaires, et de complexité accrue.
+
+#### **3.2. Causes de la dette technique dans le contexte africain**
+1. **Pression des délais** : Livraison rapide exigée par les clients
+2. **Ressources limitées** : Développeurs juniors ou sous-formés
+3. **Priorité aux fonctionnalités** : Au détriment de la qualité du code
+4. **Manque de revue de code** : Processus qualité insuffisants
+5. **Dépendance à des technologies obsolètes** : Par manque de budget de migration
+
+#### **3.3. Conséquences de la dette technique**
+- **Coûts accrus** de maintenance
+- **Diminution de la vélocité** de développement
+- **Augmentation du risque** de bugs et d'instabilité
+- **Démotivation** des équipes de développement
+- **Difficulté à recruter** des talents (les bons développeurs fuient le code spaghetti)
+
+#### **3.4. Gestion de la dette technique**
+**Stratégies** :
+1. **Mesurer la dette** : Métriques comme le taux de couverture de tests, complexité cyclomatique, dette calculée par SonarQube
+2. **Prioriser le remboursement** : Se concentrer sur les composants les plus critiques ou les plus modifiés
+3. **Prévenir l'accumulation** : Revues de code, standards de développement, intégration continue
+4. **Allouer du temps** : Dédier 10-20% du temps de développement à la réduction de la dette
+
+**À retenir** : Une dette technique modérée et consciente peut être stratégique (pour livrer rapidement un prototype), mais une dette non gérée devient rapidement ingérable.
+
+---
+
+### **4. Le refactoring**
+
+#### **4.1. Définition et principes**
+Le refactoring est le processus de restructuration du code existant sans changer son comportement externe, dans le but d'améliorer sa lisibilité, sa maintenabilité et sa structure interne.
+
+**Principe clé** : "Le comportement observable du programme ne change pas" (Martin Fowler)
+
+#### **4.2. Techniques courantes de refactoring**
+1. **Extraction de méthode** : Diviser une longue méthode en plusieurs plus petites
+2. **Renommage** : Donner des noms plus explicites aux variables et méthodes
+3. **Élimination de duplication** : Appliquer le principe DRY (Don't Repeat Yourself)
+4. **Simplification des conditions** : Réduire la complexité des expressions booléennes
+5. **Remplacement d'héritage par délégation** : Quand l'héritage est mal utilisé
+
+#### **4.3. Outils de refactoring**
+- **Pour Java** : Eclipse, IntelliJ IDEA (refactoring automatisé)
+- **Pour C#** : Visual Studio (fonctionnalités de refactoring intégrées)
+- **Pour JavaScript/TypeScript** : WebStorm, VS Code avec extensions
+- **Outils d'analyse statique** : SonarQube, ESLint, PMD
+
+#### **4.4. Quand faire du refactoring ?**
+1. **Avant d'ajouter une fonctionnalité** : Comprendre et nettoyer le code existant
+2. **Après avoir corrigé un bug** : Améliorer la zone concernée pour éviter des bugs similaires
+3. **Lors de la revue de code** : Identifier les "code smells"
+4. **De manière planifiée** : Dans les sprints de développement (méthode agile)
+
+**Exemple pratique** : Refactoring du module de calcul des taxes d'un logiciel comptable camerounais pour séparer clairement la logique de calcul de la TVA (19,25%), de l'IRPP et des autres impôts, en prévision de l'ajout de la nouvelle taxe sur les transactions numériques.
+
+---
+
+### **5. La migration logicielle**
+
+#### **5.1. Définition et typologie**
+La migration logicielle est le processus de transfert d'un système d'un environnement à un autre.
+
+**Types de migration** :
+1. **Migration de plateforme** : Changement de système d'exploitation ou de matériel
+2. **Migration de langage** : Réécriture dans un nouveau langage de programmation
+3. **Migration de base de données** : Changement de SGBD (Oracle → PostgreSQL par exemple)
+4. **Migration d'architecture** : Passage d'une architecture monolithique à une architecture microservices
+
+#### **5.2. Méthodologie de migration (approche en 6 étapes)**
+1. **Analyse de l'existant** : Inventaire, dépendances, complexité
+2. **Conception de la cible** : Architecture, technologies, contraintes
+3. **Développement des outils de migration** : Convertisseurs, scripts
+4. **Migration proprement dite** : Exécution planifiée
+5. **Tests de validation** : Vérification complète
+6. **Mise en production** : Basculement et surveillance
+
+#### **5.3. Étude de cas : Migration dans le secteur bancaire camerounais**
+**Situation** : Une banque camerounaise utilise un système core banking développé en COBOL sur mainframe, devenu obsolète et coûteux à maintenir.
+
+**Stratégie de migration** :
+1. **Approche progressive** : Migration module par module plutôt que big bang
+2. **Cohabitation temporaire** : Les deux systèmes fonctionnent en parallèle pendant la transition
+3. **Formation du personnel** : Les équipes techniques et métier sont formées aux nouvelles technologies
+4. **Communication aux clients** : Information sur les éventuelles interruptions de service
+
+**Technologies cibles** : Java Spring Boot pour la logique métier, Angular pour l'interface, PostgreSQL pour la base de données, déploiement sur cloud local (respect de la souveraineté des données).
+
+#### **5.4. Défis spécifiques au contexte africain**
+1. **Connectivité limitée** : Pour les migrations cloud
+2. **Expertise rare** : Sur les nouvelles technologies
+3. **Budget contraint** : Coût des licences logicielles
+4. **Continuité de service** : Critique pour les services financiers et de télécoms
+5. **Conformité réglementaire** : Respect des lois locales sur les données
+
+---
+
+### **6. Bonnes pratiques et méthodologies**
+
+#### **6.1. Gestion de configuration**
+- Utilisation d'outils comme Git (GitLab, GitHub, Bitbucket)
+- Stratégies de branching (Git Flow, GitHub Flow)
+- Gestion des versions sémantiques (SemVer : MAJEUR.MINEUR.CORRECTIF)
+
+#### **6.2. Tests et qualité**
+- **Tests unitaires** : JUnit (Java), NUnit (.NET), Jest (JavaScript)
+- **Tests d'intégration** : Vérification des interfaces entre modules
+- **Tests de régression** : Automatisés après chaque modification
+- **Couverture de code** : Objectif minimum de 70-80%
+
+#### **6.3. Documentation**
+- Documentation technique (architecture, API)
+- Documentation utilisateur (manuels, aides en ligne)
+- Commentaires dans le code (juste ce qu'il faut, code expressif à privilégier)
+- Connaissance tribale : Capturer le savoir des développeurs expérimentés
+
+#### **6.4. Métriques et indicateurs**
+- **Complexité cyclomatique** : Mesure la complexité du code (< 10 par méthode idéalement)
+- **Dette technique** : Calculée par des outils comme SonarQube
+- **Taux de couverture de tests** : Pourcentage

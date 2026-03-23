@@ -1,0 +1,125 @@
+# **Notes de cours — BTS Génie Logiciel**
+## **Matière : Sécurité Informatique (Code 15)**
+## **Chapitre : Normes et conformité**
+
+---
+
+### **1. Introduction aux normes et à la conformité en sécurité informatique**
+
+#### **1.1. Définitions fondamentales**
+*   **Norme (Standard) :** Document officiel, élaboré par consensus et approuvé par un organisme reconnu, qui fournit des règles, des lignes directrices ou des caractéristiques pour des activités ou leurs résultats. Exemple : ISO 27001.
+*   **Conformité (Compliance) :** État dans lequel une organisation respecte les exigences légales, réglementaires, normatives et contractuelles qui lui sont applicables. C'est un processus continu.
+*   **Cadre de sécurité (Security Framework) :** Structure de soutien définie par un ensemble particulier de processus, de procédures et d'outils utilisés pour gérer la sécurité de l'information. Les normes sont souvent le cœur de ces cadres.
+*   **Audit de conformité :** Examen systématique et indépendant pour déterminer si les activités et les résultats respectent les dispositions préétablies.
+
+#### **1.2. Importance de la conformité dans le contexte camerounais et africain**
+*   **Protection des données personnelles :** Avec la digitalisation croissante (paiements mobiles comme *Orange Money* et *MTN Mobile Money*, e-gouvernement), la protection des citoyens devient cruciale.
+*   **Confiance et réputation :** Les entreprises qui se conforment aux normes internationales (ISO) et locales gagnent la confiance des clients et des partenaires, notamment pour l'exportation.
+*   **Exigence légale :** La loi camerounaise sur les données personnelles impose des obligations légales. La non-conformité peut entraîner des sanctions.
+*   **Avantage concurrentiel :** Pour une SSII camerounaise, la certification ISO 27001 peut être un argument décisif pour remporter un appel d'offres face à des concurrents non certifiés.
+*   **Harmonisation régionale :** Dans l'espace OHADA, une approche commune de la sécurité des transactions électroniques et des données se développe.
+
+---
+
+### **2. Normes internationales : ISO 27001 et ISO 27002**
+
+#### **2.1. ISO/IEC 27001 : Système de management de la sécurité de l'information (SMSI)**
+*   **Objectif :** Fournir un modèle pour établir, mettre en œuvre, exploiter, surveiller, réviser, maintenir et améliorer un SMSI.
+*   **Approche :** Basée sur le cycle **PDCA** (Plan-Do-Check-Act / Planifier-Faire-Vérifier-Agir).
+*   **Structure clé :** L'Annexe A présente **114 mesures de sécurité** regroupées en 14 domaines (A.5 à A.18), tels que la politique de sécurité, la gestion des actifs, la sécurité physique, la gestion des incidents, etc.
+*   **Certification :** Une organisation peut être **certifiée ISO 27001** par un organisme accrédité après un audit réussi. C'est une reconnaissance formelle.
+
+#### **2.2. ISO/IEC 27002 : Code de bonnes pratiques pour les contrôles de sécurité**
+*   **Objectif :** Fournir des lignes directrices et des bonnes pratiques pour mettre en œuvre les contrôles de sécurité énumérés dans l'ISO 27001. C'est un guide détaillé, pas une norme certifiable.
+*   **Utilité :** Elle aide à interpréter et à choisir les contrôles appropriés dans le cadre d'un SMSI selon ISO 27001.
+
+#### **2.3. Mise en œuvre pratique au Cameroun**
+*   **Exemple :** Une banque camerounaise (Afriland First Bank, BICEC) met en place un SMSI selon ISO 27001.
+    *   **Planifier :** Elle définit une politique de sécurité, évalue les risques sur ses systèmes (guichet automatique, transferts d'argent, site web).
+    *   **Faire :** Elle implémente des contrôles : pare-feu, chiffrement des données clients, formation des employés à la vigilance, contrôle d'accès biométrique au datacenter.
+    *   **Vérifier :** Audits internes trimestriels, revue de direction annuelle.
+    *   **Agir :** Correction des non-conformités détectées, amélioration continue.
+*   **Outils utilisés :** Logiciels de gestion des risques (RiskWatch, ZenGRC), solutions de gestion des vulnérabilités (Nessus, OpenVAS), plateformes de gestion des politiques documentaires.
+
+**À retenir :** ISO 27001 est le "QUOI" (le système à mettre en place), ISO 27002 est le "COMMENT" (des conseils pour le faire).
+
+---
+
+### **3. Règlementations sur la protection des données**
+
+#### **3.1. Règlement Général sur la Protection des Données (RGPD) - Union Européenne**
+*   **Champ d'application extraterritorial :** S'applique à toute organisation traitant des données de résidents de l'UE, même si elle est située hors de l'UE (ex: une startup camerounaise ayant des clients en France).
+*   **Principes clés :** Licéité, loyauté, transparence ; limitation de la finalité ; minimisation des données ; exactitude ; limitation de la conservation ; intégrité et confidentialité ; responsabilité (*accountability*).
+*   **Droits des personnes :** Droit d'accès, de rectification, à l'effacement ("droit à l'oubli"), à la portabilité, d'opposition.
+*   **Obligations pour les organisations :** Tenue d'un registre des activités de traitement, analyse d'impact (PIA), notification des violations sous 72h, désignation d'un DPO (*Data Protection Officer*) dans certains cas.
+*   **Sanctions :** Amendes pouvant aller jusqu'à 20 millions d'euros ou 4% du chiffre d'affaires mondial.
+
+#### **3.2. Loi camerounaise n°2010/012 du 21 décembre 2010 relative à la protection des données personnelles**
+*   **Autorité de contrôle :** La **CNIL Cameroun** (Commission Nationale Informatique et Libertés), créée en 2019.
+*   **Principes fondamentaux :** Similaires au RGPD : consentement, finalité, proportionnalité, durée de conservation limitée, sécurité et confidentialité.
+*   **Obligations pour les responsables de traitement :**
+    1.  **Déclaration préalable** des fichiers à la CNIL avant tout traitement.
+    2.  Mise en œuvre de mesures de sécurité techniques et organisationnelles.
+    3.  Information des personnes concernées.
+*   **Droits des personnes :** Droit d'accès, de rectification et d'opposition.
+*   **Sanctions :** Amendes administratives par la CNIL, et sanctions pénales (amendes et peines d'emprisonnement) pour les infractions graves.
+*   **Exemple concret :** L'opérateur **Camtel**, lors du lancement de son service 4G, doit déclarer à la CNIL le fichier de ses nouveaux abonnés, indiquer la finalité (gestion commerciale et technique), sécuriser la base de données, et informer les clients de leurs droits.
+
+**Tableau comparatif : RGPD vs Loi camerounaise**
+| Critère | RGPD (UE) | Loi Camerounaise (CNIL) |
+| :--- | :--- | :--- |
+| **Base légale** | Règlement (directement applicable) | Loi + décrets d'application |
+| **Consentement** | Explicite, libre, spécifique, informé | Requis, sauf exceptions légales |
+| **Droit à l'effacement** | Oui ("droit à l'oubli") | Non explicitement, mais droit d'opposition |
+| **Portabilité des données** | Oui | Non prévu |
+| **Analyse d'Impact (PIA)** | Obligatoire pour risques élevés | Recommandée par la CNIL |
+| **Notification de violation** | Sous 72h | Obligation de sécurité, notification non précisée |
+| **Sanctions maximales** | Très lourdes (jusqu'à 4% CA mondial) | Amendes administratives et pénales (moins élevées) |
+
+---
+
+### **4. Normes sectorielles spécifiques**
+
+#### **4.1. PCI-DSS (Payment Card Industry Data Security Standard)**
+*   **Objectif :** Assurer la sécurité des données de cartes de paiement (numéro, date d'expiration, code) durant les transactions.
+*   **Portée :** S'applique à TOUTES les entités qui stockent, traitent ou transmettent des données de cartes.
+*   **Exigences principales (12 exigences, 6 objectifs) :**
+    1.  Mise en place d'un pare-feu.
+    2.  Non-utilisation des paramètres par défaut des fournisseurs.
+    3.  Protection des données de cartes stockées (chiffrement, hachage, masquage).
+    4.  Chiffrement des données de cartes en transit sur les réseaux publics.
+    5.  Utilisation d'antivirus à jour.
+    6.  Développement et maintenance de systèmes et d'applications sécurisés.
+*   **Contexte camerounais :** Tous les commerçants en ligne, les banques, les processeurs de paiement comme **Express Union Mobile Financial Services** ou les plateformes intégrant le paiement par carte (Jumia Cameroun) doivent se conformer au PCI-DSS. La validation se fait via un **QSA** (*Qualified Security Assessor*).
+
+#### **4.2. SOC 2 (Service Organization Control 2)**
+*   **Objectif :** Évaluer les contrôles de sécurité, de disponibilité, d'intégrité du traitement, de confidentialité et de vie privée d'un prestataire de services (ex: un hébergeur cloud, une SSII).
+*   **Basé sur les critères :** **Principes de confiance** (*Trust Services Criteria*).
+*   **Types de rapports :**
+    *   **SOC 2 Type I :** Décrit les contrôles de l'organisation à une date précise.
+    *   **SOC 2 Type II :** Évalue l'efficacité opérationnelle de ces contrôles sur une période (généralement 6 à 12 mois). C'est le plus valorisant.
+*   **Pertinence pour les ESN camerounaises :** Une société de services comme **Groupe SCTM** ou **Proxima Africa** qui héberge les applications de ses clients peut obtenir un rapport SOC 2 Type II pour démontrer à ses clients (souvent des multinationales) la fiabilité et la sécurité de ses services, gagnant ainsi un avantage compétitif majeur.
+
+---
+
+### **5. Synthèse et stratégie de mise en conformité**
+
+#### **5.1. Articulation des différentes normes**
+Une entreprise peut (et doit souvent) se conformer à plusieurs cadres simultanément. Par exemple :
+*   Une **fintech** camerounaise devra :
+    *   Respecter la **loi camerounaise** (déclaration CNIL).
+    *   Se conformer au **PCI-DSS** pour gérer les paiements.
+    *   Mettre en place un **SMSI selon ISO 27001** pour une sécurité globale.
+    *   Se préparer au **RGPD** si elle vise la clientèle européenne.
+
+#### **5.2. Étapes clés pour une démarche de conformité**
+1.  **Cartographie et priorisation :** Identifier les réglementations applicables (secteur, localisation, clients).
+2.  **Écartanalyse (*Gap Analysis*) :** Comparer l'état actuel de l'organisation avec les exigences de la norme/réglementation.
+3.  **Plan d'action :** Définir les projets, les ressources, le budget et le calendrier pour combler les écarts.
+4.  **Mise en œuvre :** Déployer les mesures techniques (outils), organisationnelles (procédures) et juridiques (clauses contractuelles).
+5.  **Documentation :** Constituer les preuves (politiques, procédures, registres, rapports).
+6.  **Audit et certification :** Passer l'audit externe pour la certification (ISO, PCI) ou la validation (audit interne pour la loi).
+7.  **Amélioration continue :** Surveiller, réviser et adapter le système régulièrement.
+
+#### **5.3. Outils et technologies de support**
+*   **GRC (Governance, Risk, Compliance) :

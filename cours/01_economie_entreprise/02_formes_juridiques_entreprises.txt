@@ -1,0 +1,108 @@
+# **Notes de cours — 01 Economie Entreprise**
+## **Chapitre : Formes juridiques des entreprises au Cameroun**
+
+### **1. Introduction et cadre juridique**
+
+#### **1.1. Le cadre OHADA et son importance**
+L'Organisation pour l'Harmonisation en Afrique du Droit des Affaires (OHADA) est le cadre juridique supranational qui régit le droit des affaires dans 17 États membres, dont le Cameroun. Son objectif principal est de créer un environnement juridique sécurisé et prévisible pour favoriser les investissements et le développement économique.
+
+L'**Acte Uniforme relatif au Droit des Sociétés Commerciales et du Groupement d’Intérêt Économique (AUSCGIE)** est l'instrument légal qui définit et réglemente les différentes formes de sociétés commerciales et de groupements dans l'espace OHADA. Pour un futur ingénieur logiciel, comprendre ce cadre est essentiel, car il détermine la structure légale du client ou de l'employeur, impactant les contrats, la propriété intellectuelle et la gestion de projet.
+
+**À retenir** : Au Cameroun, toute création d'entreprise commerciale se fait dans le respect strict des dispositions de l'AUSCGIE/OHADA.
+
+#### **1.2. Notion d'entreprise et critères de distinction**
+Une **entreprise** est une unité économique, juridiquement autonome, organisée pour produire des biens ou des services pour le marché. Les formes juridiques se distinguent principalement par :
+*   La **nature des associés** (personnes physiques ou morales).
+*   Le **régime de responsabilité** (limitée ou illimitée).
+*   Le **capital social** (montant, composition, libération).
+*   Le **mode de direction et d'administration**.
+*   Le **régime fiscal et social**.
+
+### **2. Les formes juridiques des entreprises (AUSCGIE)**
+
+#### **2.1. La Société Anonyme (SA)**
+**Définition** : Société commerciale par la forme dont le capital est divisé en actions, détenues par des actionnaires qui ne supportent les pertes qu'à concurrence de leurs apports.
+
+**Caractéristiques principales (Art. 385 et suivants AUSCGIE)** :
+*   **Nombre d'associés** : Minimum 2 (ou 7 si elle fait appel public à l'épargne). Pas de maximum.
+*   **Capital social minimum** : 10 000 000 FCFA. Il est divisé en **actions** négociables.
+*   **Responsabilité des associés** : Limitée aux apports. Les créanciers ne peuvent poursuivre que le patrimoine social.
+*   **Organes de direction** :
+    *   **Conseil d'Administration (CA)** + **Directeur Général (DG)** OU
+    *   **Conseil de Surveillance** + **Directoire**.
+    *   **Assemblée Générale** des actionnaires (décisions stratégiques).
+*   **Régime fiscal** : Impôt sur les Sociétés (IS) au taux de 33% au Cameroun. Dividendes soumis à la retenue à la source.
+*   **Exemple camerounais** : **MTN Cameroon** (filiale d'un groupe sud-africain), **Orange Cameroun** (filiale d'un groupe français), **Camtel** (société d'État transformée en SA). Ces structures nécessitent des capitaux importants et une gouvernance complexe, adaptées à des projets logiciels de grande envergure.
+
+**Outils de gestion associés** : Pour gérer une SA, on utilise des **ERP (Enterprise Resource Planning)** comme SAP, Oracle ERP, ou Microsoft Dynamics pour intégrer la comptabilité, la gestion des actions, la paie et la chaîne logistique. Les logiciels de **gouvernance d'entreprise** et de gestion des assemblées sont également critiques.
+
+#### **2.2. La Société à Responsabilité Limitée (SARL)**
+**Définition** : Société commerciale où les associés ne supportent les pertes qu'à concurrence de leurs apports et dont les parts sociales ne sont pas librement cessibles.
+
+**Caractéristiques principales (Art. 309 et suivants AUSCGIE)** :
+*   **Nombre d'associés** : Entre 1 (EURL - Entreprise Unipersonnelle à Responsabilité Limitée) et 100 maximum.
+*   **Capital social minimum** : **Aucun minimum** légal. Fixé librement par les statuts. Très adapté aux startups.
+*   **Responsabilité des associés** : Limitée aux apports.
+*   **Organes de direction** : Gérée par un ou plusieurs **gérants**, associés ou non. L'assemblée des associés prend les décisions importantes.
+*   **Régime fiscal** : Par défaut à l'IS (33%). Option pour le régime de la **transparence fiscale** (imposition directe au niveau des associés) sous conditions.
+*   **Exemple camerounais/africain** : C'est la forme la plus courante pour les **PME/TPE** et les **startups tech**. Une jeune société de développement d'applications mobiles à Douala ou Yaoundé (ex: "AppTech Solutions SARL") choisira très probablement cette forme. Elle est aussi utilisée par de nombreuses agences web et sociétés de services en ingénierie informatique (SSII).
+
+**Outils de gestion associés** : Solutions de gestion intégrée **PME** (Sage, Ciel, EBP), outils de **gestion de projet** (Jira, Trello, Asana), et logiciels de **comptabilité en ligne** adaptés aux petites structures.
+
+#### **2.3. La Société en Nom Collectif (SNC)**
+**Définition** : Société commerciale où tous les associés ont la qualité de commerçant et répondent **solidairement et indéfiniment** des dettes sociales.
+
+**Caractéristiques principales (Art. 270 et suivants AUSCGIE)** :
+*   **Nombre d'associés** : Minimum 2 associés commerçants.
+*   **Capital social** : Aucun minimum. Les apports peuvent être en industrie (compétences, savoir-faire).
+*   **Responsabilité des associés** : **Illimitée et solidaire**. C'est le point crucial. Les créanciers peuvent poursuivre n'importe quel associé sur son patrimoine personnel pour la totalité de la dette.
+*   **Organes de direction** : Tous les associés sont **gérants**, sauf stipulation contraire des statuts.
+*   **Régime fiscal** : **Transparence fiscale**. La société n'est pas imposée ; les bénéfices sont directement imposés entre les mains de chaque associé, proportionnellement à leurs parts.
+*   **Exemple contextuel** : Forme peu courante aujourd'hui en raison du risque élevé. Elle peut être utilisée par des **cabinet d'experts-conseils en informatique** ou des **associations de développeurs** très soudés, où la confiance est totale et où l'on souhaite une grande simplicité de gestion. Risque inadapté pour un projet logiciel à fort besoin d'investissement.
+
+#### **2.4. Le Groupement d'Intérêt Économique (GIE)**
+**Définition** (Art. 869 AUSCGIE) : Groupement constitué entre plusieurs personnes physiques ou morales pour une durée déterminée, afin de faciliter ou de développer l'activité économique de ses membres, et d'améliorer ou d'accroître les résultats de cette activité.
+
+**Caractéristiques principales** :
+*   **But** : **Non lucratif** pour le GIE lui-même. Il doit servir les intérêts économiques de ses **membres**.
+*   **Responsabilité** : **Solidaire et indéfinie** des membres, sauf clause contraire limitant aux engagements pris au nom du GIE.
+*   **Capital** : Aucun minimum requis.
+*   **Gestion** : Par un ou plusieurs **administrateurs** désignés par les membres.
+*   **Régime fiscal** : **Transparence fiscale**. Les résultats (bénéfices ou pertes) sont répartis et imposés directement entre les mains des membres.
+*   **Exemple concret** : Un **consortium de startups camerounaises** (ex: trois EURL spécialisées respectivement en cybersécurité, développement mobile et data science) créent un "GIE TechSolutions" pour répondre ensemble à un appel d'offres public pour la digitalisation d'une mairie. Cela leur permet de mutualiser leurs compétences, de partager les coûts marketing et de soumissionner avec une offre globale.
+
+#### **2.5. L'Entreprise Individuelle (EI)**
+**Définition** : Entreprise exploitée par une personne physique, agissant en son nom propre. Il n'y a pas de création d'une personne morale distincte.
+
+**Caractéristiques principales** :
+*   **Statut de l'exploitant** : **Commerçant, artisan ou prestataire de services** (inscrit au Registre du Commerce et du Crédit Mobilier - RCCM).
+*   **Responsabilité** : **Illimitée et totale**. L'entrepreneur engage son **patrimoine personnel** (maison, voiture, épargne) pour les dettes de son entreprise.
+*   **Capital** : Aucune formalité ni minimum.
+*   **Régime fiscal** : Bénéfices imposés à l'**Impôt sur le Revenu des Personnes Physiques (IRPP)** dans la catégorie des **Bénéfices Industriels et Commerciaux (BIC)**. Peut opter pour le **régime simplifié** ou du **forfait** selon le chiffre d'affaires.
+*   **Exemple typique** : Le **développeur freelance**, le **consultant en informatique** indépendant, le **formateur en logiciels**. C'est la forme de démarrage la plus simple et la moins coûteuse pour un ingénieur logiciel qui commence son activité seul (ex: "John Doe, Développeur d'Applications").
+
+**Outils de gestion associés** : Logiciels de **facturation** et de **comptabilité simplifiée** (QuickBooks, Zoho Invoice), plateformes de **portefolio en ligne** (GitHub, Behance), outils de **gestion du temps** et de **relation client** pour freelances.
+
+### **3. Tableau comparatif synthétique**
+
+| Critère | **SA** | **SARL** | **SNC** | **GIE** | **Entreprise Individuelle** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Nature** | Personne Morale | Personne Morale | Personne Morale | Personne Morale | Personne Physique |
+| **Nb. Min. Associés** | 2 (ou 7) | 1 | 2 | 2 | 1 |
+| **Responsabilité** | Limitée aux apports | Limitée aux apports | **Illimitée & Solidaire** | Solidaire (en principe) | **Illimitée (Patrimoine entier)** |
+| **Capital Min.** | 10 000 000 FCFA | **Aucun** | **Aucun** | **Aucun** | **Aucun** |
+| **Parts sociales** | Actions (négociables) | Parts sociales (cession restreinte) | Parts sociales | Pas de capital social | - |
+| **Régime fiscal** | Impôt sur les Sociétés (IS) | IS (option transparence) | **Transparence fiscale** | **Transparence fiscale** | IRPP (BIC) |
+| **Adaptation BTS GL** | Grands éditeurs, opérateurs | **Startups Tech, SSII, PME** | Associations de professionnels | Consortiums, projets communs | **Freelance, Début d'activité** |
+
+### **4. Processus de création et outils numériques**
+
+#### **4.1. Étapes clés de création (Guichet Unique)**
+Au Cameroun, la création passe par le **Guichet Unique de Création d'Entreprise**. Les étapes pour une société (SARL/SA) incluent :
+1.  **Dépôt du nom (nom commercial)** au Centre de Formalités des Entreprises (CFE).
+2.  **Établissement des statuts** (acte notarié pour SA, sous seing privé ou notarié pour SARL).
+3.  **Libération du capital** (dépôt en banque, attestation requise).
+4.  **Immatriculation au RCCM** (Registre du Commerce).
+5.  **Publication dans un journal d'annonces légales**.
+6.  **Immatriculation fiscale** (obtention du Numéro d'Identification Fiscale - NIF).
+7.  **Affiliation aux régimes sociaux** (CNPS, assureur

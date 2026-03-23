@@ -1,0 +1,177 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 22 Terminaux Mobiles**
+## **Chapitre : Publication sur Google Play et performance : signing APK/AAB, Play Console, optimisation (ProGuard, R8), profiling (CPU/mémoire), tests (Espresso, JUnit)**
+
+---
+
+### **1. Introduction : Le cycle de vie final d’une application mobile**
+
+Le développement d’une application Android ne s’arrête pas à l’écriture du code. La phase de **publication et d’optimisation** est cruciale pour assurer sa disponibilité, sa sécurité, ses performances et son succès sur le marché, notamment dans un écosystème compétitif comme celui du Cameroun et de l’Afrique. Ce chapitre couvre les étapes essentielles pour préparer, signer, publier, surveiller et optimiser une application sur le Google Play Store.
+
+**Contexte camerounais :** Avec la pénétration croissante des smartphones et l'essor des services numériques (mobile money via MTN Mobile Money ou Orange Money, e-commerce, applications OHADA pour la gestion juridique des entreprises), publier une application performante et fiable est un impératif pour les développeurs locaux.
+
+---
+
+### **2. Préparation et signature des artefacts de publication (APK/AAB)**
+
+Avant toute publication, l'application doit être compilée et signée pour attester de son authenticité et de son intégrité.
+
+#### **2.1. Formats de distribution : APK vs AAB (Android App Bundle)**
+*   **APK (Android Package Kit) :** Fichier d'archive contenant tout le code, les ressources et le manifeste de l'application. C'est le fichier directement installable.
+*   **AAB (Android App Bundle) :** Format de publication introduit par Google. Il contient tout le code et les ressources de votre application, mais **Google Play génère et signe dynamiquement des APK optimisés** pour chaque configuration d'appareil (langue, architecture CPU, densité d'écran).
+
+**Tableau comparatif APK vs AAB :**
+
+| Critère | APK (Application Package) | AAB (Android App Bundle) |
+| :--- | :--- | :--- |
+| **Taille** | Plus volumineux (contient tout pour tous les appareils) | **Réduction de taille** significative (jusqu'à 15-20%). Google ne livre que le nécessaire. |
+| **Gestion** | Le développeur gère plusieurs APK pour différentes configurations. | Un seul artefact à uploader. Gestion simplifiée. |
+| **Signature** | Signé par le développeur avant upload. | Signé par le développeur **PUIS** re-signé par Google Play pour la distribution. |
+| **Recommandation** | Ancienne méthode, encore valable. | **Méthode recommandée par Google** pour toute nouvelle publication. |
+
+**À retenir :** Pour un développeur camerounais ciblant un marché africain avec des connexions internet parfois limitées et coûteuses (réseaux MTN, Orange, Camtel), la réduction de la taille de téléchargement offerte par l'AAB est un **avantage stratégique** pour améliorer l'adoption.
+
+#### **2.2. Le processus de signature (Signing)**
+La signature numérique lie l'APK/AAB à un développeur et garantit qu'il n'a pas été altéré après sa compilation.
+
+*   **Keystore :** Fichier binaire sécurisé (`.jks` ou `.keystore`) contenant une ou plusieurs paires de clés privées/publiques.
+*   **Clé de signature (Key) :** Paire cryptographique unique utilisée pour signer l'application. **La clé privée doit rester SECRÈTE et sauvegardée.**
+*   **Processus dans Android Studio :**
+    1.  **Build > Generate Signed Bundle / APK...**
+    2.  Sélection du format (AAB recommandé).
+    3.  Spécification du chemin du keystore, de l'alias, et des mots de passe.
+    4.  Sélection des variantes de build (release) et des types de signature (V1, V2, V3).
+*   **Signature par Google Play (Play App Signing) :** Service qui permet à Google de gérer et sécuriser votre clé de signature. Obligatoire si vous utilisez les **AAB** ou les **APK signés par Google**. Avantage : récupération possible en cas de perte de la clé upload.
+
+**Exemple concret :** L'équipe développant une application de gestion conforme aux actes uniformes de l'**OHADA** doit générer un keystore (`ohada_app.jks`) lors de la première publication. Ce fichier doit être archivé physiquement (sur une clé USB sécurisée) et numériquement (cloud chiffré), car toute mise à jour future de l'application **devra être signée avec la même clé**.
+
+---
+
+### **3. Publication via la Google Play Console**
+
+La Play Console est l'interface d'administration pour publier et gérer des applications sur le Play Store.
+
+#### **3.1. Création d'un compte développeur et configuration**
+*   Paiement des **frais d'inscription uniques** (environ 25$).
+*   Configuration du compte (nom, email, etc.).
+
+#### **3.2. Processus de publication d'une application**
+1.  **Création de l'application :** Saisie du titre, langue par défaut.
+2.  **Contenu de la fiche produit :**
+    *   **Description :** Rédaction adaptée au public cible. Ex: "Gérez vos factures et votre comptabilité selon les normes OHADA".
+    *   **Graphismes :** Icônes, captures d'écran adaptées aux différentes tailles d'écran.
+    *   **Classification :** Catégorie, public, contenu.
+3.  **Gestion des versions (Release Management) :**
+    *   Upload de l'AAB ou de l'APK signé dans une **piste de publication** (Production, Bêta, Alpha, Interne).
+    *   **Piste Interne :** Pour les tests rapides avec une petite équipe.
+    *   **Piste Alpha/Bêta :** Pour les tests avec un groupe d'utilisateurs plus large (bêta-testeurs).
+    *   **Piste Production :** Pour la publication publique.
+4.  **Configuration de la distribution :**
+    *   Pays (Cameroun, Côte d'Ivoire, Sénégal...).
+    *   **Prix et monétisation :** Gratuit, payant, achats intégrés. Adapter aux moyens de paiement locaux (cartes, mobile money via intégration d'APIs).
+5.  **Examen et publication :** Soumission à l'examen de Google (peut prendre quelques heures à jours). Une fois approuvée, l'application est publiée.
+
+---
+
+### **4. Optimisation du code et réduction de taille (ProGuard, R8)**
+
+L'optimisation vise à réduire la taille de l'APK et à protéger le code contre la rétro-ingénierie.
+
+#### **4.1. ProGuard et R8**
+*   **ProGuard :** Outil de *shrinkin*g, d'*obfuscation* et d'*optimisation* pour le bytecode Java.
+*   **R8 :** Successeur de ProGuard intégré à la chaîne de compilation Android. Il effectue les trois mêmes tâches mais est **plus rapide et plus efficace**.
+
+**Fonctionnement :**
+*   **Shrinking (Réduction) :** Supprime le code, les classes et les ressources inutilisés.
+*   **Obfuscation (Obfuscation) :** Renomme les classes, les méthodes et les champs avec des noms courts (a, b, c) pour rendre le code difficile à lire.
+*   **Optimisation :** Applique diverses optimisations au bytecode.
+
+#### **4.2. Configuration dans `build.gradle`**
+```gradle
+android {
+    buildTypes {
+        release {
+            minifyEnabled true // Active R8/ProGuard
+            shrinkResources true // Réduit les ressources inutilisées
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+```
+*   **`proguard-rules.pro` :** Fichier de règles personnalisées pour éviter que des classes nécessaires (utilisées par réflexion, sérialisées, etc.) ne soient supprimées ou obfusquées.
+
+**Exemple de règle pour une bibliothèque JSON populaire :**
+```
+-keep class com.fasterxml.jackson.** { *; }
+```
+
+**Impact pour l'Afrique :** L'obfuscation protège la propriété intellectuelle des algorithmes, par exemple ceux d'une application de calcul des intérêts légaux selon le droit OHADA. La réduction de taille améliore l'expérience utilisateur sur les réseaux mobiles.
+
+---
+
+### **5. Analyse des performances : Profiling (CPU, Mémoire, Énergie)**
+
+Le profiling permet d'identifier les goulots d'étranglement et les fuites de mémoire pour créer une application fluide.
+
+#### **5.1. Outils : Android Profiler (intégré à Android Studio)**
+Il permet de surveiller en temps réel :
+*   **CPU :** Utilisation du processeur, traces des méthodes.
+*   **Mémoire (RAM) :** Taille du tas, allocations, détection des fuites de mémoire (Memory Leaks).
+*   **Réseau (Network) :** Activité des requêtes HTTP/HTTPS (utile pour surveiller les appels aux APIs de paiement mobile).
+*   **Énergie (Battery) :** Consommation énergétique des composants (GPS, CPU, écran).
+
+#### **5.2. Bonnes pratiques d'optimisation**
+*   **CPU :** Éviter les travaux longs sur le thread principal (UI Thread). Utiliser `Coroutines`, `RxJava` ou `WorkManager`.
+*   **Mémoire :**
+    *   Références aux `Context` (fuites des activités).
+    *   Utiliser des structures de données adaptées.
+    *   Charger les images de manière optimale (bibliothèque **Glide** ou **Picasso**).
+*   **Énergie :** Optimiser l'utilisation du GPS, des capteurs et des tâches en arrière-plan (`JobScheduler`, `WorkManager`).
+
+---
+
+### **6. Tests automatisés pour la qualité (JUnit, Espresso)**
+
+Les tests automatisés garantissent la stabilité et la non-régression de l'application.
+
+#### **6.1. Tests unitaires (JUnit)**
+*   **Objectif :** Tester une unité de code (une classe, une méthode) de manière isolée.
+*   **Framework :** JUnit 4/5.
+*   **Localisation :** Dossier `src/test/java/`.
+*   **Exemple :** Tester une méthode de calcul de TVA selon la loi camerounaise.
+    ```java
+    @Test
+    public void calculTVA_Cameroun_estCorrect() {
+        CalculateurFiscal calculateur = new CalculateurFiscal();
+        double resultat = calculateur.calculerTVA(10000, 19.25); // Taux à 19.25%
+        assertEquals(1925, resultat, 0.0);
+    }
+    ```
+
+#### **6.2. Tests d'interface utilisateur (UI Tests - Espresso)**
+*   **Objectif :** Simuler les interactions d'un utilisateur et vérifier l'état de l'interface.
+*   **Framework :** Espresso.
+*   **Localisation :** Dossier `src/androidTest/java/`.
+*   **Exemple :** Tester le processus de connexion.
+    ```java
+    @Test
+    public void connexionReussie_AfficheEcranPrincipal() {
+        // Saisie du numéro Orange Money
+        onView(withId(R.id.editText_phone)).perform(typeText("677123456"), closeSoftKeyboard());
+        // Saisie du code PIN
+        onView(withId(R.id.editText_pin)).perform(typeText("1234"), closeSoftKeyboard());
+        // Clic sur le bouton "Se connecter"
+        onView(withId(R.id.button_login)).perform(click());
+        // Vérification que l'écran d'accueil (HomeActivity) est affiché
+        onView(withId(R.id.textView_welcome)).check(matches(isDisplayed()));
+    }
+    ```
+
+**À retenir :** Intégrer ces tests dans un pipeline CI/CD (Intégration Continue / Déploiement Continu) permet de détecter les erreurs automatiquement avant la publication, assurant une qualité constante des mises à jour publiées sur le Play Store.
+
+---
+
+### **7. Conclusion et synthèse**
+
+La maîtrise du cycle de publication et d'optimisation est ce qui distingue un projet amateur d'une application professionnelle. Pour un développeur de BTS GL au Cameroun, cela implique :
+1.  **Préparer** l'application avec le format AAB pour réduire la taille.

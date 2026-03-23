@@ -1,0 +1,160 @@
+# **Notes de cours — 08 Algorithme Programmation**
+## **Chapitre : Complexité algorithmique : notation O (grand O), analyse temporelle et spatiale, cas meilleur/moyen/pire**
+
+---
+
+### **1. Introduction à la complexité algorithmique**
+
+#### **1.1. Définition et enjeux**
+La **complexité algorithmique** est une branche de l'informatique théorique qui étudie l'efficacité des algorithmes en termes de ressources consommées. Elle répond à des questions fondamentales :
+- Combien de temps prendra cet algorithme pour traiter mes données ?
+- Quelle quantité de mémoire sera nécessaire pour son exécution ?
+
+**Enjeux dans le contexte professionnel camerounais :**
+- **Optimisation des infrastructures limitées** : Les centres de données locaux (Camtel, MTN Data Center) ont des capacités de calcul et de stockage qu'il faut utiliser efficacement.
+- **Expérience utilisateur** : Des applications lentes (applications bancaires, Mobile Money comme Orange Money) entraînent une perte de confiance et d'utilisateurs.
+- **Coûts opérationnels** : Une consommation excessive de ressources se traduit par des factures d'hébergement et d'électricité plus élevées.
+
+#### **1.2. Les deux types de complexité**
+- **Complexité temporelle** : Mesure du temps d'exécution d'un algorithme, exprimée en nombre d'opérations élémentaires.
+- **Complexité spatiale** : Mesure de la mémoire (RAM, stockage) requise par un algorithme pendant son exécution.
+
+**À retenir** : Un bon développeur BTS GL doit toujours évaluer les compromis (*trade-offs*) entre temps et espace. Optimiser l'un peut dégrader l'autre.
+
+---
+
+### **2. Analyse asymptotique et notation Grand O (O)**
+
+#### **2.1. Le besoin d'une analyse asymptotique**
+Mesurer le temps exact en secondes est peu informatif car il dépend de la machine, du langage, du compilateur. L'analyse asymptotique étudie le **comportement de l'algorithme lorsque la taille des données d'entrée (notée *n*) devient très grande**.
+
+#### **2.2. Définition formelle de la notation O (Grand O)**
+Soient \( T(n) \) la fonction du temps d'exécution et \( f(n) \) une fonction de comparaison.
+
+\[
+T(n) = O(f(n))
+\]
+signifie qu'il existe des constantes positives \( c \) et \( n_0 \) telles que :
+\[
+0 \leq T(n) \leq c \cdot f(n) \quad \text{pour tout } n \geq n_0
+\]
+
+En clair : **La croissance de \( T(n) \) est au plus aussi rapide que celle de \( f(n) \), à une constante multiplicative près, pour de grandes valeurs de \( n \).** C'est une **borne supérieure** de la complexité.
+
+#### **2.3. Les classes de complexité courantes (par ordre croissant d'efficacité)**
+| Notation | Nom | Exemple d'algorithme | Impact pour *n=1 000 000* |
+| :--- | :--- | :--- | :--- |
+| **O(1)** | Constante | Accéder à un élément d'un tableau | Très rapide, indépendant de *n* |
+| **O(log n)** | Logarithmique | Recherche dichotomique | Extrêmement efficace |
+| **O(n)** | Linéaire | Parcourir un tableau, recherche linéaire | Proportionnel à *n*, acceptable |
+| **O(n log n)** | Quasi-linéaire | Tri rapide (Quicksort), Tri fusion | Bonne performance pour le tri |
+| **O(n²)** | Quadratique | Tri bulle, parcours de matrice 2D | Peut être lent pour de grands *n* |
+| **O(2^n)** | Exponentielle | Problème du voyageur de commerce (force brute) | **Impraticable** pour *n > 30* |
+
+**Exemple concret (OHADA) :** Rechercher une entreprise dans un registre non trié (O(n)) vs dans un registre trié avec recherche dichotomique (O(log n)). Pour 10 millions d'entreprises, la différence est colossale.
+
+---
+
+### **3. Analyse des cas : Meilleur, Moyen, Pire**
+
+#### **3.1. Pourquoi distinguer ces cas ?**
+La performance d'un algorithme peut varier considérablement selon la configuration des données d'entrée.
+
+- **Complexité dans le pire cas (Worst Case)** : Garantit que l'algorithme ne dépassera **jamais** cette limite. **Critique pour les systèmes temps réel et les applications vitales** (système de paiement électronique interbancaire au Cameroun).
+- **Complexité dans le meilleur cas (Best Case)** : Montre le potentiel optimal de l'algorithme. Rarement utilisé pour les garanties.
+- **Complexité dans le cas moyen (Average Case)** : La complexité **attendue** sur l'ensemble des entrées possibles. Requiert souvent une analyse probabiliste.
+
+#### **3.2. Exemple illustratif : Algorithme de recherche**
+Prenons l'algorithme de **recherche linéaire** dans un tableau non trié de taille *n*.
+- **Meilleur cas (O(1))** : L'élément cherché est le premier du tableau. Ex: Vérifier si un numéro de téléphone MTN est sur liste noire, et il est le premier de la liste.
+- **Pire cas (O(n))** : L'élément cherché est le dernier, ou absent. Ex: Le numéro n'est pas dans la liste, il faut tout parcourir.
+- **Cas moyen (O(n))** : En moyenne, il faut parcourir *n/2* éléments, ce qui reste une complexité linéaire O(n).
+
+**À retenir** : Lors de la conception, on se base souvent sur le **pire cas** pour la robustesse, et on considère le **cas moyen** pour l'efficacité attendue.
+
+---
+
+### **4. Analyse de la complexité spatiale**
+
+#### **4.1. Définition et composantes**
+La complexité spatiale mesure la **mémoire totale** utilisée par l'algorithme, incluant :
+1. **L'espace d'entrée** : Les données fournies à l'algorithme.
+2. **L'espace auxiliaire** : La mémoire supplémentaire utilisée pendant l'exécution (variables temporaires, pile d'appels récursifs, etc.).
+
+**En pratique**, on s'intéresse surtout à **l'espace auxiliaire**. On utilise également la notation Grand O.
+
+#### **4.2. Exemples**
+- **Tri sur place (In-place)** : Algorithme qui trie les données sans nécessiter un tableau supplémentaire significatif. **Espace auxiliaire O(1)**. Ex: Tri par insertion, Tri bulle (mais souvent lents).
+- **Tri non sur place** : Nécessite un tableau de travail de taille comparable aux données. **Espace auxiliaire O(n)**. Ex: Tri fusion. C'est un compromis classique : gain en temps (O(n log n)), perte en espace.
+
+**Exemple concret** : Traitement des logs d'appels sur un serveur Orange. Un tri sur place est préférable si la mémoire RAM du serveur est limitée, même si le traitement est un peu plus long.
+
+#### **4.3. Cas particulier : La récursivité**
+Chaque appel récursif occupe un espace sur la pile d'exécution. La **profondeur de récursion** détermine la complexité spatiale.
+- Ex: Calcul récursif de la factorielle → Profondeur *n* → **Espace O(n)**.
+- Une version itérative du même algorithme aurait un **espace O(1)**.
+
+---
+
+### **5. Méthodologie d'analyse d'un algorithme**
+
+#### **5.1. Étapes pratiques**
+1. **Identifier l'opération élémentaire** : L'opération qui coûte le plus cher et/ou qui est exécutée le plus souvent (ex: comparaison, affectation).
+2. **Exprimer le nombre d'exécutions de cette opération en fonction de *n*** (taille des données).
+3. **Déterminer la classe asymptotique (Grand O)** en ne gardant que le terme qui croît le plus vite et en ignorant les constantes.
+4. **Considérer les différents cas** (meilleur, moyen, pire) si l'algorithme est sensible aux données.
+
+#### **5.2. Exemple détaillé : Tri par sélection**
+```python
+# Algorithme de Tri par Sélection
+def tri_selection(tableau):
+    n = len(tableau)
+    for i in range(n):           # Boucle 1
+        indice_min = i
+        for j in range(i+1, n):  # Boucle 2 imbriquée
+            if tableau[j] < tableau[indice_min]: # Opération élémentaire (comparaison)
+                indice_min = j
+        tableau[i], tableau[indice_min] = tableau[indice_min], tableau[i]
+```
+- **Analyse temporelle** :
+    - Pour chaque `i`, la boucle interne `j` exécute environ `n-i` comparaisons.
+    - Nombre total de comparaisons : \( (n-1) + (n-2) + ... + 1 = n(n-1)/2 \).
+    - **Complexité = O(n²)**. C'est vrai pour le **meilleur, le pire et le cas moyen**, car la structure des boucles est indépendante des données.
+- **Analyse spatiale** : L'algorithme trie "sur place". Il n'utilise que quelques variables temporaires. **Espace auxiliaire = O(1)**.
+
+**Application** : Ce tri est simple mais coûteux pour de grandes listes (ex: trier la base de clients de plus de 100 000 abonnés Camtel). Il faut lui préférer un tri en O(n log n).
+
+---
+
+### **6. Outils et technologies pour l'analyse de performance**
+
+#### **6.1. Outils de profilage (Profiling)**
+- **Python** : Modules `cProfile` et `timeit`.
+- **Java** : Java VisualVM, JProfiler (outils utilisés dans les entreprises comme InLogic à Douala).
+- **JavaScript** : Profiler intégré aux DevTools des navigateurs (important pour les applications web).
+- **.NET** : Profiler intégré à Visual Studio.
+
+#### **6.2. Bonnes pratiques en entreprise**
+- **Benchmarking** : Tester les algorithmes sur des jeux de données de tailles réelles (ex: volumes de transactions Mobile Money prévus).
+- **Analyse prédictive** : Utiliser la notation O pour estimer les besoins matériels futurs lors du scaling d'une application.
+- **Revue de code** : Vérifier systématiquement la complexité des fonctions critiques lors des revues.
+
+---
+
+### **7. Conclusion et synthèse**
+
+#### **7.1. Points clés à maîtriser**
+1. La notation **O(f(n))** décrit le comportement asymptotique **dans le pire cas** et donne une **borne supérieure**.
+2. Il faut toujours analyser à la fois la **complexité temporelle** et **spatiale**.
+3. Distinguer **meilleur cas, cas moyen et pire cas** est crucial pour choisir l'algorithme adapté au contexte.
+4. **O(n log n)** est souvent la cible pour les algorithmes de tri efficaces.
+5. Les algorithmes exponentiels **O(2^n)** sont à éviter sauf pour de très petites valeurs de *n*.
+
+#### **7.2. Compétence visée pour le BTS GL**
+À l'issue de ce chapitre, l'étudiant doit être capable, face à un problème algorithmique simple, de :
+- Proposer un algorithme en pseudocode.
+- Analyser et justifier sa complexité temporelle et spatiale dans les différents cas.
+- Le comparer à d'autres approches en argumentant sur les compromis.
+- Faire le lien avec les contraintes matérielles et fonctionnelles d'un projet réel dans le contexte camerounais (coût, expérience utilisateur, maintenance).
+
+**Exercice de réflexion** : Vous devez concevoir une fonction pour trouver des doublons dans le registre national des entreprises (OHADA). La taille *n* est d'environ 500 000 entreprises. Proposer une approche et analyser sa complexité. (Indice : une table de hachage peut offrir un temps moyen O(n) avec un espace O(n)).

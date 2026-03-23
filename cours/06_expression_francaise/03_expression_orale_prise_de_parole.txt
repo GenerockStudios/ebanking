@@ -1,0 +1,170 @@
+# **Notes de cours — 06 Expression Française**
+# **Chapitre : Expression orale : prise de parole en public, exposé, débat, techniques de présentation**
+
+## **1. Introduction à l'expression orale en contexte professionnel**
+
+### **1.1. Définition et enjeux**
+L'expression orale est l'art de communiquer efficacement un message à un auditoire à travers la parole, la voix et le corps. Dans le domaine du génie logiciel, elle est cruciale pour :
+- Présenter un projet (une application mobile, un système de gestion) à un client (ex: MTN, Orange Cameroun).
+- Défendre une solution technique devant une équipe.
+- Participer à des réunions de cadrage ou des rétrospectives agiles.
+- Expliquer un concept complexe (comme l'architecture d'une base de données conforme aux normes OHADA) à des non-techniciens.
+
+**À retenir :** Un ingénieur logiciel compétent doit être capable de coder, mais aussi de communiquer ses idées avec clarté et conviction.
+
+### **1.2. Les trois grands types d'intervention orale**
+1. **L'exposé** : Présentation structurée d'un sujet (ex: présentation des nouvelles fonctionnalités d'une appli bancaire).
+2. **Le débat** : Échange argumenté autour d'une question (ex: "Le Cloud local vs. international pour les données des entreprises camerounaises").
+3. **La prise de parole ponctuelle** : Intervention brève en réunion, réponse à une question, pitch.
+
+## **2. La préparation : fondement de toute intervention réussie**
+
+### **2.1. L'analyse de la situation de communication (La méthode QQOQCP)**
+Avant toute préparation, il faut analyser le contexte :
+- **Qui ?** (Auditoire : Directeurs techniques ? Clients de Camtel ? Étudiants ?)
+- **Quoi ?** (Sujet et objectif : informer, persuader, former ?)
+- **Où ?** (Salle de conférence, visioconférence, open space)
+- **Quand ?** (Durée allouée, moment de la journée)
+- **Comment ?** (Moyens techniques disponibles : vidéoprojecteur, micro)
+- **Pourquoi ?** (Enjeux : obtenir un financement, valider une phase projet)
+
+### **2.2. La recherche et la sélection de l'information**
+- Collecter des informations fiables et actualisées.
+- Adapter les exemples au contexte local : parler des solutions de paiement mobile (Orange Money, MTN Mobile Money) plutôt que de PayPal.
+- Utiliser des données sur la digitalisation au Cameroun (rapports de l'ART, MINPOSTEL).
+
+### **2.3. La construction du plan**
+Un plan clair est la colonne vertébrale de votre intervention. Il guide l'auditoire et vous sécurise.
+
+**Structure type d'un exposé (Plan classique) :**
+1. **Introduction** (10% du temps)
+    * Accroche
+    * Annonce du sujet et de la problématique
+    * Présentation du plan
+2. **Développement** (80% du temps)
+    * Partie I : État des lieux / Constat
+    * Partie II : Analyse / Causes et conséquences
+    * Partie III : Solutions / Recommandations
+3. **Conclusion** (10% du temps)
+    * Synthèse des points clés
+    * Ouverture ou appel à l'action
+
+**Exemple de plan pour un exposé en BTS GL :**
+*Sujet : "Les enjeux de la cybersécurité pour les PME camerounaises."*
+- **Introduction** : Accroche sur une cyberattaque récente contre une entreprise locale.
+- **Développement** :
+    I. La vulnérabilité des PME camerounaises face aux cybermenaces.
+    II. Le cadre réglementaire : Rôle de l'ANSR et conformité OHADA (sécurité des données transactionnelles).
+    III. Solutions techniques accessibles : pare-feu, chiffrement, sensibilisation.
+- **Conclusion** : Rappel de l'impératif de sécurité et présentation d'un checklist simple.
+
+### **2.4. La conception des supports visuels**
+- **Outils professionnels** : Microsoft PowerPoint, Google Slides, Canva, Prezi.
+- **Règles d'or** :
+    * La règle du 6x6 : Max 6 lignes, 6 mots par ligne.
+    * Utiliser des visuels de qualité (schémas, captures d'écran d'interface).
+    * Charte graphique sobre et lisible (contrats de couleur).
+    * **Exemple concret** : Pour présenter l'architecture d'un système, utiliser un diagramme UML plutôt qu'un texte dense.
+
+## **3. Les techniques de présentation et de prise de parole**
+
+### **3.1. L'accroche (ou "hook")**
+Technique pour capter l'attention dès les premières secondes.
+- **Statistique percutante** : "Au Cameroun, 85% des applications développées localement présentent au moins une faille de sécurité critique."
+- **Question rhétorique** : "Que se passerait-il si le système de gestion de la SONARA tombait en panne ?"
+- **Histoire ou anecdote** : "Lors de mon stage à NextTel, j'ai été confronté à un bug qui a bloqué 10 000 transactions..."
+- **Citation adaptée** : (Steve Jobs) "La simplicité est la sophistication suprême" → introduire une présentation sur l'UX/UI.
+
+### **3.2. La maîtrise de la communication verbale et non-verbale**
+
+| **Élément** | **Bonnes pratiques** | **Écueils à éviter** |
+| :--- | :--- | :--- |
+| **Voix** | Volume adapté, débit modéré, variations de ton. | Parler trop vite, monotone, voix trop faible. |
+| **Regard** | Balayer l'auditoire, établir un contact visuel. | Regarder ses notes, le plafond ou un seul point. |
+| **Posture** | Position stable, équilibrée, ouverte. | S'agiter, être voûté, bras croisés. |
+| **Gestes** | Gestes naturels pour ponctuer, montrer les slides. | Gestes nerveux (tripoter un stylo), mains dans les poches. |
+| **Sourire** | Sourire naturel pour détendre l'atmosphère. | Air sévère ou sourire forcé en permanence. |
+
+### **3.3. La gestion du temps et du trac**
+- **Gestion du temps** : Répéter avec un chronomètre. Prévoir 5-10% de marge.
+- **Gestion du trac** :
+    * Le trac est normal, canalisez l'énergie.
+    * Techniques : respiration abdominale, visualisation positive, ancrage (poser les mains sur la table).
+    * Se concentrer sur le message, pas sur soi-même.
+
+## **4. L'exposé scientifique et technique**
+
+### **4.1. Spécificités**
+- Public souvent mixte (techniciens et décideurs).
+- Nécessité de rendre simple un sujet complexe.
+- Importance des démonstrations (live coding, prototype).
+
+### **4.2. Structure adaptée pour un projet logiciel**
+1. **Introduction** : Contexte et besoin client (ex: "Développement d'une appli de gestion des cotisations pour une tontine à Douala").
+2. **Cahier des charges et objectifs**.
+3. **Présentation de la solution** :
+    * Architecture technique (schéma).
+    * Technologies utilisées (Stack : React Native, Node.js, MongoDB).
+    * Démonstration des fonctionnalités principales (vidéo ou live).
+4. **Aspects innovants et défis relevés** (ex: optimisation pour connexion internet faible).
+5. **Conclusion et perspectives** (phases de déploiement, maintenance).
+
+## **5. Le débat et l'argumentation**
+
+### **5.1. Principes du débat constructif**
+- Écouter activement l'interlocuteur.
+- Respecter les tours de parole.
+- Argumenter, pas agresser.
+- Reconnaître la part de vérité chez l'adversaire.
+
+### **5.2. Structure d'un argument (Modèle PER)**
+- **Point** : Énoncer clairement votre idée. *Ex: "L'adoption du Cloud par les administrations camerounaises est une priorité."*
+- **Explication** : Développer, clarifier. *"Cela permettrait une réduction des coûts d'infrastructure et un accès aux données depuis toutes les régions."*
+- **Renforcement** : Appuyer par un fait, un exemple, un chiffre, une référence. *"Le projet de dématérialisation des marchés publics (SIGMAP) en est une première illustration."*
+
+### **5.3. Types d'arguments et contre-arguments**
+- **Argument par l'exemple** : Citer le succès de l'appli "Mavisa" pour le transport à Yaoundé.
+- **Argument d'autorité** : Se référer aux normes de l'**OHADA** en matière de preuve électronique.
+- **Argument par analogie** : "La gestion d'un projet Agile est comme un match de football : on a un plan, mais on s'adapte en temps réel."
+- **Pour réfuter** : Montrer la faiblesse de l'exemple, nuancer l'autorité, souligner les différences dans l'analogie.
+
+## **6. Les outils technologiques de présentation**
+
+### **6.1. Outils de création et de présentation**
+- **PowerPoint / Google Slides** : Standard en entreprise, permet l'export en PDF.
+- **Canva** : Pour des designs plus modernes et graphiques.
+- **Logiciels de diagrammes** : **Lucidchart**, **Draw.io** pour les schémas d'architecture, UML.
+- **Outils de démo** : **OBS Studio** pour enregistrer son écran, **Postman** pour démontrer des API.
+
+### **6.2. Environnements de présentation à distance (Hybride)**
+- **Visioconférence** : Microsoft Teams, Zoom, Google Meet.
+- **Bonnes pratiques pour le distanciel** :
+    * Tester son matériel (micro-casque, caméra) avant.
+    * Regarder la caméra pour simuler le contact visuel.
+    * Soigner son arrière-plan (filtre ou fond neutre).
+    * Partager son écran de façon fluide.
+    * Utiliser les fonctionnalités interactives (sondages, chat).
+
+## **7. Évaluation et amélioration continue**
+
+### **7.1. Auto-évaluation et feedback**
+- Après chaque présentation, s'auto-évaluer avec une grille (respect du temps, clarté, maîtrise du sujet).
+- Demander un feedback constructif à un pair ou à l'enseignant.
+- **Focus sur** : "Qu'est-ce qui était clair ? Qu'est-ce qui pourrait être amélioré ?"
+
+### **7.2. Exercices pratiques recommandés**
+1. **Pitch de projet** : Présenter son projet de fin d'étude en 5 minutes.
+2. **Débat simulé** : "Le low-code/no-code va-t-il remplacer les développeurs traditionnels en Afrique ?"
+3. **Explication technique** : Expliquer le concept d'"API REST" à un commercial de Orange Business Services.
+
+---
+
+**À retenir – Checklist de l'orateur efficace :**
+- [ ] **Préparation** : Sujet maîtrisé, plan solide, support adapté.
+- [ ] **Accroche** : Captivante et pertinente.
+- [ ] **Message** : Clair, structuré, illustré d'exemples locaux.
+- [ ] **Présence** : Voix posée, regard engageant, posture assurée.
+- [ ] **Interaction** : Gestion des questions, écoute active en débat.
+- [ ] **Maîtrise technique** : Supports et outils bien gérés.
+
+**Conclusion :** Pour l'ingénieur logiciel camerounais, maîtriser l'expression orale n'est pas un supplément d'âme, mais une compétence professionnelle essentielle. Elle permet de valoriser son travail technique, de convaincre des investisseurs locaux, de collaborer efficacement au sein d'écosystèmes comme le **Silicon Mountain** à Buéa, et de contribuer au rayonnement numérique du Cameroun. La rigueur de la préparation et l'authenticité de la présentation sont les clés de votre crédibilité et de votre impact.

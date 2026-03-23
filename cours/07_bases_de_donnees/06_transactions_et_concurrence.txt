@@ -1,0 +1,174 @@
+# **Notes de Cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 07 Bases De Donnees**
+## **Chapitre : Transactions et concurrence : BEGIN/COMMIT/ROLLBACK, verrous, niveaux d'isolation, deadlock, MVCC**
+
+---
+
+### **1. Introduction aux Transactions**
+
+#### **1.1. Définition et Importance**
+Une **transaction** est une séquence d'opérations sur une base de données qui est traitée comme une unité logique de travail indivisible. Elle représente une série d'actions qui doivent **toutes réussir** ou **toutes échouer** pour garantir la cohérence des données.
+
+**Exemple concret (Contexte OHADA) :** Un transfert bancaire entre deux comptes dans une banque camerounaise (Afriland First Bank, BICEC) implique deux opérations : débiter le compte source et créditer le compte destination. Ces deux opérations doivent être exécutées ensemble. Si le débit réussit mais que le crédit échoue (panne système), l'argent serait perdu. La transaction garantit que soit les deux opérations sont validées, soit aucune ne l'est.
+
+#### **1.2. Propriétés ACID**
+Pour garantir la fiabilité, une transaction doit respecter les propriétés **ACID** :
+*   **A - Atomicité :** La transaction est "tout ou rien". Elle est complètement exécutée ou complètement annulée.
+*   **C - Cohérence :** La transaction fait passer la base de données d'un état cohérent à un autre état cohérent, en respectant toutes les contraintes d'intégrité (clés, types de données).
+*   **I - Isolation :** Les exécutions concurrentes de transactions doivent donner l'impression qu'elles s'exécutent séquentiellement, sans interférence.
+*   **D - Durabilité :** Une fois validée (**COMMIT**), les modifications d'une transaction sont permanentes, même en cas de panne système.
+
+**À retenir :** ACID est le fondement théorique garantissant la fiabilité des transactions dans les systèmes critiques (financiers, santé, inventaire).
+
+---
+
+### **2. Contrôle des Transactions : BEGIN, COMMIT, ROLLBACK**
+
+Ces commandes SQL permettent de délimiter et de contrôler manuellement une transaction.
+
+#### **2.1. BEGIN / START TRANSACTION**
+Marque le début d'une transaction. Toutes les opérations suivantes font partie de cette unité logique.
+```sql
+BEGIN TRANSACTION; -- ou START TRANSACTION (selon SGBD)
+```
+
+#### **2.2. COMMIT**
+Valide définitivement toutes les modifications effectuées depuis le `BEGIN`. La transaction est terminée avec succès.
+```sql
+COMMIT;
+```
+
+#### **2.3. ROLLBACK**
+Annule toutes les modifications effectuées depuis le `BEGIN`. La base de données revient à son état précédant la transaction.
+```sql
+ROLLBACK;
+```
+
+#### **2.4. Exemple Complet : Gestion de Stock (MTN Cameroun)**
+Imaginons le transfert de 100 forfaits "Moov Infinity" d'un dépôt central (Yaoundé) vers une boutique agréée (Douala).
+```sql
+BEGIN TRANSACTION; -- Début de la transaction
+
+-- 1. Vérifier le stock disponible à Yaoundé
+SELECT quantite_stock FROM depot WHERE ville = 'Yaoundé' AND produit_id = 'INF100';
+
+-- 2. Diminuer le stock à Yaoundé (si condition vérifiée en application)
+UPDATE depot SET quantite_stock = quantite_stock - 100 WHERE ville = 'Yaoundé' AND produit_id = 'INF100';
+
+-- 3. Augmenter le stock à Douala
+UPDATE depot SET quantite_stock = quantite_stock + 100 WHERE ville = 'Douala' AND produit_id = 'INF100';
+
+-- Si tout s'est bien passé (pas d'erreur réseau, stock suffisant)
+COMMIT; -- Validation permanente des deux UPDATE
+
+-- Si une erreur survient (ex: stock insuffisant, timeout)
+-- ROLLBACK; -- Annulation : aucun stock n'est modifié
+```
+**Scénario d'échec :** Si la ligne réseau tombe après le premier `UPDATE` mais avant le second, un `ROLLBACK` automatique ou manuel assure qu'aucun dépôt n'a un stock erroné.
+
+---
+
+### **3. Problèmes de Concurrence et Mécanismes de Contrôle**
+
+Lorsque plusieurs transactions s'exécutent simultanément, des problèmes d'incohérence peuvent survenir.
+
+#### **3.1. Problèmes Classiques de Concurrence**
+| Problème | Description | Exemple (Camtel - Facturation) |
+| :--- | :--- | :--- |
+| **Lecture Sale** <br>(Dirty Read) | Lecture de données modifiées par une transaction non encore validée (qui peut être annulée). | T1 calcule le total des factures en cours. T2 ajoute une grosse facture mais ne `COMMIT` pas encore. T1 lit cette facture. Si T2 fait `ROLLBACK`, T1 a travaillé avec une donnée fantôme. |
+| **Lecture Non-Répétable** <br>(Non-Repeatable Read) | Une même ligne lue deux fois dans une transaction a des valeurs différentes car une autre transaction l'a modifiée entre-temps. | T1 lit le solde d'un abonné. T2 débite ce solde (paiement automatique) et `COMMIT`. T1 relit le solde et obtient une valeur différente, ce qui fausse son calcul. |
+| **Lecture Fantôme** <br>(Phantom Read) | Une requête exécutée deux fois renvoie un ensemble de lignes différent car une autre transaction a inséré ou supprimé des lignes entre-temps. | T1 compte le nombre d'abonnés dans la région du Littoral. T2 inscrit 100 nouveaux abonnés à Douala et `COMMIT`. T1 recompte et obtient un résultat différent. |
+
+#### **3.2. Les Verrous (Locks)**
+Pour prévenir ces problèmes, les SGBD utilisent des **verrous**. Un verrou est un mécanisme qui restreint l'accès concurrent à une ressource (une ligne, une page, une table).
+
+*   **Verrou Partagé (S - Shared Lock) :** Pour les lectures. Plusieurs transactions peuvent avoir un verrou partagé sur la même ressource pour la lire.
+*   **Verrou Exclusif (X - Exclusive Lock) :** Pour les écritures. Une seule transaction peut avoir un verrou exclusif sur une ressource. Aucun autre verrou (S ou X) n'est autorisé simultanément.
+
+**Comportement par défaut :** Dans la plupart des SGBD (PostgreSQL, MySQL InnoDB, Oracle), un `SELECT` standard ne pose pas de verrou. Un `UPDATE`, `INSERT` ou `DELETE` pose un verrou exclusif sur les lignes affectées.
+
+**Verrouillage Explicite :**
+```sql
+SELECT * FROM commandes WHERE client_id = 123 FOR UPDATE; -- Pose un verrou exclusif (X)
+SELECT * FROM produits WHERE categorie = 'Forfait' FOR SHARE; -- Pose un verrou partagé (S)
+```
+
+---
+
+### **4. Niveaux d'Isolation des Transactions**
+
+Le niveau d'isolation est un réglage qui détermine à quel point les transactions sont isolées les unes des autres, c'est-à-dire leur vulnérabilité face aux problèmes de concurrence. Il s'agit d'un compromis entre **cohérence** et **performance**.
+
+#### **4.1. Les Quatre Niveaux Standard (SQL Standard)**
+Du plus permissif (performant) au plus strict (cohérent).
+
+| Niveau d'Isolation | Lecture Sale | Lecture Non-Répétable | Lecture Fantôme | Performance | Utilisation Typique |
+| :--- | :---: | :---: | :---: | :--- | :--- |
+| **READ UNCOMMITTED** | **OUI** | OUI | OUI | **Très Haute** | Statistiques approximatives, rapports non critiques. |
+| **READ COMMITTED** | NON | OUI | OUI | Haute | **Valeur par défaut de PostgreSQL, Oracle.** Scénarios généraux. |
+| **REPEATABLE READ** | NON | NON | OUI* | Moyenne | **Valeur par défaut de MySQL (InnoDB).** Calculs financiers nécessitant une vue stable. |
+| **SERIALIZABLE** | NON | NON | NON | Basse | Opérations critiques où la sérialisation exacte est requise (enchères, dernier stock). |
+
+*\*Note : Sous MySQL InnoDB, le niveau `REPEATABLE READ` prévient aussi les lectures fantômes grâce au MVCC.*
+
+#### **4.2. Définition du Niveau d'Isolation en SQL**
+```sql
+-- Pour la session en cours
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+BEGIN;
+-- ... opérations de la transaction ...
+COMMIT;
+
+-- Pour une seule instruction (PostgreSQL)
+BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+SELECT * FROM comptes;
+COMMIT;
+```
+
+**Exemple Contextuel (Système de Réservation - Air Côte d'Ivoire, Camair-Co) :**
+*   `READ COMMITTED` : Suffisant pour consulter les vols disponibles.
+*   `REPEATABLE READ` : Nécessaire pour le processus complet de réservation (vérifier le siège, calculer le prix, inscrire le passager) pour éviter qu'un siège ne soit vendu deux fois.
+*   `SERIALIZABLE` : Pourrait être utilisé pour l'attribution automatique des sièges ou la gestion des promotions à stock limité.
+
+---
+
+### **5. Deadlock (Interblocage)**
+
+#### **5.1. Définition et Cause**
+Un **deadlock** ou interblocage survient lorsque deux ou plusieurs transactions s'attendent mutuellement indéfiniment, chacune détenant un verrou dont l'autre a besoin pour continuer.
+
+**Scénario classique :**
+1. **Transaction T1** : Verrouille la ligne A (pour la modifier).
+2. **Transaction T2** : Verrouille la ligne B (pour la modifier).
+3. **T1** : Tente de verrouiller la ligne B (en attente car verrouillée par T2).
+4. **T2** : Tente de verrouiller la ligne A (en attente car verrouillée par T1).
+➡ **IMPASSE (Deadlock)**. Aucune transaction ne peut progresser.
+
+#### **5.2. Détection et Résolution**
+Les SGBD modernes possèdent un **détecteur de deadlock** qui surveille les graphes d'attente des verrous. Lorsqu'un deadlock est détecté :
+1.  Le SGBD **choisit une transaction comme "victime"** (généralement celle qui a fait le moins de travail).
+2.  Il **annule cette transaction** (`ROLLBACK`).
+3.  Il libère ainsi tous ses verrous.
+4.  Les autres transactions peuvent alors se terminer normalement.
+5.  L'application doit être conçue pour **relancer la transaction annulée**.
+
+#### **5.3. Bonnes Pratiques pour Éviter les Deadlocks**
+*   **Accéder aux objets dans le même ordre** dans toutes les transactions (ex: toujours modifier le compte source avant le compte destination).
+*   **Garder les transactions courtes** : Faire le moins d'opérations possible, libérer les verrous rapidement.
+*   **Utiliser des verrous de granularité plus élevée** (au niveau de la table) avec prudence et seulement si nécessaire.
+*   **Utiliser `SELECT ... FOR UPDATE NOWAIT`** (si supporté) pour échouer immédiatement si la ressource est verrouillée, plutôt que d'attendre.
+
+---
+
+### **6. MVCC (Multi-Version Concurrency Control)**
+
+#### **6.1. Principe Fondamental**
+Le **MVCC** est une technique avancée de contrôle de concurrence utilisée par des SGBD comme **PostgreSQL, MySQL InnoDB et Oracle**. Au lieu de bloquer les lecteurs avec des verrous, le MVCC **crée une "snapshot" (instantané)** des données au début de chaque transaction.
+
+*   Chaque modification (`UPDATE`, `DELETE`) crée une **nouvelle version** de la ligne, sans écraser l'ancienne.
+*   Les transactions en lecture voient **l'instantané cohérent** des données tel qu'il existait au moment où elles ont commencé, indépendamment des modifications concurrentes.
+*   Les anciennes versions sont nettoyées périodiquement (VACUUM dans PostgreSQL).
+
+#### **6.2. Avantages du MVCC**
+*   **Performances de lecture élevées :** Les lectures **ne bloquent jamais** les écritures, et les écritures **ne bloquent jamais** les lectures (contrairement au verrouillage simple).
+*   **Élimination naturelle de nombreux problèmes :** Dans le niveau `READ COMMITTED`, il

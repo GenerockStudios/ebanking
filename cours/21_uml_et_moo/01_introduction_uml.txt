@@ -1,0 +1,142 @@
+CHAPITRE 1 — UML ET MÉTHODES ORIENTÉES OBJET (IGL233)
+BTS Génie Logiciel — MOO/UML
+
+1. INTRODUCTION À UML
+
+UML (Unified Modeling Language — Langage de Modélisation Unifié) est un langage graphique standardisé pour visualiser, spécifier, construire et documenter les artefacts d'un système logiciel.
+
+Histoire : UML est né de la fusion de trois méthodes orientées objet (Booch, OMT, OOSE) par Grady Booch, James Rumbaugh et Ivar Jacobson dans les années 1994-1996, sous l'égide de l'OMG (Object Management Group). Version actuelle : UML 2.5.
+
+UML n'est pas une méthode mais un langage : il ne dit pas comment concevoir, seulement comment représenter graphiquement une conception.
+
+2. LES 14 DIAGRAMMES UML 2.x
+
+Deux catégories :
+
+DIAGRAMMES STRUCTURELS (statique, architecture) :
+1. Diagramme de classes : la structure centrale de tout système OO
+2. Diagramme d'objets : snapshot d'instances à un instant T
+3. Diagramme de composants : organisation physique des composants logiciels
+4. Diagramme de déploiement : architecture physique (serveurs, nœuds)
+5. Diagramme de packages : organisation en packages/modules
+6. Diagramme de structures composites : structures internes d'un classificateur
+7. Diagramme de profils : extensions UML
+
+DIAGRAMMES COMPORTEMENTAUX (dynamique, interactions) :
+8. Diagramme de cas d'utilisation : interactions acteurs/système
+9. Diagramme d'activités : flux de contrôle et de données
+10. Diagramme d'états-transitions : cycle de vie d'un objet
+11. Diagramme de séquence : interactions dans le temps
+12. Diagramme de communication (collaboration) : interactions structurées
+13. Diagramme de timing : contraintes temporelles
+14. Diagramme global d'interaction : vue d'ensemble des interactions
+
+Les 5 diagrammes les plus utilisés en pratique :
+Diagramme de classes, Diagramme de cas d'utilisation, Diagramme de séquence,
+Diagramme d'activités, Diagramme d'états-transitions
+
+3. DIAGRAMME DE CLASSES (STRUCTURE PRINCIPALE)
+
+Notation des classes :
+┌──────────────────────────┐
+│      <<stereotype>>      │
+│       NomClasse          │  ← section nom
+├──────────────────────────┤
+│ - attributPrivé : Type   │  ← section attributs
+│ # attributProtégé : Type │
+│ + attributPublic : Type  │
+│ {readOnly} constante     │
+├──────────────────────────┤
+│ + méthode() : ReturnType │  ← section méthodes
+│ - méthodePrivée() : void │
+└──────────────────────────┘
+
+Visibilité : + public, - private, # protected, ~ package
+
+Types de relations entre classes :
+
+Association : lien entre deux classes. Représentée par une ligne simple.
+  Avec multiplicité : 1, 0..1, *, 1..*, 0..*, 2..5
+  Avec nom et navigation (flèche directionnelle)
+
+Agrégation (◇) : relation "a-un" faible. L'objet peut exister indépendamment.
+  Exemple : Classe → Étudiant (un étudiant peut exister sans être dans une classe)
+
+Composition (◆) : relation "est-composé-de" forte. L'objet contenu ne peut exister sans le contenant.
+  Exemple : Commande → LigneDeCommande (une ligne n'existe pas sans sa commande)
+
+Héritage (généralisation — flèche creuse) : "est-un"
+  Sous-classe → SuperClasse (la flèche pointe vers la super-classe)
+
+Réalisation (implements — ligne pointillée + flèche creuse) :
+  ClasseConcrète -.-> <<interface>> Interface
+
+Dépendance (ligne pointillée) : une classe utilise temporairement une autre.
+
+Exemple complet — Système de gestion de bibliothèque :
+
+Livre
+- isbn : String
+- titre : String
+- auteur : String
+- disponible : boolean
++ emprunter() : void
++ retourner() : void
+
+Membre
+- id : int
+- nom : String
+- email : String
++ emprunterLivre(l : Livre) : Emprunt
++ retournerLivre(e : Emprunt) : void
+
+Emprunt
+- dateDebut : Date
+- dateRetourPrevue : Date
+- dateRetourEffective : Date
++ estEnRetard() : boolean
++ calculerAmende() : float
+
+Relations :
+Membre →(1) emprunte (0..*) Livre (Association avec classe Emprunt)
+Emprunt ◆→ Livre (composition côté Emprunt → Livre)
+Membre réalise <<interface>> Utilisateur
+
+4. DIAGRAMME DE CAS D'UTILISATION
+
+Voir chapitre Génie Logiciel (IGL115). Rappel :
+- Acteur : stick figure, rôle externe au système
+- UC : ellipse avec nom verbal ("Se connecter", "Consulter son solde")
+- Relation include <<include>> : le UC inclut toujours le UC inclus
+- Relation extend <<extend>> : le UC s'exécute dans certaines conditions
+- Limite du système : rectangle englobant les UC
+
+Acteur principal vs acteur secondaire :
+Acteur principal : initie le cas d'utilisation (à gauche du rectangle par convention)
+Acteur secondaire : sollicité par le système pour accomplir le UC (à droite)
+
+5. DIAGRAMME DE SÉQUENCE
+
+Représente l'ordre chronologique des échanges de messages entre objets.
+
+Éléments :
+- Lifeline (ligne de vie) : rectangle en haut + ligne verticale pointillée
+- Activation box : rectangle sur la lifeline (période d'activité)
+- Message synchrone : flèche pleine (attend la réponse)
+- Message asynchrone : flèche ouverte (n'attend pas)
+- Message de retour : flèche pointillée
+- Fragments : alt (if/else), opt (if), loop (for/while), par (parallèle)
+
+Exemple : processus de connexion à une application
+Utilisateur → Interface : saisirIdentifiants(login, mdp)
+Interface → AuthService : authentifier(login, mdp)
+AuthService → BaseDeDonnées : getUtilisateur(login)
+BaseDeDonnées → AuthService : utilisateur
+AuthService → AuthService : vérifierMotDePasse(mdp, hash)
+AuthService → Interface : tokenJWT
+Interface → Utilisateur : afficherTableauDeBord()
+
+[alt] Si mdp incorrect :
+AuthService → Interface : erreur("Identifiants invalides")
+Interface → Utilisateur : afficherMessageErreur()
+[/alt]

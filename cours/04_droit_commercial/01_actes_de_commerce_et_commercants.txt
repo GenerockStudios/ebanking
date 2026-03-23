@@ -1,0 +1,76 @@
+CHAPITRE 1 — ACTES DE COMMERCE ET COMMERÇANTS (DROIT OHADA)
+BTS Génie Logiciel — Droit commercial
+
+1. LES ACTES DE COMMERCE
+
+Définition : les actes de commerce sont les actes juridiques et opérations définis par le droit commercial, réalisés par des commerçants ou liés à l'exercice du commerce.
+
+Actes de commerce par nature (art. 3 Acte Uniforme OHADA sur le Droit Commercial Général) :
+- L'achat de biens meubles ou immeubles en vue de leur revente
+- Les opérations de banque, de bourse, de change, de courtage, d'assurance et de transit
+- Les contrats entre commerçants pour les besoins de leur commerce
+- L'exploitation industrielle des mines, carrières et tout gisement de ressources naturelles
+- Les opérations de location de meubles
+- Les opérations de manufacture, de transport et de télécommunication
+- Les actes effectués par les sociétés commerciales
+- Les ventes aux enchères publiques
+
+Actes de commerce par la forme :
+- La lettre de change (traite) : toujours commerciale même entre non-commerçants
+- Le billet à ordre entre commerçants
+- Les actes des sociétés commerciales (en raison de leur forme juridique)
+
+Actes de commerce par accessoire :
+- Acte civil accompli par un commerçant pour les besoins de son commerce
+- Exemple : un commerçant qui achète un bureau pour son magasin accomplit un acte de commerce par accessoire
+
+2. LE STATUT DE COMMERÇANT
+
+Définition (art. 2 AUDCG) : est commerçant celui qui fait de l'accomplissement d'actes de commerce par nature sa profession.
+
+CONDITIONS POUR ÊTRE COMMERÇANT :
+a) Accomplir des actes de commerce à titre habituel (pas occasionnel)
+b) En faire sa profession principale ou accessoire
+c) Agir en son propre nom et pour son propre compte (pas comme salarié)
+d) Avoir la capacité juridique : être majeur (18 ans), ne pas être frappé d'incapacité ou d'incompatibilité
+
+Incompatibilités : fonctionnaire en activité, officier ministériel (notaire, huissier), profession médicale, expert-comptable — ne peuvent pas être commerçants.
+
+Incapacités : mineurs, majeurs sous tutelle.
+Exception : mineur émancipé peut être commerçant avec autorisation du juge.
+
+3. OBLIGATIONS DU COMMERÇANT
+
+a) Immatriculation au RCCM : obligation légale dans les 30 jours du début d'activité. Crée une présomption de qualité de commerçant.
+
+b) Tenue de la comptabilité : comptabilité régulière, livre journal, grand-livre, balance, bilan et compte de résultat. Conservation des documents 10 ans.
+
+c) Ouverture d'un compte bancaire professionnel.
+
+d) Déclaration et paiement des impôts et taxes (TVA, impôt sur les sociétés ou BIC).
+
+e) Affiliation à la CNPS pour lui-même et ses employés.
+
+f) Respect de la réglementation du commerce (normes, prix, concurrence).
+
+4. LE FONDS DE COMMERCE
+
+Définition : ensemble de biens meubles corporels et incorporels qu'un commerçant réunit et exploite pour l'exercice de son activité commerciale.
+
+Éléments constitutifs :
+Éléments incorporels (les plus importants) :
+- La clientèle : élément essentiel, sans clientèle pas de fonds de commerce
+- L'achalandage (clientèle de passage)
+- Le nom commercial (enseigne, marque)
+- Les droits de propriété industrielle (brevets, licences)
+- Le droit au bail (droit de rester dans les locaux loués)
+
+Éléments corporels :
+- Le matériel et l'outillage
+- Les marchandises (stocks)
+- Le mobilier
+
+Opérations sur le fonds :
+- Vente du fonds : formalités strictes (publicité, droit de préférence des salariés, séquestre du prix)
+- Nantissement du fonds : mise en garantie sans dessaisissement
+- Location-gérance : exploité par un gérant-mandataire (locataire-gérant)

@@ -1,0 +1,139 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 19 Maintenance Informatique**
+## **Chapitre : Négociation et contrats IT : appel d’offres, cahier des charges, contrat de maintenance (SLA, GTI/GTR), licences, garanties**
+
+---
+
+### **1. Introduction à la négociation et aux contrats IT**
+
+#### **1.1. Définition et importance**
+La **négociation IT** est un processus structuré visant à parvenir à un accord entre un client (entreprise, administration) et un fournisseur (éditeur, intégrateur, prestataire de services) sur les termes d’un projet, d’un service ou d’une maintenance informatique. Les **contrats IT** formalisent cet accord et définissent les droits, obligations, pénalités et garanties de chaque partie.
+
+**Importance dans le contexte camerounais :**
+*   **Sécurisation des investissements :** Les entreprises camerounaises (banques, télécoms, PME) investissent massivement dans le numérique. Un contrat clair protège ces investissements.
+*   **Conformité juridique :** Cadre légal de l’**OHADA** (Organisation pour l'Harmonisation en Afrique du Droit des Affaires) pour les contrats commerciaux.
+*   **Réduction des litiges :** Définition précise des attentes (délais, pénalités, niveaux de service).
+
+#### **1.2. Cycle de vie d’un projet IT et place des contrats**
+1.  **Expression du besoin** → **Appel d’offres**
+2.  **Analyse et sélection** → **Cahier des charges, Négociation**
+3.  **Exécution et maintenance** → **Contrat de service (SLA, GTI/GTR), Licences**
+4.  **Clôture et évaluation** → **Respect des garanties contractuelles**
+
+---
+
+### **2. L’appel d’offres (AO) en informatique**
+
+#### **2.1. Définition et objectifs**
+Un **appel d’offres (AO)** ou **Request for Proposal (RFP)** est un document par lequel une organisation (le maître d’ouvrage) sollicite des propositions de la part de fournisseurs (les soumissionnaires) pour la réalisation d’un projet ou la fourniture de biens/services IT.
+
+**Objectifs :**
+*   **Transparence :** Traitement égalitaire des soumissionnaires (important dans les appels d’offres publics au Cameroun).
+*   **Comparabilité :** Permettre une comparaison objective des propositions techniques et financières.
+*   **Optimisation :** Obtenir le meilleur rapport qualité/prix.
+
+#### **2.2. Structure type d’un appel d’offres IT**
+1.  **Préambule et informations administratives :** Identification du donneur d’ordre, objet, calendrier, règles de dépôt.
+2.  **Cahier des charges technique (CCT) :** Description détaillée du besoin, des contraintes techniques, des spécifications fonctionnelles et non fonctionnelles.
+3.  **Cahier des clauses administratives particulières (CCAP) :** Conditions de paiement, délais, pénalités de retard, garanties, droit applicable (souvent le droit OHADA).
+4.  **Dossier de consultation :** Modalités de réponse, critères de sélection (pondération technique/financière).
+
+#### **2.3. Exemple concret (Cameroun)**
+*   **Donneur d’ordre :** Une mairie d’une ville camerounaise.
+*   **Objet de l’AO :** « Acquisition et déploiement d’un système informatique de gestion de l’état civil. »
+*   **Contraintes :** Solution adaptée aux zones faiblement connectées, formation du personnel, maintenance sur 3 ans, hébergement local recommandé (souveraineté des données).
+*   **Critères :** 60% valeur technique, 40% valeur financière.
+
+---
+
+### **3. Le cahier des charges (CdC) informatique**
+
+#### **3.1. Rôle et finalité**
+Le **cahier des charges** est le document pivot qui traduit le besoin métier en exigences techniques précises pour les fournisseurs. Il sert de **référence contractuelle** pour la réalisation et la recette du projet.
+
+#### **3.2. Contenu détaillé d’un CdC**
+*   **Contexte et objectifs :** Pourquoi le projet ? (Ex: Digitalisation des processus de recouvrement pour une microfinance à Douala).
+*   **Spécifications fonctionnelles (SF) :** Liste des fonctions que le logiciel/système doit offrir (cas d’utilisation, user stories).
+    *   *Ex: « Le système doit permettre de saisir un dossier client avec photo et empreintes digitales. »*
+*   **Spécifications techniques (ST) :** Environnement cible, technologies, normes, interfaces, sécurité.
+    *   *Ex: « Base de données PostgreSQL, backend en Java Spring Boot, frontend responsive, chiffrement des données sensibles. »*
+*   **Spécifications organisationnelles :** Planning, livrables, modalités de recette, formation des utilisateurs.
+*   **Contraintes :** Budget, délai, conformité légale (loi camerounaise sur la protection des données, normes COBAC pour les banques).
+
+**À retenir :** Un bon CdC est **clair, complet, vérifiable et non ambigu**. Il limite les risques de dérives (« scope creep »).
+
+---
+
+### **4. Le contrat de maintenance et les niveaux de service**
+
+#### **4.1. Typologie des contrats de maintenance IT**
+| Type de maintenance | Description | Exemple d’application |
+| :--- | :--- | :--- |
+| **Corrective** | Intervention après une panne pour rétablir le service. | Réparation d’un serveur en panne dans un cybercafé à Yaoundé. |
+| **Préventive** | Interventions planifiées pour éviter les pannes. | Mises à jour mensuelles des antivirus sur le parc informatique d’une PME. |
+| **Évolutive** | Adaptation du système à de nouveaux besoins. | Ajout d’un module de paiement mobile (Orange Money, MTN Mobile Money) à un logiciel de gestion. |
+| **Curative** | Correction des défauts de conception. | Patch pour corriger un bug de calcul dans un logiciel de paie. |
+
+#### **4.2. Le Service Level Agreement (SLA) – Accord sur les niveaux de service**
+Le **SLA** est la **pièce maîtresse** d’un contrat de maintenance. Il quantifie et mesure la qualité du service rendu.
+
+**Indicateurs clés (KPI – Key Performance Indicators) :**
+*   **Disponibilité :** `(Temps total - Temps d'indisponibilité) / Temps total * 100`. Ex: « Disponibilité du service ERP à 99,5% en heures ouvrables. »
+*   **Temps de réponse :** Délai entre la réception d’une alerte et le début de l’analyse par le support. (Ex: < 15 minutes pour une panne critique).
+*   **Temps de rétablissement (MTTR – Mean Time To Repair) :** Délai moyen pour résoudre un incident et restaurer le service.
+*   **Délai d’intervention sur site :** Engagé par le prestataire (Ex: Intervention sous 4h à Douala et Yaoundé, 24h dans les chefs-lieux de région).
+
+#### **4.3. Garanties de Temps d’Intervention (GTI) et de Rétablissement (GTR)**
+Ces clauses **opérationnelles** du SLA sont cruciales pour les services critiques.
+
+*   **GTI (Garantie de Temps d’Intervention) :** Délai maximum dans lequel le prestataire s’engage à commencer les actions de résolution après déclaration d’un incident.
+    *   *Ex: « GTI de 2 heures pour les incidents de niveau 1 (critiques) sur le réseau principal. »*
+*   **GTR (Garantie de Temps de Rétablissement) :** Délai maximum pour que le service soit pleinement rétabli.
+    *   *Ex: « GTR de 6 heures pour la restauration d’un service de messagerie après panne matérielle. »*
+
+**Tableau comparatif : GTI vs GTR**
+| Critère | **GTI** | **GTR** |
+| :--- | :--- | :--- |
+| **Objectif** | Mesurer la réactivité du prestataire. | Mesurer son efficacité à résoudre le problème. |
+| **Point de départ** | Réception de l’alerte/du ticket. | Réception de l’alerte/du ticket. |
+| **Point d’arrivée** | Début des actions de diagnostic/résolution. | Rétablissement complet du service. |
+| **Pénalités** | Appliquées si le délai est dépassé. | Appliquées si le délai est dépassé. |
+
+#### **4.4. Pénalités et crédits de service**
+En cas de non-respect des engagements du SLA (GTI/GTR non tenus, disponibilité inférieure au seuil), le contrat prévoit généralement des **pénalités financières** ou des **crédits de service** (remboursement sous forme de jours de maintenance gratuits).
+
+---
+
+### **5. Licences logicielles et garanties légales**
+
+#### **5.1. Les différents types de licences logicielles**
+La licence définit les droits d’utilisation d’un logiciel. Son non-respect est un **piratage**, sanctionnable par la loi.
+
+*   **Licence propriétaire (commerciale) :** Achat d’un droit d’usage limité (Microsoft Windows, Oracle Database). Modèles : par utilisateur (CAL), par processeur, par site.
+*   **Licence libre (Open Source) :** Logiciel dont le code source est accessible, modifiable et redistribuable (Linux, Apache, PostgreSQL). Attention aux licences **copyleft** (GPL) qui imposent la redistribution sous même licence.
+*   **Licence SaaS (Software as a Service) :** Abonnement à un service en cloud. L’utilisateur ne possède pas le logiciel (Ex: Utilisation de Google Workspace ou de Microsoft 365 par une startup camerounaise).
+*   **Licence gratuiciel (Freeware) / Partagiciel (Shareware) :** Logiciel gratuit ou avec période d’essai.
+
+**Enjeu local :** Le coût des licences propriétaires est souvent un frein. Les solutions open source et les modèles SaaS gagnent du terrain.
+
+#### **5.2. Garanties légales et contractuelles**
+*   **Garantie d’éviction :** Le fournisseur garantit que le logiciel ne viole pas les droits de propriété intellectuelle d’un tiers.
+*   **Garantie des vices cachés (Droit OHADA - Acte uniforme sur le droit commercial général) :** Le client peut exiger la résolution du contrat ou une réduction de prix si un défaut caché, rendant le logiciel impropre à son usage, est découvert.
+*   **Garantie de conformité :** Le produit livré doit être conforme aux spécifications du cahier des charges.
+*   **Garantie de maintenance (ou garantie constructeur) :** Période (souvent 12 mois) pendant laquelle les mises à jour correctives sont fournies gratuitement.
+
+---
+
+### **6. Outils et bonnes pratiques de gestion contractuelle IT**
+
+#### **6.1. Outils utilisés en entreprise**
+*   **Gestion des contrats :** Logiciels de CLM (Contract Lifecycle Management) comme DocuSign, Icertis, ou des solutions ERP intégrées (SAP, Odoo).
+*   **Suivi des SLA :** Plateformes de monitoring et de gestion des services IT (ITSM) comme **ServiceNow**, **Jira Service Management**, **GLPI** (solution open source très répandue).
+*   **Gestion des licences :** Outils d’inventaire logiciel (SNMP, agents) comme Lansweeper, ManageEngine.
+
+#### **6.2. Bonnes pratiques pour la négociation (Contexte camerounais)**
+1.  **Préparation :** Bien connaître son besoin, son budget et le marché local.
+2.  **Rédaction claire :** Éviter les clauses ambiguës. Faire relire par un juriste connaissant le droit OHADA.
+3.  **Négocier les SLA :** Demander des indicateurs réalistes et mesurables. Adapter les GTI/GTR à la réalité géographique du Cameroun (accès aux sites).
+4.  **Anticiper la fin de vie :** Prévoir dans le contrat les clauses de sortie, la réversibilité des données et la formation du personnel pour la transition.
+5.  **Auditer régulièrement

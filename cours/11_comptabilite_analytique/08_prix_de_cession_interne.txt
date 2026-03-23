@@ -1,0 +1,143 @@
+# **Notes de Cours - BTS Génie Logiciel**
+**Matière :** 11 Comptabilité Analytique
+**Chapitre :** Prix de cession interne et décisions de gestion : make or buy, sous-traitance, rentabilité d'un produit
+
+---
+
+## **Introduction**
+
+Dans un environnement économique compétitif comme celui du Cameroun et de l'espace OHADA, les entreprises (des PME aux grands groupes comme MTN, Orange Cameroun ou Camtel) doivent optimiser en permanence leurs coûts et leurs processus pour rester rentables. La comptabilité analytique fournit les outils nécessaires pour éclairer des décisions stratégiques cruciales : **fabriquer ou acheter ? Sous-traiter ou internaliser ?** Ce chapitre aborde les concepts de prix de cession interne et les analyses qui sous-tendent ces choix de gestion, avec une application particulière au secteur des technologies et du génie logiciel.
+
+---
+
+## **1. Le Prix de Cession Interne (PCI)**
+
+### **1.1. Définition et Objectifs**
+
+**Définition :** Le Prix de Cession Interne (PCI) est le prix auquel un centre de responsabilité (une division, un atelier, un service) d'une entreprise cède un bien ou un service à un autre centre de responsabilité de la même entreprise.
+
+**Objectifs principaux :**
+*   **Évaluer la performance** de chaque centre de responsabilité de manière autonome.
+*   **Motiver les responsables** en les rendant comptables de leurs résultats.
+*   **Faciliter la prise de décision décentralisée** en simulant des conditions de marché à l'intérieur de l'entreprise.
+*   **Optimiser l'allocation des ressources internes.**
+
+### **1.2. Méthodes de Détermination du PCI**
+
+Il existe plusieurs méthodes, chacune avec ses avantages et inconvénients.
+
+**Tableau Comparatif des Méthodes de PCI**
+
+| Méthode | Principe | Avantages | Inconvénients | Applicabilité dans le contexte GL |
+| :--- | :--- | :--- | :--- | :--- |
+| **1. Coût de revient complet** | PCI = Coût total de production du produit/service cédé. | Simple à calculer, couvre tous les coûts. | Ne motive pas l'efficacité du centre vendeur (tous les coûts sont répercutés). Peut induire de mauvaises décisions pour l'acheteur interne. | Peu adapté pour évaluer une équipe de développement interne. |
+| **2. Coût variable (ou marginal)** | PCI = Coût variable uniquement (matières, main-d'œuvre directe, etc.). | Pertinent pour les décisions à court terme (ex: capacité inutilisée). Montre la contribution marginale. | Le centre vendeur apparaît toujours en perte (il ne couvre pas ses frais fixes). | Utile pour décider d'accepter une commande interne supplémentaire si l'équipe a de la capacité. |
+| **3. Coût standard** | PCI basé sur des coûts préétablis (standards) pour une efficacité donnée. | Motive à l'efficacité (écarts analysables). Évite le transfert des inefficacités. | Nécessite un système de calcul de coûts standard bien maîtrisé. | Très adapté pour céder des modules logiciels développés en interne à d'autres projets. |
+| **4. Prix de marché** | PCI = Prix pratiqué sur le marché extérieur pour un bien/service équivalent. | Simule une vraie concurrence, évalue la compétitivité interne. | Difficile à trouver pour des produits/services très spécifiques. | Possible pour des services informatiques standardisés (hébergement, maintenance). |
+| **5. Prix négocié** | PCI fixé par accord entre les centres vendeur et acheteur. | Prend en compte les contraintes et intérêts des deux parties. | Processus long, risque de conflits, peut manquer d'objectivité. | Adapté pour des projets transversaux entre équipes. |
+
+**À retenir :** Il n'existe pas de méthode parfaite. Le choix dépend des objectifs de gestion (motivation, évaluation, optimisation). Dans le cadre OHADA, la méthode doit être transparente et appliquée de façon cohérente.
+
+### **1.3. Application dans le Génie Logiciel**
+
+*   **Exemple :** L'**équipe "Infrastructure & Cloud"** de Camtel propose un service d'hébergement sécurisé de bases de données à l'**équipe "Développement d'application mobile"**.
+    *   **PCI selon coût standard :** Coût estimé de la bande passante, de la sécurisation et de la maintenance par Go/mois.
+    *   **PCI selon prix de marché :** Comparaison avec les tarifs d'AWS ou d'Orange Cloud.
+    *   **L'analyse :** Si le PCI interne (Camtel) est significativement plus bas que le prix de marché (AWS), l'équipe développement a intérêt à utiliser le service interne. Cela permet aussi à Camtel de valoriser et d'optimiser l'usage de son infrastructure.
+
+---
+
+## **2. Les Décisions de Gestion : Make or Buy et Sous-traitance**
+
+Ces décisions, aussi appelées **"Produire ou Acheter"**, sont au cœur de la stratégie d'entreprise.
+
+### **2.1. Analyse "Make or Buy" (Produire ou Acheter)**
+
+**Définition :** Décision de réaliser en interne (*make*) ou d'acheter à un fournisseur externe (*buy*) un composant, un service ou une fonction.
+
+**Méthode d'analyse (Approche différentielle) :**
+On compare uniquement les **coûts différentiels** (ceux qui changent selon l'option choisie). Les coûts communs (non affectés par la décision) sont ignorés.
+
+**Étapes :**
+1.  Identifier tous les coûts associés à la production interne (coûts variables + frais fixes spécifiques/évitables).
+2.  Identifier le coût d'achat externe (prix d'achat + coûts de transaction, de contrôle, de logistique).
+3.  Comparer les deux montants.
+4.  **Règle de décision :**
+    *   Si **Coût de Production Interne < Coût d'Achat Externe** → **MAKE** (Produire)
+    *   Si **Coût de Production Interne > Coût d'Achat Externe** → **BUY** (Acheter)
+
+**Exemple concret (Contexte camerounais) :**
+Une startup de Douala développant une application de paiement mobile (*type MTN Mobile Money*) doit décider si elle développe en interne son module de chiffrement des transactions (*Make*) ou si elle utilise une API (Interface de programmation) payante d'un fournisseur spécialisé comme *Lipa Payments* ou *Interswitch* (*Buy*).
+
+*   **Option MAKE (Développer en interne) :**
+    *   Coût variable : 0 (salaire des développeurs déjà payés, mais c'est un coût imputable).
+    *   Coût spécifique : Rémunération d'un expert en cybersécurité en freelance (5 000 000 FCFA).
+    *   Coût total interne = **5 000 000 FCFA** (coût spécifique).
+*   **Option BUY (Utiliser une API) :**
+    *   Coût d'abonnement annuel à l'API : 1 200 000 FCFA.
+    *   Coût d'intégration par un développeur (2 semaines) : 500 000 FCFA.
+    *   Coût total externe = **1 700 000 FCFA**.
+
+**Analyse :** 1 700 000 FCFA (Buy) < 5 000 000 FCFA (Make). L'analyse financière pure recommande **d'acheter (Buy)**. Cependant, la décision finale doit intégrer des **facteurs qualitatifs**.
+
+### **2.2. La Sous-traitance**
+
+**Définition (OHADA) :** Contrat par lequel une entreprise (le donneur d'ordre) confie à une autre (le sous-traitant), et sous sa responsabilité, l'exécution de tout ou partie d'un contrat principal.
+
+**Sous-traitance vs Make or Buy :** La sous-traitance est une forme spécifique de *Buy*, souvent pour une activité précise, temporaire ou nécessitant une expertise pointue.
+
+**Facteurs favorisant la sous-traitance (dans le GL) :**
+*   **Pic de charge :** Besoin ponctuel de renfort pour un projet (ex: Orange Cameroun sous-traite le développement d'une nouvelle fonctionnalité pour les Fêtes).
+*   **Compétence non disponible en interne :** Développement d'une fonctionnalité en IA, audit de sécurité.
+*   **Réduction des coûts fixes :** Externaliser la maintenance d'une application ancienne.
+*   **Focus sur le cœur de métier :** Une fintech se concentre sur l'expérience utilisateur et sous-traite l'infrastructure cloud.
+
+**Risques de la sous-traitance :**
+*   Perte de savoir-faire et dépendance.
+*   Risques de confidentialité et de sécurité des données (RGPD/lois camerounaises).
+*   Difficultés de coordination et de contrôle de la qualité.
+*   Coûts de gestion de la relation (contrat, supervision).
+
+**À retenir :** La décision Make or Buy/Sous-traitance est **stratégique**. Elle ne doit pas reposer uniquement sur un calcul de coût à court terme, mais sur une vision à long terme des compétences clés à maîtriser en interne.
+
+---
+
+## **3. Analyse de la Rentabilité d'un Produit ou d'un Service**
+
+Pour prendre des décisions éclairées (lancer, maintenir, abandonner un produit), il faut analyser sa rentabilité.
+
+### **3.1. Méthode du Coût Variable (Direct Costing)**
+
+C'est l'outil privilégié pour analyser la contribution d'un produit à la couverture des frais fixes et au bénéfice.
+
+**Concepts clés :**
+*   **Marge sur Coût Variable (MCV) :** Chiffre d'Affaires (CA) - Coûts Variables (CV).
+    *   **MCV unitaire = Prix de vente unitaire - Coût variable unitaire**
+*   **Taux de Marge sur Coût Variable (TMCV) :** (MCV / CA) x 100. Indique la part de chaque franc de vente disponible pour couvrir les frais fixes.
+*   **Résultat :** MCV totale - Frais Fixes (FF) totaux.
+
+**Représentation et Seuil de Rentabilité :**
+Le **seuil de rentabilité** (ou point mort) est le niveau d'activité (en chiffre d'affaires ou en quantité) pour lequel l'entreprise couvre la totalité de ses charges (variables + fixes) et commence à dégager un bénéfice.
+*   **Seuil en quantité = Frais Fixes Totaux / MCV unitaire**
+*   **Seuil en valeur (CA) = Frais Fixes Totaux / Taux de MCV**
+
+### **3.2. Application : Rentabilité d'une Application Mobile**
+
+**Scénario :** Une SSII (Société de Services en Ingénierie Informatique) de Yaoundé a développé une application de livraison de courses pour un client. Elle envisage maintenant de la commercialiser sous forme d'abonnement (Software as a Service - SaaS).
+
+*   **Données estimées (par mois) :**
+    *   Prix d'abonnement/utilisateur : 2 000 FCFA
+    *   Coût variable par utilisateur (bande passante, support client) : 300 FCFA
+    *   Frais fixes mensuels (serveurs, salaire admin, marketing) : 5 000 000 FCFA
+
+*   **Calculs :**
+    1.  **MCV unitaire** = 2 000 - 300 = **1 700 FCFA**
+    2.  **TMCV** = (1 700 / 2 000) x 100 = **85%**
+    3.  **Seuil de rentabilité en nombre d'utilisateurs** = 5 000 000 / 1 700 ≈ **2 941 utilisateurs**.
+    4.  **Seuil de rentabilité en CA** = 5 000 000 / 0.85 ≈ **5 882 353 FCFA**.
+
+**Analyse :** L'application doit attirer au moins **2 941 abonnés payants** pour commencer à être rentable. Cette analyse guide les décisions de marketing (budget alloué pour acquérir un client) et de pricing.
+
+### **3.3. Décisions de Gestion basées sur la Rentabilité**
+
+*   **Lancer un produit ?** Si les prévisions de ventes dépassent largement le seuil de rentabilité et que le projet

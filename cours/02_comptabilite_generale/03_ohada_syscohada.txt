@@ -1,0 +1,139 @@
+# **Notes de Cours — BTS Génie Logiciel**
+**Matière :** 02 Comptabilité Générale
+**Chapitre :** OHADA et SYSCOHADA : Plan Comptable Général, Classes 1-9, Journaux Obligatoires, Grand-Livre, Balance
+
+---
+
+## **1. Introduction au Cadre Juridique et Normatif : OHADA et SYSCOHADA**
+
+### **1.1. L’OHADA : Organisation pour l’Harmonisation en Afrique du Droit des Affaires**
+L'OHADA est un traité international signé le 17 octobre 1993 à Port-Louis (Île Maurice) et révisé à Québec en 2008. Son objectif principal est d’**harmoniser le droit des affaires** dans ses États membres pour créer un espace juridique sécurisé, favorisant les investissements et le développement économique.
+
+*   **Contexte camerounais/africain :** Le Cameroun est un État membre fondateur. Pour un développeur de logiciel, comprendre ce cadre est crucial car tout logiciel de gestion (ERP, logiciel de paie, de facturation) destiné aux entreprises de la zone OHADA doit intégrer ses normes, notamment le SYSCOHADA.
+*   **Actes Uniformes :** L'OHADA légifère via des Actes Uniformes (AU) directement applicables dans tous les États membres. L'**Acte Uniforme relatif au droit comptable et à l'information financière** (révisé en 2017) est le texte fondamental pour notre chapitre.
+
+### **1.2. Le SYSCOHADA : Système Comptable OHADA**
+Le SYSCOHADA est l’ensemble des **règles et principes comptables** édictés par l’Acte Uniforme. Il remplace les anciens plans comptables nationaux (comme le PCG camerounais) pour les 17 pays membres. C'est la **norme comptable unique** que doit appliquer toute entreprise soumise à l'obligation comptable dans la zone OHADA.
+
+**À retenir :**
+*   **OHADA** = Cadre juridique et institutionnel.
+*   **SYSCOHADA** = Norme comptable pratique issue de ce cadre.
+*   **Objectif pour l'ingénieur logiciel :** Concevoir des applications (ERP, modules de comptabilité) qui respectent **obligatoirement** les règles du SYSCOHADA (plan de comptes, états financiers, procédures).
+
+---
+
+## **2. Le Plan Comptable Général OHADA (PCG OHADA)**
+
+### **2.1. Définition et Rôle**
+Le Plan Comptable Général (PCG) OHADA est la **liste normalisée des comptes** que toute entreprise doit utiliser pour enregistrer ses opérations. Il assure :
+*   **L’uniformité** : Toutes les entreprises parlent le même "langage comptable".
+*   **La comparabilité** : Possibilité de comparer les performances d’entreprises de pays différents.
+*   **La fiabilité** de l’information financière.
+
+### **2.2. Structure et Architecture en 9 Classes**
+Le PCG OHADA est structuré de manière décimales en **9 classes**, elles-mêmes divisées en comptes à plusieurs chiffres.
+
+**Tableau des 9 Classes du PCG OHADA :**
+
+| Classe | Intitulé de la Classe | Nature | Rôle Général |
+| :--- | :--- | :--- | :--- |
+| **1** | **Comptes de financement permanent** | Bilan (Passif) | Ressources stables de l'entreprise (Capitaux propres, dettes à long terme). |
+| **2** | **Comptes d'actif immobilisé** | Bilan (Actif) | Biens durables de l'entreprise (Terrains, constructions, matériel, logiciels). |
+| **3** | **Comptes d'actif circulant (hors trésorerie)** | Bilan (Actif) | Biens et créances à court terme (Stocks, clients, avances). |
+| **4** | **Comptes de passif circulant (hors trésorerie)** | Bilan (Passif) | Dettes à court terme (Fournisseurs, dettes fiscales, avances clients). |
+| **5** | **Comptes de trésorerie** | Bilan (Actif/Passif) | Liquidités disponibles (Caisse, banque) et découverts. |
+| **6** | **Comptes de charges** | Compte de résultat | Toutes les dépenses engagées pour l'activité (Achats, salaires, loyer). |
+| **7** | **Comptes de produits** | Compte de résultat | Toutes les recettes générées par l'activité (Ventes, services). |
+| **8** | **Comptes de résultat (spéciaux)** | Compte de résultat | Comptes pour le calcul du résultat (Soldes intermédiaires de gestion). |
+| **9** | **Comptes d'engagements hors bilan** | Hors Bilan | Engagements donnés ou reçus non encore comptabilisés à l'actif ou au passif. |
+
+### **2.3. Exemples Concrets Adaptés**
+*   **Classe 2 (Actif Immobilisé) :** Pour une entreprise comme **MTN Cameroon**, l’achat d’antennes relais (Matériel) est comptabilisé en **22xx**. Le développement d’un logiciel interne de gestion réseau (Immobilisations incorporelles) serait en **21xx**.
+*   **Classe 6 & 7 (Charges & Produits) :** Pour un développeur freelance (ingénieur logiciel) à Douala :
+    *   Vente d’une application mobile : **Produit** en **70xx** (Chiffre d'affaires - Prestations de services).
+    *   Achat d’un ordinateur portable pour le développement : **Charge** en **60xx** (Achats) si consommé rapidement, ou en **Classe 2** s’il est durable.
+    *   Paiement de l’hébergement web (hébergé localement chez **Camtel** ou à l’étranger) : **Charge** en **61xx** (Services extérieurs).
+*   **Classe 9 (Hors Bilan) :** Une garantie bancaire donnée par une entreprise pour un appel d’offres de la **SONARA** (Société Nationale de Raffinage) y figure.
+
+---
+
+## **3. Les Journaux Obligatoires**
+
+### **3.1. Définition et Principe de la Partie Double**
+Le journal est le **premier enregistrement chronologique** d’une opération comptable. Chaque opération est inscrite via un **écriture comptable** qui respecte le principe de la **partie double** :
+> **Débit (Dr) = Crédit (Cr)**
+> Tout emploi (ce que l’entreprise acquiert) a une ressource (origine du financement).
+
+### **3.2. Liste et Rôle des Journaux Obligatoires selon le SYSCOHADA**
+Le SYSCOHADA impose au minimum **quatre journaux spécialisés** :
+
+1.  **Journal des Achats** : Enregistre tous les achats de biens et services (comptes de classes 6 généralement).
+2.  **Journal des Ventes** : Enregistre toutes les ventes de biens et services (comptes de classe 7 généralement).
+3.  **Journal de Trésorerie** : Enregistre toutes les entrées et sorties d'argent (caisse, banque - comptes de classe 5).
+4.  **Journal des Opérations Diverses (JOD)** : Enregistre **toutes les autres opérations** non couvertes par les trois premiers (amortissements, régularisations, salaires, etc.).
+
+**Format d’une écriture (exemple dans le Journal des Ventes) :**
+| Date | N° Pièce | Compte et Libellé | Débit (Dr) | Crédit (Cr) |
+| :--- | :--- | :--- | :--- | :--- |
+| 15/03/2024 | FAC-2024-001 | **4111 – Clients, Orange Cameroun** | 5 000 000 FCFA | |
+| | | **701 – Ventes de marchandises** | | 5 000 000 FCFA |
+| | | *Facture pour développement d'un module CRM* | | |
+
+---
+
+## **4. Le Grand-Livre**
+
+### **4.1. Définition et Utilité**
+Le Grand-Livre est le **regroupement de tous les comptes** de l'entreprise, classés dans l'ordre du plan comptable (de la classe 1 à la classe 9). Chaque compte y apparaît avec **l'ensemble des mouvements** (débits et crédits) qui l'ont affecté pendant la période, reportés depuis les différents journaux.
+
+*   **Rôle :** Donner une **vision synthétique par compte**. Il permet de connaître à tout moment le solde (débiteur ou créditeur) de n'importe quel compte (Client MTN, Banque BICEC, Capital, etc.).
+
+### **4.2. Relation Journaux / Grand-Livre / Balance**
+C'est le **cycle complet du traitement comptable** :
+1.  **Saisie** dans les **Journaux** (ordre chronologique).
+2.  **Report** des écritures dans le **Grand-Livre** (ordre systématique par compte).
+3.  **Extraction** de la **Balance** à partir des soldes du Grand-Livre.
+
+**À retenir :** En génie logiciel, cette relation est au cœur de la conception d'un module comptable. La base de données doit être structurée pour gérer efficacement ces trois étapes.
+
+---
+
+## **5. La Balance Comptable**
+
+### **5.1. Définition, Rôles et Présentation**
+La Balance est un **état de synthèse** dressé à une date donnée (généralement mensuelle ou en fin d'exercice). Elle liste **tous les comptes du Grand-Livre** avec, pour chacun :
+*   Le **solde initial** (débiteur ou créditeur)
+*   Le **total des mouvements Débit** de la période
+*   Le **total des mouvements Crédit** de la période
+*   Le **solde final** (débiteur ou créditeur)
+
+**Ses rôles sont essentiels :**
+*   **Vérification arithmétique** : Elle permet de vérifier l'équilibre général : **Total Débits = Total Crédits** (à tous les stades : mouvements et soldes).
+*   **Outil de contrôle et d'analyse** : Le comptable peut analyser rapidement les soldes anormaux.
+*   **Base de travail** pour l'établissement des **états financiers** (Bilan, Compte de résultat).
+
+### **5.2. Modèle de Balance Simplifiée**
+**Entreprise "Tech Solutions Africa" - Balance au 31 Mars 2024**
+
+| Numéro de Compte | Intitulé du Compte | Solde Initial | Mouvements de la Période | Solde Final |
+| :--- | :--- | :--- | :--- | :--- |
+| | | | **Débit** | **Crédit** | **Débit** | **Crédit** |
+| **101** | Capital | | 0 | 10 000 000 | | 10 000 000 |
+| **512** | Banque (UBA) | | 15 000 000 | 8 000 000 | 7 000 000 | |
+| **411** | Clients | | 5 000 000 | 3 000 000 | 2 000 000 | |
+| **401** | Fournisseurs | | 4 000 000 | 6 000 000 | | 2 000 000 |
+| **701** | Ventes de services | | 0 | 15 000 000 | | 15 000 000 |
+| **606** | Achats de services ext. | | 8 000 000 | 0 | 8 000 000 | |
+| **...** | ... | ... | ... | ... | ... | ... |
+| **TOTAUX** | | | **32 000 000** | **32 000 000** | **17 000 000** | **17 000 000** |
+
+**Vérification :** Total Débits (32M) = Total Crédits (32M) ; Total Soldes Débiteurs (17M) = Total Soldes Créditeurs (17M). ✅
+
+---
+
+## **6. Outils et Technologies en Entreprise**
+
+L'ère des grands-livres manuscrits est révolue. L'ingénieur logiciel doit connaître les outils qui implémentent le SYSCOHADA :
+
+1.  **Logiciels Comptables Spécialisés OHADA :**
+    *   **SAGE Paie & Compt

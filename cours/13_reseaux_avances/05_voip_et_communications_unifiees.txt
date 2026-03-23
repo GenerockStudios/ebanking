@@ -1,0 +1,161 @@
+# **Notes de Cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 13 Réseaux Avancés**
+## **Chapitre : VoIP et Communications Unifiées**
+
+---
+
+### **1. Introduction à la VoIP et aux Communications Unifiées**
+
+#### **1.1. Définitions et Contexte**
+
+**VoIP (Voice over Internet Protocol)** : Technologie permettant de transporter la voix sous forme de paquets numériques sur un réseau IP (Internet Protocol), en lieu et place du réseau téléphonique commuté (RTC) traditionnel. La voix est numérisée, compressée, puis découpée en paquets acheminés via le réseau.
+
+**Communications Unifiées (UC)** : Intégration, au sein d'une plateforme unique, de différents services de communication en temps réel et différé : téléphonie (VoIP), visioconférence, messagerie instantanée, présence, messagerie vocale, courriel, fax. L'objectif est d'améliorer la productivité et la collaboration.
+
+**Contexte Camerounais/Africain** : La migration vers la VoIP est une réalité pour les entreprises et opérateurs (MTN, Orange Cameroun, Camtel). Elle permet de réduire considérablement les coûts de communication inter-sites (ex. : entre Douala et Yaoundé) et internationaux. Les solutions UC répondent aux besoins des entreprises modernes, administrations (suivant les directives de l'OHADA pour l'efficacité des affaires) et universités.
+
+#### **1.2. Avantages et Défis**
+
+**Avantages** :
+*   **Réduction des coûts** : Appels gratuits sur le réseau IP de l'entreprise, coûts réduits pour les appels externes.
+*   **Flexibilité et mobilité** : L'utilisateur est joignable sur son numéro unique depuis n'importe où (bureau, domicile, mobile via softphone).
+*   **Intégration et richesse fonctionnelle** : Intégration avec les applications métiers (CRM, ERP), conférences avancées, gestion centralisée.
+*   **Simplification de l'infrastructure** : Convergence voix/données sur un seul réseau.
+
+**Défis** :
+*   **Qualité de Service (QoS)** impérative : La voix est sensible au délai, au gigue et à la perte de paquets.
+*   **Sécurité** : Vulnérabilités aux écoutes, au déni de service, au vol de service.
+*   **Dépendance à l'alimentation électrique** et à la qualité du réseau.
+*   **Interopérabilité** entre équipements de différents constructeurs.
+
+---
+
+### **2. Protocoles Fondamentaux de la VoIP**
+
+#### **2.1. SIP (Session Initiation Protocol) - RFC 3261**
+
+**Définition** : Protocole de signalisation en couche application (similaire à HTTP) utilisé pour établir, modifier et terminer des sessions multimédias (voix, vidéo, messagerie). C'est le standard le plus répandu.
+
+**Fonctionnement** :
+*   Fonctionne en mode client-serveur avec des messages textuels (INVITE, ACK, BYE, REGISTER).
+*   Utilise des **URI SIP** (ex. : `sip:jean.ndongo@entreprise-cm.cm`).
+*   Composants principaux :
+    *   **User Agent (UA)** : Terminal (téléphone IP, softphone).
+    *   **Proxy Server** : Achemine les requêtes (ex. : serveur SIP d'Orange Entreprise).
+    *   **Registrar Server** : Enregistre l'emplacement courant des UA.
+    *   **Redirect Server** : Fournit des redirections.
+    *   **Location Server** : Base de données des emplacements des utilisateurs.
+
+**Exemple concret** : Un employé de la BRM (Banque des Régions du Monde) à Douala appelle un collègue à Garoua. Son téléphone IP envoie un message `INVITE` au proxy SIP de la banque. Le proxy consulte le serveur de localisation, trouve l'adresse IP du poste à Garoua et achemine l'invitation pour établir l'appel.
+
+#### **2.2. RTP (Real-time Transport Protocol) & RTCP**
+
+**RTP (RFC 3550)** : Protocole de transport en temps réel pour les données multimédias (voix/vidéo). Il encapsule les échantillons audio codés et ajoute des en-têtes contenant :
+*   Numéro de séquence (pour détecter les pertes).
+*   Timestamp (pour gérer le gigue et la synchronisation).
+*   Identifiant de synchronisation (SSRC).
+
+**RTCP (RTP Control Protocol)** : Protocole compagnon de RTP qui fournit des **statistiques** et un **contrôle de qualité** sur la session en cours (paquets perdus, gigue, débit). Permet un feedback pour d'éventuels ajustements.
+
+**À retenir** : **SIP sert à signaler et établir l'appel. RTP/RTCP sert à transporter et contrôler les données audio une fois l'appel établi.**
+
+#### **2.3. Codecs Audio (Codeur/Décodeur)**
+
+Les codecs compressent le signal audio numérique pour réduire la bande passante nécessaire.
+
+**Tableau comparatif des codecs courants** :
+
+| Codec | Débit (kbps) | Bande passante typique* | Qualité (MOS**) | Complexité | Usage typique |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **G.711** (A-law/µ-law) | 64 | 80-87 kbps | 4.2 (Excellente) | Faible | Réseaux LAN, lignes PRI |
+| **G.729** | 8 | 24-31 kbps | 3.9 (Bonne) | Élevée | Liens WAN à faible BP (lien VSAT Camtel) |
+| **G.722** (HD) | 48-64 | 80-96 kbps | 4.5 (HD) | Moyenne | Audio large bande |
+| **Opus** | 6-510 | Variable | Très Haute | Variable | Applications modernes (WebRTC) |
+
+*Bande passante totale incluant en-têtes IP/UDP/RTP. **MOS : Mean Opinion Score (1=Très mauvaise, 5=Excellente).
+
+**Choix du codec au Cameroun** : Le **G.729** est souvent privilégié pour les interconnexions entre sites distants (ex. : Douala - Ngaoundéré) où la bande passante est chère ou limitée. Le **G.711** est utilisé en local dans les sièges sociaux (à Yaoundé ou Douala) où la bande passante LAN est abondante.
+
+---
+
+### **3. Qualité de Service (QoS) pour la VoIP**
+
+La QoS est l'ensemble des mécanismes qui garantissent des performances (délai, gigue, perte) satisfaisantes aux applications sensibles comme la VoIP.
+
+#### **3.1. Problématiques et Métriques Clés**
+
+*   **Délai (Latence)** : < 150 ms recommandé pour une conversation fluide.
+*   **Gigue (Jitter)** : Variation du délai. Doit être < 30 ms. Compensée par un **buffer de gigue**.
+*   **Perte de paquets (Packet Loss)** : < 1% acceptable. Impacte la qualité audio.
+
+#### **3.2. Mécanismes de QoS**
+
+**1. Classification et Marquage (Couche 3 - DSCP)**
+*   **DSCP (Differentiated Services Code Point)** : Champ de 6 bits dans l'en-tête IP (remplace ToS) utilisé pour **marquer** les paquets selon leur priorité.
+*   **Classes de trafic recommandées (Modèle DiffServ)** :
+    *   **EF (Expedited Forwarding - DSCP 46)** : Pour la voix (priorité absolue).
+    *   **AF4x (Assured Forwarding)** : Pour la vidéo.
+    *   **DF (Default - DSCP 0)** : Pour le trafic best-effort (web, mail).
+
+**2. Mise en File d'Attente (Queuing)**
+*   **LLQ (Low Latency Queuing)** : Mécanisme le plus important. Une file prioritaire stricte (PQ) est réservée au trafic EF (voix). Elle est **toujours servie en premier**, garantissant un délai minimal.
+*   **CBWFQ (Class-Based Weighted Fair Queuing)** : Répartit la bande passante restante entre les autres classes (vidéo, données) selon des poids configurés.
+
+**3. Policing et Shaping**
+*   Contrôlent le débit pour éviter la congestion.
+
+**Architecture QoS typique sur un routeur Cisco pour une entreprise camerounaise** :
+1.  **Classification** : Identifier la voix (port RTP, adresse IP du PBX).
+2.  **Marquage** : Définir DSCP=EF (46) pour les paquets RTP de voix.
+3.  **Mise en file** : Appliquer LLQ pour la file EF, CBWFQ pour les autres classes.
+4.  **Gestion de la congestion** : Sur le lien WAN (ex. : fibre Camtel ou liaison radio), appliquer du shaping pour respecter le CIR (Committed Information Rate).
+
+---
+
+### **4. Communications Unifiées (UC) - Plateformes et Solutions**
+
+#### **4.1. Architecture d'une Solution UC**
+
+Une plateforme UC intègre :
+*   **Système de traitement d'appels (Call Processing)** : Cœur de la téléphonie (ex. : Cisco Unified Communications Manager, Asterisk).
+*   **Clients de communication** : Téléphones IP physiques, softphones (Jabber, Zoiper), clients mobiles.
+*   **Serveur de messagerie unifiée** : Gestion des messages vocaux, fax, intégration avec l'email.
+*   **Serveur de présence et de messagerie instantanée**.
+*   **Serveurs de conférence** (audio, vidéo, web).
+*   **Passerelles (Gateways)** : Pour l'interconnexion avec le RTC (opérateurs comme MTN, Orange) ou d'autres systèmes.
+
+#### **4.2. Solutions d'Entreprise : Cisco Unified Communications**
+
+*   **Solution propriétaire, robuste et évolutive**.
+*   **Composants clés** :
+    *   **CUCM (Cisco Unified Communications Manager)** : Anciennement CallManager. Le contrôleur d'appels central.
+    *   **CUC (Cisco Unity Connection)** : Messagerie unifiée.
+    *   **IMP (Cisco IM & Presence)** : Messagerie instantanée et présence.
+    *   **Téléphones IP Cisco** (séries 7800, 8800).
+*   **Contexte** : Adopté par les grandes entreprises, administrations et universités au Cameroun pour sa fiabilité et son support.
+
+#### **4.3. Solutions Open-Source : Asterisk et FreePBX**
+
+*   **Asterisk** : **PBX (Private Branch Exchange) logiciel** open-source, extrêmement populaire et puissant. C'est un framework de développement téléphonique. Fonctionne sur Linux.
+*   **FreePBX** : **Interface d'administration graphique (GUI)** qui simplifie la configuration et la gestion d'Asterisk. C'est la distribution la plus courante.
+*   **Avantages** :
+    *   **Coût réduit** (licences gratuites).
+    *   **Flexibilité et personnalisation** illimitées.
+    *   **Vaste communauté** de support.
+*   **Utilisation au Cameroun/Afrique** : Idéal pour les **PME/PMI**, startups, cybercafés proposant des appels VoIP, et pour l'**enseignement** (laboratoires réseaux du BTS GL). Permet de construire une solution téléphonique complète à moindre coût.
+
+**Tableau comparatif succinct** :
+
+| Critère | Cisco UC | Asterisk/FreePBX |
+| :--- | :--- | :--- |
+| **Coût** | Élevé (licences, support) | Très faible (open-source) |
+| **Complexité** | Élevée, nécessite certification | Modulable, de simple à complexe |
+| **Support** | Contractuel (Cisco & partenaires) | Communauté & support payant optionnel |
+| **Public cible** | Grandes entreprises, secteurs critiques | PME, éducation, passionnés, projets spécifiques |
+| **Évolutivité** | Très bonne et structurée | Bonne, dépend de l'architecture |
+
+---
+
+### **5. Sécurité dans la VoIP/UC**
+
+*   **Menaces** : Écoute (sniffing RTP), usurpation d'identité, attaques par déni de service (flood d'

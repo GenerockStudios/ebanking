@@ -1,0 +1,159 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 07 Bases De Donnees**
+## **Chapitre : Indexation et optimisation : index (B-tree, hash), EXPLAIN PLAN, partitionnement, requêtes lentes**
+
+---
+
+### **1. Introduction à l'optimisation des bases de données**
+
+#### **1.1. Contexte et enjeux**
+Dans un environnement professionnel camerounais où les volumes de données explosent (opérateurs télécoms comme MTN, Orange, Camtel ; transactions bancaires ; registres OHADA), les performances des bases de données sont critiques. Une requête lente peut bloquer une caisse en supermarché, ralentir le traitement des appels téléphoniques ou retarder la génération des rapports financiers. L'optimisation vise à garantir des temps de réponse acceptables, une utilisation efficace des ressources (CPU, mémoire, disque) et une scalabilité des systèmes.
+
+#### **1.2. Les piliers de l'optimisation**
+L'optimisation repose sur quatre piliers principaux :
+1.  **Conception physique** : Choix des structures de stockage (index, partitionnement).
+2.  **Optimisation des requêtes** : Analyse et réécriture des requêtes SQL.
+3.  **Configuration du SGBD** : Réglage des paramètres serveur (mémoire, cache).
+4.  **Architecture matérielle** : Performance des disques (SSD), RAM, CPU.
+
+Ce cours se concentre sur les deux premiers piliers.
+
+---
+
+### **2. Les index : structures d'accès accéléré**
+
+#### **2.1. Définition et principe**
+Un **index** est une structure de données supplémentaire, associée à une table, qui permet d'accélérer les opérations de recherche (`SELECT` avec `WHERE`), de tri (`ORDER BY`) et de jointure (`JOIN`). Il fonctionne comme l'index d'un livre : au lieu de parcourir toutes les pages (scan de table), on consulte l'index pour trouver directement la position des données.
+
+**À retenir** : Un index améliore la vitesse de lecture (`SELECT`) mais peut ralentir les opérations d'écriture (`INSERT`, `UPDATE`, `DELETE`) car il doit être maintenu à jour. Il consomme également de l'espace disque supplémentaire.
+
+#### **2.2. Types d'index principaux**
+
+##### **2.2.1. Index arborescent (B-Tree et variantes)**
+C'est l'index par défaut et le plus courant dans les SGBD comme **PostgreSQL, MySQL, Oracle**.
+
+*   **Structure** : Arbre équilibré où chaque nœud peut avoir plusieurs enfants. Les valeurs sont stockées de manière triée.
+*   **Fonctionnement** :
+    *   **Recherche par égalité** : `WHERE nationalite = 'Camerounaise'`
+    *   **Recherche par plage/intervalle** : `WHERE solde BETWEEN 50000 AND 200000 FCFA` ou `WHERE date_naissance >= '2000-01-01'`
+    *   **Préfixe de chaîne** : `WHERE nom LIKE 'NGO%'`
+*   **Exemple concret** : Dans une table `Clients_MTN` (id, nom, numero, forfait, date_inscription), un index B-Tree sur `date_inscription` accélère considérablement un rapport mensuel cherchant tous les clients inscrits entre le 1er et le 31 mars 2024.
+
+##### **2.2.2. Index de hachage (Hash Index)**
+*   **Structure** : Utilise une table de hachage. Une fonction de hachage convertit la valeur de la colonne indexée en une adresse (bucket) où est stocké un pointeur vers la ligne.
+*   **Fonctionnement** :
+    *   **EXCELLENT pour les recherches par égalité exacte** (`=`).
+    *   **INUTILE pour les recherches par plage, les tris ou les préfixes** (`<`, `>`, `BETWEEN`, `ORDER BY`, `LIKE 'A%'`).
+*   **Support** : Très bien supporté par PostgreSQL, disponible sous conditions dans MySQL (tables Memory).
+*   **Exemple concret** : Dans la table `Transactions_OHADA` d'un système comptable, un index de hachage sur le numéro unique de transaction (`ref_transaction`) permet de retrouver instantanément les détails d'une transaction spécifique lors d'un audit.
+
+#### **2.3. Tableau comparatif B-Tree vs Hash**
+
+| Caractéristique | Index B-Tree | Index Hash |
+| :--- | :--- | :--- |
+| **Recherche d'égalité** (`=`) | Très bon | **Excellent** |
+| **Recherche par plage** (`<`, `>`, `BETWEEN`) | **Excellent** | Non supporté |
+| **Opérateur `LIKE` avec préfixe** (`'NGO%'`) | **Bon** | Non supporté |
+| **Tri (`ORDER BY`)** | **Oui, car valeurs triées** | Non |
+| **Consommation espace** | Moyenne à élevée | Généralement plus faible |
+| **Cas d'usage typique** | Colonnes fréquentes dans `WHERE`, `ORDER BY`, clés étrangères. | Colonnes avec recherches exactes uniques (clé primaire, code unique). |
+
+#### **2.4. Autres types d'index (notions)**
+*   **Index Bitmap** : Efficace pour les colonnes à faible cardinalité (peu de valeurs distinctes, ex: `genre`, `departement`, `type_forfait`). Utilisé en data warehouse.
+*   **Index Composite** : Index créé sur plusieurs colonnes. L'ordre des colonnes est crucial. Ex: `INDEX (departement, ville)` est utile pour `WHERE departement = 'Littoral' AND ville = 'Douala'`, mais pas pour `WHERE ville = 'Yaoundé'`.
+*   **Index Unique** : Garantit l'unicité des valeurs (implémenté souvent en B-Tree).
+
+#### **2.5. Bonnes pratiques d'indexation dans le contexte camerounais**
+1.  **Indexer les clés primaires et étrangères** (généralement automatique).
+2.  **Indexer les colonnes fréquentes dans les clauses `WHERE`, `JOIN` et `ORDER BY`**.
+3.  **Éviter l'indexation des colonnes modifiées très fréquemment** ou des colonnes à très faible cardinalité (ex: `actif` (Oui/Non)).
+4.  **Surveiller la sélectivité** : Un index est d'autant plus efficace que la colonne a beaucoup de valeurs distinctes. Indexer `numero_cni` est plus utile qu'indexer `genre`.
+5.  **Exemple de mauvaise pratique** : Créer un index hash sur `date_transaction` dans une table de vente pour un rapport journalier (besoin de plage de dates).
+
+---
+
+### **3. EXPLAIN PLAN : l'outil d'analyse des requêtes**
+
+#### **3.1. Définition et objectif**
+La commande **`EXPLAIN`** (ou `EXPLAIN PLAN` dans Oracle) est une commande SQL qui montre **comment le SGBD va exécuter une requête** sans l'exécuter réellement. Elle révèle le **plan d'exécution** : l'ordre des opérations, les algorithmes utilisés (scan de table, utilisation d'index, jointures) et le coût estimé.
+
+#### **3.2. Comment l'utiliser ?**
+```sql
+-- Syntaxe générale (PostgreSQL/MySQL)
+EXPLAIN SELECT * FROM Clients_Orange WHERE forfait = 'YAKO';
+
+-- Pour voir les temps réels d'exécution (PostgreSQL)
+EXPLAIN ANALYZE SELECT * FROM Clients_Orange WHERE forfait = 'YAKO';
+```
+
+#### **3.3. Interprétation des éléments clés du plan**
+*   **Seq Scan (Scan séquentiel)** : Parcours complet de la table. **Coûteux** sur les grandes tables. Indique souvent un **manque d'index** pertinent.
+*   **Index Scan / Index Seek** : Utilisation d'un index pour localiser rapidement les lignes. **Bon signe**.
+*   **Bitmap Index Scan** : Combinaison efficace de plusieurs index.
+*   **Nested Loop, Hash Join, Merge Join** : Différents algorithmes de jointure. Le SGBD choisit le plus optimal en fonction des données.
+*   **Sort** : Opération de tri en mémoire ou sur disque. Peut être coûteuse.
+*   **Cost, Rows, Width** : Estimations du coût, du nombre de lignes retournées et de la taille des lignes.
+
+#### **3.4. Exemple pratique guidé**
+**Scénario** : Une requête sur la table `Paiements_Camtel` est lente.
+```sql
+EXPLAIN ANALYZE
+SELECT client_id, SUM(montant)
+FROM Paiements_Camtel
+WHERE date_paiement BETWEEN '2024-01-01' AND '2024-01-31'
+GROUP BY client_id;
+```
+**Analyse possible du résultat** :
+*   Si on voit `Seq Scan on Paiements_Camtel`, c'est que la table est parcourue en entier.
+*   **Solution proposée** : Créer un index sur la colonne `date_paiement`.
+*   **Re-test avec `EXPLAIN`** : On devrait maintenant voir `Index Scan using idx_date_paiement on Paiements_Camtel`. Le coût estimé aura diminué.
+
+---
+
+### **4. Le partitionnement de tables**
+
+#### **4.1. Concept et objectifs**
+Le **partitionnement** consiste à découper une très grande table en plusieurs sous-tables plus petites (appelées **partitions**), selon une règle définie, tout en gardant une vue logique unique pour l'utilisateur.
+
+**Objectifs** :
+*   **Améliorer les performances** : Les requêtes ne scannent qu'une ou quelques partitions au lieu de la table entière.
+*   **Faciliter la gestion** : Suppression archivistique rapide (ex: supprimer une partition de données vieilles de 5 ans).
+*   **Optimiser le stockage** : Stocker les partitions "chaudes" (récentes) sur des SSD et les "froides" (anciennes) sur des HDD.
+
+#### **4.2. Stratégies de partitionnement courantes**
+1.  **Par plage (RANGE)** : Partitionnement basé sur des intervalles de valeurs (dates, montants).
+    *   **Exemple** : Partitionner la table `Logs_Appels_MTN` par mois (`PARTITION p_jan_2024 VALUES LESS THAN ('2024-02-01')`).
+2.  **Par liste (LIST)** : Partitionnement basé sur une liste discrète de valeurs.
+    *   **Exemple** : Partitionner la table `Agences_Bancaires` par région (`PARTITION p_littoral VALUES IN ('Douala', 'Kribi')`).
+3.  **Par hachage (HASH)** : Répartition des données dans un nombre fixe de partitions via une fonction de hachage sur une colonne. Assure une distribution uniforme.
+
+#### **4.3. Exemple concret de partitionnement**
+**Contexte** : La table `Transactions_BICE` d'une banque camerounaise grossit de 100 000 lignes par jour. Les requêtes sur les 3 derniers mois sont lentes.
+```sql
+-- Création d'une table partitionnée par RANGE sur la date (PostgreSQL)
+CREATE TABLE Transactions_BICE (
+    id BIGSERIAL,
+    client_id INT,
+    montant DECIMAL(15,2),
+    date_transaction DATE NOT NULL,
+    type_transaction VARCHAR(50)
+) PARTITION BY RANGE (date_transaction);
+
+-- Création des partitions pour chaque trimestre 2024
+CREATE TABLE Transactions_BICE_q1_2024 PARTITION OF Transactions_BICE
+    FOR VALUES FROM ('2024-01-01') TO ('2024-04-01');
+CREATE TABLE Transactions_BICE_q2_2024 PARTITION OF Transactions_BICE
+    FOR VALUES FROM ('2024-04-01') TO ('2024-07-01');
+-- ... etc.
+```
+**Bénéfice** : Une requête sur `WHERE date_transaction BETWEEN '2024-05-15' AND '2024-06-15'` ne scannera que la partition `q2_2024`.
+
+---
+
+### **5. Diagnostic et optimisation des requêtes lentes**
+
+#### **5.1. Méthodologie de diagnostic**
+1.  **Identifier** : Utiliser les logs lents du SGBD ou des outils de monitoring (pgBadger pour PostgreSQL, Slow Query Log pour MySQL).
+2.  **Isoler** : Reproduire la requête problématique dans un environnement de test.
+3.  **Analyser** : Utiliser `EXPLAIN` et `EXPLAIN ANALYZE` pour comprendre le plan d'exécution.
+4

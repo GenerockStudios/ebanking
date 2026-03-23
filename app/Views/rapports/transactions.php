@@ -4,51 +4,63 @@
  * Vue pour afficher le rapport des transactions entre deux dates.
  * Reçoit $data['title'], $data['transactions'], $data['date_debut'], $data['date_fin'], et $data['error'].
  */
-
-// Inclure le header
 require_once VIEW_PATH . 'layout/header.php';
 ?>
 
 <h2><?= $data['title'] ?? "Rapport de Transactions" ?></h2>
 
-<form method="GET" action="<?= BASE_URL ?>?controller=Rapport&action=rapportTransactions" class="filter-form">
-    <input type="hidden" name="controller" value="Rapport">
-    <input type="hidden" name="action" value="rapportTransactions">
-    
-    <div class="form-group-inline">
-        <label for="date_debut">Date de Début :</label>
-        <input type="date" id="date_debut" name="date_debut" class="form-control" required 
-               value="<?= htmlspecialchars($data['date_debut'] ?? '') ?>">
-    </div>
-    
-    <div class="form-group-inline">
-        <label for="date_fin">Date de Fin :</label>
-        <input type="date" id="date_fin" name="date_fin" class="form-control" required 
-               value="<?= htmlspecialchars($data['date_fin'] ?? '') ?>">
-    </div>
-    
-    <button type="submit" class="btn-filter">Filtrer</button>
-</form>
+<!-- ===== Filtres ===== -->
+<div class="filter-card">
+    <form method="GET" action="<?= BASE_URL ?>?controller=Rapport&action=rapportTransactions" class="filter-form">
+        <input type="hidden" name="controller" value="Rapport">
+        <input type="hidden" name="action"     value="rapportTransactions">
 
-<hr>
+        <div class="filter-group">
+            <label>Du</label>
+            <input type="date" name="date_debut" class="form-control"
+                   value="<?= htmlspecialchars($data['date_debut'] ?? '') ?>">
+        </div>
+
+        <div class="filter-group">
+            <label>Au</label>
+            <input type="date" name="date_fin" class="form-control"
+                   value="<?= htmlspecialchars($data['date_fin'] ?? '') ?>">
+        </div>
+
+        <div class="filter-group">
+            <label>Type</label>
+            <select name="filter_type" class="form-control">
+                <option value="">Tous</option>
+                <option value="DEPOT"        <?= ($data['filter_type'] ?? '') === 'DEPOT'        ? 'selected' : '' ?>>Dépôt</option>
+                <option value="RETRAIT"      <?= ($data['filter_type'] ?? '') === 'RETRAIT'      ? 'selected' : '' ?>>Retrait</option>
+                <option value="TRANSFERT_INT"<?= ($data['filter_type'] ?? '') === 'TRANSFERT_INT'? 'selected' : '' ?>>Transfert interne</option>
+            </select>
+        </div>
+
+        <div class="filter-group" style="align-self:flex-end;">
+            <button type="submit" class="btn-filter">Filtrer</button>
+        </div>
+    </form>
+</div>
 
 <?php if (isset($data['error'])): ?>
-    <div class="alert-error">
-        <strong>Erreur de Rapport!</strong> <?= htmlspecialchars($data['error']) ?>
-    </div>
+    <div class="alert-error"><strong>Erreur!</strong> <?= htmlspecialchars($data['error']) ?></div>
 <?php endif; ?>
 
-<h3>Transactions du <?= htmlspecialchars($data['date_debut'] ?? '') ?> au <?= htmlspecialchars($data['date_fin'] ?? '') ?></h3>
+<!-- ===== Barre de recherche & compteur ===== -->
+<div class="search-bar">
+    <input type="text" id="searchInput" class="form-control" placeholder="Rechercher (référence, compte, caissier...)">
+    <p class="result-count"><strong id="rowCount"><?= count($data['transactions'] ?? []) ?></strong> transaction(s) trouvée(s).</p>
+</div>
 
-<?php if (empty($data['transactions'])): ?>
-    <p>Aucune transaction trouvée pour la période sélectionnée.</p>
-<?php else: ?>
-    <table class="transaction-table">
+<!-- ===== Tableau ===== -->
+<div class="table-scroll">
+    <table class="data-table" id="txnTable">
         <thead>
             <tr>
                 <th>Réf. Externe</th>
                 <th>Type</th>
-                <th>Montant</th>
+                <th>Montant (FCFA)</th>
                 <th>Compte Source</th>
                 <th>Compte Destination</th>
                 <th>Horodatage</th>
@@ -57,54 +69,111 @@ require_once VIEW_PATH . 'layout/header.php';
             </tr>
         </thead>
         <tbody>
-            <?php 
+        <?php if (!empty($data['transactions'])):
             $totalMontant = 0;
-            foreach ($data['transactions'] as $txn): 
+            foreach ($data['transactions'] as $txn):
                 $totalMontant += $txn['montant'];
-            ?>
-                <tr>
-                    <td><?= htmlspecialchars($txn['reference_externe']) ?></td>
-                    <td><span class="type-<?= strtolower($txn['type_transaction']) ?>"><?= htmlspecialchars($txn['type_transaction']) ?></span></td>
-                    <td class="amount"><?= number_format($txn['montant'], 2, ',', ' ') ?></td>
-                    <td><?= htmlspecialchars($txn['source'] ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($txn['destination'] ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($txn['horodatage_transaction']) ?></td>
-                    <td><?= htmlspecialchars($txn['caissier']) ?></td>
-                    <td><?= htmlspecialchars($txn['statut']) ?></td>
-                </tr>
-            <?php endforeach; ?>
+        ?>
+            <tr>
+                <td class="ref-num"><?= htmlspecialchars($txn['reference_externe']) ?></td>
+                <td><span class="type-badge type-<?= strtolower($txn['type_transaction']) ?>"><?= htmlspecialchars($txn['type_transaction']) ?></span></td>
+                <td class="montant-cell"><?= number_format($txn['montant'], 2, ',', ' ') ?></td>
+                <td><?= htmlspecialchars($txn['source']      ?? 'N/A') ?></td>
+                <td><?= htmlspecialchars($txn['destination'] ?? 'N/A') ?></td>
+                <td class="date-cell"><?= htmlspecialchars(date('d/m/Y H:i', strtotime($txn['date_transaction']))) ?></td>
+                <td><?= htmlspecialchars($txn['caissier']) ?></td>
+                <td><span class="badge-statut badge-<?= strtolower($txn['statut']) ?>"><?= htmlspecialchars($txn['statut']) ?></span></td>
+            </tr>
+        <?php endforeach; ?>
+        <?php else: ?>
+            <tr><td colspan="8" class="empty-row">Aucune transaction pour la période sélectionnée.</td></tr>
+        <?php endif; ?>
         </tbody>
+        <?php if (!empty($data['transactions'])): ?>
         <tfoot>
             <tr>
-                <td colspan="2">Total des montants bruts</td>
-                <td class="amount total-sum"><?= number_format($totalMontant, 2, ',', ' ') ?></td>
+                <td colspan="2" style="font-weight:700;color:#042e5a;">Total des montants bruts</td>
+                <td class="montant-cell total-sum"><?= number_format($totalMontant, 2, ',', ' ') ?></td>
                 <td colspan="5"></td>
             </tr>
         </tfoot>
+        <?php endif; ?>
     </table>
-<?php endif; ?>
+</div>
 
 <style>
-/* CSS spécifique au rapport */
-.filter-form { display: flex; gap: 20px; align-items: flex-end; margin-bottom: 20px; }
-.form-group-inline { display: flex; flex-direction: column; }
-.form-control { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-.btn-filter { padding: 8px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
-.btn-filter:hover { background-color: #0056b3; }
+/* ---- Filtres ---- */
+.filter-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.07);
+    margin-bottom: 20px;
+}
+.filter-form { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; }
+.filter-group { display: flex; flex-direction: column; gap: 4px; min-width: 160px; }
+.filter-group label { font-weight: 600; font-size: 13px; color: #444; }
+.form-control  { padding: 8px 12px; border: 1.5px solid #dde; border-radius: 8px; font-size: 13px; }
+.btn-filter    { padding: 9px 20px; background: #042e5a; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+.btn-filter:hover { background: #0a4a8a; }
 
-.transaction-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-.transaction-table th, .transaction-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-.transaction-table th { background-color: #f2f2f2; }
-.amount { text-align: right; font-weight: bold; }
-.total-sum { background-color: #e9ecef; }
+/* ---- Recherche ---- */
+.search-bar { display: flex; align-items: center; gap: 20px; margin-bottom: 12px; }
+.search-bar .form-control { flex: 1; max-width: 360px; }
+.result-count { color: #555; font-size: 14px; margin: 0; }
 
-/* Codes couleurs pour les types de transaction */
-.type-depot { color: green; font-weight: bold; }
-.type-retrait { color: red; font-weight: bold; }
-.type-transfert_int { color: orange; font-weight: bold; }
+/* ---- Tableau ---- */
+.table-scroll { overflow-x: auto; }
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.07);
+}
+.data-table th { background: #042e5a; color: #fff; padding: 11px 12px; text-align: left; white-space: nowrap; }
+.data-table td { padding: 9px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+.data-table tr:hover td { background: #f9f9fb; }
+.data-table tfoot td { background: #f0f4ff; padding: 10px 12px; border-top: 2px solid #042e5a; }
+
+.ref-num    { font-family: monospace; font-size: 12px; color: #042e5a; font-weight: 600; }
+.montant-cell { text-align: right; font-weight: 700; }
+.total-sum  { color: #042e5a; font-size: 14px; }
+.date-cell  { white-space: nowrap; font-family: monospace; font-size: 12px; }
+
+/* Badges types */
+.type-badge         { padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.type-depot         { background: #d4edda; color: #155724; }
+.type-retrait       { background: #f8d7da; color: #721c24; }
+.type-transfert_int { background: #fff3cd; color: #856404; }
+
+/* Badges statut */
+.badge-statut                              { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+.badge-valide, .badge-success, .badge-completed  { background: #d4edda; color: #155724; }
+.badge-echec, .badge-failed, .badge-error        { background: #f8d7da; color: #721c24; }
+.badge-en_attente, .badge-pending                { background: #fff3cd; color: #856404; }
+
+.empty-row { text-align: center; color: #999; padding: 24px; }
 </style>
 
-<?php
-// Inclure le footer
-require_once VIEW_PATH . 'layout/footer.php';
-?>
+<script>
+const searchInput = document.getElementById('searchInput');
+const txnTable    = document.getElementById('txnTable');
+const rowCount    = document.getElementById('rowCount');
+
+searchInput.addEventListener('input', function () {
+    const query = this.value.toLowerCase();
+    const rows  = txnTable.querySelectorAll('tbody tr');
+    let visible = 0;
+    rows.forEach(row => {
+        const match = !query || row.textContent.toLowerCase().includes(query);
+        row.style.display = match ? '' : 'none';
+        if (match) visible++;
+    });
+    rowCount.textContent = visible;
+});
+</script>
+
+<?php require_once VIEW_PATH . 'layout/footer.php'; ?>

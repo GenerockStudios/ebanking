@@ -1,0 +1,164 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 05 Anglais**
+## **Chapitre : Networking and Security English: Reading Cisco Docs, CCNA Vocabulary, Cybersecurity Terminology**
+
+---
+
+### **1. Introduction : L'importance de l'anglais technique en réseau et cybersécurité**
+
+Dans le domaine du génie logiciel et des réseaux, l'anglais est la langue universelle. Les documentations techniques, les normes internationales, les interfaces de logiciels, les messages d'erreur et les certifications professionnelles (comme le CCNA) sont majoritairement en anglais. Maîtriser le vocabulaire technique spécifique est donc indispensable pour :
+*   Lire et comprendre la documentation des équipements (Cisco, Huawei, etc.).
+*   Configurer des routeurs, commutateurs et pare-feu.
+*   Diagnostiquer des pannes et interpréter des logs.
+*   Se former aux dernières technologies et suivre des cours en ligne.
+*   Collaborer avec des experts internationaux.
+
+**Exemple concret Camerounais :** Un ingénieur réseau chez **Camtel** doit pouvoir lire la documentation technique d'un routeur Cisco ASR pour déployer la fibre optique à Douala. Un développeur d'application mobile pour **MTN Mobile Money** doit comprendre la documentation des API de sécurité pour sécuriser les transactions financières.
+
+---
+
+### **2. Lecture et compréhension de la documentation technique (Reading Cisco Docs)**
+
+#### **2.1. Structure type d'un document technique Cisco**
+Les documents Cisco (guides de configuration, white papers, notes d'application) suivent une structure logique :
+1.  **Title and Abstract** : Titre et résumé.
+2.  **Prerequisites** : Prérequis (matériels, logiciels, connaissances).
+3.  **Components Used** : Liste des composants utilisés dans le guide.
+4.  **Conventions** : Conventions typographiques (ex: `command` pour les commandes, *italique* pour les nouveaux termes).
+5.  **Background Theory** : Théorie de fond nécessaire.
+6.  **Configuration Steps** : Étapes de configuration, souvent avec des **command-line interface (CLI)** exemples.
+7.  **Verification** : Commandes pour vérifier que la configuration fonctionne (ex: `show running-config`, `ping`).
+8.  **Troubleshooting** : Section de dépannage avec des scénarios d'erreur courants.
+9.  **Related Information** : Liens vers des documents connexes.
+
+#### **2.2. Stratégies de lecture efficace**
+*   **Skimming** (Survol) : Lire rapidement les titres, sous-titres et résumés pour avoir une idée générale.
+*   **Scanning** (Balayage) : Chercher des mots-clés spécifiques (ex: "OSPF configuration", "error code 404").
+*   **Close Reading** (Lecture attentive) : Lire attentivement les sections critiques comme les étapes de configuration ou les avertissements de sécurité (**Warnings** et **Important**).
+*   **Utilisation du glossaire** : Toujours consulter le glossaire (**Glossary**) pour les acronymes et définitions.
+
+**À retenir :** Dans un document Cisco, les sections **Warning** (⚠️) et **Important** indiquent des risques potentiels pour la sécurité ou la stabilité du réseau. Il faut absolument les respecter.
+
+---
+
+### **3. Vocabulaire fondamental du réseau (CCNA Core Vocabulary)**
+
+Le vocabulaire CCNA (Cisco Certified Network Associate) est la base pour tout ingénieur réseau.
+
+#### **3.1. Modèles et concepts de base**
+*   **OSI Model (Open Systems Interconnection)** : Modèle en 7 couches (Physical, Data Link, Network, Transport, Session, Presentation, Application).
+*   **TCP/IP Model** : Modèle en 4 couches (Network Access, Internet, Transport, Application).
+*   **Protocol** : Ensemble de règles pour la communication (ex: **HTTP**, **TCP**, **IP**).
+*   **IP Address** : Adresse logique unique d'un périphérique sur un réseau (ex: `192.168.1.10`). Différence entre **IPv4** et **IPv6**.
+*   **Subnet Mask** : Masque qui détermine la partie réseau et la partie hôte d'une adresse IP.
+*   **Default Gateway** : La passerelle permettant de sortir du réseau local.
+
+#### **3.2. Périphériques réseau (Network Devices)**
+| **Device (Périphérique)** | **Fonction principale** | **Exemple dans un réseau camerounais** |
+| :--- | :--- | :--- |
+| **Router** | Achemine les paquets entre différents réseaux. | Routeur Cisco connectant le réseau d'une université de Yaoundé à l'Internet via **Camtel**. |
+| **Switch** | Connecte les périphériques au sein d'un même réseau local (LAN) et utilise les adresses MAC. | Commutateur dans un cybercafé à Bamenda reliant tous les ordinateurs. |
+| **Wireless Access Point (WAP)** | Permet aux périphériques sans fil de se connecter au réseau. | Point d'accès Wi-Fi dans un hôtel à Douala utilisant la fibre **Orange**. |
+| **Firewall** | Filtre le trafic réseau entrant et sortant selon des règles de sécurité. | Pare-feu protégeant les serveurs de la **DGI** (Direction Générale des Impôts) contre les intrusions. |
+
+#### **3.3. Commandes CLI essentielles et leur syntaxe**
+La configuration Cisco se fait souvent via la **Command-Line Interface (CLI)**.
+*   **Modes d'exécution :**
+    *   `>` : **User EXEC mode** (mode lecture seule).
+    *   `#` : **Privileged EXEC mode** (mode avec tous les droits). On y accède avec la commande `enable`.
+    *   `(config)#` : **Global Configuration mode** (pour configurer le périphérique). On y accède avec `configure terminal`.
+*   **Commandes de base :**
+    *   `show running-config` : Affiche la configuration active.
+    *   `ping [IP_address]` : Teste la connectivité avec un autre périphérique.
+        *   *Exemple :* `ping 8.8.8.8` pour tester la connexion Internet.
+    *   `traceroute [IP_address]` : Affiche le chemin parcouru par les paquets.
+    *   `configure terminal` : Passe en mode de configuration globale.
+    *   `interface [interface_name]` : Sélectionne une interface pour la configurer (ex: `interface gigabitethernet 0/0`).
+    *   `ip address [IP] [subnet_mask]` : Assigne une adresse IP à une interface.
+    *   `no shutdown` : Active une interface.
+
+**Exemple de configuration simplifiée pour un routeur :**
+```
+Router> enable
+Router# configure terminal
+Router(config)# hostname Routeur_Camtel_YDE
+Routeur_Camtel_YDE(config)# interface gigabitethernet 0/0
+Routeur_Camtel_YDE(config-if)# ip address 196.200.12.5 255.255.255.0
+Routeur_Camtel_YDE(config-if)# no shutdown
+Routeur_Camtel_YDE(config-if)# exit
+```
+
+---
+
+### **4. Terminologie de la cybersécurité (Cybersecurity Terminology)**
+
+#### **4.1. Concepts et menaces (Concepts and Threats)**
+*   **Cybersecurity** : Protection des systèmes, réseaux et données contre les attaques numériques.
+*   **Vulnerability** : Faiblesse dans un système qui peut être exploitée.
+*   **Exploit** : Code ou technique qui tire parti d'une vulnérabilité.
+*   **Threat** : Danger potentiel pouvant exploiter une vulnérabilité.
+*   **Attack** : Action malveillante en cours.
+*   **Risk** : Potentiel de perte ou de dommage en cas de matérialisation d'une menace.
+
+**Menaces courantes :**
+*   **Malware** : Logiciel malveillant (virus, worm, trojan, ransomware).
+*   **Phishing** : Tentative d'hameçonnage pour voler des informations sensibles (ex: faux email de la **BEAC** ou de **MTN**).
+*   **Denial-of-Service (DoS) / Distributed DoS (DDoS)** : Attaque qui submerge un système pour le rendre indisponible.
+*   **Man-in-the-Middle (MitM)** : Attaque où l'attaquant intercepte la communication entre deux parties.
+*   **Social Engineering** : Manipulation psychologique pour obtenir un accès (ex: appel téléphonique en se faisant passer pour le support technique d'**Orange**).
+
+#### **4.2. Défenses et mécanismes de protection (Defenses and Protections)**
+*   **Authentication** : Vérification de l'identité (ex: mot de passe, biométrie). Principe **AAA** (Authentication, Authorization, Accounting).
+*   **Encryption** : Chiffrement des données pour les rendre illisibles sans la clé.
+*   **Firewall** : Filtrage du trafic (voir tableau 3.2).
+*   **Intrusion Detection System (IDS)** : Système de détection d'intrusion (surveille et alerte).
+*   **Intrusion Prevention System (IPS)** : Système de prévention d'intrusion (surveille, alerte et bloque).
+*   **Virtual Private Network (VPN)** : Crée un tunnel sécurisé à travers un réseau non fiable comme Internet. Essentiel pour le télétravail.
+*   **Patch / Update** : Correctif de sécurité pour une vulnérabilité logicielle.
+
+#### **4.3. Gestion des incidents et conformité**
+*   **Security Policy** : Politique de sécurité de l'entreprise.
+*   **Incident Response** : Plan de réponse aux incidents de sécurité.
+*   **Penetration Testing (Pen Test)** : Test autorisé simulant une attaque pour évaluer la sécurité.
+*   **Compliance** : Conformité à des réglementations (ex: **OHADA** pour la protection des données commerciales, **RGPD** pour les entreprises travaillant avec l'UE).
+
+**Encadré : Étude de cas africain - Attaque par ransomware**
+Un hôpital public à Kinshasa est victime d'un **ransomware**. Les fichiers médicaux sont chiffrés. Les attaquants demandent une rançon en Bitcoin. Terminologie en jeu : **malware**, **exploit** (d'une ancienne vulnérabilité Windows), **data breach** (fuite de données), **incident response**, **backup** (la sauvegarde non connectée au réseau est la meilleure défense).
+
+---
+
+### **5. Mise en pratique : Analyse d'un extrait de documentation et d'un rapport d'incident**
+
+#### **5.1. Extrait de documentation Cisco - Configuration de sécurité**
+```
+! Configure a basic access control list (ACL) to block traffic from an untrusted network.
+Router(config)# access-list 101 deny ip 10.1.1.0 0.0.0.255 any log
+Router(config)# access-list 101 permit ip any any
+Router(config)# interface GigabitEthernet 0/1
+Router(config-if)# ip access-group 101 in
+! Apply the ACL to the interface in the inbound direction.
+```
+**Vocabulaire et compréhension :**
+*   **ACL (Access Control List)** : Liste de contrôle d'accès qui filtre le trafic.
+*   `deny` : Bloquer. `permit` : Autoriser.
+*   `10.1.1.0 0.0.0.255` : Désigne le réseau `10.1.1.0/24`.
+*   `any` : Représente n'importe quelle adresse IP.
+*   `log` : Enregistre une entrée dans les logs quand cette règle est déclenchée.
+*   `in` : Trafic entrant sur l'interface.
+
+#### **5.2. Extrait d'un rapport d'incident de sécurité (Security Incident Report)**
+*   **Date/Time of Incident** : 2023-10-27, 14:30 GMT+1
+*   **Affected System** : Customer portal, MTN Cameroon.
+*   **Incident Type** : **Suspected credential stuffing attack**.
+*   **Indicators of Compromise (IoC)** : Multiple failed login attempts from unusual IP ranges (geolocated outside Africa).
+*   **Action Taken** : **IPS** triggered and blocked offending IPs. Affected user accounts were locked and forced **password reset**.
+*   **Severity Level** : Medium.
+*   **Root Cause** : Weak user passwords and lack of **multi-factor authentication (MFA)** on the portal.
+
+---
+
+### **6. Conclusion et compétences visées**
+
+À la fin de ce chapitre, l'étudiant du BTS GL doit être capable de :
+1.  Lire et extraire l'information essentielle d'un document technique Cisco ou d'une RFC.
+2.  Comprendre et utiliser le vocabulaire courant du

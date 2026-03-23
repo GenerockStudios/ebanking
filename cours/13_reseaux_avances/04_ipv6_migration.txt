@@ -1,0 +1,127 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 13 Réseaux Avancés**
+## **Chapitre : IPv6 en profondeur : adressage, autoconfiguration SLAAC, DHCPv6, transition IPv4/IPv6**
+
+---
+
+### **1. Introduction et Contexte Général**
+
+#### **1.1. Nécessité du passage à IPv6**
+La croissance exponentielle des appareils connectés (smartphones, objets IoT, ordinateurs) a épuisé le pool d'adresses IPv4 (environ 4,3 milliards). En Afrique, malgré une adoption tardive, la pénétration mobile et les projets de villes intelligentes (comme "Smart City" à Yaoundé ou Douala) accélèrent la demande. IPv6, avec son espace d'adressage quasi illimité (3.4×10³⁸ adresses), est la solution pérenne.
+
+**À retenir :** IPv4 est épuisé, IPv6 est indispensable pour la croissance numérique du Cameroun et de l'Afrique.
+
+#### **1.2. Statut d'IPv6 au Cameroun et en Afrique**
+Les principaux opérateurs camerounais (Camtel, MTN Cameroon, Orange Cameroun) déploient progressivement IPv6 sur leurs réseaux dorsaux. Des initiatives régionales comme l'**AfriNIC** (Registre Internet pour l'Afrique) allouent les blocs IPv6 et forment les ingénieurs. L'adoption est cruciale pour l'inclusion numérique et l'**OHADA** (pour les échanges sécurisés des entreprises).
+
+---
+
+### **2. Adressage IPv6**
+
+#### **2.1. Structure d'une adresse IPv6**
+*   **Longueur :** 128 bits, représentés en 8 groupes de 4 chiffres hexadécimaux, séparés par deux-points (`:`).
+    *   Exemple : `2001:0db8:85a3:0000:0000:8a2e:0370:7334`
+*   **Règles de simplification :**
+    1.  Suppression des zéros non significatifs dans chaque groupe.
+        *   `2001:0db8:85a3:**0000**:0000:8a2e:**0370**:7334` → `2001:db8:85a3:**0**:0:8a2e:**370**:7334`
+    2.  Remplacement d'**une seule** séquence consécutive de groupes nuls (0) par `::`.
+        *   `2001:db8:85a3:**0:0**:8a2e:370:7334` → `2001:db8:85a3**::**8a2e:370:7334`
+*   **Préfixe réseau :** Les premiers bits définissent le réseau. La notation CIDR est utilisée (ex: `/64`).
+
+#### **2.2. Types d'adresses IPv6**
+
+| Type d'Adresse | Préfixe | Description | Exemple d'utilisation au Cameroun |
+| :--- | :--- | :--- | :--- |
+| **Unicast Globale** | `2000::/3` | Adresse routable publiquement sur Internet. | Serveur web d'une banque à Douala, connexion d'un cybercafé. |
+| **Unicast Locale Unique** | `fc00::/7` | Équivalent IPv6 des adresses privées RFC1918. Utilisée au sein d'une organisation. | Réseau interne de l'Université de Yaoundé I ou d'une administration. |
+| **Unicast Locale de Lien** | `fe80::/10` | Adresse valable uniquement sur un lien physique (segment réseau). Auto-générée. | Communication entre un PC et la box Orange dans un foyer. |
+| **Multicast** | `ff00::/8` | Pour joindre un groupe d'interfaces. Remplace la diffusion limitée IPv4. | Diffusion vidéo en direct sur le réseau MTN. |
+| **Anycast** | (Issu du pool Unicast) | Assignée à plusieurs interfaces. Les paquets sont routés vers la "plus proche". | Serveurs DNS racine ou serveurs CDN (Cloudflare, Akamai) présents à Lagos ou Johannesburg. |
+
+**À retenir :** Il n'y a **pas d'adresse de diffusion (broadcast)** en IPv6. La fonction est remplie par l'adresse multicast `ff02::1` (tous les nœuds sur le lien).
+
+#### **2.3. Sous-réseautage (Subnetting) IPv6**
+Avec l'abondance d'adresses, la philosophie change. Un préfixe typique pour un réseau local (LAN) est `/64`. Cela laisse **64 bits pour l'identifiant d'interface**, permettant des mécanismes d'autoconfiguration robustes.
+*   **Exemple pour une entreprise camerounaise :**
+    *   L'AfriNIC alloue `2001:db8:acad::/48` à l'Université de Buea.
+    *   L'université peut créer 65536 sous-réseaux (`2^(64-48)`) de taille `/64`.
+    *   Département Informatique : `2001:db8:acad:**0001**::/64`
+    *   Bibliothèque : `2001:db8:acad:**0002**::/64`
+
+---
+
+### **3. Configuration automatique des adresses IPv6**
+
+#### **3.1. Autoconfiguration Stateless (SLAAC) - RFC 4862**
+Le nœud crée sa propre adresse sans serveur dédié.
+1.  **Adresse Locale de Lien :** Le nœud génère une adresse `fe80::/10` à partir de son adresse MAC (méthode EUI-64 modifiée).
+2.  **Découverte du Préfixe :** Le nœud écoute les **Router Advertisements (RA)** envoyés périodiquement par le routeur.
+3.  **Création de l'adresse Globale :** Le nœud combine le préfixe réseau (`/64`) reçu du RA et son identifiant d'interface (généré de manière aléatoire ou via EUI-64 pour plus de confidentialité).
+4.  **Vérification (DAD) :** Utilise le **Neighbor Discovery Protocol (NDP)** pour s'assurer que l'adresse est unique sur le lien.
+
+**Avantage :** Simple, ne nécessite pas de gestion de serveur. **Limite :** Ne fournit **pas** d'autres informations comme les serveurs DNS.
+
+#### **3.2. DHCPv6 (Stateful) - RFC 8415**
+Fonctionne comme DHCPv4, avec un serveur qui gère l'état (attribution, baux).
+*   **Processus (DORA similaire) :** Solicit, Advertise, Request, Reply.
+*   **Fournit :** Adresse IPv6, adresse du routeur par défaut, **et informations DNS**.
+*   **Utilisation :** Essentiel dans les réseaux d'entreprise où un contrôle centralisé est nécessaire (ex: réseau administratif de la ville de Douala).
+
+#### **3.3. SLAAC avec Information DNS (Stateless DHCPv6) - RFC 6106**
+Mode hybride qui combine les avantages des deux.
+1.  Le routeur envoie des **RA avec le flag "Other" (O)** activé.
+2.  Le client utilise **SLAAC** pour obtenir son adresse IP et sa route par défaut.
+3.  Le client contacte ensuite un **serveur DHCPv6** uniquement pour récupérer les **informations DNS** (adresses des serveurs, nom de domaine).
+
+**À retenir :**
+*   **SLAAC seul = IP + Route, PAS de DNS.**
+*   **DHCPv6 Stateful = IP + Route + DNS (contrôle total).**
+*   **SLAAC + DHCPv6 Stateless = IP (auto) + Route + DNS (meilleur compromis).**
+
+---
+
+### **4. Transition et Coexistence IPv4/IPv6**
+
+Aucune coupure brutale n'est possible. Plusieurs mécanismes de transition sont utilisés.
+
+#### **4.1. Dual-Stack (Double Pile)**
+L'hôte ou le routeur exécute **simultanément** les piles IPv4 et IPv6. C'est la méthode recommandée et la plus simple.
+*   **Fonctionnement :** L'appareil a deux adresses (une IPv4, une IPv6). Il choisit la pile selon le destinataire.
+*   **Exemple :** Un serveur web de l'**OHADA** à Yaoundé peut être joignable en `203.0.113.10` (IPv4) et `2001:db8:ohada::10` (IPv6).
+*   **Outils :** Activé par défaut sur les OS modernes (Windows 10/11, Linux, macOS).
+
+#### **4.2. Tunneling**
+Encapsule les paquets IPv6 dans des paquets IPv4 pour les faire traverser un réseau qui ne supporte que IPv4.
+
+| Type de Tunnel | Description | Scénario d'utilisation |
+| :--- | :--- | :--- |
+| **Manuel (ex: GRE)** | Configuration statique des extrémités. | Lien permanent entre deux filiales d'une banque (Douala et Garoua) via le backbone IPv4 de Camtel. |
+| **6to4** (Déprécié) | Utilise l'adresse IPv4 publique pour créer un préfixe IPv6 automatique (`2002::/16`). | Peu recommandé aujourd'hui. |
+| **ISATAP** | Conçu pour les réseaux d'entreprise, intègre l'adresse IPv4 dans l'adresse IPv6. | Permet à un hôte IPv6 dans le réseau de l'Université de Dschang de communiquer via l'infrastructure IPv4 du campus. |
+
+#### **4.3. Traduction : NAT64/DNS64 - RFC 6146**
+Permet à des clients **IPv6-only** d'accéder à des serveurs **IPv4-only**. C'est crucial car tout le contenu Internet n'est pas encore en IPv6.
+1.  **DNS64 :** Lorsqu'un client IPv6 demande l'adresse (AAAA record) d'un site (ex: `www.ancien-site.cm`), si seule une adresse IPv4 (A record) existe, le DNS64 **synthétise** une adresse IPv6 en intégrant l'adresse IPv4 dans le préfixe NAT64 (ex: `64:ff9b::192.0.2.1`).
+2.  **NAT64 :** Le routeur/gateway NAT64 reçoit le paquet IPv6 destiné à cette adresse synthétisée. Il extrait l'adresse IPv4 encapsulée, traduit l'en-tête du paquet en IPv4 et le transmet. Il fait l'inverse pour la réponse.
+*   **Utilité :** Pour les nouveaux réseaux mobiles 4G/5G (ex: réseau LTE de Nexttel) qui peuvent être déployés en IPv6 natif, tout en permettant l'accès à l'Internet IPv4 hérité.
+
+**Tableau Comparatif des Mécanismes de Transition**
+
+| Mécanisme | Principe | Avantages | Inconvénients | Contexte Camerounais |
+| :--- | :--- | :--- | :--- | :--- |
+| **Dual-Stack** | Exécuter les deux piles. | Simplicité, performance optimale. | Nécessite des adresses IPv4 et IPv6. | **Recommandé** pour tous les nouveaux déploiements (data centers, administrations). |
+| **Tunneling** | Encapsuler IPv6 dans IPv4. | Connecte des "îlots" IPv6. | Surcharge, complexité de gestion. | Pour interconnexion ponctuelle entre sites. |
+| **NAT64/DNS64** | Traduire IPv6 vers IPv4. | Permet aux clients IPv6 purs d'accéder à l'IPv4. | Point de défaillance unique, incompatible avec les applications qui embarquent des adresses IP. | Essentiel pour les **opérateurs mobiles** (MTN, Orange) lors du déploiement d'APN IPv6. |
+
+---
+
+### **5. Outils et Commandes Pratiques**
+
+*   **Diagnostic :**
+    *   `ping6` ou `ping -6` (ex: `ping6 2001:4860:4860::8888` pour tester Google DNS IPv6)
+    *   `traceroute6` ou `tracert -6`
+    *   `ip -6 addr show` (Linux) / `netsh interface ipv6 show address` (Windows)
+*   **Configuration :**
+    *   Fichiers `/etc/network/interfaces` (Linux) ou via PowerShell (`Set-NetIPAddress`).
+*   **Simulation/Test :**
+    *   **GNS3 / EVE-NG :**

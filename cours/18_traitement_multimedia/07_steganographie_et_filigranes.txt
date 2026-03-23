@@ -1,0 +1,139 @@
+# **Notes de Cours - BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière 18 : Traitement Multimédia**
+## **Chapitre : Stéganographie et filigranes numériques : cacher des données dans des images/sons, watermarking, DRM, protection des œuvres**
+
+---
+
+### **1. Introduction et Définitions Fondamentales**
+
+#### **1.1. Contexte et Enjeux**
+Dans l'ère numérique, la protection des données et des œuvres créatives est devenue un enjeu majeur, particulièrement en Afrique où l'économie numérique est en pleine croissance. Au Cameroun, avec la multiplication des contenus multimédias (musiques, films, images) et l'expansion des opérateurs comme MTN, Orange et Camtel, la nécessité de protéger la propriété intellectuelle et d'assurer la confidentialité des informations est cruciale. Ce chapitre aborde les techniques permettant de dissimuler des informations (stéganographie) et de marquer des œuvres pour en assurer la traçabilité et la protection (filigranes numériques et DRM).
+
+#### **1.2. Définitions Clés**
+*   **Stéganographie** : Science et art de la dissimulation de l'existence même d'une information dans un support (image, audio, vidéo, texte) afin de la rendre invisible à un observateur non averti. L'objectif est la **confidentialité**.
+*   **Filigrane Numérique (Watermarking)** : Technique d'insertion d'une marque (visible ou invisible) dans un document numérique pour en attester l'authenticité, l'intégrité, la provenance ou pour revendiquer les droits d'auteur. L'objectif est la **protection et la traçabilité**.
+*   **Gestion des Droits Numériques (DRM - Digital Rights Management)** : Ensemble des mesures techniques et des systèmes de contrôle d'accès utilisés pour limiter l'utilisation des œuvres numériques (logiciels, musique, films) après leur vente ou diffusion.
+
+**À retenir** : La stéganographie **cache** un message secret, tandis que le filigrane numérique **marque** un document pour le protéger. Le DRM **contrôle** l'usage du document.
+
+---
+
+### **2. Stéganographie : Cacher des Données**
+
+#### **2.1. Principes et Objectifs**
+Le principe fondamental est d'exploiter les **redundances** ou la **limite de perception humaine** (auditive ou visuelle) pour insérer des données sans altération perceptible du support (appelé **couverture**). Le résultat est le **contenu stégano**.
+*   **Objectifs** : Confidentialité, communication secrète, signature invisible, dissimulation de métadonnées.
+*   **Exemple concret** : Un activiste des droits humains au Cameroun pourrait utiliser la stéganographie pour cacher un rapport sensible dans une photo de paysage publiée sur les réseaux sociaux, contournant ainsi une éventuelle surveillance.
+
+#### **2.2. Domaines d'Application**
+*   **Images** : Formats courants : PNG, BMP, JPEG. Les bits de poids faible (LSB - *Least Significant Bit*) des pixels sont souvent modifiés.
+*   **Audio** : Formats : WAV, MP3. Techniques basées sur l'écho, le spectre ou le masquage psychoacoustique.
+*   **Vidéo** : Combinaison des techniques image et audio.
+*   **Texte** : Modification d'espacements, de polices ou de synonymes.
+
+#### **2.3. Techniques de Base dans les Images (Méthode LSB)**
+C'est la technique la plus simple. Elle consiste à remplacer les bits les moins significatifs des valeurs des canaux de couleur (Rouge, Vert, Bleu) d'un pixel par les bits du message secret.
+
+**Exemple simplifié** :
+*   Pixel original (R, G, B) : (150, 255, 30) en binaire : `10010110`, `11111111`, `00011110`
+*   Message à cacher : `101` (3 bits)
+*   Remplacer les 3 LSB du Rouge, Vert et Bleu :
+    *   R: `10010110` → `1001011**1**` (dernier bit changé) → 151
+    *   G: `11111111` → `1111111**0**` → 254
+    *   B: `00011110` → `0001111**1**` → 31
+*   Pixel modifié : (151, 254, 31). La différence visuelle est imperceptible.
+
+**Tableau Comparatif : Supports de Stéganographie**
+| **Support** | **Avantages** | **Inconvénients** | **Exemple d'outil** |
+| :--- | :--- | :--- | :--- |
+| **Image (BMP/PNG)** | Grande capacité, altération faible | Taille fichier importante, sensible à la compression | OpenStego, Steghide |
+| **Image (JPEG)** | Taille réduite, très répandu | Capacité limitée, altération par re-compression | JSteg, JPHide |
+| **Audio (WAV)** | Bonne capacité, difficile à détecter | Taille très importante | DeepSound, MP3Stego |
+| **Texte** | Léger, discret | Capacité très limitée | Texthide |
+
+---
+
+### **3. Filigranes Numériques (Watermarking)**
+
+#### **3.1. Caractéristiques et Classification**
+Un bon filigrane doit être :
+*   **Robuste** : Résister aux transformations courantes (compression, recadrage, filtrage).
+*   **Imperceptible** (sauf pour le watermarking visible) : Ne pas dégrader la qualité.
+*   **Fiable** : Permettre une extraction/détection sans ambiguïté.
+
+**Classification :**
+1.  **Visible vs Invisible** :
+    *   **Visible** : Logo superposé (ex: filigrane "MTN" sur une vidéo promotionnelle, logo de la CRTV sur un reportage).
+    *   **Invisible** : Intégré dans les données, pour la traçabilité ou la preuve d'authenticité.
+2.  **Fragile vs Robuste** :
+    *   **Fragile** : Se détruit à la moindre modification. Utilisé pour vérifier **l'intégrité** (ex: acte notarié scanné dans le cadre OHADA).
+    *   **Robuste** : Résiste aux altérations. Utilisé pour la **revendication de droits** (ex: marquer une chanson de Locko ou de Mani Bella).
+
+#### **3.2. Techniques de Base (Domaine Fréquentiel)**
+Pour plus de robustesse, on opère souvent dans le domaine fréquentiel (après une transformation comme la **DCT - Discrete Cosine Transform** ou la **DWT - Discrete Wavelet Transform**), plutôt que dans le domaine spatial (comme le LSB).
+*   **Principe** : On modifie légèrement certaines fréquences spécifiques de l'image ou du son pour y encoder la marque. Ces fréquences sont peu perceptibles mais résistent mieux aux traitements.
+
+#### **3.3. Applications dans le Contexte Camerounais/Africain**
+*   **Protection des œuvres musicales et cinématographiques** : Marquer les albums des artistes locaux (Stanley Enow, Daphné) pour lutter contre la piraterie sur les marchés comme Madagascar ou Nkolbisson.
+*   **Authentification de documents** : Filigrane fragile sur les documents juridiques numérisés (contrats, jugements) pour en garantir l'intégrité, aligné sur les exigences de traçabilité de l'**OHADA**.
+*   **Broadcasting** : Insertion de marques dans les flux TV/Radio (Canal 2 International, STV) pour suivre la diffusion et les éventuels rebroadcasts non autorisés.
+*   **Télédéclaration fiscale** : Filigrane invisible sur les reçus et attestations numériques émis par les opérateurs (Orange Money, MTN Mobile Money) pour prévenir la fraude.
+
+---
+
+### **4. Gestion des Droits Numériques (DRM)**
+
+#### **4.1. Principes et Composants**
+Le DRM va au-delà du marquage ; il contrôle activement l'**utilisation** du contenu.
+*   **Principe** : Chiffrer le contenu et ne fournir la clé de déchiffrement qu'à des utilisateurs/autorisations spécifiques.
+*   **Composants typiques** :
+    1.  **Serveur de Licences** : Émet et gère les droits (lire, copier, imprimer, durée).
+    2.  **Chiffrement du Contenu**.
+    3.  **Client/Logiciel Lecteur** : Respecte les règles de la licence.
+    4.  **Module de Sécurité** (ex: Trusted Platform Module - TPM).
+
+#### **4.2. Applications et Débats**
+*   **Applications** :
+    *   **Streaming Vidéo** : Plateformes comme *Showmax* ou *Netflix* utilisent le DRM (Google Widevine, Apple FairPlay) pour empêcher le téléchargement et le partage illimité.
+    *   **Logiciels** : Activation en ligne, limitations du nombre d'installations.
+    *   **E-books** : Restrictions sur la copie et l'impression.
+*   **Débats et Limites** :
+    *   **Controverse** : Peut restreindre excessivement les droits des utilisateurs légitimes (ex: impossibilité de copier pour usage personnel).
+    *   **Interopérabilité** : Un contenu protégé pour un appareil/liseuse spécifique ne fonctionne pas sur un autre.
+    *   **Piratage** : Les systèmes DRM sont souvent contournés, pénalisant les honnêtes acheteurs.
+
+**Tableau Comparatif : Stéganographie, Watermarking et DRM**
+| **Critère** | **Stéganographie** | **Watermarking (Invisible)** | **DRM** |
+| :--- | :--- | :--- | :--- |
+| **Objectif principal** | Confidentialité | Traçabilité / Authentification | Contrôle d'Usage |
+| **Visibilité** | Toujours caché | Caché | Transparent (mécanisme) ou visible (restrictions) |
+| **Résistance** | Variable, souvent faible | Robuste ou Fragile (selon but) | Très robuste (théoriquement) |
+| **Impact sur l'usage** | Aucun | Aucun | Limite les actions (copie, partage) |
+| **Exemple local** | Cacher un message dans une photo publiée sur Facebook | Marquer une chanson de Petit Pays | Regarder un film sur le service *Canal+ Afrique* |
+
+---
+
+### **5. Outils, Logiciels et Implémentation**
+
+#### **5.1. Outils Libres et Open Source**
+*   **Stéganographie** : Steghide (audio/image), OpenStego, JPHide.
+*   **Watermarking** : OpenWatermark, **OpenCV** (bibliothèque avec fonctions de traitement d'image pour implémenter des algorithmes personnalisés en Python ou C++).
+*   **Analyse/Détection** : StegExpose, Aletheia (pour la stéganalyse).
+
+#### **5.2. Technologies Professionnelles et Normes**
+*   **Pour l'Audio/Video** : Marquage selon les normes de broadcast (ETSI, DVB).
+*   **Pour les Documents** : Normes PDF (ISO 32000) intégrant des possibilités de signature et de filigrane.
+*   **DRM** : Systèmes propriétaires (Microsoft PlayReady, Google Widevine, Apple FairPlay) utilisés par les grandes plateformes.
+
+#### **5.3. Compétences pour le Génie Logiciel**
+L'étudiant en BTS GL doit être capable de :
+1.  **Comprendre** les algorithmes de base (LSB, DCT).
+2.  **Utiliser** des bibliothèques (OpenCV en Python, Java Steganography API) pour implémenter des fonctions simples de marquage ou d'extraction.
+3.  **Intégrer** des composants de watermarking dans une application de gestion de contenu (ex: galerie photo pour un artiste).
+4.  **Comprendre** les implications juridiques (droit d'auteur, loi camerounaise sur la cybersécurité) liées à l'utilisation de ces techniques.
+
+---
+
+### **6. Conclusion et Perspectives**
+
+La stéganographie, le watermarking et le DRM sont trois piliers complémentaires de la sécurité multimédia. Alors que la **stéganographie** répond à des besoins de discrétion, le **watermarking** est un outil essentiel pour la protection des actifs numériques et la traçabilité, particulièrement pertinent pour les industries créatives en plein essor en Afrique. Le **DRM**, bien que controversé

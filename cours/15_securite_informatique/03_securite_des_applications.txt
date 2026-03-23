@@ -1,0 +1,143 @@
+# **Notes de Cours - BTS Génie Logiciel (Cameroun)**
+## **Matière : Sécurité Informatique (Code 15)**
+## **Chapitre : Sécurité des Applications**
+
+---
+
+### **1. Introduction à la Sécurité des Applications**
+
+La sécurité des applications est une discipline visant à protéger les logiciels contre les vulnérabilités et les attaques tout au long de leur cycle de vie. Dans le contexte numérique camerounais en pleine expansion (e-gouvernement, mobile money, plateformes OHADA), sécuriser les applications n'est plus un luxe mais une nécessité pour protéger les données des citoyens et des entreprises.
+
+**Objectif du chapitre** : Comprendre les principales menaces, adopter une méthodologie de développement sécurisé (SDL) et maîtriser les techniques de test de sécurité (SAST/DAST).
+
+---
+
+### **2. Les Vulnérabilités Critiques : OWASP Top 10**
+
+L'**OWASP** (Open Web Application Security Project) est une communauté internationale qui établit une liste des **10 risques de sécurité les plus critiques** pour les applications web. C'est la référence mondiale.
+
+#### **2.1. Injection (notamment Injection SQL)**
+*   **Définition** : Une injection se produit lorsqu'un attaquant envoie des données hostiles qui sont interprétées comme des commandes par l'application.
+*   **Exemple d'Injection SQL** :
+    *   **Vulnérable** : `"SELECT * FROM clients WHERE nom = '" + nomSaisi + "';"`
+    *   Si `nomSaisi = " ' OR '1'='1 "`, la requête devient : `SELECT * FROM clients WHERE nom = '' OR '1'='1';` → Elle retourne TOUS les clients.
+*   **Exemple Camerounais** : Un formulaire de consultation de dossier sur un portail OHADA mal sécurisé pourrait permettre à un utilisateur de récupérer des dossiers juridiques confidentiels.
+*   **Prévention** :
+    *   Utiliser des **requêtes paramétrées** (Prepared Statements).
+    *   Valider et échapper les entrées utilisateur.
+    *   Appliquer le **principe de moindre privilège** aux comptes de base de données.
+
+#### **2.2. Cross-Site Scripting (XSS)**
+*   **Définition** : Injection de scripts malveillants (JavaScript) dans des pages web vues par d'autres utilisateurs.
+*   **Types** :
+    *   **XSS Réfléchi** : Le script est inclus dans une URL et exécuté immédiatement.
+    *   **XSS Stocké** : Le script est stocké en base de données (ex: commentaire sur un forum) et exécuté à chaque affichage.
+    *   **XSS DOM-Based** : La vulnérabilité est dans le code côté client (JavaScript).
+*   **Exemple Africain** : Sur un site de vente en ligne comme *Jumia* ou *Jumia Market*, un attaquant pourrait déposer un script dans un avis produit pour voler les cookies de session des acheteurs.
+*   **Prévention** : Échapper les caractères spéciaux (`<`, `>`, `&`, `"`, `'`) en sortie HTML. Utiliser des en-têtes HTTP comme `Content-Security-Policy (CSP)`.
+
+#### **2.3. Cross-Site Request Forgery (CSRF)**
+*   **Définition** : Forcer un utilisateur authentifié à exécuter des actions non désirées sur une application web.
+*   **Mécanisme** : L'utilisateur, connecté à son compte bancaire en ligne (ex: *Express Union Mobile*), visite un site malveillant. Ce site contient un formulaire invisible qui envoie une requête de virement à la banque. Le navigateur envoie automatiquement les cookies de session, et la requête est exécutée.
+*   **Prévention** : Utiliser des **jetons anti-CSRF** (tokens synchronisés) uniques et secrets pour chaque session ou requête sensible.
+
+#### **2.4. Insecure Direct Object References (IDOR)**
+*   **Définition** : Un attaquant peut accéder à des objets (fichiers, enregistrements en base) en manipulant directement un identifiant de référence (ID) dans l'URL ou les paramètres.
+*   **Exemple** :
+    *   URL normale d'un utilisateur : `https://monapp.cm/profil?user_id=123`
+    *   Attaque IDOR : L'attaquant change `user_id=123` en `user_id=124` pour accéder au profil d'un autre utilisateur.
+*   **Exemple Camerounais** : Une application de gestion des factures pour une PME locale où l'URL `voir_facture.php?id=100` pourrait être modifiée en `id=101` pour voir la facture d'un concurrent.
+*   **Prévention** : Implémenter des **contrôles d'autorisation** pour chaque accès à un objet. Utiliser des références indirectes (mapping) ou des UUID au lieu d'IDs séquentiels.
+
+#### **2.5. Autres Risques Notables de l'OWASP Top 10**
+*   **A01:2021 - Broken Access Control** : Défaillances dans les restrictions d'accès aux utilisateurs.
+*   **A02:2021 - Cryptographic Failures** : Mauvaise utilisation du chiffrement (protocoles obsolètes, mots de passe en clair).
+*   **A03:2021 - Injection** (déjà vu).
+*   **A06:2021 - Vulnerable and Outdated Components** : Utilisation de bibliothèques/logiciels tiers connus comme vulnérables (ex: version non patchée d'un CMS comme WordPress).
+*   **A07:2021 - Identification and Authentication Failures** : Faiblesses dans les fonctions de login, gestion de session, mots de passe faibles.
+
+**Tableau Comparatif des Vulnérabilités OWASP**
+
+| Vulnérabilité | Cible Principale | Impact Typique | Exemple de Prévention |
+| :--- | :--- | :--- | :--- |
+| **Injection SQL** | Base de données | Vol, altération ou suppression de données | Requêtes paramétrées |
+| **XSS** | Utilisateur final | Vol de session, défacement, phishing | Échappement des sorties HTML |
+| **CSRF** | Actions de l'utilisateur | Actions non autorisées (virement, changement de mot de passe) | Tokens anti-CSRF |
+| **IDOR** | Données/objets | Accès non autorisé à des informations | Contrôle d'accès par objet |
+
+---
+
+### **3. Le Security Development Lifecycle (SDL)**
+
+Le **SDL** est un processus structuré qui intègre des activités de sécurité à chaque phase du cycle de développement logiciel (Waterfall, Agile, DevOps).
+
+#### **3.1. Les Phases du SDL (Microsoft Model)**
+1.  **Formation** : Sensibiliser les développeurs aux bonnes pratiques de sécurité.
+2.  **Exigences** : Définir les exigences de sécurité (niveau de garantie, normes de codage).
+3.  **Conception** : Modéliser les menaces (Threat Modeling), revoir l'architecture.
+4.  **Implémentation** : Utiliser des outils d'analyse statique (SAST), suivre des guides de codage sécurisé.
+5.  **Vérification** : Tests de sécurité (tests de pénétration, analyse dynamique - DAST).
+6.  **Publication** : Procédure de réponse aux incidents, revue finale de sécurité.
+7.  **Réponse** : Plan de gestion des vulnérabilités post-publication.
+
+#### **3.2. Intégration dans le Contexte Camerounais**
+*   Pour une startup développant une solution de *mobile money*, le SDL doit être prioritaire dès la phase de conception.
+*   Les SSII (Sociétés de Services en Ingénierie Informatique) camerounaises doivent intégrer des checkpoints sécurité dans leurs méthodologies projets.
+*   **À retenir** : "Intégrer la sécurité tôt coûte moins cher que corriger les vulnérabilités après la mise en production."
+
+---
+
+### **4. Les Tests de Sécurité des Applications**
+
+#### **4.1. Tests de Pénétration (Pen Tests)**
+*   **Définition** : Simulation d'une attaque réelle menée par des experts éthiques ("pentesters") pour identifier et exploiter des vulnérabilités.
+*   **Méthodologie** (Phases) :
+    1.  **Reconnaissance** : Collecte d'informations (OSINT).
+    2.  **Scanning** : Identification des ports, services, versions.
+    3.  **Gain d'Accès** : Exploitation des vulnérabilités.
+    4.  **Maintien de l'Accès** (si demandé).
+    5.  **Analyse & Reporting** : Rapport détaillé des vulnérabilités, risques et préconisations.
+*   **Outils** : *Metasploit*, *Burp Suite*, *Nmap*, *OWASP ZAP*.
+*   **Cadre** : Tests en boîte noire, grise ou blanche.
+
+#### **4.2. SAST (Static Application Security Testing)**
+*   **Définition** : Analyse du **code source** (ou du bytecode) à la recherche de vulnérabilités potentielles, **sans exécuter** l'application.
+*   **Quand ?** : Dès les phases de développement et d'intégration continue (CI).
+*   **Avantages** : Détection précoce, couverture large du code.
+*   **Inconvénients** : Peut générer des faux positifs, ne détecte pas les problèmes runtime.
+*   **Outils** : *SonarQube*, *Checkmarx*, *Fortify SCA*, *Bandit* (pour Python).
+
+#### **4.3. DAST (Dynamic Application Security Testing)**
+*   **Définition** : Analyse de l'application **en cours d'exécution** (généralement en environnement de test/staging) en simulant des attaques externes.
+*   **Quand ?** : Phase de test ou pré-production.
+*   **Avantages** : Détecte les vulnérabilités runtime, peu de faux positifs, indépendant du langage.
+*   **Inconvénients** : Détection tardive, couverture limitée aux chemins testés.
+*   **Outils** : *OWASP ZAP* (gratuit et puissant), *Burp Suite Professional*, *Arachni*.
+
+**Tableau Comparatif SAST vs DAST**
+
+| Critère | **SAST** | **DAST** |
+| :--- | :--- | :--- |
+| **Point de vue** | De l'intérieur (Dev) | De l'extérieur (Hacker) |
+| **Cible** | Code source / Bytecode | Application en fonctionnement |
+| **Détection** | Vulnérabilités dans le code | Vulnérabilités exploitables |
+| **Phase** | Développement, Intégration | Test, Pré-production |
+| **Exemple d'outil** | SonarQube | OWASP ZAP |
+| **Complémentarité** | **Les deux sont nécessaires pour une couverture optimale.** |
+
+---
+
+### **5. Bonnes Pratiques et Conclusion**
+
+#### **5.1. Recommandations pour le Développeur Camerounais**
+1.  **Adopter une Mentalité "Security by Design"** : Penser sécurité dès la première ligne de code.
+2.  **Se Former Constamment** : Suivre les ressources OWASP, participer à des communautés locales (Hackerspaces, GDG).
+3.  **Automatiser la Sécurité** : Intégrer SAST/DAST dans la pipeline CI/CD (ex: avec Jenkins, GitLab CI).
+4.  **Utiliser des Référentiels** : Guides de codage sécurisé de l'OWASP, normes comme le *RGPD* pour la protection des données (inspirant pour les lois camerounaises).
+5.  **Collaborer** : Travailler avec les équipes d'exploitation (DevSecOps) et prévoir des audits de sécurité réguliers.
+
+#### **5.2. Synthèse**
+La sécurité des applications est un pilier essentiel de la confiance numérique. En maîtrisant les vulnérabilités de l'**OWASP Top 10**, en implémentant un processus **SDL** et en combinant les tests **SAST** et **DAST**, le professionnel du génie logiciel au Cameroun peut contribuer à bâtir un écosystème numérique plus résilient, capable de soutenir la transformation digitale du pays et du continent.
+
+---
+**À retenir** : *Une application sécurisée n'est pas une application sans bug, mais une application où les vulnérab

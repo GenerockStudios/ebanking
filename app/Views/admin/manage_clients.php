@@ -1,145 +1,171 @@
 <?php
 /**
- * manage_users.php
- * Vue pour la gestion des utilisateurs (création, liste) par l'administrateur.
- * Reçoit $data['title'], $data['users'], $data['roles'], $data['success'], et $data['error'].
+ * manage_clients.php
+ * Liste des clients avec solde, compte et bouton Suspendre/Reactiver.
  */
-
-// Inclure le header
 require_once VIEW_PATH . 'layout/header.php';
-
-// Déterminer le rôle de l'utilisateur pour personnaliser le contenu
-$roleName = $data['user_role'] ?? 'Utilisateur'; // Supposons que le contrôleur passe le nom du rôle
-$identifiant = $_SESSION['identifiant'] ?? 'N/A';
 ?>
 
-<h2><?= $data['title'] ?? "Gestion des Clients" ?></h2>
+<h2><?= htmlspecialchars($data['title'] ?? "Gestion des Clients") ?></h2>
 
+<?php if (isset($_GET['success'])): ?>
+<div class="alert-success"><strong>Succes!</strong> <?= htmlspecialchars($_GET['success']) ?></div>
+<?php endif; ?>
+<?php if (isset($_GET['error'])): ?>
+<div class="alert-error"><strong>Erreur!</strong> <?= htmlspecialchars($_GET['error']) ?></div>
+<?php endif; ?>
 <?php if (isset($data['success'])): ?>
-    <div class="alert-success">
-        <strong>Succès!</strong> <?= htmlspecialchars($data['success']) ?>
-    </div>
+<div class="alert-success"><strong>Succes!</strong> <?= htmlspecialchars($data['success']) ?></div>
 <?php endif; ?>
 
-<?php if (isset($data['error'])): ?>
-    <div class="alert-error">
-        <strong>Échec!</strong> <?= htmlspecialchars($data['error']) ?>
-    </div>
-<?php endif; ?>
+<div class="top-actions">
+    <a href="<?= BASE_URL ?>?controller=Client&action=nouveauClient" class="btn-action-green">+ Creer Nouveau Client</a>
+</div>
 
-        <div class="card client-card">
-            <p>Ouvrir de nouveaux comptes et gérer le KYC.</p>
-            <a href="<?= BASE_URL ?>?controller=Client&action=nouveauClient" class="btn-action">Créer Nouveau Client</a>
+<!-- ===== Filtres & Recherche ===== -->
+<div class="filter-card">
+    <div class="filter-form">
+        <div class="filter-group">
+            <label>Rechercher</label>
+            <input type="text" id="searchInput" class="form-control" placeholder="Nom, téléphone, email, N° compte...">
         </div>
-<hr>
+        <div class="filter-group">
+            <label>Statut</label>
+            <select id="filterStatus" class="form-control">
+                <option value="">Tous</option>
+                <option value="actif">Actif</option>
+                <option value="suspendu">Suspendu</option>
+            </select>
+        </div>
+        <div class="filter-group" style="align-self:flex-end;">
+            <button type="button" class="btn-filter" onclick="resetFilters()">Réinitialiser</button>
+        </div>
+    </div>
+</div>
 
-<h3>Liste des Utilisateurs du Système</h3>
-<table class="user-table">
+<p class="result-count"><strong id="rowCount"><?= count($data['users'] ?? []) ?></strong> client(s) trouvé(s).</p>
+
+<div class="table-scroll">
+<table class="client-table" id="clientTable">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Date de naissance</th>
-            <th>Téléphone </th>
+            <th>#ID</th>
+            <th>Nom &amp; Prenom</th>
+            <th>Telephone</th>
             <th>Email</th>
-            <th>Numéro d'identité</th>
-            <th>D'adresse</th>
-            <th>Solde</th>
-            <th>Numéro de compte</th>
+            <th>N&deg; Identite</th>
+            <th>Adresse</th>
+            <th>N&deg; Compte</th>
+            <th>Solde (FCFA)</th>
+            <th>Statut</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        <?php if (!empty($data['users'])): ?>
-            <?php foreach ($data['users'] as $user): ?>
-                <tr>
-                    <!-- , , ,  , , , ,  -->
-                    <td><?= htmlspecialchars($user['client_id']) ?></td>
-                    <td><?= htmlspecialchars($user['nom']) ?></td>
-                    <td><?= htmlspecialchars($user['prenom']) ?></td>
-                    <td><?= date('Y-m-d', strtotime($user['date_naissance'])) ?></td>
-                    <td><?= htmlspecialchars($user['telephone']) ?></td>
-                    <td><?= htmlspecialchars($user['email']) ?></td>
-                    <td><?= htmlspecialchars($user['numero_identite']) ?></td>
-                    <td><?= htmlspecialchars($user['adresse']) ?></td>
-                    <td><?= htmlspecialchars($user['solde']) ?></td>
-                    <td><?= htmlspecialchars($user['numero_compte']) ?></td>
-
-
-                </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <tr><td colspan="7">Aucun utilisateur trouvé.</td></tr>
-        <?php endif; ?>
+    <?php if (!empty($data['users'])): ?>
+        <?php foreach ($data['users'] as $u): ?>
+        <tr class="<?= !empty($u['est_suspendu']) ? 'row-suspended' : '' ?>">
+            <td><?= htmlspecialchars($u['client_id']) ?></td>
+            <td>
+                <strong><?= htmlspecialchars($u['nom'] . ' ' . $u['prenom']) ?></strong><br>
+                <small class="text-muted"><?= htmlspecialchars(date('d/m/Y', strtotime($u['date_naissance']))) ?></small>
+            </td>
+            <td><?= htmlspecialchars($u['telephone']) ?></td>
+            <td><?= htmlspecialchars($u['email']) ?></td>
+            <td><?= htmlspecialchars($u['numero_identite']) ?></td>
+            <td><?= htmlspecialchars($u['adresse']) ?></td>
+            <td class="compte-num"><?= htmlspecialchars($u['numero_compte']) ?></td>
+            <td class="montant-cell"><?= number_format((float)$u['solde'], 2, ',', ' ') ?></td>
+            <td>
+                <?php if (!empty($u['est_suspendu'])): ?>
+                    <span class="badge-suspended">SUSPENDU</span>
+                <?php else: ?>
+                    <span class="badge-active">ACTIF</span>
+                <?php endif; ?>
+            </td>
+            <td>
+                <form method="POST" action="<?= BASE_URL ?>?controller=Admin&action=suspendCompte"
+                      onsubmit="return confirm('Confirmer cette action ?');" style="display:inline;">
+                    <input type="hidden" name="compte_id"   value="<?= htmlspecialchars($u['compte_id']) ?>">
+                    <?php if (!empty($u['est_suspendu'])): ?>
+                        <input type="hidden" name="action_type" value="reactiver">
+                        <button type="submit" class="btn-reactiver">Reactiver</button>
+                    <?php else: ?>
+                        <input type="hidden" name="action_type" value="suspendre">
+                        <button type="submit" class="btn-suspendre">Suspendre</button>
+                    <?php endif; ?>
+                </form>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr><td colspan="10" class="empty-row">Aucun client enregistre.</td></tr>
+    <?php endif; ?>
     </tbody>
 </table>
+</div>
 
 <style>
-/* Styles spécifiques */
-.card { border: 1px solid #ddd; padding: 20px; border-radius: 6px; margin-bottom: 20px; }
-.create-user-card { background-color: #e6f7ff; border-left: 5px solid #007bff; }
-
-.form-group-half {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 10px;
-}
-
-.btn-primary-admin { 
-    width: 100%;
-    padding: 10px; 
-    background-color: #007bff; 
-    color: white; 
-    border: none; 
-    border-radius: 4px; 
-    cursor: pointer; 
-    margin-top: 10px;
-}
-.btn-primary-admin:hover { background-color: #0056b3; }
-
-.user-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-.user-table th, .user-table td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 0.9em; }
-.user-table th { background-color: #f2f2f2; }
-
-.status-active { color: green; font-weight: bold; }
-.status-inactive { color: red; }
-.action-link { font-size: 0.85em; }
-
-/* Styles généraux réutilisés */
-.form-group { margin-bottom: 15px; }
-.form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-
-
-.card {
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    background-color: #fff;
-}
-.card h3 {
-    margin-top: 0;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    color: #007bff;
-}
-.btn-action {
-    display: block;
-    padding: 8px;
-    margin-top: 10px;
-    background-color: #28a745;
-    color: white;
-    text-align: center;
-    border-radius: 4px;
-    text-decoration: none;
-}
-.btn-action:hover {
-    background-color: #1e7e34;
-}
+.filter-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:20px}
+.filter-form{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}
+.filter-group{display:flex;flex-direction:column;gap:4px;min-width:160px}
+.filter-group label{font-weight:600;font-size:13px;color:#444}
+.form-control{padding:8px 12px;border:1.5px solid #dde;border-radius:8px;font-size:13px}
+.btn-filter{padding:9px 20px;background:#042e5a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600}
+.btn-filter:hover{background:#0a4a8a}
+.result-count{margin:10px 0;color:#555;font-size:14px}
+.top-actions{margin-bottom:16px}
+.btn-action-green{display:inline-block;padding:9px 20px;background:#28a745;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px}
+.btn-action-green:hover{background:#1e7e34}
+.table-scroll{overflow-x:auto}
+.client-table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.client-table th{background:#042e5a;color:#fff;padding:11px 12px;text-align:left;white-space:nowrap}
+.client-table td{padding:9px 12px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+.client-table tr:hover td{background:#f9f9fb}
+.row-suspended td{background:#fff5f5}
+.compte-num{font-family:monospace;font-size:12px;color:#042e5a;font-weight:600}
+.montant-cell{text-align:right;font-weight:700}
+.text-muted{color:#999}
+.badge-active{background:#d4edda;color:#155724;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700}
+.badge-suspended{background:#f8d7da;color:#721c24;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700}
+.btn-suspendre{padding:5px 12px;background:#dc3545;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600}
+.btn-suspendre:hover{background:#c82333}
+.btn-reactiver{padding:5px 12px;background:#28a745;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600}
+.btn-reactiver:hover{background:#1e7e34}
+.empty-row{text-align:center;color:#999;padding:24px}
 </style>
 
-<?php
-// Inclure le footer
-require_once VIEW_PATH . 'layout/footer.php';
-?>
+<script>
+const searchInput  = document.getElementById('searchInput');
+const filterStatus = document.getElementById('filterStatus');
+const clientTable  = document.getElementById('clientTable');
+const rowCount     = document.getElementById('rowCount');
+
+function filterTable() {
+    const query  = searchInput.value.toLowerCase();
+    const status = filterStatus.value.toLowerCase();
+    const rows   = clientTable.querySelectorAll('tbody tr');
+    let visible  = 0;
+    rows.forEach(row => {
+        const text      = row.textContent.toLowerCase();
+        const badge     = row.querySelector('[class^="badge-"]');
+        const rowStatus = badge ? badge.textContent.toLowerCase().trim() : '';
+        const matchQ    = !query  || text.includes(query);
+        const matchS    = !status || rowStatus === status;
+        row.style.display = (matchQ && matchS) ? '' : 'none';
+        if (matchQ && matchS) visible++;
+    });
+    rowCount.textContent = visible;
+}
+
+function resetFilters() {
+    searchInput.value  = '';
+    filterStatus.value = '';
+    filterTable();
+}
+
+searchInput.addEventListener('input', filterTable);
+filterStatus.addEventListener('change', filterTable);
+</script>
+
+<?php require_once VIEW_PATH . 'layout/footer.php'; ?>

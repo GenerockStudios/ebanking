@@ -1,0 +1,71 @@
+CHAPITRE 2 — CONTRATS COMMERCIAUX PRINCIPAUX
+BTS Génie Logiciel — Droit commercial
+
+1. SPÉCIFICITÉS DU DROIT COMMERCIAL
+
+Par rapport au droit civil, le droit commercial présente des particularités :
+- Liberté de la preuve : en matière commerciale, la preuve peut être apportée par tous moyens (courrier électronique, SMS, témoignage) sauf dispositions contraires
+- Solidarité présumée : entre codébiteurs commerçants, la solidarité est présumée (chacun peut être tenu pour le tout)
+- Compétence du tribunal de commerce
+- Intérêts moratoires courent de plein droit à compter de l'échéance
+- Prescription commerciale : 5 ans (art. 18 AUDCG) sauf délais spéciaux
+
+2. LE CONTRAT DE VENTE COMMERCIALE
+
+Régime OHADA : Acte Uniforme sur le Droit Commercial Général + Convention de Vienne (CVIM) pour les ventes internationales.
+
+Formation : accord sur la chose et le prix. L'offre et l'acceptation peuvent être tacites en droit commercial.
+
+Obligations du vendeur :
+- Délivrance conforme : livrer la chose convenue, dans la quantité et qualité prévues, au lieu et délai convenus
+- Transfert de propriété : se produit dès la conclusion du contrat pour les corps certains
+- Garantie des vices cachés : défauts rendant la chose impropre à l'usage prévu
+- Garantie d'éviction : protéger l'acheteur contre les tiers qui revendiqueraient un droit sur la chose
+
+Obligations de l'acheteur :
+- Payer le prix à l'échéance convenue
+- Prendre livraison de la marchandise
+
+Clauses fréquentes :
+- Clause de réserve de propriété : le vendeur reste propriétaire jusqu'au paiement complet
+- Incoterms : règles internationales définissant le transfert des risques (EXW, FOB, CIF, DDP…)
+
+3. LE CONTRAT DE DISTRIBUTION
+
+Franchise : le franchiseur accorde au franchisé le droit d'utiliser sa marque, son enseigne, son savoir-faire, en échange d'une redevance. Secteurs : restauration rapide, hôtellerie, informatique.
+
+Concession exclusive : le fournisseur (concédant) accorde à un distributeur (concessionnaire) le droit exclusif de vendre ses produits sur un territoire défini.
+
+Contrat d'agence commerciale : l'agent commercial représente le mandant de façon permanente, négocie et conclut des contrats au nom du mandant contre une commission.
+
+4. LE CONTRAT D'ENTREPRISE (MARCHÉS)
+
+Très utilisé en informatique : contrat de développement logiciel, contrat de maintenance, contrat d'intégration de systèmes.
+
+Caractéristiques :
+- Le prestataire est indépendant (pas de lien de subordination)
+- Obligation de résultat ou de moyens selon la nature de la mission
+- Responsabilité du prestataire en cas de mauvaise exécution
+
+Contenu type d'un contrat informatique :
+- Description détaillée des livrables (spécifications fonctionnelles)
+- Planning et jalons (milestones)
+- Prix et modalités de paiement (acompte, paiements par phases, solde à la réception)
+- Clause de recette (tests d'acceptation)
+- Garanties (délai de garantie après livraison)
+- Propriété intellectuelle : le logiciel développé appartient-il au client ou au prestataire ?
+- Clause de confidentialité (NDA)
+- Clause de non-concurrence
+- Clause pénale (pénalités de retard)
+- Clause de limitation de responsabilité
+
+5. LES EFFETS DE COMMERCE
+
+La lettre de change (traite) : titre par lequel le tireur (vendeur) donne l'ordre au tiré (acheteur/débiteur) de payer une somme déterminée à une date fixée à un bénéficiaire (souvent le tireur lui-même ou sa banque).
+Mécanisme : acceptation par le tiré → engagement de payer. Endossement → transmission à un tiers.
+
+Le billet à ordre : titre par lequel le souscripteur (débiteur) s'engage à payer une somme à une date donnée au bénéficiaire (créancier). Plus simple : seules 2 parties.
+
+Le chèque : ordre de paiement à vue donné par le tireur (émetteur) à sa banque de payer le bénéficiaire. Délai de présentation : 8 jours au Cameroun.
+
+Importance : ces instruments permettent le crédit commercial (paiement différé) et sont facilement transmissibles.

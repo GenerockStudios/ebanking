@@ -1,0 +1,132 @@
+# **Notes de Cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+**Matière : 08 Algorithme Programmation**
+**Chapitre : Structures de données fondamentales**
+
+## **1. Introduction aux Structures de Données**
+
+### **1.1. Définition et Importance**
+Une **structure de données** est une manière organisée de stocker, gérer et manipuler des données en mémoire pour en faciliter l'accès et la modification. Le choix d'une structure de données adaptée est critique pour l'efficacité d'un algorithme, influençant directement les performances (temps d'exécution) et la consommation de ressources (mémoire).
+
+**À retenir :** *"Les structures de données + les algorithmes = les programmes."* (Niklaus Wirth). Une mauvaise structure peut rendre un algorithme performant inefficace.
+
+### **1.2. Classification**
+Les structures de données se classent en deux grandes catégories :
+*   **Linéaires :** Les éléments sont arrangés de manière séquentielle (ex: Tableaux, Listes, Piles, Files).
+*   **Non-linéaires :** Les éléments sont arrangés de manière hiérarchique ou en réseau (ex: Arbres, Graphes).
+
+---
+
+## **2. Structures de Données Linéaires**
+
+### **2.1. Les Tableaux (Arrays)**
+*   **Définition :** Collection d'éléments de même type, stockés dans des emplacements mémoire **contigus**. L'accès se fait par un **indice**.
+*   **Caractéristiques :**
+    *   Taille fixe (statique) ou dynamique selon le langage.
+    *   Accès direct en O(1) à tout élément (via son indice).
+    *   Insertion/suppression coûteuses (O(n)) car nécessitent un décalage d'éléments.
+*   **Exemple concret (Contexte OHADA) :** Stocker la liste des **10 pays membres de l'OHADA** pour un système d'information juridique. Chaque indice correspond à un pays.
+    ```pseudocode
+    pays_OHADA[10] = ["Bénin", "Burkina Faso", "Cameroun", "Comores", "Congo", "Côte d'Ivoire", "Gabon", "Guinée", "Guinée-Bissau", "Sénégal", "Tchad", "Togo"]
+    // Accès direct : pays_OHADA[2] renvoie "Cameroun"
+    ```
+*   **Outils/Technologies :** Implémentés nativement dans tous les langages (C, Java, Python, JavaScript).
+
+### **2.2. Les Listes Chaînées (Linked Lists)**
+*   **Définition :** Collection d'éléments (nœuds) où chaque nœud contient la **donnée** et un **pointeur (lien)** vers le nœud suivant.
+*   **Types :**
+    *   **Liste simplement chaînée :** Lien vers le suivant.
+    *   **Liste doublement chaînée :** Liens vers le précédent et le suivant.
+    *   **Liste circulaire :** Le dernier nœud pointe vers le premier.
+*   **Caractéristiques :**
+    *   Taille dynamique, utilisation mémoire flexible.
+    *   Accès séquentiel (O(n)) : on doit parcourir depuis la tête.
+    *   Insertion/suppression rapides (O(1)) si la position est connue.
+*   **Exemple concret (Contexte Camtel) :** Gestion de la **file d'attente des tickets de support client** dans un centre d'appels. Un nouveau ticket est ajouté en fin de liste. Un agent traite les tickets dans l'ordre.
+*   **Tableau Comparatif Tableau vs Liste Chaînée**
+| Critère | Tableau | Liste Chaînée |
+| :--- | :--- | :--- |
+| **Accès (Index)** | Direct, O(1) | Séquentiel, O(n) |
+| **Insertion (Début)** | O(n) | O(1) |
+| **Taille** | Fixe (souvent) | Dynamique |
+| **Mémoire** | Contiguë, efficace | Surplus pour les pointeurs |
+| **Usage** | Accès fréquent par indice, taille connue | Insertions/suppressions fréquentes |
+
+### **2.3. Les Piles (LIFO - Last In, First Out)**
+*   **Définition :** Structure respectant le principe **LIFO** : le dernier élément ajouté est le premier à être retiré.
+*   **Opérations principales :**
+    *   **Empiler (Push)** : Ajouter un élément au sommet.
+    *   **Dépiler (Pop)** : Retirer l'élément du sommet.
+    *   **Sommet (Peek/Top)** : Consulter l'élément du sommet sans le retirer.
+*   **Exemple concret (Contexte Africain) :** **Historique des pages visitées** dans un navigateur web (bouton "Retour"). La dernière page visitée est la première à laquelle on revient.
+*   **Implémentation :** Peut être réalisée avec un tableau (pile statique) ou une liste chaînée (pile dynamique).
+
+### **2.4. Les Files (FIFO - First In, First Out)**
+*   **Définition :** Structure respectant le principe **FIFO** : le premier élément ajouté est le premier à être retiré.
+*   **Opérations principales :**
+    *   **Enfiler (Enqueue)** : Ajouter un élément en queue.
+    *   **Défiler (Dequeue)** : Retirer l'élément en tête.
+*   **Exemple concret (Contexte MTN/Orange Money) :** **File d'attente des transactions** à traiter par un serveur. Les transactions sont traitées dans l'ordre exact où elles sont reçues pour garantir l'intégrité (ex: un transfert, puis un retrait).
+*   **Implémentation :** Souvent avec une liste chaînée double pour des opérations O(1) aux deux extrémités.
+
+---
+
+## **3. Structures de Données Non-Linéaires**
+
+### **3.1. Les Arbres Binaires**
+*   **Définition :** Structure hiérarchique où chaque nœud a au plus deux enfants (nœud gauche et nœud droit).
+*   **Terminologie :** Racine, nœud parent, nœud enfant, feuille, hauteur, profondeur.
+*   **Arbre Binaire de Recherche (ABR/BST) :** Un ABR est un arbre binaire ordonné où pour tout nœud :
+    *   Tous les éléments du sous-arbre **gauche** sont **inférieurs** au nœud.
+    *   Tous les éléments du sous-arbre **droit** sont **supérieurs** au nœud.
+*   **Parcours d'arbres :**
+    *   **Pré-ordre (Préfixe) :** Racine → Gauche → Droit
+    *   **In-ordre (Infixe) :** Gauche → Racine → Droit *(Donne les éléments triés dans un ABR)*
+    *   **Post-ordre (Postfixe) :** Gauche → Droit → Racine
+*   **Complexité (dans un ABR équilibré) :** Recherche, Insertion, Suppression en **O(log n)**.
+*   **Exemple concret (Contexte Administratif Camerounais) :** Représentation de **l'organigramme hiérarchique d'une mairie** (Maire → Secrétaires Généraux → Chefs de Service → Agents). La recherche d'un agent par son matricule peut être optimisée avec un ABR.
+
+### **3.2. Les Graphes**
+*   **Définition :** Ensemble de **sommets (nœuds)** reliés par des **arêtes (arcs)**. Structure la plus générale pour modéliser des relations.
+*   **Types :**
+    *   **Graphe non orienté :** Les arêtes n'ont pas de direction (ex: réseau social d'amis).
+    *   **Graphe orienté (Digraphe) :** Les arcs ont une direction (ex: flux financiers entre banques).
+    *   **Graphe pondéré :** Les arêtes/arcs ont un poids (coût, distance).
+*   **Représentation en mémoire :**
+    1.  **Matrice d'adjacence :** Tableau 2D. `M[i][j] = 1` (ou poids) si arête entre i et j. Efficace pour les graphes denses. Accès O(1) mais coût mémoire O(V²).
+    2.  **Liste d'adjacence :** Tableau de listes. Chaque sommet a une liste de ses voisins. Efficace pour les graphes creux. Coût mémoire O(V+E).
+*   **Algorithmes de parcours fondamentaux :**
+    *   **Parcours en Profondeur (DFS - Depth-First Search) :** Explore aussi loin que possible le long d'une branche avant de revenir. Utilise une **pile** (récursivité).
+    *   **Parcours en Largeur (BFS - Breadth-First Search) :** Explore tous les voisins d'un niveau avant de passer au suivant. Utilise une **file**.
+*   **Exemple concret (Contexte Transport Africain) :** Modélisation du **réseau routier entre les capitales de la CEMAC** (Yaoundé, Libreville, Malabo, Bangui, N'Djamena, Brazzaville). Les villes sont des sommets, les routes sont des arêtes pondérées par la distance. Un algorithme comme **Dijkstra** (hors programme mais cité) peut trouver le chemin le plus court pour le transport de marchandises.
+
+---
+
+## **4. Synthèse et Applications en Entreprise**
+
+### **4.1. Tableau Récapitulatif des Complexités**
+| Structure | Accès | Recherche | Insertion | Suppression | Cas d'Usage Typique |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Tableau** | O(1) | O(n) | O(n) | O(n) | Données de taille fixe, accès indexé fréquent |
+| **Liste Chaînée** | O(n) | O(n) | O(1)* | O(1)* | Historiques, files d'attente, mémoire dynamique |
+| **Pile (LIFO)** | O(1) (sommet) | - | O(1) | O(1) | Annuler/rétablir, appels récursifs, syntaxe |
+| **File (FIFO)** | O(1) (tête) | - | O(1) | O(1) | Ordonnancement, buffering, partage de ressources |
+| **ABR (équilibré)** | O(log n) | O(log n) | O(log n) | O(log n) | Dictionnaires, index de bases de données |
+| **Graphe (Liste Adj.)** | - | O(V+E) (DFS/BFS) | O(1) | O(E) | Réseaux sociaux, cartographie, dépendances |
+
+*\*Si position connue (ex: début/fin).*
+
+### **4.2. Outils et Technologies en Contexte Professionnel**
+*   **Langages :** **Java (Collections Framework : ArrayList, LinkedList, Stack, Queue, TreeMap, HashMap)**, **Python (list, deque, heapq, dict)**, **C++ (STL)**, **JavaScript (Array, Map, Set)**.
+*   **Bases de Données :** Les index utilisent souvent des **arbres B+** (dérivés des arbres). Les relations entre tables forment un **graphe**.
+*   **Dans le développement logiciel camerounais/africain :**
+    *   Une **pile** gère la navigation dans une application mobile de microfinance.
+    *   Une **file** (via des outils comme **Redis** ou **RabbitMQ**) gère les SMS à envoyer en masse pour une campagne publicitaire (Orange, MTN).
+    *   Un **graphe** modélise les relations entre les textes de loi dans un système d'information juridique **OHADA**.
+    *   Un **arbre** (DOM) structure le contenu de toute page web d'un site e-commerce local.
+
+### **4.3. Points Clés de Choix d'une Structure**
+Pour choisir une structure de données, posez-vous ces questions :
+1.  **Quelles opérations sont fréquentes ?** (Accès aléatoire ? Insertions en tête ?)
+2.  **La taille des données est-elle connue à l'avance ?**
+3.  **Les données doivent-elles être ordonnées/triées ?**
+4.  **Quelles sont les contraintes

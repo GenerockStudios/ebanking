@@ -1,0 +1,334 @@
+# **Notes de Cours - BTS Génie Logiciel (Programme Camerounais)**
+
+**Matière :** 16 Programmation Orientée Objet  
+**Chapitre :** Principes fondamentaux de la POO : classes, objets, encapsulation, héritage, polymorphisme, abstraction — comparaison avec la programmation procédurale
+
+---
+
+## **1. Introduction à la Programmation Orientée Objet (POO)**
+
+### **1.1. Définition et historique**
+La Programmation Orientée Objet (POO) est un **paradigme de programmation** qui structure le code autour du concept d'**"objet"**, une entité regroupant des données (attributs) et des comportements (méthodes). Elle est née dans les années 1960 avec le langage Simula et s'est popularisée avec Smalltalk, C++, Java et C#.
+
+### **1.2. Pourquoi la POO ?**
+- **Modularité** : Décomposition d'un système complexe en composants indépendants
+- **Réutilisabilité** : Les classes peuvent être réutilisées dans différents projets
+- **Maintenabilité** : Code plus facile à comprendre, modifier et déboguer
+- **Adaptation aux systèmes complexes** : Modélisation plus naturelle du monde réel
+
+---
+
+## **2. Concepts fondamentaux de la POO**
+
+### **2.1. Classe et Objet**
+
+#### **2.1.1. Définition d'une classe**
+Une **classe** est un modèle, un plan de construction qui définit :
+- Les **attributs** (variables, données)
+- Les **méthodes** (fonctions, comportements)
+
+```java
+// Exemple : Classe CompteBancaire adaptée au contexte OHADA
+public class CompteBancaire {
+    // Attributs
+    private String numeroCompte;
+    private String titulaire;
+    private double solde;
+    private String devise; // FCFA
+    
+    // Constructeur
+    public CompteBancaire(String numero, String titulaire, double soldeInitial) {
+        this.numeroCompte = numero;
+        this.titulaire = titulaire;
+        this.solde = soldeInitial;
+        this.devise = "FCFA";
+    }
+    
+    // Méthodes
+    public void deposer(double montant) {
+        this.solde += montant;
+    }
+    
+    public boolean retirer(double montant) {
+        if(montant <= solde) {
+            this.solde -= montant;
+            return true;
+        }
+        return false;
+    }
+}
+```
+
+#### **2.1.2. Définition d'un objet**
+Un **objet** est une **instance** d'une classe. C'est une occurrence concrète créée en mémoire.
+
+```java
+// Création d'objets
+CompteBancaire compteAlice = new CompteBancaire("CM2024001", "Alice Ngo", 50000);
+CompteBancaire compteBob = new CompteBancaire("CM2024002", "Bob Mbappe", 150000);
+```
+
+**À retenir :**
+- **Classe** = Plan d'architecte
+- **Objet** = Maison construite selon le plan
+- Une classe peut avoir **plusieurs instances** (objets)
+
+### **2.2. Encapsulation**
+
+#### **2.2.1. Principe de l'encapsulation**
+L'encapsulation consiste à **cacher les détails d'implémentation** d'une classe et à n'exposer que ce qui est nécessaire via une interface publique.
+
+**Mécanismes d'encapsulation :**
+- **Modificateurs d'accès** : `private`, `protected`, `public`
+- **Getters et Setters** : Méthodes d'accès contrôlé
+
+```java
+public class AbonneMTN {
+    // Attributs privés (encapsulés)
+    private String numero;
+    private double credit;
+    private String forfait; // "YOOMEE", "MTN Pulse", etc.
+    
+    // Constructeur
+    public AbonneMTN(String numero, String forfait) {
+        this.numero = numero;
+        this.forfait = forfait;
+        this.credit = 0;
+    }
+    
+    // Getters (accès en lecture)
+    public String getNumero() {
+        return this.numero;
+    }
+    
+    public double getCredit() {
+        return this.credit;
+    }
+    
+    // Setters (accès en écriture contrôlé)
+    public void recharger(double montant) {
+        if(montant > 0) {
+            this.credit += montant;
+            System.out.println("Recharge de " + montant + " FCFA effectuée");
+        }
+    }
+    
+    public void appeler(String destinataire, int dureeMinutes) {
+        double cout = calculerCoutAppel(dureeMinutes);
+        if(this.credit >= cout) {
+            this.credit -= cout;
+            System.out.println("Appel vers " + destinataire + " établi");
+        }
+    }
+    
+    // Méthode privée (détail d'implémentation caché)
+    private double calculerCoutAppel(int duree) {
+        // Logique de calcul selon le forfait
+        return duree * 25; // Exemple simplifié
+    }
+}
+```
+
+**Avantages de l'encapsulation :**
+- Contrôle des accès aux données
+- Évolution possible sans affecter les utilisateurs
+- Validation des données dans les setters
+- Meilleure sécurité
+
+### **2.3. Héritage**
+
+#### **2.3.1. Principe de l'héritage**
+L'héritage permet à une classe (classe fille) de **dériver** d'une autre classe (classe mère) et d'**hériter** de ses attributs et méthodes.
+
+**Terminologie :**
+- **Classe mère/parent** : Classe de base
+- **Classe fille/enfant** : Classe dérivée
+- **"est un"** : Relation d'héritage (ex: Un Employé "est un" Personne)
+
+```java
+// Exemple dans le contexte des entreprises camerounaises
+public class Personne {
+    protected String nom;
+    protected String prenom;
+    protected String cni; // Carte Nationale d'Identité
+    protected String dateNaissance;
+    
+    public Personne(String nom, String prenom, String cni) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.cni = cni;
+    }
+    
+    public void sePresenter() {
+        System.out.println("Je m'appelle " + prenom + " " + nom);
+    }
+}
+
+public class Employe extends Personne {
+    private String matricule;
+    private String poste;
+    private double salaire;
+    private String entreprise; // "Camtel", "SONARA", "CIMENCAM", etc.
+    
+    public Employe(String nom, String prenom, String cni, 
+                   String matricule, String poste, String entreprise) {
+        super(nom, prenom, cni); // Appel du constructeur parent
+        this.matricule = matricule;
+        this.poste = poste;
+        this.entreprise = entreprise;
+    }
+    
+    // Redéfinition de méthode (polymorphisme)
+    @Override
+    public void sePresenter() {
+        super.sePresenter();
+        System.out.println("Je suis " + poste + " chez " + entreprise);
+    }
+    
+    public void travailler() {
+        System.out.println("L'employé " + nom + " est en train de travailler");
+    }
+}
+
+public class Stagiaire extends Employe {
+    private String ecole;
+    private String specialite;
+    private int dureeStage; // en mois
+    
+    public Stagiaire(String nom, String prenom, String cni, 
+                     String matricule, String ecole, String specialite) {
+        super(nom, prenom, cni, matricule, "Stagiaire", "Entreprise d'accueil");
+        this.ecole = ecole;
+        this.specialite = specialite;
+    }
+}
+```
+
+#### **2.3.2. Types d'héritage**
+1. **Héritage simple** : Une classe hérite d'une seule classe mère
+2. **Héritage multiple** : Une classe hérite de plusieurs classes mères (non supporté en Java, mais en C++)
+3. **Hiérarchie d'héritage** : Arbre de classes dérivées
+
+### **2.4. Polymorphisme**
+
+#### **2.4.1. Définition du polymorphisme**
+Le polymorphisme (du grec "plusieurs formes") permet à une méthode de prendre **différentes formes** selon le contexte.
+
+**Deux types principaux :**
+1. **Polymorphisme de surcharge (compile-time)**
+2. **Polymorphisme de redéfinition (runtime)**
+
+```java
+// Exemple : Système de paiement pour entreprises africaines
+public interface MoyenPaiement {
+    void payer(double montant, String devise);
+}
+
+public class PaiementMobile implements MoyenPaiement {
+    private String operateur; // "Orange Money", "MTN Mobile Money", "Moov Money"
+    
+    @Override
+    public void payer(double montant, String devise) {
+        System.out.println("Paiement de " + montant + " " + devise + 
+                         " via " + operateur + " Mobile Money");
+    }
+}
+
+public class CarteBancaire implements MoyenPaiement {
+    private String banque; // "Afriland First Bank", "BICEC", "Société Générale"
+    
+    @Override
+    public void payer(double montant, String devise) {
+        System.out.println("Paiement de " + montant + " " + devise + 
+                         " par carte bancaire " + banque);
+    }
+}
+
+public class PaiementEspeces implements MoyenPaiement {
+    @Override
+    public void payer(double montant, String devise) {
+        System.out.println("Paiement de " + montant + " " + devise + " en espèces");
+    }
+}
+
+// Utilisation polymorphique
+public class Caisse {
+    public void traiterPaiement(MoyenPaiement moyen, double montant) {
+        // Le même appel de méthode se comporte différemment selon l'objet
+        moyen.payer(montant, "FCFA");
+    }
+}
+```
+
+### **2.5. Abstraction**
+
+#### **2.5.1. Principe de l'abstraction**
+L'abstraction consiste à **cacher les détails complexes** et à ne montrer que les fonctionnalités essentielles.
+
+**Mécanismes d'abstraction :**
+- **Classes abstraites** : Contiennent au moins une méthode abstraite
+- **Interfaces** : Contrats que les classes doivent implémenter
+
+```java
+// Exemple : Gestion de documents OHADA
+public abstract class DocumentOHADA {
+    protected String reference;
+    protected Date dateCreation;
+    protected String typeDocument; // "Facture", "Contrat", "Bordereau"
+    
+    // Méthode abstraite (sans implémentation)
+    public abstract void valider();
+    public abstract void archiver();
+    
+    // Méthode concrète
+    public void afficherInfos() {
+        System.out.println("Document: " + reference + " - Type: " + typeDocument);
+    }
+}
+
+public class Facture extends DocumentOHADA {
+    private String client;
+    private double montantHT;
+    private double tva; // TVA camerounaise
+    
+    @Override
+    public void valider() {
+        System.out.println("Facture " + reference + " validée selon normes OHADA");
+        // Logique de validation spécifique aux factures
+    }
+    
+    @Override
+    public void archiver() {
+        System.out.println("Facture archivée pour 10 ans (conformément OHADA)");
+    }
+    
+    public double calculerMontantTTC() {
+        return montantHT * (1 + tva/100);
+    }
+}
+```
+
+---
+
+## **3. Comparaison POO vs Programmation Procédurale**
+
+### **3.1. Tableau comparatif**
+
+| **Aspect** | **Programmation Procédurale** | **Programmation Orientée Objet** |
+|------------|-------------------------------|----------------------------------|
+| **Approche** | Basée sur les fonctions/procédures | Basée sur les objets |
+| **Données** | Séparées des fonctions | Encapsulées dans les objets |
+| **Accès aux données** | Direct, peu contrôlé | Contrôlé via méthodes |
+| **Réutilisabilité** | Limitée (copier-coller) | Élevée (héritage, composition) |
+| **Sécurité** | Faible (données globales) | Forte (encapsulation) |
+| **Modélisation** | Peu naturelle | Proche du monde réel |
+| **Maintenance** | Difficile pour gros projets | Plus facile (modularité) |
+| **Exemples de langages** | C, Pascal, BASIC | Java, C++, C#, Python |
+
+### **3.2. Exemple comparatif : Gestion d'étudiants**
+
+#### **3.2.1. Approche procédurale (C)**
+```c
+// Données globales ou structurées
+struct Etudiant {
+    char nom[50];

@@ -1,0 +1,84 @@
+CHAPITRE 2 — ARCHITECTURE DES ORDINATEURS
+BTS Génie Logiciel — Informatique générale
+
+1. MODÈLE DE VON NEUMANN
+
+L'architecture de von Neumann (1945) est la base de tous les ordinateurs modernes. Elle repose sur 4 composants interconnectés :
+
+1. Unité de traitement (CPU — processeur) : exécute les instructions
+2. Mémoire centrale (RAM) : stocke données et instructions en cours de traitement
+3. Unités d'entrées/sorties : clavier, écran, disque, réseau
+4. Bus de communication : relie les composants (bus de données, bus d'adresses, bus de contrôle)
+
+Principe fondamental : les données et les programmes sont stockés dans la même mémoire.
+
+2. LE PROCESSEUR (CPU)
+
+Composants internes :
+- Unité Arithmétique et Logique (UAL/ALU) : effectue les calculs (additions, comparaisons, opérations logiques)
+- Unité de Contrôle (UC) : décode les instructions et orchestre l'exécution
+- Registres : petites mémoires ultra-rapides internes au CPU
+  - Registre d'instruction (RI) : contient l'instruction en cours
+  - Compteur de programme (CP/PC) : adresse de la prochaine instruction
+  - Registre d'état (flags) : résultats des comparaisons (zéro, débordement, signe...)
+  - Registres généraux (R0, R1...) : données temporaires
+
+Cycle d'exécution (Fetch-Decode-Execute) :
+1. Fetch (chercher) : lire l'instruction à l'adresse pointée par le PC
+2. Decode (décoder) : l'UC interprète le code de l'instruction
+3. Execute (exécuter) : l'UAL ou une autre unité exécute l'instruction
+4. WriteBack : écrire le résultat en mémoire ou registre
+5. Mettre à jour le PC
+
+Fréquence d'horloge : mesurée en Hz (GHz pour les processeurs modernes). 1 GHz = 10⁹ cycles/seconde.
+Mais la performance dépend aussi du nombre d'instructions par cycle (IPC) et du nombre de cœurs.
+
+3. LA MÉMOIRE
+
+Hiérarchie mémoire (du plus rapide/cher au plus lent/économique) :
+1. Registres du CPU : < 1 ns, quelques dizaines d'octets
+2. Cache L1 : 1-4 ns, 32-64 Ko par cœur
+3. Cache L2 : 4-10 ns, 256 Ko - 1 Mo
+4. Cache L3 : 10-40 ns, 4-64 Mo (partagé entre cœurs)
+5. RAM (mémoire principale) : ~100 ns, 8-64 Go typiquement
+6. SSD (disque flash) : ~100 µs, 256 Go - 4 To
+7. HDD (disque dur magnétique) : ~10 ms, 1-16 To
+8. Bandes magnétiques : secondes, archivage
+
+Mémoire RAM (Random Access Memory) : volatile, accès direct à toute cellule.
+- SRAM (Static RAM) : très rapide, pour les caches. Chère.
+- DRAM (Dynamic RAM) : moins rapide, doit être rafraîchie périodiquement. Utilisée pour la RAM principale.
+- DDR (Double Data Rate) : DDR4, DDR5 — standards actuels.
+
+Mémoire ROM (Read Only Memory) : non volatile. Stocke le firmware (BIOS/UEFI). Flash EEPROM.
+
+4. BUS ET INTERFACES
+
+Bus système : voies de communication entre CPU, RAM et périphériques.
+- Bus de données : transporte les données (largeur = 8, 16, 32, 64 bits)
+- Bus d'adresses : indique l'adresse mémoire (largeur détermine la capacité adressable : 32 bits → 4 Go max)
+- Bus de contrôle : signaux de lecture/écriture, interruptions
+
+Interfaces d'E/S modernes :
+- PCIe (PCI Express) : GPU, SSD NVMe
+- USB (Universal Serial Bus) : périphériques externes
+- SATA : disques durs/SSD
+- NVMe : SSD ultra-rapides directement sur PCIe
+
+5. ARCHITECTURE MODERNE
+
+Multi-cœurs : un seul CPU physique avec plusieurs cœurs indépendants (dual-core, quad-core, octa-core). Chaque cœur exécute son propre thread.
+
+Pipeline : découper l'exécution d'une instruction en étapes parallèles (comme une chaîne de montage). Permet d'exécuter plusieurs instructions simultanément à des stades différents.
+
+Hyper-threading (Intel) / SMT : un cœur physique simule 2 cœurs logiques.
+
+GPU (Graphics Processing Unit) : des milliers de petits cœurs simples pour calculs massivement parallèles. Utilisé aussi pour l'IA, le big data, la simulation.
+
+6. LOGICIELS SYSTÈME
+
+Firmware (BIOS/UEFI) : programme de démarrage stocké en ROM. Initialise le matériel, lance le chargeur d'amorçage (bootloader).
+
+Système d'exploitation (OS) : couche logicielle entre le matériel et les applications. Gère les ressources.
+
+Pilotes (drivers) : logiciels permettant à l'OS de communiquer avec les périphériques matériels.

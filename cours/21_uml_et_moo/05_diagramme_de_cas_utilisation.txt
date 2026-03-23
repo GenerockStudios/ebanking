@@ -1,0 +1,164 @@
+# **Notes de Cours - BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 21 UML et MOO**
+## **Chapitre : Diagramme de Cas d'Utilisation (Use Case Diagram)**
+
+---
+
+### **1. Introduction au Diagramme de Cas d'Utilisation (DCU)**
+
+#### **1.1. Définition et Objectifs**
+Le diagramme de cas d'utilisation (DCU) est un diagramme de **comportement** du langage UML (Unified Modeling Language) qui permet de modéliser les **fonctionnalités** d'un système (logiciel, application, plateforme) du point de vue de ses **utilisateurs**. Il répond à la question fondamentale : **"Que fait le système pour ses acteurs ?"**.
+
+**Objectifs principaux :**
+- Capturer les **besoins fonctionnels** du système.
+- Définir le **périmètre fonctionnel** (frontière) du système.
+- Servir de base pour la communication entre les **commanditaires** (clients) et les **développeurs**.
+- Fournir un point de départ pour les **tests d'acceptation**.
+
+**À retenir :** Le DCU se focalise sur le **QUOI** (les fonctionnalités), pas sur le COMMENT (l'implémentation technique).
+
+#### **1.2. Contexte d'Utilisation dans le Cycle de Vie**
+Dans le processus de développement logiciel au Cameroun (approche souvent itérative ou agile), le DCU est principalement élaboré lors des phases :
+- **Analyse des besoins** (Spécifications des Exigences).
+- **Conception générale** (vue métier).
+Il sert de contrat entre le client (ex : une administration publique, une entreprise comme MTN Cameroon) et l'équipe de développement.
+
+---
+
+### **2. Les Éléments Fondamentaux du DCU**
+
+#### **2.1. L'Acteur (Actor)**
+Un acteur représente un **rôle** joué par une entité **externe** au système qui interagit avec lui. Cette entité peut être une **personne**, un **système externe**, un **matériel** (ex : un serveur) ou même le **temps**.
+
+**Représentation :** Un bonhomme allumette (stick man) avec le nom du rôle en-dessous.
+
+**Exemple concret camerounais :**
+- Dans un **système de gestion des impôts** (Direction Générale des Impôts), les acteurs pourraient être : `Contribuable`, `Agent des Impôts`, `Système de la Banque` (pour le virement), `Administrateur`.
+- Dans une **application mobile money** (Orange Money, MTN Mobile Money), les acteurs sont : `Client`, `Agent Orange/MTN`, `Marchand`, `Système de Téléphonie`.
+
+#### **2.2. Types d'Acteurs**
+| Type d'Acteur | Définition | Caractéristique | Exemple (Contexte Camerounais) |
+| :--- | :--- | :--- | :--- |
+| **Acteur Principal** | Acteur qui **initie** un cas d'utilisation pour atteindre un de ses **objectifs**. Il **bénéficie directement** du résultat. | Essentiel, déclencheur. | `Étudiant` qui utilise le `Système d'Inscription Universitaire en Ligne (MINESUP)` pour s'inscrire. |
+| **Acteur Secondaire** | Acteur qui **participe** à un cas d'utilisation mais ne l'initie pas. Il fournit ou reçoit des informations, souvent pour **soutenir** le système. | Support, passif. | `Système de Paiement en Ligne (Camtel Pay)` qui est contacté par le `Système de Réservation de Billets d'Avion` pour valider un paiement. |
+
+**À retenir :** Un même acteur physique (une personne) peut jouer plusieurs rôles (acteurs). Ex : Un fonctionnaire peut être `Utilisateur du système` et `Rapporteur` dans deux contextes différents.
+
+#### **2.3. Le Cas d'Utilisation (Use Case)**
+Un cas d'utilisation représente une **unité discrète de fonctionnalité** que le système offre aux acteurs. C'est une **séquence d'actions** (un scénario) qui produit un **résultat observable et valorisant** pour un acteur particulier.
+
+**Représentation :** Un ovale (ellipse) avec le nom du cas d'utilisation à l'intérieur. Le nom est généralement un **verbe à l'infinitif** + complément.
+
+**Exemples :**
+- `Payer une facture CAMWATER`
+- `Consulter son solde Mobile Money`
+- `Déclarer ses revenus en ligne`
+- `Imprimer un reçu OHADA`
+
+#### **2.4. La Frontière du Système (System Boundary)**
+La frontière du système est une **boîte rectangulaire** qui délimite graphiquement ce qui fait **partie du système** (les cas d'utilisation à l'intérieur) et ce qui est **externe au système** (les acteurs à l'extérieur).
+
+**Utilité :** Elle clarifie sans ambiguïté le **périmètre** du projet ou du module en développement.
+
+**Représentation :**
+```
+   +------------------------------+
+   |  Système de Gestion Scolaire |
+   |                              |
+   |  [ Inscrire un étudiant ]    |
+   |  [ Éditer un bulletin  ]     |
+   |  [ Payer les frais     ]     |
+   +------------------------------+
+           ^           ^
+           |           |
+      (Étudiant)  (Comptable)
+```
+
+---
+
+### **3. Les Relations dans un DCU**
+
+#### **3.1. Relation d'Association**
+Une **ligne continue** simple entre un acteur et un cas d'utilisation. Elle indique que l'acteur **participe** au cas d'utilisation. L'acteur principal est souvent à l'origine de l'initiation de l'interaction.
+
+#### **3.2. Relation d'Inclusion (« Include »)**
+- **Représentation :** Flèche pointillée (`----->`) avec le stéréotype **`<<include>>`**.
+- **Sémantique :** Relation de **dépendance MANDATOIRE**. Le cas d'utilisation source **DOIT** inclure le comportement du cas d'utilisation cible. C'est une décomposition fonctionnelle pour **éviter la redondance**.
+- **Analogie :** "Pour faire A, on doit **TOUJOURS** faire B".
+- **Exemple :** Dans un système de e-commerce (ex : `Jumia Cameroon`), le cas d'utilisation `<<Valider la commande>>` **inclut (`<<include>>`)** toujours le cas `<<Vérifier la disponibilité du produit>>`. On ne peut pas valider sans vérifier.
+
+#### **3.3. Relation d'Extension (« Extend »)**
+- **Représentation :** Flèche pointillée (`----->`) avec le stéréotype **`<<extend>>`**.
+- **Sémantique :** Relation de **dépendance CONDITIONNELLE**. Le cas d'utilisation cible **étend** le comportement du cas source **seulement sous certaines conditions**. Le flux de base (source) fonctionne sans l'extension.
+- **Analogie :** "Pour faire A, on peut **PARFOIS** faire B (si une condition est vraie)".
+- **Exemple :** Dans un `Système de Réservation de Bus` (ex : `Traveler Cameroun`), le cas `<<Payer la réservation>>` peut être **étendu (`<<extend>>`)** par le cas `<<Appliquer un code promo>>`. Le paiement a lieu sans code promo, mais si l'utilisateur en a un, le flux "appliquer un code promo" s'insère à un point d'extension défini.
+
+**Tableau Comparatif Include vs Extend**
+| Critère | **Relation `<<include>>`** | **Relation `<<extend>>`** |
+| :--- | :--- | :--- |
+| **Nature** | **Mandatoire**, nécessaire | **Optionnelle**, conditionnelle |
+| **Sens de la dépendance** | Le cas de base **a besoin** du cas inclus. | Le cas d'extension **ajoute** au cas de base. |
+| **Exécution** | **Toujours** exécutée. | Exécutée **seulement si** la condition est vraie. |
+| **Objectif** | **Éviter la duplication** de fonctionnalités communes. | **Gérer les variations** et scénarios alternatifs. |
+| **Point de déclenchement** | À un point **précis et fixe** dans le flux. | À un **point d'extension** défini dans le cas de base. |
+
+---
+
+### **4. La Description Textuelle des Cas d'Utilisation (Scénarios)**
+
+Un diagramme seul est insuffisant. Chaque cas d'utilisation doit être **décrit textuellement** dans un **modèle de spécification**. C'est le cœur de l'analyse.
+
+#### **4.1. Modèle de Fiche de Spécification (Template)**
+```
+**Cas d'Utilisation :** [Nom du CU]
+**ID :** [Identifiant unique, ex : CU-01]
+**Acteur(s) Principal(aux) :** [Liste]
+**Acteur(s) Secondaire(s) :** [Liste]
+**Description Brève :** [1-2 lignes]
+**Préconditions :** [États du système qui doivent être vrais avant le début]
+**Postconditions (Garanties) :** [États du système qui seront vrais après la fin, succès ou échec]
+**Déclencheur :** [Événement qui lance le CU]
+
+**Scénario Nominal (Flux Principal de Succès) :**
+1. [Étape 1]
+2. [Étape 2]
+3. ...
+**Scénarios Alternatifs (Flux d'Exception) :**
+[A1] [Nom de l'alternative] : À l'étape [X], si [condition], alors [actions].
+[A2] ...
+**Exigences Spéciales :** [Contraintes techniques, performances, etc.]
+**Fréquence d'Utilisation :** [Estimation]
+```
+
+#### **4.2. Flux Nominal (Flux Principal de Succès)**
+C'est le scénario **idéal**, sans problème, où l'objectif de l'acteur est atteint. Il décrit la séquence d'étapes la plus courante et la plus directe.
+
+**Exemple : CU "Acheter des unités téléphoniques" (MTN/Orange)**
+*   **Flux Nominal :**
+    1. Le `Client` saisit son numéro de téléphone.
+    2. Le `Client` sélectionne le montant des unités.
+    3. Le `Client` sélectionne son mode de paiement (Mobile Money).
+    4. Le système redirige vers la passerelle de paiement (MTN Mobile Money).
+    5. Le `Client` confirme le paiement via son PIN.
+    6. Le système de paiement notifie le succès.
+    7. Le système crédite le numéro et envoie un SMS de confirmation au `Client`.
+
+#### **4.3. Flux Alternatifs (Flux d'Exception)**
+Ce sont des **variantes** au flux nominal. Ils se déclenchent lorsque des **conditions particulières** (erreurs, choix différents) surviennent.
+
+**Exemple (Suite du CU "Acheter des unités") :**
+*   **Flux Alternatifs :**
+    *   **A1. Solde Mobile Money insuffisant :** À l'étape 5, si le solde du client est insuffisant, le système de paiement notifie l'échec et annule la transaction. Retour à l'étape 3.
+    *   **A2. Numéro de téléphone invalide :** À l'étape 1, si le numéro saisi est invalide, le système affiche un message d'erreur et demande une nouvelle saisie.
+    *   **A3. Paiement par carte bancaire :** À l'étape 3, si le client choisit "Carte Bancaire", le système redirige vers une page sécurisée de saisie des coordonnées bancaires, puis suit un flux de validation bancaire.
+
+**À retenir :** Les relations `<<extend>>` modélisent souvent des flux alternatifs significatifs et réutilisables, tandis que les alternatives simples sont décrites dans la fiche textuelle.
+
+---
+
+### **5. Bonnes Pratiques et Outils pour le BTS GL**
+
+#### **5.1. Règles de Modélisation**
+- Un DCU doit être **simple et lisible** (max 10-15 cas d'utilisation par diagramme ; sinon, hiérarchiser).
+- **Nommer** clairement les acteurs (rôles) et les cas d'utilisation (fonctionnalités).
+-

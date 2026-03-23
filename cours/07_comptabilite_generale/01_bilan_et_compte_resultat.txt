@@ -1,0 +1,95 @@
+CHAPITRE 1 — BILAN ET COMPTE DE RÉSULTAT
+BTS Génie Logiciel — Comptabilité générale
+
+1. CADRE RÉGLEMENTAIRE
+
+Au Cameroun, la comptabilité des entreprises est régie par le Système Comptable OHADA (SYSCOHADA révisé, en vigueur depuis le 1er janvier 2018). Il s'applique à toutes les entités économiques de l'espace OHADA.
+
+Trois systèmes comptables selon la taille :
+- Système Minimal de Trésorerie (SMT) : très petites entités, CA < 30 M FCFA
+- Système Normal (SN) : entités moyennes et grandes
+
+Principes comptables fondamentaux :
+- Continuité d'exploitation
+- Permanence des méthodes
+- Prudence (ne pas anticiper les gains, provisionner les risques probables)
+- Image fidèle (true and fair view)
+- Indépendance des exercices (rattachement des charges et produits à leur exercice)
+- Coût historique (enregistrement au coût d'acquisition)
+- Non-compensation (ne pas compenser actif/passif, produits/charges)
+
+2. LE BILAN
+
+Définition : photographie de la situation financière de l'entreprise à une date donnée (en général le 31 décembre). Il présente en deux colonnes :
+
+ACTIF (ce que l'entreprise possède) :
+Actif immobilisé (emplois permanents) :
+- Immobilisations incorporelles : fonds commercial, brevets, logiciels (compte 21)
+- Immobilisations corporelles : terrains, bâtiments, matériels (comptes 22, 23, 24)
+- Immobilisations financières : titres de participation, prêts (comptes 26, 27)
+
+Actif circulant (emplois temporaires) :
+- Stocks : marchandises, matières premières, encours, produits finis (comptes 31 à 38)
+- Créances : clients, avances versées, TVA à récupérer (compte 41)
+- Trésorerie-Actif : disponibilités en banque et en caisse (comptes 51, 57)
+
+PASSIF (comment l'entreprise est financée) :
+Capitaux propres (ressources permanentes internes) :
+- Capital social (compte 101)
+- Réserves (légale, statutaire, facultative)
+- Report à nouveau
+- Résultat net de l'exercice (bénéfice = + ; perte = −)
+
+Dettes financières (ressources permanentes externes) :
+- Emprunts bancaires à long terme (compte 16)
+
+Passif circulant (ressources temporaires) :
+- Dettes fournisseurs (compte 40)
+- Dettes fiscales et sociales (comptes 44, 42, 43)
+- Découverts bancaires (concours bancaires courants)
+
+ÉQUATION FONDAMENTALE : Actif total = Passif total
+(ou : Actif = Capitaux propres + Dettes)
+
+3. LE COMPTE DE RÉSULTAT
+
+Définition : récapitule toutes les charges et tous les produits de l'exercice. Il explique comment le résultat (bénéfice ou perte) a été formé.
+
+CHARGES (emplois de l'exercice) :
+Charges d'exploitation :
+- Achats de marchandises (compte 60)
+- Achats de matières premières (compte 60)
+- Variation de stocks
+- Services extérieurs (loyer, assurance, téléphone — comptes 61, 62)
+- Impôts et taxes (compte 64)
+- Charges de personnel (salaires + cotisations — comptes 66)
+- Dotations aux amortissements et provisions (compte 68)
+
+Charges financières : intérêts sur emprunts (compte 67)
+Charges HAO (Hors Activités Ordinaires) : charges exceptionnelles
+
+PRODUITS :
+Produits d'exploitation :
+- Ventes de marchandises (compte 70)
+- Productions vendues (biens et services — compte 70)
+- Autres produits (subventions d'exploitation, production immobilisée)
+
+Produits financiers : intérêts reçus, gains de change
+Produits HAO : cessions d'actifs, subventions d'équilibre
+
+CALCUL DU RÉSULTAT :
+Résultat d'exploitation = Produits d'exploitation − Charges d'exploitation
+Résultat financier = Produits financiers − Charges financières
+Résultat des activités ordinaires = Résultat d'exploitation + Résultat financier
+Résultat HAO = Produits HAO − Charges HAO
+Résultat net = Résultat activités ordinaires + Résultat HAO − Impôt sur les sociétés (IS)
+
+IS au Cameroun : 33% du résultat fiscal (avec minimum de perception).
+
+4. SOLDES INTERMÉDIAIRES DE GESTION (SIG)
+
+Marge commerciale = Ventes de marchandises − Coût d'achat des marchandises vendues
+Valeur ajoutée (VA) = Marge commerciale + Production de l'exercice − Consommations intermédiaires
+Excédent Brut d'Exploitation (EBE) = VA + Subventions d'exploitation − Charges de personnel − Impôts et taxes
+Résultat d'exploitation = EBE + Autres produits − Autres charges − Dotations aux amortissements
+Capacité d'Autofinancement (CAF) = Résultat net + Dotations aux amortissements et provisions − Reprises sur provisions

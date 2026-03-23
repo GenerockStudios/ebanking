@@ -1,0 +1,71 @@
+CHAPITRE 1 — INTRODUCTION ET CALCUL DES COÛTS
+BTS Génie Logiciel — Comptabilité analytique
+
+1. OBJET DE LA COMPTABILITÉ ANALYTIQUE
+
+La comptabilité analytique (ou comptabilité de gestion) est un outil interne de pilotage qui permet à l'entreprise de :
+- Calculer les coûts de revient de chaque produit, service ou activité
+- Déterminer les prix de vente rentables
+- Analyser les performances par département, produit, client
+- Prendre des décisions de gestion (faire ou sous-traiter, supprimer un produit, etc.)
+
+Elle est différente de la comptabilité générale (qui est orientée externe, vers les tiers et les obligations légales).
+
+2. CLASSIFICATION DES CHARGES
+
+A) Charges directes vs charges indirectes :
+- Charges directes : imputables sans calcul intermédiaire à un produit ou service. Ex : matières premières pour un produit, salaire d'un développeur affecté à un projet spécifique.
+- Charges indirectes : ne peuvent pas être directement affectées à un produit ; nécessitent une clé de répartition. Ex : loyer, salaire du directeur général, électricité.
+
+B) Charges fixes vs charges variables :
+- Charges fixes (ou de structure) : ne varient pas avec le volume d'activité. Ex : loyer, salaires des cadres, amortissements. Aussi appelées charges de période.
+- Charges variables (ou opérationnelles) : varient proportionnellement avec le volume d'activité. Ex : matières premières, commissions de vente, énergie directement consommée.
+- Charges semi-fixes (ou mixtes) : comportent une partie fixe + une partie variable. Ex : facture téléphonique (abonnement fixe + consommation variable).
+
+3. LA MÉTHODE DES COÛTS COMPLETS
+
+Principe : affecter toutes les charges (directes ET indirectes, fixes ET variables) aux produits.
+
+ÉTAPES DE CALCUL :
+Étape 1 — Tableau de répartition des charges indirectes :
+Les charges indirectes sont d'abord ventilées entre des centres d'analyse (ou sections).
+Centres auxiliaires : ne produisent pas directement mais servent les autres centres (ex : entretien, RH). Leurs coûts sont redistribués vers les centres principaux.
+Centres principaux : participent directement à la production (ex : centre usinage, centre assemblage, centre informatique).
+
+Clés de répartition : critères objectifs pour ventiler les charges (surface, nombre de salariés, heures-machine, unités d'œuvre)
+
+Étape 2 — Calcul du coût de l'unité d'œuvre (UO) :
+Coût de l'unité d'œuvre = Total du centre / Nombre d'UO
+
+Étape 3 — Calcul du coût de revient :
+Coût de revient = Coût d'achat des matières + Coût de production + Coût de distribution
+
+Coût d'achat des matières = Prix d'achat + Charges directes d'approvisionnement + Charges indirectes d'approvisionnement
+
+Coût de production = Coût d'achat des matières consommées + Charges directes de production + Charges indirectes de production
+
+Coût de revient complet = Coût de production + Coût de distribution + Charges d'administration
+
+4. RÉSULTAT ANALYTIQUE
+
+Résultat analytique = Chiffre d'affaires − Coût de revient complet
+
+Si plusieurs produits : résultat par produit + vérification de cohérence avec résultat global de la comptabilité générale.
+
+Exemples numériques :
+Projet logiciel A :
+- Charges directes : développeurs 1 200 000 FCFA, serveurs dédiés 300 000 FCFA
+- Charges indirectes imputées (50 heures × 8 000 FCFA/h) : 400 000 FCFA
+- Coût de revient : 1 900 000 FCFA
+- Prix facturé au client : 2 500 000 FCFA
+- Résultat analytique : 600 000 FCFA (marge de 24%)
+
+5. FORMULES À RETENIR
+
+Coût d'achat = Prix d'achat HT + Frais d'achat (transport, douane)
+Coût de production = Coût d'achat matières consommées + Charges de production (directes + indirectes)
+Coût de revient = Coût de production + Coût de distribution + Frais généraux
+Résultat analytique = Prix de vente − Coût de revient
+Taux de marge = Résultat / Coût de revient × 100
+Taux de marque = Résultat / Prix de vente × 100
+Coût UO = Total centre / Nombre d'UO du centre

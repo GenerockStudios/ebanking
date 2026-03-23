@@ -1,0 +1,164 @@
+# **Notes de Cours — BTS Génie Logiciel**
+## **Matière : 07 Bases De Donnees**
+## **Chapitre : Conception d'une base de données : du cahier des charges au schéma physique — projet fil rouge e-commerce**
+
+---
+
+### **1. Introduction : L'importance de la conception méthodique**
+
+La conception d'une base de données (BDD) est une étape critique qui détermine la performance, la maintenabilité et l'évolutivité d'un système d'information. Une mauvaise conception conduit à des anomalies (redondances, incohérences), des difficultés d'évolution et des problèmes de performance. Ce chapitre présente une démarche structurée, illustrée par un projet fil rouge de **plateforme e-commerce adaptée au contexte camerounais et africain** (vente de produits électroniques, textiles, et services numériques).
+
+**À retenir :** Une base de données bien conçue est le socle d'une application robuste. La phase de conception représente jusqu'à 70% du succès du projet.
+
+---
+
+### **2. Les étapes de la conception d'une base de données**
+
+La démarche classique suit un processus en **trois niveaux d'abstraction**, formalisé par la méthode **Merise** et adaptée dans les normes modernes.
+
+#### **2.1. Le cycle de vie en trois schémas (ANSI/SPARC)**
+1.  **Schéma Conceptuel (Modèle Conceptuel de Données - MCD) :** Représentation abstraite et stable des données, indépendante de toute considération technique.
+2.  **Schéma Logique (Modèle Logique de Données - MLD) :** Adaptation du MCD à un type précis de système de gestion de base de données (SGBD), comme le modèle relationnel.
+3.  **Schéma Physique (Modèle Physique de Données - MPD) :** Implémentation concrète dans le SGBD, avec optimisation des performances (index, partitions, etc.).
+
+**Tableau comparatif des trois niveaux :**
+| Niveau | Objectif | Indépendance | Langage/Modèle | Acteurs principaux |
+| :--- | :--- | :--- | :--- | :--- |
+| **Conceptuel** | Comprendre et formaliser le métier | Des traitements et du SGBD | Entité-Association (EA) | Chef de projet, Analyste métier, Client |
+| **Logique** | Préparer l'implémentation | Des traitements, mais dépendant du type de SGBD (relationnel, NoSQL) | Relationnel (tables, clés) | Concepteur de BDD, Analyste |
+| **Physique** | Optimiser les performances | Dépendant du SGBD spécifique (MySQL, PostgreSQL) | SQL (DDL), Structures de stockage | Administrateur de BDD (DBA), Développeur |
+
+---
+
+### **3. Étape 1 : Du Cahier des Charges au Modèle Conceptuel (MCD)**
+
+#### **3.1. Analyse du Cahier des Charges et des Règles de Gestion**
+Pour notre projet e-commerce "**AfriShop.cm**", le cahier des charges décrit :
+*   Vente de produits (smartphones, ordinateurs, pagnes, chaussures) et de services (recharge mobile MTN/Orange/Camtel, paiement de factures).
+*   Gestion des clients, des commandes, des paiements et du stock.
+*   Respect du droit OHADA sur le commerce électronique et la protection des consommateurs.
+*   Support des paiements mobiles (Mobile Money - MTN MoMo, Orange Money) et des cartes.
+
+**Règles de gestion identifiées (exemples) :**
+*   Un client peut passer plusieurs commandes, une commande appartient à un seul client.
+*   Une commande contient un ou plusieurs produits.
+*   Un produit appartient à une catégorie (Électronique, Textile, Service).
+*   Le stock d'un produit doit être décrémenté à la validation de la commande.
+*   Un paiement est lié à une commande. Les modes acceptés sont : Mobile Money, Carte Bancaire, Espèce (à la livraison).
+
+#### **3.2. Construction du MCD avec le Modèle Entité-Association**
+Le MCD utilise les concepts d'**entité**, d'**association** et de **propriété** (attribut).
+
+*   **Entité :** Objet du métier identifiable (Client, Commande, Produit, Catégorie, Paiement, Ville).
+*   **Association :** Lien sémantique entre entités (Passer, Contenir, Appartenir, Effectuer).
+*   **Cardinalités :** Elles précisent le nombre de liens. Notation `(x, y)` où x=min, y=max.
+    *   `(1,1)` : Un et un seul. `(0,N)` : Zéro ou plusieurs. `(1,N)` : Un ou plusieurs.
+
+**Exemple de règle traduite en MCD :**
+*Règle : "Un client peut passer plusieurs commandes, une commande est passée par un seul client."*
+*   Entités : **CLIENT** et **COMMANDE**
+*   Association : **PASSER**
+*   Cardinalités : CLIENT `(1,1)`--`(0,N)` COMMANDE (Un client passe de 0 à N commandes. Une commande est passée par 1 et 1 seul client).
+
+**MCD partiel pour AfriShop.cm :**
+```
+[CLIENT] (1,1) -- PASSER -- (0,N) [COMMANDE]
+[COMMANDE] (1,1) -- CONTENIR -- (1,N) [LIGNE_COMMANDE]
+[PRODUIT] (1,1) -- ÊTRE DANS -- (1,N) [LIGNE_COMMANDE]
+[CATÉGORIE] (1,1) -- CLASSER -- (0,N) [PRODUIT]
+[VILLE] (1,1) -- LIVRER À -- (0,N) [COMMANDE] -- (1,1) [CLIENT] (Adresse de livraison)
+[PAIEMENT] (1,1) -- EFFECTUER -- (1,1) [COMMANDE]
+```
+**Attributs (exemples) :**
+*   **CLIENT** : id_client (identifiant), nom, prenom, telephone (ex: +237 6...), email, password_hash.
+*   **PRODUIT** : id_produit, libelle, description, prix, qte_stock, image_url.
+*   **COMMANDE** : num_commande, date_commande, statut ("En attente", "Validée", "Livrée"), montant_total.
+*   **PAIEMENT** : id_paiement, mode ("MTN MoMo", "Orange Money", "Carte"), reference (numéro de transaction), statut, date.
+
+**À retenir :** Le MCD est une photographie stable des données. Il doit être validé par le client et les experts métier avant toute étape suivante.
+
+---
+
+### **4. Étape 2 : Du Modèle Conceptuel au Modèle Logique Relationnel (MLD)**
+
+#### **4.1. Transformation des entités et associations en relations (tables)**
+*   **Règle 1 :** Une entité forte devient une table. Ses attributs deviennent les colonnes. Son identifiant devient la clé primaire (PK).
+*   **Règle 2 :** Une association de type `(1,N)` ou `(0,N)` est transformée par **l'ajout d'une clé étrangère (FK)** dans la table du côté `N`.
+*   **Règle 3 :** Une association de type `(N,N)` devient une **table de liaison** (ou table d'association) avec les clés étrangères des deux entités, formant souvent une clé primaire composite.
+
+**Transformation de notre MCD en MLD :**
+
+1.  **Entités -> Tables :**
+    *   CLIENT(**id_client**, nom, prenom, telephone, email, password_hash, #id_ville_livraison)
+    *   VILLE(**id_ville**, nom_ville, region)
+    *   CATEGORIE(**id_categorie**, libelle_categorie)
+    *   PRODUIT(**id_produit**, libelle, description, prix, qte_stock, image_url, #id_categorie)
+    *   COMMANDE(**num_commande**, date_commande, statut, montant_total, #id_client, #id_ville_livraison)
+    *   PAIEMENT(**id_paiement**, mode, reference, statut, date, #num_commande)
+
+2.  **Association (N,N) -> Table de liaison :**
+    *   LIGNE_COMMANDE(**#num_commande**, **#id_produit**, quantite, prix_unitaire) *[PK composite]*
+
+**Notation :** **Gras** = Clé Primaire (PK), *Italique* = Clé Étrangère (FK), # = Préfixe pour FK.
+
+#### **4.2. Normalisation (Formes Normales)**
+Processus visant à éliminer les redondances et les anomalies (insertion, mise à jour, suppression) en décomposant les tables.
+
+*   **1ère Forme Normale (1FN) :** Une valeur atomique par cellule. Pas de groupes répétés.
+    *   *Exemple à éviter :* Une colonne "telephones" contenant "677777777, 699999999".
+*   **2ème Forme Normale (2FN) :** Être en 1FN et tout attribut non-clé dépend de la **totalité** de la clé primaire (utile pour les PK composites).
+    *   *Exemple :* Dans LIGNE_COMMANDE(num_commande, id_produit, **libelle_produit**, quantite). `libelle_produit` ne dépend que de `id_produit`, pas de la PK composite. Il faut le supprimer de cette table.
+*   **3ème Forme Normale (3FN) :** Être en 2FN et aucun attribut non-clé ne dépend d'un autre attribut non-clé (élimine les dépendances transitives).
+    *   *Exemple :* CLIENT(id_client, nom, #id_ville, **nom_ville**, region). `nom_ville` et `region` dépendent de `id_ville`, pas de `id_client`. Il faut créer une table VILLE.
+
+**Objectif pratique :** Atteindre au minimum la **3FN** pour la plupart des applications transactionnelles comme l'e-commerce.
+
+---
+
+### **5. Étape 3 : Du Modèle Logique au Schéma Physique (MPD) et Implémentation**
+
+#### **5.1. Choix du SGBD et des types de données**
+Pour AfriShop.cm, un SGBD **Relationnel Open-Source** est adapté :
+*   **MySQL / MariaDB** : Très répandu, bonne documentation.
+*   **PostgreSQL** : Plus robuste, supporte des types de données avancés (JSON, géospatial), choix recommandé pour des projets évolutifs.
+
+**Définition des types avec optimisation :**
+*   `id_client INT AUTO_INCREMENT PRIMARY KEY` (MySQL) ou `id_client SERIAL PRIMARY KEY` (PostgreSQL).
+*   `telephone VARCHAR(20)` pour stocker les numéros internationaux (+237...).
+*   `prix DECIMAL(10, 2)` pour les montants monétaires (précision fixe).
+*   `password_hash CHAR(60)` pour un hash bcrypt.
+*   `statut ENUM('En attente', 'Validée', 'Livrée', 'Annulée')` ou une table de référence `STATUT_COMMANDE`.
+
+#### **5.2. Écriture du Script SQL de Création (DDL - Data Definition Language)**
+```sql
+-- Exemple pour PostgreSQL
+CREATE TABLE ville (
+    id_ville SERIAL PRIMARY KEY,
+    nom_ville VARCHAR(100) NOT NULL,
+    region VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE client (
+    id_client SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+    prenom VARCHAR(50),
+    telephone VARCHAR(20) NOT NULL UNIQUE,
+    email VARCHAR(100) UNIQUE,
+    password_hash CHAR(60) NOT NULL,
+    id_ville_livraison INT REFERENCES ville(id_ville)
+);
+
+CREATE TABLE commande (
+    num_commande SERIAL PRIMARY KEY,
+    date_commande TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    statut VARCHAR(20) NOT NULL,
+    montant_total DECIMAL(12,2) NOT NULL,
+    id_client INT NOT NULL REFERENCES client(id_client),
+    id_ville_livraison INT NOT NULL REFERENCES ville(id_ville)
+);
+```
+
+#### **5.3. Optimisations Physiques (Tuning)**
+*   **Index :** Accélèrent les recherches (`SELECT`, `WHERE`, `JOIN`).
+    *   `CREATE INDEX idx_client_telephone ON client(telephone);`
+    *   `CREATE INDEX idx_commande_client_date ON command

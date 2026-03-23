@@ -1,0 +1,122 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 19 Maintenance Informatique**
+## **Chapitre : Helpdesk et ticketing : ITIL (incidents, problèmes, changements), outils (GLPI, Jira Service Desk), niveaux de support (N1/N2/N3), SLA**
+
+---
+
+### **1. Introduction au Helpdesk et au Ticketing**
+
+#### **1.1. Définitions fondamentales**
+*   **Helpdesk (Centre d'assistance) :** C'est le point de contact unique entre les utilisateurs finaux et le service informatique. Sa mission principale est de fournir une assistance rapide et efficace pour résoudre les incidents et répondre aux demandes des utilisateurs. Exemple : Le service qui répond aux appels des employés de la **CAMPOST** qui ne peuvent pas imprimer ou accéder à leur messagerie.
+*   **Ticketing (Système de tickets) :** C'est le processus formalisé de gestion des demandes. Chaque demande (incident, problème, changement) est enregistrée dans un outil sous forme d'un **ticket** (ou fiche). Ce ticket possède un identifiant unique, un historique et un suivi jusqu'à sa clôture. C'est la colonne vertébrale d'un helpdesk organisé.
+
+#### **1.2. Objectifs et enjeux**
+*   **Objectifs :** Restaurer le service au plus vite, centraliser les demandes, améliorer la satisfaction des utilisateurs, capitaliser les connaissances, mesurer les performances.
+*   **Enjeux (Contexte camerounais) :** Dans un environnement où les ressources peuvent être limitées (bande passante, équipements vieillissants), un helpdesk efficace permet d'optimiser les moyens, de prioriser les interventions critiques (ex: panne du système de paiement d'une microfinance OHADA) et de justifier les investissements en IT.
+
+---
+
+### **2. ITIL et les processus clés du Service Desk**
+
+ITIL (Information Technology Infrastructure Library) est un référentiel de bonnes pratiques pour la gestion des services informatiques (ITSM). Nous nous concentrons sur trois processus essentiels.
+
+#### **2.1. Gestion des Incidents (Incident Management)**
+*   **Définition (ITIL) :** Un **incident** est toute interruption non planifiée d'un service IT ou toute réduction de sa qualité.
+*   **Objectif :** Restaurer le service normal le plus rapidement possible.
+*   **Cycle de vie d'un incident :**
+    1.  **Identification & Enregistrement** : L'utilisateur appelle ou envoie un email. Un ticket est créé.
+    2.  **Classification & Priorisation** : On catégorise (ex: "Réseau", "Logiciel") et on priorise (Impact + Urgence).
+    3.  **Diagnostic & Escalade** : Un technicien N1 tente une résolution. Si échec, le ticket est escaladé vers N2 ou N3.
+    4.  **Résolution & Rétablissement** : La cause est corrigée, le service est rétabli.
+    5.  **Clôture** : Vérification avec l'utilisateur et fermeture du ticket.
+*   **Exemple concret :** Un caissier d'**Orange Money** à Douala ne peut plus effectuer de transactions. C'est un incident **critique** (impact élevé sur le chiffre d'affaires). Le ticket est créé, priorisé P1, et escaladé directement au niveau réseau (N3) si le problème vient d'une liaison **Camtel** défaillante.
+
+#### **2.2. Gestion des Problèmes (Problem Management)**
+*   **Définition (ITIL) :** Un **problème** est la cause racine, souvent inconnue, d'un ou de plusieurs incidents.
+*   **Objectif :** Identifier et éliminer la cause racine des incidents pour prévenir leurs récurrences.
+*   **Différence claire Incident vs Problème :**
+    *   **Incident :** "Le feu a pris dans la salle serveur !" → Action : Éteindre le feu (restaurer le service).
+    *   **Problème :** "Pourquoi y a-t-il eu un incendie ?" → Action : Enquêter, trouver la cause (câble électrique défectueux) et la corriger définitivement.
+*   **Exemple :** Plusieurs agences **MTN** de la région du Centre signalent des lenteurs intermittentes sur l'application de gestion. Chaque lenteur est un incident. L'équipe Problème analyse et découvre la cause racine : un switch réseau central surchargé. La résolution du problème (remplacement du switch) empêchera la réapparition de ces incidents.
+
+#### **2.3. Gestion des Changements (Change Management)**
+*   **Définition (ITIL) :** Un **changement** est l'ajout, la modification ou la suppression de tout élément qui pourrait avoir un impact sur les services IT.
+*   **Objectif :** Mettre en œuvre les changements de manière contrôlée, en minimisant les risques et les perturbations.
+*   **Processus standardisé (CAB - Change Advisory Board) :**
+    1.  **Demande de Changement (RFC)** : Soumise par un technicien ou un département.
+    2.  **Évaluation & Planification** : Analyse des risques, des ressources et plan de retour arrière.
+    3.  **Approbation par le CAB** : Comité (souvent incluant le responsable IT, un responsable métier) qui valide.
+    4.  **Implémentation** : Mise en œuvre selon le plan, souvent en dehors des heures ouvrables.
+    5.  **Revue post-implémentation** : Vérification du succès.
+*   **Exemple :** La direction d'une banque camerounaise souhaite migrer son système core banking vers une nouvelle version. Ce **changement majeur** nécessite une RFC détaillée, une validation stricte du CAB, une implémentation planifiée un week-end et un plan de rollback vers l'ancien système en cas d'échec.
+
+**À RETENIR :** L'Incident traite le "symptôme", le Problème traite la "maladie", et le Changement est l'"opération chirurgicale" planifiée pour soigner.
+
+---
+
+### **3. Les Niveaux de Support (N1, N2, N3)**
+
+Une structure en niveaux permet une spécialisation et une résolution efficace.
+
+| Niveau | Appellation | Rôle & Compétences | Exemples d'interventions (Contexte local) | Taux de Résolution Cible |
+| :--- | :--- | :--- | :--- | :--- |
+| **N1** | Support de premier niveau / Helpdesk | **Prise d'appel, qualification, résolution simple.** Scripts, FAQ, redémarrages. | - Réinitialisation de mot de passe Active Directory.<br>- Assistance sur MS Office.<br>- Problème d'impression simple. | 70-80% |
+| **N2** | Support de second niveau / Techniciens spécialisés | **Analyse technique approfondie.** Compétences sur un domaine (réseau, bases de données, logiciels métiers). | - Configuration d'un compte email sur client lourd.<br>- Dépannage d'un logiciel de paie (ex: SAGE).<br>- Analyse de logs d'application. | 15-25% |
+| **N3** | Support de troisième niveau / Experts / Éditeurs | **Résolution des problèmes complexes et développement de correctifs.** Ingénieurs, développeurs, fabricants. | - Débugage d'une application métier développée en interne.<br>- Intervention sur une panne matérielle serveur sous garantie.<br>- Correction d'un bug dans un logiciel acheté (contact avec l'éditeur). | 5-10% |
+| **N0** | Auto-assistance | **Portail de connaissances, FAQ, forums.** Permet à l'utilisateur de se servir lui-même. | - Portail où l'employé peut lui-même débloquer son compte via une question secrète.<br>- Wiki interne avec procédures. | - |
+
+**Escalade :** Le processus de transfert d'un ticket d'un niveau inférieur à un niveau supérieur lorsque les compétences ou les autorisations nécessaires sont requises. Elle peut être **hiérarchique** (N1 → N2 → N3) ou **fonctionnelle** (directement vers l'expert du domaine concerné).
+
+---
+
+### **4. Les Accords de Niveau de Service (SLA - Service Level Agreement)**
+
+#### **4.1. Définition et composantes**
+Le **SLA** est un contrat formel entre le fournisseur de service (l'équipe IT) et le client (les utilisateurs métiers). Il définit les engagements quantitatifs et qualitatifs du service.
+*   **Composantes clés d'un SLA :**
+    *   **Périmètre du service :** Quels services sont couverts ? (ex: Messagerie, accès internet, application de gestion).
+    *   **Indicateurs de performance (KPI - Key Performance Indicators) :**
+        *   **Temps de réponse :** Délai entre la création du ticket et la première action du technicien.
+        *   **Délai de résolution :** Délai maximum pour résoudre l'incident.
+        *   **Taux de disponibilité du service :** Ex: "Le service de paiement en ligne sera disponible 99.5% du temps mensuel."
+    *   **Pénalités et bonus :** Conséquences en cas de non-respect ou de dépassement des objectifs.
+
+#### **4.2. Exemple de SLA concret (Banque Camerounaise)**
+*   **Service :** Accès à l'application Internet Banking.
+*   **Disponibilité :** 99.5% sur les heures ouvrables (8h-18h, Lundi-Vendredi).
+*   **Gestion des incidents :**
+    *   **Priorité P1 (Critique - Service indisponible) :** Temps de réponse : 15 min. Délai de résolution : 2 heures.
+    *   **Priorité P2 (Majeur - Fonctionnalité majeure dégradée) :** Temps de réponse : 1h. Délai de résolution : 1 jour ouvré.
+    *   **Priorité P3 (Mineur - Gêne légère) :** Temps de réponse : 4h. Délai de résolution : 5 jours ouvrés.
+
+#### **4.3. Autres accords connexes**
+*   **OLA (Operational Level Agreement) :** Accord **interne** entre l'équipe helpdesk et l'équipe réseau sur les délais de traitement des tickets escaladés.
+*   **UC (Underpinning Contract) :** Contrat avec un fournisseur externe (ex: Contrat avec **Camtel** pour la liaison internet). Le SLA interne avec les utilisateurs dépend de cet UC.
+
+---
+
+### **5. Outils de Ticketing et de Gestion de Services**
+
+#### **5.1. GLPI (Gestionnaire Libre de Parc Informatique)**
+*   **Nature :** Logiciel libre et open-source, très populaire dans les administrations et PME.
+*   **Points forts :**
+    *   **Gratuit et personnalisable.**
+    *   Gestion complète du parc informatique (actifs, licences) intégrée au ticketing.
+    *   Fonctionnalités ITIL (Incidents, problèmes, changements, connaissances).
+    *   Parfaitement adapté au contexte camerounais (coût maîtrisé, communauté francophone).
+*   **Utilisation type :** Idéal pour une université d'État, une mairie, ou une PME locale pour gérer son parc et son support.
+
+#### **5.2. Jira Service Desk (de Atlassian)**
+*   **Nature :** Solution commerciale, puissante et très intégrée.
+*   **Points forts :**
+    *   Interface utilisateur moderne et portail d'auto-assistance avancé.
+    *   Intégration native avec **Jira Software** pour lier incidents et développement (DevOps).
+    *   Automatisation poussée des workflows et rapports avancés.
+    * **Modèle cloud (SaaS)** évitant l'infrastructure locale.
+*   **Utilisation type :** Adapté aux entreprises tech camerounaises en croissance, aux filiales de grands groupes (comme **Orange** ou **MTN** pour certains services), ou aux équipes agiles qui ont besoin du lien entre le support et le développement.
+
+#### **5.3. Tableau comparatif synthétique**
+
+| Critère | **GLPI** | **Jira Service Desk** |
+| :--- | :--- | :--- |
+| **Licence & Coût** | **Gratuit (Open Source)**. Coûts liés à l'hébergement et au support éventuel. | **Commerciale

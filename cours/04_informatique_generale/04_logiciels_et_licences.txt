@@ -1,0 +1,144 @@
+# **Notes de Cours - BTS Génie Logiciel (Cameroun)**
+**Matière : 04 Informatique Générale**
+**Chapitre : Logiciels et licences : logiciel libre (GPL, MIT), propriétaire, SaaS, cloud — cycle de vie du logiciel**
+
+---
+
+## **Introduction**
+
+Dans l'écosystème numérique moderne, le logiciel est l'élément central qui pilote les systèmes informatiques. Pour un futur technicien supérieur en génie logiciel au Cameroun, il est impératif de maîtriser les différents modèles de distribution (licences), les modes de déploiement (SaaS, Cloud) et le processus structuré de création (cycle de vie). Ce chapitre fournit les fondements nécessaires pour faire des choix éclairés, que ce soit dans un cadre entrepreneurial, pour une administration publique ou pour une grande entreprise locale comme MTN, Orange ou Camtel.
+
+---
+
+## **1. Typologie des Logiciels et Modèles de Licences**
+
+### **1.1. Définition et Classification d'un Logiciel**
+Un **logiciel** est un ensemble de programmes, de procédures et de documentation qui permet à un système informatique d'exécuter des tâches spécifiques.
+
+**Classification par nature :**
+*   **Logiciel système :** Gère les ressources matérielles et fournit une plateforme pour les applications (ex: Windows, Linux, Android).
+*   **Logiciel d'application :** Destiné à l'utilisateur final pour une tâche précise (ex: Suite bureautique, logiciel de comptabilité, navigateur web).
+*   **Logiciel de développement :** Outils pour créer d'autres logiciels (ex: Compilateurs, éditeurs de code, IDE comme Visual Studio Code ou IntelliJ IDEA).
+
+### **1.2. Logiciel Propriétaire (ou Privateur)**
+**Définition :** Logiciel dont le code source est fermé, protégé par le droit d'auteur. L'utilisateur achète une licence d'utilisation, mais ne possède pas le logiciel. Les libertés de modification, redistribution et étude sont restreintes.
+
+**Caractéristiques :**
+*   Code source non accessible.
+*   Licence payante (généralement).
+*   Restrictions sur la copie et la redistribution.
+*   Support et maintenance assurés par l'éditeur.
+
+**Exemples concrets (Contexte Camerounais) :**
+*   **Microsoft Office** utilisé dans la plupart des administrations et entreprises.
+*   **Sage Paie,** logiciel de gestion de paie répandu.
+*   **Adobe Photoshop** dans les agences de communication.
+*   **Logiciels spécialisés** pour la gestion des actifs sous le droit **OHADA** (ex: solutions développées sur mesure ou adaptées).
+
+**À retenir :** Le modèle propriétaire privilégie le contrôle de l'éditeur, une expérience utilisateur souvent unifiée et un support commercial. Il peut représenter un coût récurrent important pour les PME camerounaises.
+
+### **1.3. Logiciel Libre et Open Source (FOSS)**
+**Définition :** Logiciel dont le code source est accessible, modifiable et redistribuable librement, selon les termes d'une licence libre. La **Free Software Foundation** définit 4 libertés fondamentales :
+0. Liberté d'exécuter le programme.
+1. Liberté d'étudier le fonctionnement et de l'adapter.
+2. Liberté de redistribuer des copies.
+3. Liberté d'améliorer et de publier ses améliorations.
+
+**Différence Libre vs Open Source :** Une nuance philosophique. Le "Libre" insiste sur les libertés éthiques et sociales, l'"Open Source" met en avant les avantages pratiques de développement collaboratif. En pratique, les licences couvrent souvent les deux.
+
+#### **1.3.1. Licences de Logiciel Libre Courantes**
+
+**a) Licence GNU GPL (General Public License)**
+*   **Principe :** Licence **"copyleft" forte**. Toute œuvre dérivée (modification, extension) doit être redistribuée sous la **même licence GPL**. Elle garantit que les versions modifiées restent libres.
+*   **Exemple :** Le noyau **Linux**, utilisé par de nombreux serveurs au Cameroun (hébergement web, serveurs d'entreprise). **WordPress** (CMS très populaire pour créer des sites web).
+
+**b) Licence MIT (Massachusetts Institute of Technology)**
+*   **Principe :** Licence **permissive**. Elle impose très peu de restrictions. On peut copier, modifier, fusionner, publier, distribuer, sous-licencier et/ou vendre des copies du logiciel, à la seule condition d'inclure la notice de copyright et la licence dans toutes les copies.
+*   **Exemple :** Le framework **React.js** (Facebook), utilisé dans le développement d'applications web modernes. **Node.js**. Idéale pour les startups camerounaises qui veulent intégrer des composants libres dans un produit propriétaire.
+
+**c) Licence Apache 2.0**
+*   **Principe :** Similaire à la MIT, mais avec une clause explicite sur les brevets.
+*   **Exemple :** Le système **Android**.
+
+**Tableau Comparatif des Licences Libres :**
+
+| Caractéristique | **GPL (Copyleft)** | **MIT / BSD (Permissive)** | **Apache 2.0** |
+| :--- | :--- | :--- | :--- |
+| **Liberté de modification** | Oui | Oui | Oui |
+| **Liberté de redistribution** | Oui, sous **GPL** | Oui, sous n'importe quelle licence | Oui, sous n'importe quelle licence |
+| **Intégration dans un logiciel propriétaire** | **Interdite** (le tout devient GPL) | **Autorisée** | **Autorisée** |
+| **Clause sur les brevets** | Non | Non | **Oui** (protection contre les litiges) |
+| **Exemple local** | Serveur web avec modules | Bibliothèque dans une app mobile | Composant dans un système d'entreprise |
+
+**Exemples d'adoption au Cameroun/Afrique :**
+*   **Administration :** Migration vers **Linux** et **LibreOffice** pour réduire les coûts (initiatives observées dans certains pays africains).
+*   **Éducation :** Utilisation de **Moodle** (GPL) pour les plateformes d'apprentissage en ligne dans les universités.
+*   **Développement :** **Visual Studio Code** (licence MIT) est l'éditeur de code préféré de nombreux développeurs camerounais.
+
+---
+
+## **2. Modèles de Distribution et de Déploiement Modernes**
+
+### **2.1. SaaS (Software as a Service)**
+**Définition :** Modèle de distribution où un logiciel est hébergé en ligne par un fournisseur et mis à disposition des clients via un navigateur web, par abonnement. L'utilisateur ne gère ni l'infrastructure, ni la plateforme, ni le logiciel lui-même.
+
+**Caractéristiques :**
+*   Accès via le web (pas d'installation locale).
+*   Abonnement (mensuel/annuel).
+*   Maintenance et mises à jour gérées par le fournisseur.
+*   Accessible depuis tout appareil connecté.
+
+**Exemples locaux :**
+*   **Comptabilité :** Solutions de gestion en ligne adaptées au droit OHADA.
+*   **Télécommunications :** Services de **Mobile Money** (Orange Money, MTN Mobile Money) sont une forme de SaaS financier.
+*   **CRM/Communication :** Utilisation de **HubSpot**, **Zoho CRM** ou **Google Workspace** par les startups de Douala ou Yaoundé.
+
+### **2.2. Cloud Computing**
+**Définition :** Mise à disposition de ressources informatiques (serveurs, stockage, bases de données, réseaux, logiciels) à la demande via Internet, avec un modèle de paiement à l'usage.
+
+**Modèles de Service (XaaS) :**
+*   **IaaS (Infrastructure as a Service) :** Location d'infrastructure virtuelle (VM, stockage, réseau). *Ex: AWS EC2, Google Compute Engine.*
+*   **PaaS (Platform as a Service) :** Plateforme pour développer, exécuter et gérer des applications sans se soucier de l'infrastructure. *Ex: Google App Engine, Heroku.*
+*   **SaaS (Software as a Service) :** Voir ci-dessus.
+
+**Modèles de Déploiement :**
+*   **Cloud Public :** Ressources partagées, gérées par un tiers (ex: AWS, Microsoft Azure, **Orange Cloud**).
+*   **Cloud Privé :** Infrastructure dédiée à une seule organisation (ex: Datacenter interne de **Camtel**).
+*   **Cloud Hybride :** Combinaison des deux.
+
+**Enjeux pour le Cameroun :**
+*   **Opportunités :** Réduction des coûts d'investissement initiaux pour les PME/startups, élasticité, accès à des technologies de pointe.
+*   **Défis :** Souveraineté des données (où sont stockées les données des entreprises camerounaises ?), dépendance à la connectivité internet, coûts à long terme.
+
+---
+
+## **3. Cycle de Vie du Développement Logiciel (SDLC)**
+
+**Définition :** Processus structuré définissant les étapes nécessaires à la conception, au développement, au test, au déploiement et à la maintenance d'un logiciel de qualité.
+
+### **3.1. Les Modèles de Cycle de Vie (Paradigmes)**
+
+**a) Modèle en Cascade (Waterfall)**
+*   **Principe :** Approche linéaire et séquentielle. Une phase doit être entièrement terminée avant de passer à la suivante.
+*   **Phases :** Analyse des besoins → Conception → Implémentation → Tests → Déploiement → Maintenance.
+*   **Avantages :** Simple à comprendre, planification claire, documentation exhaustive. Adapté aux projets aux besoins **stables et bien définis** (ex: Développement d'un système de gestion pour une administration publique camerounaise selon un cahier des charges strict).
+*   **Inconvénients :** Peu flexible, les retours clients arrivent très tard, risque élevé si les besoins changent.
+
+**b) Modèle Itératif et Incrémental**
+*   **Principe :** Le logiciel est construit par cycles (itérations) successifs. Chaque itération produit un incrément (une version partielle mais fonctionnelle).
+*   **Avantages :** Flexibilité, retours clients fréquents, réduction des risques.
+*   **Exemple :** Développement d'une application mobile de livraison à Yaoundé, où les fonctionnalités de base (création de compte, catalogue) sont livrées en premier, puis les fonctionnalités avancées (paiement en ligne, suivi GPS) dans les itérations suivantes.
+
+**c) Modèle Agile (Scrum, Kanban)**
+*   **Principe :** Approche itérative et collaborative centrée sur la satisfaction client et l'adaptation au changement. Valeurs formalisées dans le **"Manifeste Agile"**.
+*   **Scrum (Cadre très répandu) :** Travail en **Sprints** (itérations de 2-4 semaines), avec des rôles (Product Owner, Scrum Master, Équipe de Développement) et des cérémonies (Planification de Sprint, Mêlée quotidienne, Revue, Rétrospective).
+*   **Adaptation au contexte :** Les startups tech camerounaises adoptent de plus en plus les méthodes Agile pour leur réactivité.
+
+### **3.2. Les Phases Détailées du SDLC**
+
+1.  **Planification et Analyse des Besoins :** Identifier le problème, définir le scope, la faisabilité (technique, économique, opérationnelle). *Outils :* Cahier des charges, réunions avec les parties prenantes.
+2.  **Conception :** Définir l'architecture logicielle, les modèles de données (UML), les interfaces utilisateur (maquettes). *Spécifications techniques.*
+3.  **Implémentation (Développement) :** Écrire le code. *Outils :* IDE, gestion de version (**Git** avec **GitHub** ou **GitLab**), frameworks.
+4.  **Tests :** Vérifier que le logiciel répond aux spécifications et est exempt de défauts. *Types :* Tests unitaires, d'intégration, de système, d'acceptation (UAT). *Outils :* JUnit, Selenium, tests manuels.
+5.  **Déploiement et Intégration :** Mise en production du logiciel pour les utilisateurs finaux. *Pratiques :* Déploiement progressif, rollback en cas de problème.
+6.  **Maintenance et Évolution :** Cor

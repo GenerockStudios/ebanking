@@ -1,0 +1,177 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière 14 : Développement Web**
+## **Chapitre : DevOps et déploiement web**
+
+---
+
+### **1. Introduction au DevOps et au déploiement web**
+
+#### **1.1. Définition et enjeux du DevOps**
+Le **DevOps** (contraction de *Development* et *Operations*) est une culture, une philosophie et un ensemble de pratiques visant à unifier le développement logiciel (Dev) et l'administration des systèmes (Ops). L'objectif est d'automatiser et d'optimiser le cycle de vie des applications, de la conception à la production, en passant par les tests et le déploiement.
+
+**Enjeux principaux :**
+*   **Réduction du *Time to Market*** : Livrer des fonctionnalités plus rapidement aux utilisateurs.
+*   **Amélioration de la qualité** : Détection et correction précoces des bugs via l'intégration et les tests continus.
+*   **Collaboration renforcée** : Briser les silos entre développeurs et administrateurs systèmes.
+*   **Fiabilité et stabilité** : Déploiements plus fréquents mais moins risqués, avec des rollbacks facilités.
+*   **Adaptation au contexte camerounais** : Répondre aux besoins numériques croissants des entreprises locales (banques, télécoms, startups) tout en gérant des contraintes comme la connectivité intermittente ou les coûts d'infrastructure.
+
+**À retenir** : DevOps n'est pas un outil, mais une approche culturelle soutenue par des outils d'automatisation.
+
+#### **1.2. Le pipeline de déploiement web moderne**
+Un pipeline typique intègre les étapes suivantes, largement automatisées :
+1.  **Planification et développement** (avec gestion de code source).
+2.  **Intégration Continue (CI)** : Construction et test automatiques à chaque modification du code.
+3.  **Livraison Continue (CD)** : Mise à disposition automatique de l'application dans un environnement de pré-production.
+4.  **Déploiement Continu** (optionnel) : Mise en production automatique après validation.
+5.  **Surveillance et feedback** : Observation des performances en production pour informer les nouveaux cycles de développement.
+
+---
+
+### **2. Gestion de code source avec Git et GitHub**
+
+#### **2.1. Concepts fondamentaux de Git**
+Git est un **système de contrôle de version distribué (DVCS)**. Chaque développeur possède une copie complète de l'historique du projet.
+
+*   **Dépôt (Repository)** : Dossier projet suivi par Git (local ou distant).
+*   **Commit** : Instantané des modifications, identifié par un hash unique (ex: `a1b2c3d`). Chaque commit doit avoir un message clair.
+*   **Branche (Branch)** : Ligne de développement indépendante. Par défaut, la branche principale est `main` ou `master`.
+    *   **Utilité** : Développer une nouvelle fonctionnalité (`feature/login-page`), corriger un bug urgent (`hotfix/paiement-echoue`), ou préparer une release (`release/v2.0`), sans affecter la version stable.
+*   **Fusion (Merge)** : Intégration des changements d'une branche dans une autre.
+*   **Conflit** : Lorsque Git ne peut pas fusionner automatiquement des modifications sur la même ligne de code. **Résolution manuelle obligatoire**.
+
+#### **2.2. Workflow avec branches et Pull Requests (PR) sur GitHub**
+GitHub est une plateforme d'hébergement de dépôts Git qui facilite la collaboration via les **Pull Requests**.
+
+**Workflow typique pour une nouvelle fonctionnalité :**
+1.  `git checkout main` : Se placer sur la branche principale.
+2.  `git pull origin main` : Récupérer les dernières modifications.
+3.  `git checkout -b feature/nouveau-paiement-mobile-money` : Créer et basculer sur une nouvelle branche.
+4.  Développer, tester localement, puis `git add .` et `git commit -m "Ajout du support MTN Mobile Money et Orange Money"`.
+5.  `git push origin feature/nouveau-paiement-mobile-money` : Pousser la branche sur GitHub.
+6.  Sur GitHub, ouvrir une **Pull Request** de `feature/...` vers `main`.
+7.  **Revue de code (Code Review)** : Les autres membres de l'équipe commentent et valident le code.
+8.  **Intégration Continue** : Les tests automatisés (CI) se lancent sur la PR.
+9.  Si tout est vert (revue + tests), on **merge** la PR. La branche de fonctionnalité peut être supprimée.
+
+**À retenir** : La PR est un point de contrôle essentiel pour la qualité, la collaboration et la documentation des changements.
+
+#### **2.3. Commandes Git essentielles**
+```bash
+git init # Initialiser un dépôt local
+git clone <url_github> # Cloner un dépôt distant
+git status # Voir l'état des fichiers
+git add <fichier> # Ajouter un fichier à la zone de staging
+git commit -m "message" # Créer un commit
+git log --oneline # Voir l'historique des commits
+git branch # Lister les branches
+git checkout <branche> # Changer de branche
+git merge <branche> # Fusionner une branche dans la branche courante
+git remote add origin <url> # Lier le dépôt local à un dépôt distant
+git push origin <branche> # Pousser une branche vers le distant
+git pull origin <branche> # Récupérer les modifications du distant
+```
+
+---
+
+### **3. Automatisation avec CI/CD : GitHub Actions**
+
+#### **3.1. Concepts CI/CD**
+*   **Intégration Continue (CI)** : Pratique qui consiste à fusionner fréquemment le code de tous les développeurs dans une branche centrale, et à exécuter automatiquement des builds et des tests à chaque fusion. **Objectif** : détecter les erreurs au plus tôt.
+*   **Livraison Continue (CD)** : Extension de la CI où chaque changement qui passe les tests est automatiquement déployé dans un environnement de staging ou de production, prêt à être mis en ligne.
+*   **Pipeline** : Séquence d'étapes automatisées (build, test, déploiement).
+
+#### **3.2. Mise en œuvre avec GitHub Actions**
+GitHub Actions est un outil de CI/CD intégré à GitHub. Il utilise des **Workflows** définis dans des fichiers YAML (`.github/workflows/nom-workflow.yml`).
+
+**Composants clés :**
+*   **Event (Événement)** : Déclencheur du workflow (ex: `push`, `pull_request` sur `main`).
+*   **Job (Tâche)** : Ensemble d'étapes exécutées sur le même **runner** (machine virtuelle).
+*   **Step (Étape)** : Commande ou action individuelle.
+*   **Action** : Tâche réutilisable (ex: `actions/checkout@v3` pour récupérer le code).
+
+**Exemple concret : Pipeline CI pour une application Node.js camerounaise (Gestion de stock OHADA)**
+```yaml
+name: CI Pipeline OHADA Stock App
+on: [push, pull_request] # Se déclenche sur push ou PR
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v3
+
+      - name: Configuration de Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Installation des dépendances
+        run: npm ci # Installation propre et verrouillée
+
+      - name: Exécution des tests unitaires
+        run: npm test
+
+      - name: Construction (Build) de l'application
+        run: npm run build
+```
+
+**Avantages pour le contexte local** : Automatisation gratuite (avec limites) pour les startups et PME, indépendante de l'infrastructure locale.
+
+---
+
+### **4. Hébergement et déploiement web**
+
+#### **4.1. Panorama des solutions d'hébergement**
+| **Type d'hébergement** | **Description** | **Avantages** | **Inconvénients** | **Exemples d'utilisation au Cameroun** |
+| :--- | :--- | :--- | :--- | :--- |
+| **Hébergement Mutualisé (cPanel)** | Serveur partagé entre plusieurs sites. Gestion via interface graphique (cPanel). | - Très économique<br>- Simple à utiliser, pas besoin d'expertise sysadmin<br>- Géré par l'hébergeur | - Performances limitées et partagées<br>- Peu de contrôle sur l'environnement<br>- Sécurité dépendante des autres sites | Sites vitrines de TPE/PME, blogs personnels, petits sites WordPress. Hébergeurs locaux : **Camtel Hosting**, **Netcom** |
+| **Serveur Privé Virtuel (VPS)** | Machine virtuelle dédiée au sein d'un serveur physique. Accès root (administrateur). | - Contrôle total (OS, logiciels)<br>- Performances dédiées et évolutives<br>- Coût raisonnable | - Nécessite des compétences en administration système<br>- Gestion de la sécurité par l'utilisateur | Applications web métier (ex: logiciel de gestion pour une pharmacie), API backend, sites à trafic moyen. Fournisseurs : **Digital Ocean**, **Linode**, **OVH**. |
+| **Platform as a Service (PaaS)** | Plateforme gérée pour déployer des applications. L'infrastructure, le système et les runtimes sont gérés. | - Abstraction totale de l'infrastructure<br>- Déploiement ultra-rapide (lié à Git)<br>- Scaling automatique intégré | - Moins de contrôle, "vendor lock-in" potentiel<br>- Coût peut devenir élevé à grande échelle | Applications Node.js, Python, Ruby. Idéal pour les **MVP de startups** et prototypes. Ex: **Heroku**, **Vercel** (frontend), **Railway**. |
+| **Hébergement Static/Serverless** | Hébergement de fichiers statiques (HTML, CSS, JS) sur un CDN. Fonctions sans serveur (FaaS) pour le backend. | - Performances extrêmes, globales (CDN)<br>- Coût à l'usage, évolutif à l'infini<br>- Sécurité élevée | - Limité aux sites statiques ou aux architectures serverless<br>- Complexité pour les applications traditionnelles | Sites statiques, applications frontend modernes (React, Vue), sites de présentation. Ex: **Vercel**, **Netlify**, **GitHub Pages**. |
+
+#### **4.2. Déploiement continu vers un VPS avec GitHub Actions**
+**Scénario** : Déployer automatiquement une application Node.js sur un VPS chez Digital Ocean après un merge sur `main`.
+
+1.  **Préparation du VPS** :
+    *   Installer Node.js, Nginx (proxy), PM2 (gestion des processus).
+    *   Créer un utilisateur `deploy` avec les permissions appropriées.
+    *   Configurer une clé SSH sur le serveur et ajouter la **clé publique** sur le VPS et la **clé privée** comme secret dans GitHub (`Settings > Secrets > Actions`), nommée `VPS_SSH_KEY`.
+
+2.  **Workflow GitHub Actions de déploiement (CD)** :
+```yaml
+name: CD - Deploy to VPS
+on:
+  push:
+    branches: [ main ] # Ne se déclenche QUE sur un push vers main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v3
+
+      - name: Déploiement sur VPS via SSH
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.VPS_HOST }} # IP du serveur
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd /var/www/mon-app-ohada
+            git pull origin main
+            npm ci --production
+            pm2 restart mon-app-ohada
+```
+
+---
+
+### **5. Sécurité : HTTPS et certificats SSL**
+
+#### **5.1. Pourquoi HTTPS est indispensable**
+HTTPS (HTTP over SSL/TLS) chiffre la communication entre le navigateur client et le serveur web.
+*   **Confidentialité** : Protège les données sensibles (mots de passe, numéros de carte, données personnelles OHADA).
+*   **Intégrité** : Garantit que les données ne sont pas altérées pendant le transfert.
+*   **Authentification** : L'

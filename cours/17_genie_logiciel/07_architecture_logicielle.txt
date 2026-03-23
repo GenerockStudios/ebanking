@@ -1,0 +1,145 @@
+# **Notes de cours — 17 Génie Logiciel**
+## **Architecture logicielle : monolithe, microservices, MVC, MVVM, Clean Architecture, API Gateway, bus de messages**
+
+---
+
+### **1. Introduction aux architectures logicielles**
+
+#### **1.1. Définition et importance**
+L'architecture logicielle est la **structure fondamentale** d'un système logiciel, définissant ses composants, leurs relations et les principes guidant sa conception et son évolution. C'est le **plan directeur** qui détermine la qualité, la maintenabilité, l'évolutivité et la performance d'une application.
+
+**À retenir** : Une bonne architecture réduit les coûts de maintenance, facilite l'intégration de nouvelles fonctionnalités et améliore la résilience du système.
+
+#### **1.2. Contexte camerounais et enjeux**
+Dans le contexte des entreprises camerounaises (MTN, Orange Cameroun, Camtel, banques, sociétés sous OHADA), les choix architecturaux sont critiques pour :
+*   **Gérer la croissance rapide** du nombre d'utilisateurs mobiles et digitaux.
+*   **S'adapter aux réglementations** (ex: lois sur les données personnelles, normes OHADA pour les systèmes financiers).
+*   **Assurer l'interopérabilité** entre systèmes hérités (*legacy*) et nouvelles plateformes digitales.
+*   **Optimiser les coûts** d'infrastructure et de développement dans un environnement économique spécifique.
+
+---
+
+### **2. Architectures d'application : du monolithe aux microservices**
+
+#### **2.1. Architecture monolithique**
+*   **Définition** : Toutes les fonctionnalités de l'application (interface utilisateur, logique métier, accès aux données) sont développées, déployées et exécutées comme un **seul bloc indivisible**.
+*   **Caractéristiques** :
+    *   Codebase unique (un seul projet).
+    *   Déploiement unitaire (un seul fichier .jar, .war, .exe).
+    *   Base de données souvent unique et centralisée.
+*   **Exemple concret** : Une première version d'une application de **paiement de factures (Camtel, ENEO)** développée en PHP/Java avec une base de données MySQL unique.
+*   **Avantages** :
+    *   Développement et test initiaux simples.
+    *   Déploiement et débogage facilités.
+    *   Performances potentielles (appels en mémoire).
+*   **Inconvénients** :
+    *   **Complexité accrue** avec la croissance de l'application.
+    *   **Évolutivité limitée** : on doit scaler l'ensemble même pour une seule fonctionnalité saturée.
+    *   **Déploiements risqués** : un changement mineur nécessite de redéployer tout le système.
+    *   **Dépendance technologique forte** : difficile de changer de stack technique.
+*   **Outils** : Frameworks classiques (Spring Boot, Laravel, Django) pour construire le monolithe.
+
+#### **2.2. Architecture Microservices**
+*   **Définition** : L'application est décomposée en un ensemble de **services petits, autonomes et faiblement couplés**, chacun responsable d'une capacité métier précise. Chaque service peut être développé, déployé et scalé indépendamment.
+*   **Principes clés** :
+    *   **Autonomie** : Un service possède sa propre base de données (préférer le *Database per Service*).
+    *   **Décentralisation** : Les équipes sont responsables de leur service "de la conception à la production".
+    *   **Communication via API légères** : REST/HTTP, gRPC, messages asynchrones.
+    *   **Résilience** : Les pannes d'un service ne doivent pas faire tomber tout le système.
+*   **Exemple concret** : La plateforme **Mobile Money (MTN MoMo, Orange Money)** peut être architecturée en microservices :
+    *   **Service Utilisateurs** : Gestion des profils et KYC.
+    *   **Service Portefeuille** : Gestion du solde et des transactions.
+    *   **Service Paiement Marchand** : Gestion des paiements chez les commerçants.
+    *   **Service Notifications** : Envoi des SMS et alertes.
+    *   Chaque service peut utiliser la technologie (Java/Node.js/Python) et la base de données (PostgreSQL/MongoDB/Redis) la plus adaptée.
+*   **Avantages** :
+    *   **Évolutivité granulaire** : On scale uniquement le service sous charge.
+    *   **Déploiements indépendants et fréquents**.
+    *   **Résilience améliorée**.
+    *   **Flexibilité technologique** (polyglottisme).
+*   **Inconvénients** :
+    *   **Complexité opérationnelle accrue** (orchestration, monitoring, traçabilité).
+    *   **Latence** due à la communication réseau.
+    *   **Tests et débogage plus difficiles** (système distribué).
+    *   **Gouvernance des données distribuées** complexe (consistance éventuelle).
+*   **Outils de l'écosystème** :
+    *   **Conteneurisation** : Docker.
+    *   **Orchestration** : Kubernetes, Docker Swarm.
+    *   **Découverte de services** : Consul, Eureka.
+    *   **Configuration** : Spring Cloud Config, etcd.
+
+**Tableau comparatif : Monolithe vs Microservices**
+
+| Critère | Architecture Monolithique | Architecture Microservices |
+| :--- | :--- | :--- |
+| **Structure** | Un seul bloc, couplage fort | Services multiples, faible couplage |
+| **Base de données** | Partagée, centralisée | Par service, décentralisée |
+| **Déploiement** | Unique et global | Indépendant par service |
+| **Évolutivité** | Verticale (scale-up) | Horizontale et granulaire (scale-out) |
+| **Résilience** | Point de défaillance unique | Défaillances isolées |
+| **Complexité** | Développement simple, maintenance lourde | Développement complexe, maintenance agile |
+| **Choix techno** | Unique et figé | Polyglotte et adaptable |
+| **Idéal pour** | Applications simples, MVP, petites équipes | Systèmes complexes, grandes équipes, besoins d'agilité |
+
+---
+
+### **3. Patterns architecturaux d'organisation du code**
+
+#### **3.1. Pattern Modèle-Vue-Contrôleur (MVC)**
+*   **Définition** : Pattern de séparation des responsabilités en trois composants :
+    *   **Modèle (Model)** : Représente les données et la logique métier (ex: classe `Client`, `Facture` OHADA).
+    *   **Vue (View)** : Interface utilisateur, affiche les données (ex: page HTML/JSP de consultation de solde).
+    *   **Contrôleur (Controller)** : Intermédiaire, reçoit les entrées utilisateur, interagit avec le Modèle et sélectionne la Vue à afficher.
+*   **Flux** : Utilisateur → Contrôleur → Modèle → Vue → Utilisateur.
+*   **Utilisation** : Très répandu dans les applications web (Java Spring MVC, ASP.NET MVC, Laravel PHP). Parfait pour structurer un **monolithe web**.
+*   **Exemple** : Application de gestion des contentieux pour un cabinet d'avocats camerounais (suivi des dossiers, parties, audiences).
+
+#### **3.2. Pattern Modèle-Vue-VueModèle (MVVM)**
+*   **Définition** : Dérivé du MVC, particulièrement adapté aux applications riches côté client (Single Page Applications - SPA) et aux interfaces natives (mobile, desktop).
+    *   **Modèle (Model)** : Données et logique métier.
+    *   **Vue (View)** : Interface utilisateur (XAML, HTML). **Elle est passive** et ne contient pas de logique.
+    *   **VueModèle (ViewModel)** : **Abstraction de la Vue**. Il expose des données et des commandes pour la Vue. Il utilise le *data binding* pour synchroniser automatiquement la Vue et le Modèle.
+*   **Avantage principal** : **Découplage fort** entre l'interface et la logique, facilitant les tests et la maintenance.
+*   **Technologies** : Angular, Vue.js, React (avec librairies de state management), WPF, Xamarin.
+*   **Exemple** : L'application mobile **"My MTN"** ou **"Orange et Moi"** utilise très probablement MVVM (ou un dérivé) pour offrir une interface réactive de gestion du compte.
+
+#### **3.3. Clean Architecture (Architecture Hexagonale/Ports & Adapters)**
+*   **Concept** : Architecture centrée sur les **règles métier**, les rendant **indépendantes** des frameworks, de l'UI, de la base de données et de tout agent externe.
+*   **Principe de dépendance** : Les dépendances vont **de l'extérieur vers l'intérieur**. Les couches externes dépendent des couches internes, mais l'inverse est interdit.
+*   **Couches typiques (du centre vers l'extérieur)** :
+    1.  **Entités** (règles métier métier pures, ex: règles de calcul d'intérêt bancaire selon la BCEAO).
+    2.  **Cas d'utilisation** (Use Cases) : Contiennent la logique applicative spécifique.
+    3.  **Contrôleurs & Présenteurs** (Interface Adapters).
+    4.  **Frameworks & Drivers** (UI, Base de données, APIs externes) : Couche la plus externe.
+*   **Avantage** : **Maintenabilité et testabilité extrêmes**. Le cœur métier peut survivre à tout changement technologique.
+*   **Exemple** : Le système central de règlement des chèques entre banques camerounaises doit avoir un cœur métier (règles OHADA) parfaitement isolé et testable, indépendant du fournisseur de base de données ou de l'API de communication.
+
+---
+
+### **4. Composants d'infrastructure pour architectures distribuées**
+
+#### **4.1. API Gateway**
+*   **Définition** : Point d'entrée unique et centralisé pour toutes les requêtes client vers un ensemble de microservices. C'est un **reverse proxy intelligent**.
+*   **Rôles et responsabilités** :
+    *   **Routage** : Rediriger `/utilisateurs/*` vers le Service Utilisateurs, `/paiements/*` vers le Service Paiement.
+    *   **Aggrégation** : Rassembler les réponses de plusieurs services en une seule réponse pour le client (ex: page de profil client avec infos personnelles + dernier paiement).
+    *   **Authentification et Autorisation** : Vérifier les tokens JWT, gérer les ACL.
+    *   **Limitation de débit (Rate Limiting)** et **Mise en cache**.
+    *   **Transformation de protocole** (REST vers gRPC).
+*   **Exemple** : L'application bancaire d'une banque camerounaise (Afriland, BICEC) appelle une seule URL d'API Gateway, qui se charge de dispatcher les requêtes aux différents services backend (comptes, virements, cartes).
+*   **Outils** : Kong, Apigee, AWS API Gateway, Spring Cloud Gateway, Nginx.
+
+#### **4.2. Bus de messages (Message Broker)**
+*   **Définition** : Un middleware qui permet la communication **asynchrone** et **découplée** entre les services via l'échange de messages. Les services émetteurs (*publishers*) et récepteurs (*subscribers*) ne se connaissent pas directement.
+*   **Avantages** : Découplage temporel et spatial, résilience, scalabilité, facilitation des flux de traitement événementiels.
+*   **Patterns** : *Publish/Subscribe* (diffusion à plusieurs), *Point-à-Point* (file d'attente, un seul consommateur par message).
+*   **Cas d'usage en contexte africain** :
+    *   **Synchronisation de données** : Lorsqu'un nouveau client est créé dans le système CRM d'un opérateur, un message est publié pour mettre à jour le système de facturation et le système de fidélité.
+    *   **Traitement de transactions en batch** : Règlement nocturne des transactions interbancaires.
+    *   **Notifications en masse** : Envoi de SMS promotionnels à des segments de clients.
+
+#### **4.3. Technologies de bus de messages : Kafka vs RabbitMQ**
+
+| Caractéristique | **Apache Kafka** | **RabbitMQ** |
+| :--- | :--- | :--- |
+| **Modèle

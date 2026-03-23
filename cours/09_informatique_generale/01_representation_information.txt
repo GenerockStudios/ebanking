@@ -1,0 +1,102 @@
+CHAPITRE 1 — REPRÉSENTATION DE L'INFORMATION
+BTS Génie Logiciel — Informatique générale
+
+1. SYSTÈMES DE NUMÉRATION
+
+Système décimal (base 10) : chiffres 0-9. Chaque position vaut 10 à la puissance de sa position.
+Exemple : 347 = 3×10² + 4×10¹ + 7×10⁰
+
+Système binaire (base 2) : chiffres 0 et 1. Utilisé par les ordinateurs (états électroniques ON/OFF).
+Exemple : 1011₂ = 1×2³ + 0×2² + 1×2¹ + 1×2⁰ = 8+0+2+1 = 11₁₀
+
+Système octal (base 8) : chiffres 0-7. Groupes de 3 bits.
+Système hexadécimal (base 16) : chiffres 0-9 + A-F. Groupes de 4 bits. Très utilisé en informatique (adresses mémoire, couleurs RGB, IPv6).
+
+CONVERSIONS :
+
+Décimal → Binaire (divisions successives par 2) :
+25 ÷ 2 = 12 reste 1
+12 ÷ 2 = 6  reste 0
+6  ÷ 2 = 3  reste 0
+3  ÷ 2 = 1  reste 1
+1  ÷ 2 = 0  reste 1
+25₁₀ = 11001₂ (lire les restes de bas en haut)
+
+Binaire → Hexadécimal : grouper par 4 bits depuis la droite
+11001₂ = 0001 1001₂ = 1 9₁₆ = 19₁₆
+
+Table de correspondance :
+0000=0 0001=1 0010=2 0011=3 0100=4 0101=5 0110=6 0111=7
+1000=8 1001=9 1010=A 1011=B 1100=C 1101=D 1110=E 1111=F
+
+2. REPRÉSENTATION DES ENTIERS
+
+Entiers non signés sur n bits : valeurs de 0 à 2ⁿ − 1
+8 bits (octet) : 0 à 255
+16 bits : 0 à 65 535
+32 bits : 0 à 4 294 967 295
+
+Entiers signés — Complément à 2 (méthode standard) :
+- Bit de poids fort = bit de signe (0=positif, 1=négatif)
+- Valeurs sur n bits : de −2^(n−1) à 2^(n−1) − 1
+- 8 bits : de −128 à +127
+
+Trouver le complément à 2 d'un nombre négatif :
+1. Écrire la valeur absolue en binaire
+2. Inverser tous les bits (complément à 1)
+3. Ajouter 1
+
+Exemple : −5 sur 8 bits
++5 = 0000 0101
+Complément à 1 = 1111 1010
++1 = 1111 1011
+Vérification : 1111 1011₂ = −128 + 64 + 32 + 16 + 8 + 0 + 2 + 1 = −5 ✓
+
+3. REPRÉSENTATION DES RÉELS (VIRGULE FLOTTANTE — IEEE 754)
+
+Format simple précision (32 bits) :
+- 1 bit de signe (s)
+- 8 bits d'exposant biaisé (e), biais = 127
+- 23 bits de mantisse (m)
+
+Valeur = (−1)^s × 1,m × 2^(e−127)
+
+Exemples de valeurs spéciales :
+- e=0, m=0 : zéro
+- e=255, m=0 : ±infini
+- e=255, m≠0 : NaN (Not a Number)
+
+Format double précision (64 bits) : 1 + 11 + 52 bits, biais = 1023.
+
+4. REPRÉSENTATION DES CARACTÈRES
+
+ASCII (7 bits, 128 caractères) : standard américain de base. 'A'=65, 'a'=97, '0'=48.
+ASCII étendu (8 bits, 256 caractères) : inclut les caractères accentués.
+
+Unicode : standard universel couvrant tous les caractères de toutes les langues (>140 000 caractères).
+- UTF-8 : encodage à longueur variable (1 à 4 octets). Compatible ASCII. Le plus utilisé sur le web.
+- UTF-16 : 2 ou 4 octets. Utilisé par Java, Windows.
+- UTF-32 : 4 octets fixes. Simple mais gourmand en mémoire.
+
+5. UNITÉS DE MESURE DE L'INFORMATION
+
+1 bit = unité de base (0 ou 1)
+1 octet (byte) = 8 bits → 256 valeurs possibles
+1 Ko (kilooctet) = 1 024 octets = 2¹⁰ octets
+1 Mo (mégaoctet) = 1 024 Ko = 2²⁰ octets ≈ 10⁶ octets
+1 Go (gigaoctet) = 1 024 Mo = 2³⁰ octets ≈ 10⁹ octets
+1 To (téraoctet) = 1 024 Go = 2⁴⁰ octets ≈ 10¹² octets
+1 Po (pétaoctet) = 1 024 To
+
+(Attention : 1 KB en notation SI = 1 000 octets ; 1 KiB en notation IEC = 1 024 octets)
+
+6. OPÉRATIONS BOOLÉENNES ET LOGIQUE
+
+Algèbre de Boole : variables prennent les valeurs 0 (FAUX) ou 1 (VRAI).
+Opérations de base :
+- ET (AND) : A×B ou A∧B — vrai si A ET B sont vrais
+- OU (OR) : A+B ou A∨B — vrai si A OU B est vrai
+- NON (NOT) : Ā ou ¬A — inverse
+
+Tables de vérité (voir cours circuits logiques)
+Lois de De Morgan : ¬(A∧B) = ¬A∨¬B  ;  ¬(A∨B) = ¬A∧¬B

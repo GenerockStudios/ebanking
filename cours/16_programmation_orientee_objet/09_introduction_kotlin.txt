@@ -1,0 +1,252 @@
+# **Notes de cours — BTS Génie Logiciel**
+## **Matière : 16 Programmation Orientée Objet**
+## **Chapitre : Introduction à Kotlin**
+
+---
+
+### **1. Introduction à Kotlin**
+
+#### **1.1. Qu'est-ce que Kotlin ?**
+Kotlin est un langage de programmation multiplateforme, moderne, concis et sûr, développé par JetBrains. Il est entièrement **interopérable avec Java** et fonctionne sur la JVM (Java Virtual Machine). Il est officiellement recommandé par Google pour le développement d'applications Android.
+
+**Contexte camerounais** : De plus en plus d'entreprises tech au Cameroun (startups, SSII, services informatiques de grandes entreprises comme MTN, Orange, Camtel) adoptent Kotlin pour :
+- Développer des applications Android performantes.
+- Moderniser des systèmes legacy écrits en Java.
+- Bénéficier d'une productivité accrue et d'un code plus sûr.
+
+**Outils utilisés en entreprise** :
+- **IDE** : IntelliJ IDEA (JetBrains), Android Studio.
+- **Build tools** : Gradle (avec plugin Kotlin), Maven.
+- **Environnement** : JDK 8 ou supérieur.
+
+#### **1.2. Pourquoi Kotlin après Java ?**
+- **Concision** : Réduit considérablement la quantité de code "boilerplate".
+- **Sécurité** : Gestion rigoureuse des valeurs nulles (`null safety`).
+- **Modernité** : Support natif des concepts fonctionnels (lambdas) et asynchrones (coroutines).
+- **Interopérabilité totale** : Peut appeler et être appelé par du code Java dans le même projet.
+
+---
+
+### **2. Déclarations de variables : `val` et `var`**
+
+#### **2.1. Définition et différence**
+La déclaration des variables en Kotlin introduit deux mots-clés fondamentaux :
+
+- **`val`** (value) : Déclaration d'une variable **immuable** (read-only). Une fois initialisée, sa valeur ne peut plus être modifiée. Équivalent à `final` en Java.
+    ```kotlin
+    val nomEntreprise: String = "MTN Cameroun"
+    // nomEntreprise = "Orange" // Erreur de compilation : Val cannot be reassigned
+    ```
+
+- **`var`** (variable) : Déclaration d'une variable **mutable**. Sa valeur peut être modifiée après initialisation.
+    ```kotlin
+    var soldeClient: Double = 15000.0
+    soldeClient = 12000.0 // Modification autorisée
+    ```
+
+#### **2.2. Inférence de type**
+Kotlin peut déduire automatiquement le type d'une variable à partir de la valeur initiale.
+```kotlin
+val codeOHADA = "AUSC" // Type inféré : String
+var tauxTVA = 19.25 // Type inféré : Double
+```
+
+**À retenir** :
+> **Privilégier `val` sur `var`**. L'immutabilité par défaut rend le code plus prévisible, plus sûr et facilite le raisonnement, surtout dans la programmation concurrente (coroutines).
+
+---
+
+### **3. Null Safety : La sécurité face aux valeurs nulles**
+
+#### **3.1. Le problème du `NullPointerException` (NPE)**
+En Java, toute référence d'objet peut être `null`, ce qui génère fréquemment des `NullPointerException` à l'exécution. Kotlin résout ce problème au **niveau du compilateur**.
+
+#### **3.2. Types non-nullables et nullables**
+- **Par défaut, les types sont non-nullables** : Ils ne peuvent pas contenir `null`.
+    ```kotlin
+    var nom: String = "Yaoundé"
+    // nom = null // Erreur de compilation : Null can not be a value of a non-null type
+    ```
+- **Pour autoriser `null`, on utilise l'opérateur `?`** (nullable type).
+    ```kotlin
+    var numeroContrat: String? = "CONT-2024-001"
+    numeroContrat = null // Autorisé
+    ```
+
+#### **3.3. Gestion sécurisée des nulls : Opérateurs**
+Pour travailler avec des types nullables de manière sécurisée, Kotlin fournit plusieurs opérateurs :
+
+1. **Safe Call Operator (`?.`)** : Exécute l'opération seulement si la valeur n'est pas `null`.
+    ```kotlin
+    val client: Client? = trouverClientParTelephone("2376XXXXXX")
+    val ville: String? = client?.adresse?.ville // Chaîne d'appels safe
+    ```
+
+2. **Elvis Operator (`?:`)** : Fournit une valeur par défaut si l'expression à gauche est `null`.
+    ```kotlin
+    val solde: Double = compte?.solde ?: 0.0
+    // Si `compte` ou `compte.solde` est null, `solde` vaudra 0.0
+    ```
+
+3. **Non-null Assertion (`!!`)** : Force un appel en affirmant que la valeur n'est pas `null`. **À utiliser avec extrême prudence** car peut provoquer un NPE.
+    ```kotlin
+    val nom: String = client!!.nom // Lance NullPointerException si client est null
+    ```
+
+**Exemple concret (Contexte OHADA)** :
+```kotlin
+data class SocieteOHADA(val nom: String, val capitalSocial: Double, val villeSiege: String?)
+
+fun afficherSiege(societe: SocieteOHADA?) {
+    val ville = societe?.villeSiege ?: "Non renseigné"
+    println("Siège social : $ville")
+}
+// Utilisation
+val sarl = SocieteOHADA("SARL TechAfrique", 1000000.0, null)
+afficherSiege(sarl) // Affiche : Siège social : Non renseigné
+```
+
+---
+
+### **4. Data Classes**
+
+#### **4.1. Définition et utilité**
+Une `data class` est une classe dont la principale vocation est de **porter des données**. Le compilateur Kotlin génère automatiquement pour elle des fonctions utiles (`equals()`, `hashCode()`, `toString()`, `copy()`).
+
+**Syntaxe** :
+```kotlin
+data class Utilisateur(val id: Int, val nom: String, val email: String)
+```
+
+#### **4.2. Fonctions générées automatiquement**
+Pour la classe `Utilisateur` ci-dessus, Kotlin génère :
+- **`equals()` / `hashCode()`** : Comparaison basée sur les propriétés du constructeur principal.
+- **`toString()`** : Format `Utilisateur(id=1, nom=Dupont, email=d@mail.com)`.
+- **`copy()`** : Permet de copier un objet en modifiant certaines de ses propriétés.
+    ```kotlin
+    val user1 = Utilisateur(1, "Alice", "alice@orange.cm")
+    val user2 = user1.copy(email = "alice.nouveau@mtn.cm") // Copie avec email modifié
+    ```
+- **`componentN()`** : Fonctions permettant la **déstructuration**.
+
+#### **4.3. Déstructuration (Destructuring)**
+On peut extraire les propriétés d'un objet `data class` dans des variables distinctes.
+```kotlin
+val user = Utilisateur(101, "Bertrand", "b.kana@camtel.cm")
+val (id, nomComplet, contact) = user // Déstructuration
+println("ID: $id, Nom: $nomComplet") // Affiche : ID: 101, Nom: Bertrand
+```
+
+**Application pratique** : Modélisation d'une transaction mobile money.
+```kotlin
+data class TransactionMTN(
+    val reference: String,
+    val telephoneEmetteur: String,
+    val telephoneBeneficiaire: String,
+    val montant: Int,
+    val date: String
+)
+
+fun traiterTransaction(t: TransactionMTN) {
+    val (ref, _, benef, montant, date) = t // On ignore l'émetteur avec '_'
+    println("Transaction $ref : $montant FCFA vers $benef le $date")
+}
+```
+
+---
+
+### **5. Extension Functions (Fonctions d'extension)**
+
+#### **5.1. Concept**
+Les fonctions d'extension permettent d'**ajouter de nouvelles fonctions à des classes existantes** (même celles de la bibliothèque standard ou de Java) **sans avoir à les hériter ou à utiliser un pattern comme le Decorator**.
+
+**Syntaxe** :
+```kotlin
+fun ClasseExistante.nouvelleFonction(parametres): TypeRetour {
+    // `this` fait référence à l'objet receveur
+}
+```
+
+#### **5.2. Exemples**
+```kotlin
+// Extension pour la classe String
+fun String.afficherAvecPrefixeOHADA(): String {
+    return "[OHADA] $this"
+}
+// Utilisation
+val texte = "Livre des procédures"
+println(texte.afficherAvecPrefixeOHADA()) // Affiche : [OHADA] Livre des procédures
+
+// Extension pour une classe Java (ArrayList)
+fun <T> ArrayList<T>.echanger(index1: Int, index2: Int) {
+    val temp = this[index1]
+    this[index1] = this[index2]
+    this[index2] = temp
+}
+```
+
+**À retenir** :
+> Les fonctions d'extension sont résolues **statiquement** (au moment de la compilation). Elles n'accèdent pas aux membres privés ou protégés de la classe qu'elles étendent.
+
+---
+
+### **6. Lambdas et Fonctions d'ordre supérieur**
+
+#### **6.1. Les Lambdas (Expressions Lambda)**
+Une lambda est une **fonction anonyme** (sans nom) qui peut être traitée comme une valeur : passée en argument, retournée, ou stockée dans une variable.
+
+**Syntaxe** : `{ parametres -> corps }`
+```kotlin
+val estMajeur: (Int) -> Boolean = { age -> age >= 18 }
+println(estMajeur(20)) // Affiche : true
+
+// Syntaxe avec `it` (si un seul paramètre)
+val saluer: (String) -> String = { "Bonjour, $it !" }
+println(saluer("Cameroun")) // Affiche : Bonjour, Cameroun !
+```
+
+#### **6.2. Fonctions d'ordre supérieur**
+Ce sont des fonctions qui **prennent une autre fonction en paramètre** ou **renvoient une fonction**.
+
+**Exemple classique** : `filter`, `map`, `forEach` sur les collections.
+```kotlin
+val transactions = listOf(5000, 10000, 2500, 75000)
+// Filtrer les transactions supérieures à 10 000 FCFA
+val grossesTransactions = transactions.filter { montant -> montant > 10000 }
+println(grossesTransactions) // [75000]
+
+// Calculer les frais (2%) pour chaque transaction
+val frais = transactions.map { montant -> montant * 0.02 }
+println(frais) // [100.0, 200.0, 50.0, 1500.0]
+```
+
+**Exemple métier** : Calcul de taxe selon les règles locales.
+```kotlin
+fun appliquerTaxe(montants: List<Double>, calculTaxe: (Double) -> Double): List<Double> {
+    return montants.map { calculTaxe(it) }
+}
+
+val chiffreAffaires = listOf(500000.0, 1200000.0, 300000.0)
+val tvaCameroon = appliquerTaxe(chiffreAffaires) { ca -> ca * 0.1925 } // TVA à 19.25%
+println("TVAs dues : $tvaCameroon")
+```
+
+---
+
+### **7. Coroutines (Introduction)**
+
+#### **7.1. Problématique de l'asynchrone**
+Les opérations de réseau (appels API), d'E/S fichier ou de base de données sont **bloquantes**. Sur Android ou dans une application serveur, bloquer le thread principal (UI Thread) provoque un gel de l'interface.
+
+**Solutions traditionnelles** : Threads, `AsyncTask` (Android), `Future`/`ExecutorService` (Java). Elles sont souvent complexes et sujettes aux fuites mémoire.
+
+#### **7.2. Coroutines : Une solution légère**
+Une coroutine est une **instance d'un calcul suspendable** (suspendable computation). C'est comme un thread léger, mais plus efficace :
+- **Non bloquante** : Suspend l'exécution au lieu de bloquer un thread.
+- **Légère** : On peut en lancer des milliers simultanément.
+- **Intégrée au langage** : Supportée par des mots-clés (`suspend`, `launch`, `async`).
+
+**Mots-clés principaux** :
+- **`suspend`** : Marque une fonction qui peut suspendre son exécution.
+- **`launch`** : Lance une nouvelle coroutine (sans retour de résultat).
+- **`async`** : Lance une nouvelle coroutine et renvoie un `Deferred

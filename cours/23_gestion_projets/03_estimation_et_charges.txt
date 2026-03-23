@@ -1,0 +1,230 @@
+# **Notes de Cours - BTS Génie Logiciel (Cameroun)**
+## **Matière : 23 Gestion de Projets**
+## **Chapitre : Estimation des Charges**
+
+### **1. Introduction à l'Estimation des Charges**
+
+L'estimation des charges est une activité fondamentale en gestion de projet logiciel qui consiste à prédire l'effort (généralement en hommes-jours ou hommes-mois), le coût et la durée nécessaires pour développer un logiciel. Une estimation précise est cruciale pour :
+- La planification réaliste des projets
+- L'allocation efficace des ressources
+- La budgétisation et le contrôle financier
+- La prise de décision stratégique (lancement ou non du projet)
+
+**À retenir** : Au Cameroun, avec la croissance du secteur numérique (stratégie "Cameroon Digital 2025") et l'émergence de nombreuses startups tech (Njorku, Kiro'o Games, etc.), une estimation rigoureuse devient un facteur clé de compétitivité et de survie des entreprises.
+
+### **2. Méthodes d'Estimation Traditionnelles (Basées sur la Taille)**
+
+#### **2.1. Points de Fonction (Function Points - FP)**
+
+**Définition** : Métrique de taille logicielle qui mesure la fonctionnalité fournie à l'utilisateur, indépendamment de la technologie mise en œuvre.
+
+**2.1.1. Composantes des Points de Fonction (Norme IFPUG)**
+1. **Données Internes** : Fichiers logiques internes (ILF)
+2. **Données Externes** : Fichiers d'interface externes (EIF)
+3. **Entrées Utilisateur** : Entrées externes (EI)
+4. **Sorties Utilisateur** : Sorties externes (EO)
+5. **Requêtes** : Interrogations externes (EQ)
+
+**2.1.2. Calcul des Points de Fonction**
+```
+FP = FP non ajustés × Facteur d'ajustement (0.65 à 1.35)
+```
+Le facteur d'ajustement dépend de 14 caractéristiques générales du système (GSC).
+
+**2.1.3. Exemple Camerounais**
+*Projet* : Développement d'un système de gestion des contentieux pour un cabinet d'avocats sous OHADA à Douala.
+- ILF : Dossiers clients, Textes de loi OHADA, Jugements (3 fichiers)
+- EIF : Base de données jurisprudence (1 fichier)
+- EI : Saisie nouvelle affaire, Dépôt de document (5 entrées)
+- EO : Rapport d'audience, Facture honoraires (4 sorties)
+- EQ : Recherche par référence, Consultation calendrier (3 requêtes)
+
+*Calcul* : FP non ajustés = 120 → Facteur d'ajustement = 1.05 → FP = 126
+
+**2.1.4. Conversion en Effort**
+En moyenne, 1 FP = 10 à 15 heures de travail selon la complexité.
+Pour notre exemple : 126 FP × 13h = 1,638 heures ≈ 205 jours-homme.
+
+#### **2.2. COCOMO (Constructive Cost Model)**
+
+**Définition** : Modèle algorithmique d'estimation basé sur la taille du code source (en KSLOC - milliers de lignes de code).
+
+**2.2.1. Les Trois Niveaux de COCOMO**
+1. **COCOMO Basique** : Estimation rapide en début de projet
+2. **COCOMO Intermédiaire** : Prend en compte 15 facteurs de coût
+3. **COCOMO Détailé** : Inclut l'analyse par phase
+
+**2.2.2. Formule COCOMO Intermédiaire**
+```
+Effort (PM) = a × (KSLOC)^b × EAF
+Durée (M) = c × (Effort)^d
+```
+Où :
+- a, b, c, d : constantes selon le mode (organique, semi-détaché, embarqué)
+- EAF : Facteur d'ajustement d'effort (produit des 15 facteurs)
+
+**2.2.3. Application au Contexte Africain**
+*Projet* : Développement d'une application mobile de micro-crédit pour une fintech camerounaise.
+- Taille estimée : 20 KSLOC
+- Mode : Semi-détaché (équipe mixte expérience)
+- EAF : 1.15 (complexité moyenne, expérience équipe modérée)
+
+*Calcul* :
+Effort = 3.0 × (20)^1.12 × 1.15 = 3.0 × 29.5 × 1.15 = 101.8 hommes-mois
+Durée = 2.5 × (101.8)^0.35 = 2.5 × 4.7 = 11.8 mois
+
+**Tableau Comparatif : Points de Fonction vs COCOMO**
+| Critère | Points de Fonction | COCOMO |
+|---------|-------------------|---------|
+| Base | Fonctionnalités utilisateur | Lignes de code |
+| Indépendance technologique | Élevée | Faible |
+| Utilisation en début projet | Possible | Limitée |
+| Adaptation contexte local | Bonne (avec calibration) | Nécessite calibration |
+| Outils populaires | Function Point Workshop, COSMIC | COCOMO II, SLIM |
+
+### **3. Méthodes Agiles d'Estimation**
+
+#### **3.1. Planning Poker**
+
+**Définition** : Technique d'estimation collaborative basée sur le consensus, utilisant des cartes avec une suite de Fibonacci modifiée.
+
+**3.1.1. Déroulement**
+1. Le Product Owner présente une User Story
+2. Les développeurs discutent brièvement
+3. Chaque développeur choisit secrètement une carte
+4. Tous révèlent simultanément leur estimation
+5. Si divergence importante, les extrêmes justifient leur choix
+6. On répète jusqu'à convergence
+
+**3.1.2. Suite de Fibonacci Modifiée**
+Cartes typiques : 0, ½, 1, 2, 3, 5, 8, 13, 20, 40, 100, ∞, ?
+
+**3.1.3. Avantages dans le Contexte Camerounais**
+- Réduit l'effet "expert étranger" (tous les avis comptent)
+- Favorise l'appropriation par les équipes locales
+- Adapté aux projets avec exigences émergentes (communs dans les startups africaines)
+
+#### **3.2. Story Points**
+
+**Définition** : Unité de mesure relative qui exprime la complexité, l'effort et le risque d'une User Story.
+
+**3.2.1. Étalonnage (Baseline)**
+Choisir une story simple = 1 point
+Toutes les autres estimations sont relatives à cette référence.
+
+**Exemple** : Pour une application de paiement mobile type "Orange Money", on pourrait définir :
+- 1 point : Ajouter un champ de confirmation de transaction
+- 3 points : Implémenter l'historique des transactions
+- 8 points : Développer le système de transfert inter-opérateur (MTN ↔ Orange)
+- 13 points : Intégrer l'API de la Beac pour la conformité
+
+**3.2.2. Facteurs Influençant les Story Points**
+- Complexité technique
+- Effort de développement
+- Risque et incertitude
+- Connaissance du domaine
+
+### **4. Métriques Agiles : Vélocité et Capacité d'Équipe**
+
+#### **4.1. Vélocité (Velocity)**
+
+**Définition** : Nombre de story points qu'une équipe peut réaliser en un sprint.
+
+**4.1.1. Calcul et Utilisation**
+```
+Vélocité = Σ(Story Points des stories "Done" du sprint)
+```
+*Utilisation* :
+- Prédiction de la charge réalisable dans les sprints futurs
+- Ajustement du rythme de livraison
+- Identification des problèmes d'efficacité
+
+**4.1.2. Exemple : Équipe de Développement à Yaoundé**
+*Sprint 1* : 24 points réalisés
+*Sprint 2* : 28 points réalisés
+*Sprint 3* : 26 points réalisés
+→ Vélocité moyenne = (24+28+26)/3 = 26 points/sprint
+
+**À retenir** : La vélocité est une mesure **d'équipe**, **relative** et **historique**. Elle ne doit pas être utilisée pour comparer des équipes ou comme mesure de performance individuelle.
+
+#### **4.2. Capacité d'Équipe (Team Capacity)**
+
+**Définition** : Temps total disponible pour le travail sur le produit pendant un sprint.
+
+**4.2.2. Calcul de la Capacité**
+```
+Capacité = (Nb développeurs × heures/jour × jours/sprint) - activités non-projet
+```
+**Activités à soustraire** :
+- Réunions (daily, revue, rétrospective)
+- Formation et développement professionnel
+- Congés et absences
+- Support technique
+
+**4.2.3. Exemple : Startup à Bafoussam**
+Équipe : 4 développeurs
+Sprint : 2 semaines (10 jours ouvrables)
+Jours fériés : 1 jour (20 mai)
+Formation : 0.5 jour/développeur
+Réunions : 1h daily (soit 0.125 jour/jour) + revue (0.25) + rétro (0.25)
+
+*Calcul* :
+Disponibilité brute = 4 × 10 = 40 hommes-jours
+Absences = (1 jour férié × 4) + (0.5 × 4) = 4 + 2 = 6 jours
+Réunions = (0.125 × 10 × 4) + 0.5 + 0.5 = 5 + 1 = 6 jours
+Capacité nette = 40 - 6 - 6 = 28 hommes-jours
+
+### **5. Intégration des Méthodes dans le Cycle de Vie Projet**
+
+#### **5.1. En Début de Projet (Vision)**
+- **Méthode** : Points de fonction ou COCOMO basique
+- **Précision** : ±50% à ±100%
+- **Objectif** : Budget initial, faisabilité, choix stratégique
+
+#### **5.2. Durant l'Expression des Besoins**
+- **Méthode** : COCOMO intermédiaire, Points de fonction détaillés
+- **Précision** : ±25% à ±50%
+- **Objectif** : Planification globale, contractualisation
+
+#### **5.3. Pendant le Développement (Approches Agiles)**
+- **Méthode** : Planning Poker, Story Points
+- **Précision** : ±10% à ±25%
+- **Objectif** : Planification des sprints, ajustement continu
+
+### **6. Outils et Technologies**
+
+**Outils Professionnels Utilisés au Cameroun** :
+1. **Jira Software** : Suivi agile, story points, vélocité
+2. **Azure DevOps** : Planning poker intégré, capacités d'équipe
+3. **Trello avec plugins** : Planning poker, burndown charts
+4. **COCOMO II Tools** : Pour les estimations paramétriques
+5. **Function Point Calculators** : Pour les méthodes FP
+
+**Outils Accessibles pour les PME/Startups** :
+- **GitHub Projects** : Gratuit pour les petites équipes
+- **Taiga.io** : Open source, adapté aux contextes ressources limitées
+- **Feuilles de calcul** : Templates Excel/Google Sheets partagés
+
+### **7. Défis Spécifiques au Contexte Camerounais/Africain**
+
+1. **Manque de données historiques** pour calibrer les modèles
+   *Solution* : Commencer à collecter des métriques même basiques
+
+2. **Fluctuation des équipes** (brain drain, turn-over)
+   *Solution* : Réviser régulièrement la capacité et la vélocité
+
+3. **Intermittence des ressources** (coupures internet, électricité)
+   *Solution* : Inclure des buffers réalistes dans les estimations
+
+4. **Projets multi-culturels** (équipes locales + experts internationaux)
+   *Solution* : Utiliser des méthodes collaboratives comme Planning Poker
+
+5. **Conformité réglementaire** (OHADA, CNIL Cameroun, Beac)
+   *Solution* : Identifier les stories de conformité tôt et les estimer séparément
+
+### **8. Bonnes Pratiques Recommandées**
+
+1. **Estimer par intervalle** : Donner une fourchette (optimiste/pessimiste) plutôt qu'une valeur unique
+2. **Réviser régulièrement** : Les estimations ne sont pas figées
+3. **Impliquer toute l'équipe** : Les développeurs qui font le travail doivent estimer
+4. **Considérer les risques spéc

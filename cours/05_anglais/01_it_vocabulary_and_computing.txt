@@ -1,0 +1,166 @@
+# **Notes de Cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 05 Anglais**
+## **Chapitre : IT Vocabulary and Computing English: Hardware, Software, Networking Terms — Reading Technical Documentation**
+
+---
+
+### **1. Introduction : L’importance de l’anglais technique en informatique**
+
+L’anglais est la langue universelle des technologies de l’information et de la communication (TIC). Pour un futur technicien supérieur en génie logiciel au Cameroun, maîtriser le vocabulaire technique anglais est indispensable pour :
+*   **Lire et comprendre la documentation technique** (manuels, spécifications, guides d’installation, API).
+*   **Utiliser des logiciels et des environnements de développement** dont les interfaces et les messages d’erreur sont majoritairement en anglais.
+*   **Suivre des tutoriels, des cours en ligne et participer à des forums techniques** (Stack Overflow, GitHub).
+*   **Collaborer dans des projets internationaux ou avec des clients étrangers.**
+*   **Assurer la maintenance et le support technique** d’équipements et de logiciels.
+
+**À retenir :** Dans le secteur des TIC au Cameroun, que vous travailliez pour une grande entreprise (Camtel, MTN, Orange), une startup, une SSII ou en tant qu’indépendant, la compétence linguistique technique est un atout concurrentiel majeur.
+
+---
+
+### **2. Vocabulaire fondamental du matériel informatique (Hardware)**
+
+Le *hardware* désigne les composants physiques et tangibles d’un système informatique.
+
+#### **2.1. Composants centraux et périphériques**
+*   **Central Processing Unit (CPU / Processor)** : Le « cerveau » de l’ordinateur. Exemple : Processeurs Intel Core i7, AMD Ryzen.
+*   **Random Access Memory (RAM)** : Mémoire vive temporaire pour l’exécution des programmes.
+*   **Storage Devices** : Dispositifs de stockage.
+    *   **Hard Disk Drive (HDD)** : Disque dur mécanique. Capacité : 1 To, 2 To.
+    *   **Solid State Drive (SSD)** : Disque à mémoire flash, plus rapide et plus résistant. De plus en plus utilisé dans les serveurs d’entreprises camerounaises.
+*   **Motherboard (Mainboard)** : Carte mère connectant tous les composants.
+*   **Power Supply Unit (PSU)** : Bloc d’alimentation.
+*   **Peripherals** : Périphériques.
+    *   **Input Devices** : Clavier (*keyboard*), souris (*mouse*), scanner.
+    *   **Output Devices** : Écran (*monitor*), imprimante (*printer*), haut-parleurs (*speakers*).
+
+#### **2.2. Contexte camerounais : spécificités et défis**
+*   **Power issues / Unstable power supply** : Problèmes d’électricité. L’utilisation d’un **UPS (Uninterruptible Power Supply / Onduleur)** est souvent critique pour protéger le matériel contre les coupures et les surtensions.
+*   **Dust and heat** : La poussière et la chaleur peuvent endommager les composants. Nettoyage régulier (*regular cleaning*) et ventilation adéquate sont nécessaires.
+*   **Acquisition** : Les composants sont souvent importés. Il est important de comprendre les spécifications (*specs*) pour faire un bon choix en fonction du budget et des besoins (ex: développement d’applications, gestion de bases de données).
+
+**Tableau 1 : Comparaison HDD vs SSD**
+| Critère | **HDD (Hard Disk Drive)** | **SSD (Solid State Drive)** |
+| :--- | :--- | :--- |
+| **Vitesse** | Lente | **Très rapide** |
+| **Durabilité** | Mécanique, sensible aux chocs | **Pas de pièces mobiles, plus robuste** |
+| **Consommation** | Plus élevée | **Plus faible** |
+| **Coût/Go** | **Faible** | Élevé |
+| **Usage typique** | Stockage de masse (archives) | Système d’exploitation, logiciels critiques |
+
+---
+
+### **3. Vocabulaire fondamental des logiciels (Software)**
+
+Le *software* désigne les programmes, les procédures et la documentation qui font fonctionner le matériel.
+
+#### **3.1. Catégories de logiciels**
+*   **System Software** : Logiciel système.
+    *   **Operating System (OS)** : Système d’exploitation (Windows, Linux, macOS). Les serveurs d’entreprises au Cameroun utilisent souvent **Linux distributions** (Ubuntu Server, CentOS) pour leur stabilité et leur coût.
+    *   **Device Drivers** : Pilotes pour le matériel.
+*   **Application Software** : Logiciel applicatif.
+    *   **Word Processor** : Traitement de texte (Microsoft Word, LibreOffice Writer).
+    *   **Spreadsheet** : Tableur (Microsoft Excel, très utilisé pour la gestion dans le contexte OHADA).
+    *   **Web Browser** : Navigateur web (Google Chrome, Mozilla Firefox).
+*   **Development Software** : Logiciels de développement.
+    *   **Integrated Development Environment (IDE)** : Environnement de développement intégré (Visual Studio Code, IntelliJ IDEA, PyCharm).
+    *   **Compiler / Interpreter** : Compilateur / Interpréteur.
+    *   **Debugger** : Outil de débogage.
+    *   **Version Control System (VCS)** : Système de contrôle de version (Git, avec des plateformes comme GitHub ou GitLab).
+
+#### **3.2. Concepts clés du développement logiciel**
+*   **Algorithm** : Suite d’instructions pour résoudre un problème.
+*   **Source Code / Code** : Code source écrit par le développeur.
+*   **Executable File / Binary** : Fichier exécutable.
+*   **Bug / Defect** : Erreur dans un programme.
+*   **Debugging** : Processus de correction des bugs.
+*   **Update / Patch / Hotfix** : Mise à jour corrective.
+*   **Release / Version** : Version du logiciel (ex: v1.0.2).
+*   **Open Source vs Proprietary Software** : Logiciel libre vs logiciel propriétaire.
+
+**À retenir :** La maîtrise des termes liés au cycle de développement ( *requirements* - exigences, *design* - conception, *testing* - tests, *deployment* - déploiement, *maintenance* - maintenance) est cruciale pour lire les documents de projet.
+
+---
+
+### **4. Vocabulaire fondamental des réseaux et d’Internet (Networking)**
+
+#### **4.1. Termes de base**
+*   **Network** : Réseau (LAN, WAN).
+*   **Internet** : Réseau mondial.
+*   **Bandwidth** : Bande passante. Un enjeu majeur pour les entreprises camerounaises.
+*   **Latency / Ping** : Délai de transmission.
+*   **IP Address** : Adresse IP (ex: 192.168.1.1).
+*   **Router / Switch / Modem** : Routeur / Commutateur / Modem.
+*   **Wi-Fi / Ethernet Cable** : Connexion sans fil / câble Ethernet.
+*   **Firewall** : Pare-feu de sécurité.
+
+#### **4.2. Contexte des opérateurs camerounais et services**
+*   **Internet Service Provider (ISP)** : Fournisseur d’accès à Internet (FAI). Exemples : **Camtel** (opérateur historique), **MTN**, **Orange**, **Nexttel**.
+*   **Mobile Data / 4G LTE / 5G** : Données mobiles. Les forfaits (*bundles*) « data » sont essentiels pour le travail mobile.
+*   **Fiber Optics / FTTH** : Fibre optique. Déployée progressivement dans les grandes villes (Douala, Yaoundé).
+*   **VSAT** : Technologie satellite utilisée pour connecter des sites éloignés.
+*   **Cloud Computing** : Informatique en nuage. Les services comme **Orange Cloud** ou l’utilisation d’**AWS** et **Azure** par les grandes entreprises se développent.
+*   **VoIP** : Téléphonie sur IP, utilisée par de nombreuses entreprises pour réduire les coûts.
+
+---
+
+### **5. Lecture et compréhension de la documentation technique**
+
+#### **5.1. Types de documents techniques**
+*   **User Manual / Guide** : Manuel utilisateur.
+*   **Installation Guide / Setup Instructions** : Guide d’installation.
+*   **API Documentation** : Documentation d’interface de programmation (ex: documentation de l’API REST d’un service bancaire).
+*   **Technical Specifications (Specs)** : Spécifications techniques (performances matérielles).
+*   **White Paper** : Livre blanc (document détaillé sur une technologie).
+*   **Release Notes / Changelog** : Notes de version (liste des modifications).
+*   **Error Message / Log File** : Message d’erreur / Fichier journal.
+
+#### **5.2. Structure et stratégies de lecture**
+*   **Table of Contents (TOC)** et **Index** : Pour localiser rapidement l’information.
+*   **Prerequisites** : Prérequis (matériel, logiciel) à vérifier avant installation.
+*   **Step-by-step procedure** : Procédure étape par étape. **Suivre scrupuleusement** (*follow carefully*).
+*   **Troubleshooting Section** : Section de dépannage. Contient des problèmes courants (*common issues*) et leurs solutions.
+*   **FAQ (Frequently Asked Questions)** : Questions fréquemment posées.
+*   **Glossary** : Glossaire des termes techniques.
+
+#### **5.3. Décryptage des messages d’erreur et des logs**
+Un message d’erreur typique contient :
+1.  **Niveau de sévérité** : `ERROR`, `WARNING`, `INFO`.
+2.  **Code d’erreur** : Ex: `Error 404`, `SQLSTATE[28000]`.
+3.  **Description** : Description en langage clair ou technique.
+4.  **Timestamp** : Date et heure de l’erreur.
+5.  **Emplacement** : Fichier et ligne de code concernés.
+
+**Exemple concret :** Un développeur à Douala déploie une application connectée à une base de données. Le log affiche : `"ERROR [2023-10-27 14:05:12] Connection failed: Host 'client_office.yaounde.cm' is not allowed to connect to this MySQL server".` Il comprend qu’il doit configurer les droits d’accès distants (*remote access permissions*) sur le serveur MySQL.
+
+**Liste de points clés pour lire une documentation :**
+1.  **Identifier le type de document** et son objectif.
+2.  **Lire les prérequis** avant de commencer.
+3.  **Survoler** (*skim*) la table des matières.
+4.  **Lire activement** avec un objectif en tête.
+5.  **Prendre des notes** et surligner les étapes importantes.
+6.  **Consulter le glossaire** en cas de doute sur un terme.
+7.  **Utiliser la section dépannage** en cas de problème.
+
+---
+
+### **6. Étude de cas pratique : Déploiement d’un module de paiement mobile (MTN MoMo, Orange Money)**
+
+**Scénario :** Vous devez intégrer l’API de paiement mobile Orange Money dans une application e-commerce pour un client camerounais. Vous devez lire la documentation technique fournie par Orange.
+
+**1. Vocabulaire rencontré :**
+*   **API Endpoint** : `https://api.orange.com/orange-money-webpay/cm/v1/webpayment`
+*   **HTTP Methods** : `POST` (initier un paiement), `GET` (vérifier un statut).
+*   **Authentication** : `Authorization: Bearer <access_token>`
+*   **Request/Response Body** : Corps de la requête/réponse (souvent en **JSON**).
+*   **Parameters** : `merchant_code`, `amount`, `currency` (XAF), `order_id`, `return_url`.
+*   **Callback / Webhook** : URL de retour pour recevoir la confirmation de paiement.
+*   **Status Codes** : `200 OK` (succès), `400 Bad Request` (erreur client), `503 Service Unavailable`.
+
+**2. Étapes de compréhension :**
+*   S’authentifier et obtenir un **token**.
+*   Formater une **requête JSON** correcte avec les paramètres obligatoires (*required parameters*).
+*   Gérer les **réponses** de l’API (succès, échec, attente).
+*   Mettre en place la gestion des **erreurs** (réseau indisponible, solde insuffisant).
+*   Consulter la section **`Sandbox Testing`** pour tester sans utiliser d’argent réel.
+
+**Conclusion :** Cette compétence de lecture technique permet d’intég

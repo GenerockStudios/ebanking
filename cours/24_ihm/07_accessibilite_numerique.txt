@@ -1,0 +1,150 @@
+# **Notes de cours — BTS Génie Logiciel**
+**Matière :** 24 IHM (Interface Homme-Machine)
+**Chapitre :** Accessibilité numérique (a11y) : WCAG 2.1 (A/AA/AAA), lecteurs d'écran (NVDA, VoiceOver), ARIA, conception inclusive — contexte handicap en Afrique
+
+---
+
+## **1. Introduction à l’accessibilité numérique (a11y)**
+
+### **1.1. Définition et enjeux**
+L’**accessibilité numérique** (souvent abrégée **a11y** – "a" + 11 lettres + "y") désigne la mise en œuvre de techniques et de bonnes pratiques permettant à tous les utilisateurs, y compris les personnes en situation de handicap, d’accéder aux contenus, services et fonctionnalités des applications logicielles et des sites web.
+
+**Enjeux principaux :**
+*   **Éthique et social :** Garantir l’égalité d’accès à l’information et aux services numériques, un droit fondamental.
+*   **Légal :** Se conformer à la législation nationale (loi camerounaise n°2010/002 du 13 avril 2010 relative à la protection et à la promotion des personnes handicapées) et aux référentiels internationaux.
+*   **Économique :** Élargir sa base d’utilisateurs/clients. En Afrique, le marché des personnes handicapées est significatif et souvent sous-estimé.
+*   **Technique et qualité :** Améliorer la qualité générale du code (sémantique, structure), la compatibilité avec les différents navigateurs et appareils, et le référencement (SEO).
+
+### **1.2. Contexte du handicap en Afrique et au Cameroun**
+**À retenir :** Concevoir pour l’accessibilité en Afrique nécessite de comprendre des contraintes spécifiques.
+
+*   **Prévalence :** L’OMS estime qu’environ 15% de la population mondiale vit avec un handicap. En Afrique subsaharienne, les taux peuvent être plus élevés en raison de facteurs comme les maladies, les conflits et les accidents de la route.
+*   **Types de handicaps pertinents pour le numérique :**
+    *   **Handicaps visuels :** Cécité, basse vision, daltonisme.
+    *   **Handicaps auditifs :** Surdité, malentendance.
+    *   **Handicaps moteurs :** Difficultés à utiliser la souris ou le clavier (paralysie, tremblements).
+    *   **Handicaps cognitifs :** Difficultés de compréhension, de mémorisation, de concentration (ex. : dyslexie).
+*   **Contraintes contextuelles africaines :**
+    *   **Fracture numérique :** Accès limité aux technologies d’assistance de pointe (lecteurs d’écran coûteux). Les solutions open-source et intégrées aux OS sont cruciales.
+    *   **Connectivité :** Conception nécessaire pour des débits faibles et intermittents (zones rurales, coût des données).
+    *   **Multilinguisme :** Prise en compte des langues locales et des niveaux de littératie variés.
+    *   **Exemple concret :** Une application mobile de microfinance (style "M-Pesa" adapté) doit être utilisable par une personne malvoyante avec un lecteur d’écran basique sur un smartphone d’entrée de gamme, avec une interface simple et des icônes claires, même avec une connexion 2G/3G.
+
+---
+
+## **2. Le référentiel WCAG 2.1**
+
+### **2.1. Présentation des WCAG**
+Les **Règles pour l’accessibilité des contenus web (Web Content Accessibility Guidelines - WCAG)** 2.1, publiées par le W3C, sont le standard international. Elles sont organisées autour de **4 principes fondamentaux (POUR)** :
+
+1.  **Perceptible :** L’information et les composants de l’interface doivent être présentés de manière perceptible par tous les utilisateurs.
+    *   *Exemple :* Fournir des alternatives textuelles (attribut `alt`) pour les images non décoratives.
+2.  **Utilisable :** Les composants de l’interface et la navigation doivent être utilisables.
+    *   *Exemple :* Rendre toutes les fonctionnalités accessibles au clavier (sans souris).
+3.  **Compréhensible :** L’information et le fonctionnement de l’interface doivent être compréhensibles.
+    *   *Exemple :* Aider l’utilisateur à éviter et à corriger les erreurs dans les formulaires (ex. : formulaire d’inscription pour un service Orange Money).
+4.  **Robuste :** Le contenu doit être suffisamment robuste pour être interprété de manière fiable par une large variété d’agents utilisateurs, y compris les technologies d’assistance.
+    *   *Exemple :* Utiliser un code HTML valide et sémantique.
+
+### **2.2. Niveaux de conformité (A, AA, AAA)**
+Les critères de succès des WCAG sont classés en trois niveaux :
+
+| Niveau | Description | Objectif | Exemple d'exigence |
+| :--- | :--- | :--- | :--- |
+| **A (Minimum)** | **Accessibilité de base.** Sans ce niveau, certains utilisateurs ne pourront pas du tout utiliser le site. | **Conformité légale minimale.** | 1.1.1 - Contenu non textuel : Fournir une alternative textuelle. |
+| **AA (Standard)** | **Accessibilité acceptable.** Supprime les obstacles majeurs pour la plupart des handicaps. | **Cible recommandée pour la plupart des sites publics et d'entreprise (ex. : sites gouvernementaux, MTN, banques).** | 1.4.3 - Contraste minimum : Rapport de contraste de 4.5:1 pour le texte normal. |
+| **AAA (Optimal)** | **Accessibilité élevée.** Rend le contenu accessible au maximum d'utilisateurs et de situations. | Souvent difficile à atteindre entièrement sur un site complet. Visé pour des pages spécifiques (ex. : portail d'aide). | 1.4.6 - Contraste renforcé : Rapport de contraste de 7:1 pour le texte normal. |
+
+**Application au contexte camerounais :** Pour un site e-commerce vendant des produits locaux ou un portail de services publics, viser au minimum le niveau **AA** est une bonne pratique professionnelle et une démarche responsable.
+
+---
+
+## **3. Technologies d'assistance : Les lecteurs d'écran**
+
+### **3.1. Rôle et fonctionnement**
+Un **lecteur d’écran** est un logiciel qui restitue par synthèse vocale et/ou affichage braille ce qui est présenté à l’écran. Il lit le code HTML/CSS/JavaScript et interprète la structure sémantique.
+
+**Processus :** Navigation au clavier → Lecteur d'écran interprète le DOM (Modèle d'Objet de Document) → Restitution vocale/braille.
+
+### **3.2. Lecteurs d'écran majeurs et outils de test**
+**À retenir :** Un développeur GL doit tester avec au moins un lecteur d'écran.
+
+| Outil | Plateforme | Statut | Pertinence en Afrique |
+| :--- | :--- | :--- | :--- |
+| **NVDA (NonVisual Desktop Access)** | Windows | **Gratuit, open-source.** Très populaire. | **Très pertinent.** Solution de choix en raison de son coût nul. Outil de test essentiel. |
+| **JAWS** | Windows | Payant, leader historique. | Peu accessible financièrement pour beaucoup d'utilisateurs et de PME. |
+| **VoiceOver** | macOS, iOS, iPadOS | Intégré, gratuit. | Pertinent avec la croissance de l'écosystème Apple chez les professionnels et étudiants. |
+| **TalkBack** | Android | Intégré, gratuit. | **Extrêmement pertinent.** Majoritaire sur le parc de smartphones en Afrique. |
+
+**Outils de test complémentaires :**
+*   **Barres d'outils d'audit :** axe DevTools, WAVE Evaluation Tool.
+*   **Simulateurs :** Extensions navigateur pour simuler le daltonisme.
+*   **Tests manuels au clavier :** Navigation avec la touche `Tab`.
+
+---
+
+## **4. ARIA (Accessible Rich Internet Applications)**
+
+### **4.1. Définition et objectifs**
+**ARIA** est un ensemble d’attributs HTML qui permettent de rendre les composants d’interfaces dynamiques et riches (JavaScript, Ajax) accessibles lorsque les balises HTML natives sont insuffisantes.
+
+**Objectif principal :** Combler les "écarts d’accessibilité" dans le HTML en fournissant des informations sémantiques supplémentaires aux technologies d’assistance.
+
+### **4.2. Règles d'usage et catégories principales**
+**Règle d'or :** **Privilégier les éléments HTML sémantiques natifs** (`<button>`, `<nav>`, `<input type="checkbox">`) chaque fois que possible. N'utiliser ARIA qu'en cas de nécessité.
+
+**Catégories d'attributs ARIA :**
+1.  **Rôles (`role`)** : Définissent la nature d'un élément (`role="navigation"`, `role="alert"`).
+    *   *Exemple :* `<div role="banner">` pour indiquer une en-tête de page.
+2.  **Propriétés (`aria-*`)** : Définissent des caractéristiques (`aria-label`, `aria-describedby`, `aria-hidden="true"`).
+    *   *Exemple :* `<button aria-label="Fermer la fenêtre de dialogue">X</button>`
+3.  **États (`aria-*`)** : Définissent des conditions dynamiques (`aria-disabled="true"`, `aria-expanded="false"`, `aria-checked="mixed"`).
+    *   *Exemple :* Un menu accordéon : `<button aria-expanded="false" aria-controls="section1">Titre</button>`
+
+### **4.3. Exemple concret dans un contexte local**
+**Scénario :** Un tableau de bord dynamique pour la gestion des actes OHADA dans une étude notariale.
+
+```html
+<!-- Mauvais : Divs cliquables sans sémantique -->
+<div onclick="downloadActe()">Télécharger l'acte</div>
+
+<!-- Bon : Utilisation d'un élément natif -->
+<button onclick="downloadActe()">Télécharger l'acte</button>
+
+<!-- Bon avec ARIA : Quand un composant complexe est nécessaire -->
+<div role="tablist" aria-label="Menu des actes OHADA">
+  <button role="tab" aria-selected="true" aria-controls="acte-vente-panel">Acte de vente</button>
+  <button role="tab" aria-selected="false" aria-controls="acte-societe-panel">Acte de société</button>
+</div>
+<div role="tabpanel" id="acte-vente-panel">... Contenu de l'acte de vente ...</div>
+```
+
+---
+
+## **5. Principes de conception inclusive**
+
+### **5.1. Définition**
+La **conception inclusive** va au-delà de l'accessibilité en visant à créer des produits utilisables par le plus grand nombre de personnes, quelles que soient leurs capacités, leur âge, leur situation ou leur contexte d'usage. Elle intègre la diversité humaine dès la phase de conception.
+
+### **5.2. Application au cycle de développement logiciel**
+**1. Conception & Spécification :**
+*   Intégrer des personas incluant des utilisateurs handicapés.
+*   Rédiger des critères d'acceptation (User Stories) incluant l'a11y.
+    *   *Exemple :* "En tant qu'utilisateur malvoyant avec NVDA, je dois pouvoir naviguer dans le menu principal à l'aide des touches Tab et Entrée afin d'accéder aux services Camtel."
+
+**2. Développement (Intégration continue) :**
+*   Utiliser des linters et plugins d'accessibilité dans l'IDE (ex. : ESLint avec des règles a11y).
+*   Intégrer des tests automatisés d'accessibilité (ex. : jest-axe, Pa11y CI).
+
+**3. Tests & Recette :**
+*   **Tests manuels** avec clavier et un lecteur d'écran (NVDA).
+*   **Tests utilisateurs** incluant des personnes en situation de handicap (collaboration avec des associations locales).
+*   Audit avec des outils comme **axe DevTools** ou **Siteimprove**.
+
+**4. Déploiement & Maintenance :**
+*   Vérifier l'accessibilité après chaque mise à jour.
+*   Former les rédacteurs de contenu à l'accessibilité (images, documents PDF).
+
+---
+
+## **6. Conclusion et synthèse

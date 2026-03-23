@@ -1,0 +1,111 @@
+CHAPITRE 3 — PROBABILITÉS
+BTS Génie Logiciel — Mathématiques
+
+1. VOCABULAIRE DE BASE
+
+Expérience aléatoire : expérience dont l'issue est imprévisible à l'avance (lancer un dé, tester un programme).
+Univers (espace échantillonnal) Ω : ensemble de tous les résultats possibles.
+Événement : sous-ensemble de Ω. Noté A, B, ...
+- Événement certain = Ω
+- Événement impossible = Ø
+- Événements élémentaires = singletons
+
+Opérations sur les événements :
+A ∪ B : A ou B (réunion)
+A ∩ B : A et B (intersection)
+Ā (ou Aᶜ) : contraire de A (non A)
+A et B incompatibles (mutuellement exclusifs) : A ∩ B = Ø
+
+2. DÉFINITION ET PROPRIÉTÉS DE LA PROBABILITÉ
+
+Définition axiomatique (Kolmogorov) :
+P est une probabilité sur Ω si :
+1. Pour tout événement A : 0 ≤ P(A) ≤ 1
+2. P(Ω) = 1
+3. Si A et B sont incompatibles : P(A ∪ B) = P(A) + P(B)
+
+Conséquences :
+P(Ø) = 0
+P(Ā) = 1 − P(A)
+P(A ∪ B) = P(A) + P(B) − P(A ∩ B) (formule générale)
+
+Définition classique (équiprobabilité) :
+Si tous les événements élémentaires sont équiprobables :
+P(A) = Nombre de cas favorables à A / Nombre de cas possibles = Card(A) / Card(Ω)
+
+3. PROBABILITÉ CONDITIONNELLE ET INDÉPENDANCE
+
+Probabilité conditionnelle :
+P(A|B) = P(A ∩ B) / P(B)   avec P(B) > 0
+Probabilité de A sachant que B est réalisé.
+
+Formule de la multiplication :
+P(A ∩ B) = P(A|B) × P(B) = P(B|A) × P(A)
+
+Indépendance :
+A et B sont indépendants si et seulement si : P(A ∩ B) = P(A) × P(B)
+Équivalent à P(A|B) = P(A) et P(B|A) = P(B).
+
+4. FORMULE DES PROBABILITÉS TOTALES ET THÉORÈME DE BAYES
+
+Système complet d'événements : partition de Ω en événements B1, B2, ..., Bk mutuellement exclusifs et exhaustifs.
+
+Formule des probabilités totales :
+P(A) = Σ P(A|Bi) × P(Bi)
+
+Théorème de Bayes (probabilité des causes) :
+P(Bi|A) = [P(A|Bi) × P(Bi)] / P(A)
+
+Exemple : un logiciel est développé par 3 équipes A (40%), B (35%), C (25%).
+Taux de bugs : A = 5%, B = 3%, C = 8%
+On détecte un bug. Quelle est la probabilité qu'il vienne de l'équipe C ?
+
+P(bug) = 0,05×0,40 + 0,03×0,35 + 0,08×0,25 = 0,02 + 0,0105 + 0,02 = 0,0505
+P(C|bug) = (0,08 × 0,25) / 0,0505 = 0,02 / 0,0505 ≈ 0,396 = 39,6%
+
+5. VARIABLES ALÉATOIRES DISCRÈTES
+
+Variable aléatoire X : fonction qui associe un nombre réel à chaque résultat de l'expérience.
+
+Loi de probabilité : tableau P(X = xi) pour toutes les valeurs xi.
+Condition : Σ P(X = xi) = 1
+
+Espérance mathématique (moyenne) :
+E(X) = Σ xi × P(X = xi)
+
+Variance :
+V(X) = E(X²) − [E(X)]² = Σ xi² × P(X=xi) − [E(X)]²
+
+Écart-type : σ(X) = √V(X)
+
+6. LOI BINOMIALE B(n, p)
+
+Contexte : n épreuves de Bernoulli indépendantes, probabilité de succès p constante.
+X = nombre de succès.
+
+P(X = k) = C(n,k) × p^k × (1−p)^(n−k)   pour k = 0, 1, ..., n
+
+C(n,k) = n! / (k! × (n−k)!)   (coefficient binomial)
+
+E(X) = n × p
+V(X) = n × p × (1−p)
+σ(X) = √(n × p × (1−p))
+
+Exemple : on teste 10 fonctions d'un programme, probabilité de bug par fonction = 0,2.
+X ~ B(10, 0,2)
+P(X = 2) = C(10,2) × 0,2² × 0,8⁸ = 45 × 0,04 × 0,1678 ≈ 0,302
+E(X) = 10 × 0,2 = 2 bugs en moyenne
+
+7. LOI NORMALE N(μ, σ²)
+
+Variable continue, cloche de Gauss, symétrique autour de μ.
+Z = (X − μ) / σ suit la loi N(0,1) (loi normale centrée réduite)
+P(X ≤ x) = P(Z ≤ z) = Φ(z) lu dans la table de la loi normale
+
+Propriétés :
+- P(μ − σ ≤ X ≤ μ + σ) ≈ 68%
+- P(μ − 2σ ≤ X ≤ μ + 2σ) ≈ 95%
+- P(μ − 3σ ≤ X ≤ μ + 3σ) ≈ 99,7%
+
+Approximation de la loi binomiale par la normale :
+Si n grand et 0,1 < p < 0,9 : B(n,p) ≈ N(np, np(1−p))

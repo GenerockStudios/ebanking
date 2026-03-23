@@ -1,0 +1,67 @@
+CHAPITRE 3 — ANALYSE DE MARCHÉ ET STRATÉGIE COMMERCIALE
+BTS Génie Logiciel — Économie et création d'entreprises
+
+1. L'ÉTUDE DE MARCHÉ
+
+Définition : démarche qui permet de recueillir, analyser et interpréter des informations sur un marché donné, afin de prendre des décisions commerciales éclairées.
+
+Objectifs :
+- Évaluer la demande potentielle
+- Identifier les concurrents et leur positionnement
+- Comprendre les attentes des clients cibles
+- Déterminer le prix acceptable
+
+Types de données :
+- Données primaires : collectées directement (questionnaires, entretiens, observations)
+- Données secondaires : déjà existantes (INS Cameroun, études sectorielles, rapports CEMAC)
+
+Méthodes de collecte :
+- Sondage quantitatif : questionnaire sur échantillon représentatif → résultats chiffrés
+- Enquête qualitative : entretiens, focus groups → compréhension des motivations
+- Observation terrain : comportements réels d'achat
+
+2. SEGMENTATION ET CIBLAGE
+
+Segmentation : découper le marché en groupes homogènes (segments) selon des critères :
+- Géographiques : Yaoundé, Douala, zones rurales
+- Démographiques : âge, sexe, revenu, niveau d'éducation
+- Comportementaux : fréquence d'achat, fidélité, usage
+- Psychographiques : style de vie, valeurs
+
+Ciblage : sélectionner le ou les segments les plus attractifs et accessibles.
+Stratégies : indifférenciée (un seul mix pour tous), différenciée (un mix par segment), concentrée (niche)
+
+Positionnement : place distinctive que l'entreprise veut occuper dans l'esprit du client. Exemple : "L'application mobile la plus fiable pour les paiements au Cameroun."
+
+3. LE MARKETING-MIX (4P → 7P pour les services)
+
+Produit (Product) : caractéristiques, qualité, marque, packaging, gamme
+Prix (Price) : coût de revient + marge, prix du marché, valeur perçue par le client
+Distribution (Place) : canaux de vente, points de vente, livraison, logistique
+Communication (Promotion) : publicité, réseaux sociaux, bouche-à-oreille, promotion des ventes
+
+Pour les services (3P supplémentaires) :
+Personnel (People) : compétences et attitude du personnel en contact
+Processus (Process) : qualité et fluidité du service rendu
+Preuve physique (Physical evidence) : environnement, interface, éléments tangibles
+
+4. ANALYSE SWOT
+
+Forces (Strengths) : avantages internes de l'entreprise
+Faiblesses (Weaknesses) : points faibles internes à corriger
+Opportunités (Opportunities) : éléments favorables de l'environnement externe
+Menaces (Threats) : risques externes à anticiper
+
+Exemple pour une startup logicielle camerounaise :
+Force : équipe technique compétente, faibles coûts salariaux
+Faiblesse : notoriété faible, capital limité
+Opportunité : croissance de la pénétration internet mobile, digitalisation des services publics
+Menace : concurrence des grandes SSII internationales, instabilité réglementaire
+
+5. INDICATEURS COMMERCIAUX CLÉS
+
+Chiffre d'affaires (CA) = Prix de vente × Quantités vendues
+Taux de croissance = (CA N - CA N-1) / CA N-1 × 100
+Part de marché = CA entreprise / CA total du marché × 100
+Taux de marge commerciale = (CA - Coût d'achat) / CA × 100
+Panier moyen = CA / Nombre de transactions

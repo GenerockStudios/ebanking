@@ -1,0 +1,209 @@
+# **Notes de cours — 21 UML et MOO**
+## **Projet UML complet : Modélisation d'un système de gestion scolaire camerounais**
+
+### **1. Introduction et contexte du projet**
+
+#### **1.1. Objectifs pédagogiques du chapitre**
+Ce chapitre a pour objectif de synthétiser et d'appliquer les connaissances acquises en UML (Unified Modeling Language) et en MOO (Méthodes Orientées Objet) à travers un projet complet et réaliste. L'étudiant sera capable de :
+*   Conduire l'analyse et la conception d'un système d'information complexe.
+*   Produire un ensemble cohérent de diagrammes UML représentant les différentes vues du système.
+*   Adapter la modélisation aux spécificités d'un contexte organisationnel camerounais.
+
+#### **1.2. Présentation du cas : Système de Gestion Scolaire (SGS) "EduCam"**
+Nous modéliserons un système de gestion scolaire pour un établissement secondaire camerounais (Lycée ou Collège). Ce système, nommé **"EduCam"**, devra gérer :
+*   **La gestion académique** : Inscriptions, programmes, emplois du temps, évaluations, bulletins.
+*   **La gestion financière** : Paiement des frais de scolarité, des frais annexes (APE, mutuelle), génération de reçus.
+*   **La gestion des ressources** : Enseignants, salles de classe, matériel.
+*   **La communication** : Espace parents, résultats publiés en ligne.
+
+**Contexte camerounais intégré** :
+*   Respect du système éducatif (cycles, séries A, C, D, etc.).
+*   Intégration des modes de paiement locaux (Mobile Money via **MTN MoMo** et **Orange Money**, paiement bancaire, espèces).
+*   Gestion des **autorisations OHADA** pour les aspects contractuels (contrats des enseignants vacataires).
+*   Considération des infrastructures (déploiement avec accès via réseau local et internet limité, utilisation potentielle de serveurs locaux ou cloud avec des acteurs comme **Camtel**).
+
+---
+
+### **2. Processus de modélisation et diagrammes UML requis**
+
+Le développement suivra une approche itérative et incrémentale, typique des projets logiciels. Les diagrammes seront produits selon les vues suivantes :
+
+| **Vue du système** | **Diagrammes UML clés** | **Objectif principal** |
+| :--- | :--- | :--- |
+| **Vue des besoins (Fonctionnelle)** | Cas d'utilisation (Use Case) | Capturer les fonctionnalités attendues par les acteurs. |
+| **Vue statique (Structure)** | Diagramme de classes | Décrire la structure logique, les entités et leurs relations. |
+| **Vue dynamique (Comportement)** | Diagramme de séquence, Diagramme d'activités | Modéliser les interactions et les flux de travail. |
+| **Vue d'implémentation** | Diagramme de déploiement | Montrer l'architecture physique du système déployé. |
+
+---
+
+### **3. Vue des besoins : Diagramme de Cas d'Utilisation (UC)**
+
+#### **3.1. Identification des acteurs**
+*   **Secrétaire** : Gère les inscriptions, les dossiers des élèves, les paiements.
+*   **Enseignant** : Saisit les notes, consulte les emplois du temps, remplit les bulletins.
+*   **Élève** : Consulte son emploi du temps, ses notes, son état financier.
+*   **Parent/Tuteur** : Consulte les résultats, l'assiduité et effectue des paiements en ligne.
+*   **Comptable** : Valide les paiements, génère les états financiers.
+*   **Proviseur/Directeur** : Consulte les statistiques (taux de réussite, recettes), valide les décisions.
+*   **Système de Paiement Externe** (MTN MoMo, Orange Money) : Acteur externe pour l'inclusion et la validation des transactions.
+
+#### **3.2. Cas d'utilisation principaux et scénarios**
+Nous détaillerons le cas d'utilisation **"Payer les frais de scolarité"** comme exemple.
+
+*   **Acteur principal** : Parent/Tuteur.
+*   **Acteur secondaire** : Système de Paiement Externe (MTN MoMo).
+*   **Préconditions** : L'élève est inscrit. Des frais sont dus.
+*   **Scénario nominal** :
+    1. Le parent se connecte à l'espace parent.
+    2. Le système affiche le solde dû pour son enfant.
+    3. Le parent sélectionne le mode de paiement "Mobile Money MTN".
+    4. Le parent saisit son numéro de téléphone MTN et le montant.
+    5. Le système génère une demande de paiement et redirige vers l'API MTN MoMo.
+    6. Le parent valide le paiement sur son mobile.
+    7. Le système MTN notifie "EduCam" du paiement réussi.
+    8. "EduCam" enregistre la transaction, met à jour le solde et génère un reçu électronique.
+    9. Le reçu est affiché et envoyé par SMS au parent.
+*   **Extensions** :
+    *   5a. Échec de connexion à l'API MTN : Afficher un message d'erreur et proposer un autre mode de paiement.
+    *   7a. Paiement échoué (fonds insuffisants) : Notifier le parent et revenir à l'étape 3.
+
+**À retenir** : Un bon diagramme de cas d'utilisation se focalise sur **CE QUE** le système fait pour l'utilisateur, pas **COMMENT** il le fait en interne.
+
+---
+
+### **4. Vue statique : Diagramme de classes**
+
+#### **4.1. Identification des classes métier (concepts du domaine)**
+*   `Personne` (classe abstraite)
+*   `Eleve`, `Enseignant`, `Parent`, `PersonnelAdministratif`
+*   `Inscription`, `Classe` (ex: 6ème A, Terminale C), `Matiere`
+*   `Evaluation`, `Note`
+*   `Paiement`, `Frais` (Frais de scolarité, Frais d'APE, Frais de laboratoire)
+*   `TransactionMobileMoney` (hérite de `Paiement`)
+*   `Bulletin`, `EmploiDuTemps`, `Salle`
+
+#### **4.2. Diagramme de classes partiel (extrait)**
+```mermaid
+classDiagram
+    class Personne {
+        -String matricule
+        -String nom
+        -String prenom
+        -Date dateNaissance
+        -String telephone
+        +creerCompte()
+    }
+
+    class Eleve {
+        -String nomTuteur
+        -String contactTuteur
+        -String serie
+        +consulterBulletin()
+    }
+
+    class Paiement {
+        -String numeroTransaction
+        -double montant
+        -Date datePaiement
+        -String modePaiement
+        +effectuerPaiement()
+        +genererRecu()
+    }
+
+    class TransactionMobileMoney {
+        -String operateur // "MTN", "Orange"
+        -String numeroTelephone
+        -String codeValidation
+        +validerAvecOperateur()
+    }
+
+    class Frais {
+        -String codeFrais
+        -String libelle
+        -double montant
+        -boolean obligatoire
+        +calculerTotal()
+    }
+
+    Personne <|-- Eleve
+    Personne <|-- Enseignant
+    Personne <|-- Parent
+    Paiement <|-- TransactionMobileMoney
+
+    Eleve "1" -- "*" Inscription
+    Inscription "1" -- "1" Classe
+    Classe "*" -- "*" Matiere
+    Eleve "*" -- "*" Note
+    Note "1" -- "1" Evaluation
+    Eleve "*" -- "*" Paiement
+    Paiement "1" -- "1" Frais
+```
+
+**Explication des relations** : Agrégation entre `Classe` et `Matiere` (une classe a plusieurs matières, une matière est enseignée dans plusieurs classes). Association qualifiée entre `Paiement` et `Frais`.
+
+---
+
+### **5. Vue dynamique : Diagrammes de séquence et d'activités**
+
+#### **5.1. Diagramme de séquence : "Saisir une note"**
+Ce diagramme montre les interactions entre objets pour un scénario de flux.
+
+**Acteurs/Objets** : Enseignant, InterfaceSaisieNotes, `ControleurNotes`, `Note`, `Evaluation`, `Eleve`, `BaseDeDonnees`.
+
+**Messages** :
+1. `Enseignant` -> `InterfaceSaisieNotes` : saisirNote(eleveMatricule, evaluationId, valeur)
+2. `InterfaceSaisieNotes` -> `ControleurNotes` : validerEtEnregistrer(saisie)
+3. `ControleurNotes` -> `Note` : créer(nouvelleNote)
+4. `ControleurNotes` -> `Evaluation` : getBareme() // Vérifie la note maximale
+5. `ControleurNotes` -> `Eleve` : verifierInscription(evaluationId)
+6. `ControleurNotes` -> `BaseDeDonnees` : persister(note)
+7. `BaseDeDonnees` -> `ControleurNotes` : confirmation
+8. `ControleurNotes` -> `InterfaceSaisieNotes` : afficherSucces()
+9. `InterfaceSaisieNotes` -> `Enseignant` : note enregistrée
+
+**À retenir** : Le diagramme de séquence met l'accent sur l'**ORDRE** chronologique des messages et la **DURÉE DE VIE** des objets.
+
+#### **5.2. Diagramme d'activités : "Processus d'inscription d'un nouvel élève"**
+Ce diagramme modélise le flux de travail ou l'algorithme d'un processus.
+
+**Activités** : Dépôt du dossier -> Vérification administrative (Certificat de naissance, bulletins antérieurs) -> Entretien éventuel -> Sélection de la classe -> Calcul des frais -> Paiement des frais d'inscription -> Saisie dans le système -> Édition de la carte d'élève.
+
+**Décisions** : Dossier complet ? (Oui/Non). Admission après entretien ? (Oui/Non).
+
+**Bifurcations/Confluences** : Les activités de vérification peuvent être faites en parallèle par deux agents.
+
+**Pools/Couloirs (Swimlanes)** : On peut séparer les activités par acteur : `Parent`, `Secrétaire`, `Comptable`, `Système EduCam`.
+
+---
+
+### **6. Vue d'implémentation : Diagramme de déploiement**
+
+Ce diagramme montre l'architecture matérielle et logicielle sur laquelle "EduCam" sera installé.
+
+#### **6.1. Nœuds et artefacts**
+*   **Nœud Serveur (On-Premise ou Cloud Camtel)** :
+    *   Artefact : `ServeurApplication.jar` (Backend Spring Boot)
+    *   Artefact : `BaseDeDonnees.war` (SGBD MySQL/PostgreSQL)
+*   **Nœud Pare-feu (Firewall)** : Sécurise l'accès au serveur.
+*   **Nœud Poste Client (Bureau Secrétariat)** :
+    *   Artefact : `ApplicationDesktop.exe` (Client lourd JavaFX pour la gestion interne)
+*   **Nœud Navigateur Web** :
+    *   Artefact : `ApplicationWeb.js` (Frontend React/Angular pour parents/élèves/enseignants)
+*   **Nœud Serveur d'API Externe** : `api.mtn.cm` (Connexion pour Mobile Money).
+
+#### **6.2. Connexions et stéréotypes**
+*   `<<LAN>>` : Connexion Ethernet entre le poste client et le serveur local de l'école.
+*   `<<Internet>>` : Connexion via un FAI (Camtel, Ringo, etc.) pour l'accès web et les API externes.
+*   `<<HTTP/HTTPS>>` : Protocole de communication entre le navigateur et le serveur d'application.
+*   `<<JDBC>>` : Connexion entre le serveur d'application et la base de données.
+
+**Considération pratique** : Le diagramme peut prévoir un **déploiement hybride** : une base de données locale pour la disponibilité hors ligne, synchronisée avec un cloud pour l'accès distant.
+
+---
+
+### **7. Outils et technologies de modélisation et de réalisation**
+
+#### **7.1. Outils de modélisation UML**
+*   **Enterprise Architect** : Professionnel, puissant, supporte tous les diagrammes.
+*   **Visual Paradigm** : Très utilisé en entreprise,

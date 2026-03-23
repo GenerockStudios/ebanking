@@ -1,0 +1,131 @@
+CHAPITRE 2 — DIAGRAMMES COMPORTEMENTAUX UML (IGL233)
+BTS Génie Logiciel — MOO/UML
+
+1. DIAGRAMME D'ACTIVITÉS
+
+Représente le flux d'exécution d'un processus (algorithme, processus métier, cas d'utilisation).
+Proche d'un organigramme amélioré.
+
+Notation :
+● (disque noir plein) : nœud initial (début)
+◎ (disque noir dans cercle) : nœud final (fin)
+Rectangles arrondis : activités (actions)
+Losanges : nœuds de décision (condition de sortie sur les flèches)
+Barres horizontales épaisses : fourche (fork — parallélisation) et jointure (join — synchronisation)
+Couloirs (swimlanes) : partitionner les activités par acteur ou service
+
+Exemple : processus de traitement d'une commande
+
+[Début]
+   ↓
+[Recevoir la commande]
+   ↓
+◇ Stock disponible ?
+   Oui → [Préparer la commande] → [Expédier] → [Envoyer facture] → [Fin]
+   Non → [Notifier le client] → [Proposer délai] → [Fin]
+
+Swimlanes (couloirs) : Client | Vendeur | Entrepôt | Livraison
+→ Chaque activité est dans le couloir de l'acteur qui la réalise.
+
+2. DIAGRAMME D'ÉTATS-TRANSITIONS
+
+Représente le cycle de vie d'un objet (ses états et les transitions entre ces états).
+Utile pour : objets avec comportement complexe (commande, ticket, session utilisateur).
+
+Notation :
+Rectangles arrondis : états
+Flèches fléchées : transitions (déclencheur [garde] / action)
+● : état initial
+◎ : état final
+État composite : état contenant d'autres états (sous-machine)
+
+Exemple : cycle de vie d'une commande e-commerce
+
+États : En_attente, Confirmée, En_préparation, Expédiée, Livrée, Annulée
+
+Transitions :
+En_attente → Confirmée [paiement reçu] / envoyer e-mail confirmation
+En_attente → Annulée [timeout 24h] / libérer les articles du panier
+Confirmée → En_préparation [affectée à un préparateur]
+En_préparation → Expédiée [remise au transporteur] / envoyer numéro de suivi
+Expédiée → Livrée [signature du destinataire]
+Expédiée → Annulée [colis retourné]
+Livrée → Annulée [retour dans les 14 jours]
+
+3. DIAGRAMME DE COMPOSANTS
+
+Représente l'organisation physique des composants logiciels et leurs interfaces.
+
+Composant : unité logicielle déployable et remplaçable (service, bibliothèque, module).
+Interface fournie : service que le composant offre (prise)
+Interface requise : service que le composant consomme (douille)
+
+Exemple : architecture d'une application web MVC
+Composants : NavigateurWeb ← [API REST] → ServiceMétier → [JPA] → BaseDeDonnées
+             CacheRedis ← ServiceMétier
+
+4. DIAGRAMME DE DÉPLOIEMENT
+
+Montre l'architecture physique : sur quels serveurs (nœuds) sont déployés les composants.
+
+Nœuds : serveurs physiques, VMs, containers (représentés par des cubes 3D)
+Artefacts : fichiers déployables (WAR, JAR, .exe, image Docker)
+Associations : connexions réseau entre nœuds
+
+Exemple : architecture microservices
+<<cloud>> AWS
+  Nœud: ECS Cluster
+    Artefact: service-authentification:latest (Docker)
+    Artefact: service-commandes:latest (Docker)
+  Nœud: RDS
+    Artefact: base_de_donnees (PostgreSQL)
+  Nœud: ElastiCache
+    Artefact: cache (Redis)
+<<client>>
+  Nœud: Navigateur Web
+  Nœud: Application Mobile (Android/iOS)
+
+5. MÉTHODES ORIENTÉES OBJET
+
+A) Méthode OOAD (Object-Oriented Analysis and Design) :
+Analyse OO : identifier les objets du monde réel (classes candidates), leurs attributs et leurs relations depuis les cas d'utilisation.
+Conception OO : raffiner en architecture logicielle, choisir les patterns de conception.
+
+B) Identification des classes candidates :
+Depuis les spécifications textuelles → souligner les noms communs = classes candidates, verbes = méthodes potentielles, adjectifs = attributs.
+
+Exemple : "Un étudiant peut s'inscrire à plusieurs cours. Un cours est dispensé par un ou plusieurs enseignants. Chaque cours a un volume horaire et un coefficient."
+Classes candidates : Étudiant, Cours, Enseignant
+Attributs détectés : volume horaire, coefficient (→ Cours), nom, prénom (→ Étudiant et Enseignant)
+Relations : Étudiant s'inscrit à Cours (N-N), Enseignant enseigne Cours (N-N)
+
+C) Principe SOLID :
+S — Single Responsibility Principle : une classe = une seule responsabilité
+O — Open/Closed Principle : ouvert à l'extension, fermé à la modification
+L — Liskov Substitution Principle : une sous-classe peut remplacer sa super-classe sans altérer le comportement
+I — Interface Segregation Principle : préférer plusieurs interfaces spécialisées à une seule interface générale
+D — Dependency Inversion Principle : dépendre des abstractions (interfaces), pas des implémentations concrètes
+
+6. OUTILS UML
+
+Outils de modélisation :
+- StarUML : outil dédié UML, léger (recommandé BTS)
+- PlantUML : UML en texte (comme du code, intégrable dans Git)
+- draw.io / diagrams.net : gratuit, en ligne, usage général
+- Visual Paradigm : complet et professionnel
+- Enterprise Architect : outil professionnel haut de gamme
+- Lucidchart : collaboratif en ligne
+
+PlantUML — exemple diagramme de classes (texte) :
+@startuml
+class Etudiant {
+  -nom : String
+  -prenom : String
+  +getMoyenne() : float
+}
+class Cours {
+  -libelle : String
+  -coefficient : int
+}
+Etudiant "0..*" -- "0..*" Cours : s'inscrit à
+@enduml

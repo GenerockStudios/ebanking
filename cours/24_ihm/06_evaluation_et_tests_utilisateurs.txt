@@ -1,0 +1,148 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 24 IHM (Interface Homme-Machine)**
+## **Chapitre : Évaluation et tests utilisateurs**
+
+---
+
+### **1. Introduction : Pourquoi évaluer une IHM ?**
+
+L'évaluation d'une Interface Homme-Machine (IHM) est une phase critique du cycle de développement logiciel. Elle vise à s'assurer que le produit final est **utilisable, efficace, efficient et satisfaisant** pour l'utilisateur final. Au Cameroun, avec la digitalisation croissante des services (administratifs via le portail de l'OHADA, bancaires, télécoms avec MTN, Orange, Camtel), une mauvaise expérience utilisateur peut entraîner une perte de clientèle, une augmentation des coûts de support et un échec commercial.
+
+**Objectifs de l'évaluation :**
+*   Identifier les problèmes d'utilisabilité avant le déploiement.
+*   Comparer plusieurs solutions de conception.
+*   Vérifier la conformité aux standards et exigences.
+*   Mesurer l'amélioration entre deux versions.
+
+---
+
+### **2. Méthodes d'évaluation : Tests modérés vs non-modérés**
+
+#### **2.1. Tests utilisateurs modérés**
+Un **facilitateur (modérateur)** guide l'utilisateur pendant le test, en présentant les tâches, en répondant à des questions (sans influencer) et en observant son comportement.
+
+**Caractéristiques :**
+*   **En présentiel ou à distance** (via Zoom, Google Meet, Teams).
+*   **Interaction directe** entre le modérateur et le participant.
+*   **Flexibilité** : le modérateur peut poser des questions de suivi en temps réel.
+*   **Coût et temps** : plus élevés (recrutement, salle, modérateur).
+
+**Exemple concret (Cameroun) :** Tester la nouvelle application mobile **"Orange Money"** dans un centre d'appel à Douala. Un modérateur observe un utilisateur tentant d'envoyer de l'argent à un village (tâche courante). Il note ses hésitations sur le formulaire de destination.
+
+#### **2.2. Tests utilisateurs non-modérés**
+L'utilisateur effectue les tâches **seul, sans supervision en direct**, généralement depuis son propre environnement. Les sessions sont enregistrées (écran, voix, webcam) pour analyse ultérieure.
+
+**Caractéristiques :**
+*   **À distance et asynchrone**.
+*   **Pas d'intervention** pendant le test.
+*   **Grande échelle** : possibilité de tester avec de nombreux participants géographiquement dispersés.
+*   **Coût et temps** : souvent plus faibles par participant.
+
+**Exemple concret (Afrique) :** Utiliser une plateforme comme **UserTesting.com** ou **Lookback.io** pour évaluer le site e-commerce **"Jumia"** auprès d'utilisateurs dans plusieurs pays africains. Chaque participant reçoit la même liste de tâches (ex: "Trouvez et achetez un téléphone Android à moins de 100 000 FCFA").
+
+#### **2.3. Tableau comparatif**
+
+| Critère | Test Modéré | Test Non-Modéré |
+| :--- | :--- | :--- |
+| **Contrôle** | Élevé (le modérateur guide) | Faible (l'utilisateur est autonome) |
+| **Profondeur des insights** | Élevée (questions de suivi) | Variable (dépend des commentaires spontanés) |
+| **Échelle & Recrutement** | Limité (5-8 utilisateurs souvent suffisants) | Large (des dizaines ou centaines de participants) |
+| **Contexte naturel** | Peut être artificiel (labo) | Très naturel (chez l'utilisateur) |
+| **Coût par session** | Élevé | Relativement faible |
+| **Outils typiques** | Salle d'observation, logiciel d'enregistrement | Plateformes en ligne (UserZoom, Maze) |
+
+**À retenir :** Le choix dépend des **objectifs**, du **budget** et du **stade du projet**. Les tests modérés sont idéaux pour les phases exploratoires (prototype), les non-modérés pour la validation à grande échelle.
+
+---
+
+### **3. Le protocole "Think-Aloud" (Pensée à voix haute)**
+
+C'est une **technique qualitative** fréquemment utilisée, surtout dans les tests modérés.
+
+**Définition :** On demande à l'utilisateur de **verbaliser tout ce qu'il pense, ressent et tente de faire** pendant qu'il interagit avec l'interface.
+
+**Objectif :** Comprendre le **modèle mental** de l'utilisateur : ses attentes, ses interprétations, ses raisonnements et ses points de blocage.
+
+**Mise en œuvre :**
+1.  **Briefing :** Expliquer clairement la consigne : "Dites-nous tout ce qui vous passe par la tête".
+2.  **Pendant le test :** Le modérateur écoute, encourage ("Continuez à parler..."), mais n'oriente pas.
+3.  **Enregistrement :** Session audio/vidéo pour analyse.
+
+**Exemple adapté :** Tester le **portail de déclaration fiscale en ligne** du Cameroun. L'utilisateur dit : *"Je cherche où déclarer mes revenus salariaux... Je vois 'Déclaration des revenus', je clique... Ah, il me demande d'abord mon numéro contribuable. Je ne l'ai pas sous la main. Où est-ce que je peux le retrouver ? Je ne vois pas de lien 'Mot de passe oublié' ou 'Récupérer mon identifiant'..."*. Ces verbalisations révèlent un problème critique de parcours utilisateur.
+
+**Avantages :** Donne accès à des insights riches sur les difficultés cognitives.
+**Inconvénients :** Peut ralentir la tâche, certains utilisateurs sont gênés.
+
+---
+
+### **4. Métriques d'évaluation quantitatives**
+
+Ces mesures permettent d'**objectiver** l'utilisabilité et de suivre les progrès dans le temps.
+
+#### **4.1. Taux de réussite (Completion Rate)**
+*   **Définition :** Pourcentage de tâches que les utilisateurs ont **complétées avec succès**.
+*   **Calcul :** `(Nombre de tâches réussies / Nombre total de tâches tentées) * 100`
+*   **Interprétation :** Un taux faible indique des obstacles majeurs dans l'interface.
+*   **Exemple :** Sur 10 utilisateurs testant le transfert d'argent sur l'app **MTN Mobile Money**, 7 réussissent du premier coup. Taux de réussite = **70%**. Il faut investiguer pourquoi 30% échouent.
+
+#### **4.2. Temps d'exécution de la tâche (Task Time)**
+*   **Définition :** Temps moyen (ou médian) pris par les utilisateurs pour accomplir une tâche spécifique.
+*   **Mesure :** Chronométré pendant le test.
+*   **Interprétation :** Un temps trop long indique un manque d'efficience, une interface peu intuitive.
+*   **Exemple :** Le temps moyen pour trouver une jurisprudence sur le **portail OHADA** est de 4 minutes. Après une refonte de la barre de recherche, l'objectif est de le réduire à moins de 1 minute.
+
+#### **4.3. Système Usability Scale (SUS)**
+*   **Définition :** Questionnaire standardisé de **10 items** pour évaluer la perception subjective de l'utilisabilité.
+*   **Échelle :** L'utilisateur note son accord sur une échelle de Likert de 1 à 5 (1 = Pas du tout d'accord, 5 = Tout à fait d'accord).
+*   **Calcul :** Le score final est sur **100**. Un score **au-dessus de 68 est considéré comme bon**.
+*   **Avantage :** Simple, rapide, fiable, applicable à tout type de système.
+*   **Exemple d'item :** "J'ai trouvé ce système inutilement complexe." (négatif).
+
+#### **4.4. Net Promoter Score (NPS®)**
+*   **Définition :** Métrique de **loyauté et de satisfaction** globale.
+*   **Question unique :** *"Sur une échelle de 0 à 10, quelle est la probabilité que vous recommandiez ce produit/logiciel à un ami ou un collègue ?"*
+*   **Catégorisation :**
+    *   **Détracteurs (0-6)** : Insatisfaits, peuvent nuire à la réputation.
+    *   **Passifs (7-8)** : Satisfaits mais peu fidèles.
+    *   **Promoteurs (9-10)** : Loyal, enthousiastes, font la promotion.
+*   **Calcul :** `% de Promoteurs - % de Détracteurs`. Score entre -100 et +100.
+*   **Exemple Camerounais :** Après avoir utilisé l'application **Camtel Mobile** pour recharger son crédit, un utilisateur répond "9". Il est un **Promoteur**. Un score NPS positif indique une bonne satisfaction globale.
+
+**À retenir :** Utiliser un **mix de métriques** (quantitatives comme le taux de réussite et qualitatives comme le think-aloud) donne une vision complète des forces et faiblesses de l'IHM.
+
+---
+
+### **5. Évaluation heuristique (Inspection par experts)**
+
+Cette méthode n'implique **pas d'utilisateurs finaux**. Un ou plusieurs **experts en utilisabilité** inspectent l'interface en la confrontant à une liste de principes de bonne conception, les **heuristiques**.
+
+#### **5.1. Les 10 Heuristiques de Nielsen (les plus célèbres)**
+1.  **Visibilité de l'état du système** : Informer l'utilisateur de ce qui se passe (ex: indicateur de chargement sur l'app Orange).
+2.  **Correspondance entre le système et le monde réel** : Utiliser un langage familier (ex: "Payer une facture" et non "Initier un débit transactionnel").
+3.  **Contrôle et liberté utilisateur** : Proposer des "issues de secours" claires (ex: bouton "Annuler", "Retour").
+4.  **Cohérence et standards** : Suivre les conventions (ex: l'icône "≡" pour le menu).
+5.  **Prévention des erreurs** : Éviter les conditions propices aux erreurs (ex: confirmation avant virement définitif).
+6.  **Reconnaissance plutôt que rappel** : Rendre les actions et options visibles (ex: historique des transactions).
+7.  **Flexibilité et efficacité d'utilisation** : Raccourcis pour les experts (ex: filtres avancés sur un site immobilier camerounais).
+8.  **Esthétique et design minimaliste** : Pas d'information inutile.
+9.  **Aider l'utilisateur à reconnaître, diagnostiquer et récupérer des erreurs** : Messages d'erreur clairs et constructifs (ex: "Numéro de téléphone invalide. Vérifiez le format : 6XX XX XX XX").
+10. **Aide et documentation** : Facile à chercher, centrée sur la tâche.
+
+#### **5.2. Déroulement d'une inspection heuristique**
+1.  **Sélection des experts** (au moins 3-5).
+2.  **Briefing** sur le produit et son contexte d'usage.
+3.  **Phase d'inspection individuelle** : Chaque expert parcourt l'interface, identifie les violations d'heuristiques et les note avec sévérité.
+4.  **Consolidation des résultats** : Regroupement des problèmes identifiés, élimination des doublons.
+5.  **Rapport** priorisé pour l'équipe de développement.
+
+**Avantages :** Rapide, peu coûteux, peut être fait tôt (sur des maquettes).
+**Limites :** Dépend de l'expertise des évaluateurs, ne remplace pas les tests avec de vrais utilisateurs.
+
+---
+
+### **6. Outils et technologies utilisés en entreprise**
+
+*   **Tests modérés/Think-Aloud :** OBS Studio (enregistrement), Morae (TechSmith), Camtasia.
+*   **Tests non-modérés :** UserTesting, UserZoom, Maze (excellent pour les prototypes Figma/Adobe XD), Lookback.
+*   **Enquêtes et métriques :** Google Forms, Typeform (SUS, NPS), SurveyMonkey.
+*   **Analytics comportementaux :** Hotjar (cartes de chaleur, enregistrements de sessions), Microsoft Clarity

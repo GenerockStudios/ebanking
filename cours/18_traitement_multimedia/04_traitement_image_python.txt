@@ -1,0 +1,217 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière 18 : Traitement Multimédia**
+## **Chapitre : Traitement d'image avec Python : bibliothèques Pillow et OpenCV, transformations (redimensionner, recadrer, filtres), détection de contours**
+
+---
+
+### **1. Introduction au traitement d'image numérique**
+
+#### **1.1. Définition et enjeux**
+Le **traitement d'image numérique** est une discipline qui consiste à manipuler des images à l'aide d'algorithmes informatiques pour en extraire des informations, améliorer leur qualité, ou les transformer. Dans le contexte camerounais et africain, ses applications sont nombreuses :
+- **Sécurité et identification** : Reconnaissance faciale pour les systèmes biométriques (cartes d'identité, passeports).
+- **Télécommunications** : Optimisation des images transmises sur les réseaux mobiles (MTN, Orange, Camtel).
+- **Santé** : Analyse d'imagerie médicale (radiographies, échographies) dans les hôpitaux.
+- **Agriculture** : Détection de maladies des plantes via des images de cultures.
+- **Commerce** : Scan de codes-barres et QR codes dans les supermarchés.
+
+**Image numérique** : Représentation discrète d'une scène visuelle sous forme d'une matrice de pixels. Chaque pixel possède une ou plusieurs valeurs (niveaux de gris ou composantes colorimétriques).
+
+#### **1.2. Concepts fondamentaux**
+- **Pixel** : Plus petit élément constitutif d'une image. Son intensité est généralement représentée sur une échelle de 0 (noir) à 255 (blanc) pour les images en niveaux de gris.
+- **Résolution** : Nombre de pixels par unité de longueur (ex : PPP - Points Par Pouce). Une haute résolution donne plus de détails.
+- **Canal de couleur** : Les images couleur sont souvent représentées selon le modèle **RGB** (Rouge, Vert, Bleu). Chaque pixel est un triplet (R, G, B).
+- **Espace colorimétrique** : Autres représentations possibles : **HSV** (Teinte, Saturation, Valeur), utile pour la segmentation ; **YUV** utilisé en vidéo.
+
+**À retenir** : Une image numérique est une matrice mathématique. Traiter une image, c'est appliquer des opérations mathématiques sur cette matrice.
+
+---
+
+### **2. Environnement de développement et bibliothèques Python**
+
+#### **2.1. Installation et configuration**
+Pour ce chapitre, nous utiliserons :
+- **Python 3.8+** : Langage de programmation principal.
+- **PIP** : Gestionnaire de paquets Python.
+- **Environnement virtuel** (recommandé) : Pour isoler les dépendances du projet.
+
+Installation des bibliothèques (dans un terminal) :
+```bash
+pip install Pillow opencv-python numpy matplotlib
+```
+
+**Conseil pratique** : Dans le contexte des entreprises camerounaises (sociétés de service informatique, opérateurs télécoms), il est courant d'utiliser des distributions Python comme **Anaconda** qui simplifient la gestion des packages scientifiques.
+
+#### **2.2. Présentation comparée des bibliothèques Pillow et OpenCV**
+
+| **Critère**               | **Pillow (PIL)**                                          | **OpenCV (Open Source Computer Vision Library)**          |
+|---------------------------|-----------------------------------------------------------|-----------------------------------------------------------|
+| **Origine & Focus**       | Successeur de PIL (Python Imaging Library). Focus sur la manipulation basique d'images. | Bibliothèque orientée vision par ordinateur en temps réel. Origine : Intel. |
+| **Complexité**            | Simple, intuitive, idéale pour les débutants.             | Plus complexe, puissante, requiert une bonne base.        |
+| **Performance**           | Correcte pour des tâches simples.                         | Très performante, optimisée en C/C++.                     |
+| **Domaines d'application**| Redimensionnement, filtres simples, conversion de format. | Traitement avancé, détection d'objets, reconnaissance faciale, réalité augmentée. |
+| **Licence**               | Licence PIL open source modifiée.                         | Licence Apache 2 (libre d'utilisation, même commerciale). |
+| **Usage typique au Cameroun** | Prétraitement d'images pour le web, génération de miniatures. | Développement de solutions de sécurité, analyse vidéo pour la téléphonie mobile. |
+
+**Conclusion** : **Pillow** pour des opérations simples et rapides. **OpenCV** pour des projets complexes de vision par ordinateur.
+
+---
+
+### **3. Manipulation d'images avec Pillow (PIL)**
+
+#### **3.1. Chargement, affichage et sauvegarde**
+```python
+from PIL import Image
+
+# Charger une image (exemple : logo d'une entreprise locale)
+image = Image.open("logo_mtn.png")  # Ou "logo_orange.jpg", "ohada_doc.tiff"
+
+# Afficher les propriétés de base
+print(f"Format : {image.format}, Taille : {image.size}, Mode : {image.mode}")
+
+# Afficher l'image (dépend de l'environnement)
+image.show()
+
+# Sauvegarder dans un autre format (important pour l'interopérabilité)
+image.save("logo_mtn_converted.jpg", "JPEG")
+```
+
+**Application concrète** : Une startup camerounaise d'e-commerce doit uniformiser les formats des images produits uploadées par les vendeurs (convertir les PNG en JPEG pour réduire le poids).
+
+#### **3.2. Transformations géométriques de base**
+
+**a) Redimensionnement (Resizing)**
+```python
+# Méthode 1 : Redimensionnement exact
+nouvelle_taille = (300, 200)
+image_redim = image.resize(nouvelle_taille)
+
+# Méthode 2 : Redimensionnement proportionnel avec un ratio
+largeur, hauteur = image.size
+ratio = 0.5  # Réduction de moitié
+nouvelle_taille_prop = (int(largeur * ratio), int(hauteur * ratio))
+image_redim_prop = image.resize(nouvelle_taille_prop, Image.Resampling.LANCZOS) # Meilleure qualité
+```
+*Usage* : Création de vignettes pour un site web d'actualités camerounaises.
+
+**b) Recadrage (Cropping)**
+```python
+# Définir la boîte de recadrage : (gauche, haut, droite, bas)
+boite = (100, 50, 400, 300)  # Coordonnées en pixels
+image_recadree = image.crop(boite)
+```
+*Usage* : Extraire la zone de signature d'un document scanné de contrat OHADA.
+
+**c) Rotation et retournement**
+```python
+image_rotatee = image.rotate(45, expand=True)  # Rotation de 45°, expand ajuste la taille
+image_flip_h = image.transpose(Image.Transpose.FLIP_LEFT_RIGHT)  # Miroir horizontal
+```
+
+#### **3.3. Filtres et améliorations**
+Pillow propose plusieurs filtres intégrés via le module `ImageFilter`.
+```python
+from PIL import ImageFilter, ImageEnhance
+
+# Application de filtres prédéfinis
+image_flou = image.filter(ImageFilter.BLUR)
+image_contours = image.filter(ImageFilter.FIND_EDGES)  # Détection basique de contours
+image_detail = image.filter(ImageFilter.DETAIL)        # Accentuation des détails
+
+# Ajustement de la netteté, contraste et luminosité
+amelioreur = ImageEnhance.Sharpness(image)
+image_plus_nette = amelioreur.enhance(2.0)  # Facteur 2.0
+
+amelioreur_contraste = ImageEnhance.Contrast(image)
+image_contraste = amelioreur_contraste.enhance(1.5)
+```
+*Usage* : Amélioration automatique des photos prises avec des smartphones bas de gamme avant publication sur les réseaux sociaux.
+
+---
+
+### **4. Traitement d'image avancé avec OpenCV**
+
+#### **4.1. Chargement et représentation des images dans OpenCV**
+```python
+import cv2
+import numpy as np
+
+# Charger une image
+# Attention : OpenCV charge en BGR (Blue, Green, Red) par défaut, et non RGB.
+image_cv = cv2.imread("photo.jpg")  # Retourne un tableau NumPy
+
+# Afficher les dimensions et le type
+print(image_cv.shape)  # (hauteur, largeur, canaux) pour une image couleur
+
+# Afficher l'image
+cv2.imshow("Fenêtre - Exemple Cameroun", image_cv)
+cv2.waitKey(0)  # Attend une touche
+cv2.destroyAllWindows()
+
+# Convertir BGR (OpenCV) en RGB (Pillow/Matplotlib)
+image_rgb = cv2.cvtColor(image_cv, cv2.COLOR_BGR2RGB)
+```
+
+**Le tableau NumPy** : L'image est un tableau à 2 dimensions (niveaux de gris) ou 3 dimensions (couleur). On peut y accéder comme à toute matrice : `pixel = image[100, 200]` ou `zone = image[50:150, 100:300]`.
+
+#### **4.2. Transformations avec OpenCV**
+
+**a) Redimensionnement**
+```python
+# Redimensionnement avec interpolation
+nouvelle_largeur, nouvelle_hauteur = 640, 480
+image_redim_cv = cv2.resize(image_cv, (nouvelle_largeur, nouvelle_hauteur), interpolation=cv2.INTER_AREA) # Bon pour la réduction
+# interpolation=cv2.INTER_CUBIC (meilleure qualité pour l'agrandissement)
+```
+
+**b) Recadrage**
+Plus simple qu'avec Pillow, grâce au slicing NumPy.
+```python
+# Recadrage : image[y_debut:y_fin, x_debut:x_fin]
+image_cropped = image_cv[100:400, 200:500]  # Hauteur de 100 à 400, Largeur de 200 à 500
+```
+
+#### **4.3. Filtrages avec OpenCV**
+Le filtrage permet de supprimer du bruit, flouter, ou détecter des contours.
+
+**a) Filtres de lissage (réduction du bruit)**
+```python
+# Filtre moyenneur (blur) : remplace chaque pixel par la moyenne de son voisinage
+image_flou_moyen = cv2.blur(image_cv, (5,5))  # Noyau 5x5
+
+# Filtre gaussien (plus naturel, poids décroissant avec la distance)
+image_flou_gauss = cv2.GaussianBlur(image_cv, (5,5), 0)  # 0 = calcul automatique de sigma
+
+# Filtre médian (excellent pour le "bruit poivre et sel")
+image_filtree_median = cv2.medianBlur(image_cv, 5)
+```
+*Application* : Nettoyage des images de scans de documents administratifs endommagés (archives OHADA).
+
+**b) Filtres de détection de contours (dérivatifs)**
+Ces filtres mettent en évidence les zones de fort changement d'intensité (les contours).
+
+**Prérequis** : Convertir l'image en niveaux de gris.
+```python
+image_grise = cv2.cvtColor(image_cv, cv2.COLOR_BGR2GRAY)
+```
+
+**Filtre de Sobel** : Détecte les contours horizontaux et verticaux.
+```python
+# Dérivée selon X (détection des contours verticaux)
+sobel_x = cv2.Sobel(image_grise, cv2.CV_64F, 1, 0, ksize=3)
+# Dérivée selon Y (détection des contours horizontaux)
+sobel_y = cv2.Sobel(image_grise, cv2.CV_64F, 0, 1, ksize=3)
+
+# Calcul de la magnitude du gradient (force du contour)
+magnitude = np.sqrt(sobel_x**2 + sobel_y**2)
+magnitude = np.uint8(np.clip(magnitude, 0, 255))  # Normalisation
+```
+
+**Filtre de Canny** : Algorithme optimal en plusieurs étapes (réduction du bruit, calcul du gradient, suppression des non-maxima, seuillage par hystérésis). C'est la méthode **la plus utilisée** en pratique.
+```python
+# Seuils bas et haut pour l'hystérésis
+contours_canny = cv2.Canny(image_grise, threshold1=50, threshold2=150)
+```
+**Paramètres clés de Canny** :
+- `threshold1` : Seuil bas. Les gradients inférieurs sont rejetés.
+- `threshold2` : Seuil haut. Les gradients supérieurs sont conservés.
+-

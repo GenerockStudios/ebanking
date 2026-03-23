@@ -1,0 +1,58 @@
+CHAPITRE 2 — CRÉATION D'ENTREPRISE AU CAMEROUN
+BTS Génie Logiciel — Économie et création d'entreprises
+
+1. ÉTAPES DE CRÉATION D'UNE ENTREPRISE
+
+Étape 1 — Idée et étude de faisabilité
+- Identifier un besoin non satisfait ou mal satisfait sur le marché
+- Étude de marché : qui sont les clients ? Quelle est la concurrence ? Quel est le prix acceptable ?
+- Faisabilité technique : dispose-t-on des compétences et des outils ?
+- Faisabilité financière : a-t-on les fonds de départ ?
+
+Étape 2 — Choix du statut juridique
+Critères de choix : responsabilité souhaitée, nombre d'associés, capital disponible, régime fiscal préféré
+- Entreprise individuelle : une seule personne, responsabilité illimitée, pas de capital minimum
+- SARL : 1 à 50 associés, capital minimum 1 million FCFA au Cameroun, responsabilité limitée aux apports
+- SA : au moins 3 actionnaires (7 si cotée), capital minimum 10 millions FCFA, responsabilité limitée
+
+Étape 3 — Rédaction des statuts
+Les statuts sont l'acte constitutif de la société. Ils doivent mentionner : dénomination sociale, siège, objet social, capital, durée (max 99 ans), modalités de fonctionnement.
+
+Étape 4 — Formalités administratives (via le CFCE)
+- Déclaration d'existence au Registre du Commerce et du Crédit Mobilier (RCCM)
+- Obtention du numéro de contribuable à la Direction Générale des Impôts
+- Immatriculation à la CNPS (Caisse Nationale de Prévoyance Sociale)
+- Publication dans le Journal Officiel ou un journal d'annonces légales
+- Ouverture d'un compte bancaire professionnel
+
+2. LE BUSINESS PLAN (PLAN D'AFFAIRES)
+
+Définition : document de synthèse qui présente le projet entrepreneurial dans sa globalité, à destination des banques, investisseurs et partenaires.
+
+Structure type d'un business plan :
+1. Résumé exécutif (executive summary) — 1 page, rédigé en dernier
+2. Présentation de l'entrepreneur et de l'équipe
+3. Description du produit ou service
+4. Étude de marché et analyse concurrentielle
+5. Stratégie commerciale (marketing-mix : produit, prix, distribution, communication)
+6. Plan opérationnel (production, logistique)
+7. Plan financier :
+   - Compte de résultat prévisionnel (3 ans)
+   - Plan de financement
+   - Budget de trésorerie
+   - Seuil de rentabilité (point mort)
+
+3. SOURCES DE FINANCEMENT
+
+Fonds propres : apport personnel, apport des associés, autofinancement
+Emprunts bancaires : crédit professionnel, crédit-bail (leasing)
+Aides et subventions : BIP (Budget d'Investissement Public), fonds d'appui aux PME (APME, FOGAPE)
+Microfinance : EMF (Établissements de Microfinance), tontines
+Capital-risque : investisseurs privés (business angels), fonds d'investissement
+
+4. L'ENTREPRENEURIAT NUMÉRIQUE AU CAMEROUN
+
+Le secteur numérique est en forte croissance : startups tech, développement d'applications mobiles (Mobile Money, M-Pesa, Orange Money), e-commerce.
+
+Structures d'appui : Silicon Mountain (Buea), ActivSpaces, SEMCA, Hub Innovation.
+Le gouvernement camerounais encourage la création de startups via la Stratégie Nationale de Développement du Numérique.

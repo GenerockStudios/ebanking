@@ -1,0 +1,288 @@
+# Notes de cours - 20 Techniques Expression
+## Éthique et déontologie informatique : propriété intellectuelle, droit d'auteur, vie privée (RGPD), responsabilité du développeur, intelligence artificielle
+
+---
+
+### 1. Introduction à l'éthique et la déontologie en informatique
+
+#### 1.1. Définitions fondamentales
+
+**Éthique informatique** : Ensemble des principes moraux qui guident le comportement des professionnels de l'informatique dans leur pratique. Elle concerne les valeurs, les choix et les impacts des technologies sur la société.
+
+**Déontologie informatique** : Ensemble des règles et devoirs professionnels spécifiques à la pratique de l'informatique, souvent formalisés dans des codes de conduite.
+
+**À retenir** : L'éthique est la réflexion sur les principes moraux, tandis que la déontologie est l'application concrète de ces principes dans la pratique professionnelle.
+
+#### 1.2. Importance dans le contexte camerounais
+
+Au Cameroun, avec la croissance rapide du secteur numérique (développement de startups comme Njorku, Kiro'o Games, MTN Mobile Money, Orange Money), les questions éthiques deviennent cruciales pour :
+- Protéger les consommateurs camerounais
+- Développer une économie numérique de confiance
+- Respecter les cadres juridiques nationaux et internationaux
+- Préparer l'intégration dans l'économie numérique mondiale
+
+---
+
+### 2. Propriété intellectuelle et droit d'auteur
+
+#### 2.1. Concepts fondamentaux
+
+**Propriété intellectuelle (PI)** : Droits accordés aux créateurs sur leurs créations intellectuelles (inventions, œuvres littéraires et artistiques, symboles, noms, images, dessins et modèles).
+
+**Droit d'auteur** : Protection automatique accordée aux œuvres de l'esprit originales (logiciels, écrits, musique, etc.) dès leur création.
+
+#### 2.2. Cadre juridique applicable au Cameroun
+
+**Lois nationales** :
+- Loi n°2000/011 du 19 décembre 2000 sur le droit d'auteur et les droits voisins
+- Loi n°2010/012 du 21 décembre 2010 sur la cybersécurité et la cybercriminalité
+
+**Cadres régionaux** :
+- Accord de Bangui (révisé) de l'OAPI (Organisation Africaine de la Propriété Intellectuelle)
+- OHADA : Acte uniforme relatif au droit des sociétés commerciales et du GIE
+
+#### 2.3. Application aux logiciels
+
+**Protection des logiciels** :
+- Code source et code objet protégés par le droit d'auteur
+- Les algorithmes ne sont pas brevetables en tant que tels
+- L'interface utilisateur peut être protégée
+
+**Exemple camerounais** : Le jeu vidéo "Aurion: Legacy of the Kori-Odan" développé par Kiro'o Games (Cameroun) est protégé par le droit d'auteur. La société détient les droits exclusifs de reproduction, distribution et adaptation.
+
+#### 2.4. Licences logicielles
+
+**Tableau comparatif des types de licences** :
+
+| Type de licence | Caractéristiques | Exemples |
+|-----------------|------------------|----------|
+| **Propriétaire** | Usage restreint, code fermé | Microsoft Windows, Adobe Photoshop |
+| **Open Source** | Code accessible, modification possible | Linux, Apache, WordPress |
+| **Freeware** | Gratuit mais code fermé | WhatsApp, Skype |
+| **Shareware** | Essai gratuit puis paiement | WinRAR, certains antivirus |
+
+**À retenir** : Au Cameroun, de nombreuses administrations utilisent des logiciels libres pour réduire les coûts et favoriser l'autonomie technologique.
+
+---
+
+### 3. Protection des données et vie privée
+
+#### 3.1. Règlement Général sur la Protection des Données (RGPD)
+
+**Définition** : Règlement européen (2018) qui renforce la protection des données personnelles des citoyens de l'UE, avec une portée extraterritoriale.
+
+**Principes clés du RGPD** :
+1. Licéité, loyauté et transparence
+2. Limitation des finalités
+3. Minimisation des données
+4. Exactitude
+5. Limitation de la conservation
+6. Intégrité et confidentialité
+7. Responsabilité
+
+#### 3.2. Application au contexte africain et camerounais
+
+**Cadres régionaux africains** :
+- Convention de l'Union Africaine sur la cybersécurité et la protection des données (Convention de Malabo)
+- Loi type de la CEDEAO sur la protection des données
+
+**Législation camerounaise** :
+- Loi n°2010/012 sur la cybercriminalité (articles sur la protection des données)
+- Projet de loi spécifique sur la protection des données en cours d'adoption
+
+#### 3.3. Obligations pour les développeurs camerounais
+
+**Dans le développement d'applications** :
+- Privacy by Design : Intégrer la protection des données dès la conception
+- Privacy by Default : Paramètres les plus protecteurs par défaut
+- Journalisation des traitements (register des activités de traitement)
+- Sécurité des données (chiffrement, anonymisation)
+
+**Exemple concret** : Une startup camerounaise développant une application de santé mobile doit :
+- Obtenir le consentement explicite des utilisateurs
+- Chiffrer les données médicales sensibles
+- Limiter l'accès aux données au personnel autorisé
+- Informer en cas de violation de données
+
+#### 3.4. Outils techniques de protection
+
+**Pour les développeurs** :
+- Chiffrement : AES, RSA, TLS/SSL
+- Anonymisation : k-anonymity, differential privacy
+- Gestion des consentements : CMP (Consent Management Platforms)
+- Frameworks : OWASP Privacy Risk Framework
+
+---
+
+### 4. Responsabilité du développeur
+
+#### 4.1. Dimensions de la responsabilité
+
+**Responsabilité civile** : Obligation de réparer le préjudice causé par ses fautes ou ses produits.
+
+**Responsabilité pénale** : Engagée en cas d'infraction aux lois (accès frauduleux, détournement de données).
+
+**Responsabilité professionnelle** : Respect des normes de l'art et des bonnes pratiques.
+
+#### 4.2. Cas spécifiques au développement logiciel
+
+**Bugs et vulnérabilités** :
+- Obligation de diligence dans les tests
+- Devoir d'information sur les vulnérabilités connues
+- Mise à jour corrective obligatoire
+
+**Exemple** : Un développeur camerounais créant une application bancaire pour une institution locale doit :
+- Respecter les standards de sécurité financière (PCI DSS)
+- Effectuer des tests de pénétration réguliers
+- Maintenir l'application pendant la durée du contrat
+
+#### 4.3. Assurance responsabilité professionnelle
+
+**En contexte camerounais** :
+- De plus en plus exigée par les grands clients (banques, gouvernement)
+- Couvre les erreurs, omissions, négligences
+- Coût variable selon le niveau de risque des projets
+
+---
+
+### 5. Intelligence artificielle : enjeux éthiques
+
+#### 5.1. Définition et contexte
+
+**Intelligence Artificielle** : Systèmes qui imitent les fonctions cognitives humaines (apprentissage, raisonnement, auto-correction).
+
+**Applications au Cameroun** :
+- Chatbots clientèle (MTN, Orange Cameroun)
+- Analyse prédictive pour l'agriculture
+- Reconnaissance faciale pour la sécurité
+
+#### 5.2. Principes éthiques pour l'IA
+
+**Principes de l'UNESCO pour l'IA** (adaptés au contexte africain) :
+1. Proportionnalité et ne pas nuire
+2. Justice et non-discrimination
+3. Autonomie des personnes
+4. Responsabilité et transparence
+5. Surveillance et évaluation continues
+
+#### 5.3. Biais algorithmiques
+
+**Risques spécifiques en Afrique** :
+- Biais dans les données d'entraînement (sous-représentation africaine)
+- Biais culturels dans les algorithmes développés hors d'Afrique
+- Renforcement des inégalités existantes
+
+**Exemple** : Un système de recrutement par IA formé sur des CV européens pourrait défavoriser les candidats camerounais dont les parcours éducatifs et professionnels diffèrent.
+
+#### 5.4. Transparence et explicabilité
+
+**Pour les développeurs** :
+- Documentation complète des algorithmes
+- Traçabilité des décisions algorithmiques
+- Interfaces de visualisation des décisions
+- Auditabilité des systèmes
+
+**Outils** : LIME, SHAP pour l'explicabilité des modèles d'IA
+
+---
+
+### 6. Cadres déontologiques professionnels
+
+#### 6.1. Codes de déontologie internationaux
+
+**ACM Code of Ethics** (Association for Computing Machinery) :
+- Contribuer au bien-être humain
+- Éviter de nuire
+- Être honnête et digne de confiance
+- Respecter la vie privée
+
+**IEEE Code of Ethics** :
+- Priorité à la sécurité, santé et bien-être public
+- Éviter les conflits d'intérêts
+- Maintenir et améliorer la compétence technique
+
+#### 6.2. Adaptation au contexte camerounais
+
+**Initiatives locales** :
+- Charte éthique des professionnels du numérique (en développement)
+- Associations professionnelles (AUSIM, etc.)
+- Intégration dans les curricula universitaires
+
+**Bonnes pratiques pour les développeurs camerounais** :
+1. Respecter les lois nationales et internationales
+2. Protéger les données des utilisateurs locaux
+3. Développer des solutions adaptées au contexte local
+4. Former et partager les connaissances
+5. Contribuer au développement du secteur numérique national
+
+---
+
+### 7. Études de cas camerounaises
+
+#### 7.1. MTN Cameroun et protection des données
+
+**Situation** : MTN gère des millions de données clients (communications, transactions mobiles money).
+
+**Mesures mises en place** :
+- Centre de sécurité des données à Douala
+- Conformité progressive au RGPD pour les clients européens
+- Politique de confidentialité adaptée au droit local
+- Formation des employés à la protection des données
+
+#### 7.2. Startup camerounaise et propriété intellectuelle
+
+**Cas** : Une startup développe une solution innovante de gestion agricole.
+
+**Stratégie PI recommandée** :
+- Dépôt des éléments logiciels à l'OAPI
+- Contrats de confidentialité avec les employés
+- Licence d'utilisation claire pour les clients
+- Protection du nom commercial et du logo
+
+#### 7.3. Projet gouvernemental et intelligence artificielle
+
+**Exemple** : Système d'allocation de bourses utilisant l'IA.
+
+**Considérations éthiques** :
+- Transparence des critères algorithmiques
+- Possibilité de recours humain
+- Éviter la discrimination régionale
+- Audit régulier des décisions
+
+---
+
+### 8. Conclusion et perspectives
+
+#### 8.1. Synthèse des enjeux clés
+
+Pour le développeur camerounais, l'éthique informatique implique :
+- Un respect strict du droit d'auteur et de la propriété intellectuelle
+- Une protection rigoureuse des données personnelles
+- Une responsabilité assumée dans le développement
+- Une vigilance particulière avec l'intelligence artificielle
+
+#### 8.2. Tendances futures
+
+**Évolution réglementaire** :
+- Harmonisation des lois africaines sur la protection des données
+- Développement de standards éthiques pour l'IA en Afrique
+- Renforcement des capacités de contrôle et de sanction
+
+**Opportunités pour les professionnels camerounais** :
+- Spécialisation en conformité numérique
+- Audit éthique des systèmes informatiques
+- Conseil en protection des données
+- Développement d'IA éthique et inclusive
+
+#### 8.3. Ressources pour approfondir
+
+**Pour les étudiants camerounais** :
+- Site de l'ANTIC (Agence Nationale des Technologies de l'Information et de la Communication)
+- Documentation de l'OAPI
+- Guides pratiques de la CNIL (Commission Nationale de l'Informatique et des Libertés, France)
+- Cours en ligne sur l'éthique de l'IA (cours africains disponibles)
+
+**À retenir final** : L'excellence technique doit s'accompagner d'une rigueur éthique. Le développeur camerounais de demain sera jugé autant sur la qualité de son code que sur le respect des principes éthiques dans ses réalisations.
+
+---
+*Document conforme au programme officiel du BTS Génie Logiciel - MINPOSTEL/MINESUP Cameroun - Environ 1800 mots*

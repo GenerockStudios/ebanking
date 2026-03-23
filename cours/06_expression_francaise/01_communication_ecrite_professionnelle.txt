@@ -1,0 +1,133 @@
+# **Notes de cours — 06 Expression Française**
+## **Communication écrite professionnelle : lettre commerciale (norme AFNOR), compte rendu, procès-verbal, note de service**
+
+---
+
+### **1. Introduction à la communication écrite professionnelle**
+
+#### **1.1. Définition et importance**
+La communication écrite professionnelle est l'ensemble des écrits utilisés dans un contexte de travail pour échanger des informations, prendre des décisions, rendre compte d'activités ou donner des directives. Dans le domaine du génie logiciel, elle est cruciale pour :
+- Assurer la traçabilité des décisions et des développements.
+- Formaliser les échanges avec les clients, les fournisseurs et les équipes.
+- Respecter les obligations légales et contractuelles (notamment dans le cadre de l'**OHADA** pour les entreprises camerounaises).
+- Garantir la clarté et éviter les malentendus dans des projets complexes.
+
+#### **1.2. Qualités d'un écrit professionnel**
+Un document professionnel doit être :
+- **Clair et précis** : Langage simple, structuré, sans ambiguïté.
+- **Concis** : Aller à l'essentiel, éviter les digressions.
+- **Courtois** : Respect des interlocuteurs, même en cas de désaccord.
+- **Correct** : Orthographe, grammaire et syntaxe irréprochables.
+- **Adapté** : Au destinataire, à la situation et à l'objectif visé.
+- **Formel** : Utilisation d'un registre de langue soutenu et professionnel.
+
+> **À retenir** : En entreprise, un écrit professionnel est un document de travail et une preuve. Sa qualité impacte directement l'image de l'entreprise et l'efficacité du travail.
+
+---
+
+### **2. La lettre commerciale (norme AFNOR NF Z 11-001)**
+
+#### **2.1. Définition et objectifs**
+Une lettre commerciale est un écrit formel adressé à un partenaire extérieur à l'entreprise (client, fournisseur, administration). Elle vise à : solliciter, informer, réclamer, confirmer, annoncer, etc.
+
+La **norme AFNOR NF Z 11-001** standardise la présentation matérielle des lettres pour en faciliter la lecture, le classement et la réponse.
+
+#### **2.2. Structure normative de la lettre (7 zones)**
+La norme AFNOR divise la page en sept zones obligatoires.
+
+**Tableau : Structure de la lettre commerciale selon l'AFNOR**
+
+| Zone | Nom | Contenu et position | Exemple concret (Cameroun) |
+| :--- | :--- | :--- | :--- |
+| **1** | **Zone d'en-tête** | Coordonnées complètes de l'entreprise expéditrice. En haut à gauche. | **Sofricam SA**<br>Siège social : Rue 1.894, Akwa, Douala<br>BP 1234 Douala<br>Tél. : (+237) 233 44 00 00<br>Email : contact@sofricam.cm<br>RCCM : DO/2023/B/1234 (OHADA) |
+| **2** | **Références** | Réf. de l'expéditeur et du destinataire. Sous la zone 1. | **Votre réf.** : DGP/2024/CMD/87<br>**Nos réf.** : SC/COM/24/056 |
+| **3** | **Zone du destinataire** | Coordonnées du destinataire. À droite, au niveau de la zone 2. | **À l'attention du Directeur des Achats**<br>**MTN Cameroon**<br>Immeuble MTN, Boulevard de la Liberté<br>BP 1000, Yaoundé |
+| **4** | **Mentions spéciales** | Nature urgente ou confidentielle. Entre zones 3 et 5. | **OBJET : URGENT - Réponse à l'appel d'offres n°AO-2024-IT** |
+| **5** | **Objet** | Résumé précis du thème de la lettre. Centré, en majuscules. | **OBJET : PROPOSITION COMMERCIALE POUR LA MAINTENANCE DU PARC INFORMATIQUE** |
+| **6** | **Corps de la lettre** | Le texte lui-même. Composé de 3 parties :<br>1. **Accroche** : Rappel du contexte.<br>2. **Développement** : Exposé des faits, arguments.<br>3. **Conclusion** : Formule de politesse et appel à l'action. | *(Voir exemple détaillé ci-dessous)* |
+| **7** | **Zone de signature** | Signature précédée du nom, prénom et fonction du signataire. En bas à gauche. | **Veuillez agréer, Monsieur le Directeur, l'expression de nos salutations distinguées.**<br><br>**Fait à Douala, le 15 mai 2024**<br><br>Le Directeur Technique,<br><br>[Signature]<br>**M. Jean-Paul NDOUNDA** |
+
+#### **2.3. Exemple de corps de lettre adapté (Contexte BTS GL)**
+**Accroche** : *"Suite à notre échange téléphonique du 10 mai 2024 et en référence à votre cahier des charges, nous avons le plaisir de vous adresser notre proposition technique et financière pour le développement de l'application mobile de gestion des points de vente."*
+
+**Développement** : *"Notre solution, basée sur le framework Flutter, permettra une synchronisation offline des données, essentielle pour les zones à faible couverture réseau. Le coût total du projet, incluant la formation des utilisateurs à Yaoundé et à Douala, s'élève à 8 500 000 FCFA, payable selon l'échéancier joint."*
+
+**Conclusion** : *"Nous restons à votre entière disposition pour présenter cette proposition plus en détail. Dans l'attente de votre retour, nous vous prions d'agréer, Madame, l'expression de nos sentiments dévoués."*
+
+#### **2.4. Outils de rédaction**
+- **Logiciels de traitement de texte** : Microsoft Word, LibreOffice Writer (avec création de modèles personnalisés).
+- **Gestion de la relation client (CRM)** : Des outils comme Salesforce ou des solutions locales peuvent intégrer des modules de mailing formel.
+- **Bonnes pratiques** : Utiliser des polices standard (Times New Roman, Arial, taille 11 ou 12), justifier le texte, aérer la présentation.
+
+---
+
+### **3. Le compte rendu (CR)**
+
+#### **3.1. Définition et finalités**
+Un compte rendu est un document qui relate de manière **objective, fidèle et synthétique** le déroulement d'une réunion, d'une visite, d'une mission ou d'un événement.
+- **Objectif** : Informer les absents, servir de mémoire, constater un accord, suivre l'avancement d'un projet (suivi des *sprints* en méthodologie agile).
+- **Différence avec le procès-verbal** : Le CR est plus synthétique et moins formel. Il se concentre sur les discussions et les décisions, pas sur le mot à mot.
+
+#### **3.2. Structure type d'un compte rendu de réunion**
+1. **En-tête administratif** : Nom de l'entreprise, titre ("Compte rendu de la réunion de..."), date et lieu de la réunion, liste des participants (avec leurs fonctions) et des absents excusés.
+2. **Ordre du jour** : Points abordés, listés numériquement.
+3. **Développement** : Résumé des discussions pour chaque point de l'ordre du jour. On utilise souvent la forme impersonnelle.
+4. **Liste des décisions prises (PARTIE ESSENTIELLE)** : Tableau récapitulatif avec pour chaque décision : la **tâche**, la **personne responsable (RACI)**, et l'**échéance**.
+5. **Date et signature** : Date de rédaction, nom et fonction du rédacteur.
+
+#### **3.3. Exemple concret (Projet de développement logiciel)**
+**Entreprise** : Startup camerounaise "AgriTech Solutions".
+**Objet** : CR de la réunion de revue de sprint #3 du projet "Appli AgriConnect".
+**Décisions** :
+| N° | Décision / Tâche | Responsable | Échéance |
+| :--- | :--- | :--- | :--- |
+| 1 | Corriger le bug d'affichage sur la page de login (Android version 10) | Développeur M. Abena | 22/05/2024 |
+| 2 | Finaliser le protocole d'API pour l'échange avec les serveurs de **Camtel** | Chef de projet Mme Diallo | 25/05/2024 |
+| 3 | Organiser une démo de la V1.2 pour le partenaire **Sodecoton** à Garoua | Chef de projet Mme Diallo | 30/05/2024 |
+
+---
+
+### **4. Le procès-verbal (PV)**
+
+#### **4.1. Définition et caractère juridique**
+Le procès-verbal est un écrit qui constate de manière **détaillée, chronologique et authentique** les délibérations et les décisions prises lors d'une assemblée, d'une réunion officielle ou d'un événement.
+- **Caractère formel et probant** : Il peut avoir une **valeur juridique** (PV d'assemblée générale, de réunion du comité d'hygiène et de sécurité). Sa rédaction doit être extrêmement rigoureuse.
+- **Contexte d'utilisation** : Assemblées générales, réunions du conseil d'administration, comités de direction, constats formels (PV de livraison, de réception).
+
+#### **4.2. Structure rigoureuse d'un PV**
+1. **Titre et identification** : "Procès-Verbal de l'Assemblée Générale Ordinaire de...", nom de l'association/entreprise, date, heure et lieu précis.
+2. **Composition de l'assemblée** : Liste exhaustive des participants (qualité, nom), mention du quorum atteint ou non, nom du président de séance et du secrétaire.
+3. **Déroulement** : Approbation de l'ordre du jour. Compte rendu **détaillé et neutre** des discussions, des interventions, des propositions et des votes (résultats chiffrés).
+4. **Décisions** : Transcription exacte des résolutions adoptées, avec leur numéro.
+5. **Clôture** : Heure de clôture, signature **obligatoire** du président de séance et du secrétaire. Mention "Lu et approuvé".
+
+> **À retenir** : Un PV ne contient pas d'opinions personnelles. Il se contente de relater les faits. Les formules comme "M. X **déclare que**..." ou "Il **est proposé et approuvé à l'unanimité que**..." sont typiques.
+
+---
+
+### **5. La note de service**
+
+#### **5.1. Définition et usage interne**
+Une note de service (ou note interne) est un document **circulant à l'intérieur de l'entreprise** pour :
+- Donner une **instruction**, une directive.
+- **Informer** le personnel sur un fait, une décision, une modification.
+- **Demander** des informations ou un avis.
+- **Rappeler** une procédure, une règle.
+- C'est l'outil privilégié de la communication **hiérarchique descendante**.
+
+#### **5.2. Structure et rédaction**
+Une note de service est généralement **courte, directe et impersonnelle**.
+
+**Modèle type :**
+- **En-tête** : Logo de l'entreprise, mention "NOTE DE SERVICE".
+- **Références** : Numéro, date.
+- **Destinataires** : "À l'attention de [Service/Département concerné]", "À tous les collaborateurs du service informatique".
+- **Expéditeur** : "De la part de [Fonction, Direction]".
+- **Objet** : Phrase claire et concise.
+- **Corps du texte** : Pas de formule d'introduction protocolaire. On va droit au but. Les informations sont souvent présentées sous forme de listes à puces ou numérotées pour plus de clarté.
+- **Signature** : Nom, prénom et fonction de l'émetteur.
+
+#### **5.3. Exemple dans une entreprise de services numériques**
+**ENTREPRISE** : Orange Digital Center, Yaoundé.
+**OBJET** : Mise à jour de la politique de sécurité des mots de passe.
+**TEXTE** : *"À compter du 1er juin 2024, tous les collaborateurs devront modifier leur mot de passe d'accès au réseau interne selon les nouvelles

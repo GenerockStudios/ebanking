@@ -1,0 +1,88 @@
+CHAPITRE 1 — MODÈLE ENTITÉ-ASSOCIATION (MCD)
+BTS Génie Logiciel — Bases de données
+
+1. INTRODUCTION AUX BASES DE DONNÉES
+
+Une base de données (BDD) est un ensemble structuré de données organisées pour être facilement accessibles, gérées et mises à jour. Un SGBD (Système de Gestion de Bases de Données) est le logiciel qui gère la BDD.
+
+Avantages d'un SGBD vs fichiers classiques :
+- Partage des données entre plusieurs utilisateurs
+- Cohérence et intégrité des données
+- Sécurité et contrôle d'accès
+- Indépendance entre données et applications
+- Gestion des pannes (transactions ACID)
+
+Principaux SGBD :
+- Relationnels : MySQL/MariaDB, PostgreSQL, Oracle, SQL Server, SQLite
+- NoSQL : MongoDB (documents), Redis (clé-valeur), Cassandra (colonnes), Neo4j (graphes)
+
+2. PROCESSUS DE CONCEPTION
+
+Niveaux de conception (méthode MERISE) :
+1. Niveau conceptuel → MCD (Modèle Conceptuel des Données) : quoi ?
+2. Niveau logique → MLD (Modèle Logique des Données) : comment représenter ?
+3. Niveau physique → MPD (Modèle Physique des Données) : comment implémenter en SQL ?
+
+3. LE MODÈLE ENTITÉ-ASSOCIATION (MCD)
+
+Entité : objet du monde réel ayant une existence propre et des propriétés (attributs).
+Exemples : ÉTUDIANT, COURS, ENSEIGNANT, ENTREPRISE
+
+Attribut (propriété) : caractéristique d'une entité.
+- Attribut simple : une seule valeur (nom, prénom)
+- Attribut composé : décomposable (adresse = rue + ville + code postal)
+- Attribut multivalué : plusieurs valeurs possibles (numéros de téléphone)
+- Attribut dérivé : calculé à partir d'autres (âge calculé depuis date naissance)
+
+Identifiant (clé) : attribut(s) permettant d'identifier de manière unique chaque occurrence de l'entité. Souligné dans le MCD.
+
+Association (relation) : lien entre deux ou plusieurs entités.
+Exemple : ÉTUDIANT — s'inscrit à → COURS
+
+Cardinalité : nombre minimum et maximum de fois qu'une entité participe à une association.
+Notation : (min, max) de chaque côté
+min = 0 : participation optionnelle
+min = 1 : participation obligatoire
+max = 1 : au plus une fois
+max = N : plusieurs fois
+
+Cardinalités courantes :
+- (0,1) — (0,N) : un à plusieurs, optionnel
+- (1,1) — (1,N) : un à plusieurs, obligatoire
+- (0,N) — (0,N) : plusieurs à plusieurs
+- (1,1) — (1,1) : un à un
+
+4. EXEMPLE COMPLET : GESTION D'UNE ÉCOLE INFORMATIQUE
+
+Entités :
+ETUDIANT (id_etudiant, nom, prenom, date_naissance, email)
+COURS (id_cours, libelle, volume_horaire, coefficient)
+ENSEIGNANT (id_enseignant, nom, prenom, specialite, grade)
+SALLE (id_salle, designation, capacite, equipement)
+
+Associations :
+ETUDIANT s'inscrit COURS : (0,N) — (0,N)
+  attribut de l'association : note, date_inscription
+
+ENSEIGNANT enseigne COURS : (0,N) — (1,N)
+  Un cours a au moins 1 enseignant ; un enseignant peut enseigner 0 ou plusieurs cours
+
+COURS se_tient_dans SALLE : (0,N) — (1,1)
+  Un cours se tient dans au plus 1 salle ; une salle peut accueillir 0 ou plusieurs cours
+
+5. RÈGLES DE GESTION (AVANT LE MCD)
+
+Les règles de gestion expriment les contraintes métier :
+- Un étudiant ne peut s'inscrire à un cours qu'une seule fois par semestre
+- Un cours doit avoir au moins un enseignant responsable
+- Une salle ne peut accueillir qu'un cours à la fois sur un créneau horaire donné
+- La note d'un cours est comprise entre 0 et 20
+
+6. CONTRAINTES D'INTÉGRITÉ
+
+CIF (Contrainte d'Intégrité Fonctionnelle) : déterminisme entre attributs. Si A détermine B : A → B (B dépend fonctionnellement de A).
+Exemple : id_etudiant → nom, prenom, email (l'identifiant détermine tous les autres attributs)
+
+CIP (Contrainte d'Inclusion de Population) : toute occurrence d'une entité A doit correspondre à une occurrence d'une entité B.
+
+CIE (Contrainte d'Identité) : deux entités ne peuvent pas avoir le même identifiant.

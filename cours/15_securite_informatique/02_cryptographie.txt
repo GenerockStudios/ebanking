@@ -1,0 +1,223 @@
+# **Notes de Cours - BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière 15 : Sécurité Informatique**
+## **Chapitre : Cryptographie**
+
+---
+
+### **1. Introduction à la Cryptographie**
+
+#### **1.1. Définition et Objectifs**
+La cryptographie est la science qui étudie les techniques mathématiques permettant d'assurer la **confidentialité**, l'**intégrité**, l'**authenticité** et la **non-répudiation** des informations numériques.
+
+**À retenir :** Les 4 objectifs fondamentaux de la cryptographie (CINA) :
+- **C**onfidentialité : Seul le destinataire autorisé peut lire l'information
+- **I**ntégrité : L'information n'a pas été modifiée pendant la transmission
+- **N**on-répudiation : L'émetteur ne peut nier avoir envoyé l'information
+- **A**uthenticité : Vérification de l'identité des parties communicantes
+
+#### **1.2. Terminologie de Base**
+- **Texte clair (Plaintext)** : Message original non chiffré
+- **Texte chiffré (Ciphertext)** : Message transformé par chiffrement
+- **Chiffrement (Encryption)** : Transformation du texte clair en texte chiffré
+- **Déchiffrement (Decryption)** : Transformation inverse pour retrouver le texte clair
+- **Clé (Key)** : Paramètre secret utilisé dans les algorithmes cryptographiques
+- **Cryptanalyse** : Science qui étudie les méthodes pour "casser" les systèmes cryptographiques
+
+---
+
+### **2. Chiffrement Symétrique**
+
+#### **2.1. Principe Fondamental**
+Le chiffrement symétrique utilise la **même clé secrète** pour le chiffrement et le déchiffrement. Les parties communicantes doivent partager cette clé de manière sécurisée avant l'échange.
+
+**Formule générale :**
+- Chiffrement : `C = E(K, P)` où C=texte chiffré, E=algorithme, K=clé, P=texte clair
+- Déchiffrement : `P = D(K, C)` où D=algorithme inverse
+
+#### **2.2. DES (Data Encryption Standard)**
+- **Date** : 1977 (NIST)
+- **Taille de clé** : 56 bits (considérée insuffisante aujourd'hui)
+- **Taille de bloc** : 64 bits
+- **Structure** : Algorithme de Feistel avec 16 tours
+- **Statut actuel** : Déprécié, vulnérable aux attaques par force brute
+
+**Exemple concret au Cameroun :** Les anciens systèmes bancaires locaux (avant 2010) utilisaient parfois DES pour sécuriser les transactions internes, mais ont dû migrer vers AES pour se conformer aux normes internationales.
+
+#### **2.3. AES (Advanced Encryption Standard)**
+- **Date** : 2001 (standardisé par NIST)
+- **Taille de clé** : 128, 192 ou 256 bits
+- **Taille de bloc** : 128 bits
+- **Structure** : Réseau de substitution-permutation (SPN)
+- **Statut actuel** : Standard mondial, recommandé par l'ANSI
+
+**Tableau comparatif DES vs AES :**
+
+| Critère | DES | AES |
+|---------|-----|-----|
+| Taille clé | 56 bits | 128/192/256 bits |
+| Taille bloc | 64 bits | 128 bits |
+| Sécurité | Faible | Très forte |
+| Vitesse | Rapide | Très rapide |
+| Usage actuel | Déconseillé | Standard mondial |
+
+**Application camerounaise :** AES-256 est utilisé par **Camtel** pour chiffrer les communications gouvernementales sensibles et par les banques (Afriland First Bank, BICEC) pour protéger les données clients.
+
+#### **2.4. Modes d'Opération**
+- **ECB (Electronic Codebook)** : Chaque bloc chiffré indépendamment (déconseillé)
+- **CBC (Cipher Block Chaining)** : Utilise un vecteur d'initialisation (IV)
+- **CTR (Counter)** : Transformation en chiffrement par flux
+
+---
+
+### **3. Chiffrement Asymétrique**
+
+#### **3.1. Principe Fondamental**
+Également appelé **cryptographie à clé publique**, utilise deux clés différentes mais mathématiquement liées :
+- **Clé publique** : Peut être diffusée largement, utilisée pour chiffrer
+- **Clé privée** : Gardée secrète, utilisée pour déchiffrer
+
+**Avantage majeur** : Résout le problème de distribution des clés du chiffrement symétrique.
+
+#### **3.2. RSA (Rivest-Shamir-Adleman)**
+- **Basé sur** : La difficulté de factoriser de grands nombres entiers
+- **Algorithme** :
+  1. Génération des clés :
+     - Choisir deux grands nombres premiers p et q
+     - Calculer n = p × q
+     - Calculer φ(n) = (p-1)(q-1)
+     - Choisir e tel que 1 < e < φ(n) et pgcd(e, φ(n)) = 1
+     - Calculer d tel que d × e ≡ 1 mod φ(n)
+     - Clé publique : (n, e)
+     - Clé privée : (n, d)
+  2. Chiffrement : `C = M^e mod n`
+  3. Déchiffrement : `M = C^d mod n`
+
+**Exemple pratique :** Les sites web des administrations camerounaises (impots.cm, minfof.cm) utilisent RSA dans leurs certificats SSL/TLS pour sécuriser les échanges avec les citoyens.
+
+#### **3.3. ECC (Elliptic Curve Cryptography)**
+- **Basé sur** : La difficulté du problème du logarithme discret sur les courbes elliptiques
+- **Avantage** : Clés plus courtes pour une sécurité équivalente à RSA
+  - ECC 256 bits ≈ RSA 3072 bits en sécurité
+- **Efficacité** : Moins de calcul, consommation réduite, idéal pour mobiles
+
+**Application africaine :** **MTN Mobile Money** et **Orange Money** utilisent ECC pour sécuriser les transactions sur mobile, car cela nécessite moins de puissance de calcul et de bande passante, adapté aux réseaux africains.
+
+#### **3.4. Comparatif RSA vs ECC**
+
+| Critère | RSA | ECC |
+|---------|-----|-----|
+| Base mathématique | Factorisation | Courbes elliptiques |
+| Taille clé typique | 2048-4096 bits | 256-384 bits |
+| Performance | Plus lent | Plus rapide |
+| Consommation | Élevée | Faible |
+| Usage typique | SSL/TLS, emails | Mobile, IoT, cartes à puce |
+
+---
+
+### **4. Fonctions de Hachage**
+
+#### **4.1. Définition et Propriétés**
+Une fonction de hachage transforme une donnée de taille variable en une **empreinte numérique** (hash) de taille fixe.
+
+**Propriétés essentielles :**
+1. **Déterministe** : Même entrée → même sortie
+2. **Rapide à calculer**
+3. **Résistance à la préimage** : Impossible de retrouver l'entrée à partir du hash
+4. **Résistance aux collisions** : Difficile de trouver deux entrées avec le même hash
+
+#### **4.2. MD5 (Message Digest 5)**
+- **Taille hash** : 128 bits
+- **Statut** : **Cassé**, vulnérable aux collisions
+- **Usage actuel** : **À éviter** pour la sécurité
+
+#### **4.3. SHA-256 (Secure Hash Algorithm)**
+- **Famille** : SHA-2
+- **Taille hash** : 256 bits
+- **Statut** : Standard actuel, sécurisé
+- **Applications** : Blockchain (Bitcoin), signatures numériques, intégrité des données
+
+**Exemple OHADA :** Dans le système **SYDONIA World** utilisé par les douanes camerounaises, SHA-256 vérifie l'intégrité des déclarations en douane pour prévenir la fraude documentaire.
+
+#### **4.4. Tableau Comparatif**
+
+| Algorithme | Taille hash | Sécurité | Vitesse | Usage recommandé |
+|------------|-------------|----------|---------|------------------|
+| MD5 | 128 bits | Faible | Rapide | Vérification d'intégrité non critique |
+| SHA-1 | 160 bits | Faible | Rapide | Déprécié |
+| SHA-256 | 256 bits | Forte | Moyenne | Standard actuel |
+| SHA-512 | 512 bits | Très forte | Lente | Applications haute sécurité |
+
+---
+
+### **5. Signatures Numériques**
+
+#### **5.1. Principe et Objectifs**
+Une signature numérique assure **l'authenticité**, **l'intégrité** et **la non-répudiation** d'un document numérique.
+
+**Processus typique :**
+1. **Signature** :
+   - Calcul du hash du document (ex: SHA-256)
+   - Chiffrement du hash avec la clé privée de l'émetteur
+2. **Vérification** :
+   - Déchiffrement du hash avec la clé publique de l'émetteur
+   - Calcul du hash du document reçu
+   - Comparaison des deux hashs
+
+#### **5.2. Standard DSS (Digital Signature Standard)**
+- **Algorithmes supportés** : DSA, RSA, ECDSA
+- **Usage au Cameroun** : Signatures des contrats électroniques dans le cadre de l'**OHADA**, documents fiscaux électroniques
+
+**À retenir :** La signature numérique a la même valeur légale qu'une signature manuscrite dans plusieurs pays africains, dont le Cameroun, grâce aux lois sur le commerce électronique.
+
+---
+
+### **6. PKI (Public Key Infrastructure)**
+
+#### **6.1. Architecture et Composants**
+La PKI est un ensemble de politiques, procédures et technologies permettant de gérer les clés publiques et les certificats numériques.
+
+**Composants principaux :**
+1. **AC (Autorité de Certification)** : Émet et signe les certificats
+2. **ARA (Autorité d'Enregistrement)** : Vérifie l'identité des demandeurs
+3. **Dépôt de certificats** : Stocke les certificats valides et révoqués
+4. **Sujet** : Entité qui possède le certificat
+5. **Client** : Utilise le certificat pour vérifier l'identité
+
+#### **6.2. Certificats Numériques X.509**
+Structure standardisée contenant :
+- Identité du sujet
+- Clé publique du sujet
+- Identité de l'AC émettrice
+- Signature numérique de l'AC
+- Dates de validité
+
+**Exemple camerounais :** **ART (Agence de Régulation des Télécommunications)** agit comme autorité de certification racine pour les opérateurs télécoms nationaux.
+
+---
+
+### **7. SSL/TLS et Certificats**
+
+#### **7.1. Protocole TLS (Transport Layer Security)**
+Successeur de SSL, assure une communication sécurisée sur Internet.
+
+**Établissement de session TLS (simplifié) :**
+1. **ClientHello** : Client propose des algorithmes cryptographiques
+2. **ServerHello** : Serveur choisit les algorithmes et envoie son certificat
+3. **Vérification** : Client vérifie le certificat du serveur
+4. **Échange de clés** : Génération de clés de session symétriques
+5. **Communication sécurisée** : Échange de données chiffrées
+
+#### **7.2. Types de Certificats SSL/TLS**
+1. **DV (Domain Validation)** : Vérification du domaine seulement
+2. **OV (Organization Validation)** : Vérification de l'organisation
+3. **EV (Extended Validation)** : Vérification étendue (barre verte)
+
+**Application bancaire africaine :** Les banques comme **Ecobank** et **Standard Chartered Bank Cameroun** utilisent des certificats EV pour leurs plateformes de e-banking, offrant le plus haut niveau de confiance.
+
+#### **7.3. Outils et Technologies**
+- **OpenSSL** : Bibliothèque open-source pour implémenter SSL/TLS
+- **Let's Encrypt** : AC gratuite pour certificats DV
+- **Keytool** : Outil Java pour gérer les keystores
+- **Certbot** : Automatise l'obtention de certificats Let's Encrypt
+
+**À retenir pour le BTS GL :** En entreprise, vous serez amenés à configurer SSL/TLS sur les serveurs web (Apache, Nginx), renouveler les certificats, et diagnostiquer les problèmes de sécurité liés aux certificats

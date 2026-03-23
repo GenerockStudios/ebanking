@@ -1,0 +1,176 @@
+# **Notes de cours — 04 Informatique Générale**
+## **Chapitre : Bureautique et productivité**
+
+### **1. Introduction à la bureautique et à la productivité**
+
+#### **1.1. Définition et enjeux**
+La **bureautique** désigne l'ensemble des techniques et des outils informatiques permettant d'automatiser et de rationaliser les activités de bureau. Son objectif principal est d'**améliorer la productivité**, la qualité et la rapidité de traitement de l'information dans un contexte professionnel.
+
+**Productivité** : Mesure de l'efficacité dans la transformation des ressources (temps, efforts) en résultats utiles (documents, analyses, présentations).
+
+**Enjeux pour l'entreprise camerounaise** :
+- Réduction des coûts opérationnels.
+- Amélioration de la qualité des documents (rapports, contrats, factures).
+- Prise de décision plus rapide grâce à une meilleure analyse des données.
+- Conformité aux standards (ex: normes OHADA pour la comptabilité et le droit des affaires).
+
+#### **1.2. Panorama des logiciels bureautiques**
+Deux grandes catégories coexistent sur le marché :
+
+**1. Suites propriétaires (Microsoft Office)**
+- Standard en entreprise, offre une compatibilité étendue.
+- Composants principaux : Word, Excel, PowerPoint, Access.
+- Coût de licence élevé, mais support technique important.
+
+**2. Suites libres et open source (LibreOffice / Apache OpenOffice)**
+- Alternative gratuite, de plus en plus adoptée dans l'administration et les PME.
+- Composants principaux : Writer, Calc, Impress, Base.
+- Avantage majeur : réduction des coûts et indépendance technologique.
+
+**À retenir** : Le choix d'une suite dépend du budget, des besoins de compatibilité avec les partenaires (ex: banques, clients internationaux) et des compétences disponibles. Une tendance est à l'utilisation mixte.
+
+---
+
+### **2. Traitement de texte (Word / Writer)**
+
+#### **2.1. Rédaction et mise en forme avancée**
+Au-delà de la simple saisie, un traitement de texte performant implique :
+- **Styles et modèles** : Pour garantir l'uniformité et la rapidité de mise en forme (ex: création d'un modèle de rapport pour la DGI - Direction Générale des Impôts).
+- **Sections** : Permettent de gérer des mises en page différentes dans un même document (pages paysage pour un tableau, portrait pour le texte).
+- **En-têtes et pieds de page dynamiques** : Insertion automatique de numéros de page, du titre du document, de la date.
+- **Références** : Gestion automatique des tables des matières, des index, des notes de bas de page et des bibliographies (essentiel pour les mémoires et rapports techniques).
+
+**Exemple concret** : Rédaction d'un contrat de vente conforme au droit OHADA. Utilisation des styles pour les clauses, insertion de champs pour les noms des parties (MTN Cameroun et un fournisseur local), génération automatique d'une table des annexes.
+
+#### **2.2. Travail collaboratif et révision**
+- **Suivi des modifications** : Visualisation des ajouts, suppressions et commentaires des différents relecteurs.
+- **Fusion et publipostage** : Création de lettres types personnalisées pour une campagne de communication (ex: envoi de relevés de compte par une microfinance).
+- **Protection des documents** : Restriction de l'édition ou de la lecture par mot de passe, protection des formulaires.
+
+---
+
+### **3. Tableur (Excel / Calc) : Formules, fonctions et analyse de données**
+
+#### **3.1. Concepts fondamentaux**
+- **Classeur, feuille, cellule** : Structure hiérarchique.
+- **Référence de cellule** :
+    - **Relative (A1)** : S'adapte lors de la recopie.
+    - **Absolue ($A$1)** : Reste fixe lors de la recopie.
+    - **Mixte (A$1 ou $A1)** : Bloque soit la ligne, soit la colonne.
+
+#### **3.2. Catégories de fonctions essentielles**
+**Fonctions logiques** :
+- `SI(condition; valeur_si_vrai; valeur_si_faux)` : Pour des calculs conditionnels.
+- `ET()`, `OU()` : Combiner plusieurs conditions.
+- `SI.MULTIPLE()` (Excel) / `CHOISIR()` (Calc) : Pour des tests multiples.
+
+**Exemple** : Calcul d'une prime commerciale pour un agent Orange Money.
+`=SI(ET(Ventes > 1000000; TauxRétention > 0.95); Prime*1.2; SI(Ventes > 500000; Prime; 0))`
+
+**Fonctions de recherche et référence** :
+- `RECHERCHEV()` / `X.RECHERCHE()` : Rechercher une valeur dans une table (ex: trouver le tarif d'un forfait Camtel à partir de son code).
+- `INDEX()` et `EQUIV()` : Combinaison puissante pour des recherches bidirectionnelles.
+
+**Fonctions statistiques et mathématiques** :
+- `SOMME.SI()` / `SOMME.SI.ENS()` : Somme conditionnelle (ex: total des ventes de la région du Littoral).
+- `MOYENNE()`, `MEDIANE()`, `ECARTYPE()`.
+- `ARRONDI()`, `PLAFOND()`, `PLANCHER()`.
+
+**Fonctions de date et texte** :
+- `GAUCHE()`, `DROITE()`, `STXT()` : Extraire des parties d'un texte (ex: extraire l'indicatif pays d'un numéro de téléphone).
+- `DATEDIF()` : Calculer l'ancienneté d'un employé.
+
+#### **3.3. Analyse et visualisation des données**
+- **Tableaux croisés dynamiques (TCD)** : Outil indispensable pour synthétiser, regrouper et analyser de grands volumes de données sans formule.
+    *Exemple* : Analyser les ventes mensuelles par produit et par région pour une entreprise agroalimentaire de Douala.
+- **Graphiques** : Choisir le type adapté au message (histogramme pour les comparaisons, courbe pour l'évolution dans le temps, camembert pour les parts de marché).
+- **Validation des données** : Créer des listes déroulantes pour garantir la saisie cohérente (ex: liste des départements du Cameroun).
+- **Mise en forme conditionnelle** : Mettre en évidence visuellement des données (ex: colorer en rouge les comptes clients de plus de 90 jours).
+
+**Tableau comparatif des fonctions courantes**
+
+| Catégorie | Fonction Excel | Fonction Calc (LibreOffice) | Utilisation typique |
+| :--- | :--- | :--- | :--- |
+| **Logique** | `SI()` | `SI()` | Test conditionnel |
+| **Recherche** | `RECHERCHEV()` | `RECHERCHEV()` | Recherche verticale |
+| **Statistique** | `SOMME.SI.ENS()` | `SOMME.SI.ENS()` | Somme avec critères multiples |
+| **Texte** | `CONCATENER()` / `&` | `CONCATENER()` / `&` | Fusionner des chaînes |
+| **Date** | `AUJOURDHUI()` | `AUJOURDHUI()` | Date du jour |
+
+---
+
+### **4. Logiciel de présentation (PowerPoint / Impress)**
+
+#### **4.1. Principes d'une présentation efficace**
+- **Règle des 10/20/30** (Guy Kawasaki) : 10 diapositives max, 20 minutes de présentation, police de 30 points minimum.
+- **Structure claire** : Introduction, développement, conclusion.
+- **Message par diapositive** : Une idée principale par écran.
+
+#### **4.2. Techniques avancées**
+- **Maîtres des diapositives** : Pour unifier la charte graphique (logos, polices, couleurs) de toute la présentation.
+- **Animations et transitions** : À utiliser avec parcimonie pour soutenir le propos, non pour le distraire.
+- **Intégration multimédia** : Insertion de vidéos, de sons, de graphiques Excel/Calc dynamiques.
+- **Mode présentateur** : Affiche des notes et la diapositive suivante uniquement sur l'écran de l'orateur.
+
+**Exemple concret** : Préparation d'un pitch pour lever des fonds auprès d'un incubateur comme *ActivSpaces* à Douala. Diapositives sur le problème, la solution, le marché camerounais, l'équipe, le modèle économique et le plan financier (avec graphiques issus du tableur).
+
+---
+
+### **5. Base de données bureautique (Access / LibreOffice Base)**
+
+#### **5.1. Concepts fondamentaux des bases de données relationnelles**
+- **Base de données (BDD)** : Collection organisée de données structurées.
+- **Table** : Structure qui contient les données sur un sujet (ex: table `Clients`, table `Commandes`).
+- **Enregistrement (ou tuple)** : Ligne dans une table, représentant une occurrence (ex: un client).
+- **Champ (ou attribut)** : Colonne dans une table, représentant une caractéristique (ex: `Nom_Client`, `Téléphone`).
+- **Clé primaire (PK)** : Champ identifiant de manière unique chaque enregistrement (ex: `Code_Client`).
+- **Clé étrangère (FK)** : Champ dans une table qui fait référence à la clé primaire d'une autre table, établissant une **relation**.
+
+#### **5.2. Conception (Modèle Conceptuel de Données - MCD)**
+- **Identifier les entités** (les "objets" dont on veut garder l'information) : Client, Produit, Facture, Paiement.
+- **Identifier les attributs** de chaque entité.
+- **Identifier les relations** entre les entités (une, plusieurs) :
+    - **1,1 - 1,n** : Un client passe plusieurs commandes.
+    - **1,n - n,1** : Une commande contient plusieurs lignes de produits.
+- Objectif : Éviter la **redondance** des données et les **anomalies** de mise à jour.
+
+**Exemple adapté** : Modélisation simple pour un petit commerce à Yaoundé.
+- Table **Fournisseurs** (`ID_Fournisseur`, `Nom`, `Ville`)
+- Table **Produits** (`Code_Produit`, `Désignation`, `Prix`, `ID_Fournisseur`) ← `ID_Fournisseur` est une clé étrangère.
+- Cette structure évite de répéter le nom et la ville du fournisseur pour chaque produit.
+
+#### **5.3. Interrogation des données : Le langage SQL basique**
+Le **SQL (Structured Query Language)** est le langage standard pour interagir avec une base de données.
+
+**Requêtes fondamentales** :
+1. **Sélection (SELECT)** :
+    ```sql
+    SELECT Nom, Téléphone FROM Clients WHERE Ville = 'Douala';
+    ```
+
+2. **Filtrage et tri (WHERE, ORDER BY)** :
+    ```sql
+    SELECT * FROM Commandes WHERE Date >= #01/01/2024# AND Montant > 50000 ORDER BY Montant DESC;
+    ```
+
+3. **Jointures (INNER JOIN)** : Pour combiner des tables liées.
+    ```sql
+    SELECT Clients.Nom, Commandes.Numero, Commandes.Montant
+    FROM Clients
+    INNER JOIN Commandes ON Clients.ID_Client = Commandes.ID_Client;
+    ```
+
+#### **5.4. Autres objets d'une base de données bureautique**
+- **Formulaires** : Interfaces utilisateur conviviales pour saisir et afficher les données (ex: formulaire de saisie d'une nouvelle commande).
+- **États (Rapports)** : Permettent de mettre en forme et d'imprimer les données (ex: impression d'une facture type, d'un listing des clients en retard de paiement).
+- **Requêtes paramétrées** : Pour créer des rapports dynamiques (ex: "Afficher les ventes entre telle et telle date").
+
+**À retenir** : Access et Base sont des SGBD (Systèmes de Gestion de Bases de Données) **bureautiques**, idéaux pour des applications mono-utilisateur ou petits groupes. Pour des applications critiques et multi-utilisateurs (ex: système de gestion d'une grande école), on utilisera des SGBD professionnels comme **MySQL, PostgreSQL ou Microsoft SQL Server**.
+
+---
+
+### **6. Intégration et automatisation**
+
+La puissance des outils bureautiques réside dans leur capacité à **travailler ensemble** :
+- **Lier un graphique Excel/Calc** dans un rapport Word/Writer : Le graphique se met à jour automatiquement si les données changent.
+- **Utiliser les résultats d'une requête Base/Access** pour un publipost

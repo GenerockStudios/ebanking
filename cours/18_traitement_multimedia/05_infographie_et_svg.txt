@@ -1,0 +1,148 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière 18 : Traitement Multimédia**
+## **Chapitre : Infographie vectorielle : SVG, Inkscape, Adobe Illustrator — raster vs vectoriel, logos, icônes, impression**
+
+---
+
+### **1. Introduction à l'infographie : Raster vs Vectoriel**
+
+#### **1.1. Définitions fondamentales**
+
+**Infographie** : Domaine de la création et du traitement d'images numériques par ordinateur. Elle se divise principalement en deux catégories : l'infographie matricielle (raster) et l'infographie vectorielle.
+
+**Image Matricielle (Raster/Bitmap)** :
+- Image composée d'une grille de pixels (picture elements).
+- Chaque pixel possède une valeur de couleur précise (RVB, CMJN, niveaux de gris).
+- La qualité est définie par la **résolution** (nombre de pixels par unité de longueur, ex: PPP - Points Par Pouce).
+- **Exemples de formats** : JPEG, PNG, GIF, BMP, TIFF.
+- **Cas concret camerounais** : Une photographie numérique d'un paysage des chutes de la Lobé à Kribi, ou une image scannée d'un document OHADA, est une image matricielle.
+
+**Image Vectorielle** :
+- Image définie par des formes géométriques (points, lignes, courbes, polygones) décrites par des formules mathématiques.
+- Indépendante de la résolution : elle peut être redimensionnée à l'infini sans perte de qualité (pas d'effet de "pixellisation").
+- **Exemples de formats** : SVG, AI (Adobe Illustrator), EPS, PDF (peut contenir du vectoriel).
+- **Cas concret camerounais** : Le logo de la société nationale des hydrocarbures (SNH), le pictogramme d'un panneau de signalisation routière au Cameroun, ou le tracé d'un plan architectural sont des images vectorielles.
+
+#### **1.2. Tableau comparatif Raster vs Vectoriel**
+
+| Critère de comparaison | Image Raster / Bitmap | Image Vectorielle |
+| :--- | :--- | :--- |
+| **Composition** | Grille de pixels (tableau) | Objets géométriques (formules mathématiques) |
+| **Définition / Résolution** | Dépendante (fixe). Perte de qualité à l'agrandissement. | Indépendante. Aucune perte de qualité à l'agrandissement. |
+| **Taille de fichier** | Généralement lourde (surtout en haute résolution) | Généralement légère (dépend de la complexité des formes) |
+| **Traitements adaptés** | Retouche photo, photomontage, effets complexes | Logos, icônes, typographie, schémas, plans, illustrations |
+| **Outils principaux** | Adobe Photoshop, GIMP, Affinity Photo | Adobe Illustrator, **Inkscape**, CorelDRAW |
+| **Format d'échange web** | JPEG, PNG, WebP | **SVG** |
+| **Exemple local** | Photo d'un match des Lions Indomptables | Logo de **MTN Cameroon**, **Orange Cameroun**, **Camtel** |
+
+**À retenir** : Le choix entre raster et vectoriel dépend de l'usage final. On utilise le **vectoriel pour tout ce qui doit être redimensionné fréquemment** (logos, identités visuelles) et le **raster pour les images riches en détails et couleurs** (photographies).
+
+---
+
+### **2. L'infographie vectorielle en détail**
+
+#### **2.1. Principes mathématiques de base (Concepts)**
+
+Une image vectorielle est un ensemble d'**objets** définis par :
+- **Points (nœuds)** : Coordonnées (x, y) dans un plan.
+- **Chemins (Paths)** : Suite de points reliés par des segments de droite ou des **courbes de Bézier**.
+    - Une courbe de Bézier est définie par des points de contrôle qui influencent la courbure.
+    - Formule quadratique (un point de contrôle) ou cubique (deux points de contrôle).
+- **Attributs de style** : Couleur de contour (stroke), épaisseur du trait, couleur de remplissage (fill), dégradés, motifs.
+- **Primitives géométriques** : Rectangles, ellipses, polygones, étoiles.
+
+**Avantage clé pour le BTS GL** : En développement, manipuler des formes vectorielles (via SVG) permet de créer des interfaces (UI) et des graphiques (charts) qui s'adaptent parfaitement à tous les écrans (Responsive Design).
+
+#### **2.2. Domaines d'application (Contexte professionnel camerounais)**
+
+1.  **Identité visuelle & Branding** :
+    - Création et déclinaison de **logos** pour startups, PME, associations. Ex: Refonte du logo d'une mutuelle de santé locale.
+    - Charte graphique (carte de visite, en-tête de lettre, dossier de présentation).
+2.  **Signalétique & Icônographie** :
+    - Conception de **pictogrammes** pour une application mobile de transport (type *Yango* au Cameroun).
+    - Icônes pour un logiciel de gestion commerciale adapté au droit **OHADA**.
+    - Panneaux d'information pour un espace public (mairie, université).
+3.  **Illustration & Schématisation** :
+    - Création d'infographies pour des campagnes de sensibilisation (santé, environnement).
+    - Schémas techniques, organigrammes, cartes simplifiées.
+4.  **Impression & Production** :
+    - Supports publicitaires (affiches, flyers, banderoles).
+    - Textile (sérigraphie de t-shirts pour un événement comme le FENAC).
+    - Marquage de véhicules.
+
+---
+
+### **3. Les standards et logiciels de l'infographie vectorielle**
+
+#### **3.1. Le format SVG (Scalable Vector Graphics)**
+
+- **Définition** : Format de fichier vectoriel basé sur le langage **XML** (texte lisible). Standard ouvert du **W3C**.
+- **Pourquoi c'est essentiel pour un développeur logiciel (BTS GL)** :
+    - Intégrable directement dans une page HTML (`<svg>...</svg>`).
+    - Manipulable via le **DOM** et stylisable avec le **CSS**.
+    - Animable avec **JavaScript** ou **SMIL**.
+    - Parfait pour les graphiques générés dynamiquement (tableaux de bord, cartes interactives).
+- **Structure type d'un fichier SVG** :
+    ```xml
+    <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Un cercle, équivalent à une balise HTML -->
+        <circle cx="100" cy="100" r="50" fill="#008753" stroke="#FCD116" stroke-width="5"/>
+        <!-- Un texte -->
+        <text x="60" y="120" font-family="Arial" font-size="20">Cameroun</text>
+    </svg>
+    ```
+    *Exemple : Ce code simple pourrait représenter un élément d'un logo aux couleurs du drapeau camerounais.*
+
+#### **3.2. Logiciels professionnels**
+
+| Logiciel | Type | Avantages | Inconvénients | Contexte d'utilisation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Adobe Illustrator** | Logiciel propriétaire (Industrie Standard) | Suite d'outils très complète, parfaite intégration avec la Creative Cloud (Photoshop, InDesign), puissant. | Coûteux (abonnement), demande une machine performante. | Agences de communication, studios de design graphique au Cameroun (ex: à Douala ou Yaoundé). |
+| **Inkscape** | Logiciel libre et gratuit (Open Source) | Gratuit, multiplateforme, excellent support du format **SVG** (son format natif), communauté active. | Interface parfois moins intuitive, moins performant sur des fichiers très complexes. | **Idéal pour les étudiants BTS GL**, startups, TPE, pour un usage professionnel sans budget important. |
+| **CorelDRAW** | Logiciel propriétaire | Très populaire dans le domaine de l'impression et de la signalétique. | Moins intégré dans les écosystèmes web/UI. | Très utilisé chez les imprimeurs et fabricants de supports visuels en Afrique. |
+
+**Recommandation pour le BTS GL** : Maîtriser **Inkscape** est un excellent point de départ. Il permet de comprendre tous les concepts vectoriels et de produire des SVG directement exploitables en développement web et logiciel.
+
+---
+
+### **4. Processus de création : Logos et Icônes**
+
+#### **4.1. Méthodologie de conception d'un logo (Workflow)**
+
+1.  **Brief & Recherche** : Comprendre le client, son secteur (ex: agroalimentaire, tech), ses valeurs, sa cible.
+2.  **Brouillon & Esquisse (Paper Sketch)** : Recherche d'idées sur papier. *Ex: Esquisser un logo pour une plateforme de vente de produits agricoles locaux.*
+3.  **Numérisation & Vectorisation** :
+    - Scanner ou photographier les meilleures esquisses.
+    - Les importer dans **Inkscape** ou **Illustrator**.
+    - Utiliser l'outil **Plume** (Bezier tool) pour redessiner ("vectoriser") les contours proprement.
+    - Alternative : Utiliser la fonction de **vectorisation automatique** (Trace Bitmap dans Inkscape) pour un dessin au trait net.
+4.  **Choix des couleurs & Typographie** :
+    - Définir une palette colorimétrique (ex: vert forêt et jaune soleil pour un projet écologique).
+    - Choisir une ou deux polices de caractères (fonts) adaptées. Les polices doivent souvent être converties en chemins (Outline) pour l'impression.
+5.  **Affinage & Présentation** : Nettoyer les chemins, équilibrer les formes, présenter le logo sur des fonds clairs et foncés, et dans des contextes d'usage (carte de visite, site web).
+
+#### **4.2. Conception d'icônes (UI/UX)**
+
+- **Spécificités** : Les icônes doivent être **simples, compréhensibles immédiatement et cohérentes** entre elles (même style, même épaisseur de trait, même palette).
+- **Grille de base** : Travailler sur une grille (ex: 24x24 px, 32x32 px) pour assurer l'alignement et l'harmonie.
+- **Style** : Ligne (outline), rempli (filled), ou mixte. Le style "ligne" est très tendance dans les interfaces modernes.
+- **Exemple pour un projet BTS GL** : Créer une suite d'icônes pour une application mobile de gestion de microcrédit : icône "utilisateur", "portefeuille", "transaction", "historique", "paramètres OHADA".
+
+---
+
+### **5. Préparation à l'impression (Chaîne graphique)**
+
+#### **5.1. Différences fondamentales : Écran (RVB) vs Impression (CMJN)**
+
+- **RVB (Red, Green, Blue)** : Mode colorimétrique **additif** utilisé pour les écrans (moniteurs, smartphones). Les couleurs sont émises par la lumière.
+- **CMJN (Cyan, Magenta, Jaune, Noir / Key)** : Mode colorimétrique **soustractif** utilisé pour l'impression. Les couleurs sont obtenues par mélange d'encres sur le papier.
+- **Problème** : Certains tons vifs à l'écran (RVB) ne sont pas reproductibles à l'impression (CMJN). Ils paraîtront "ternes".
+
+**À retenir impérativement** : **Toujours convertir les couleurs de RVB en CMJN** avant d'envoyer un fichier à l'imprimerie, surtout pour des supports critiques comme un logo d'entreprise.
+
+#### **5.2. Bonnes pratiques pour l'impression vectorielle**
+
+1.  **Convertir en CMJN** : Dans les logiciels, créer un document en mode "Print" ou convertir le profil colorimétrique.
+2.  **Épaisseur des traits** : S'assurer que les contours sont suffisamment épais pour être visibles une fois imprimés (ex: > 0.25 pt).
+3.  **Définition des images incorporées** : Si une image raster est placée dans un fichier vectoriel (ex: une photo dans une affiche), elle doit avoir une **résolution suffisante** (min. 300 PPP à la taille d'impression finale).
+4.  **Gestion des

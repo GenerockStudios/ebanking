@@ -1,0 +1,169 @@
+# **Notes de cours — BTS Génie Logiciel**
+## **Matière : 21 UML et MOO**
+## **Chapitre : Conception Orientée Objet (OOAD, CRC, SOLID, Patterns)**
+
+---
+
+### **1. Introduction à la Conception Orientée Objet (COO)**
+
+La Conception Orientée Objet (COO) est une approche de modélisation et de construction de logiciels qui organise le système autour d'**objets** qui combinent **données (attributs)** et **comportements (méthodes)**. Elle s'appuie sur les concepts fondamentaux de l'**encapsulation**, l'**héritage**, le **polymorphisme** et l'**abstraction**.
+
+**Objectif principal** : Produire un modèle de conception robuste, maintenable, réutilisable et évolutif, servant de guide pour l'implémentation.
+
+**Outils principaux** : UML (Unified Modeling Language) pour la modélisation visuelle.
+
+---
+
+### **2. Analyse et Conception Orientées Objet (OOAD)**
+
+#### **2.1. Définition et Processus**
+L'**OOAD (Object-Oriented Analysis and Design)** est une méthode qui sépare l'**analyse** (Quoi? - Compréhension du domaine métier) de la **conception** (Comment? - Architecture logicielle).
+
+*   **Analyse Orientée Objet** : Identification des objets du domaine métier, de leurs propriétés et de leurs interactions. On se concentre sur les **exigences fonctionnelles**.
+    *   *Exemple Camerounais* : Analyser le processus d'ouverture d'un compte bancaire dans une institution comme **Afriland First Bank**. Objets identifiés : `Client`, `Compte`, `Guichetier`, `DemandeOuvertureCompte`.
+*   **Conception Orientée Objet** : Transformation des objets d'analyse en objets logiciels, en définissant une architecture, des structures de données détaillées et des algorithmes. On intègre les **exigences techniques** (performance, sécurité).
+
+#### **2.2. Livrables de l'OOAD**
+*   Diagrammes de cas d'utilisation (analyse)
+*   Diagrammes de classes (conception)
+*   Diagrammes de séquence (conception)
+*   Diagrammes d'états-transitions
+*   Diagrammes de composants et de déploiement
+
+**À retenir** : L'OOAD est un processus itératif et incrémental qui facilite la gestion de la complexité des systèmes modernes (ex: plateforme de paiement mobile **MTN Mobile Money**).
+
+---
+
+### **3. Identification des Classes : les Cartes CRC**
+
+#### **3.1. Définition**
+Les **Cartes CRC (Classes, Responsabilités, Collaborations)** sont un outil simple et efficace, souvent utilisé en atelier, pour identifier les classes candidates, leurs responsabilités et leurs relations de collaboration. C'est un outil d'exploration et de brainstorming.
+
+*   **Classe** : Nom de la classe candidate.
+*   **Responsabilités** : Ce que la classe doit savoir ou faire (ses méthodes).
+*   **Collaborations** : Les autres classes avec lesquelles elle interagit pour remplir ses responsabilités.
+
+#### **3.2. Structure d'une Carte CRC**
+
+| **Classe : NomDeLaClasse**          |                     |
+|-------------------------------------|---------------------|
+| **Superclasse :** ...               | **Sous-classes :** ... |
+| **Responsabilités**                 | **Collaborations**  |
+| • Responsabilité 1                  | • Classe A          |
+| • Responsabilité 2                  | • Classe B          |
+
+#### **3.3. Exemple Contexte OHADA**
+Modélisation d'un module de gestion des **Sociétés Commerciales** pour un système informatique judiciaire camerounais.
+
+| **Classe : Société**                |                     |
+|-------------------------------------|---------------------|
+| **Superclasse :** EntitéJuridique   | **Sous-classes :** SARL, SA, SUARL |
+| **Responsabilités**                 | **Collaborations**  |
+| • Enregistrer les statuts           | • Registre du Commerce (RCCM) |
+| • Gérer les associés/actionnaires   | • Associé           |
+| • Calculer le capital social        | • DocumentJuridique |
+| • Déclarer la forme juridique (OHADA)|                     |
+
+| **Classe : RCCM**                   |                     |
+|-------------------------------------|---------------------|
+| **Superclasse :** RegistrePublic    | **Sous-classes :** – |
+| **Responsabilités**                 | **Collaborations**  |
+| • Attribuer un numéro unique        | • Société           |
+| • Enregistrer une création          | • GreffeTribunal    |
+| • Publier les actes légaux          |                     |
+
+**Avantages des CRC** : Simple, collaborative, favorise une conception à responsabilités bien définies.
+
+---
+
+### **4. Principes SOLID de Conception**
+
+Les principes **SOLID** sont cinq principes de conception qui visent à produire un code plus compréhensible, flexible et maintenable.
+
+#### **4.1. S - Principe de Responsabilité Unique (SRP)**
+*Une classe ne doit avoir qu'une seule raison de changer, c'est-à-dire une seule responsabilité.*
+
+*   **Mauvais** : Une classe `FactureOrange` qui génère la facture, la calcule, l'envoie par email et la sauvegarde en base de données.
+*   **Bon** :
+    *   `FactureOrange` (gère les données de la facture)
+    *   `CalculateurFacture` (calcule le total)
+    *   `EmailService` (envoie la facture)
+    *   `FactureRepository` (sauvegarde en BD)
+
+#### **4.2. O - Principe Ouvert/Fermé (OCP)**
+*Les entités logicielles (classes, modules, fonctions) doivent être **ouvertes à l'extension** mais **fermées à la modification**.*
+
+*   **Exemple** : Un système de calcul de commission pour des agents **Camtel**.
+    *   Au lieu de modifier une classe `CalculateurCommission` à chaque nouveau type d'agent, on crée une interface `CommissionStrategy` avec une méthode `calculer()`.
+    *   On implémente des classes `CommissionAgentTerrain`, `CommissionAgentCallCenter`, etc. On peut ajouter de nouvelles stratégies sans toucher au code existant.
+
+#### **4.3. L - Principe de Substitution de Liskov (LSP)**
+*Les objets d'une classe dérivée (enfant) doivent pouvoir remplacer les objets de la classe de base (parent) sans altérer la correction du programme.*
+
+*   **Violation** : Une classe `Rectangle` a des méthodes `setLargeur()` et `setHauteur()`. Une sous-classe `Carre` redéfinit ces méthodes pour que largeur=hauteur. Un client utilisant `Rectangle` pourrait se retrouver avec un comportement inattendu si on lui passe un `Carre`.
+*   **Solution** : Revoir la hiérarchie d'héritage (peut-être que `Carre` ne doit pas hériter de `Rectangle`).
+
+#### **4.4. I - Principe de Ségrégation des Interfaces (ISP)**
+*Il vaut mieux avoir plusieurs interfaces spécifiques qu'une seule interface générale. Un client ne doit pas être forcé de dépendre de méthodes qu'il n'utilise pas.*
+
+*   **Exemple** : Une grosse interface `AppareilConnecte` avec des méthodes `appeler()`, `prendrePhoto()`, `naviguerInternet()`, `lireCodeQR()`.
+    *   Une classe `TelephoneBasique` serait obligée d'implémenter `lireCodeQR()` inutilement.
+    *   **Solution** : Créer des interfaces fines : `IAppel`, `IPhotographie`, `INavigation`, `IScannerQR`.
+
+#### **4.5. D - Principe d'Inversion des Dépendances (DIP)**
+*Il faut dépendre des abstractions, pas des implémentations concrètes. Les modules de haut niveau ne doivent pas dépendre des modules de bas niveau. Les deux doivent dépendre d'abstractions.*
+
+*   **Mauvais** : La classe `ServiceNotification` dépend directement de `SMSGatewayMTN`.
+*   **Bon** : `ServiceNotification` dépend d'une interface `IGatewayNotification`. `SMSGatewayMTN` et `EmailGatewayOrange` implémentent cette interface. On peut changer de fournisseur de SMS sans modifier `ServiceNotification`.
+
+**Tableau Récapitulatif SOLID**
+
+| Principe | Acronyme | Idée Clé | Avantage pour le BTS GL |
+| :--- | :--- | :--- | :--- |
+| **Responsabilité Unique** | SRP | Une classe, un rôle | Code plus clair, testable |
+| **Ouvert/Fermé** | OCP | Étendre sans modifier | Système évolutif, moins de régressions |
+| **Substitution de Liskov** | LSP | Héritage "correct" | Hiérarchies de classes robustes |
+| **Ségrégation des Interfaces** | ISP | Interfaces fines | Dépendances réduites, couplage faible |
+| **Inversion des Dépendances** | DIP | Dépends de l'abstraction | Flexibilité, facilité de test (mocks) |
+
+---
+
+### **5. Patterns de Conception (Design Patterns)**
+
+Les patterns sont des solutions génériques, éprouvées et documentées à des problèmes récurrents de conception logicielle.
+
+#### **5.1. Pattern MVC (Modèle-Vue-Contrôleur)**
+* **Problème** : Séparer les préoccupations dans une application interactive, notamment les applications web ou desktop.
+* **Solution** :
+    *   **Modèle** : Représente les données et la logique métier (ex: classe `ClientOHADA`).
+    *   **Vue** : Présente les données à l'utilisateur (ex: page HTML listant les clients, interface JavaFX).
+    *   **Contrôleur** : Reçoit les entrées utilisateur, interagit avec le Modèle et sélectionne la Vue à afficher.
+* **Exemple Africain** : Application de gestion des étudiants d'une université camerounaise (ENSP, Université de Yaoundé I).
+    *   **Modèle** : `Etudiant`, `Inscription`, `Note`.
+    *   **Vue** : Pages web pour consulter les notes, émettre un relevé.
+    *   **Contrôleur** : Traite la requête "afficher les notes de l'étudiant X", demande au Modèle les données, les passe à la Vue.
+
+#### **5.2. Pattern Observer (Observateur)**
+* **Problème** : Notifier automatiquement plusieurs objets d'un changement d'état d'un autre objet, sans créer un couplage fort.
+* **Solution** :
+    *   **Sujet (Observable)** : L'objet qui change d'état. Il maintient une liste d'observateurs et les notifie.
+    *   **Observateur** : Interface ou classe abstraite définissant une méthode `mettreAJour()`.
+* **Exemple Camerounais** : Système d'alerte sur les taux de change du **XAF** sur une plateforme financière.
+    *   Le **Sujet** est `ServiceTauxDeChange`. Il reçoit les mises à jour de la BEAC.
+    *   Les **Observateurs** sont : `PortefeuilleUtilisateur` (met à jour la valeur des actifs), `WidgetInterface` (rafraîchit l'affichage), `ServiceNotification` (envoie un SMS si un seuil est atteint).
+
+#### **5.3. Pattern Factory (Usine)**
+* **Problème** : Centraliser la logique de création d'objets dont le type exact n'est connu qu'à l'exécution, en évitant l'utilisation d'opérateurs `new` dispersés dans le code.
+* **Solution** : Une classe ou méthode (`Factory`) qui, en fonction d'un paramètre, retourne une instance d'une classe dérivée d'un type commun.
+* **Exemple Contexte Africain** : Application de livraison de colis (**DHL**, **Express Union**).
+    *   Interface : `Transporteur` avec une méthode `livrer(colis)`.
+    *   Implémentations : `CamionTransporteur`, `MotoTransporteur`, `DroneTransporteur` (futur).
+    *   `UsineTransporteur` : Reçoit la commande "rapide, petite distance" -> retourne une instance de `MotoTransporteur`.
+
+**Comparaison des Patterns**
+
+| Pattern | Catégorie | Problème Résolu | Utilisation Courante |
+| :--- | :--- | :--- | :--- |
+| **MVC** | Architectural | Séparation présentation / logique | Applications Web, Desktop, Mobile |
+| **Observer** | Comportemental | Notification de changements d'état | Systèmes événementiels, UI |
+| **Factory** | Cré

@@ -1,0 +1,98 @@
+CHAPITRE 5 — SUITES ET SÉRIES NUMÉRIQUES
+BTS Génie Logiciel — Mathématiques
+
+═══════════════════ PARTIE A : SUITES NUMÉRIQUES ═══════════════════
+
+1. DÉFINITIONS ET TYPES DE SUITES
+
+Suite numérique : fonction de N (ou d'une partie de N) vers R. Notée (un) ou (un)n≥0.
+
+Suite arithmétique :
+un = u0 + n×r   (raison r constante)
+Chaque terme = terme précédent + r : un = un-1 + r
+
+Propriétés :
+Somme des n premiers termes : Sn = n × (u0 + un-1) / 2 = n × (2u0 + (n-1)r) / 2
+Exemple : 1 + 2 + 3 + ... + n = n(n+1)/2
+
+Suite géométrique :
+un = u0 × qⁿ   (raison q constante, q ≠ 0)
+Chaque terme = terme précédent × q : un = un-1 × q
+
+Propriétés :
+Somme des n premiers termes (q ≠ 1) : Sn = u0 × (1 − qⁿ) / (1 − q)
+Exemple : 1 + q + q² + ... + q^(n-1) = (1 − qⁿ)/(1 − q)
+
+Si |q| < 1 : Sn → u0/(1−q) quand n → ∞ (série géométrique convergente)
+
+2. CONVERGENCE ET LIMITES DE SUITES
+
+Une suite (un) converge vers L (limite) si pour tout ε > 0, il existe N tel que pour tout n > N : |un − L| < ε.
+On note : lim(n→∞) un = L ou un → L.
+
+Suites divergentes : oscillent ou tendent vers ±∞.
+
+Théorèmes :
+- Théorème des gendarmes : si an ≤ un ≤ bn et an → L et bn → L → un → L
+- Suite croissante et majorée → converge
+- Suite décroissante et minorée → converge
+- Suite géométrique : si |q| < 1 → qⁿ → 0 ; si q = 1 → qⁿ = 1 ; si q > 1 → qⁿ → +∞
+
+Limites classiques :
+ln(n)/n → 0 ; n^α/e^n → 0 (pour tout α) ; n!/n^n → 0
+
+3. SUITE DÉFINIE PAR RÉCURRENCE
+
+un+1 = f(un)
+
+Points fixes : solutions de f(x) = x. Si la suite converge, elle converge vers un point fixe.
+Exemple : un+1 = (un + 3) / 2, u0 = 1
+Point fixe : x = (x+3)/2 → 2x = x+3 → x = 3
+La suite converge-t-elle vers 3 ? Calculons : u0=1, u1=2, u2=2,5, u3=2,75, u4=2,875... → 3 ✓
+
+═══════════════════ PARTIE B : SÉRIES NUMÉRIQUES ═══════════════════
+
+4. DÉFINITION D'UNE SÉRIE
+
+Série de terme général un : Σ un = u0 + u1 + u2 + ...
+Somme partielle d'ordre N : SN = Σ(n=0 à N) un
+
+La série converge si (SN) a une limite finie S quand N → ∞. On écrit S = Σ(n=0,∞) un.
+
+5. CRITÈRES DE CONVERGENCE
+
+Condition nécessaire : si Σun converge → un → 0 (mais la réciproque est fausse !)
+Contre-exemple : série harmonique Σ 1/n diverge malgré 1/n → 0.
+
+Série de Riemann : Σ 1/n^α
+- Converge si α > 1
+- Diverge si α ≤ 1
+
+Série géométrique : Σ qⁿ (n de 0 à ∞)
+- Converge si |q| < 1, de somme 1/(1−q)
+- Diverge si |q| ≥ 1
+
+Règle de d'Alembert (critère du rapport) :
+Calculer L = lim |u(n+1) / un|
+- Si L < 1 : la série converge absolument
+- Si L > 1 : la série diverge
+- Si L = 1 : critère non concluant
+
+Règle de Cauchy (critère de la racine) :
+L = lim |un|^(1/n)
+Mêmes conclusions que d'Alembert.
+
+Critère de comparaison :
+Si 0 ≤ un ≤ vn et Σvn converge → Σun converge.
+Si 0 ≤ vn ≤ un et Σvn diverge → Σun diverge.
+
+6. EXEMPLES PRATIQUES (CONTEXTE INFORMATIQUE)
+
+Complexité algorithmique et séries :
+Σ(k=1 à n) k = n(n+1)/2 → O(n²)
+Σ(k=0 à n) 2^k = 2^(n+1) − 1 → O(2^n) (arbre binaire complet)
+Σ(k=1 à n) 1/k = Hn (nombre harmonique) ≈ ln(n) + 0,5772 (constante d'Euler)
+
+Probabilité et séries :
+Loi géométrique : P(X=k) = (1−p)^(k-1) × p, k ≥ 1
+Vérification : Σ P(X=k) = p × Σ (1−p)^(k-1) = p × 1/(1−(1−p)) = p/p = 1 ✓

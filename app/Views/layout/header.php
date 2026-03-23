@@ -106,6 +106,10 @@ $roleName = $_SESSION['role_name'] ?? 'Invité';
             background: #042e5a;
             height: calc(100vh - 2px);
             transition: all 0.4s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,.25) transparent;
         }
 
         .sidebar.collapsed {
@@ -244,9 +248,11 @@ $roleName = $_SESSION['role_name'] ?? 'Invité';
         }
 
         .sidebar-nav .secondary-nav {
-            position: absolute;
-            bottom: 30px;
+            position: relative;
+            bottom: 0;
             width: 100%;
+            margin-top: 20px;
+            padding-bottom: 20px;
         }
 
         /* Responsive media query code for small screens */
@@ -401,13 +407,42 @@ $roleName = $_SESSION['role_name'] ?? 'Invité';
                     </li>
                 <?php endif; ?>
                 <?php if ($roleName === 'Admin'): ?>
-
                     <li class="nav-item">
                         <a href="<?= BASE_URL ?>?controller=Admin&action=manageUsers" class="nav-link">
                             <span class="nav-icon material-symbols-rounded">manage_accounts</span>
                             <span class="nav-label">Admin Utilisateurs</span>
                         </a>
                         <span class="nav-tooltip">Admin Utilisateurs</span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= BASE_URL ?>?controller=Admin&action=manageClients" class="nav-link">
+                            <span class="nav-icon material-symbols-rounded">groups</span>
+                            <span class="nav-label">Gestion Clients</span>
+                        </a>
+                        <span class="nav-tooltip">Gestion Clients</span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= BASE_URL ?>?controller=Admin&action=analyticsDashboard" class="nav-link">
+                            <span class="nav-icon material-symbols-rounded">bar_chart</span>
+                            <span class="nav-label">Analytics</span>
+                        </a>
+                        <span class="nav-tooltip">Analytics</span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= BASE_URL ?>?controller=Admin&action=auditLogs" class="nav-link">
+                            <span class="nav-icon material-symbols-rounded">policy</span>
+                            <span class="nav-label">Journal Audit</span>
+                        </a>
+                        <span class="nav-tooltip">Journal Audit</span>
+                    </li>
+                <?php endif; ?>
+                <?php if (in_array($roleName, ['Superviseur', 'Admin'])): ?>
+                    <li class="nav-item">
+                        <a href="<?= BASE_URL ?>?controller=Rapport&action=releveMensuel" class="nav-link">
+                            <span class="nav-icon material-symbols-rounded">receipt_long</span>
+                            <span class="nav-label">Releve Mensuel</span>
+                        </a>
+                        <span class="nav-tooltip">Releve Mensuel</span>
                     </li>
                 <?php endif; ?>
             </ul>

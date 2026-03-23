@@ -1,0 +1,112 @@
+CHAPITRE 1 — MODÈLES OSI ET TCP/IP, PROTOCOLES
+BTS Génie Logiciel — Réseaux informatiques
+
+1. INTRODUCTION AUX RÉSEAUX
+
+Un réseau informatique est un ensemble d'équipements interconnectés permettant l'échange de données.
+
+Classification par étendue géographique :
+- PAN (Personal Area Network) : Bluetooth, quelques mètres
+- LAN (Local Area Network) : réseau local (entreprise, maison), < 1 km
+- MAN (Metropolitan Area Network) : réseau métropolitain (ville), fibre optique
+- WAN (Wide Area Network) : réseau étendu (Internet, liaisons inter-sites)
+
+Topologies physiques :
+- Bus : tous sur un même câble (obsolète)
+- Étoile : tous raccordés à un commutateur central (dominant en LAN)
+- Anneau : Token Ring (obsolète)
+- Maillée : chaque nœud connecté à plusieurs autres (robuste, utilisée en WAN)
+- Hybride : combinaison
+
+2. MODÈLE OSI (7 COUCHES)
+
+Le modèle OSI (Open Systems Interconnection, ISO 1984) est un modèle de référence théorique décrivant comment les systèmes communiquent.
+
+Couche 7 — APPLICATION : interface avec les applications utilisateur.
+  Protocoles : HTTP, HTTPS, FTP, SMTP, POP3, IMAP, DNS, DHCP, SSH
+
+Couche 6 — PRÉSENTATION : encodage, chiffrement, compression.
+  Exemples : SSL/TLS, ASCII, JPEG, MP3
+
+Couche 5 — SESSION : gestion des sessions de communication (ouverture, synchronisation, fermeture).
+  Exemples : NetBIOS, RPC, sockets
+
+Couche 4 — TRANSPORT : transmission fiable entre processus. Segmentation et réassemblage.
+  Protocoles : TCP (fiable, orienté connexion), UDP (non fiable, sans connexion)
+  Port : identifie le service applicatif (HTTP=80, HTTPS=443, FTP=21, SSH=22)
+
+Couche 3 — RÉSEAU : routage des paquets entre réseaux différents. Adressage logique.
+  Protocoles : IP (IPv4, IPv6), ICMP (ping), OSPF, BGP
+  Équipements : routeur
+
+Couche 2 — LIAISON DE DONNÉES : transmission fiable entre nœuds adjacents. Adressage physique (MAC).
+  Protocoles : Ethernet (IEEE 802.3), Wi-Fi (IEEE 802.11), PPP
+  Équipements : commutateur (switch), pont (bridge)
+
+Couche 1 — PHYSIQUE : transmission des bits sur le support physique (câble, fibre, ondes radio).
+  Équipements : câble, répéteur, hub, carte réseau
+
+Moyen mnémotechnique : "Ah Peu Si Tu Résolu Les Pannes"
+(Application, Présentation, Session, Transport, Réseau, Liaison, Physique — de haut en bas)
+
+3. MODÈLE TCP/IP (4 COUCHES)
+
+Modèle pratique utilisé sur Internet :
+4 — Application : HTTP, FTP, DNS, SMTP (= couches 5+6+7 OSI)
+3 — Transport : TCP, UDP (= couche 4 OSI)
+2 — Internet : IP, ICMP, ARP (= couche 3 OSI)
+1 — Accès réseau : Ethernet, Wi-Fi (= couches 1+2 OSI)
+
+4. PROTOCOLE IP ET ADRESSAGE IPv4
+
+Adresse IPv4 : 32 bits, notation décimale pointée. Ex : 192.168.1.100
+Masque de sous-réseau : définit la partie réseau et la partie hôte.
+Ex : 255.255.255.0 = /24 (notation CIDR) → 24 bits réseau, 8 bits hôte → 256 adresses, 254 hôtes utilisables
+
+CIDR (Classless Inter-Domain Routing) :
+/8  → 16 777 216 adresses (ex-classe A)
+/16 → 65 536 adresses (ex-classe B)
+/24 → 256 adresses (ex-classe C)
+/30 → 4 adresses, 2 hôtes (liens point à point)
+
+Adresses spéciales :
+- Adresse réseau : hôte = tout 0 (ex: 192.168.1.0/24)
+- Adresse de diffusion (broadcast) : hôte = tout 1 (ex: 192.168.1.255/24)
+- Loopback : 127.0.0.1
+- APIPA (autoconfiguration) : 169.254.x.x
+- Adresses privées (RFC 1918, non routables sur Internet) :
+  10.0.0.0/8 ; 172.16.0.0/12 ; 192.168.0.0/16
+
+Sous-réseaux (subnetting) :
+Découper un réseau en sous-réseaux plus petits.
+Exemple : 192.168.1.0/24 découpé en 4 sous-réseaux /26
+192.168.1.0/26 : 192.168.1.0 à 192.168.1.63 (62 hôtes)
+192.168.1.64/26 : 192.168.1.64 à 192.168.1.127 (62 hôtes)
+192.168.1.128/26 : 192.168.1.128 à 192.168.1.191 (62 hôtes)
+192.168.1.192/26 : 192.168.1.192 à 192.168.1.255 (62 hôtes)
+
+5. TCP vs UDP
+
+TCP (Transmission Control Protocol) :
+- Connexion établie par négociation 3 voies (SYN, SYN-ACK, ACK)
+- Livraison garantie (accusés de réception, retransmission en cas de perte)
+- Contrôle de flux et de congestion
+- Données ordonnées
+- Utilisé par : HTTP, HTTPS, FTP, SMTP, SSH
+- Plus lent mais fiable
+
+UDP (User Datagram Protocol) :
+- Sans connexion, sans accusé de réception
+- Plus rapide, moins de surcharge
+- Utilisé par : DNS, DHCP, VoIP, streaming vidéo, jeux en ligne
+- Tolérant à la perte de quelques paquets
+
+6. PROTOCOLES APPLICATIFS ESSENTIELS
+
+DNS (Domain Name System, port 53 UDP) : traduit les noms de domaine en adresses IP.
+DHCP (Dynamic Host Configuration Protocol, ports 67/68 UDP) : attribue automatiquement des adresses IP.
+HTTP (HyperText Transfer Protocol, port 80 TCP) : transfert de pages web.
+HTTPS (HTTP Secure, port 443 TCP) : HTTP chiffré avec TLS/SSL.
+FTP (File Transfer Protocol, ports 20/21 TCP) : transfert de fichiers.
+SSH (Secure Shell, port 22 TCP) : accès distant sécurisé à un serveur.
+SMTP (port 25/587 TCP) : envoi d'e-mails.

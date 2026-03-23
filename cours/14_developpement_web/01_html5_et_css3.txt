@@ -1,0 +1,253 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière 14 : Développement Web**
+## **Chapitre : HTML5 et CSS3 : structure sémantique, Flexbox, Grid, responsive design, media queries, accessibilité**
+
+---
+
+### **1. Introduction au HTML5 et CSS3**
+
+Le HTML5 (HyperText Markup Language version 5) et le CSS3 (Cascading Style Sheets version 3) constituent le socle fondamental du développement web front-end. Le HTML5 définit la **structure et le contenu** d'une page web, tandis que le CSS3 contrôle sa **présentation et sa mise en forme**.
+
+**Contexte camerounais** : La maîtrise de ces technologies est cruciale pour répondre à la demande croissante de services numériques locaux (sites web administratifs, plateformes e-commerce, applications bancaires, portails d'information). Des entreprises comme **MTN Mobile Money**, **Orange Money**, **Camtel**, ou les sites officiels comme **OHADA.org** reposent sur ces standards.
+
+**Outils utilisés en entreprise** : Éditeurs de code (VS Code, Sublime Text), navigateurs pour le débogage (Chrome DevTools, Firefox Developer Edition), systèmes de contrôle de version (Git), et préprocesseurs CSS (Sass).
+
+---
+
+### **2. La Structure Sémantique en HTML5**
+
+#### **2.1. Définition et Objectifs**
+La sémantique en HTML5 fait référence à l'utilisation d'**éléments (balises) qui donnent du sens au contenu**, au-delà de la simple mise en forme. Ces balises décrivent la nature du contenu qu'elles entourent (en-tête, navigation, article, pied de page).
+
+**Objectifs** :
+- **Améliorer l'accessibilité** : Les lecteurs d'écran comprennent mieux la structure de la page.
+- **Optimiser le référencement (SEO)** : Les moteurs de recherche indexent plus efficacement un contenu bien structuré.
+- **Faciliter la maintenance** : Le code est plus lisible et prévisible pour les développeurs.
+
+#### **2.2. Les Balises Sémantiques Principales**
+Voici les balises structurelles clés introduites par HTML5 :
+
+| Balise | Rôle sémantique | Description |
+| :--- | :--- | :--- |
+| `<header>` | En-tête | Contient l'en-tête introductif d'une page ou d'une section (logo, titre principal). |
+| `<nav>` | Navigation | Contient les liens de navigation principaux du site (menu). |
+| `<main>` | Contenu principal | Contient le contenu central unique à la page. Une seule occurrence par page. |
+| `<article>` | Article | Contient un contenu autonome et indépendant (un article de blog, un tweet). |
+| `<section>` | Section | Représente une section thématique de contenu, généralement avec un titre. |
+| `<aside>` | Contenu tangentiel | Contient du contenu lié indirectement au contenu principal (barre latérale, publicité). |
+| `<footer>` | Pied de page | Contient les informations de bas de page (contacts, mentions légales, liens sociaux). |
+
+#### **2.3. Exemple Concret : Structure d'une Page d'Actualités**
+Imaginons la structure d'une page d'actualités pour un média camerounais comme **CRTV News**.
+
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>CRTV News - Actualités du Cameroun</title>
+</head>
+<body>
+    <header>
+        <img src="logo_crtv.png" alt="Logo CRTV">
+        <h1>CRTV News - L'information en temps réel</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#">Politique</a></li>
+            <li><a href="#">Économie</a></li>
+            <li><a href="#">Sport</a></li>
+            <li><a href="#">Culture</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2>L'OHADA modernise son droit des sociétés</h2>
+            <p>Les États membres, dont le Cameroun, ont adopté de nouveaux textes...</p>
+        </article>
+
+        <section>
+            <h2>Autres actualités économiques</h2>
+            <article>...</article>
+            <article>...</article>
+        </section>
+    </main>
+
+    <aside>
+        <h3>Promotions MTN & Orange</h3>
+        <p>Découvrez les nouveaux forfaits internet...</p>
+    </aside>
+
+    <footer>
+        <p>© 2023 CRTV. Tous droits réservés.</p>
+        <p>Contact : contact@crtv.cm</p>
+    </footer>
+</body>
+</html>
+```
+
+**À retenir** : Privilégiez toujours `<section>` avec un titre (`<h1>`-`<h6>`). Utilisez `<div>` uniquement pour le regroupement stylistique, quand aucune balise sémantique n'est appropriée.
+
+---
+
+### **3. Mise en Page Avancée avec Flexbox et Grid (CSS3)**
+
+#### **3.1. Flexbox (Flexible Box Layout)**
+**Définition** : Module CSS conçu pour créer des mises en page **unidimensionnelles** (en ligne OU en colonne). Il permet de distribuer l'espace et d'aligner les éléments de manière dynamique, même lorsque leur taille est inconnue.
+
+**Terminologie clé** :
+- **Conteneur Flex** : Élément parent dont la propriété `display` est définie à `flex` ou `inline-flex`.
+- **Éléments Flex (Flex Items)** : Enfants directs du conteneur flex.
+
+**Propriétés Principales du Conteneur** :
+```css
+.flex-container {
+    display: flex;
+    flex-direction: row; /* row (défaut), row-reverse, column, column-reverse */
+    justify-content: center; /* Alignement sur l'axe principal (flex-direction) */
+    align-items: stretch; /* Alignement sur l'axe secondaire */
+    flex-wrap: wrap; /* Permet le retour à la ligne des éléments */
+}
+```
+
+**Exemple : Menu de navigation responsive pour un site e-commerce (ex: Jumia Cameroon)**
+```css
+.nav-menu {
+    display: flex;
+    justify-content: space-between; /* Logo à gauche, liens à droite */
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 1rem;
+}
+.nav-links {
+    display: flex;
+    gap: 2rem; /* Espacement moderne entre les liens */
+}
+/* Sur mobile, le menu passe en colonne */
+@media (max-width: 768px) {
+    .nav-menu, .nav-links {
+        flex-direction: column;
+    }
+}
+```
+
+#### **3.2. CSS Grid Layout**
+**Définition** : Module CSS puissant pour créer des mises en page **bidimensionnelles** (lignes ET colonnes). Il offre un contrôle précis sur la disposition des éléments dans une grille.
+
+**Terminologie clé** :
+- **Conteneur Grid** : Élément parent avec `display: grid`.
+- **Éléments Grid** : Enfants directs du conteneur grid.
+- **Lignes (Rows)** et **Colonnes (Columns)**.
+
+**Propriétés Principales du Conteneur** :
+```css
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; /* 3 colonnes, la centrale est 2x plus large */
+    grid-template-rows: 100px auto 100px;
+    gap: 20px; /* Espace entre les cellules (remplace grid-gap) */
+}
+```
+
+**Exemple : Page d'accueil d'une agence gouvernementale (ex: MINPOSTEL)**
+```css
+.layout {
+    display: grid;
+    grid-template-areas:
+        "header header header"
+        "sidebar main aside"
+        "footer footer footer";
+    grid-template-columns: 200px 1fr 150px;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+main { grid-area: main; }
+aside { grid-area: aside; }
+footer { grid-area: footer; }
+```
+
+#### **3.3. Tableau Comparatif : Flexbox vs Grid**
+| Critère | **Flexbox** | **CSS Grid** |
+| :--- | :--- | :--- |
+| **Dimension** | Unidimensionnelle (ligne OU colonne) | Bidimensionnelle (lignes ET colonnes) |
+| **Usage idéal** | Composants, alignement d'éléments dans un sens, menus, barres d'outils | Layouts globaux de page, mises en page complexes avec lignes et colonnes |
+| **Contrôle** | Contrôle sur un axe à la fois | Contrôle simultané sur les deux axes |
+| **Relation** | Gère le contenu et son flux | Gère le conteneur et la relation entre ses zones |
+
+**À retenir** : Utilisez **Grid pour le layout global de la page** (macro-layout) et **Flexbox pour l'alignement des composants à l'intérieur des cellules de la grille** (micro-layout). Ils sont complémentaires.
+
+---
+
+### **4. Responsive Design et Media Queries**
+
+#### **4.1. Le Concept de Responsive Web Design (RWD)**
+**Définition** : Approche de conception web qui vise à offrir une expérience de lecture et de navigation optimales sur **tous les appareils** (desktop, tablette, smartphone), en adaptant automatiquement la mise en page aux dimensions de l'écran.
+
+**Importance au Cameroun** : Avec la forte pénétration mobile et l'accès internet principalement via smartphone (MTN, Orange, Nexttel), un site non-responsive perd une grande partie de son audience.
+
+#### **4.2. Les Media Queries**
+**Définition** : Technique CSS3 permettant d'appliquer des styles conditionnels en fonction des caractéristiques du périphérique de l'utilisateur (largeur d'écran, résolution, orientation).
+
+**Syntaxe de base** :
+```css
+@media [type de média] and (condition) {
+    /* Règles CSS à appliquer si la condition est vraie */
+}
+```
+
+**Points de Rupture (Breakpoints) Communs** :
+Il est recommandé de définir les breakpoints en fonction du contenu, mais voici des repères génériques :
+- `max-width: 576px` : Téléphones (portrait)
+- `min-width: 768px` : Tablettes (portrait)
+- `min-width: 992px` : Tablettes (paysage) / petits écrans desktop
+- `min-width: 1200px` : Écrans larges
+
+**Exemple : Adaptation d'un tableau de tarifs (ex: forfaits Camtel)**
+```css
+.tableau-tarifs {
+    width: 100%;
+    overflow-x: auto; /* Permet le défilement horizontal sur mobile */
+}
+
+@media (min-width: 768px) {
+    .tableau-tarifs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 colonnes côte à côte */
+    }
+}
+
+/* Cacher un élément complexe sur mobile */
+.banniere-complexe {
+    display: block;
+}
+@media (max-width: 480px) {
+    .banniere-complexe {
+        display: none; /* Remplacée par une version simplifiée */
+    }
+}
+```
+
+**Approche recommandée** : **Mobile-First**. Commencez par coder les styles pour les petits écrans (`min-width`), puis ajoutez des améliorations progressives pour les écrans plus larges.
+
+---
+
+### **5. Accessibilité Web (A11Y)**
+
+#### **5.1. Définition et Enjeux**
+**L'accessibilité web** (Web Accessibility) désigne la pratique qui consiste à rendre les sites web utilisables par le plus grand nombre, y compris les personnes en situation de handicap (visuel, auditif, moteur, cognitif).
+
+**Enjeux** :
+- **Éthique et légal** : C'est un droit fondamental. Des lois émergent (comme en Europe).
+- **Utilisateur** : Élargit l'audience (personnes âgées, utilisateurs en milieu rural avec connexion limitée).
+- **Technique** : Améliore souvent le SEO et la performance.
+
+#### **5.2. Bonnes Pratiques Essentielles**
+1.  **HTML Sémantique** : Utilisez les balises appropriées (`<nav>`, `<button>`, `<h1>` à `<h6>` dans l'ordre).
+2.  **Textes Alternatifs (Alt)** : Toujours renseigner l'attribut `alt` pour les images.
+    ```html
+    <img src="logo_orange.png" alt="Logo Orange Cameroun">
+    <!-- Si l'image

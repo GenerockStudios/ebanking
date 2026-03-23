@@ -1,0 +1,56 @@
+CHAPITRE 1 — INTRODUCTION À L'ÉCONOMIE ET À L'ENTREPRISE
+BTS Génie Logiciel — Économie et création d'entreprises
+
+1. DÉFINITIONS FONDAMENTALES
+
+L'économie est la science qui étudie comment les individus et les sociétés utilisent des ressources rares pour satisfaire des besoins illimités. Elle se divise en :
+- Microéconomie : comportement des agents individuels (ménages, entreprises)
+- Macroéconomie : phénomènes globaux (PIB, inflation, chômage, croissance)
+
+L'entreprise est une unité économique et juridique qui combine des facteurs de production (travail, capital, matières premières) pour produire des biens ou services destinés à être vendus sur un marché en vue de réaliser un profit.
+
+2. CLASSIFICATION DES ENTREPRISES
+
+Par secteur d'activité :
+- Secteur primaire : agriculture, élevage, pêche, exploitation forestière (important au Cameroun : cacao, café, bois)
+- Secteur secondaire : industrie, transformation, BTP
+- Secteur tertiaire : services, commerce, transport, banque, informatique
+
+Par taille (classification camerounaise) :
+- Micro-entreprise : moins de 5 salariés, CA < 15 millions FCFA
+- Petite entreprise : 6 à 20 salariés, CA entre 15 et 100 millions FCFA
+- Moyenne entreprise : 21 à 100 salariés, CA entre 100 millions et 1 milliard FCFA
+- Grande entreprise : plus de 100 salariés, CA > 1 milliard FCFA
+
+Par forme juridique : entreprise individuelle, SARL, SA, SNC, SCS, GIE, coopérative
+
+3. FONCTIONS DE L'ENTREPRISE
+
+Fonction de production : transformer des inputs en outputs vendables
+Fonction commerciale : vente, marketing, distribution, relation client
+Fonction financière : gestion des capitaux, investissements, trésorerie
+Fonction RH : recrutement, formation, paie, gestion des carrières
+Fonction informatique (DSI) : systèmes d'information, infrastructure, développement
+
+4. L'ENVIRONNEMENT DE L'ENTREPRISE
+
+Macro-environnement (PESTEL) :
+- Politique : stabilité, réglementation, politique fiscale
+- Économique : taux de croissance, inflation, pouvoir d'achat
+- Socioculturel : démographie, habitudes de consommation
+- Technologique : innovations, numérisation, internet
+- Écologique : normes environnementales, développement durable
+- Légal : droit des affaires, droit du travail, droit commercial
+
+Micro-environnement (Porter — 5 forces) :
+- Concurrents directs
+- Menace des nouveaux entrants
+- Pouvoir des fournisseurs
+- Pouvoir des clients
+- Produits de substitution
+
+5. CONTEXTE CAMEROUNAIS
+
+Le Cameroun est membre de la CEMAC (Communauté Économique et Monétaire d'Afrique Centrale). La monnaie est le Franc CFA (XAF). Le cadre légal des affaires est régi par le droit OHADA (Organisation pour l'Harmonisation en Afrique du Droit des Affaires), traité signé en 1993 à Port-Louis.
+
+Le guichet unique de création d'entreprise (CFCE — Centre de Formalités de Création d'Entreprises) permet de créer une entreprise en 72 heures.

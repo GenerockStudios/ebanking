@@ -1,0 +1,225 @@
+# **Notes de cours — 08 Algorithme Programmation**
+## **Chapitre : Programmation en C : types, pointeurs, allocation mémoire (malloc/free), fichiers, compilation GCC**
+
+---
+
+### **1. Introduction au langage C dans le contexte du BTS GL**
+
+Le langage C est un langage de programmation impératif, procédural et de bas niveau, créé au début des années 1970. Il reste fondamental dans la formation d'un ingénieur logiciel car il permet de comprendre le fonctionnement interne de l'ordinateur (gestion de la mémoire, accès direct au matériel). Dans le contexte camerounais et africain, la maîtrise du C est cruciale pour le développement de systèmes embarqués, d'applications de télécommunications (interfaçage avec les équipements réseau MTN, Orange, Camtel), et le développement de logiciels performants pour les administrations (systèmes OHADA, gestion des impôts).
+
+**Outils et technologies utilisés en entreprise :**
+*   **Compilateur :** GCC (GNU Compiler Collection), le standard dans l'industrie open-source et professionnelle.
+*   **Éditeurs/IDE :** Visual Studio Code, CLion, Eclipse CDT, ou simplement Vim/Emacs avec des configurations avancées.
+*   **Outils de build :** Make, CMake pour automatiser la compilation de projets complexes.
+*   **Débogueurs :** GDB (GNU Debugger), intégré aux IDE modernes.
+
+---
+
+### **2. Les types de données en C**
+
+#### **2.1. Types primitifs (fondamentaux)**
+Les types primitifs définissent la nature et la taille des données que peut manipuler le programme.
+
+**Tableau 1 : Types primitifs courants et leur taille (architecture 64 bits typique)**
+
+| Type | Taille (octets) | Plage de valeurs (approximative) | Description |
+| :--- | :--- | :--- | :--- |
+| `char` | 1 | -128 à 127 | Caractère ou petit entier. |
+| `int` | 4 | -2,147,483,648 à 2,147,483,647 | Entier standard. |
+| `float` | 4 | ~1.2E-38 à ~3.4E+38 | Nombre à virgule flottante simple précision. |
+| `double` | 8 | ~2.3E-308 à ~1.7E+308 | Nombre à virgule flottante double précision. |
+| `void` | 0 | Aucune | Type "vide", utilisé pour les fonctions sans retour ou les pointeurs génériques. |
+
+**Déclaration et initialisation :**
+```c
+int age = 25;
+float salaire_brut = 250000.50; // Exemple de salaire en FCFA
+double taux_change = 655.957; // Taux EUR/FCFA
+char lettre_region = 'C'; // Pour Centre, Littoral, etc.
+```
+
+#### **2.2. Modificateurs de types**
+Ils ajustent la plage de valeurs des types entiers.
+*   `signed` : Valeur signée (positive ou négative). Par défaut pour `char` et `int`.
+*   `unsigned` : Valeur non signée (positive seulement). Double la plage positive.
+*   `short` : Réduit la taille (ex: `short int`).
+*   `long` : Augmente la taille (ex: `long int`, `long double`).
+
+**Exemple concret :** Stocker le nombre d'abonnés MTN Cameroun (plusieurs millions).
+```c
+unsigned long int abonnes_mtn = 12000000UL; // 'UL' pour Unsigned Long
+```
+
+#### **2.3. Types dérivés et agrégats**
+*   **Tableaux (`array`) :** Collection d'éléments de même type.
+    ```c
+    float notes_bts_gl[5] = {14.5, 16.0, 12.0, 18.5, 15.0}; // Notes d'un module
+    ```
+*   **Structures (`struct`) :** Collection d'éléments de types différents, permettant de créer des types complexes.
+    ```c
+    struct EmployeOHADA {
+        char nom[50];
+        char prenom[30];
+        int matricule;
+        float salaire;
+        char departement[20];
+    };
+    struct EmployeOHADA emp1 = {"Essomba", "Jean", 45012, 450000.75, "Comptabilité"};
+    ```
+*   **Énumérations (`enum`) :** Liste de constantes entières nommées.
+    ```c
+    enum StatutTransaction { EN_ATTENTE, VALIDEE, REJETEE, ANNULEE };
+    enum StatutTransaction statut_paiement = VALIDEE;
+    ```
+
+> **À retenir :** Le choix du type de données a un impact direct sur la consommation mémoire et la performance de l'application. Il faut toujours choisir le type le plus adapté à la donnée manipulée.
+
+---
+
+### **3. Les pointeurs en C**
+
+#### **3.1. Concept et définition**
+Un **pointeur** est une variable spéciale dont la valeur est **l'adresse mémoire** d'une autre variable. C'est un concept fondamental en C pour la gestion dynamique de la mémoire et le passage d'arguments par référence.
+
+**Opérateurs clés :**
+*   `&` : **Opérateur d'adresse.** Retourne l'adresse mémoire d'une variable.
+*   `*` : **Opérateur d'indirection (déréférencement).** Accède à la valeur située à l'adresse stockée dans le pointeur.
+
+```c
+int solde = 50000; // Variable de type int
+int *pointeur_sur_solde; // Déclaration d'un pointeur sur int
+pointeur_sur_solde = &solde; // Le pointeur contient l'adresse de 'solde'
+
+printf("Solde : %d\n", solde); // Affiche 50000 (accès direct)
+printf("Solde (via pointeur) : %d\n", *pointeur_sur_solde); // Affiche 50000 (accès indirect)
+printf("Adresse mémoire : %p\n", pointeur_sur_solde); // Affiche l'adresse hexadécimale
+```
+
+#### **3.2. Pointeurs et tableaux**
+Le nom d'un tableau est en réalité un pointeur constant sur son premier élément.
+```c
+int codes_region[5] = {67, 33, 22, 77, 44}; // Exemples de codes téléphoniques camerounais
+int *ptr = codes_region; // Équivalent à &codes_region[0]
+
+printf("Premier code : %d\n", *ptr); // Affiche 67
+printf("Troisième code : %d\n", *(ptr + 2)); // Affiche 22 (arithmétique des pointeurs)
+```
+
+#### **3.3. Pointeurs et structures**
+Permet de manipuler efficacement des structures sans les copier entièrement.
+```c
+struct Transaction {
+    char numero[17]; // Ex: ORANGE_CI_20241001_001
+    double montant;
+    char operateur[10]; // MTN, Orange, Express Union
+};
+
+struct Transaction t1 = {"MTN_CM_20241015_AB12", 10000.0, "MTN"};
+struct Transaction *ptr_t = &t1;
+
+// Accès aux membres via le pointeur : Opérateur ->
+printf("Transaction %s de %.2f FCFA sur %s\n",
+       ptr_t->numero, ptr_t->montant, ptr_t->operateur);
+```
+
+> **À retenir :** Un pointeur doit toujours être initialisé (à `NULL` ou à une adresse valide) avant utilisation pour éviter des comportements imprévisibles (erreurs de segmentation).
+
+---
+
+### **4. Allocation dynamique de mémoire (malloc, calloc, realloc, free)**
+
+#### **4.1. Principe et utilité**
+L'allocation dynamique permet de réserver de la mémoire pendant l'exécution du programme (au moment de l'exécution ou *runtime*), et non à la compilation. C'est essentiel quand la taille des données n'est pas connue à l'avance (ex: liste d'étudiants, logs d'une application, données lues depuis un fichier).
+
+#### **4.2. Fonctions de la bibliothèque `<stdlib.h>`**
+*   **`void* malloc(size_t size)` :** Alloue un bloc de mémoire de `size` octets. La mémoire n'est **pas initialisée** (contient des valeurs aléatoires).
+*   **`void* calloc(size_t nmemb, size_t size)` :** Alloue de la mémoire pour un tableau de `nmemb` éléments de `size` octets chacun. La mémoire est **initialisée à zéro**.
+*   **`void* realloc(void *ptr, size_t size)` :** Redimensionne un bloc de mémoire précédemment alloué.
+*   **`void free(void *ptr)` :** Libère la mémoire allouée dynamiquement. **IMPÉRATIF** pour éviter les fuites de mémoire (*memory leaks*).
+
+#### **4.3. Exemple complet : Gestion d'un fichier client**
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Client {
+    char nom[100];
+    char telephone[10]; // Format camerounais : 6XXXXXXX
+    double credit;
+};
+
+int main() {
+    int n;
+    printf("Entrez le nombre de clients Orange Money à enregistrer : ");
+    scanf("%d", &n);
+
+    // Allocation dynamique d'un tableau de 'n' structures Client
+    struct Client *liste_clients = (struct Client*) calloc(n, sizeof(struct Client));
+    if (liste_clients == NULL) {
+        printf("Erreur d'allocation mémoire !\n");
+        return 1;
+    }
+
+    // Saisie des informations
+    for(int i = 0; i < n; i++) {
+        printf("\nClient %d:\n", i+1);
+        printf("Nom : "); scanf("%s", liste_clients[i].nom);
+        printf("Telephone : "); scanf("%s", liste_clients[i].telephone);
+        printf("Credit (FCFA) : "); scanf("%lf", &liste_clients[i].credit);
+    }
+
+    // Affichage et traitement...
+    printf("\n--- Liste des Clients ---\n");
+    for(int i = 0; i < n; i++) {
+        printf("%s (%s) : %.2f FCFA\n",
+               liste_clients[i].nom,
+               liste_clients[i].telephone,
+               liste_clients[i].credit);
+    }
+
+    // LIBÉRATION IMPÉRATIVE DE LA MÉMOIRE
+    free(liste_clients);
+    liste_clients = NULL; // Bonne pratique
+
+    return 0;
+}
+```
+
+> **À retenir :** Toute mémoire allouée avec `malloc`, `calloc` ou `realloc` DOIT être libérée avec `free`. Une fuite de mémoire survient lorsqu'un programme alloue de la mémoire mais ne la libère jamais, consommant ainsi de plus en plus de RAM jusqu'à un possible crash.
+
+---
+
+### **5. Gestion des fichiers en C**
+
+#### **5.1. Concepts de base**
+Un fichier est une séquence d'octets stockée sur un support permanent (disque dur, SSD, clé USB). En C, on utilise un **pointeur sur FILE** (`FILE *`) pour manipuler un fichier.
+
+#### **5.2. Ouverture et fermeture (`fopen`, `fclose`)**
+```c
+FILE *fichier = fopen("nom_du_fichier.extension", "mode");
+// ... opérations sur le fichier ...
+fclose(fichier);
+```
+
+**Tableau 2 : Modes d'ouverture courants des fichiers**
+
+| Mode | Signification | Action si le fichier existe | Action si le fichier n'existe pas |
+| :--- | :--- | :--- | :--- |
+| `"r"` | Lecture (*read*) | Ouverture en lecture. | Échec (retourne NULL). |
+| `"w"` | Écriture (*write*) | Écrasement (contenu perdu). | Création. |
+| `"a"` | Ajout (*append*) | Écriture à la fin. | Création. |
+| `"r+"` | Lecture/Écriture | Ouverture en lecture/écriture. | Échec. |
+| `"w+"` | Lecture/Écriture | Écrasement. | Création. |
+| `"a+"` | Lecture/Ajout | Lecture et écriture à la fin. | Création. |
+
+**Toujours vérifier le succès de l'ouverture :**
+```c
+FILE *log = fopen("journal_activite.log", "a");
+if (log == NULL) {
+    perror("Erreur d'ouverture du fichier journal");
+    exit(EXIT_FAILURE);
+}
+```
+
+#### **5.3.

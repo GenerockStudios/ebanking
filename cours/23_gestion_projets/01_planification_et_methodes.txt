@@ -1,0 +1,143 @@
+CHAPITRE 1 — GESTION DE PROJETS INFORMATIQUES (IGL242)
+BTS Génie Logiciel — Gestion des Projets
+
+1. NOTIONS FONDAMENTALES
+
+Un projet est un effort temporaire entrepris dans le but de créer un produit, un service ou un résultat unique.
+
+Caractéristiques d'un projet :
+- Temporaire : début et fin définis
+- Unique : résultat jamais produit auparavant
+- Progressif : élaboré étape par étape
+- Contraintes : coût, délai, qualité (triangle projet)
+
+Triangle Qualité-Coût-Délai :
+"Rapide, Bon, Pas cher — choisissez-en deux."
+Si on réduit le délai → augmenter le coût ou réduire la qualité
+Si on réduit le coût → augmenter le délai ou réduire la qualité
+Si on augmente la qualité → augmenter le coût et/ou le délai
+
+Parties prenantes (stakeholders) :
+Commanditaire (sponsor) : finance et autorise le projet
+Chef de projet (Project Manager, PM) : responsable de la livraison
+Équipe projet : développeurs, testeurs, analystes
+Client / Utilisateurs finaux : bénéficiaires du résultat
+Fournisseurs : sous-traitants, éditeurs de logiciels
+
+2. LE DIAGRAMME DE GANTT
+
+Outil de planification temporelle inventé par Henry Gantt (1910).
+Représente les tâches du projet sous forme de barres horizontales sur un axe de temps.
+
+Éléments :
+- Tâches (avec durée, dates début et fin)
+- Dépendances entre tâches (Fin-Début le plus courant)
+- Ressources affectées
+- Jalon (milestone) : événement clé sans durée (livraison, décision)
+- Chemin critique : suite de tâches dont le retard retarderait la fin du projet
+
+Outils : Microsoft Project, GanttProject (gratuit), ProjectLibre (open source), TeamGantt (en ligne)
+
+Exemple simplifié : projet site web e-commerce (3 mois)
+
+Semaine : 1  2  3  4  5  6  7  8  9  10 11 12
+Analyse       [====]
+Maquettes          [====]
+Back-end                [=========]
+Front-end                    [=========]
+Tests                               [====]
+Déploiement                              [==]
+Formation                                   [=]
+
+3. MÉTHODE PERT / MPM
+
+PERT (Program Evaluation and Review Technique) et MPM (Méthode des Potentiels Métra) sont des méthodes de planification par réseau.
+
+Concepts :
+- Tâche (activité) : travail à effectuer avec une durée estimée
+- Contrainte de précédence : telle tâche doit être terminée avant que telle autre puisse commencer
+- Réseau PERT : graphe orienté représentant les dépendances
+
+Calcul du chemin critique (méthode des potentiels) :
+Dates au plus tôt (Tôt) : calcul en avant (de gauche à droite)
+  Tôt(j) = max[Tôt(i) + durée(i,j)] pour tous les prédécesseurs i
+
+Dates au plus tard (Tard) : calcul en arrière (de droite à gauche)
+  Tard(i) = min[Tard(j) − durée(i,j)] pour tous les successeurs j
+
+Marge totale : MT(tâche) = Tard(fin) − Tôt(début) − durée
+Marge libre : ML(tâche) = Tôt(fin) − Tôt(début) − durée
+
+Chemin critique : chemin où toutes les marges totales sont nulles.
+Les tâches du chemin critique ne peuvent pas prendre de retard sans repousser la date de fin du projet.
+
+Exemple PERT :
+Tâches : A(3j), B(2j, après A), C(5j, après A), D(4j, après B,C), E(2j, après D)
+
+A → B → D → E  (durée : 3+2+4+2 = 11 jours)
+A → C → D → E  (durée : 3+5+4+2 = 14 jours) ← chemin critique
+
+Durée totale du projet = 14 jours
+Marge totale de B = 14 − (3+2+4+2) = 3 jours (peut prendre 3 jours de retard)
+
+4. ESTIMATION DES CHARGES
+
+Méthode des Points de Fonction (Function Points) :
+Mesurer la complexité fonctionnelle indépendamment du langage de programmation.
+Types de fonctions : entrées, sorties, requêtes, fichiers internes, interfaces externes.
+Chaque fonction est classée : simple, moyen, complexe → pondération différente.
+
+Méthode COCOMO (Constructive Cost Model) :
+Effort (en mois-homme) = a × (KLOC)^b
+Pour un projet intermédiaire : a = 3.0, b = 1.12
+Durée de développement = 2.5 × Effort^0.38
+
+Estimation empirique (Planning Poker — Agile) :
+L'équipe estime en Story Points (suite de Fibonacci : 1, 2, 3, 5, 8, 13, 21...)
+Discussion jusqu'au consensus → prend en compte l'expérience collective.
+
+5. GESTION DES RISQUES
+
+Risque = probabilité × impact
+
+Processus de gestion des risques :
+1. Identification : brainstorming, checklists, SWOT
+2. Évaluation : probabilité × impact (matrice des risques)
+3. Stratégie de réponse :
+   - Évitement : changer le plan pour éliminer le risque
+   - Réduction : diminuer la probabilité ou l'impact
+   - Transfert : assurance, sous-traitance
+   - Acceptation : ne rien faire (risque acceptable)
+4. Surveillance : suivre l'évolution des risques tout au long du projet
+
+Risques courants en projets informatiques :
+- Dérive du périmètre (scope creep) : ajout de fonctionnalités non prévues
+- Dépendances technologiques (API tierce qui change)
+- Turnover de l'équipe
+- Estimation initiale incorrecte
+- Problèmes d'intégration avec les systèmes existants
+
+6. MÉTHODE SCRUM (AGILITÉ)
+
+Scrum est le framework agile le plus utilisé.
+
+Rôles :
+- Product Owner (PO) : représente le client, priorise le Backlog
+- Scrum Master : facilite les cérémonies, élimine les obstacles
+- Development Team : auto-organisée, pluridisciplinaire (3-9 personnes)
+
+Artefacts :
+- Product Backlog : liste priorisée de toutes les fonctionnalités (User Stories)
+- Sprint Backlog : User Stories sélectionnées pour le sprint en cours
+- Increment : version fonctionnelle et testée du produit à chaque fin de sprint
+
+Cérémonies :
+- Sprint Planning : planifier le sprint (2-4 semaines)
+- Daily Scrum : réunion quotidienne debout, 15 min (Qu'ai-je fait ? Que vais-je faire ? Obstacles ?)
+- Sprint Review : démonstration du produit au PO et parties prenantes
+- Sprint Retrospective : amélioration continue du processus de l'équipe
+
+Vélocité : nombre de Story Points réalisés par sprint. Sert à prévoir les sprints futurs.
+
+Définition of Done (DoD) : critères qu'une User Story doit remplir pour être "Terminée"
+Ex : code écrit, revue de code effectuée, tests unitaires passent, déployé en intégration.

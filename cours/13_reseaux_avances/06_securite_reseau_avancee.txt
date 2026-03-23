@@ -1,0 +1,153 @@
+# **Notes de Cours - BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 13 Réseaux Avancés**
+## **Chapitre : Sécurité réseau avancée : ACL avancées, IDS/IPS (Snort), pare-feu applicatif (WAF), honeypot, analyse de trafic (Wireshark)**
+
+---
+
+### **1. Introduction à la sécurité réseau avancée**
+
+Dans un contexte camerounais marqué par la digitalisation croissante des services (e-gouvernement, services bancaires mobiles, e-commerce), la protection des infrastructures réseau est devenue un impératif stratégique. Les cybermenaces évoluent (rançongiciels, fuites de données, fraudes), ciblant aussi bien les grandes entreprises (MTN, Orange Cameroun, Camtel) que les PME et administrations. Ce chapitre aborde les mécanismes avancés de défense qui complètent les dispositifs de sécurité de base.
+
+**Objectifs pédagogiques** : Comprendre et configurer des mécanismes de filtrage avancé, implémenter des systèmes de détection et prévention, analyser le trafic réseau pour diagnostiquer des failles ou des attaques.
+
+---
+
+### **2. Les ACL (Access Control Lists) Avancées**
+
+#### **2.1. Définition et Rappel**
+Une **ACL (Liste de Contrôle d'Accès)** est un ensemble de règles ordonnées, appliquée par un routeur ou un commutateur, pour filtrer le trafic réseau (autoriser ou refuser) basé sur des critères tels que l'adresse IP source/destination, le port, le protocole.
+
+#### **2.2. Évolution vers les ACL Avancées**
+Les ACL standard (1-99) filtrent uniquement sur l'adresse IP source. Les **ACL étendues (100-199, 2000-2699)** offrent un contrôle granulaire :
+*   **Critères** : Adresse IP source ET destination, protocole (IP, TCP, UDP, ICMP), numéro de port, états de connexion (établie), type de service (ToS).
+*   **Application** : Peuvent être appliquées **inbound** (entrante) ou **outbound** (sortante) sur une interface.
+
+#### **2.3. Syntaxe Cisco (Exemple Concret)**
+```bash
+access-list 110 permit tcp 192.168.10.0 0.0.0.255 any eq 80
+access-list 110 permit tcp 192.168.10.0 0.0.0.255 host 41.216.xxx.xxx eq 443
+access-list 110 deny ip any any log
+```
+**Explication** : Cette ACL (numéro 110) autorise le réseau local 192.168.10.0/24 à accéder à n'importe quel serveur web (port 80) et au serveur spécifique de l'ARMP (Autorité de Régulation des Marchés Publics) sur le port HTTPS (443). La dernière ligne refuse et logue tout autre trafic.
+
+#### **2.4. Bonnes Pratiques & Contexte Camerounais**
+*   **Règle implicite "deny any"** : Toujours présente à la fin d'une ACL.
+*   **Optimisation** : Placer les règles les plus fréquentes en haut pour améliorer les performances.
+*   **Application** : Sécurisation des liens entre agences bancaires (Afriland First Bank, BICEC) et leur siège, ou filtrage d'accès dans un campus universitaire (Université de Yaoundé I).
+
+**À RETENIR** : Les ACL avancées sont le premier rempart, un filtrage statique basé sur des règles prédéfinies. Elles ne protègent pas contre des attaques exploitant des ports autorisés.
+
+---
+
+### **3. IDS et IPS : Détection et Prévention des Intrusions**
+
+#### **3.1. Concepts Fondamentaux**
+*   **IDS (Intrusion Detection System)** : Système de **détection** passive. Il analyse une copie du trafic, génère une alerte en cas de suspicion, mais n'agit pas directement. Positionné en *promiscuous mode*.
+*   **IPS (Intrusion Prevention System)** : Système de **prévention** active. Placé en ligne (*inline*), il analyse et peut **bloquer** le trafic malveillant en temps réel.
+
+**Tableau Comparatif IDS vs IPS**
+| Critère | **IDS** | **IPS** |
+| :--- | :--- | :--- |
+| **Mode** | Surveillance passive | Action en ligne (inline) |
+| **Action** | Alerte et journalisation | Alerte, journalisation et BLOCAGE |
+| **Impact Réseau** | Aucun (hors du chemin) | Potentiel point de défaillance |
+| **Détection** | *Post-mortem* | En temps réel |
+| **Exemple** | Caméra de surveillance | Police de circulation |
+
+#### **3.2. Snort : L'IDS/IPS Open Source de Référence**
+**Snort** est un moteur de détection basé sur des **signatures**. C'est l'outil le plus répandu pour apprendre et déployer des IDS/IPS, même en entreprise.
+
+*   **Architecture** :
+    1.  **Décodeur de paquets** : Interprète les protocoles.
+    2.  **Moteur de préprocesseurs** : Normalise/détecte les anomalies.
+    3.  **Moteur de détection** : Applique les règles.
+    4.  **Moteur de sortie** : Génère alertes et logs.
+
+*   **Structure d'une Règle Snort** :
+    `action protocole source port -> destination port (options)`
+    **Exemple** :
+    ```bash
+    alert tcp $EXTERNAL_NET any -> $HOME_NET 1433 (msg:"MSSQL SA brute force attempt"; flow:to_server,established; content:"sysadmin"; nocase; threshold:type threshold, track by_src, count 5, seconds 60; sid:1000001;)
+    ```
+    *Cette règle alerte en cas de tentative de force brute sur un serveur Microsoft SQL (port 1433) depuis l'extérieur vers le réseau interne, en cherchant le mot "sysadmin".*
+
+*   **Déploiement dans un contexte Africain** :
+    *   Surveillance du trafic entrant/sortant d'un hébergeur local comme **Camtel Data Center**.
+    *   Protection des serveurs d'applications OHADA (Organisation pour l'Harmonisation en Afrique du Droit des Affaires) contre les scans et exploits connus.
+
+---
+
+### **4. Pare-feu Applicatif (WAF - Web Application Firewall)**
+
+#### **4.1. Limites des Pare-feu Classiques**
+Les pare-feu traditionnels (étatiques) et les ACL opèrent jusqu'à la couche 4 (transport). Ils sont inefficaces contre les attaques de **couche 7 (application)** comme les injections SQL, les Cross-Site Scripting (XSS), les attaques par force brute sur des formulaires web.
+
+#### **4.2. Rôle et Fonctionnement du WAF**
+Un **WAF** est un bouclier spécifique placé devant des applications web. Il inspecte le contenu des requêtes HTTP/HTTPS.
+*   **Méthodes de détection** :
+    *   **Liste Noire (Blacklist)** : Bloque les requêtes correspondant à des modèles d'attaque connus (signatures).
+    *   **Liste Blanche (Whitelist)** : N'autorise que les comportements définis comme légitimes (plus stricte).
+    *   **Analyse Comportementale** : Apprend le comportement normal de l'application et signale les anomalies.
+
+#### **4.3. Exemples d'Attaques Bloques par un WAF**
+*   **Injection SQL** : `' OR '1'='1` dans un champ de login.
+*   **Cross-Site Scripting (XSS)** : `<script>alert('pirate')</script>` dans un champ de commentaire.
+*   **Inclusion de Fichiers** : Tentative d'accès à `/etc/passwd`.
+*   **Attaques par DDoS applicatif** (HTTP Flood).
+
+#### **4.4. Outils et Contexte Local**
+*   **Solutions** : **ModSecurity** (open source, souvent avec Nginx/Apache), **NAXSI**, et solutions commerciales (F5, Imperva).
+*   **Cas d'Usage Camerounais** :
+    *   Protection du portail de déclaration fiscale de la **DIRECTION GÉNÉRALE DES IMPÔTS**.
+    *   Sécurisation des plateformes e-commerce comme **Jumia Cameroun** ou des applications de mobile money (**Orange Money**, **MTN Mobile Money**).
+
+**À RETENIR** : Le WAF protège l'application elle-même, pas l'infrastructure sous-jacente. C'est une défense complémentaire essentielle.
+
+---
+
+### **5. Les Honeypots (Pot de Miel)**
+
+#### **5.1. Concept**
+Un **honeypot** est un système leurre, volontairement vulnérable, destiné à être attaqué. Son but n'est pas la protection directe, mais la **collecte de renseignements**.
+
+#### **5.2. Objectifs**
+1.  **Leurrer les attaquants** : Les détourner des systèmes de production.
+2.  **Collecter des données** : Étudier les méthodes, outils, motivations et sources des attaques.
+3.  **Améliorer la sécurité** : Créer des signatures d'attaque pour les IDS/IPS.
+4.  **Analyse légale** : Collecter des preuves.
+
+#### **5.3. Classification**
+*   **Niveau d'Interaction** :
+    *   **Faible** (Honeyd) : Simule des services, peu de risques.
+    *   **Moyenne** : Interaction limitée.
+    *   **Élevée** : Système réel (une machine virtuelle souvent). Risque élevé, informations riches.
+*   **Finalité** :
+    *   **Recherche** : Étude des menaces à grande échelle.
+    *   **Production** : Déployé dans une entreprise pour la protection spécifique.
+
+#### **5.4. Outils et Application**
+*   **Outils** : **Cowrie** (simule SSH/Telnet), **Dionaea** (attrape les malwares), **T-Pot** (plateforme tout-en-un).
+*   **Scénario Camerounais** : Une banque pourrait déployer un honeypot simulant un serveur de base de données faiblement sécurisé dans un segment réseau isolé. Toute connexion à ce serveur est par définition malveillante et permet d'identifier une compromission en cours dans le réseau.
+
+---
+
+### **6. Analyse de Trafic avec Wireshark**
+
+#### **6.1. Présentation**
+**Wireshark** est l'analyseur de protocoles réseau (*sniffer*) open source le plus puissant. Il permet de capturer et d'inspecter interactivement le trafic qui circule sur un réseau.
+
+#### **6.2. Utilisations Principales en Sécurité**
+1.  **Dépannage réseau** : Problèmes de connexion, lenteurs.
+2.  **Analyse de malware** : Comprendre la communication C&C (Command & Control) d'un logiciel malveillant.
+3.  **Détection d'intrusion** : Identifier du trafic anormal manuellement (ex: scans de ports, paquets fragmentés anormaux).
+4.  **Vérification de chiffrement** : S'assurer que les communications sensibles (HTTPS, TLS) sont bien chiffrées.
+
+#### **6.3. Méthodologie d'Analyse avec Wireshark**
+1.  **Capture** : Sélectionner l'interface et démarrer la capture. Utiliser des **filtres de capture** (`host 192.168.1.1`) pour cibler.
+2.  **Filtrage** : Utiliser le **filtre d'affichage** pour se concentrer (ex: `http`, `tcp.port == 443`, `ip.src == 41.xxx.xxx.xxx`).
+3.  **Inspection** : Analyser la hiérarchie des paquets (Frame > Ethernet > IP > TCP > HTTP). Voir les **flags TCP** (SYN, ACK, RST), les codes de réponse HTTP (200, 404, 500).
+4.  **Suivi de flux** (*Follow TCP Stream*) : Reconstituer une conversation complète (requête/réponse HTTP, commandes FTP).
+
+#### **6.4. Exercice Pratique Contextuel**
+**Scénario** : Un utilisateur se plaint de la lenteur d'accès au site de la **CAMPOST** (Société Nationale des Postes). Une capture Wireshark révèle :
+*   De nombreux paquets

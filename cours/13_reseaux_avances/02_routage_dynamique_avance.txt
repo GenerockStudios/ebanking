@@ -1,0 +1,153 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 13 Réseaux Avancés**
+## **Chapitre : Routage dynamique avancé : OSPF multi-area, BGP (eBGP/iBGP), redistribution de routes, politiques**
+
+---
+
+### **1. Introduction au routage dynamique avancé**
+
+Le routage dynamique avancé est indispensable pour gérer les réseaux étendus, complexes et hétérogènes qui caractérisent l'infrastructure numérique moderne. Au Cameroun et en Afrique, avec l'expansion des services numériques, la montée en puissance des opérateurs comme **MTN Cameroon, Orange Cameroun, Camtel**, et l'interconnexion des systèmes régionaux (OHADA, banques, gouvernements), la maîtrise de ces protocoles est cruciale pour les ingénieurs réseaux.
+
+**Objectif du chapitre** : Comprendre les mécanismes de routage permettant de construire des réseaux scalables, résilients et optimisés, en se focalisant sur OSPF multi-area, BGP, et l'intégration de différents protocoles.
+
+---
+
+### **2. OSPF Multi-Area : Architecture et optimisation**
+
+#### **2.1. Limites d'OSPF single-area et nécessité du multi-area**
+Dans un réseau OSPF single-area (Area 0, le backbone), tous les routeurs partagent la même base de données topologique (LSDB). Cela pose des problèmes de :
+*   **Scalabilité** : La LSDB croît avec le nombre de routeurs et de liens, consommant mémoire et CPU.
+*   **Convergence lente** : Le recalcul du SPF (Shortest Path First) suite à un changement est plus long.
+*   **Trafic de contrôle excessif** : Les LSA (Link State Advertisements) sont floodés dans toute la zone.
+
+**Exemple concret** : Imaginez le réseau national de **Camtel** reliant toutes les régions. Un seul area OSPF signifierait qu'un changement de lien à Maroua serait floodé et traité par tous les routeurs de Yaoundé, Douala, etc., ce qui est inefficace.
+
+#### **2.2. Architecture hiérarchique OSPF Multi-Area**
+La solution est de diviser le réseau en **aires (areas)** :
+*   **Area 0 (Backbone)** : Zone centrale obligatoire. Toutes les autres zones doivent y être connectées directement ou via une liaison virtuelle.
+*   **Areas non-backbone (Area 1, 2, etc.)** : Zones périphériques. Elles résument leur topologie vers le backbone, réduisant la charge.
+
+**Types de routeurs OSPF :**
+*   **Routeur Interne (IR)** : Toutes ses interfaces sont dans une seule area non-backbone.
+*   **Routeur de Bordure d'Area (ABR - Area Border Router)** : Connecte une ou plusieurs areas non-backbone à l'Area 0. Il exécute des calculs SPF séparés par area et **résume/injecte** les routes inter-areas.
+*   **Routeur de Bordure de Système Autonome (ASBR - Autonomous System Border Router)** : Connecte le domaine OSPF à un réseau externe (ex: un réseau EIGRP ou BGP).
+
+#### **2.3. Types de LSA et flux dans une architecture multi-area**
+La communication entre les areas repose sur des LSA spécifiques :
+
+| Type LSA | Nom | Origine | Portée | Rôle Clé |
+| :--- | :--- | :--- | :--- | :--- |
+| **Type 1** | Router LSA | Tout routeur OSPF | Dans son area | Décrit les liens du routeur dans l'area. |
+| **Type 2** | Network LSA | DR (Designated Router) | Dans son area | Décrit les routeurs attachés à un segment multi-accès. |
+| **Type 3** | Summary LSA | **ABR** | Entre les areas | **Résume les routes d'une area vers le backbone (Area 0) et vice-versa.** |
+| **Type 4** | ASBR Summary LSA | ABR | Dans tout le domaine OSPF | Indique le chemin vers l'ASBR. |
+| **Type 5** | AS External LSA | **ASBR** | Dans tout le domaine OSPF | Injecte les routes externes (redistribuées) dans OSPF. |
+
+**À retenir** : Les LSA de type 1 et 2 ne quittent **jamais** leur area d'origine. La connectivité inter-area est assurée par les LSA de type 3 générés par les ABR.
+
+#### **2.4. Configuration de base et avantages**
+**Avantages du multi-area** :
+*   **Réduction de la taille de la LSDB** par routeur.
+*   **Convergence plus rapide** (les changements sont contenus dans une area).
+*   **Économie des ressources** (CPU, mémoire, bande passante).
+*   **Possibilité de résumé de routes** (route summarization) sur les ABR pour optimiser davantage.
+
+**Exemple de configuration simplifiée (Cisco IOS) :**
+```bash
+! Sur l'ABR (ex: Routeur à Yaoundé connectant Area 0 à Area 1)
+Router(config)# router ospf 100
+Router(config-router)# network 192.168.1.0 0.0.0.255 area 0
+Router(config-router)# network 10.1.0.0 0.0.255.255 area 1
+! Résumé des routes de l'Area 1 vers l'Area 0
+Router(config-router)# area 1 range 10.1.0.0 255.255.0.0
+```
+
+---
+
+### **3. BGP (Border Gateway Protocol) : Le protocole de l'Internet**
+
+#### **3.1. Définition et rôle de BGP**
+BGP est le **protocole de routage inter-systèmes autonomes (EGP)**. Il est utilisé pour échanger des informations de routage entre différents **AS (Autonomous Systems)**. Un AS est un ensemble de réseaux sous une administration technique unique (ex: **AS33771 - MTN Cameroon**, **AS36947 - Orange Cameroun**).
+
+**Caractéristiques clés** :
+*   **Protocole de routage par vecteur de chemins (Path Vector)** : Il annonce des **chemins (AS_PATH)** et non des métriques.
+*   **Utilise TCP (port 179)** : Fiable, orienté connexion.
+*   **Politique avant la technique** : Les décisions de routage sont basées sur des politiques commerciales et techniques.
+
+#### **3.2. eBGP vs iBGP : Une distinction fondamentale**
+*   **eBGP (External BGP)** : Fonctionne **entre** des AS différents. Par défaut, le TTL est fixé à 1 (sauts directs). Il est utilisé entre un FAI et son client, ou entre pairs (peers).
+    *   *Exemple* : La connexion entre le réseau de **Camtel (AS)** et celui d'un fournisseur de contenu international comme Google.
+*   **iBGP (Internal BGP)** : Fonctionne **à l'intérieur** d'un même AS. Il permet de propager les routes apprises via eBGP à tous les routeurs BGP de l'AS. **La règle de synchronisation (désactivée par défaut aujourd'hui)** et la nécessité d'un **maillage complet (full-mesh)** ou l'utilisation de **Route Reflectors** sont ses spécificités.
+
+**Tableau comparatif eBGP / iBGP :**
+| Critère | **eBGP** | **iBGP** |
+| :--- | :--- | :--- |
+| **Relation** | Entre AS différents | Au sein du même AS |
+| **Administration** | Différente | Identique |
+| **TTL par défaut** | 1 | 255 |
+| **Comportement** | Modifie le NEXT_HOP | Ne modifie pas le NEXT_HOP par défaut |
+| **Objectif** | Échanger des routes avec l'extérieur | Propager les routes externes dans l'AS |
+
+#### **3.3. Attributs BGP et processus de sélection de chemin**
+BGP prend sa décision en évaluant une série d'**attributs** dans un ordre précis :
+
+**Ordre de préférence des attributs (pour la sélection du meilleur chemin) :**
+1.  **Poids (Weight)** : Attribut Cisco, local au routeur. Le plus élevé est préféré.
+2.  **Local Preference (LOCAL_PREF)** : Attribut le plus important pour influencer la sortie de l'AS. Commun à tous les routeurs de l'AS.
+3.  **Origine (ORIGIN)** : Indique comment la route a été injectée dans BGP (IGP, EGP, Incomplete).
+4.  **AS Path (AS_PATH)** : Plus court est préféré (moins d'AS traversés).
+5.  **Multi-Exit Discriminator (MED)** : Pour influencer l'entrée *dans* notre AS. Plus bas est préféré.
+6.  **eBGP > iBGP** : Un chemin eBGP est préféré à un chemin iBGP.
+7.  **IGP cost vers le NEXT_HOP** : Le coût IGP (OSPF, EIGRP) le plus bas pour atteindre l'adresse NEXT_HOP est préféré.
+
+**Exemple de politique africaine** : Un opérateur camerounais peut configurer une **LOCAL_PREF** plus élevée pour les routes apprises via un point d'échange Internet local (**IXP** comme **Djossi** à Douala) plutôt que via un transit international, pour garder le trafic local et réduire les coûts.
+
+---
+
+### **4. Redistribution de routes**
+
+#### **4.1. Concept et nécessité**
+La redistribution consiste à injecter des routes apprises via un protocole de routage (ex: OSPF, EIGRP, RIP, routes statiques) dans un autre protocole de routage. C'est essentiel dans les réseaux hétérogènes (fusions d'entreprises, migrations) ou aux frontières entre différents domaines protocolaires.
+
+**Cas d'usage** :
+*   Une entreprise camerounaine utilisant OSPF en interne qui acquiert une connexion Internet BGP.
+*   La fusion des réseaux de deux ministères, l'un utilisant OSPF, l'autre EIGRP.
+
+#### **4.2. Problèmes et bonnes pratiques**
+La redistribution est puissante mais dangereuse. Problèmes courants :
+*   **Boucles de routage** : Si la redistribution est bidirectionnelle et mal filtrée.
+*   **Convergence suboptimale** : Perte des métriques originales.
+*   **Inondation de routes** : Injection de nombreuses routes dans un protocole non préparé.
+
+**Bonnes pratiques** :
+1.  **Redistribution unidirectionnelle** quand c'est possible.
+2.  **Utiliser des listes de contrôle d'accès (ACL), des préfix-lists ou des route-maps** pour filtrer les routes redistribuées.
+3.  **Définir une métrique par défaut** pour le protocole de destination.
+4.  **Utiliser des balises (tags)** sur les routes pour contrôler leur redistribution.
+
+**Exemple de configuration (OSPF vers BGP) :**
+```bash
+Router(config)# router bgp 33771
+Router(config-router)# redistribute ospf 100 match internal external 1 external 2
+Router(config-router)# default-metric 50
+! Filtrage avec une route-map pour ne redistribuer que le réseau 172.16.0.0/16
+Router(config)# ip prefix-list CAM-ENTERPRISE seq 5 permit 172.16.0.0/16
+Router(config)# route-map OSPF-TO-BGP permit 10
+Router(config-route-map)# match ip address prefix-list CAM-ENTERPRISE
+Router(config-router)# redistribute ospf 100 route-map OSPF-TO-BGP
+```
+
+---
+
+### **5. Politiques de routage (Route Policy)**
+
+#### **5.1. Définition et outils**
+Une politique de routage est un ensemble de règles qui modifient, filtrent ou influencent les routes échangées entre routeurs. C'est le cœur de la gestion avancée BGP et de la redistribution.
+
+**Outils principaux (Cisco)** :
+*   **Access-Control Lists (ACL)** : Filtrage basique par adresse IP.
+*   **Prefix-Lists** : Spécialisées pour filtrer les préfixes réseau (plus efficaces que les ACL pour cela).
+*   **Route-Maps** : Outil puissant et flexible pour appliquer des conditions (match) et des actions (set). C'est le "couteau suisse" des politiques.
+*   **Communautés BGP** : Attribut facultatif (étiquette) attaché à une route pour simplifier l'application de politiques en aval.
+
+#### **5.2. Application

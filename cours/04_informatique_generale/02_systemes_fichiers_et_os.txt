@@ -1,0 +1,140 @@
+# **Notes de cours — 04 Informatique Générale**
+## **Chapitre : Systèmes de fichiers et OS : FAT32, NTFS, ext4, arborescence, partitions, gestion des processus**
+
+---
+
+### **1. Introduction aux Systèmes d'Exploitation (OS)**
+
+**1.1. Définition et Rôle d'un Système d'Exploitation**
+Un Système d'Exploitation (OS) est un ensemble de programmes qui sert d'interface entre le matériel (*hardware*) et l'utilisateur ou les logiciels applicatifs (*software*). Il gère les ressources de l'ordinateur et fournit des services communs aux programmes d'application.
+
+**Rôles principaux :**
+*   **Gestion des ressources :** Processeur, mémoire, périphériques d'entrée/sortie.
+*   **Fourniture d'une interface utilisateur :** Interface en ligne de commande (CLI) ou interface graphique (GUI).
+*   **Exécution des services de base pour les applications :** Accès aux fichiers, communication réseau.
+*   **Gestion des fichiers et des répertoires :** Organisation logique des données sur les supports de stockage.
+
+**Exemple concret (Cameroun) :** Lorsqu'un agent de la **CNPS** utilise un logiciel de gestion des pensions, l'OS (comme Windows 10) permet au logiciel d'accéder au disque dur pour lire les données des assurés, à l'imprimante pour éditer un reçu, et au processeur pour effectuer les calculs de cotisation.
+
+**1.2. Classification des OS**
+*   **OS pour ordinateurs personnels :** Windows, macOS, Linux (Ubuntu, Fedora).
+*   **OS pour serveurs :** Windows Server, Linux Server (Red Hat, Debian), UNIX.
+*   **OS pour appareils mobiles :** Android (basé sur Linux), iOS.
+*   **OS en temps réel (RTOS) :** Utilisés dans les systèmes embarqués (automobile, industrie).
+
+---
+
+### **2. Gestion des Fichiers et Systèmes de Fichiers**
+
+**2.1. Concept de Fichier et Arborescence**
+*   **Fichier :** Une collection nommée d'informations connexes stockée sur un support secondaire (disque dur, clé USB). Un fichier possède un nom, une extension, une taille, des attributs (lecture seule, caché) et des permissions.
+*   **Répertoire (Dossier) :** Un conteneur logique utilisé pour regrouper des fichiers et d'autres répertoires.
+*   **Arborescence :** Structure hiérarchique (en arbre) des répertoires et fichiers. Elle part d'un répertoire racine (`/` sous Linux, `C:\` sous Windows) et se divise en branches (sous-répertoires).
+
+**Exemple d'arborescence dans un contexte professionnel :**
+```
+C:\
+├── Entreprise\
+│   ├── Comptabilite\          (Dossier pour le service comptable)
+│   │   ├── Factures_2024.xlsx
+│   │   └── Salaires_Mars.pdf
+│   └── Projets\
+│       └── SiteWeb_OHADA\     (Dossier pour un projet lié au droit des affaires)
+├── Utilisateurs\
+│   └── Jean.Doe\              (Dossier personnel d'un employé)
+│       ├── Documents\
+│       └── Telechargements\
+└── Windows\                    (Dossier système)
+```
+**À retenir :** Une arborescence bien organisée est cruciale pour la productivité et la sécurité des données dans une entreprise comme **MTN Cameroon** ou une administration publique.
+
+**2.2. Systèmes de Fichiers (File Systems)**
+Un système de fichiers définit la manière dont les données sont nommées, stockées et organisées sur un volume (partition). Il gère l'allocation de l'espace, le suivi des fichiers et les métadonnées.
+
+**2.3. Étude comparative des systèmes de fichiers FAT32, NTFS et ext4**
+
+| Caractéristique          | **FAT32 (File Allocation Table 32)**                                  | **NTFS (New Technology File System)**                                 | **ext4 (Fourth Extended File System)**                              |
+| ------------------------ | --------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| **Développeur / OS**     | Microsoft / Multi-OS                                                  | Microsoft / Windows (Lecture seule sur macOS/Linux)                   | Communauté Open Source / Linux (et autres)                          |
+| **Taille max fichier**   | 4 Go                                                                  | 16 Exaoctets (théorique)                                              | 16 Tébioctets - 1 octet                                             |
+| **Taille max volume**    | 8 To (mais limité à 32 Go par Windows)                                | 256 To (avec clusters de 64 Ko)                                       | 1 Exbioctet                                                         |
+| **Journalisation**       | Non                                                                   | **Oui** (Journal des transactions)                                    | **Oui** (Journal complet ou ordonné)                                |
+| **Sécurité**             | Permissions basiques (lecture seule, caché, système)                  | **Permissions avancées (ACL)** : Contrôle fin par utilisateur/groupe  | **Permissions UNIX** (rwx pour propriétaire/groupe/autres)          |
+| **Compression native**   | Non                                                                   | Oui                                                                   | Non (mais possibilité de compression du système de fichiers)        |
+| **Chiffrement natif**    | Non                                                                   | Oui (EFS - Encrypting File System)                                    | Non (mais possibilité via dm-crypt/LUKS)                            |
+| **Résilience**           | Faible. Corruption possible en cas d'arrêt brutal.                    | Bonne. Auto-réparation via journal.                                   | Très bonne. Vérification des métadonnées, allocation retardée.      |
+| **Usage typique**        | Clés USB, cartes SD, partage simple entre OS.                         | Disques internes Windows, serveurs Windows, volumes nécessitant sécurité. | Disques internes Linux, serveurs Linux, environnements de développement. |
+| **Exemple d'utilisation**| Formater une clé USB pour transférer des fichiers entre un PC Windows et une Smart TV. | Serveur de fichiers dans une PME camerounaise où les permissions des employés doivent être gérées finement. | Serveur web hébergeant le site d'une institution comme **l'OHADA** ou une université. |
+
+**À retenir :** Le choix du système de fichiers dépend des besoins : **interopérabilité** (FAT32), **sécurité et fiabilité sous Windows** (NTFS), **performance et stabilité sous Linux** (ext4).
+
+---
+
+### **3. Gestion des Disques et Partitions**
+
+**3.1. Concepts de Partition et Volume**
+*   **Partition :** Division physique ou logique d'un disque dur. Chaque partition fonctionne comme un espace de stockage indépendant.
+*   **Volume :** Espace de stockage logique auquel un système de fichiers est attribué et qui possède une lettre de lecteur (Windows) ou un point de montage (Linux). Un volume peut s'étendre sur plusieurs partitions (volumes agrégés).
+
+**3.2. Types de Partitions**
+*   **Partition Primaire :** Partition amorçable pouvant contenir un OS. Maximum 4 partitions primaires par disque (limitation MBR).
+*   **Partition Étendue :** Conteneur pouvant héberger plusieurs **partitions logiques**. Permet de dépasser la limite des 4 partitions.
+*   **Partition Système :** Contient les fichiers de démarrage de l'OS (bootloader).
+*   **Partition de Démarrage :** Contient l'OS lui-même.
+
+**3.3. Tables de Partition : MBR vs GPT**
+*   **MBR (Master Boot Record) :** Ancien standard. Limité à 4 partitions primaires, 2 To par disque. Contient un code de démarrage.
+*   **GPT (GUID Partition Table) :** Standard moderne. Pas de limite pratique du nombre de partitions, support des disques > 2 To. Plus robuste avec copies de sauvegarde de la table.
+
+**3.4. Outils de Gestion des Partitions**
+*   **Sous Windows :** `Gestion des disques` (outil intégré), **EaseUS Partition Master**, **AOMEI Partition Assistant**.
+*   **Sous Linux :** Commandes `fdisk`, `gdisk`, `parted`. Outil graphique **GParted**.
+
+**Exemple pratique :** Un technicien de **Camtel** doit installer un nouveau serveur avec un disque de 4 To. Il utilisera obligatoirement le schéma de partition **GPT**. Il pourra créer une petite partition pour `/boot`, une grande partition pour les données utilisateurs, et une partition de swap, le tout formaté en **ext4** pour un serveur Linux.
+
+---
+
+### **4. Gestion des Processus**
+
+**4.1. Définition d'un Processus**
+Un processus est une **instance d'un programme en cours d'exécution**. Il comprend le code exécutable, les données, le compteur ordinal, la pile, le tas et les informations sur les ressources allouées (fichiers ouverts, etc.).
+
+**4.2. Cycle de Vie d'un Processus (États)**
+Un processus passe par plusieurs états durant son existence :
+1.  **Nouveau (New) :** Le processus est en cours de création.
+2.  **Prêt (Ready) :** Le processus est chargé en mémoire et attend d'être exécuté par le processeur.
+3.  **Exécution (Running) :** Les instructions du processus sont en cours d'exécution par le CPU.
+4.  **En attente (Waiting/Blocked) :** Le processus attend qu'un événement se produise (ex: lecture d'un fichier depuis le disque, entrée utilisateur).
+5.  **Terminé (Terminated) :** L'exécution du processus est terminée.
+
+**4.3. Communication et Synchronisation des Processus**
+Les processus peuvent avoir besoin de communiquer (**Process Communication - IPC**) ou de se synchroniser pour éviter les conflits d'accès aux ressources partagées.
+*   **Mécanismes d'IPC :** Tubes (pipes), files de messages, mémoire partagée.
+*   **Mécanismes de Synchronisation :** Sémaphores, mutex (exclusion mutuelle).
+
+**4.4. Outils de Gestion des Processus**
+*   **Sous Windows :**
+    *   **Gestionnaire des tâches :** Interface graphique pour voir et terminer les processus.
+    *   **Moniteur de ressources :** Vue détaillée sur l'utilisation des ressources.
+    *   **PowerShell :** Cmdlets `Get-Process`, `Stop-Process`.
+*   **Sous Linux :**
+    *   **Commandes en terminal :**
+        *   `ps` : Affiche un instantané des processus.
+        *   `top` ou `htop` : Affiche les processus en temps réel, triés par utilisation CPU.
+        *   `kill` ou `pkill` : Envoie un signal pour terminer un processus.
+        *   `nice` et `renice` : Modifient la priorité d'un processus.
+
+**Exemple concret :** L'application mobile **Orange Money** sur Android. Lorsque vous lancez l'appli, l'OS crée un processus. Ce processus peut créer des threads pour gérer l'interface utilisateur et une transaction réseau simultanément. Si l'appli se "bloque", l'utilisateur peut utiliser le gestionnaire d'applications (qui interagit avec le gestionnaire de processus de l'OS) pour la forcer à s'arrêter.
+
+---
+
+### **5. Synthèse et Applications Professionnelles au Cameroun**
+
+La maîtrise de ces concepts est fondamentale pour un technicien en Génie Logiciel dans l'environnement professionnel camerounais :
+
+1.  **Support Technique et Administration Système :** Dépanner un poste de travail (gestion des fichiers, partitions), administrer un serveur d'entreprise (choix NTFS/ext4, gestion des processus serveur).
+2.  **Développement Logiciel :** Comprendre comment l'OS gère l'exécution de son programme (processus), comment il accède aux fichiers (chemins, permissions). Un développeur d'une startup à **Silicon Mountain** (Buea) doit écrire un code qui fonctionne correctement avec le système de fichiers de l'OS cible.
+3.  **Sécurité Informatique :** Configurer correctement les permissions NTFS/ext4 pour protéger les données sensibles d'une banque ou d'une institution publique contre les accès non autorisés.
+4.  **Virtualisation et Cloud :** Les concepts de partitions, volumes et systèmes de fichiers sont à la base de la création de disques virtuels pour les machines virtuelles, de plus en plus utilisées.
+
+**Conclusion :** Ce chapitre fournit les fondations nécessaires pour interag

@@ -1,0 +1,151 @@
+# **Notes de Cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 06 Expression Française**
+## **Chapitre : Rédaction Technique : Manuel Utilisateur, Cahier des Charges, Documentation API, Guide d'Installation**
+
+---
+
+### **1. Introduction à la Rédaction Technique**
+
+#### **1.1. Définition et Objectifs**
+La **rédaction technique** est une discipline de communication spécialisée qui consiste à rédiger des documents clairs, précis et structurés pour expliquer l'utilisation, le fonctionnement, la conception ou la mise en œuvre de produits, systèmes ou services technologiques. Dans le génie logiciel, elle est indispensable pour assurer la transmission efficace de l'information entre les différents acteurs (clients, développeurs, utilisateurs finaux, mainteneurs).
+
+**Objectifs principaux :**
+*   **Informer** et **guider** l'utilisateur ou le développeur.
+*   **Standardiser** les processus de développement et de maintenance.
+*   **Réduire les coûts** de support technique et de formation.
+*   **Garantir la traçabilité** et la pérennité du projet (conformité aux normes, notamment OHADA pour la gestion documentaire des projets informatiques).
+*   **Faciliter la collaboration** au sein d'équipes pluridisciplinaires.
+
+#### **1.2. Qualités d'un Bon Rédacteur Technique**
+*   **Clarté et Précision :** Langage simple, sans ambiguïté.
+*   **Concision :** Aller à l'essentiel.
+*   **Cohérence :** Utilisation uniforme de la terminologie, des styles et des formats.
+*   **Empathie utilisateur :** Se mettre à la place du lecteur (débutant, expert, administrateur).
+*   **Maîtrise des outils :** Logiciels de rédaction, de capture d'écran, de modélisation.
+*   **Rigueur et Méthode :** Respect des plans types et des normes.
+
+---
+
+### **2. Le Manuel Utilisateur (Guide d'Utilisation)**
+
+#### **2.1. Définition et Finalité**
+Document destiné à l'**utilisateur final** d'un logiciel ou d'un système. Il a pour but de lui permettre de prendre en main le produit, d'exploiter ses fonctionnalités et de résoudre les problèmes courants de manière autonome.
+
+#### **2.2. Structure Type d'un Manuel Utilisateur**
+1.  **Page de couverture :** Nom du logiciel, version, logo (ex: "MTN Mobile Money v4.2").
+2.  **Table des matières :** Navigation détaillée.
+3.  **Introduction :** Présentation du logiciel, public cible, objectifs du manuel.
+4.  **Prérequis et installation :** Lien vers le guide d'installation ou rappel succinct.
+5.  **Prise en main rapide (Tutoriel) :** Scénario pas-à-pas pour une première utilisation.
+6.  **Description des fonctionnalités :** Organisation par modules ou par tâches utilisateur.
+    *   Ex: "Module Gestion des Clients", "Comment effectuer un virement bancaire".
+7.  **Captures d'écran et illustrations :** Annotées et à jour.
+8.  **Résolution des problèmes (FAQ/ Dépannage) :** Liste des erreurs courantes et solutions.
+9.  **Glossaire :** Définition des termes techniques.
+10. **Index :** Pour une recherche rapide.
+
+#### **2.3. Méthodologie de Rédaction et Outils**
+*   **Approche centrée sur la tâche :** Structurer le contenu autour des objectifs de l'utilisateur ("Comment faire pour...?"), et non autour des menus du logiciel.
+*   **Tests utilisateurs :** Faire relire le manuel par des utilisateurs représentatifs (méthode de l'**utilisabilité**).
+*   **Outils :**
+    *   **Traitement de texte avancé :** Microsoft Word avec styles et modèles.
+    *   **Outils d'aide en ligne :** Adobe RoboHelp, MadCap Flare.
+    *   **Outils de capture/annotation :** Snagit, Greenshot.
+    *   **Conception graphique :** Canva, Adobe Illustrator pour les schémas.
+
+> **À RETENIR :** Un bon manuel utilisateur répond à la question **"Comment ?"** et doit être testé avec de vrais utilisateurs pour validation.
+
+---
+
+### **3. Le Cahier des Charges (CdC) Fonctionnel**
+
+#### **3.1. Définition et Rôle Juridique**
+Document contractuel qui décrit de manière détaillée les **besoins, les exigences fonctionnelles et les contraintes** d'un projet logiciel du point de vue du client ou du maître d'ouvrage. Il sert de référence commune et peut avoir une valeur juridique en cas de litige, notamment dans le cadre des dispositions de l'**OHADA** sur les contrats.
+
+#### **3.2. Structure Détaillée du CdC**
+1.  **Contexte et objectifs :** Présentation de l'entreprise cliente, problématique métier.
+    *   *Exemple Camerounais : "Développement d'un système de gestion des étudiants pour l'Université de Yaoundé I visant à digitaliser les inscriptions et les notes."*
+2.  **Description des besoins utilisateurs :** Sous forme de scénarios ou d'histoires utilisateurs (*User Stories*).
+    *   *Ex: "En tant qu'étudiant, je veux consulter mes notes en ligne pour savoir si je suis admis."*
+3.  **Exigences fonctionnelles (EF) :** Liste numérotée et priorisée des fonctions que le logiciel doit offrir.
+    *   *EF01 : Le système doit permettre la saisie des notes par l'enseignant.*
+    *   *EF02 : Le système doit calculer automatiquement les moyennes et mentions.*
+4.  **Exigences non-fonctionnelles (ENF) :** Contraintes techniques et de qualité.
+    *   **Performance :** "Le temps de réponse doit être < 3s pour 1000 utilisateurs concurrents."
+    *   **Sécurité :** "Conformité à la loi camerounaise sur la cybersécurité, authentification à deux facteurs."
+    *   **Disponibilité :** "99.5% (Camtel Cloud)."
+    *   **Ergonomie :** "Interface disponible en français et en anglais."
+5.  **Contraintes :** Techniques (OS, SGBD), budgétaires, délais, juridiques (licences, OHADA).
+6.  **Critères d'acceptation :** Conditions précises et testables pour la livraison finale.
+7.  **Glossaire et annexes.**
+
+#### **3.3. Tableau Comparatif : Exigences Fonctionnelles vs Non-Fonctionnelles**
+| Critère | Exigences Fonctionnelles (Le QUOI) | Exigences Non-Fonctionnelles (Le COMMENT) |
+| :--- | :--- | :--- |
+| **Nature** | Comportement, fonctionnalités. | Qualité, contrainte, performance. |
+| **Exemple** | "Générer une facture PDF." | "La génération de la facture doit se faire en moins de 2 secondes." |
+| **Vérification** | Test fonctionnel (valide/non valide). | Mesure (débit, temps, taux). |
+| **Impact** | Sur les fonctionnalités livrées. | Sur l'architecture technique. |
+
+---
+
+### **4. La Documentation d'API (Application Programming Interface)**
+
+#### **4.1. Définition et Importance**
+Documentation destinée aux **développeurs** qui vont utiliser ou intégrer une interface de programmation (API). Elle explique comment interagir avec l'API pour échanger des données et utiliser ses services. Une bonne documentation API est cruciale pour l'adoption d'un service (ex: API de paiement de Orange Money, API de géolocalisation).
+
+#### **4.2. Contenu Essentiel d'une Documentation API**
+1.  **Vue d'ensemble :** Présentation, cas d'usage, avantages.
+2.  **Prise en main rapide :** Exemple de code simple pour un premier appel réussi ("Hello World").
+3.  **Authentification et autorisation :** Description des clés API, tokens (JWT), flux OAuth.
+4.  **Référence des points de terminaison (Endpoints) :** Cœur de la documentation.
+    *   Pour **chaque endpoint** (URL) : Méthode HTTP (GET, POST), paramètres (requête, chemin, corps), corps de la requête exemple (JSON), réponses exemple (succès/erreur), codes d'état HTTP.
+5.  **Exemples de code :** Dans plusieurs langages (Python, JavaScript, PHP) et pour des scénarios réels.
+6.  **Limites et quotas :** Nombre d'appels autorisés par minute/jour.
+7.  **Journal des modifications (Changelog) :** Suivi des versions de l'API.
+
+#### **4.3. Outils et Bonnes Pratiques**
+*   **Standardisation :** Utilisation de normes comme **OpenAPI (Swagger)** pour décrire l'API de manière structurée et générer une documentation interactive.
+*   **Outils :**
+    *   **Swagger UI / Redoc :** Pour générer une interface web interactive à partir d'un fichier OpenAPI.
+    *   **Postman :** Pour tester les API et générer des collections de requêtes exportables.
+    *   **ReadTheDocs, MkDocs :** Pour héberger une documentation technique.
+*   **Bonne pratique :** **Toujours fournir des exemples réels et testables.** Éviter le jargon excessif.
+
+> **À RETENIR :** Une API sans documentation est comme un produit sans mode d'emploi — inutilisable. La documentation interactive (ex: Swagger) est aujourd'hui un standard attendu.
+
+---
+
+### **5. Le Guide d'Installation et de Déploiement**
+
+#### **5.1. Définition et Publics Cibles**
+Document procédural qui décrit **étape par étape** le processus d'installation, de configuration et de mise en production d'un logiciel. Destiné aux **administrateurs système**, aux techniciens de déploiement ou aux utilisateurs avancés.
+
+#### **5.2. Structure d'un Guide Complet**
+1.  **Prérequis système :** Liste vérifiable.
+    *   *Ex: "Serveur Ubuntu 22.04 LTS, 4 Go de RAM, Java JDK 11, PostgreSQL 14, accès root."*
+2.  **Procédure d'installation :** Séquence numérotée et sans ambiguïté.
+    *   Téléchargement des fichiers (depuis un dépôt ou une source locale).
+    *   Installation des dépendances (paquets, bibliothèques).
+    *   Exécution de l'installateur ou des commandes de compilation.
+3.  **Configuration :** Modification des fichiers de config (`.env`, `.yml`, `.properties`).
+    *   Explication de chaque paramètre important (URL de la base de données, clés secrètes).
+4.  **Démarrage et vérification :** Commandes pour lancer le service et vérifier qu'il fonctionne (accès à l'URL, vérification des logs).
+5.  **Déploiement en production :** Considérations avancées (serveur web Nginx/Apache, SSL/HTTPS, configuration du firewall, sauvegarde).
+6.  **Dépannage de l'installation :** Liste des erreurs courantes (ex: "Port 8080 déjà utilisé", "Échec de connexion à la base de données").
+7.  **Procédure de désinstallation/mise à jour.**
+
+#### **5.3. Adaptation au Contexte Africain et Camerounais**
+*   **Considérer les contraintes de connectivité :** Proposer des liens de téléchargement miroirs locaux (hébergés chez **Camtel** ou **MTN**) si les serveurs internationaux sont lents.
+*   **Offline-first si possible :** Pour les guides d'installation de logiciels destinés aux zones à faible couverture internet.
+*   **Sensibilisation à la sécurité :** Insister sur la configuration des pare-feux et l'utilisation de connexions sécurisées, en lien avec les recommandations de l'**Agence Nationale des Technologies de l'Information et de la Communication (ANTIC)** du Cameroun.
+
+---
+
+### **6. Synthèse et Conclusion**
+
+#### **6.1. Tableau Récapitulatif des Documents Techniques**
+| **Document** | **Public Principal** | **Question Clé** | **Phase du Cycle de Vie** |
+| :--- | :--- | :--- | :--- |
+| **Cahier des Charges** | Client, Chef de projet | **POURQUOI / QUOI** faire ? | Conception / Début |
+| **

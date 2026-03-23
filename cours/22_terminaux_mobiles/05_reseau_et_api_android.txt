@@ -1,0 +1,336 @@
+# **Notes de Cours - BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 22 Terminaux Mobiles**
+## **Chapitre : Réseau et API Android - Architecture Moderne et Gestion des Données**
+
+---
+
+### **1. Introduction : L'Écosystème Réseau dans les Applications Mobiles Camerounaises**
+
+#### **1.1. Contexte et Enjeux**
+Dans le paysage numérique camerounais et africain, les applications mobiles doivent fonctionner dans des conditions réseau variées et parfois instables (zones urbaines vs rurales, 4G/3G/2G, coûts de données). L'intégration robuste d'API REST est cruciale pour des applications comme :
+- **Services financiers** : Applications bancaires (Afriland First Bank, UBA Cameroun) utilisant les API de paiement mobile (MTN Mobile Money, Orange Money).
+- **Commerce électronique** : Plateformes comme Jumia, Kaymu interagissant avec des serveurs centraux.
+- **Services publics** : Applications gouvernementales accédant aux bases de données de l'**OHADA** ou des impôts.
+
+#### **1.2. Architecture Client-Serveur et REST**
+- **Client** : Application Android installée sur le terminal.
+- **Serveur** : Machine distante hébergeant l'API (souvent dans des data centers à Douala ou Yaoundé).
+- **API REST** : Interface de programmation utilisant le protocole HTTP et les verbes standards :
+  - `GET` : Récupérer des ressources (ex: liste des transactions MTN Mobile Money)
+  - `POST` : Créer une ressource (ex: enregistrer un nouveau client)
+  - `PUT`/`PATCH` : Mettre à jour une ressource
+  - `DELETE` : Supprimer une ressource
+
+**Format d'échange** : JSON (JavaScript Object Notation) est le standard, plus léger que XML.
+
+```json
+// Exemple de réponse API pour un solde Orange Money
+{
+  "client": {
+    "numero": "2376XXXXXXX",
+    "nom": "MBAPPE",
+    "solde": 12500.50,
+    "devise": "XAF"
+  },
+  "statut": "success"
+}
+```
+
+---
+
+### **2. Retrofit et OkHttp : La Boîte à Outils Réseau**
+
+#### **2.1. Retrofit : Client HTTP Type-Safe**
+**Définition** : Bibliothèque développée par Square qui convertit une interface Java/Kotlin en appels HTTP.
+
+**Avantages** :
+- Réduction du code boilerplate (code répétitif)
+- Conversion automatique JSON ↔ Objets Kotlin (via Gson, Moshi)
+- Support natif des coroutines Kotlin
+
+**Configuration dans `build.gradle.kts (Module:app)`** :
+```kotlin
+dependencies {
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+}
+```
+
+#### **2.2. Création d'une Interface Retrofit**
+```kotlin
+// Modèle de données adapté au contexte camerounais
+data class TransactionOHADA(
+    val reference: String,
+    val entreprise: String,
+    val montant: Double,
+    val date: String, // Format "dd/MM/yyyy"
+    val statut: String // "VALIDE", "EN_ATTENTE", "REJETE"
+)
+
+// Interface de l'API
+interface ApiServiceOHADA {
+    @GET("api/v1/transactions")
+    suspend fun getTransactions(
+        @Query("numero_contribuable") numeroContribuable: String,
+        @Query("annee") annee: Int
+    ): List<TransactionOHADA>
+    
+    @POST("api/v1/paiement")
+    suspend fun effectuerPaiement(
+        @Body paiement: PaiementRequest
+    ): Response<PaiementResponse>
+}
+```
+
+#### **2.3. OkHttp : Le Moteur HTTP**
+**Rôle** : Client HTTP efficace gérant :
+- Le pooling des connexions (réutilisation)
+- La compression GZIP
+- La mise en cache
+- Les intercepteurs (logging, authentification)
+
+**Configuration avec intercepteur de logging** :
+```kotlin
+val loggingInterceptor = HttpLoggingInterceptor().apply {
+    level = HttpLoggingInterceptor.Level.BODY // Affiche les requêtes/réponses
+}
+
+val client = OkHttpClient.Builder()
+    .addInterceptor(loggingInterceptor)
+    .connectTimeout(30, TimeUnit.SECONDS) // Important pour réseaux lents
+    .readTimeout(30, TimeUnit.SECONDS)
+    .build()
+
+val retrofit = Retrofit.Builder()
+    .baseUrl("https://api.ohada.cm/") // URL de base adaptée
+    .client(client)
+    .addConverterFactory(GsonConverterFactory.create())
+    .build()
+
+val apiService = retrofit.create(ApiServiceOHADA::class.java)
+```
+
+---
+
+### **3. Coroutines Kotlin : Programmation Asynchrone Moderne**
+
+#### **3.1. Problématique du Threading en Android**
+- **Thread UI (Main Thread)** : Gère l'interface utilisateur, ne doit pas être bloqué.
+- **Opérations réseau** : Doivent s'exécuter en arrière-plan sous peine de `NetworkOnMainThreadException`.
+
+#### **3.2. Les Coroutines : Lightweight Threads**
+**Définition** : Mécanisme de concurrence permettant d'écrire du code asynchrone de façon séquentielle.
+
+**Avantages par rapport aux AsyncTask/RxJava** :
+- Moins de consommation mémoire
+- Code plus lisible (séquentiel)
+- Gestion simplifiée des annulations
+
+**Composants clés** :
+- **Suspend functions** : Fonctions pouvant être suspendues sans bloquer le thread.
+- **Scope** : Définit la durée de vie des coroutines (ViewModelScope, LifecycleScope).
+- **Dispatchers** :
+  - `Dispatchers.Main` : Mise à jour UI
+  - `Dispatchers.IO` : Opérations réseau/BDD
+  - `Dispatchers.Default` : Calculs intensifs
+
+#### **3.3. Pattern async/await avec Retrofit**
+```kotlin
+class TransactionRepository(private val apiService: ApiServiceOHADA) {
+    
+    suspend fun chargerTransactions(numeroContribuable: String): Result<List<TransactionOHADA>> {
+        return try {
+            // Exécution sur le dispatcher IO
+            val transactions = withContext(Dispatchers.IO) {
+                apiService.getTransactions(numeroContribuable, 2024)
+            }
+            Result.success(transactions)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    
+    // Pattern pour appels parallèles
+    suspend fun chargerDonnéesComplètes(): Pair<List<Transaction>, Solde> {
+        return try {
+            val deferredTransactions = async { apiService.getTransactions() }
+            val deferredSolde = async { apiService.getSolde() }
+            
+            // Attend les deux résultats en parallèle
+            Pair(deferredTransactions.await(), deferredSolde.await())
+        } catch (e: Exception) {
+            // Gestion d'erreur
+        }
+    }
+}
+```
+
+---
+
+### **4. Architecture MVVM avec ViewModel et LiveData**
+
+#### **4.1. Pourquoi MVVM ?**
+**Problèmes de l'architecture traditionnelle** :
+- Fragments/Activities trop chargées (logique métier + UI)
+- Mauvaise survie aux changements de configuration (rotation)
+- Difficulté de tests
+
+**MVVM (Model-View-ViewModel)** :
+- **Model** : Données et logique métier (Repository, API)
+- **View** : UI (Activity/Fragment, XML)
+- **ViewModel** : Intermédiaire, prépare les données pour la View
+
+#### **4.2. ViewModel : Survie aux Changements de Configuration**
+```kotlin
+class TransactionsViewModel(
+    private val repository: TransactionRepository
+) : ViewModel() {
+    
+    private val _transactions = MutableLiveData<List<TransactionOHADA>>()
+    val transactions: LiveData<List<TransactionOHADA>> = _transactions
+    
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+    
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> = _errorMessage
+    
+    fun chargerTransactions(numeroContribuable: String) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            _errorMessage.value = null
+            
+            val result = repository.chargerTransactions(numeroContribuable)
+            
+            _isLoading.value = false
+            
+            when {
+                result.isSuccess -> {
+                    _transactions.value = result.getOrNull()
+                }
+                result.isFailure -> {
+                    _errorMessage.value = "Erreur de chargement: ${result.exceptionOrNull()?.message}"
+                }
+            }
+        }
+    }
+}
+```
+
+#### **4.3. LiveData : Données Observables**
+**Caractéristiques** :
+- Observation des changements de données
+- Respect du cycle de vie (auto-cleanup)
+- Pas de fuites de mémoire
+
+**Utilisation dans le Fragment** :
+```kotlin
+class TransactionsFragment : Fragment() {
+    
+    private lateinit var viewModel: TransactionsViewModel
+    
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        
+        viewModel = ViewModelProvider(this).get(TransactionsViewModel::class.java)
+        
+        // Observer les transactions
+        viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
+            // Mettre à jour le RecyclerView
+            adapter.submitList(transactions)
+        }
+        
+        // Observer le chargement
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            progressBar.isVisible = isLoading
+        }
+        
+        // Observer les erreurs
+        viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
+            if (!message.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+            }
+        }
+        
+        // Déclencher le chargement
+        viewModel.chargerTransactions("CM2024-12345")
+    }
+}
+```
+
+---
+
+### **5. Gestion Robustes des Erreurs Réseau**
+
+#### **5.1. Types d'Erreurs Courantes au Cameroun**
+| Type d'Erreur | Cause Possible | Solution |
+|---------------|----------------|----------|
+| **Timeout** | Réseau lent (zones rurales) | Augmenter `connectTimeout` |
+| **Pas de connexion** | Données mobiles épuisées | Vérifier `ConnectivityManager` |
+| **HTTP 401/403** | Token expiré, non autorisé | Rafraîchir l'authentification |
+| **HTTP 500** | Problème serveur (Camtel) | Message utilisateur + réessai |
+| **Parsing error** | Format JSON invalide | Valider réponse serveur |
+
+#### **5.2. Implémentation d'un Intercepteur d'Authentification**
+```kotlin
+class AuthInterceptor(private val tokenManager: TokenManager) : Interceptor {
+    
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val originalRequest = chain.request()
+        
+        // Ajouter le token d'authentification
+        val token = tokenManager.getToken()
+        val requestBuilder = originalRequest.newBuilder()
+        
+        if (token != null) {
+            requestBuilder.header("Authorization", "Bearer $token")
+        }
+        
+        // Ajouter des headers communs
+        requestBuilder.header("Accept", "application/json")
+            .header("Content-Type", "application/json")
+            .header("App-Version", BuildConfig.VERSION_NAME)
+            .header("Device-ID", getDeviceId())
+        
+        val request = requestBuilder.build()
+        var response = chain.proceed(request)
+        
+        // Gérer le token expiré (HTTP 401)
+        if (response.code == 401) {
+            // Tentative de rafraîchissement du token
+            val newToken = refreshToken()
+            if (newToken != null) {
+                // Réessayer la requête avec le nouveau token
+                val newRequest = request.newBuilder()
+                    .header("Authorization", "Bearer $newToken")
+                    .build()
+                response.close()
+                response = chain.proceed(newRequest)
+            }
+        }
+        
+        return response
+    }
+    
+    private fun refreshToken(): String? {
+        // Logique de rafraîchissement du token
+        return null
+    }
+}
+```
+
+#### **5.3. Gestion des États de l'UI**
+```kotlin
+sealed class Resource<T>(
+    val data: T? = null,
+    val message: String? = null
+) {
+    class Success<T>(data: T) : Resource<T>(data)
+    class Loading<T>(data: T? = null) : Resource<T>(data)
+    class Error<T>(message: String, data: T? = null) : Resource<T>(data, message)
+}
+
+// Utilisation dans le ViewModel
+private val _transactionsState = MutableLive

@@ -39,8 +39,8 @@ class RapportController {
                     JOIN Utilisateurs U ON T.utilisateur_id = U.utilisateur_id
                     LEFT JOIN Comptes C_src ON T.compte_source_id = C_src.compte_id
                     LEFT JOIN Comptes C_dest ON T.compte_destination_id = C_dest.compte_id
-                    WHERE DATE(T.horodatage_transaction) BETWEEN :start AND :end
-                    ORDER BY T.horodatage_transaction DESC";
+                    WHERE DATE(T.date_transaction) BETWEEN :start AND :end
+                    ORDER BY T.date_transaction DESC";
             
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':start', $dateDebut);
@@ -74,7 +74,7 @@ class RapportController {
                 SUM(CASE WHEN type_transaction = 'RETRAIT' THEN montant ELSE 0 END) AS total_retraits,
                 COUNT(*) AS total_txns
                 FROM Transactions 
-                WHERE DATE(horodatage_transaction) = CURDATE()"); // Transactions du jour
+                WHERE DATE(date_transaction) = CURDATE()"); // Transactions du jour
             
             $data['reconciliation'] = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -97,5 +97,84 @@ class RapportController {
         require_once VIEW_PATH . 'rapports/cloture_journee.php';
     }
 
-    // ... d'autres méthodes de rapport ...
+    // -------------------------------------------------------------------------
+    // RELEVÉ MENSUEL
+    // -------------------------------------------------------------------------
+
+    public function releveMensuel(): void
+    {
+        $data                  = [];
+        $data['title']         = "Relevé de Compte Mensuel";
+        $numeroCompte          = Sanitizer::cleanString($_REQUEST['numero_compte'] ?? '');
+        $mois                  = Sanitizer::cleanString($_REQUEST['mois']          ?? date('Y-m'));
+        $data['numero_compte'] = $numeroCompte;
+        $data['mois']          = $mois;
+
+        if (!empty($numeroCompte)) {
+            try {
+                if (!preg_match('/^\d{4}-\d{2}$/', $mois)) {
+                    throw new \Exception("Format de mois invalide (attendu: YYYY-MM).");
+                }
+                $debutMois = $mois . '-01';
+                $finMois   = date('Y-m-t', strtotime($debutMois));
+
+                $stmt = $this->db->prepare(
+                    "SELECT c.numero_compte, c.solde AS solde_actuel, c.date_ouverture,
+                            tc.nom_type AS type_compte,
+                            cl.nom, cl.prenom, cl.adresse, cl.telephone, cl.email
+                     FROM Comptes c
+                     JOIN Clients cl      ON c.client_id      = cl.client_id
+                     JOIN Type_Comptes tc ON c.type_compte_id = tc.type_compte_id
+                     WHERE c.numero_compte = :num"
+                );
+                $stmt->bindParam(':num', $numeroCompte);
+                $stmt->execute();
+                $data['compte'] = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if (!$data['compte']) {
+                    $data['error'] = "Compte introuvable.";
+                } else {
+                    $sqlTxn = "SELECT T.type_transaction, T.montant, T.date_transaction,
+                                      T.reference_externe,
+                                      CASE WHEN Cs.numero_compte = :num2 THEN 'Débit' ELSE 'Crédit' END AS sens
+                               FROM Transactions T
+                               LEFT JOIN Comptes Cs ON T.compte_source_id      = Cs.compte_id
+                               LEFT JOIN Comptes Cd ON T.compte_destination_id = Cd.compte_id
+                               WHERE (Cs.numero_compte = :num3 OR Cd.numero_compte = :num4)
+                                 AND DATE(T.date_transaction) BETWEEN :debut AND :fin
+                               ORDER BY T.date_transaction ASC";
+                    $stmtT = $this->db->prepare($sqlTxn);
+                    $stmtT->bindParam(':num2',  $numeroCompte);
+                    $stmtT->bindParam(':num3',  $numeroCompte);
+                    $stmtT->bindParam(':num4',  $numeroCompte);
+                    $stmtT->bindParam(':debut', $debutMois);
+                    $stmtT->bindParam(':fin',   $finMois);
+                    $stmtT->execute();
+                    $transactions = $stmtT->fetchAll(PDO::FETCH_ASSOC);
+
+                    $totalCredits = 0;
+                    $totalDebits  = 0;
+                    foreach ($transactions as $t) {
+                        if ($t['sens'] === 'Crédit') $totalCredits += (float)$t['montant'];
+                        else                          $totalDebits  += (float)$t['montant'];
+                    }
+
+                    $soldeFinal            = (float)$data['compte']['solde_actuel'];
+                    $soldeInitial          = $soldeFinal - $totalCredits + $totalDebits;
+                    $data['transactions']  = $transactions;
+                    $data['total_credits'] = $totalCredits;
+                    $data['total_debits']  = $totalDebits;
+                    $data['solde_initial'] = $soldeInitial;
+                    $data['solde_final']   = $soldeFinal;
+                    $data['debut_mois']    = $debutMois;
+                    $data['fin_mois']      = $finMois;
+                }
+            } catch (\Exception $e) {
+                $data['error'] = "Erreur : " . $e->getMessage();
+                error_log("releveMensuel: " . $e->getMessage());
+            }
+        }
+
+        require_once VIEW_PATH . 'rapports/releve_mensuel.php';
+    }
 }

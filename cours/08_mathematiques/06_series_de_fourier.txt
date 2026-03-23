@@ -1,0 +1,84 @@
+CHAPITRE 6 — SÉRIES DE FOURIER
+BTS Génie Logiciel — Mathématiques
+
+1. MOTIVATION ET CONTEXTE
+
+Joseph Fourier (1768-1830) a montré que toute fonction périodique "raisonnable" peut être décomposée en une somme de fonctions sinusoïdales (sinus et cosinus) de fréquences multiples entières d'une fréquence fondamentale.
+
+Applications en informatique/signal : compression audio (MP3), traitement d'images (JPEG utilise la DCT, variante de Fourier), analyse de signaux réseaux, traitement du son.
+
+2. FONCTIONS PÉRIODIQUES
+
+Une fonction f est T-périodique si : f(t + T) = f(t) pour tout t.
+T : période (en secondes), f0 = 1/T : fréquence fondamentale (en Hz), ω0 = 2π/T : pulsation fondamentale (rad/s).
+
+3. COEFFICIENTS DE FOURIER
+
+Pour une fonction f de période T, intégrable sur une période :
+
+Coefficient constant (valeur moyenne) :
+a0 = (1/T) × ∫[-T/2, T/2] f(t) dt   (ou intégrale sur n'importe quelle période complète)
+
+Coefficients cosinus :
+an = (2/T) × ∫[-T/2, T/2] f(t) × cos(n×ω0×t) dt   pour n ≥ 1
+
+Coefficients sinus :
+bn = (2/T) × ∫[-T/2, T/2] f(t) × sin(n×ω0×t) dt   pour n ≥ 1
+
+4. DÉVELOPPEMENT EN SÉRIE DE FOURIER
+
+f(t) = a0 + Σ(n=1 à ∞) [an × cos(n×ω0×t) + bn × sin(n×ω0×t)]
+
+Harmonique de rang n : an×cos(nω0t) + bn×sin(nω0t)
+Amplitude de l'harmonique n : cn = √(an² + bn²)
+Phase de l'harmonique n : φn = arctan(−bn/an)
+
+Représentation compacte : f(t) = a0 + Σ cn × cos(n×ω0×t + φn)
+
+5. PROPRIÉTÉS DE SYMÉTRIE (SIMPLIFICATIONS)
+
+Si f est paire (f(-t) = f(t)) : tous les bn = 0 → série en cosinus uniquement
+Si f est impaire (f(-t) = −f(t)) : tous les an = 0 et a0 = 0 → série en sinus uniquement
+
+6. EXEMPLE : SIGNAL CRÉNEAU (SQUARE WAVE)
+
+f(t) = +A pour 0 < t < T/2 ; f(t) = −A pour T/2 < t < T   (signal carré centré)
+
+f est impaire → a0 = 0, an = 0
+bn = (2/T) × [∫(0,T/2) A×sin(nω0t)dt + ∫(T/2,T) (−A)×sin(nω0t)dt]
+= (4A)/(nπ) pour n impair
+= 0 pour n pair
+
+Série de Fourier du signal créneau :
+f(t) = (4A/π) × [sin(ω0t) + sin(3ω0t)/3 + sin(5ω0t)/5 + ...]
+= (4A/π) × Σ(n=1,3,5,...) sin(nω0t)/n
+
+Interprétation : le signal carré se décompose en une infinité d'harmoniques impairs. Plus on prend d'harmoniques, plus l'approximation est fidèle.
+
+7. IDENTITÉ DE PARSEVAL
+
+L'énergie du signal = somme des énergies de chaque harmonique :
+(1/T) × ∫[0,T] f²(t) dt = a0² + (1/2) × Σ(n=1,∞) (an² + bn²) = a0² + (1/2) × Σ cn²
+
+Utile pour calculer la puissance d'un signal.
+
+8. FORME COMPLEXE DE LA SÉRIE DE FOURIER
+
+Coefficients complexes :
+cn = (1/T) × ∫[-T/2, T/2] f(t) × e^(-j×n×ω0×t) dt   pour n ∈ Z
+
+Développement complexe :
+f(t) = Σ(n=-∞ à +∞) cn × e^(j×n×ω0×t)
+
+Relations : c0 = a0 ; pour n > 0 : cn = (an − j×bn)/2 ; c-n = conjugué(cn)
+
+Le spectre de f : représentation de |cn| en fonction de n (spectre d'amplitude) et de arg(cn) (spectre de phase).
+
+9. CONDITIONS DE DIRICHLET (EXISTENCE)
+
+La série de Fourier converge vers f(t) si f est :
+1. T-périodique
+2. Bornée sur une période
+3. N'a qu'un nombre fini de discontinuités et d'extrema sur une période
+
+En un point de discontinuité t0 : la série converge vers [f(t0+) + f(t0−)] / 2 (moyenne des limites à droite et à gauche).

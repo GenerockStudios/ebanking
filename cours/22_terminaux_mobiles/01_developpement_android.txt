@@ -1,0 +1,146 @@
+CHAPITRE 1 — DÉVELOPPEMENT POUR TERMINAUX MOBILES ANDROID (IGL241)
+BTS Génie Logiciel — Terminaux mobiles
+
+1. INTRODUCTION AUX TERMINAUX MOBILES
+
+Un terminal mobile est tout appareil portable connecté : smartphone, tablette, montre connectée (wearable), liseuse.
+
+Systèmes d'exploitation mobiles dominants :
+Android (Google) : ~72% du marché mondial, ~85% en Afrique subsaharienne.
+  Open source (AOSP), basé sur Linux, applications en Java/Kotlin.
+iOS (Apple) : ~27% du marché mondial.
+  Propriétaire, applications en Swift/Objective-C.
+
+Statistiques Cameroun 2024 : taux de pénétration mobile ~80%, dont ~90% sur Android.
+Importance : développer en priorité pour Android dans le contexte camerounais.
+
+2. ARCHITECTURE D'ANDROID
+
+Couches (de bas en haut) :
+Noyau Linux → Couche d'abstraction matérielle (HAL) → Runtime Android (ART) →
+Bibliothèques natives (OpenGL, SQLite, WebKit) → Framework d'application →
+Applications
+
+Runtime ART (Android Runtime) : remplace Dalvik depuis Android 5. Compilation AOT (Ahead of Time) pour de meilleures performances.
+
+Composants d'une application Android :
+Activity : écran avec interface utilisateur. Chaque activité représente un écran de l'app.
+Fragment : portion réutilisable d'une activité (utilisé pour les layouts adaptatifs).
+Service : processus en arrière-plan (musique, téléchargement, GPS).
+BroadcastReceiver : réception d'événements système (SMS reçu, batterie faible, réseau disponible).
+ContentProvider : partage de données entre applications (Contacts, Calendrier).
+Intent : mécanisme de messagerie entre composants (démarrer une activité, envoyer un broadcast).
+
+3. CYCLE DE VIE D'UNE ACTIVITY
+
+Comprendre le cycle de vie est ESSENTIEL pour éviter les bugs et optimiser les ressources.
+
+Méthodes du cycle de vie :
+onCreate() : création de l'activité. Initialiser l'UI, les variables, charger les données.
+onStart() : l'activité devient visible.
+onResume() : l'activité est au premier plan et interactive. Reprendre les mises à jour de l'UI.
+onPause() : l'activité perd le focus (une autre activité arrive). Sauvegarder les données non persistées.
+onStop() : l'activité n'est plus visible. Libérer les ressources lourdes.
+onDestroy() : l'activité est détruite. Libérer toutes les ressources.
+onRestart() : l'activité est réactivée après onStop().
+
+Transitions importantes :
+Appel entrant → onPause() puis onStop() si l'app n'est plus visible
+Retour à l'app → onRestart() → onStart() → onResume()
+Rotation d'écran → onPause() → onStop() → onDestroy() → onCreate() (recréation complète !)
+→ Solution : utiliser ViewModel pour conserver les données lors de la rotation
+
+4. DÉVELOPPEMENT EN KOTLIN (LANGAGE OFFICIEL ANDROID)
+
+Kotlin est le langage officiel recommandé par Google depuis 2017. Concis, null-safe, interopérable avec Java.
+
+Déclaration de variables :
+val nom = "Paul"          // immuable (équivalent final Java)
+var compteur = 0          // mutable
+var age: Int = 21         // type explicite
+var nomNull: String? = null  // type nullable (? suffix)
+
+Null safety :
+val longueur = nomNull?.length  // safe call → null si nomNull est null
+val longueur = nomNull?.length ?: 0  // Elvis operator → 0 par défaut
+val longueur = nomNull!!.length  // assertion non-null (exception si null)
+
+Exemple d'une Activity simple :
+class MainActivity : AppCompatActivity() {
+    private lateinit var btnCalculer: Button
+    private lateinit var tvResultat: TextView
+    private var compteur = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        btnCalculer = findViewById(R.id.btn_calculer)
+        tvResultat = findViewById(R.id.tv_resultat)
+
+        btnCalculer.setOnClickListener {
+            compteur++
+            tvResultat.text = "Compteur : $compteur"
+        }
+    }
+}
+
+Layout XML (activity_main.xml) :
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_resultat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Compteur : 0"
+        android:textSize="24sp"/>
+
+    <Button
+        android:id="@+id/btn_calculer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Incrémenter"/>
+</LinearLayout>
+
+5. ARCHITECTURE MVVM (RECOMMANDÉE ANDROID)
+
+Model-View-ViewModel est le pattern recommandé par Google pour les apps Android modernes.
+
+View (Activity/Fragment) : interface utilisateur, observe le ViewModel.
+ViewModel : contient la logique de présentation et les données de l'UI. Survit aux rotations d'écran.
+Model (Repository) : source de données (API, BDD locale Room, fichiers).
+
+LiveData : données observables qui notifient automatiquement l'UI lors des changements.
+Repository pattern : abstraction de la source de données (locale ou réseau).
+
+6. STOCKAGE DE DONNÉES SUR ANDROID
+
+SharedPreferences : stockage clé-valeur simple. Pour les préférences utilisateur (thème, langue, token).
+SQLite via Room (Jetpack) : base de données relationnelle locale. ORM Android.
+Fichiers internes : stockage dans le répertoire privé de l'app.
+Fichiers externes : carte SD (accès nécessite une permission).
+Firebase Firestore / Realtime Database : BDD cloud en temps réel (idéal pour apps connectées).
+Retrofit : bibliothèque pour consommer des API REST en Kotlin/Java.
+
+Permissions (Android 6+) :
+Les permissions dangereuses doivent être demandées à l'exécution (pas seulement dans le manifest).
+Exemples : ACCESS_FINE_LOCATION, READ_CONTACTS, CAMERA, READ_EXTERNAL_STORAGE
+
+7. MOBILE MONEY ET APIS AFRICAINES
+
+Contexte camerounais : MTN Mobile Money et Orange Money sont très utilisés.
+Intégrer le paiement mobile : APIs disponibles (MTN MoMo API, Orange Money API).
+Nécessite : enregistrement développeur, sandbox pour tests, clés API.
+
+Processus type d'un paiement Mobile Money via API :
+1. L'app envoie une requête d'initiation de paiement (montant, numéro du payeur)
+2. Le fournisseur envoie une notification USSD au téléphone du payeur
+3. Le payeur confirme son paiement (saisie du PIN)
+4. Le fournisseur notifie l'app par callback (webhook) → "SUCCESSFUL" ou "FAILED"
+5. L'app met à jour la commande selon le résultat

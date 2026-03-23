@@ -1,0 +1,76 @@
+CHAPITRE 2 — LA SARL ET LA SA (FORMES PRINCIPALES)
+BTS Génie Logiciel — Droit des sociétés
+
+1. LA SOCIÉTÉ À RESPONSABILITÉ LIMITÉE (SARL)
+
+Caractéristiques générales :
+- 1 à 50 associés (au-delà : transformation obligatoire en SA)
+- Capital social minimum : 1 000 000 FCFA (libéré au moins à 50% à la création, solde dans 2 ans)
+- Parts sociales : non librement cessibles (cession soumise à agrément des autres associés)
+- Responsabilité des associés limitée au montant de leurs apports
+- Pas d'appel public à l'épargne
+
+CONSTITUTION :
+- Statuts rédigés par acte notarié ou sous seing privé
+- Évaluation des apports en nature par un commissaire aux apports (si apport > 5 millions ou > la moitié du capital)
+- Immatriculation au RCCM
+
+ORGANES DE DIRECTION :
+Gérant(s) : personnes physiques, associés ou non, désignés dans les statuts ou par AGO.
+Pouvoirs du gérant : représente la société vis-à-vis des tiers, accomplit tous actes de gestion dans l'intérêt de la société. Toute limitation statutaire est inopposable aux tiers de bonne foi.
+Révocation : à tout moment par décision des associés (majorité des parts). Révocation sans juste motif → dommages et intérêts.
+
+ASSEMBLÉES D'ASSOCIÉS :
+AGO (Assemblée Générale Ordinaire) : approbation des comptes, nomination/révocation du gérant, affectation des résultats. Majorité : plus de la moitié des parts (1er tour), majorité relative (2e tour).
+AGE (Assemblée Générale Extraordinaire) : modification des statuts, augmentation/réduction de capital, transformation, dissolution. Majorité : 3/4 des parts.
+
+CONTRÔLE :
+Commissaire aux comptes : obligatoire si la SARL dépasse 2 des 3 seuils (capital > 10M FCFA, CA > 250M FCFA, effectif > 50 salariés).
+
+2. LA SOCIÉTÉ ANONYME (SA)
+
+Caractéristiques générales :
+- Minimum 3 actionnaires (7 si cotée en bourse)
+- Capital social minimum : 10 000 000 FCFA
+- Titres : actions librement cessibles (sauf clause d'agrément)
+- Responsabilité limitée au montant des apports
+- Peut faire appel public à l'épargne (si cotée)
+
+CONSTITUTION :
+- Statuts obligatoirement reçus par un notaire
+- Si appel public à l'épargne : prospectus visé par l'AMF (autorité des marchés financiers, ou COSUMAF en zone CEMAC)
+
+ORGANES :
+SA avec Conseil d'Administration (CA) :
+- Conseil d'Administration : 3 à 12 membres (18 si cotée). Définit la stratégie, contrôle la direction.
+- Président-Directeur Général (PDG) : préside le CA ET dirige la société. OU dissociation : Président du CA + Directeur Général.
+
+SA avec Administrateur Général :
+- Possible quand CA ≤ 3 actionnaires
+- Un seul organe de gestion : l'Administrateur Général
+
+ASSEMBLÉES D'ACTIONNAIRES :
+AGO : approbation des comptes annuels, dividendes, nomination administrateurs. Quorum : 1/4 du capital (1er convoc), aucun (2e). Majorité : voix exprimées.
+AGE : modification des statuts. Quorum : 1/2 du capital (1er), 1/4 (2e). Majorité : 2/3 des voix.
+
+CONTRÔLE :
+Commissaire aux Comptes : obligatoire dans toute SA (au moins 1, parfois 2 + suppléant).
+
+3. COMPARATIF SARL / SA
+
+| Critère              | SARL                     | SA                        |
+|----------------------|--------------------------|---------------------------|
+| Associés             | 1 à 50                   | 3 minimum                 |
+| Capital minimum      | 1 000 000 FCFA           | 10 000 000 FCFA           |
+| Titres               | Parts sociales           | Actions                   |
+| Cession              | Agrément requis          | Libre (sauf statuts)      |
+| Direction            | Gérant(s)                | CA + PDG ou Admin. Gén.   |
+| Commissaire comptes  | Optionnel (seuils)       | Obligatoire               |
+| Appel public épargne | Interdit                 | Possible                  |
+| Complexité           | Moyenne                  | Élevée                    |
+
+4. DISSOLUTION ET LIQUIDATION
+
+Causes de dissolution : expiration de la durée, réalisation ou extinction de l'objet, décision AGE, dissolution judiciaire (mésentente grave, violation des statuts), réunion de toutes les parts en une seule main (délai de régularisation 1 an).
+
+Liquidation : réalisation de l'actif (vente des biens), paiement des dettes, partage du boni de liquidation entre associés. Liquidateur nommé par l'AGE ou le tribunal.

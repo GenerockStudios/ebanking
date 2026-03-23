@@ -1,0 +1,164 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 17 Génie Logiciel**
+## **Chapitre : Qualité et revue de code : métriques, revue par les pairs et outils**
+
+---
+
+### **1. Introduction à la qualité du code logiciel**
+
+#### **1.1. Définition et importance de la qualité du code**
+La **qualité du code** est l'ensemble des caractéristiques qui rendent un logiciel maintenable, fiable, efficace et conforme aux exigences. Dans le contexte professionnel camerounais et africain, avec la montée en puissance des réglementations comme l'**OHADA** (qui impose des systèmes d'information fiables pour la comptabilité et le droit des affaires) et la digitalisation des services (MTN Mobile Money, Orange Money, services en ligne de la CAMPOST ou de l'ONP), un code de qualité n'est plus un luxe mais une nécessité.
+
+**Pourquoi la qualité du code est cruciale ?**
+*   **Réduction des coûts de maintenance** : Un code bien structuré est plus facile à corriger et à faire évoluer.
+*   **Fiabilité accrue** : Moins de bugs en production, essentiel pour les systèmes financiers ou de santé.
+*   **Facilitation du travail d'équipe** : Un code clair permet une meilleure collaboration entre développeurs, y compris dans les équipes distribuées (ex: une équipe à Douala et une à Yaoundé).
+*   **Indépendance vis-à-vis des développeurs** : Le code devient un actif de l'entreprise et non le savoir-faire d'une seule personne.
+
+#### **1.2. Les deux piliers de l'assurance qualité du code**
+1.  **L'analyse statique** : Évaluation du code sans l'exécuter, via des **métriques** et des règles de vérification automatique.
+2.  **La revue par les pairs (Code Review)** : Évaluation humaine et collaborative du code.
+
+---
+
+### **2. Les métriques de qualité du code**
+
+Les métriques sont des mesures quantitatives qui aident à évaluer objectivement la qualité du code.
+
+#### **2.1. La complexité cyclomatique (de McCabe)**
+*   **Définition** : Mesure la complexité structurelle d'un programme en comptant le nombre de chemins linéairement indépendants à travers le graphe de contrôle de flux. Elle est directement liée au nombre de décisions (`if`, `else`, `while`, `for`, `case`) dans une fonction ou une méthode.
+*   **Formule de calcul** :
+    *   `M = E - N + 2P`
+        *   `M` : Complexité cyclomatique.
+        *   `E` : Nombre d'arêtes (edges) du graphe.
+        *   `N` : Nombre de nœuds (nodes) du graphe.
+        *   `P` : Nombre de composantes connexes (généralement 1 pour un seul module).
+    *   **Méthode pratique** : `M = Décisions + 1` (où "Décisions" est le nombre de points de décision dans le code).
+*   **Interprétation** :
+    *   **1-10** : Méthode simple, risque faible.
+    *   **11-20** : Méthode modérément complexe.
+    *   **21-50** : Méthode complexe, risque élevé. Difficile à tester et à maintenir.
+    *   **>50** : Méthode très complexe, instable. Refactorisation impérative.
+*   **Exemple concret (Contexte Camerounais)** :
+    ```python
+    # Fonction de validation d'un numéro de téléphone Camerounais (MTN, Orange, Nexttel, Camtel)
+    def valider_numero_cameroun(numero):
+        # Décision 1 : Le numéro est-il une chaîne ?
+        if not isinstance(numero, str):
+            return False
+        # Décision 2 : A-t-il la longueur correcte (sans l'indicatif) ?
+        if len(numero) != 9:
+            return False
+        # Décision 3 : Commence-t-il par un préfixe d'opérateur valide ?
+        prefixes_valides = ['65', '66', '67', '68', '69', # MTN
+                            '62', '63', '64', # Orange
+                            '60', '61', # Nexttel
+                            '22', '23', '24', '25'] # Camtel (exemples)
+        # Décision 4 : Boucle implicite dans 'in' (non comptée comme décision pour McCabe)
+        if numero[:2] not in prefixes_valides:
+            return False
+        # Décision 5 : Tous les caractères sont-ils des chiffres ?
+        if not numero.isdigit():
+            return False
+        return True
+    ```
+    **Calcul de M** : 5 décisions (`if`) + 1 = **6**. Complexité acceptable.
+
+#### **2.2. Le couplage (Coupling)**
+*   **Définition** : Mesure le degré d'interdépendance entre les modules, classes ou composants d'un système. Un **couplage faible (ou lâche)** est désirable.
+*   **Types de couplage (du pire au meilleur)** :
+    1.  **Couplage de contenu** : Un module modifie directement les données internes d'un autre.
+    2.  **Couplage commun** : Deux modules partagent des données globales.
+    3.  **Couplage de contrôle** : Un module contrôle la logique d'un autre (passage de drapeaux).
+    4.  **Couplage par données** : Les modules communiquent via des paramètres bien définis. **C'est le niveau à viser**.
+*   **Exemple (Mauvais vs Bon couplage)** :
+    ```java
+    // MAUVAIS COUPLAGE (Commun/Contrôle)
+    public class GestionPaiement {
+        public void traiterPaiement() {
+            // Accès direct à une variable globale (Couplage commun)
+            if (SessionUtilisateur.montant > 0) {
+                // Appel direct avec un flag de contrôle (Couplage de contrôle)
+                Journalisation.log("Paiement initié", true);
+            }
+        }
+    }
+
+    // BON COUPLAGE (Par données)
+    public class GestionPaiement {
+        public void traiterPaiement(PaiementDTO detailsPaiement) {
+            // Communication via un objet de transfert de données bien défini
+            ServiceJournalisation.enregistrer(new Evenement("Paiement", detailsPaiement));
+        }
+    }
+    ```
+
+#### **2.3. La cohésion (Cohesion)**
+*   **Définition** : Mesure à quel point les responsabilités d'un module (classe, fonction) sont liées et focalisées sur une seule tâche. Une **cohésion forte (élevée)** est désirable.
+*   **Types de cohésion (de la pire à la meilleure)** :
+    1.  **Cohésion fortuite** : Éléments sans relation (éviter absolument).
+    2.  **Cohésion logique** : Éléments regroupés par catégorie logique mais pas fonctionnelle (ex: une classe `Utilitaire`).
+    3.  **Cohésion temporelle** : Éléments exécutés au même moment.
+    4.  **Cohésion procédurale** : Éléments faisant partie d'une même séquence.
+    5.  **Cohésion communicationnelle** : Éléments travaillant sur les mêmes données.
+    6.  **Cohésion séquentielle** : La sortie d'un élément est l'entrée du suivant.
+    7.  **Cohésion fonctionnelle** : Tous les éléments contribuent à une **seule et unique** tâche bien définie. **C'est l'idéal**.
+*   **Exemple (Faible vs Forte cohésion)** :
+    ```python
+    # FAIBLE COHESION (Logique/Procédurale)
+    class GestionUtilisateurEtFichier:
+        def enregistrer_utilisateur(self, nom, email): ...
+        def calculer_salaire(self, employe_id): ...  # Responsabilité sans rapport !
+        def lire_fichier_config(self): ...
+
+    # FORTE COHESION (Fonctionnelle)
+    class ServiceAuthentification:
+        def inscrire_utilisateur(self, utilisateur): ...
+        def connecter_utilisateur(self, identifiants): ...
+        def deconnecter_utilisateur(self, session): ... # Toutes les méthodes concernent l'authentification.
+    ```
+
+#### **2.4. Tableau récapitulatif des métriques clés**
+| **Métrique** | **Objectif** | **Bonnes pratiques** | **Outils de mesure courants** |
+| :--- | :--- | :--- | :--- |
+| **Complexité Cyclomatique** | Évaluer la difficulté de test et de maintenance. | Maintenir < 10 par fonction. Refactoriser si > 20. | SonarQube, Radon (Python), JaCoCo (Java) |
+| **Couplage** | Évaluer l'indépendance des modules. | Viser un **couplage faible** (par données). Éviter le couplage global. | SonarQube, Structure101, NDepend |
+| **Cohésion** | Évaluer la focalisation des responsabilités. | Viser une **cohésion forte** (fonctionnelle). Appliquer le principe de responsabilité unique (SOLID). | Analyse manuelle (conception), outils d'analyse de dépendances |
+
+> **À RETENIR** : La règle d'or est de viser une **forte cohésion** et un **faible couplage**. Cela mène à des systèmes plus modulaires, réutilisables et faciles à faire évoluer, comme les micro-services des APIs bancaires de l'UBA ou d'Ecobank.
+
+---
+
+### **3. La revue de code par les pairs (Code Review)**
+
+#### **3.1. Définition et objectifs**
+Processus structuré où un ou plusieurs développeurs examinent le code écrit par un pair **avant** son intégration dans la branche principale. C'est une pratique **collaborative** et **pédagogique**.
+
+**Objectifs :**
+*   **Détecter les défauts** (bugs, failles de sécurité) tôt.
+*   **Améliorer la lisibilité** et la maintenabilité.
+*   **Partager les connaissances** et uniformiser les pratiques dans l'équipe.
+*   **Former les jeunes développeurs** (très pertinent dans les SSII camerounaises qui forment de nouveaux diplômés).
+
+#### **3.2. Méthodologies de revue**
+1.  **Revue en pair programming** : Deux développeurs travaillent ensemble sur une même machine.
+2.  **Revue par inspection formelle** : Processus très structuré avec des rôles définis (modérateur, auteur, vérificateur). Adapté pour les modules critiques (ex: calcul des taxes selon le droit OHADA).
+3.  **Revue légère (asynchrone) via outils** : La plus courante. L'auteur ouvre une "Pull Request" (GitHub, GitLab, Bitbucket). Les relecteurs commentent de manière asynchrone.
+
+#### **3.3. Checklist pour une revue de code efficace**
+*   **Fonctionnalité** : Le code fait-il ce qui est demandé dans le ticket ?
+*   **Lisibilité** : Les noms de variables/fonctions sont-ils clairs (`calculerTVA()` vs `calc()`)?
+*   **Simplicité** : Peut-on simplifier la logique ? La complexité cyclomatique est-elle raisonnable ?
+*   **Tests** : Des tests unitaires sont-ils présents et passants ?
+*   **Conventions** : Respecte-t-il le guide de style de l'équipe/du langage (ex: PEP8 pour Python) ?
+*   **Sécurité** : Y a-t-il des injections, des failles de validation (ex: sur un formulaire d'inscription) ?
+*   **Performances** : Y a-t-il des boucles inefficaces ou des requêtes SQL non optimisées ?
+
+> **BONNE PRATIQUE CAMEROUNAISE** : Dans les revues, encourager les commentaires en français professionnel ou en anglais, mais toujours avec bienveillance. L'objectif est d'améliorer le code, pas de critiquer la personne. "Peut-être pourrions-nous extraire cette condition complexe dans une fonction dédiée pour plus de clarté ?" est mieux que "Ce code est illisible".
+
+---
+
+### **4. Les outils d'analyse de la qualité du code**
+
+#### **4.1. SonarQube (ou SonarCloud)**
+*   **Description** : Plateforme open-source leader pour l'**inspection

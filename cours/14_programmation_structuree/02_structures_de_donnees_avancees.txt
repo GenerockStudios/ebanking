@@ -1,0 +1,124 @@
+CHAPITRE 2 — STRUCTURES DE DONNÉES AVANCÉES
+BTS Génie Logiciel — Programmation structurée avancée
+
+1. LISTES CHAÎNÉES
+
+Une liste chaînée est une suite de nœuds, chaque nœud contenant une donnée et un pointeur vers le nœud suivant.
+
+Nœud (en C) :
+typedef struct Noeud {
+    int valeur;
+    struct Noeud *suivant;
+} Noeud;
+
+Types :
+- Liste simplement chaînée : chaque nœud pointe vers le suivant
+- Liste doublement chaînée : chaque nœud pointe vers suivant ET précédent
+- Liste circulaire : le dernier nœud pointe vers le premier
+
+Opérations :
+- Insertion en tête : O(1)
+- Insertion en queue : O(n) si pas de pointeur de queue, O(1) avec pointeur fin
+- Suppression : O(n) pour trouver le nœud, O(1) pour supprimer si déjà positionné
+- Recherche : O(n)
+- Accès par indice : O(n) (pas d'accès direct comme un tableau)
+
+Avantages vs tableaux : taille dynamique, insertions/suppressions rapides en tête.
+Inconvénients : accès séquentiel, surcharge mémoire (pointeurs), cache-inefficient.
+
+2. PILES (STACK)
+
+Structure LIFO (Last In, First Out) : le dernier élément inséré est le premier retiré.
+
+Opérations :
+- push(x) : empiler x au sommet
+- pop() : dépiler et retourner le sommet
+- peek() / top() : consulter le sommet sans dépiler
+- isEmpty() : vérifier si la pile est vide
+
+Implémentation : tableau (avec indice de sommet) ou liste chaînée.
+
+Applications :
+- Appels de fonctions (call stack)
+- Évaluation d'expressions (notation postfixe)
+- Annulation/rétablissement (undo/redo)
+- Vérification des parenthèses/balises
+- Algorithmes DFS (Depth First Search)
+
+3. FILES (QUEUE)
+
+Structure FIFO (First In, First Out) : le premier élément inséré est le premier retiré.
+
+Opérations :
+- enqueue(x) : enfiler x à l'arrière
+- dequeue() : défiler et retourner le premier élément
+- front() : consulter le premier sans défiler
+
+Implémentation : tableau circulaire ou liste chaînée.
+
+Variantes :
+- File de priorité (priority queue) : on extrait toujours l'élément de priorité la plus haute. Implémentée avec un tas (heap).
+- Deque (double-ended queue) : insertion/suppression aux deux extrémités.
+
+Applications : ordonnancement de processus, BFS (Breadth First Search), files d'impression.
+
+4. ARBRES
+
+Un arbre est une structure hiérarchique de nœuds.
+
+Terminologie :
+- Racine : nœud sans parent
+- Feuille : nœud sans enfants
+- Profondeur (d'un nœud) : distance à la racine
+- Hauteur (de l'arbre) : profondeur maximale
+
+Arbre binaire : chaque nœud a au plus 2 enfants (gauche, droit).
+
+Arbre Binaire de Recherche (ABR) :
+- Nœuds du sous-arbre gauche < nœud courant
+- Nœuds du sous-arbre droit > nœud courant
+- Recherche, insertion, suppression : O(log n) moyen, O(n) pire cas (arbre dégénéré)
+
+Parcours d'un arbre binaire (récursifs) :
+- Préfixe (pré-ordre) : Racine → Gauche → Droit
+- Infixe (en ordre) : Gauche → Racine → Droit (donne les éléments triés sur un ABR)
+- Postfixe (post-ordre) : Gauche → Droit → Racine
+- Largeur (BFS) : niveau par niveau
+
+Arbres équilibrés : AVL, Rouge-Noir → garantissent O(log n) même au pire.
+
+5. TABLES DE HACHAGE
+
+Tableau + fonction de hachage : permet une recherche, insertion, suppression en O(1) en moyenne.
+
+Fonction de hachage : h(clé) → indice dans le tableau.
+Bonne fonction : uniforme, déterministe, rapide à calculer.
+
+Collision : deux clés différentes donnent le même indice.
+Résolution :
+- Chaînage séparé : chaque case contient une liste chaînée de paires clé/valeur
+- Adressage ouvert : en cas de collision, chercher la prochaine case libre (sondage linéaire, quadratique, double hachage)
+
+Facteur de charge : λ = n (éléments) / m (taille tableau). En général, redimensionner quand λ > 0,7.
+
+Applications : dictionnaires (Python dict, Java HashMap), caches, ensembles (set).
+
+6. GRAPHES
+
+Un graphe G = (V, E) est composé d'un ensemble de sommets V et d'un ensemble d'arêtes E.
+
+Types :
+- Non orienté : arêtes sans direction
+- Orienté (digraphe) : arcs avec direction
+- Pondéré : chaque arête a un poids (coût, distance)
+
+Représentations :
+- Matrice d'adjacence : M[i][j] = 1 si arête entre i et j. O(V²) en espace.
+- Liste d'adjacence : chaque sommet a sa liste de voisins. O(V+E) en espace.
+
+Algorithmes :
+- DFS (Depth First Search) : parcours en profondeur, O(V+E)
+- BFS (Breadth First Search) : parcours en largeur, plus court chemin non pondéré, O(V+E)
+- Dijkstra : plus court chemin pondéré (poids positifs), O((V+E) log V) avec tas
+- Bellman-Ford : plus court chemin avec poids négatifs, O(V×E)
+- Kruskal / Prim : arbre couvrant minimal (MST)

@@ -1,0 +1,107 @@
+CHAPITRE 2 — AMORTISSEMENTS, PROVISIONS ET OPÉRATIONS COURANTES
+BTS Génie Logiciel — Comptabilité générale
+
+1. LES AMORTISSEMENTS
+
+Définition : constatation comptable de la dépréciation irréversible d'un bien due à l'usure, au temps ou à l'obsolescence technologique.
+
+Principe : le coût d'un bien immobilisé est réparti sur sa durée d'utilisation probable.
+
+TERMES CLÉS :
+- Valeur d'origine (VO) ou valeur brute : coût d'achat + frais accessoires
+- Valeur résiduelle (VR) : valeur probable de revente en fin de vie (souvent = 0)
+- Base amortissable : VO − VR
+- Durée d'utilisation (n) : durée de vie probable en années
+- Taux d'amortissement linéaire : t = 1/n × 100 (en %)
+- Dotation aux amortissements annuelle (Da) : charge annuelle
+- Amortissements cumulés (AC) : total des dotations depuis la mise en service
+- Valeur nette comptable (VNC) : VO − AC
+
+MÉTHODES D'AMORTISSEMENT :
+
+A) Amortissement linéaire (constant) :
+Da = Base amortissable × Taux
+Exemple : Ordinateur, VO = 600 000 FCFA, durée = 3 ans, VR = 0
+t = 1/3 = 33,33%
+Da = 600 000 × 33,33% = 200 000 FCFA/an
+
+Tableau d'amortissement :
+Année | VO      | Da      | AC      | VNC
+  1   | 600 000 | 200 000 | 200 000 | 400 000
+  2   | 600 000 | 200 000 | 400 000 | 200 000
+  3   | 600 000 | 200 000 | 600 000 |       0
+
+B) Amortissement dégressif (accéléré) :
+Taux dégressif = Taux linéaire × Coefficient fiscal (1,5 ; 2 ; ou 2,5 selon la durée)
+La base diminue chaque année (= VNC de début d'année)
+On passe au linéaire quand le linéaire sur VNC restante donne une dotation supérieure.
+
+Exemple : machine 1 000 000 FCFA, durée 4 ans, coeff = 2
+Taux dégressif = 25% × 2 = 50%
+
+Année 1 : Da = 1 000 000 × 50% = 500 000, VNC = 500 000
+Année 2 : Da = 500 000 × 50% = 250 000, VNC = 250 000
+Année 3 : Linéaire = 250 000/2 = 125 000 ; Dégressif = 250 000×50%=125 000 → égaux, on passe au linéaire
+Année 3 : Da = 125 000, VNC = 125 000
+Année 4 : Da = 125 000, VNC = 0
+
+C) Amortissement par unités de production :
+Da = (Base amortissable / Production totale prévue) × Production réelle de la période
+Utilisé pour les machines dont l'usure dépend de l'usage.
+
+ÉCRITURE COMPTABLE :
+Débit 681 "Dotations aux amortissements" / Crédit 28x "Amortissements de l'immobilisation X"
+
+2. LES PROVISIONS
+
+Définition : charge probable mais non certaine, dont le montant ou l'échéance est incertain, constatée par prudence.
+
+Types de provisions :
+- Provisions pour dépréciation des actifs : créances douteuses, stocks dépréciés, titres en moins-value
+- Provisions pour risques et charges : litiges en cours, garanties accordées à des clients, restructurations
+
+Écriture de dotation :
+Débit 69x "Dotations aux provisions" / Crédit 49x ou 59x ou 19x "Provision"
+
+Reprise de provision (quand le risque disparaît ou est inférieur au montant provisionné) :
+Débit 49x ou 59x "Provision" / Crédit 79x "Reprises sur provisions"
+
+3. OPÉRATIONS COURANTES
+
+Achat de marchandises (HT) :
+Débit 601 "Achats de marchandises" XX
+Débit 4451 "TVA récupérable sur achats" XX
+  Crédit 401 "Fournisseurs" XX+TVA
+
+Vente de marchandises (HT) :
+Débit 411 "Clients" XX+TVA
+  Crédit 701 "Ventes de marchandises" XX
+  Crédit 4431 "TVA collectée" XX
+
+Paiement du fournisseur :
+Débit 401 "Fournisseurs" / Crédit 521 "Banque"
+
+Règlement client :
+Débit 521 "Banque" / Crédit 411 "Clients"
+
+4. RAPPROCHEMENT BANCAIRE
+
+Objectif : expliquer les différences entre le solde du relevé bancaire et le solde du compte banque en comptabilité.
+
+Causes des différences :
+- Chèques émis non encore débités par la banque
+- Virements reçus non encore enregistrés en comptabilité
+- Agios bancaires notifiés par la banque mais pas encore comptabilisés
+- Erreurs de saisie
+
+Tableau de rapprochement :
+Solde relevé bancaire | Solde compte 521
++ encaissements comptabilisés non portés sur le relevé
+- décaissements comptabilisés non portés sur le relevé
+= Solde ajusté (doit être égal)
+
+TVA AU CAMEROUN :
+Taux normal : 19,25% (dont 17,5% TVA + 1,75% CAC = Centime Additionnel Communal)
+TVA collectée sur ventes : dette envers l'État
+TVA récupérable sur achats : créance sur l'État
+TVA à décaisser = TVA collectée − TVA récupérable (déclaration mensuelle)

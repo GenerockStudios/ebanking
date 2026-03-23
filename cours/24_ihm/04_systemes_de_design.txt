@@ -1,0 +1,151 @@
+# **Notes de cours — 24 IHM**
+## **Chapitre : Systèmes de design et composants réutilisables**
+
+**Professeur :** [Votre Nom]
+**Niveau :** BTS Génie Logiciel (Programme MINPOSTEL/MINESUP, Cameroun)
+**Durée estimée :** 6 heures de cours
+
+---
+
+### **1. Introduction aux systèmes de design**
+
+#### **1.1. Définition et objectifs**
+Un **système de design** (Design System) est une collection complète de standards, de composants, de principes et de guides de codage réunis pour assurer la cohérence, l'efficacité et la scalabilité dans la conception et le développement d'interfaces utilisateur (UI) et d'expériences utilisateur (UX).
+
+**Objectifs principaux :**
+*   **Cohérence :** Uniformiser l'apparence et le comportement sur toutes les plateformes (web, mobile, desktop).
+*   **Efficacité :** Accélérer le processus de développement grâce à des composants prêts à l'emploi.
+*   **Maintenabilité :** Faciliter les mises à jour et l'évolution de l'application.
+*   **Accessibilité :** Intégrer des bonnes pratiques d'accessibilité dès la conception.
+*   **Collaboration :** Servir de source de vérité unique entre designers et développeurs.
+
+**À retenir :** Un système de design n'est pas seulement une bibliothèque de composants UI (UI Kit), c'est un écosystème vivant qui inclut aussi la **documentation**, les **principes directeurs** et les **bonnes pratiques de codage**.
+
+#### **1.2. Architecture d'un système de design**
+```
+1. Principes Fondamentaux (Philosophie de la marque, valeurs UX)
+2. Guide de Style (Couleurs, Typographie, Espacements, Iconographie)
+3. Bibliothèque de Composants (Boutons, Formulaires, Cartes, Modales...)
+4. Motifs d'Interaction (Patterns) et Bonnes Pratiques
+5. Documentation et Outils de Développement
+```
+
+---
+
+### **2. Étude des principaux systèmes de design**
+
+#### **2.1. Material Design (Google)**
+*   **Philosophie :** Inspiré du monde physique (papier, encre) et des lois de la physique (ombres, mouvements). Met l'accent sur la hiérarchie visuelle, le feedback et la métaphore tangible.
+*   **Concepts clés :**
+    *   **Élévation & Ombres :** Utilisées pour indiquer la hiérarchie et l'interactivité.
+    *   **Animation significative :** Les transitions guident l'utilisateur et donnent vie à l'interface.
+    *   **Adaptative Design :** S'adapte à toutes les plateformes (mobile, web, desktop).
+*   **Implémentation :** Utilise principalement **Flutter** (pour les applications multiplateformes) et **Jetpack Compose** (pour Android natif). Pour le web, la bibliothèque officielle est **Material-UI (MUI)** pour React.
+*   **Exemple concret Camerounais :** L'application mobile **"MTN Mobile Money"** (ou **"Orange Money"**) utilise des principes Material Design : boutons avec élévation au clic, navigation par onglets en bas de l'écran, cartes pour afficher les transactions récentes, et un feedback visuel clair lors d'un transfert.
+
+#### **2.2. Human Interface Guidelines (HIG) - Apple**
+*   **Philosophie :** Axée sur la **clarté**, le **respect** et la **profondeur**. Privilégie la lisibilité, l'immersion de contenu et une navigation intuitive spécifique à chaque plateforme Apple (iOS, macOS, watchOS, iPadOS).
+*   **Concepts clés :**
+    *   **Clarté :** Texte lisible, icônes précises, espacement généreux.
+    *   **Respect :** L'interface ne domine pas le contenu utilisateur.
+    *   **Profondeur :** Utilisation de couches et de transitions pour communiquer la hiérarchie.
+*   **Implémentation :** Utilisation des frameworks natifs **SwiftUI** (moderne) ou **UIKit** avec le langage Swift.
+*   **Exemple concret Camerounais :** L'application **"Express Union Mobile"** sur iOS suit les HIG : barre de navigation en haut avec un titre large et clair, utilisation standard du **Tab Bar** en bas pour la navigation principale, et des **Alertes** système pour les confirmations de transaction.
+
+#### **2.3. Bootstrap**
+*   **Philosophie :** Framework CSS **open-source** axé sur le **développement rapide** d'interfaces web **responsives** et **mobile-first**.
+*   **Caractéristiques principales :**
+    *   **Système de grille :** Basé sur Flexbox, permet une mise en page responsive facile avec des classes prédéfinies (`.col-md-6`, `.container-fluid`).
+    *   **Bibliothèque de composants :** Vaste collection de composants HTML/CSS/JS prêts à l'emploi (navbar, carousel, modals, cards).
+    *   **Classes utilitaires :** Pour les marges, padding, couleurs, affichage (ex: `.mt-3`, `.text-primary`, `.d-none .d-md-block`).
+*   **Utilisation :** Idéal pour les prototypes rapides, les sites web administratifs, les applications internes d'entreprise et les projets avec des délais courts.
+*   **Exemple concret Africain :** De nombreux sites web gouvernementaux ou de petites entreprises en Afrique (ex: site d'une **coopérative agricole OHADA** ou d'une **PME locale**) utilisent Bootstrap pour sa rapidité de déploiement et son aspect professionnel immédiat sans un grand effort de design personnalisé.
+
+#### **2.4. Tailwind CSS**
+*   **Philosophie :** Framework CSS **utility-first**. Au lieu de composants prédéfinis, il fournit des classes utilitaires de bas niveau (comme des "atomes") pour construire n'importe quel design directement dans le balisage HTML.
+*   **Caractéristiques principales :**
+    *   **Utility-First :** Construisez des interfaces personnalisées en assemblant des classes comme `flex`, `pt-4`, `text-center`, `bg-blue-500`.
+    *   **Haute personnalisation :** Le fichier de configuration (`tailwind.config.js`) permet de définir votre propre palette de couleurs, espacements, polices, etc., pour correspondre à l'identité de marque.
+    *   **Performance :** Grâce à PurgeCSS, il génère un fichier CSS final très optimisé contenant uniquement les classes utilisées.
+*   **Utilisation :** Excellent pour les projets où le design personnalisé et l'identité de marque unique sont primordiaux. Adopté par de nombreuses startups tech.
+*   **Exemple concret Camerounais :** Le site web d'une **fintech** ou d'une **agence de communication digitale** à Douala ou Yaoundé, souhaitant une interface unique et performante, pourrait choisir Tailwind CSS pour construire son design system sur mesure.
+
+#### **2.5. Tableau comparatif des systèmes**
+
+| Critère | Material Design | Apple HIG | Bootstrap | Tailwind CSS |
+| :--- | :--- | :--- | :--- | :--- |
+| **Type** | Système de design complet | Guide de conception | Framework CSS composants | Framework CSS utilitaire |
+| **Philosophie** | Métaphore matérielle, physique | Clarté, Respect, Profondeur | Développement rapide, Responsive | Utility-First, Personnalisation |
+| **Cible** | Multiplateforme (Google) | Écosystème Apple | Développement Web Front-End | Développement Web Front-End |
+| **Force** | Cohérence écosystème Google, animations | Expérience native iOS/macOS optimale | Rapidité, vaste communauté | Flexibilité, performance, design unique |
+| **Faiblesse** | Peut manquer de personnalisation | Restrictif aux plateformes Apple | Sites "génériques", CSS lourd | Courbe d'apprentissage, HTML verbeux |
+| **Techno associée** | Flutter, Jetpack Compose, MUI | SwiftUI, UIKit | HTML, CSS, JavaScript (jQuery) | Intégration avec React, Vue, etc. |
+
+---
+
+### **3. Composants réutilisables : cœur du développement moderne**
+
+#### **3.1. Définition et intérêt**
+Un **composant réutilisable** est un bloc d'interface autonome, encapsulant son propre HTML, CSS et JavaScript (ou logique), qui peut être utilisé à plusieurs endroits dans une ou plusieurs applications.
+
+**Intérêts pour un développeur BTS GL :**
+*   **DRY (Don't Repeat Yourself) :** Évite la duplication du code.
+*   **Maintenance :** Une correction dans le composant se propage à toutes ses instances.
+*   **Testabilité :** Facile à tester de manière isolée (tests unitaires).
+*   **Collaboration :** Permet à plusieurs développeurs de travailler sur des briques indépendantes.
+
+#### **3.2. Mise en œuvre dans les frameworks modernes**
+*   **React :** Les composants sont au centre de React (fonctionnels ou classes). Ex: un composant `<ButtonPrimary>` avec ses props (`label`, `onClick`, `disabled`).
+*   **Vue.js :** Les **Single File Components (SFC)** `.vue` encapsulent template, script et style.
+*   **Angular :** Utilise les **Web Components** via les décorateurs `@Component`.
+*   **Flutter :** Tout est un widget (composant). On construit l'UI par composition de widgets.
+
+#### **3.3. Bonnes pratiques pour concevoir des composants**
+1.  **Responsabilité unique :** Un composant doit faire une chose et la faire bien.
+2.  **Props/Inputs bien définis :** Utiliser des props pour la personnalisation et la communication parent-enfant.
+3.  **Documentation :** Documenter l'usage, les props et les événements émis.
+4.  **Accessibilité intégrée :** S'assurer que les composants sont utilisables au clavier et avec des lecteurs d'écran.
+5.  **Stylisation contrôlée :** Permettre la surcharge du style via des classes CSS ou des props de style.
+
+**Exemple de cas pratique :** Développement d'un composant `TransactionCard` pour une application bancaire camerounaise.
+```jsx
+// TransactionCard.jsx (React)
+// Props : date, beneficiary, amount, type (credit/debit), operator (MTN, Orange, Camtel)
+function TransactionCard({ date, beneficiary, amount, type, operator }) {
+    const isCredit = type === 'credit';
+    const operatorColors = { MTN: 'yellow', Orange: 'orange', Camtel: 'blue' };
+
+    return (
+        <div className="transaction-card">
+            <div className="card-header">
+                <span className="date">{date}</span>
+                <span className={`operator-badge bg-${operatorColors[operator]}`}>
+                    {operator}
+                </span>
+            </div>
+            <div className="card-body">
+                <p>Bénéficiaire : <strong>{beneficiary}</strong></p>
+                <p className={`amount ${isCredit ? 'text-success' : 'text-danger'}`}>
+                    {isCredit ? '+' : '-'} {amount.toLocaleString()} FCFA
+                </p>
+            </div>
+        </div>
+    );
+}
+```
+
+---
+
+### **4. Intégration en contexte professionnel camerounais**
+
+#### **4.1. Outils et workflow**
+*   **Design :** **Figma** (dominant, collaboratif), **Adobe XD**. Les designers créent le design system et les maquettes.
+*   **Collaboration :** **Storybook** est un outil ESSENTIEL. C'est un atelier pour développer, documenter et tester les composants UI de manière isolée. Il devient la **bibliothèque de composants vivante** de l'équipe.
+*   **Versioning :** **Git** (GitLab, GitHub, Bitbucket) pour versionner le code des composants.
+*   **Package Management :** Pour partager des bibliothèques de composants entre plusieurs projets, on utilise des registres privés **npm** ou **GitHub Packages**.
+
+#### **4.2. Étude de cas : Développement d'une application de gestion OHADA**
+*   **Contexte :** Une SSII de Douala doit développer un SaaS de gestion comptable conforme aux normes **OHADA** pour les PME.
+*   **Choix techniques :**
+    *   **Système de design :** **Material Design** via **MUI** (React). Justification : offre une vaste gamme de composants complexes (tableaux, formulaires de saisie) adaptés à une application de gestion, avec une bonne accessibilité.
+    *   **Arch

@@ -1,0 +1,140 @@
+# **Notes de Cours — BTS Génie Logiciel**
+## **Matière : 11 Comptabilité Analytique**
+## **Chapitre : Charges directes et indirectes : affectation directe, répartition des charges indirectes, clés de répartition, tableau de répartition**
+
+---
+
+### **1. Introduction et Objectifs du Chapitre**
+
+La comptabilité analytique est une branche de la comptabilité générale qui vise à analyser les coûts et les résultats par produit, service, activité ou centre de responsabilité. Dans le contexte du BTS Génie Logiciel, sa maîtrise est cruciale pour :
+*   Évaluer avec précision le coût de revient d'un projet de développement logiciel.
+*   Fixer des prix de vente compétitifs et rentables.
+*   Piloter la performance économique d'une entreprise de services numériques (ESN) ou d'une startup tech.
+*   Prendre des décisions éclairées (sous-traitance, investissement, abandon de projet).
+
+**Objectifs d'apprentissage :** À la fin de ce chapitre, l'étudiant doit être capable de distinguer les charges directes des charges indirectes, d'affecter les premières, de répartir les secondes en utilisant des clés de répartition pertinentes et de construire un tableau de répartition des charges indirectes (TRCI).
+
+---
+
+### **2. Définitions Fondamentales**
+
+#### **2.1. Charge (ou Coût)**
+Une charge est une consommation de ressources (matérielles, humaines, financières) engagée par l'entreprise pour les besoins de son activité. En comptabilité analytique, on parle de **coût** lorsqu'une charge est rattachée à un objet de coût précis (un produit, un projet, un service).
+
+#### **2.2. Objet de Coût (ou Centre d'Analyse)**
+C'est l'élément dont on souhaite calculer le coût. Dans notre domaine, il peut s'agir :
+*   D'un **projet logiciel** spécifique (ex: Développement d'une app mobile pour MTN Money).
+*   D'un **produit logiciel** commercialisé (ex: Licence du logiciel de gestion scolaire "Edutech").
+*   D'un **service** (ex: Maintenance du système d'information de la CAMTEL).
+*   D'un **client** majeur (ex: Compte Orange Cameroun).
+
+#### **2.3. Période de Calcul**
+La comptabilité analytique fonctionne par périodes (mois, trimestre, année). Les charges sont analysées pour une période donnée.
+
+---
+
+### **3. Classification des Charges : Directes vs Indirectes**
+
+#### **3.1. Charges Directes**
+*   **Définition :** Charges qui peuvent être **affectées directement et sans ambiguïté** à un objet de coût unique, grâce à un moyen de mesure objectif (bon de travail, feuille de temps, facture).
+*   **Caractéristiques :** Traçabilité immédiate, proportionnalité souvent directe avec le volume de l'objet de coût.
+*   **Exemples dans le Génie Logiciel (Contexte Camerounais) :**
+    *   **Salaire du chef de projet** dédié à 100% au projet "Développement de l'API de paiement pour Express Union".
+    *   **Coût des licences logicielles** achetées spécifiquement pour un projet (ex: Licence d'un moteur de jeu pour un projet de serious game éducatif).
+    *   **Frais de mission** d'un développeur envoyé chez le client (CAMRAIL) pour la recette.
+    *   **Coût des serveurs cloud (AWS, Orange Cloud)** provisionnés exclusivement pour une application.
+
+#### **3.2. Charges Indirectes**
+*   **Définition :** Charges qui **concernent plusieurs objets de coût simultanément**. Elles ne peuvent pas être rattachées directement à un seul objet. Elles nécessitent une **répartition** via des clés.
+*   **Caractéristiques :** Traçabilité indirecte, souvent de structure ou fixes à court terme.
+*   **Exemples dans le Génie Logiciel :**
+    *   **Loyer du siège** de l'ESN à Douala (bénéficie à tous les projets).
+    *   **Salaire du Directeur Technique** qui supervise plusieurs projets.
+    *   **Électricité, internet** (Camtel, Ringo), frais de téléphonie.
+    *   **Amortissement** des équipements partagés (serveurs internes, matériel de test).
+    *   **Salaire et charges du service administratif et comptable**.
+
+**À RETENIR :** Le caractère direct ou indirect d'une charge dépend du lien avec l'objet de coût. Une charge peut être directe pour un centre (ex: le salaire du responsable qualité est une charge directe du "Centre Contrôle Qualité") mais indirecte pour les produits finaux (les projets).
+
+---
+
+### **4. Traitement des Charges : Affectation et Répartition**
+
+#### **4.1. Affectation Directe des Charges Directes**
+*   **Principe :** Imputation immédiate du montant de la charge à l'objet de coût concerné.
+*   **Méthode :** Utilisation de documents sources.
+*   **Exemple :** La feuille de temps hebdomadaire du développeur **M. Ndiaye** indique qu'il a passé 35h sur le **Projet A (Site web pour la mairie de Yaoundé)** et 5h sur le **Projet B (App de livraison)**. Son salaire mensuel est de 500 000 FCFA.
+    *   Coût pour le Projet A : (35h/40h) * 500 000 FCFA = **437 500 FCFA** (affectation directe).
+    *   Coût pour le Projet B : (5h/40h) * 500 000 FCFA = **62 500 FCFA**.
+
+#### **4.2. Répartition des Charges Indirectes**
+C'est un processus en deux étapes : la **répartition primaire** et la **répartition secondaire**.
+
+**Étape 1 : Répartition Primaire**
+*   **But :** Ventiler les charges indirectes de l'entreprise entre les différents **centres d'analyse**. Un centre d'analyse est une division de l'entreprise homogène du point de vue des coûts.
+*   **Types de Centres :**
+    *   **Centres Auxiliaires (ou de structure) :** Leur coût ne s'incorpore pas directement au produit. Ils rendent service à d'autres centres. Ex: Direction Générale, Comptabilité, Ressources Humaines, Service Informatique Interne.
+    *   **Centres Principaux (ou opérationnels) :** Leur coût sera finalement incorporé aux coûts des produits. Ils se subdivisent en :
+        *   **Centres de Production :** Ateliers de développement, équipes projet.
+        *   **Centres de Distribution :** Service commercial, marketing, support client.
+
+**Étape 2 : Répartition Secondaire (ou Prestation Réciproque)**
+*   **But :** Vider les coûts des **centres auxiliaires** dans les **centres principaux**. Les centres auxiliaires se rendent aussi service entre eux (ex: la Comptabilité utilise les services du Service Informatique).
+*   **Méthodes :** Méthode directe (ignorer les prestations entre auxiliaires), méthode des prestations réciproques (plus précise, utilisant un système d'équations).
+
+---
+
+### **5. Les Clés de Répartition**
+
+#### **5.1. Définition**
+Une clé de répartition est une **unité de mesure** (souvent quantitative) qui permet de répartir équitablement le coût d'un centre ou d'une charge indirecte entre les bénéficiaires. Le choix de la clé doit refléter au mieux la consommation du service.
+
+#### **5.2. Exemples de Clés de Répartition en ESN**
+| **Charge Indirecte / Centre Auxiliaire** | **Clés de Répartition Possibles** | **Justification** |
+| :--- | :--- | :--- |
+| **Loyer, Électricité** | Surface occupée (m²) par chaque centre/projet | La consommation est liée à l'espace utilisé. |
+| **Salaire du Directeur Technique** | Nombre de projets supervisés ou temps passé (%) | L'activité est liée au suivi des projets. |
+| **Coût du Service Administratif** | Nombre de collaborateurs par centre principal (effectif) ou nombre de fiches de paie traitées. | L'activité administrative est proportionnelle au personnel. |
+| **Coût du Service Informatique Interne** | Nombre d'ordinateurs gérés, nombre de tickets de support, temps d'intervention. | L'effort est lié au parc informatique à maintenir. |
+| **Frais de télécommunications (Internet)** | Volume de données consommé ou nombre de postes connectés. | Coût lié à l'usage de la bande passante. |
+
+**Critère de choix d'une bonne clé :** Elle doit être **objective, mesurable, stable** dans le temps et **représentative** de la consommation réelle.
+
+---
+
+### **6. Le Tableau de Répartition des Charges Indirectes (TRCI)**
+
+C'est l'outil synthétique et fondamental qui matérialise toute la démarche de répartition.
+
+#### **6.1. Structure du TRCI**
+Le TRCI se présente sous forme de tableau à double entrée :
+*   **En lignes :** Les différents postes de charges indirectes et les totaux des centres.
+*   **En colonnes :** Les centres d'analyse (auxiliaires et principaux), avec souvent une colonne "Total" et une colonne pour les **Unités d'Œuvre (UO)** ou **Assiettes de Frais (AF)** pour les centres principaux.
+
+#### **6.2. Les Unités d'Œuvre (UO) et Assiettes de Frais (AF)**
+*   **Unité d'Œuvre (UO) :** Unité de mesure de l'activité d'un **centre principal**. Elle doit être **homogène** (ex: heure-machine, heure de main-d'œuvre directe, nombre de lignes de code testées). Le coût d'une UO (`Coût d'UO`) se calcule : `Coût total du centre / Nombre total d'UO`.
+*   **Assiette de Frais (AF) :** Utilisée quand l'activité du centre n'est pas parfaitement homogène et ne peut être mesurée par une UO unique. On utilise alors une grandeur proportionnelle (ex: coût de la main-d'œuvre directe, chiffre d'affaires). Le **taux de frais** se calcule : `Coût total du centre / Valeur de l'assiette de frais`.
+
+**Exemple pour une ESN :**
+*   Pour le **"Centre Développement Web"**, l'UO pourrait être l'**heure de développement facturable**.
+*   Pour le **"Centre Support Technique"**, l'UO pourrait être le **nombre de tickets résolus**.
+
+#### **6.3. Étude de Cas : Société "SoftTech Cameroon"**
+
+**Données pour le mois de Janvier :**
+*   **Charges Indirectes :** Loyer (800 000 FCFA), Électricité/Internet (400 000 FCFA), Salaires Administration (1 200 000 FCFA), Amortissements (600 000 FCFA). **Total : 3 000 000 FCFA.**
+*   **Centres :**
+    *   **Auxiliaires :** Administration (ADM), Informatique & Maintenance (INF).
+    *   **Principaux :** Développement Mobile (DM), Développement Web (DW).
+*   **Surfaces :** ADM=50m², INF=30m², DM=70m², DW=50m². Total=200m².
+*   **Nombre de postes informatiques :** ADM=4, INF=2, DM=10, DW=8. Total=24.
+*   **Prestations réciproques :** Le centre INF consacre 20% de son activité à ADM. Le centre ADM consacre 10% de son activité à INF.
+*   **Activité des centres principaux :** DM a produit 1 200 heures de développement, DW a produit 800 heures.
+
+**Construction du TRCI :**
+
+| Totaux à Répartir | Centres Auxiliaires | Centres Principaux | Total |
+| :--- | :---: | :---: | :---: |
+| **Nature des Charges** | **ADM** | **INF** | **DM** | **DW** | **Général** |
+| **Répartition Primaire** | | | | | |
+| Loyer (clé: surface) | 200 000 | 120 000 | 280 000 | 200 000 | **800 000**

@@ -1,0 +1,141 @@
+# **Notes de cours — 20 Techniques Expression**
+## **Chapitre : Communication numérique professionnelle**
+
+### **Introduction**
+Dans le paysage professionnel moderne, en particulier dans le secteur du génie logiciel, la maîtrise des outils de communication numérique est aussi cruciale que l'expertise technique. Pour un développeur camerounais, ces outils sont les vitrines de ses compétences, les canaux de son réseau professionnel et les preuves tangibles de son savoir-faire. Ce chapitre aborde les quatre piliers de la communication numérique professionnelle : la gestion d'un profil LinkedIn, la création d'un portfolio en ligne, la rédaction d'email professionnel et la construction d'une présence numérique positive.
+
+---
+
+### **1. LinkedIn : Le réseau professionnel incontournable**
+
+#### **1.1. Définition et enjeux**
+LinkedIn est un réseau social professionnel en ligne dont l'objectif principal est de créer et d'entretenir un réseau de contacts (relations) dans un contexte professionnel. Pour un étudiant ou un professionnel du BTS GL au Cameroun, LinkedIn est :
+- Une **vitrine numérique** de son parcours et de ses compétences.
+- Un outil de **recherche d'emploi** et de stage (les recruteurs de MTN, Orange, NextTel, Camtel, et des SSII locales y sont actifs).
+- Une plateforme d'**apprentissage** (avec les formations LinkedIn Learning et les publications d'experts).
+- Un moyen de **suivre l'actualité** de son secteur (technologies, entreprises, tendances).
+
+#### **1.2. Structuration optimale d'un profil LinkedIn**
+Un profil complet et optimisé est essentiel. Il doit comprendre, dans l'ordre d'importance :
+
+1.  **Photo de profil :** Professionnelle, claire, souriante, fond neutre.
+2.  **Bannière :** Personnalisée, peut indiquer votre spécialité (ex: "Développeur Full-Stack Java/Angular").
+3.  **Titre :** Plus que votre poste actuel. Ex: "Étudiant en BTS Génie Logiciel | Développeur Python passionné | En recherche de stage".
+4.  **Résumé (À propos) :** Récit captivant (3-5 courts paragraphes). Présentez votre parcours, vos compétences techniques (langages, frameworks), vos projets marquants et vos ambitions. Mentionnez votre intérêt pour les défis technologiques du contexte africain (inclusion financière, e-santé, e-agriculture).
+5.  **Expériences :** Décrivez vos stages, projets académiques ou emplois avec des verbes d'action. Quantifiez les résultats si possible. Ex: "Développement d'une application de gestion de stock pour un commerce local, réduisant le temps d'inventaire de 30%."
+6.  **Formations :** BTS GL, lycée, certifications en ligne (Coursera, Udemy).
+7.  **Compétences :** Ajoutez des compétences techniques (Java, Python, SQL, Git, Docker) et transversales (Travail d'équipe, Gestion de projet). Faites-les valider par vos contacts.
+8.  **Recommandations :** Demandez des recommandations à vos enseignants, maîtres de stage ou collègues.
+
+**À retenir :** Un profil LinkedIn à 100% de complétion a 21 fois plus de chances d'être consulté.
+
+#### **1.3. Stratégie de réseau et contenu**
+- **Réseautage :** Connectez-vous avec vos camarades, enseignants, professionnels rencontrés lors des forums. Personnalisez toujours les invitations.
+- **Publication :** Partagez vos réussites (projet académique terminé, certification obtenue), des articles pertinents sur les techs émergentes, ou commentez avec pertinence les publications d'autres.
+- **Recherche d'emploi :** Utilisez les filtres avancés (localisation "Cameroun", secteur "Technologies de l'information").
+
+**Tableau comparatif : LinkedIn vs. Réseaux sociaux personnels**
+
+| **Critère**          | **LinkedIn**                                                                 | **Réseaux personnels (Facebook, Instagram)**                     |
+| -------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| **Objectif principal** | Développement professionnel, recrutement, veille sectorielle.                | Socialisation, partage personnel, divertissement.                |
+| **Tonalité**         | Formelle, professionnelle.                                                   | Informelle, personnelle.                                         |
+| **Contenu partagé**  | Réalisations professionnelles, articles sectoriels, offres d'emploi.         | Photos personnelles, opinions, contenus divertissants.           |
+| **Réseau**           | Contacts professionnels (collègues, recruteurs, experts).                    | Amis, famille, connaissances.                                    |
+| **Impact sur l'emploi** | Direct et positif si bien géré.                                              | Peut être négatif si contenu inapproprié est public.             |
+
+---
+
+### **2. Portfolio en ligne : La preuve par le projet**
+
+#### **2.1. Définition et objectifs**
+Un portfolio en ligne est un site web qui présente de manière organisée et esthétique vos compétences, vos projets et votre parcours. C'est la **démonstration pratique** de ce que votre CV ou profil LinkedIn affirme. Pour un développeur, c'est indispensable.
+
+#### **2.2. Plateformes de portfolio spécialisées**
+
+**a) GitHub Pages (Pour les développeurs)**
+- **Qu'est-ce que c'est ?** Un service d'hébergement de site web statique directement depuis un dépôt GitHub.
+- **Avantages :** Gratuit, intégré à Git, parfait pour montrer son code. Il prouve votre maîtrise de Git/GitHub.
+- **Exemple de structure de projet :**
+    ```
+    Nom-du-projet/
+    ├── index.html
+    ├── README.md (Documentation claire : contexte, technologies, comment lancer)
+    ├── style.css
+    └── scripts.js
+    ```
+- **Contexte camerounais :** Vous pouvez héberger un projet de système de gestion pour une "tontine" numérique, une application de suivi des cultures, ou une interface pour un petit commerce.
+
+**b) Behance (Pour les designers UI/UX et graphistes)**
+- **Qu'est-ce que c'est ?** Une plateforme sociale pour exposer des travaux créatifs (maquettes, interfaces, identités visuelles).
+- **Avantages :** Large communauté, excellente pour le design visuel. Idéal pour les spécialistes en conception d'interfaces.
+- **Bonnes pratiques :** Présentez le processus (brief, recherches, wireframes, maquettes finales).
+
+#### **2.3. Structure type d'un portfolio efficace**
+1.  **Page d'accueil/Présentation :** Photo, titre accrocheur, phrase d'introduction.
+2.  **À propos :** Votre histoire, votre philosophie de travail, vos compétences techniques sous forme de liste ou de graphique.
+3.  **Projets :** Le cœur du portfolio. Pour CHAQUE projet :
+    *   **Titre et image/vidéo/capture.**
+    *   **Contexte/Problématique** (Ex: "Besoin d'une app pour gérer les commandes d'un restaurant à Douala").
+    *   **Rôle et responsabilités** ("Développeur Back-End").
+    *   **Stack technique** (Python/Django, PostgreSQL).
+    *   **Liens** (Code source sur GitHub, démo en ligne).
+4.  **CV/Expériences :** Version téléchargeable de votre CV.
+5.  **Contact :** Formulaire et/ou liens vers LinkedIn, email professionnel.
+
+**Encadré : Outils pour créer son portfolio**
+- **Pour les développeurs :** GitHub Pages + Jekyll (générateur de site statique), HTML/CSS/JS pur, React, Vue.js.
+- **Pour les non-développeurs :** WordPress, Wix, Squarespace.
+- **Obligatoire :** Un nom de domaine personnalisé (ex: www.tonnom.com ou www.tonnom.cd) ajoute un grand professionnalisme.
+
+---
+
+### **3. L'email professionnel : La communication écrite formelle**
+
+#### **3.1. Les fondamentaux de l'email pro**
+L'email reste le canal officiel de communication en entreprise. Sa maîtrise est non-négociable.
+
+**Structure type d'un email professionnel :**
+1.  **Objet (Sujet) :** Clair, concis, informatif. Ex: "Candidature au poste de Développeur Junior - Réf. DJ2024" ou "Demande de rendez-vous pour stage - BTS GL".
+2.  **Salutation :** Formelle et adaptée. "Madame, Monsieur," / "Cher Monsieur Nanga," / "Bonjour Madame Kamga,".
+3.  **Corps du message :**
+    *   **Paragraphe 1 :** Contexte et raison de l'envoi.
+    *   **Paragraphe 2 :** Développement du sujet (arguments, détails).
+    *   **Paragraphe 3 :** Conclusion et appel à l'action (demande de RV, attente d'une réponse).
+4.  **Formule de politesse :** "Je vous prie d'agréer, Madame, l'expression de mes salutations distinguées." / "Cordialement,".
+5.  **Signature :** Nom complet, titre/fonction, coordonnées (téléphone, lien LinkedIn, site portfolio).
+
+#### **3.2. Bonnes pratiques et pièges à éviter**
+- **Tonalité :** Toujours polie et respectueuse, même dans les réclamations.
+- **Format :** Phrases courtes, paragraphes aérés, pas de langage SMS ("bjr", "svp").
+- **Pièces jointes :** Nommez-les clairement (ex: "CV_Nom_Prenom_BTSGL.pdf", "LettreMotivation_PosteX.pdf").
+- **Pièges :** Fautes d'orthographe (relire !), objet vide, ton trop familier, destinataires en copie non vérifiés.
+
+**Exemple concret (Candidature spontanée) :**
+**Objet :** Candidature spontanée pour un stage en développement - Étudiant BTS GL
+**Madame, Monsieur,**
+Étudiant en deuxième année de BTS Génie Logiciel à [Nom de votre école], je suis à la recherche d'un stage de fin d'études de 2 mois à partir de juin 2024.
+Passionné par le développement d'applications web et particulièrement intéressé par vos travaux sur les solutions de paiement mobile adaptées au marché camerounais, je souhaiterais vivement mettre mes compétences en Java Spring Boot et Angular au service de votre équipe.
+Mon CV en pièce jointe détaille mon parcours et les projets que j'ai réalisés. Je serais honoré de pouvoir discuter de ma motivation avec vous lors d'un entretien.
+**Je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.**
+[Signature]
+
+---
+
+### **4. Présence numérique positive : Gérer son e-réputation**
+
+#### **4.1. Définition de l'e-réputation**
+L'e-réputation (ou réputation numérique) est l'image que projette une personne ou une organisation sur internet, à travers l'ensemble des informations accessibles en ligne la concernant. Pour un professionnel, c'est **ce que Google dit de vous**.
+
+#### **4.2. Stratégie pour une présence numérique positive**
+1.  **Audit (Googler soi-même) :** Recherchez régulièrement votre nom et prénom entre guillemets. Vérifiez les images.
+2.  **Créer du contenu positif (Le "Push") :** C'est l'objectif des points 1, 2 et 3 ci-dessus. Activez et complétez vos profils professionnels (LinkedIn, portfolio).
+3.  **Maîtriser ses réseaux personnels (Le "Pull") :**
+    *   **Vérifier les paramètres de confidentialité** sur Facebook, Instagram, Twitter (X).
+    *   **Dissocier** les sphères personnelle et professionnelle. Évitez d'utiliser le même email.
+    *   **Réfléchir avant de publier** : Un commentaire polémique, une photo inappropriée peuvent ressortir des années après.
+4.  **Proactivité :** Commenter avec pertinence des articles tech sur des blogs ou LinkedIn, contribuer à des projets open source sur GitHub (même par de petites corrections), renforce une image d'expertise et d'engagement.
+
+#### **4.3. Gestion des contenus négatifs**
+- Si vous trouvez un contenu préjudiciable et faux, vous pouvez demander son retrait à l'auteur ou à la plateforme.
+- En cas de contenu vrai mais gênant, la meilleure stratégie est souvent de le "noyer" sous du contenu positif

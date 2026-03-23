@@ -1,0 +1,129 @@
+# **Notes de cours — BTS Génie Logiciel**
+**Matière : 05 Anglais**
+**Chapitre : Grammar for technical writing: tenses, conditionals, passive voice, modal verbs**
+
+---
+
+## **1. Introduction : L'importance de la grammaire en rédaction technique**
+
+La rédaction technique en anglais est une compétence essentielle pour l'ingénieur logiciel. Elle permet de rédiger des spécifications fonctionnelles, des manuels d'utilisation, des rapports de bug, de la documentation API, et de communiquer efficacement avec des équipes internationales. Une grammaire précise garantit la clarté, réduit les ambiguïtés et projette un professionnalisme indispensable dans des environnements comme les SSII camerounaises, les partenariats avec Orange Digital Center ou les projets sous le cadre OHADA.
+
+## **2. Les Temps (Tenses) pour la précision technique**
+
+### **2.1. Present Perfect (Passé Composé)**
+*   **Définition/Usage** : Exprime une action passée avec un lien ou une conséquence dans le présent. Souvent utilisé pour des expériences, des accomplissements, ou des actions récentes.
+*   **Structure** : `have/has + participe passé`.
+*   **Exemples concrets** :
+    *   "The MTN Mobile Money API **has been integrated** into our payment module." (L'intégration est faite et le module est maintenant fonctionnel).
+    *   "The developer **has fixed** the critical bug reported yesterday." (Le correctif est effectif).
+    *   "Camtel's network infrastructure **has improved** significantly in urban areas."
+
+### **2.2. Past Perfect (Plus-que-parfait)**
+*   **Définition/Usage** : Exprime une action antérieure à une autre action passée. Essentiel pour décrire la chronologie dans les rapports d'incident ou l'historique d'un projet.
+*   **Structure** : `had + participe passé`.
+*   **Exemples concrets** :
+    *   "The server **had crashed** before the backup script **could run**." (Le crash est antérieur à l'échec de la sauvegarde).
+    *   "The team **had already completed** the UML diagrams before the client requested the changes."
+
+### **2.3. Future Perfect (Futur Antérieur)**
+*   **Définition/Usage** : Exprime une action qui sera terminée avant un moment précis dans le futur. Clé pour la planification de projet et les délais.
+*   **Structure** : `will have + participe passé`.
+*   **Exemples concrets** :
+    *   "By the next OHADA seminar, we **will have finalized** the legal compliance module of our software."
+    *   "The developers **will have deployed** the update to the Orange Cloud before the maintenance window closes at midnight."
+
+**Tableau comparatif des temps parfaits**
+| Temps | Usage clé | Structure | Exemple (Contexte GL) |
+| :--- | :--- | :--- | :--- |
+| **Present Perfect** | Lien passé-présent, accomplissement | have/has + PP | "The UI **has been optimized** for low-bandwidth areas." |
+| **Past Perfect** | Antériorité dans le passé | had + PP | "The test suite **had failed**, so we investigated the commit." |
+| **Future Perfect** | Achèvement avant un futur donné | will have + PP | "By Q4, we **will have migrated** all data to the new server." |
+
+> **À retenir** : Les temps "Perfect" (parfaits) relient des périodes de temps. Ils sont cruciaux pour indiquer l'état d'avancement et les dépendances entre tâches dans un outil comme **Jira, Trello ou GitLab Issues**.
+
+## **3. Les Conditionnels (Conditionals) pour la logique et les hypothèses**
+
+Les conditionnels structurent la pensée logique, des spécifications aux messages d'erreur.
+
+### **3.1. Zero Conditional (Fait général)**
+*   **Usage** : Exprime une vérité générale, une loi, un fait scientifique.
+*   **Structure** : `If/When + Present Simple, Present Simple`.
+*   **Exemple** : "**If** a user **enters** invalid data, the system **displays** an error message."
+
+### **3.2. First Conditional (Situation réelle/probable future)**
+*   **Usage** : Exprime une condition probable et sa conséquence future.
+*   **Structure** : `If + Present Simple, will + base verbale`.
+*   **Exemple** : "**If** the **load test passes**, we **will deploy** the application on Friday."
+
+### **3.3. Second Conditional (Situation hypothétique/irréelle présente)**
+*   **Usage** : Exprime une condition improbable, imaginaire ou contraire à la réalité présente, et sa conséquence.
+*   **Structure** : `If + Past Simple, would/could/might + base verbale`.
+*   **Exemple** : "**If** we **had** more bandwidth, we **would implement** real-time video streaming for this e-health app."
+
+### **3.4. Third Conditional (Situation hypothétique/irréelle passée)**
+*   **Usage** : Exprime une condition qui n'a pas été réalisée dans le passé et son résultat imaginaire.
+*   **Structure** : `If + Past Perfect, would have + participe passé`.
+*   **Exemple** : "**If** the cybersecurity audit **had identified** this vulnerability, we **would have patched** it immediately."
+
+> **À retenir** : Les conditionnels sont au cœur des **user stories** ("En tant que..., je veux... afin de...") et des scénarios de test ("Étant donné..., quand..., alors...").
+
+## **4. La Voix Passive (Passive Voice) en rédaction technique**
+
+### **4.1. Définition et Usage**
+La voix passive met l'accent sur l'action ou le receveur de l'action, plutôt que sur l'agent (celui qui fait l'action). Elle est omniprésente en rédaction technique car elle favorise l'objectivité.
+*   **Structure** : `être (au temps voulu) + participe passé`.
+*   **Exemple Actif vs Passif** :
+    *   Actif (focus sur l'agent) : "**The developer wrote** the code."
+    *   Passif (focus sur l'action/l'objet) : "**The code was written** (by the developer)."
+
+### **4.2. Utilisations spécifiques en contexte professionnel**
+1.  **L'agent est évident ou inconnu** : "The database **was corrupted** during the power outage."
+2.  **L'agent n'est pas important** : "New features **are added** to the software every sprint."
+3.  **Objectivité et formalité** (Manuels, procédures) : "The configuration file **must be saved** before exiting. Data **is encrypted** before transmission."
+4.  **Description de processus** : "First, the requirements **are gathered**. Then, a prototype **is designed**."
+
+### **4.3. Exemples adaptés**
+*   "The personal data of users **is processed** in accordance with the OHADA Act on cybersecurity."
+*   "A patch **will be released** by Orange Cyberdefense to address this threat."
+*   "The API endpoints **are documented** using Swagger/OpenAPI."
+
+**Attention** : Ne pas abuser du passif. Utilisez la voix active pour des instructions directes et claires ("Save the file") et le passif pour des descriptions objectives de processus ou d'états.
+
+## **5. Les Verbes Modaux (Modal Verbs) pour la nuance et l'obligation**
+
+Les modaux expriment la capacité, la permission, l'obligation, la probabilité et la suggestion.
+
+### **5.1. Tableau des usages clés en ingénierie logicielle**
+| Modal | Usage principal | Exemple technique | Contexte |
+| :--- | :--- | :--- | :--- |
+| **can** | Capacité, possibilité | "This library **can handle** up to 10,000 concurrent requests." | Spécifications techniques |
+| **could** | Capacité passée, suggestion polie, possibilité hypothétique | "**Could** you review my pull request on GitHub?" | Communication d'équipe |
+| **may** | Permission formelle, possibilité | "The admin **may grant** or revoke access rights." | Documentation de fonctionnalité |
+| **might** | Possibilité faible | "A restart **might resolve** the intermittent issue." | Diagnostic, support |
+| **must** | Obligation forte (interne/règle) | "Passwords **must be** at least 12 characters long." | Politique de sécurité, normes |
+| **have to** | Obligation externe (client, loi) | "We **have to** comply with the data localization requirements." | Contraintes légales (ex: OHADA) |
+| **should** | Recommandation, bonne pratique | "The code **should be** commented for maintainability." | Conventions de développement |
+| **shall** | Obligation contractuelle (formel) | "The system **shall** allow batch processing of transactions." | Cahier des charges, spécifications |
+| **will** | Futur certain, promesse | "The update **will be** available next week." | Communication client, roadmap |
+
+### **5.2. Application dans les processus de développement**
+*   **Spécifications** : "The user interface **shall** be responsive." (Obligation contractuelle).
+*   **Messages d'erreur** : "You **must** log in to access this resource." / "The file **might** be locked by another process."
+*   **Procédures** : "Before deployment, the code **should** pass all unit tests and **must** pass the security scan using **SonarQube** or **OWASP ZAP**."
+*   **Recommandations** : "For high-availability systems in Cameroon, you **could** consider a multi-CDN strategy involving **Camtel** and a private provider."
+
+## **6. Synthèse et application dans un workflow de développement**
+
+Imaginons un scénario complet de rapport de bug pour une application bancaire mobile au Cameroun, utilisant les points grammaticaux étudiés :
+
+**Subject: Bug Report - Failed MTN MoMo Transfer Validation**
+
+1.  **Description** : When a user **attempts** (Present) to send money via MTN Mobile Money, the transaction **is declined** (Passive) even with sufficient balance.
+2.  **Sequence of Events** : The user **had entered** (Past Perfect) all details correctly. However, the third-party API **had not returned** (Past Perfect) the expected validation code before the timeout **occurred** (Past Simple).
+3.  **Impact** : This **has caused** (Present Perfect) customer complaints and **could damage** (Conditional 2 - hypothèse) our reputation if not fixed.
+4.  **Recommendation** : The timeout threshold **should be increased** (Passive + Modal). If we **adjust** (First Conditional) this parameter, the system **will have enough time** to process the response.
+5.  **Next Steps** : A fix **will be implemented** (Passive + Future) and **deployed** by tomorrow. The production server **must be restarted** (Passive + Modal) after deployment.
+
+## **7. Conclusion**
+
+La maîtrise de ces structures grammaticales n'est pas une fin en soi, mais un outil au service d'une communication technique **claire, précise et professionnelle**. Que ce soit pour documenter un microservice, rédiger un ticket pour un collègue de **Ringo** à Douala, ou expliquer un workflow à un partenaire international, l'usage correct des temps, des conditionnels, du passif et des modaux est ce qui distingue un bon technicien d'un excellent ingénieur logiciel. Intégrez ces réflexes dans la rédaction de vos **commit messages (Git)**, commentaires de code, et documentation technique.

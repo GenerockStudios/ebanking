@@ -1,0 +1,191 @@
+# **Notes de cours — BTS Génie Logiciel**
+## **Matière 14 : Développement Web**
+## **Chapitre : API REST et GraphQL**
+
+---
+
+### **1. Introduction aux API Web**
+
+#### **1.1. Définition et rôle d'une API**
+Une **API (Application Programming Interface)** est un ensemble de règles et de protocoles qui permet à différentes applications logicielles de communiquer entre elles. Dans le contexte web, une **API Web** expose des fonctionnalités et des données via des requêtes HTTP/HTTPS.
+
+**Exemple concret** : L'application mobile *MTN Mobile Money* utilise une API pour vérifier votre solde, effectuer des transferts, et interagir avec les serveurs centraux de MTN Cameroun.
+
+#### **1.2. Les deux paradigmes modernes : REST et GraphQL**
+- **REST (Representational State Transfer)** : Architecture basée sur des ressources identifiées par des URL (endpoints) et manipulées avec des verbes HTTP standardisés.
+- **GraphQL** : Langage de requête et d'exécution créé par Facebook, permettant au client de demander exactement les données dont il a besoin.
+
+**À retenir** : REST est un style d'architecture, GraphQL est un langage de requête et un runtime.
+
+---
+
+### **2. Conception d'API REST**
+
+#### **2.1. Principes fondamentaux (Contraintes REST)**
+1.  **Architecture client-serveur** : Séparation claire des responsabilités.
+2.  **Sans état (Stateless)** : Chaque requête du client doit contenir toute l'information nécessaire pour être comprise par le serveur. Aucune session n'est stockée côté serveur.
+3.  **Mise en cache (Cacheable)** : Les réponses doivent indiquer si elles peuvent être mises en cache.
+4.  **Interface uniforme** : Basée sur les ressources, les représentations, les messages auto-descriptifs et l'hypermedia (HATEOAS).
+5.  **Système en couches** : Le client ne peut pas savoir s'il est connecté directement au serveur final ou à un intermédiaire.
+6.  **Code à la demande (optionnel)** : Le serveur peut envoyer du code exécutable au client (ex: JavaScript).
+
+#### **2.2. Conception des Endpoints (URIs)**
+- **Utiliser des noms (noms communs) et non des verbes**.
+    - ✅ `/clients` (pour obtenir la liste des clients)
+    - ❌ `/getClients`
+- **Être hiérarchique et logique**.
+    - `/banques/{banqueId}/comptes` (Pour obtenir les comptes d'une banque spécifique)
+- **Utiliser le pluriel pour les collections**.
+- **Éviter les caractères spéciaux et les espaces**.
+
+**Exemple Camerounais** :
+- API d'un système de gestion des actes OHADA : `GET /api/actes-juridiques`
+- API de consultation des offres Camtel : `GET /api/forfaits-mobile`
+
+#### **2.3. Les verbes HTTP (Méthodes)**
+| Verbe HTTP | Action CRUD | Description | Exemple (Gestion des étudiants) |
+| :--- | :--- | :--- | :--- |
+| **GET** | Read (Lire) | Récupère une ou plusieurs ressources. Ne doit pas modifier les données. | `GET /api/etudiants` |
+| **POST** | Create (Créer) | Crée une nouvelle ressource. L'ID est généralement généré par le serveur. | `POST /api/etudiants` |
+| **PUT** | Update (Mettre à jour) | Met **entièrement** à jour une ressource existante. Remplace la ressource. | `PUT /api/etudiants/{id}` |
+| **PATCH** | Update (Mettre à jour) | Met **partiellement** à jour une ressource existante. | `PATCH /api/etudiants/{id}` |
+| **DELETE** | Delete (Supprimer) | Supprime une ressource. | `DELETE /api/etudiants/{id}` |
+
+#### **2.4. Codes de statut HTTP (HTTP Status Codes)**
+Ils indiquent le résultat de la requête.
+
+| Code | Famille | Signification | Exemples courants |
+| :--- | :--- | :--- | :--- |
+| **2xx** | Succès | L'action a été reçue, comprise et acceptée. | `200 OK`, `201 Created`, `204 No Content` |
+| **3xx** | Redirection | Des actions supplémentaires sont nécessaires. | `301 Moved Permanently` |
+| **4xx** | **Erreur Client** | La requête est incorrecte ou ne peut être traitée. | `400 Bad Request`, `401 Unauthorized`, `403 Forbidden`, `404 Not Found`, `429 Too Many Requests` |
+| **5xx** | **Erreur Serveur** | Le serveur a échoué à traiter une requête valide. | `500 Internal Server Error`, `503 Service Unavailable` |
+
+**Exemple d'utilisation** :
+- `201 Created` : Retourné après un `POST` réussi, avec l'en-tête `Location: /api/commandes/123`.
+- `400 Bad Request` : Si un formulaire d'inscription à *Orange Money* est mal rempli.
+- `404 Not Found` : Si on tente d'accéder à un forfait Camtel qui n'existe plus.
+
+#### **2.5. Versioning des API**
+Permet d'évoluer l'API sans casser les clients existants.
+
+**Stratégies courantes** :
+1.  **Dans l'URL (la plus courante)** : `https://api.entreprise.cm/v1/clients`
+2.  **Dans les en-têtes (Headers)** : `Accept: application/vnd.monapi.v2+json`
+3.  **Dans les paramètres de requête** : `?version=2` (déconseillé)
+
+**Bonnes pratiques** : Documenter clairement les changements entre les versions et prévoir une période de support pour l'ancienne version.
+
+---
+
+### **3. Introduction à GraphQL**
+
+#### **3.1. Principes de base**
+- **Un seul endpoint** : Contrairement à REST, toutes les requêtes sont adressées à un seul point d'entrée (ex: `/graphql`).
+- **Requêtes déclaratives** : Le client spécifie **exactement** les champs qu'il souhaite recevoir.
+- **Schéma fortement typé** : L'API est définie par un schéma qui sert de contrat entre le client et le serveur.
+
+#### **3.2. Opérations principales**
+- **Query (`query`)** : Pour lire des données (équivalent à `GET` en REST).
+- **Mutation (`mutation`)** : Pour écrire, modifier ou supprimer des données (équivalent à `POST`, `PUT`, `PATCH`, `DELETE`).
+- **Subscription (`subscription`)** : Pour établir une connexion temps réel et recevoir des mises à jour (WebSockets).
+
+**Exemple de requête GraphQL** :
+```graphql
+query {
+  client(id: "CAM-123") {
+    nom
+    soldeOrangeMoney
+    transactions(limit: 5) {
+      date
+      montant
+      type
+    }
+  }
+}
+```
+*Cette requête récupère le nom, le solde et les 5 dernières transactions d'un client spécifique d'Orange Money en une seule requête.*
+
+#### **3.3. REST vs GraphQL : Tableau comparatif**
+| Critère | **API REST** | **API GraphQL** |
+| :--- | :--- | :--- |
+| **Architecture** | Basée sur les ressources (multiples endpoints). | Basée sur le schéma (un seul endpoint). |
+| **Récupération des données** | **Over-fetching** (trop de données) ou **Under-fetching** (pas assez, nécessite plusieurs appels). | **Précise** : Le client demande exactement ce qu'il veut. |
+| **Flexibilité** | Moins flexible pour les clients frontaux changeants. | Très flexible, adapté aux clients mobiles et web complexes. |
+| **Complexité** | Simple à comprendre et mettre en œuvre pour des cas simples. | Courbe d'apprentissage plus raide, nécessite un schéma bien conçu. |
+| **Caching HTTP** | Natif et facile grâce aux verbes HTTP et aux URLs. | Plus complexe à mettre en œuvre, nécessite des solutions dédiées. |
+| **Outils de documentation** | Swagger/OpenAPI (excellents). | GraphiQL, Playground (intégrés et interactifs). |
+| **Cas d'usage typique** | API publique, microservices simples, intégration standard. | Applications avec des vues/data complexes (réseaux sociaux, tableaux de bord), quand la bande passante est critique. |
+
+---
+
+### **4. Documentation d'API avec Swagger/OpenAPI**
+
+#### **4.1. Définition et importance**
+- **OpenAPI** : Une spécification standardisée, indépendante du langage, pour décrire les API REST.
+- **Swagger** : Un ensemble d'outils open-source (dont **Swagger UI**) qui implémente la spécification OpenAPI.
+- **Importance** : La documentation est **cruciale** pour l'adoption de l'API par les développeurs externes (partenaires, public) et internes.
+
+#### **4.2. Structure d'un fichier OpenAPI (YAML/JSON)**
+Un fichier `openapi.yaml` décrit :
+- **`openapi`** : La version de la spécification.
+- **`info`** : Titre, version, description de l'API.
+- **`servers`** : URLs des serveurs (ex: `https://api-sandbox.mtn.cm`, `https://api-prod.mtn.cm`).
+- **`paths`** : Les endpoints disponibles (`/clients`, `/paiements`), avec les verbes HTTP autorisés.
+- **`components`** : Schémas de données réutilisables (ex: modèle `Client`, `Paiement`).
+
+**Exemple d'extrait pour un endpoint de paiement** :
+```yaml
+paths:
+  /api/paiements:
+    post:
+      summary: "Initier un paiement Mobile Money"
+      tags: [Paiements]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaiementRequest'
+      responses:
+        '201':
+          description: "Paiement initié avec succès"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaiementResponse'
+        '400':
+          description: "Requête invalide (numéro incorrect, montant invalide)"
+```
+
+#### **4.3. Outils et génération de code**
+- **Swagger Editor** : Éditeur en ligne pour rédiger et valider la spécification.
+- **Swagger UI** : Génère **automatiquement** une interface web interactive pour tester l'API.
+- **Swagger Codegen** : Génère du code client (SDK) dans plusieurs langages (Java, Python, C#) à partir de la spécification, accélérant l'intégration.
+
+---
+
+### **5. Authentification et Autorisation : JWT et OAuth 2.0**
+
+#### **5.1. Concepts clés**
+- **Authentification** : Vérifier **"qui vous êtes"** (ex: login/mot de passe). → **"AuthN"**
+- **Autorisation** : Vérifier **"ce que vous avez le droit de faire"**. → **"AuthZ"**
+
+#### **5.2. JSON Web Token (JWT)**
+- **Qu'est-ce que c'est ?** Un standard ouvert (`RFC 7519`) pour transmettre de manière sécurisée des informations (claims) entre parties sous forme d'objet JSON signé numériquement.
+- **Structure** : `Header.Payload.Signature`
+    - **Header** : Algorithme de signature (ex: HS256, RS256) et type de token.
+    - **Payload** : Les "claims" ou revendications (données utilisateur, rôles, date d'expiration `exp`).
+    - **Signature** : Garantit que le token n'a pas été altéré.
+
+**Flux simplifié** :
+1.  Client s'authentifie (login/mdp) auprès du serveur.
+2.  Serveur valide les identifiants et génère un JWT signé.
+3.  Serveur renvoie le JWT au client.
+4.  Client envoie ce JWT dans l'en-tête `Authorization: Bearer <token>` des requêtes suivantes.
+5.  Le serveur API vérifie la signature et la validité du JWT pour autoriser l'accès.
+
+**Avantages** : Stateless, portable, utilisable sur plusieurs domaines (idéal pour les architectures microservices).
+
+#### **5.3. OAuth 2.0**
+- **Qu'est-ce que c'est ?** Un **framework d'aut

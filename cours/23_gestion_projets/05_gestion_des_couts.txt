@@ -1,0 +1,142 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 23 Gestion de Projets**
+## **Chapitre : Gestion des coûts de projet**
+
+---
+
+### **1. Introduction à la gestion des coûts de projet**
+
+La gestion des coûts est un pilier fondamental de la gestion de projet. Elle englobe les processus de planification, d'estimation, de budgétisation, de financement, de gestion et de contrôle des coûts, afin que le projet soit achevé dans les limites du budget approuvé. Dans le contexte camerounais et africain, où les ressources financières peuvent être limitées et les projets souvent financés par des bailleurs de fonds (Banque Mondiale, BAD) ou des investissements internes exigeants, une maîtrise rigoureuse des coûts est cruciale pour la viabilité et la crédibilité des projets logiciels.
+
+**Objectifs du chapitre :**
+*   Comprendre l'élaboration et l'utilité d'un **budget prévisionnel**.
+*   Maîtriser la technique de la **Valeur Acquise (EVM)** pour le contrôle des performances.
+*   Savoir analyser et anticiper les **dépassements de budget**.
+
+---
+
+### **2. Le Budget Prévisionnel**
+
+#### **2.1. Définition et Objectifs**
+Le **budget prévisionnel** est l'estimation chiffrée, détaillée et planifiée dans le temps de l'ensemble des coûts nécessaires à la réalisation d'un projet. Il constitue la **référence financière de base (Baseline)** contre laquelle les performances seront mesurées.
+
+**Ses objectifs sont :**
+*   **Planifier** : Répartir les ressources financières sur la durée du projet.
+*   **Approuver** : Servir de base à l'engagement des fonds par le sponsor ou le client.
+*   **Contrôler** : Permettre le suivi des dépenses réelles par rapport aux prévisions.
+*   **Communiquer** : Informer toutes les parties prenantes sur l'enveloppe financière du projet.
+
+#### **2.2. Processus d'élaboration du budget**
+La construction du budget suit une logique ascendante (*bottom-up*) à partir des estimations de coûts.
+
+1.  **Estimation des coûts** : Évaluation des ressources financières nécessaires pour accomplir chaque activité. Les principales **catégories de coûts** dans un projet logiciel sont :
+    *   **Coûts directs** : Main-d'œuvre (salaires de l'équipe projet), matériels spécifiques (serveurs, licences logicielles), sous-traitance.
+    *   **Coûts indirects (Frais généraux)** : Loyer des bureaux, électricité, internet, salaires de la direction administrative. Souvent répartis au prorata des projets.
+    *   **Coûts d'amortissement** : Pour les actifs achetés (ex. : un outil de test automatisé utilisé sur plusieurs projets).
+
+2.  **Agrégation des coûts** : Sommation des coûts estimés de toutes les activités et lots de travail pour établir le coût total du projet.
+
+3.  **Planification temporelle (Phasage)** : Répartition du coût total sur la durée du projet, en fonction du calendrier (*schedule*). Cela donne la **courbe de charge budgétaire** ou **Valeur Planifiée cumulée**.
+
+#### **2.3. Exemple concret adapté**
+**Projet :** Développement d'une application mobile de micro-crédit pour une coopérative d'épargne à Douala, devant respecter les normes OHADA sur les transactions financières.
+
+| Lot de Travail (WBS) | Coût Estimé (FCFA) | Période 1 | Période 2 | Période 3 | Période 4 |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **1. Analyse & Conception** | 2 500 000 | 2 000 000 | 500 000 | - | - |
+| **2. Développement Backend** | 4 000 000 | 500 000 | 2 000 000 | 1 500 000 | - |
+| **3. Développement Frontend** | 3 000 000 | - | 1 000 000 | 1 500 000 | 500 000 |
+| **4. Tests & Sécurité** | 2 000 000 | - | - | 1 000 000 | 1 000 000 |
+| **5. Déploiement** | 500 000 | - | - | - | 500 000 |
+| **TOTAL PAR PÉRIODE** | **12 000 000** | **2 500 000** | **3 500 000** | **4 000 000** | **2 000 000** |
+| **CUMUL PLANIFIÉ (PV)** | | **2 500 000** | **6 000 000** | **10 000 000** | **12 000 000** |
+
+*Tableau 1 : Exemple de budget prévisionnel phasé pour un projet logiciel*
+
+**À retenir :** Le budget prévisionnel n'est pas statique. Il peut être revu via des **procédures de changement de budget** formelles en cas d'évolution significative du périmètre.
+
+---
+
+### **3. La Méthode de la Valeur Acquise (Earned Value Management - EVM)**
+
+L'EVM est une technique de contrôle de projet puissante qui intègre **coût, délai et périmètre (performance)** pour donner une vision objective de l'avancement et de la santé financière du projet.
+
+#### **3.1. Les trois paramètres fondamentaux**
+
+1.  **Valeur Planifiée (PV - Planned Value)** :
+    *   **Définition** : Coût budgété du travail *prévu* à une date donnée (la "Baseline"). C'est le **cumul budgétaire** du tableau ci-dessus.
+    *   **Exemple** : À la fin de la Période 2, le PV est de **6 000 000 FCFA**.
+
+2.  **Coût Réel (AC - Actual Cost)** :
+    *   **Définition** : Coût réellement engagé pour le travail *effectivement réalisé* à une date donnée.
+    *   **Exemple** : À la fin de la Période 2, les factures de salaires, de sous-traitance et d'achats montrent que nous avons dépensé **7 000 000 FCFA**.
+
+3.  **Valeur Acquise (EV - Earned Value)** :
+    *   **Définition** : Valeur budgétée du travail *réellement accompli* à une date donnée. C'est la mesure de la **performance physique**.
+    *   **Calcul** : `EV = % d'avancement physique du projet * Budget total (BAC)`
+    *   **Exemple** : À la fin de la Période 2, l'audit technique montre que nous avons réalisé 45% du travail. `EV = 45% * 12 000 000 = 5 400 000 FCFA`.
+
+#### **3.2. Les indicateurs de performance et d'écart**
+À partir de PV, EV et AC, on calcule des indicateurs clés.
+
+| Indicateur | Formule | Interprétation (Valeur > 1 = Favorable) | Exemple (Période 2) | Analyse |
+| :--- | :--- | :--- | :--- | :--- |
+| **Écart de Coût (CV)** | `CV = EV - AC` | CV > 0 : Sous le budget<br>CV < 0 : Dépassement | 5.4M - 7M = **-1.6M FCFA** | **Dépassement** de 1.6 million |
+| **Écart de Délai (SV)** | `SV = EV - PV` | SV > 0 : En avance<br>SV < 0 : En retard | 5.4M - 6M = **-0.6M FCFA** | **Retard** (valeur du travail non fait) |
+| **Indice de Performance des Coûts (CPI)** | `CPI = EV / AC` | Efficacité de l'utilisation du budget | 5.4M / 7M = **0.77** | Pour 1 FCFA dépensé, on n'a obtenu que 0.77 FCFA de valeur. **Très mauvais**. |
+| **Indice de Performance des Délais (SPI)** | `SPI = EV / PV` | Efficacité par rapport au planning | 5.4M / 6M = **0.90** | Le projet progresse à 90% de la vitesse prévue. |
+
+*Tableau 2 : Indicateurs clés de la Valeur Acquise*
+
+**À retenir :**
+*   **CPI < 1** est un signal d'alarme fort de **dépassement de budget**.
+*   **SPI < 1** indique un **retard**.
+*   Dans notre exemple, le projet est **en retard ET en dépassement de budget**.
+
+#### **3.3. Prévisions (Estimate To Complete - ETC & Estimate At Completion - EAC)**
+L'EVM permet de prévoir le futur.
+
+*   **Budget À l'Achèvement (BAC)** : Budget total initial, ici **12 000 000 FCFA**.
+*   **Estimation À l'Achèvement (EAC)** : Prévision du coût total final compte tenu des performances actuelles.
+    *   Formule courante si les problèmes sont structurels : `EAC = BAC / CPI`
+    *   Notre exemple : `EAC = 12 000 000 / 0.77 ≈ 15 584 416 FCFA`
+*   **Estimation Pour Terminer (ETC)** : Coût prévu pour finir le reste du travail. `ETC = EAC - AC = 15.58M - 7M = 8.58M FCFA`.
+
+**Conclusion de l'analyse EVM :** Si rien n'est fait, le projet coûtera environ **3.6 millions FCFA de plus** que prévu.
+
+---
+
+### **4. Le Dépassement de Budget**
+
+#### **4.1. Définition et Causes**
+Un **dépassement de budget** (ou *cost overrun*) se produit lorsque le coût réel (AC) d'un projet dépasse son budget prévisionnel (BAC ou la baseline révisée).
+
+**Causes fréquentes dans les projets logiciels au Cameroun :**
+*   **Estimation initiale trop optimiste** ("Planning Fallacy").
+*   **Évolution non maîtrisée du périmètre** ("Scope Creep") : demandes additionnelles du client non chiffrées.
+*   **Imprévus techniques** : complexité sous-estimée, problèmes d'intégration avec des systèmes legacy (ex. : interface avec les systèmes bancaires locaux).
+*   **Fluctuation des coûts** : variation du coût des licences logicielles, inflation.
+*   **Mauvaise performance** : bugs nombreux, re-tests, faible productivité de l'équipe.
+*   **Risques non identifiés ou non provisionnés** : pannes fréquentes d'électricité nécessitant un groupe électrogène, instabilité internet.
+
+#### **4.2. Actions Correctives et Préventives**
+Face à un dépassement détecté via l'EVM (CPI < 1), le chef de projet doit agir.
+
+**Actions correctives possibles :**
+*   **Re-négocier le périmètre** avec le client (livrer moins de fonctionnalités).
+*   **Demander une rallonge budgétaire** (formalisée par un changement de budget).
+*   **Optimiser les processus** : améliorer la productivité, réduire les gaspillages.
+*   **Revoir le calendrier** (ralentir peut réduire les coûts de main-d'œuvre).
+
+**Mesures préventives :**
+*   **Réaliser des estimations robustes** (avec des techniques comme les points de fonction, l'estimation par analogie).
+*   **Mettre en place une gestion stricte du périmètre** et des changements.
+*   **Constituer une réserve pour imprévus** (contingency reserve) dans le budget initial.
+*   **Suivre régulièrement les indicateurs EVM** (idéalement chaque semaine ou quinzaine).
+
+---
+
+### **5. Outils et Technologies de Gestion des Coûts**
+
+*   **Microsoft Project / ProjectLibre** : Permettent de planifier le budget (PV), de saisir les coûts réels (AC) et de calculer certains indicateurs EVM.
+*   **Jira avec des plugins (BigPicture, Tempo Timesheets)** : Pour lier le suivi des tâches (avancement %

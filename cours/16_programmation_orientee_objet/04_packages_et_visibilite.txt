@@ -1,0 +1,360 @@
+# Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)
+## Matière : 16 Programmation Orientée Objet
+### Chapitre : Packages, visibilité et modules Java : public/protected/private/package-private, import, modules Java 9+ (module-info)
+
+---
+
+### 1. Introduction aux packages en Java
+
+#### 1.1. Définition et utilité
+Un **package** (paquetage) est un mécanisme d'organisation et de regroupement de classes, interfaces et sous-packages apparentés logiquement. Il permet de :
+- Éviter les conflits de noms (namespace management)
+- Améliorer la maintenabilité et la lisibilité du code
+- Contrôler l'accès aux classes et membres (visibilité)
+- Faciliter la réutilisation du code
+
+**Exemple concret camerounais** : Dans le système OHADA (Organisation pour l'Harmonisation en Afrique du Droit des Affaires), les différents actes uniformes (Droit des Sociétés, Droit Commercial, etc.) peuvent être vus comme des packages distincts contenant des règles spécifiques.
+
+#### 1.2. Convention de nommage
+- Utiliser le nom de domaine inversé : `com.mtn.cameroun`, `cm.orange.mobilemoney`
+- En minuscules uniquement
+- Correspondre à la structure des répertoires
+
+**Exemple** :
+```
+cm.gov.minpostel.gestiondocuments
+com.camtel.reseau.voix
+```
+
+#### 1.3. Déclaration et structure
+```java
+package cm.entreprise.gestionprojet;
+
+public class Employe {
+    // Code de la classe
+}
+```
+La structure de répertoires doit correspondre : `cm/entreprise/gestionprojet/Employe.java`
+
+---
+
+### 2. Modificateurs de visibilité en Java
+
+#### 2.1. Tableau comparatif des modificateurs
+
+| Modificateur | Classe | Package | Sous-classe (héritage) | Monde |
+|--------------|--------|---------|------------------------|-------|
+| `private`    | Oui    | Non     | Non                    | Non   |
+| *package-private* (défaut) | Oui | Oui | Non | Non |
+| `protected`  | Oui    | Oui     | Oui                    | Non   |
+| `public`     | Oui    | Oui     | Oui                    | Oui   |
+
+#### 2.2. Détail des modificateurs
+
+##### 2.2.1. `private`
+- Accès limité à la classe déclarante uniquement
+- Utilisé pour l'encapsulation des données sensibles
+
+**Exemple** :
+```java
+public class CompteOrangeMoney {
+    private double solde; // Accessible uniquement dans cette classe
+    private String numeroTelephone;
+    
+    public double getSolde() {
+        return solde; // Méthode publique pour accéder au solde
+    }
+}
+```
+
+##### 2.2.2. *package-private* (modificateur par défaut)
+- Accès autorisé uniquement aux classes du même package
+- Aucun mot-clé spécifique
+
+**Exemple** :
+```java
+class DocumentOHADA { // Visibilité package-private
+    String reference; // Accessible dans le même package
+    // Utilisé pour des classes utilitaires internes
+}
+```
+
+##### 2.2.3. `protected`
+- Accès depuis le même package ET les sous-classes (même dans d'autres packages)
+- Essentiel pour l'héritage
+
+**Exemple** :
+```java
+package cm.banque.compte;
+
+public abstract class CompteBancaire {
+    protected String numeroCompte; // Accessible par les sous-classes
+    protected double solde;
+    
+    // Accessible dans le package et par les héritiers
+    protected void appliquerFrais(double montant) {
+        solde -= montant;
+    }
+}
+```
+
+##### 2.2.4. `public`
+- Accès depuis n'importe où
+- Interface publique de l'API
+
+**Exemple** :
+```java
+public class GuichetMTN {
+    public boolean retirerArgent(String numero, double montant) {
+        // Méthode accessible par tous
+    }
+}
+```
+
+#### 2.3. Règles d'application
+- Une classe ne peut être que `public` ou *package-private*
+- Les membres (attributs, méthodes) peuvent utiliser les 4 modificateurs
+- **À retenir** : Privilégier la visibilité la plus restrictive possible pour une bonne encapsulation
+
+---
+
+### 3. Le mot-clé `import` et l'accès aux packages
+
+#### 3.1. Déclaration d'import
+Permet d'utiliser des classes d'autres packages sans spécifier le nom qualifié complet.
+
+```java
+import java.util.ArrayList; // Import simple
+import java.util.*; // Import global (toutes les classes du package)
+import static java.lang.Math.PI; // Import statique
+```
+
+#### 3.2. Bonnes pratiques
+- Éviter les imports globaux (`.*`) dans les grands projets
+- Utiliser les imports statiques avec parcimonie
+- Organiser les imports (standards Java, tiers, internes)
+
+**Exemple adapté** :
+```java
+package cm.mincommerce.gestion;
+
+import cm.ohada.droitcommercial.*; // Import du package OHADA
+import com.mtn.paiement.Transaction;
+import java.time.LocalDate;
+import java.util.List;
+
+public class ContratCommercial {
+    // Utilisation des classes importées
+}
+```
+
+#### 3.3. Conflits de noms
+Lorsque deux classes portent le même nom dans différents packages :
+```java
+import com.camtel.reseau.AdresseIP;
+import com.orange.reseau.AdresseIP; // CONFLIT!
+
+// Solution : utiliser le nom qualifié complet
+com.camtel.reseau.AdresseIP adresse1 = new com.camtel.reseau.AdresseIP();
+```
+
+---
+
+### 4. Modules Java (Java Platform Module System - JPMS) - Java 9+
+
+#### 4.1. Introduction aux modules
+Le système de modules (projet Jigsaw) introduit dans Java 9 permet :
+- Une meilleure encapsulation au niveau module
+- La réduction de la taille des applications (jlink)
+- L'amélioration de la sécurité et de la maintenabilité
+- La gestion explicite des dépendances
+
+**Analogie camerounaise** : Comme les différents ministères (MINPOSTEL, MINESUP) qui ont des responsabilités bien définies et des interfaces contrôlées entre eux.
+
+#### 4.2. Structure d'un module
+```
+mon-module/
+├── src/
+│   ├── module-info.java  // Descripteur du module
+│   └── com/
+│       └── entreprise/
+│           └── monappli/
+│               └── MaClasse.java
+└── bin/
+```
+
+#### 4.3. Le fichier `module-info.java`
+
+##### 4.3.1. Déclaration de base
+```java
+module cm.monappli.gestion {
+    // Dépendances requises
+    requires java.sql;
+    requires java.logging;
+    
+    // Exportation de packages
+    exports cm.monappli.gestion.dao;
+    exports cm.monappli.gestion.metier;
+    
+    // Ouverture à la réflexion (frameworks)
+    opens cm.monappli.gestion.model;
+    
+    // Utilisation de services
+    uses cm.monappli.gestion.spi.ProviderService;
+    
+    // Fourniture de services
+    provides cm.monappli.gestion.spi.ProviderService
+        with cm.monappli.gestion.impl.MonService;
+}
+```
+
+##### 4.3.2. Directives principales
+
+| Directive | Description | Exemple |
+|-----------|-------------|---------|
+| `requires` | Déclare une dépendance | `requires java.base;` (implicite) |
+| `exports` | Rend un package accessible | `exports com.mtn.paiement;` |
+| `exports ... to` | Export restrictif | `exports com.orange.api to com.mtn.app;` |
+| `opens` | Permet l'accès par réflexion | `opens com.camtel.model;` |
+| `uses` | Déclare l'utilisation d'un service | `uses javax.sql.DataSource;` |
+| `provides ... with` | Fournit une implémentation de service | `provides Service with Impl;` |
+
+#### 4.4. Exemple complet adapté au contexte
+
+**Module : Gestion des transactions financières (Système de microfinance)**
+
+```java
+// module-info.java pour le module de paiement
+module cm.afrique.microfinance.paiement {
+    // Dépendances standards
+    requires java.base;
+    requires java.sql;
+    requires java.logging;
+    
+    // Dépendance transitive (ré-exportée)
+    requires transitive cm.afrique.microfinance.core;
+    
+    // Dépendance statique (au temps de compilation seulement)
+    requires static com.fasterxml.jackson.databind;
+    
+    // Exportation des API publiques
+    exports cm.afrique.microfinance.paiement.api;
+    exports cm.afrique.microfinance.paiement.model;
+    
+    // Exportation restreinte à un module partenaire
+    exports cm.afrique.microfinance.paiement.internal 
+        to cm.afrique.microfinance.audit;
+    
+    // Ouverture pour les frameworks (Hibernate, Spring)
+    opens cm.afrique.microfinance.paiement.entities;
+    
+    // Services
+    uses cm.afrique.microfinance.paiement.spi.ProviderPaiement;
+    provides cm.afrique.microfinance.paiement.spi.ProviderPaiement
+        with cm.afrique.microfinance.paiement.impl.MTNMobileMoney,
+             cm.afrique.microfinance.paiement.impl.OrangeMoney;
+}
+```
+
+#### 4.5. Migration depuis le classpath vers le module path
+
+**Tableau comparatif** :
+
+| Aspect | Classpath (Java 8 et antérieur) | Module path (Java 9+) |
+|--------|----------------------------------|------------------------|
+| Encapsulation | Faible (réflexion accède à tout) | Forte (contrôle explicite) |
+| Dépendances | Implicites (classpath hell) | Explicites (module-info.java) |
+| Résolution | À l'exécution (erreurs tardives) | Au démarrage (erreurs précoces) |
+| Taille JRE | Complète (rt.jar) | Personnalisable (jlink) |
+
+#### 4.6. Outils et commandes
+
+```bash
+# Compilation avec modules
+javac -d out --module-source-path src -m mon.module
+
+# Exécution
+java --module-path out -m mon.module/cm.monappli.Main
+
+# Création d'un runtime personnalisé
+jlink --module-path $JAVA_HOME/jmods:out \
+      --add-modules mon.module \
+      --output runtime-image
+
+# Liste des modules disponibles
+java --list-modules
+
+# Description d'un module
+java --describe-module java.base
+```
+
+---
+
+### 5. Étude de cas : Application de gestion académique camerounaise
+
+#### 5.1. Architecture modulaire
+
+```
+systeme.gestion.academique/
+├── module-core/ (module de base)
+├── module-etudiants/ (gestion des étudiants)
+├── module-notes/ (gestion des notes et calculs)
+├── module-finances/ (frais académiques, bourses)
+└── module-rapports/ (états et statistiques)
+```
+
+#### 5.2. Exemple d'implémentation
+
+```java
+// module-info.java du module core
+module cm.universite.core {
+    exports cm.universite.core.model;
+    exports cm.universite.core.services;
+    
+    // Ouvert aux frameworks
+    opens cm.universite.core.entities;
+    
+    requires java.persistence;
+    requires java.validation;
+}
+
+// module-info.java du module finances
+module cm.universite.finances {
+    requires transitive cm.universite.core;
+    requires java.sql;
+    
+    exports cm.universite.finances.api;
+    
+    // Interface avec les systèmes de paiement locaux
+    uses cm.universite.finances.paiement.PaiementProvider;
+    provides cm.universite.finances.paiement.PaiementProvider
+        with cm.universite.finances.paiement.ExpressUnion,
+             cm.universite.finances.paiement.MoovMoney;
+}
+```
+
+#### 5.3. Visibilité entre modules
+```java
+// Dans le module core
+package cm.universite.core.model;
+
+public class Etudiant { // Classe publique
+    private String matricule; // Privé
+    protected String nom; // Protégé - accessible aux sous-classes
+    String promotion; // Package-private - accessible dans le module core seulement
+    
+    public String getMatricule() { // Méthode publique
+        return matricule;
+    }
+}
+```
+
+---
+
+### 6. Bonnes pratiques et recommandations pour le BTS GL
+
+#### 6.1. Pour les packages
+- Utiliser une convention de nommage cohérente avec l'organisation
+- Limiter la taille des packages (7±2 classes)
+- Structurer par couche (presentation, metier, dao, model) ou par fonctionnalité
+- **Exemple** : `com.entreprise.c

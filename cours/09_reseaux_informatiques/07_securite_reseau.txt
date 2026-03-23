@@ -1,0 +1,122 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 09 Réseaux Informatiques**
+## **Chapitre : Sécurité réseau : firewall (stateful, stateless), VPN (IPSec, OpenVPN), DMZ, IDS/IPS, proxy, VLAN**
+
+---
+
+### **1. Introduction à la sécurité réseau**
+
+La sécurité réseau désigne l'ensemble des politiques, procédures et technologies mises en œuvre pour protéger l'intégrité, la confidentialité et la disponibilité des ressources d'un réseau informatique contre les accès non autorisés, les attaques et les pannes. Dans un contexte camerounais marqué par la digitalisation croissante des administrations (OHADA, Impôts, MINPOSTEL) et la prédominance des opérateurs télécoms (MTN, Orange, Camtel), la sécurisation des infrastructures réseau est devenue un impératif stratégique pour les entreprises et les institutions.
+
+**Objectifs de la sécurité réseau (Triade CIA) :**
+*   **Confidentialité** : Assurer que les informations ne sont accessibles qu'aux personnes autorisées.
+*   **Intégrité** : Garantir que les données ne sont pas altérées de manière non autorisée.
+*   **Disponibilité** : Assurer l'accès aux données et aux ressources par les utilisateurs autorisés au moment où ils en ont besoin.
+
+---
+
+### **2. Les Firewalls (Pare-feu)**
+
+Un **firewall** est un système (matériel, logiciel ou les deux) qui contrôle le trafic réseau entrant et sortant selon des règles de sécurité prédéfinies. Il constitue la première ligne de défense entre un réseau interne fiable (LAN) et un réseau externe non fiable (comme Internet).
+
+#### **2.1. Firewall Stateless (Sans état)**
+*   **Définition** : Il inspecte chaque paquet réseau individuellement, sans tenir compte du contexte ou de l'état de la connexion. Les décisions sont prises uniquement sur la base des informations contenues dans l'en-tête du paquet (adresse IP source/destination, port, protocole).
+*   **Fonctionnement** : Applique une liste de contrôle d'accès (ACL) statique. Par exemple, une règle peut être : "Bloquer tout trafic entrant sur le port 23 (Telnet)".
+*   **Avantages** : Simple, rapide, peu consommateur de ressources.
+*   **Inconvénients** : Moins sécurisé, car il ne peut pas détecter les attaques complexes basées sur des séquences de paquets (comme l'usurpation de connexion TCP).
+*   **Exemple concret** : Un petit cybercafé à Douala utilisant un routeur simple avec filtrage basique par adresse IP pour limiter l'accès à son réseau administratif.
+
+#### **2.2. Firewall Stateful (Avec état)**
+*   **Définition** : Il surveille l'état des connexions actives (TCP, UDP) et utilise ces informations pour déterminer quels paquets réseau sont autorisés à passer. Il mémorise le contexte de chaque session.
+*   **Fonctionnement** : Pour une session TCP, il vérifie que le paquet entrant est une réponse légitime à une requête sortante initiée depuis le réseau interne. Il peut suivre les états SYN, SYN-ACK, ACK, FIN.
+*   **Avantages** : Beaucoup plus sécurisé, offre une meilleure protection contre l'usurpation et les scans de ports.
+*   **Inconvénients** : Plus complexe et plus coûteux en ressources.
+*   **Exemple concret** : L'infrastructure réseau d'une banque camerounaise (Afriland First Bank, BICEC) utilisera un firewall stateful pour s'assurer que seule la réponse légitime d'un serveur transactionnel extérieur parvient à son serveur interne après qu'une requête ait été émise.
+
+**Tableau comparatif : Firewall Stateless vs Stateful**
+
+| Critère                | Firewall Stateless                     | Firewall Stateful                          |
+| ---------------------- | -------------------------------------- | ------------------------------------------ |
+| **Prise de décision**  | Paquet par paquet                      | Basée sur l'état de la connexion           |
+| **Performance**        | Très rapide                            | Légèrement plus lent (dû au suivi d'état)  |
+| **Sécurité**           | Basique                                | Élevée                                     |
+| **Complexité**         | Faible                                 | Élevée                                     |
+| **Coût**               | Faible                                 | Élevé                                      |
+| **Usage typique**      | Filtrage simple, périphérie du réseau  | Défense principale du périmètre réseau     |
+
+**À retenir** : Un firewall **stateful** est aujourd'hui la norme pour la protection du périmètre des entreprises. Les solutions comme **pfSense** (open source), **FortiGate** (Fortinet) ou les firewalls intégrés aux routeurs Cisco (ASA, ISR) sont largement déployées.
+
+---
+
+### **3. Les Réseaux Privés Virtuels (VPN)**
+
+Un **VPN** est une technologie qui crée un tunnel chiffré à travers un réseau public (Internet) pour connecter de manière sécurisée des sites distants ou des utilisateurs nomades au réseau principal de l'entreprise.
+
+#### **3.1. IPSec (Internet Protocol Security)**
+*   **Définition** : Suite de protocoles standardisés pour sécuriser les communications IP par l'authentification et le chiffrement de chaque paquet IP.
+*   **Composants clés** :
+    *   **AH (Authentication Header)** : Garantit l'intégrité et l'authentification de l'origine des paquets.
+    *   **ESP (Encapsulating Security Payload)** : Fournit la confidentialité (chiffrement), l'authentification et l'intégrité.
+    *   **IKE (Internet Key Exchange)** : Protocole pour établir les associations de sécurité (SA) et échanger les clés de chiffrement.
+*   **Modes** :
+    *   **Mode Transport** : Chiffre uniquement la charge utile (data) du paquet IP. Utilisé pour des communications de bout en bout (ex: hôte à hôte).
+    *   **Mode Tunnel** : Chiffre l'intégralité du paquet IP (en-tête + données) et l'encapsule dans un nouveau paquet. Utilisé pour les VPN site-à-site.
+*   **Exemple concret** : Interconnexion sécurisée entre le siège social d'**Orange Cameroun** à Yaoundé et son centre de données à Douala via une liaison IP/MPLS fournie par **Camtel**, sécurisée par un tunnel IPSec.
+
+#### **3.2. OpenVPN**
+*   **Définition** : Solution VPN open source basée sur le protocole SSL/TLS. Elle utilise des bibliothèques de chiffrement robustes (OpenSSL) et est très flexible.
+*   **Caractéristiques** :
+    *   Utilise les ports TCP/UDP standards (comme le 443/TCP), ce qui le rend difficile à bloquer.
+    *   Excellente compatibilité à travers les NAT et les firewalls.
+    *   Configuration basée sur des fichiers et des certificats.
+*   **Exemple concret** : Une PME camerounaise de logistique à Bafoussam utilise **OpenVPN** sur un serveur dédié pour permettre à ses commerciaux itinérants d'accéder de manière sécurisée au logiciel de gestion (sous OHADA) depuis leurs ordinateurs portables, quel que soit le point d'accès Internet (hotel, cybercafé).
+
+**À retenir** : **IPSec** est souvent privilégié pour les connexions **site-à-site** stables (entre agences). **OpenVPN** ou d'autres VPN SSL (comme WireGuard, de plus en plus populaire) sont souvent choisis pour l'accès **nomade** (télétravail) en raison de leur facilité de déploiement et de leur capacité à traverser les restrictions réseau.
+
+---
+
+### **4. La Zone Démilitarisée (DMZ)**
+
+*   **Définition** : Une **DMZ** est un sous-réseau physique ou logique isolé qui contient et expose les services d'une organisation (serveurs) à un réseau non fiable, généralement Internet. Elle sert de zone tampon entre le réseau interne (LAN) et le réseau externe.
+*   **Architecture typique** : Elle est située entre deux firewalls (architecture à deux pare-feu) ou sur un port dédié d'un seul firewall multi-zones.
+    1.  Le firewall externe autorise le trafic contrôlé vers les serveurs de la DMZ (HTTP/HTTPS vers le serveur web, SMTP vers le serveur de mail).
+    2.  Le firewall interne (ou les règles de la zone interne) restreint sévèrement les connexions *de* la DMZ *vers* le LAN.
+*   **Objectif** : Isoler les serveurs compromis. Si un serveur web dans la DMZ est piraté, l'attaquant ne peut pas accéder directement au réseau interne contenant les bases de données critiques.
+*   **Exemple concret** : L'administration fiscale camerounaise (**DGI**) place ses serveurs web publics (pour la déclaration en ligne) et ses serveurs de courrier dans une DMZ. Leurs bases de données contenant les informations fiscales des contribuables restent dans le réseau interne, protégées par le firewall interne.
+
+---
+
+### **5. Systèmes de Détection et de Prévention d'Intrusion (IDS/IPS)**
+
+#### **5.1. IDS (Intrusion Detection System)**
+*   **Définition** : Système de surveillance passive qui analyse le trafic réseau ou les activités d'un hôte pour détecter des activités malveillantes ou des violations de politiques. Il **alerte** mais n'agit pas directement sur le trafic.
+*   **Types** :
+    *   **NIDS (Network-based IDS)** : Surveille le trafic sur un segment réseau. Ex: **Snort** (en mode détection), **Suricata**.
+    *   **HIDS (Host-based IDS)** : Installé sur un serveur ou un poste de travail pour analyser les logs système, les appels, les fichiers. Ex: **OSSEC**, **Wazuh**.
+
+#### **5.2. IPS (Intrusion Prevention System)**
+*   **Définition** : Système actif placé en ligne sur le chemin du trafic. En plus de détecter les menaces, il peut **bloquer automatiquement** le trafic malveillant en rejetant les paquets, en réinitialisant les connexions ou en reconfigurant les firewalls.
+*   **Mode de fonctionnement** : En ligne (inline), ce qui introduit une latence mais permet une action immédiate.
+
+**Exemple concret adapté** : **MTN Mobile Money** utilise un **IPS** à la périphérie de son réseau pour bloquer en temps réel les tentatives d'attaques par déni de service (DDoS) visant à rendre son service indisponible. Un **HIDS** est installé sur ses serveurs transactionnels pour détecter toute modification suspecte de fichiers critiques ou tout accès anormal aux bases de données clients.
+
+**À retenir** : **IDS = Alarme / Surveillance**. **IPS = Alarme + Porte blindée qui se ferme automatiquement**. Les Next-Generation Firewalls (NGFW) intègrent souvent des fonctions IPS.
+
+---
+
+### **6. Serveur Proxy**
+
+*   **Définition** : Un serveur **proxy** agit comme un intermédiaire entre les clients d'un réseau interne et Internet. Les requêtes des clients sont adressées au proxy, qui les transmet ensuite à destination.
+*   **Fonctions principales** :
+    1.  **Cache** : Stocke les pages web fréquemment demandées pour accélérer l'accès et réduire la consommation de bande passante (critique avec les coûts de bande passante internationale en Afrique).
+    2.  **Filtrage** : Filtre l'accès au contenu (blocage de sites non professionnels, de malware) et contrôle l'utilisation d'Internet par les utilisateurs.
+    3.  **Anonymat et Logs** : Masque les adresses IP internes et permet de journaliser toute l'activité web.
+    4.  **Sécurité** : Peut analyser le contenu web à la recherche de menaces.
+*   **Exemple concret** : Une université camerounaise (Université de Yaoundé I) utilise un serveur proxy **Squid** pour :
+    *   Optimiser l'utilisation de sa bande passante Internet limitée en mettant en cache les ressources pédagogiques.
+    *   Empêcher les étudiants d'accéder à des réseaux sociaux pendant les heures de cours via des règles de filtrage.
+    *   Journaliser l'activité pour un usage responsable de la ressource.
+
+---
+
+### **7. Ré

@@ -1,0 +1,130 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 09 Réseaux Informatiques**
+## **Chapitre : Réseaux sans fil et mobiles**
+
+---
+
+### **Introduction**
+Les réseaux sans fil et mobiles constituent l'épine dorsale de la transformation numérique, particulièrement au Cameroun où le taux de pénétration mobile dépasse 80%. Ce chapitre couvre les technologies fondamentales permettant la connectivité sans fil, des réseaux locaux (WiFi, Bluetooth) aux réseaux étendus cellulaires (3G/4G/5G) et de proximité (NFC), en intégrant une analyse du paysage opérateur camerounais.
+
+---
+
+### **1. Technologies des réseaux locaux sans fil (WLAN)**
+
+#### **1.1. La norme IEEE 802.11 (WiFi)**
+**Définition** : Famille de normes internationales décrivant les caractéristiques d'un réseau local sans fil (WLAN). Le WiFi permet l'interconnexion sans fil d'appareils à haut débit sur une portée limitée.
+
+**Fonctionnement théorique** : Utilise le principe de l'accès multiple par répartition dans le temps (TDMA) et la technique d'accès CSMA/CA (Carrier Sense Multiple Access with Collision Avoidance) pour gérer l'accès au médium radio partagé.
+
+**Bandes de fréquences utilisées** :
+*   **2.4 GHz** : Bande plus large, meilleure portée mais plus sujette aux interférences (four micro-ondes, téléphones sans fil).
+*   **5 GHz** : Bande plus large, moins d'interférences, débit plus élevé, mais portée réduite.
+*   **6 GHz** (WiFi 6E) : Nouvelle bande, très large, pour des débits extrêmes et une latence minimale.
+
+#### **1.2. Évolution des standards WiFi (a/b/g/n/ac/ax)**
+**Tableau comparatif des standards WiFi**
+
+| Standard | Année | Fréquence | Débit théorique max | Portée | Caractéristiques principales | Contexte camerounais |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **802.11b** | 1999 | 2.4 GHz | 11 Mbps | ~35m (int.) | Premier standard grand public, lent. | Encore présent sur du vieux matériel. |
+| **802.11a** | 1999 | 5 GHz | 54 Mbps | ~25m (int.) | Débit correct, peu d'interférences. | Peu répandu initialement. |
+| **802.11g** | 2003 | 2.4 GHz | 54 Mbps | ~35m (int.) | Rétrocompatible avec le **b**, très populaire. | Standard dominant des années 2000-2010. |
+| **802.11n (WiFi 4)** | 2009 | 2.4 & 5 GHz | 600 Mbps | ~70m (int.) | MIMO (Multiples antennes), canaux 40MHz. | Standard de base actuel dans foyers/PME. |
+| **802.11ac (WiFi 5)** | 2013 | 5 GHz | 3.5 Gbps | ~35m (int.) | MIMO multi-utilisateur (MU-MIMO), canaux 160MHz. | Standard des box haut débit (Camtel, Orange). |
+| **802.11ax (WiFi 6/6E)** | 2019 | 2.4, 5, (6 GHz) | 9.6 Gbps | Améliorée | OFDMA, BSS Coloring, efficacité énergétique. | Émergent dans entreprises et hotspots haut de gamme. |
+
+**À retenir** : La tendance est au **dual-band** (2.4 + 5 GHz) et au **tri-band** (avec 6 GHz). Le choix en entreprise doit privilégier le 5 GHz pour la performance et réserver le 2.4 GHz pour les objets connectés à faible besoin en bande passante.
+
+**Outils professionnels** :
+*   **Analyseurs de spectre/WiFi** : *inSSIDer*, *Wireshark* (avec carte compatible), *Acrylic WiFi*.
+*   **Logiciels de planification** : *Ekahau Site Survey*, *NetSpot*.
+*   **Matériel** : Points d'accès (AP) professionnels (Cisco, Ubiquiti, Ruckus), contrôleurs WiFi.
+
+---
+
+### **2. Technologies de réseau personnel sans fil (WPAN)**
+
+#### **2.1. Bluetooth (IEEE 802.15.1)**
+**Définition** : Norme de communication sans fil à très courte portée (généralement < 10m) conçue pour remplacer les câbles entre appareils électroniques.
+
+**Versions et débits** :
+*   **Bluetooth Classique** (v1.x à v3.0) : Débits jusqu'à 3 Mbps. Utilisé pour audio (kit mains-libres), transfert de fichiers.
+*   **Bluetooth Low Energy (BLE)** (v4.0+) : Consommation d'énergie très faible, idéal pour l'IoT (wearables, capteurs, balises). Débit modeste, portée similaire.
+*   **Bluetooth 5.x** : Portée étendue (jusqu'à 200m en visibilité), débit doublé, broadcasting amélioré.
+
+**Cas d'usage au Cameroun** :
+*   Paiement mobile via applications bancaires (transfert de données d'authentification).
+*   Partage de fichiers entre smartphones (via ShareIt, Xender qui utilisent un socle Bluetooth pour l'initiation).
+*   Périphériques informatiques (souris, claviers, enceintes) dans les cybercafés et bureaux.
+
+#### **2.2. NFC (Near Field Communication)**
+**Définition** : Technologie de communication sans contact à très courte portée (< 4 cm) et bas débit, dérivée du RFID.
+
+**Modes de fonctionnement** :
+1.  **Mode actif** : Les deux appareils génèrent un champ RF (échange peer-to-peer).
+2.  **Mode passif** : Un appareil actif (smartphone) lit un tag NFC passif (sans source d'énergie propre).
+
+**Applications concrètes** :
+*   **Paiement sans contact** : Cartes bancaires, services comme *Orange Money* et *MTN Mobile Money* via smartphones NFC.
+*   **Billets électroniques et contrôle d'accès** : Transports urbains (potentiel pour les projets de bus rapides), événements.
+*   **Échange d'informations** : *Pairing* rapide Bluetooth, affichage de menus numériques dans les restaurants (tags NFC sur les tables).
+
+---
+
+### **3. Réseaux cellulaires mobiles (3G, 4G, 5G)**
+
+#### **3.1. Évolution des générations (de la 2G à la 5G)**
+**Tableau comparatif des générations cellulaires**
+
+| Génération | Normes principales | Débit descendant max | Latence | Applications phares | État au Cameroun |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **2G** | GSM, GPRS (2.5G), EDGE (2.75G) | 0.384 Mbps | > 600 ms | Voix, SMS, MMS. | Couverture nationale, technologie de secours. |
+| **3G** | UMTS, HSPA+ (3.75G) | 42 Mbps | ~100 ms | Internet mobile basique, vidéo basse qualité. | Couverture urbaine et péri-urbaine étendue. |
+| **4G/LTE** | LTE, LTE-Advanced | 1 Gbps (théorique) | ~30 ms | HD Video Streaming, VoIP, jeux en ligne, télétravail. | Déployée dans toutes les grandes villes par MTN, Orange, Camtel. |
+| **5G** | 5G NR (New Radio) | 20 Gbps | 1 ms | Réalité augmentée/virtuelle, véhicules autonomes, IoT massif, chirurgie à distance. | **Phase de test et déploiement initial** (Camtel pionnier, Orange et MTN en tests). |
+
+#### **3.2. Concepts clés de la 4G/5G**
+*   **LTE (Long Term Evolution)** : Technologie d'accès radio pour la 4G, utilisant l'OFDMA en downlink et le SC-FDMA en uplink pour une efficacité spectrale optimale.
+*   **VoLTE (Voice over LTE)** : Service vocal natif sur le réseau 4G, offrant un appel plus rapide et une meilleure qualité. Disponible chez les opérateurs camerounais.
+*   **Principes de la 5G** :
+    *   **eMBB (Enhanced Mobile Broadband)** : Débits extrêmes.
+    *   **mMTC (Massive Machine Type Communications)** : Connexion de dizaines de milliers de capteurs IoT.
+    *   **URLLC (Ultra-Reliable Low Latency Communications)** : Communication ultra-fiable à très faible latence (usines intelligentes, santé connectée).
+*   **Formule de base du lien radio (Loi de Friis)** : `Pr = Pt + Gt + Gr - 20*log10(d) - 20*log10(f) - 147.55`
+    Où `Pr` = puissance reçue (dBm), `Pt` = puissance émise (dBm), `Gt/Gr` = gains d'antenne (dBi), `d` = distance (m), `f` = fréquence (Hz). **À retenir** : Plus la fréquence est élevée (comme en 5G mmWave), plus l'atténuation est forte et la portée réduite.
+
+---
+
+### **4. Le paysage des réseaux mobiles au Cameroun**
+
+#### **4.1. Présentation des opérateurs**
+1.  **MTN Cameroon** :
+    *   **Position** : Leader en parts de marché.
+    * **Couverture** : Réseau 2G/3G/4G étendu, couvrant la majorité du territoire. Déploiement 5G en cours.
+    * **Services** : *MTN Mobile Money* (leader des services financiers mobiles), forfaits voix/data, solutions entreprises.
+
+2.  **Orange Cameroun** :
+    *   **Position** : Concurrent principal de MTN.
+    *   **Couverture** : Réseau 2G/3G/4G compétitif, forte présence urbaine. Tests 5G actifs.
+    *   **Services** : *Orange Money*, forfaits compétitifs, offre *Open* pour les entreprises, fibre optique (Orange Fibre).
+
+3.  **Camtel (Cameroon Telecommunications)** :
+    *   **Position** : Opérateur historique et public.
+    *   **Couverture** : Forte sur le backbone national (fibre optique terrestre et sous-marine). Déploiement 4G en cours, **premier à lancer un réseau 5G commercial** au Cameroun.
+    *   **Services** : Téléphonie fixe, mobile (3G/4G/5G), internet haut débit (fibre, 4G), services aux entreprises et gouvernement.
+
+#### **4.2. Enjeux et perspectives**
+*   **Couverture nationale** : L'objectif est d'étendre la couverture 4G aux zones rurales (projets gouvernementaux et engagements des opérateurs).
+*   **Abordabilité des données** : Un défi crucial pour l'inclusion numérique. L'ART (Autorité de Régulation des Télécommunications) surveille les tarifs.
+*   **Déploiement de la 5G** : Priorité pour les villes intelligentes (Smart Cities), l'industrie 4.0 et les services spécialisés. Nécessite des investissements massifs en infrastructure.
+*   **Sécurité des réseaux** : Enjeu majeur avec la croissance des transactions mobiles (*Mobile Money*) et l'adoption du cloud. Conformité nécessaire aux cadres légaux (OHADA sur la cyber-sécurité, loi camerounaise sur la cybersécurité).
+
+**À retenir** : Un ingénieur logiciel camerounais doit concevoir des applications en tenant compte de l'hétérogénéité des réseaux (débits variables, connexions intermittentes en zones reculées) et de la popularité des services intégrés de paiement mobile (APIs *Mobile Money*).
+
+---
+
+### **5. Synthèse et bonnes pratiques pour l'ingénieur logiciel**
+
+*   **Conception d'applications mobiles** :
+    *   **Optimisation pour réseaux variables** : Mise en cache agressive, réduction de la taille des données, images adaptatives.
+    *   **Gestion de la connectivité** : D

@@ -1,0 +1,98 @@
+CHAPITRE 8 — ANALYSE NUMÉRIQUE
+BTS Génie Logiciel — Mathématiques
+
+1. INTRODUCTION ET ERREURS NUMÉRIQUES
+
+L'analyse numérique est la branche des mathématiques qui développe et analyse des algorithmes pour résoudre des problèmes mathématiques de manière approchée sur ordinateur.
+
+Sources d'erreurs :
+- Erreur de troncature : remplacement d'un processus infini par un processus fini
+- Erreur d'arrondi : représentation finie des réels en machine (virgule flottante)
+- Erreur de propagation : les erreurs initiales s'amplifient à chaque opération
+
+Erreur absolue : |valeur approchée − valeur exacte|
+Erreur relative : |valeur approchée − valeur exacte| / |valeur exacte| × 100%
+
+2. RÉSOLUTION D'ÉQUATIONS NON LINÉAIRES f(x) = 0
+
+A) Méthode de bissection (dichotomie) :
+Principe : si f(a) × f(b) < 0, il existe une racine dans [a, b]. On divise l'intervalle par 2 à chaque itération.
+
+Algorithme :
+1. Calculer c = (a + b) / 2
+2. Si f(c) = 0 : c est la racine (arrêt)
+3. Si f(a) × f(c) < 0 : la racine est dans [a, c] → b = c
+4. Sinon : la racine est dans [c, b] → a = c
+5. Répéter jusqu'à |b − a| < ε
+
+Convergence : garantie (méthode globale), mais lente. Après n itérations : erreur ≤ (b−a)/2ⁿ
+
+B) Méthode de Newton-Raphson :
+Formule : x(n+1) = xn − f(xn) / f'(xn)
+
+Convergence : quadratique (le nombre de décimales correctes double à chaque itération) si f'(x) ≠ 0 et bon point de départ.
+
+Exemple : résoudre x² − 2 = 0 (√2), x0 = 1
+f(x) = x² − 2, f'(x) = 2x
+x1 = 1 − (1−2)/(2×1) = 1 + 0,5 = 1,5
+x2 = 1,5 − (1,5²−2)/(2×1,5) = 1,5 − 0,25/3 = 1,5 − 0,0833 = 1,4167
+x3 ≈ 1,4142 (√2 exact = 1,41421356...)
+
+C) Méthode de la sécante :
+Évite de calculer f'(xn) en l'approximant par le taux d'accroissement :
+x(n+1) = xn − f(xn) × (xn − xn-1) / (f(xn) − f(xn-1))
+
+3. INTERPOLATION POLYNOMIALE
+
+Problème : étant donné n+1 points (x0,y0), ..., (xn,yn), trouver le polynôme de degré ≤ n qui passe par tous ces points.
+
+Polynôme de Lagrange :
+P(x) = Σ(i=0 à n) yi × Li(x)
+Li(x) = Π(j≠i) [(x − xj) / (xi − xj)]
+
+Exemple (interpolation linéaire, n=1) :
+Deux points (x0=0, y0=1) et (x1=1, y1=3)
+L0(x) = (x−1)/(0−1) = −(x−1)
+L1(x) = (x−0)/(1−0) = x
+P(x) = 1×(−x+1) + 3×x = 1 − x + 3x = 1 + 2x
+
+4. INTÉGRATION NUMÉRIQUE
+
+Calcul approché de ∫[a,b] f(x) dx quand on ne peut pas trouver la primitive.
+
+Méthode des rectangles (gauche) :
+∫[a,b] f ≈ h × Σ(i=0 à n-1) f(xi)   avec h = (b−a)/n, xi = a + i×h
+Erreur : O(h) = O((b−a)²/n)
+
+Méthode des trapèzes :
+∫[a,b] f ≈ (h/2) × [f(x0) + 2f(x1) + 2f(x2) + ... + 2f(xn-1) + f(xn)]
+Erreur : O(h²) = O((b−a)³/n²)
+
+Méthode de Simpson (paraboles par 3 points) :
+Nécessite n pair.
+∫[a,b] f ≈ (h/3) × [f(x0) + 4f(x1) + 2f(x2) + 4f(x3) + 2f(x4) + ... + 4f(xn-1) + f(xn)]
+Erreur : O(h⁴) → beaucoup plus précise que trapèzes pour même n.
+
+Exemple : ∫[0,1] e^x dx (valeur exacte = e − 1 ≈ 1,71828)
+Avec n=4, h=0,25 : x0=0, x1=0,25, x2=0,5, x3=0,75, x4=1
+
+Trapèzes :
+(0,25/2)[e⁰ + 2e^0,25 + 2e^0,5 + 2e^0,75 + e¹]
+= 0,125 × [1 + 2×1,2840 + 2×1,6487 + 2×2,1170 + 2,7183]
+= 0,125 × 13,8177 ≈ 1,7272   (erreur ≈ 0,0089)
+
+Simpson :
+(0,25/3)[e⁰ + 4e^0,25 + 2e^0,5 + 4e^0,75 + e¹]
+= (0,0833)[1 + 4×1,2840 + 2×1,6487 + 4×2,1170 + 2,7183]
+= 0,0833 × 20,6030 ≈ 1,71826   (erreur ≈ 0,00002) ← bien meilleur !
+
+5. RÉSOLUTION DE SYSTÈMES LINÉAIRES (AX = B)
+
+Méthode de Gauss (élimination) :
+Transformer la matrice augmentée [A|B] en forme échelonnée par opérations élémentaires sur les lignes, puis remonter.
+
+Méthode de Gauss-Jordan : aller jusqu'à la forme réduite (matrice identité à gauche) → solution directe.
+
+Méthode itérative de Jacobi :
+xi^(k+1) = (bi − Σ(j≠i) aij × xj^(k)) / aii
+Converge si la matrice est à diagonale strictement dominante.

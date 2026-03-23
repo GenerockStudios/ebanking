@@ -1,0 +1,245 @@
+# **Notes de Cours - 04 Informatique Générale**
+## **Architecture d'un Ordinateur**
+
+---
+
+### **1. Introduction : L'ordinateur comme système de traitement de l'information**
+
+Un ordinateur est une machine électronique programmable qui traite automatiquement des données selon une séquence d'instructions (programme). Son architecture, basée sur le **modèle de von Neumann** (1945), repose sur quatre unités fonctionnelles principales :
+- L'unité centrale de traitement (CPU)
+- La mémoire principale
+- Les unités d'entrée/sortie (E/S)
+- Les bus de communication
+
+**À retenir** : L'architecture von Neumann est caractérisée par le stockage des instructions et des données dans la même mémoire, et leur traitement séquentiel par le CPU.
+
+---
+
+### **2. L'Unité Centrale de Traitement (CPU - Central Processing Unit)**
+
+Le CPU est le "cerveau" de l'ordinateur. Il exécute les instructions des programmes et coordonne les activités des autres composants.
+
+#### **2.1. Structure interne du CPU**
+
+**2.1.1. L'Unité Arithmétique et Logique (UAL/ALU - Arithmetic Logic Unit)**
+- **Fonction** : Effectue les opérations arithmétiques (+, -, ×, ÷) et logiques (ET, OU, NON, comparaisons)
+- **Caractéristiques** : Opère sur des données binaires, possède des registres temporaires
+- **Exemple concret** : Dans un système de gestion de paie OHADA au Cameroun, l'ALU calcule les salaires nets après déduction des cotisations sociales (CNPS)
+
+**2.1.2. L'Unité de Commande (UC - Control Unit)**
+- **Fonction** : Coordonne toutes les opérations du CPU et du système
+- **Tâches principales** :
+  1. Lecture et décodage des instructions
+  2. Génération des signaux de contrôle
+  3. Synchronisation des opérations (horloge système)
+- **Fréquence d'horloge** : Mesurée en Hz (Mégahertz ou Gigahertz). Détermine la vitesse d'exécution
+
+**2.1.3. Les Registres**
+Petites mémoires ultra-rapides situées dans le CPU :
+
+| **Type de Registre** | **Taille typique** | **Fonction** | **Exemple d'utilisation** |
+|----------------------|-------------------|--------------|---------------------------|
+| **Compteur ordinal (PC)** | 32/64 bits | Contient l'adresse de la prochaine instruction | Suivi de l'exécution du programme |
+| **Registre d'instruction (IR)** | 32/64 bits | Stocke l'instruction en cours | Décodage par l'UC |
+| **Registre d'état (PSW)** | 8/16 bits | Indicateurs (drapeaux) | Zéro, retenue, débordement, etc. |
+| **Registres généraux** | 32/64 bits | Stockage temporaire | Calculs intermédiaires |
+| **Registre accumulateur** | 32/64 bits | Résultats des opérations ALU | Stocke le résultat final |
+
+**2.1.4. Exemple de cycle d'exécution (Cycle Fetch-Decode-Execute)**
+1. **Fetch** : Lecture de l'instruction depuis la mémoire (adresse dans PC)
+2. **Decode** : Décodage de l'instruction par l'UC
+3. **Execute** : Exécution par l'ALU ou autre unité
+4. **Write-back** : Écriture du résultat si nécessaire
+
+---
+
+### **3. Les Mémoires**
+
+#### **3.1. Hiérarchie mémoire (Pyramide de mémoire)**
+
+**Principe** : Plus la mémoire est rapide, plus elle est chère et petite.
+
+```
+          CPU
+           │
+      Registres (1 ns, 1-4 Ko)
+           │
+      Cache L1/L2/L3 (2-10 ns, 1-16 Mo)
+           │
+      RAM (10-100 ns, 4-64 Go)
+           │
+      Disque dur/SSD (5-20 ms, 500 Go-2 To)
+           │
+      Sauvegarde/Cloud (secondes-minutes, illimité)
+```
+
+#### **3.2. Mémoire Vive (RAM - Random Access Memory)**
+
+**Caractéristiques** :
+- **Volatile** : Perte des données à l'arrêt
+- **Accès direct** : Temps d'accès constant quelle que soit l'adresse
+- **Lecture/Écriture** : Possibilité de modifier le contenu
+
+**Types de RAM courants** :
+- **DRAM** (Dynamic RAM) : Nécessite un rafraîchissement périodique
+- **SDRAM** (Synchronous DRAM) : Synchronisée avec l'horloge du bus
+- **DDR-SDRAM** (Double Data Rate) : Transfert sur les deux flancs d'horloge
+
+**Application camerounaise** : Les serveurs de MTN Cameroun utilisent des RAM ECC (Error Correcting Code) pour garantir l'intégrité des données de facturation des clients.
+
+#### **3.3. Mémoire Morte (ROM - Read Only Memory)**
+
+**Caractéristiques** :
+- **Non volatile** : Conservation des données sans alimentation
+- **Lecture seule** en utilisation normale
+
+**Types de ROM** :
+- **ROM** : Programmée en usine
+- **PROM** : Programmable une fois
+- **EPROM** : Effaçable aux UV
+- **EEPROM/Flash** : Effaçable électriquement
+
+**Exemple** : Le BIOS/UEFI d'un ordinateur est stocké dans une mémoire Flash ROM.
+
+#### **3.4. Mémoire Cache**
+
+**Objectif** : Réduire le temps d'accès moyen à la mémoire
+
+**Niveaux de cache** :
+- **L1** : Intégré au CPU, très rapide (1-4 cycles), petite taille (32-64 Ko)
+- **L2** : Sur puce ou proche du CPU (10-20 cycles), taille moyenne (256 Ko-2 Mo)
+- **L3** : Partagé entre les cœurs (20-40 cycles), plus grand (4-32 Mo)
+
+**Politiques de remplacement** : LRU (Least Recently Used), FIFO, aléatoire
+
+**À retenir** : Le taux de succès (hit rate) du cache influence considérablement les performances globales.
+
+---
+
+### **4. La Carte Mère (Motherboard)**
+
+#### **4.1. Définition et rôle**
+
+La carte mère est le circuit imprimé principal qui interconnecte tous les composants de l'ordinateur.
+
+**Composants principaux** :
+1. **Socket CPU** : Support du processeur (LGA, PGA)
+2. **Chipset** : Northbridge (haute vitesse) et Southbridge (périphériques)
+3. **Slots mémoire** : DIMM pour la RAM
+4. **Slots d'extension** : PCI, PCI-Express
+5. **Connecteurs de stockage** : SATA, M.2 pour SSD
+6. **Connecteurs d'alimentation** : ATX 24 broches
+7. **Connecteurs E/S** : USB, Ethernet, audio, vidéo
+
+#### **4.2. Exemple d'architecture moderne**
+
+```
+CPU ←→ Northbridge/Memory Controller ←→ RAM
+         │
+         └──→ PCI-Express (Graphique)
+         │
+Southbridge ←→ USB, SATA, Ethernet, Audio, BIOS
+```
+
+**Évolution** : Les contrôleurs mémoire et graphique sont désormais intégrés au CPU.
+
+---
+
+### **5. Les Bus de Communication**
+
+#### **5.1. Définition et caractéristiques**
+
+Un bus est un ensemble de lignes conductrices qui transportent des signaux entre les composants.
+
+**Caractéristiques techniques** :
+- **Largeur** : Nombre de bits transportés simultanément (8, 16, 32, 64 bits)
+- **Fréquence** : Vitesse de transfert (MHz, GHz)
+- **Débit** : Quantité de données transférées par seconde (Mo/s, Go/s)
+
+**Formule** : Débit = (Largeur × Fréquence) / 8  (en octets/seconde)
+
+#### **5.2. Types de bus**
+
+**5.2.1. Bus système (Front Side Bus - obsolète)**
+- Connecte CPU au Northbridge
+- Débit : 800 MHz à 1600 MHz
+
+**5.2.2. Bus mémoire**
+- Connecte Northbridge/CPU à la RAM
+- Types : DDR3 (800-2133 MT/s), DDR4 (1600-3200 MT/s)
+
+**5.2.3. Bus d'extension**
+- **PCI-Express** : Architecture point-à-point, versions 1.x à 5.0
+- **USB** (Universal Serial Bus) : Versions 1.1, 2.0, 3.x, 4.0
+
+**5.2.4. Bus de stockage**
+- **SATA** (Serial ATA) : 1.5, 3, 6 Gb/s
+- **NVMe** : Sur bus PCI-Express, pour SSD hautes performances
+
+#### **5.3. Tableau comparatif des bus courants**
+
+| **Bus** | **Largeur** | **Fréquence** | **Débit théorique** | **Utilisation** |
+|---------|------------|---------------|---------------------|-----------------|
+| **PCIe 3.0 x16** | 16 voies | 8 GHz | ~16 Go/s | Carte graphique |
+| **DDR4-3200** | 64 bits | 1600 MHz | 25,6 Go/s | Mémoire RAM |
+| **USB 3.2 Gen2** | Série | 10 Gb/s | 1,25 Go/s | Périphériques |
+| **SATA III** | Série | 6 Gb/s | 600 Mo/s | Disques durs |
+
+---
+
+### **6. Les Périphériques d'Entrée/Sortie (E/S)**
+
+#### **6.1. Classification des périphériques**
+
+**6.1.1. Périphériques d'entrée**
+- Clavier, souris, scanner, microphone, webcam
+- **Exemple africain** : Lecteurs de cartes SIM pour l'enregistrement des clients Orange Money
+
+**6.1.2. Périphériques de sortie**
+- Écran, imprimante, haut-parleurs, projecteur
+- **Exemple camerounais** : Imprimantes de tickets dans les agences Camtel
+
+**6.1.3. Périphériques d'entrée-sortie**
+- Écran tactile, modem, carte réseau, clé USB
+- **Exemple** : Bornes de paiement électronique dans les supermarchés
+
+#### **6.2. Contrôleurs d'E/S et interfaces**
+
+**6.2.1. Contrôleurs d'E/S**
+- Circuits spécialisés qui gèrent la communication avec les périphériques
+- Exemples : Contrôleur USB, contrôleur SATA, contrôleur réseau
+
+**6.2.2. Modes de transfert**
+1. **Programmed I/O** : CPU gère directement le transfert
+2. **Interrupt-driven I/O** : Le périphérique interrompt le CPU
+3. **DMA** (Direct Memory Access) : Transfert direct mémoire-périphérique sans CPU
+
+**Avantage DMA** : Libère le CPU pour d'autres tâches pendant les transferts
+
+#### **6.3. Interfaces courantes en entreprise**
+
+| **Interface** | **Débit** | **Distance max** | **Utilisation typique** |
+|---------------|-----------|------------------|-------------------------|
+| **USB 3.2** | 20 Gb/s | 3 m | Périphériques externes |
+| **Ethernet** | 1 Gb/s-100 Gb/s | 100 m | Réseau local |
+| **Thunderbolt 3** | 40 Gb/s | 2 m | Stations de travail |
+| **HDMI 2.1** | 48 Gb/s | 15 m | Vidéo 8K |
+
+---
+
+### **7. Technologies et Outils Professionnels**
+
+#### **7.1. Outils de diagnostic et monitoring**
+- **CPU-Z** : Information détaillée sur le CPU, mémoire, carte mère
+- **HWMonitor** : Surveillance des températures et tensions
+- **MemTest86** : Test de fiabilité de la RAM
+- **CrystalDiskInfo** : Santé des disques durs/SSD
+
+#### **7.2. Technologies virtualisées**
+- **Virtualisation CPU** : VT-x (Intel), AMD-V
+- **Virtualisation E/S** : VT-d, AMD-Vi
+- **Application** : Serveurs virtualisés dans les datacenters d'entreprises camerounaises
+
+#### **7.3. Tendances actuelles**
+- **Architectures multi-cœurs** : CPU avec 4, 8, 16 cœurs ou plus
+- **Processeurs hétérogènes**

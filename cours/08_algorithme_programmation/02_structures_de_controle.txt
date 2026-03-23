@@ -1,0 +1,317 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 08 Algorithme & Programmation**
+## **Chapitre : Structures de contrôle : séquence, condition, boucles, imbrication**
+
+---
+
+### **1. Introduction aux structures de contrôle**
+
+#### **1.1. Définition et importance**
+Les **structures de contrôle** sont des blocs fondamentaux en programmation qui déterminent l'ordre d'exécution des instructions. Elles permettent de contrôler le flux d'exécution d'un programme en fonction de conditions ou de répétitions nécessaires.
+
+**À retenir** : Sans structures de contrôle, un programme s'exécuterait de manière linéaire du début à la fin, sans possibilité de prendre des décisions ou de répéter des tâches.
+
+#### **1.2. Classification des structures de contrôle**
+| Type de structure | Fonction principale | Exemples |
+|-------------------|---------------------|----------|
+| **Séquentielle** | Exécution linéaire | Suite d'instructions |
+| **Conditionnelle** | Prise de décision | if, else, switch |
+| **Itérative** | Répétition d'actions | for, while, do-while |
+| **Déviante** | Changement de flux | break, continue, return |
+
+**Contexte camerounais** : Dans le développement d'applications pour les entreprises locales (MTN, Orange Cameroun, Camtel), la maîtrise des structures de contrôle est essentielle pour créer des systèmes de facturation, de gestion client, ou d'analyse de données adaptés aux besoins spécifiques du marché.
+
+---
+
+### **2. Structure séquentielle**
+
+#### **2.1. Définition et caractéristiques**
+La **structure séquentielle** est la plus simple : les instructions s'exécutent les unes après les autres, dans l'ordre où elles sont écrites.
+
+**Principe** : Chaque instruction est exécutée une seule fois, dans l'ordre séquentiel.
+
+#### **2.2. Exemple concret adapté au contexte OHADA**
+```pseudocode
+Algorithme CalculTVA_OHADA
+Variables
+    montantHT, montantTVA, montantTTC : Réel
+    tauxTVA = 0.1925  // TVA camerounaise 19.25%
+Début
+    // Saisie séquentielle
+    Afficher("Entrez le montant HT : ")
+    Lire(montantHT)
+    
+    // Calculs séquentiels
+    montantTVA ← montantHT * tauxTVA
+    montantTTC ← montantHT + montantTVA
+    
+    // Affichage séquentiel
+    Afficher("Montant HT : ", montantHT, " FCFA")
+    Afficher("TVA (19.25%) : ", montantTVA, " FCFA")
+    Afficher("Montant TTC : ", montantTTC, " FCFA")
+Fin
+```
+
+**Application** : Ce type de structure est utilisé dans les systèmes de facturation des entreprises camerounaises devant se conformer aux normes OHADA.
+
+---
+
+### **3. Structures conditionnelles**
+
+#### **3.1. Structure conditionnelle simple (if)**
+
+##### **3.1.1. Syntaxe et sémantique**
+```pseudocode
+Si (condition) Alors
+    instructions
+FinSi
+```
+
+##### **3.1.2. Exemple : Vérification de solde MTN Mobile Money**
+```pseudocode
+Algorithme VerificationSolde_MTN
+Variables
+    solde, montantTransfert : Réel
+Début
+    Afficher("Votre solde MTN MoMo : ")
+    Lire(solde)
+    Afficher("Montant à transférer : ")
+    Lire(montantTransfert)
+    
+    Si (solde >= montantTransfert) Alors
+        Afficher("Transfert possible vers Orange Money ou autre")
+    FinSi
+Fin
+```
+
+#### **3.2. Structure conditionnelle alternative (if/else)**
+
+##### **3.2.1. Syntaxe et utilisation**
+```pseudocode
+Si (condition) Alors
+    instructions1
+Sinon
+    instructions2
+FinSi
+```
+
+##### **3.2.2. Exemple : Attribution de bonus employé**
+```pseudocode
+Algorithme BonusEmploye_Cameroun
+Variables
+    anciennete : Entier
+    bonus : Réel
+Début
+    Afficher("Ancienneté dans l'entreprise (années) : ")
+    Lire(anciennete)
+    
+    Si (anciennete >= 5) Alors
+        bonus ← 50000  // 50 000 FCFA
+        Afficher("Bonus senior attribué : ", bonus, " FCFA")
+    Sinon
+        bonus ← 20000  // 20 000 FCFA
+        Afficher("Bonus standard attribué : ", bonus, " FCFA")
+    FinSi
+Fin
+```
+
+#### **3.3. Structure conditionnelle multiple (if/else if/else)**
+
+##### **3.3.1. Cas d'utilisation**
+Idéale pour classifier des données en plusieurs catégories.
+
+##### **3.3.2. Exemple : Tarification progressive de l'eau (Camwater)**
+```pseudocode
+Algorithme FactureEau_Camwater
+Variables
+    consommation : Réel
+    facture : Réel
+Début
+    Afficher("Consommation d'eau (m³) : ")
+    Lire(consommation)
+    
+    Si (consommation <= 10) Alors
+        facture ← consommation * 250  // Tranche sociale
+    SinonSi (consommation <= 30) Alors
+        facture ← 10*250 + (consommation-10)*350
+    SinonSi (consommation <= 50) Alors
+        facture ← 10*250 + 20*350 + (consommation-30)*450
+    Sinon
+        facture ← 10*250 + 20*350 + 20*450 + (consommation-50)*600
+    FinSi
+    
+    Afficher("Montant à payer : ", facture, " FCFA")
+Fin
+```
+
+#### **3.4. Structure de sélection (switch/case)**
+
+##### **3.4.1. Comparatif if/else vs switch**
+| Critère | if/else if/else | switch/case |
+|---------|-----------------|-------------|
+| **Type de condition** | Conditions complexes | Égalité simple |
+| **Lisibilité** | Moyenne pour nombreux cas | Excellente pour nombreux cas |
+| **Performance** | Évaluation séquentielle | Possible optimisation par table de saut |
+| **Utilisation** | Plages de valeurs, expressions | Valeurs discrètes, énumérations |
+
+##### **3.4.2. Exemple : Menu d'application bancaire (Afriland First Bank)**
+```pseudocode
+Algorithme MenuBancaire
+Variables
+    choix : Entier
+    solde = 150000 : Réel  // Solde initial
+Début
+    Afficher("=== AFRILLAND FIRST BANK ===")
+    Afficher("1. Consulter solde")
+    Afficher("2. Retrait")
+    Afficher("3. Dépôt")
+    Afficher("4. Payer facture (Camtel, ENEO)")
+    Afficher("Votre choix : ")
+    Lire(choix)
+    
+    Selon (choix) Faire
+        Cas 1:
+            Afficher("Votre solde : ", solde, " FCFA")
+        Cas 2:
+            Afficher("Montant à retirer : ")
+            Lire(montant)
+            Si (montant <= solde) Alors
+                solde ← solde - montant
+            FinSi
+        Cas 3:
+            Afficher("Montant à déposer : ")
+            Lire(montant)
+            solde ← solde + montant
+        Cas 4:
+            Afficher("Paiement facture ENEO/Camtel")
+        Sinon:
+            Afficher("Choix invalide")
+    FinSelon
+Fin
+```
+
+**À retenir** : Le `switch` est optimal pour les menus et les traitements basés sur des valeurs discrètes, tandis que les structures `if/else` sont plus flexibles pour les conditions complexes.
+
+---
+
+### **4. Structures itératives (boucles)**
+
+#### **4.1. Boucle `for` (pour)**
+
+##### **4.1.1. Syntaxe et paramètres**
+```pseudocode
+Pour compteur ← début à fin [pas valeur] Faire
+    instructions
+FinPour
+```
+
+##### **4.1.2. Exemple : Calcul des intérêts bancaires**
+```pseudocode
+Algorithme CalculInterets
+Variables
+    capital, tauxAnnuel : Réel
+    annees : Entier
+Début
+    Afficher("Capital initial (FCFA) : ")
+    Lire(capital)
+    Afficher("Taux d'intérêt annuel (%) : ")
+    Lire(tauxAnnuel)
+    Afficher("Durée (années) : ")
+    Lire(annees)
+    
+    Afficher("=== Évolution du capital ===")
+    Pour annee ← 1 à annees Faire
+        interet ← capital * (tauxAnnuel/100)
+        capital ← capital + interet
+        Afficher("Année ", annee, ": ", capital, " FCFA")
+    FinPour
+Fin
+```
+
+#### **4.2. Boucle `while` (tant que)**
+
+##### **4.2.1. Principe et caractéristiques**
+- Test de condition **avant** l'exécution
+- Peut ne jamais s'exécuter si condition initialement fausse
+
+##### **4.2.2. Exemple : Saisie contrôlée de notes académiques**
+```pseudocode
+Algorithme SaisieNotes_BTS
+Variables
+    note : Réel
+    somme ← 0 : Réel
+    compteur ← 0 : Entier
+Début
+    Afficher("Entrez une note (ou -1 pour terminer) : ")
+    Lire(note)
+    
+    TantQue (note >= 0) Faire
+        somme ← somme + note
+        compteur ← compteur + 1
+        Afficher("Entrez une note (ou -1 pour terminer) : ")
+        Lire(note)
+    FinTantQue
+    
+    Si (compteur > 0) Alors
+        moyenne ← somme / compteur
+        Afficher("Moyenne de la classe : ", moyenne)
+    FinSi
+Fin
+```
+
+#### **4.3. Boucle `do-while` (répéter...jusqu'à)**
+
+##### **4.3.1. Différence avec `while`**
+- Test de condition **après** l'exécution
+- S'exécute **au moins une fois**
+
+##### **4.3.2. Exemple : Authentification avec réessai**
+```pseudocode
+Algorithme Authentification_Campus
+Variables
+    identifiant, motDePasse : Chaîne
+    tentativeMax ← 3 : Entier
+    tentative ← 0 : Entier
+    authentifie : Booléen
+Début
+    Répéter
+        tentative ← tentative + 1
+        Afficher("Tentative ", tentative, "/", tentativeMax)
+        Afficher("Identifiant : ")
+        Lire(identifiant)
+        Afficher("Mot de passe : ")
+        Lire(motDePasse)
+        
+        authentifie ← (identifiant = "BTSGL2024" ET motDePasse = "CameroonTech")
+        
+        Si (NON authentifie) Alors
+            Afficher("Identifiants incorrects")
+        FinSi
+    JusquÀ (authentifie OU tentative = tentativeMax)
+    
+    Si (authentifie) Alors
+        Afficher("Accès au portail étudiant autorisé")
+    Sinon
+        Afficher("Compte bloqué. Contactez l'administration")
+    FinSi
+Fin
+```
+
+#### **4.4. Tableau comparatif des boucles**
+| Critère | `for` | `while` | `do-while` |
+|---------|-------|---------|------------|
+| **Test de condition** | Début (connu d'avance) | Début | Fin |
+| **Nombre d'itérations** | Connu à l'avance | Variable | Variable |
+| **Exécution minimale** | 0 fois | 0 fois | 1 fois |
+| **Cas d'usage typique** | Parcours de tableaux, calculs itératifs | Saisie utilisateur, attente d'événement | Menus, authentification |
+
+---
+
+### **5. Imbrication des structures de contrôle**
+
+#### **5.1. Définition et principe**
+L'**imbrication** consiste à placer une structure de contrôle à l'intérieur d'une autre. Cette technique permet de créer des algorithmes complexes à partir de structures simples.
+
+#### **5.2. Règles d'imbrication**
+1. **Complète imbrication** : Une structure doit être entièrement contenue dans une autre
+2. **Non-che

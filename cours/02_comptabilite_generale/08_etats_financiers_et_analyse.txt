@@ -1,0 +1,131 @@
+# **Notes de cours - BTS Génie Logiciel**
+## **Matière : 02 Comptabilité Générale**
+## **Chapitre : États financiers annuels SYSCOHADA : bilan, compte de résultat, TAFIRE, SIG, ratios financiers**
+
+---
+
+### **1. Introduction et cadre normatif OHADA**
+
+#### **1.1. Le Système Comptable OHADA (SYSCOHADA)**
+Le Système Comptable OHADA est l'ensemble des règles comptables harmonisées, obligatoires pour toutes les entreprises des 17 États membres de l'Organisation pour l'Harmonisation en Afrique du Droit des Affaires, dont le Cameroun. Son adoption vise à garantir la **fiabilité, la comparabilité et la transparence** de l'information financière dans l'espace économique africain.
+
+**À retenir :** Le SYSCOHADA est le référentiel comptable légal au Cameroun. Tout logiciel de gestion (ERP) utilisé par une entreprise, comme ceux que vous serez amenés à développer ou maintenir, doit être conforme à ses normes.
+
+#### **1.2. Les états financiers : finalité et destinataires**
+Les états financiers sont des documents de synthèse qui retracent la performance et la situation financière d'une entreprise sur un exercice (généralement 12 mois). Ils sont destinés aux :
+*   **Actionnaires et investisseurs** (ex: État du Cameroun, actionnaires de MTN Cameroon)
+*   **Créanciers et établissements financiers** (banques)
+*   **Administrations fiscales** (Direction Générale des Impôts du Cameroun)
+*   **Salariés et partenaires sociaux**
+*   **Le public** (pour les grandes entreprises cotées)
+
+---
+
+### **2. Les états financiers fondamentaux**
+
+#### **2.1. Le Bilan (État de la situation financière)**
+**Définition :** Le bilan est une "photographie" du patrimoine de l'entreprise à une date donnée (généralement au 31 décembre). Il décrit ce que l'entreprise **possède** (Actif) et ce qu'elle **doit** (Passif), selon l'équation fondamentale :
+
+**ACTIF = PASSIF**
+
+**Structure du bilan SYSCOHADA :**
+
+| **ACTIF** (Emplois des ressources) | **PASSIF** (Origines des ressources) |
+| :--- | :--- |
+| **ACTIF IMMOBILISÉ** <br> • Immobilisations incorporelles (fonds commercial, logiciels) <br> • Immobilisations corporelles (bâtiments, matériel informatique, véhicules) <br> • Immobilisations financières (titres de participation) | **CAPITAUX PROPRES** <br> • Capital social <br> • Réserves (légale, statutaire) <br> • Report à nouveau <br> • Résultat de l'exercice (bénéfice ou perte) |
+| **ACTIF CIRCULANT** <br> • Stocks (matières premières, marchandises) <br> • Créances (clients, État - crédit de TVA) <br> • Valeurs mobilières de placement <br> • Disponibilités (caisse, banques) | **DETTES** <br> • Dettes financières (emprunts bancaires) <br> • Dettes d'exploitation (fournisseurs, salaires à payer) <br> • Dettes fiscales et sociales (TVA due, impôts) |
+| **COMPTES DE RÉGULARISATION** (Actif) | **COMPTES DE RÉGULARISATION** (Passif) |
+
+**Exemple concret (Cameroun) :** Le bilan de **Camtel** montrerait à l'actif d'importantes immobilisations corporelles (réseaux de fibre optique, centraux téléphoniques) financées par du passif composé de capitaux propres (apports de l'État) et de dettes financières (prêts pour l'extension du réseau).
+
+#### **2.2. Le Compte de Résultat (État de la performance)**
+**Définition :** Le compte de résultat retrace l'ensemble des **produits** (revenus) et des **charges** (coûts) de l'exercice pour déterminer le **bénéfice** ou la **perte** nette.
+
+**Formule fondamentale :**
+**RÉSULTAT NET = PRODUITS - CHARGES**
+
+**Structure du compte de résultat SYSCOHADA (en liste) :**
+1.  **Produits d'exploitation** : Chiffre d'affaires (ventes de services, abonnements), autres produits.
+2.  **(-) Charges d'exploitation** : Achats de marchandises, salaires, loyers, dotations aux amortissements, charges d'énergie (ENEO).
+3.  **= Résultat d'exploitation** (Indicateur de la performance opérationnelle).
+4.  **+/- Résultat financier** (Produits financiers - Charges financières).
+5.  **+/- Résultat non courant** (Opérations exceptionnelles).
+6.  **= Résultat avant impôt.**
+7.  **(-) Impôt sur les sociétés** (Selon le code fiscal camerounais).
+8.  **= RÉSULTAT NET DE L'EXERCICE.**
+
+**Exemple concret :** Pour une ESN (Entreprise de Services du Numérique) camerounaise, les produits d'exploitation sont les facturations de développement logiciel ou de maintenance. Les charges incluent les salaires des développeurs, l'amortissement des ordinateurs et les coûts de connexion internet.
+
+---
+
+### **3. Les états de synthèse complémentaires : TAFIRE et SIG**
+
+#### **3.1. Le Tableau des Flux de Trésorerie (TAFIRE)**
+**Définition :** Le TAFIRE explique la variation de la trésorerie nette (disponibilités) entre le début et la fin de l'exercice. Il classe les flux de liquidités selon trois activités :
+
+| **Activité** | **Description** | **Exemple dans une entreprise camerounaise** |
+| :--- | :--- | :--- |
+| **Activités d'exploitation** | Flux liés à l'activité courante. | Encaissements clients (Orange Money, paiements), décaissements fournisseurs/salaires. |
+| **Activités d'investissement** | Flux liés aux acquisitions/cessions d'immobilisations. | Achat de serveurs (décaissement), vente d'un vieux véhicule de société (encaissement). |
+| **Activités de financement** | Flux avec les actionnaires et les créanciers. | Obtention d'un prêt bancaire (encaissement), remboursement du capital d'un emprunt (décaissement), paiement de dividendes. |
+
+**Utilité pour le Génie Logiciel :** Comprendre les flux de trésorerie est crucial pour gérer la trésorerie d'une ESN ou d'une startup tech, où les décalages entre paiements des salaires (fixes) et encaissements clients (parfois tardifs) peuvent être critiques.
+
+#### **3.2. Le Tableau des Soldes Intermédiaires de Gestion (SIG)**
+**Définition :** Le SIG est une décomposition progressive du compte de résultat en **indicateurs clés de gestion**. Il permet d'analyser la formation du résultat et la rentabilité à différents niveaux.
+
+**Principaux soldes (du haut vers le bas) :**
+1.  **Chiffre d'affaires (CA)** : Ventes de biens ou services.
+2.  **Marge commerciale (pour les commerçants)** : CA - Coût d'achat des marchandises vendues.
+3.  **Production de l'exercice** : Pour les entreprises industrielles ou de services.
+4.  **Valeur Ajoutée (VA)** = Production + Marge commerciale - Consommations externes. **C'est la richesse créée par l'entreprise.**
+5.  **Excédent Brut d'Exploitation (EBE)** = VA - (Charges de personnel + Impôts et taxes). **Mesure la performance économique avant politique financière et d'investissement.**
+6.  **Résultat d'exploitation** = EBE + Autres produits d'exploitation - Dotations aux amortissements et provisions.
+7.  **Résultat courant avant impôt** = Résultat d'exploitation +/- Résultat financier.
+8.  **Résultat net.**
+
+**À retenir :** La **Valeur Ajoutée** est un indicateur majeur. Pour une société comme **MTN Cameroon**, une grande part de sa VA provient de ses services de téléphonie et data, après déduction des coûts payés à ses partenaires d'infrastructure.
+
+---
+
+### **4. Les ratios financiers : outils d'analyse**
+
+Les ratios sont des indicateurs calculés à partir des états financiers pour évaluer la santé de l'entreprise.
+
+#### **4.1. Ratios de Rentabilité**
+*   **Rentabilité économique (ROA) :** `(Résultat d'exploitation / Actif total) x 100`. Mesure l'efficacité de l'entreprise à générer des profits avec ses actifs.
+*   **Rentabilité financière (ROE) :** `(Résultat net / Capitaux propres) x 100`. Indique le rendement pour les actionnaires.
+*   **Marge nette :** `(Résultat net / Chiffre d'affaires) x 100`.
+
+#### **4.2. Ratios de Structure financière (Solvabilité)**
+*   **Ratio d'autonomie financière :** `Capitaux propres / Passif total`. Un ratio > 0.5 est généralement sain. Indique l'indépendance vis-à-vis des créanciers.
+*   **Ratio d'endettement (Gearing) :** `Dettes financières / Capitaux propres`.
+
+#### **4.3. Ratios de Liquidité**
+*   **Liquidité générale :** `Actif circulant / Dettes à court terme`. Évalue la capacité à payer ses dettes à moins d'un an.
+*   **Liquidité réduite :** `(Créances + Disponibilités) / Dettes à court terme`. Une vision plus stricte.
+
+#### **4.4. Ratios d'activité (Rotation)**
+*   **Durée moyenne de crédit clients :** `(Créances clients x 360) / Chiffre d'affaires TTC`. Pour une ESN, il faut surveiller ce délai pour éviter les problèmes de trésorerie.
+
+**Application :** Un analyste qui examine **Orange Cameroun** calculerait son ROE pour les actionnaires (Orange Group), son ratio d'endettement pour voir sa politique de financement (prêts vs fonds propres), et sa rotation des stocks (de téléphones par exemple).
+
+---
+
+### **5. Logiciels et technologies utilisés en entreprise**
+
+En tant que futurs professionnels du Génie Logiciel, vous interagirez avec ces outils :
+*   **ERP (Enterprise Resource Planning) :** **SAP**, **Oracle ERP**, **Microsoft Dynamics 365**. Ces systèmes intégrés gèrent toute la chaîne (comptabilité, ventes, stocks, paie) et produisent automatiquement les états financiers selon le plan comptable SYSCOHADA paramétré.
+*   **Logiciels spécialisés :** **SAGE**, **CIEL Comptabilité**, **EBP Comptabilité**. Très répandus dans les PME camerounaises.
+*   **Outils de BI (Business Intelligence) et de reporting :** **Power BI**, **Tableau**, **Qlik Sense**. Ils se connectent aux bases de données comptables pour créer des tableaux de bord interactifs et des analyses financières poussées (calcul automatique de ratios, graphiques d'évolution).
+*   **Développements spécifiques :** Vous pourriez être amenés à développer des modules d'interface entre une application métier (ex: logiciel de gestion de bornes Orange Money) et le module comptable d'un ERP, ou à créer des scripts pour automatiser l'extraction et le calcul des ratios.
+
+### **6. Conclusion et synthèse**
+
+Les états financiers SYSCOHADA (Bilan, Compte de résultat, TAFIRE, SIG) forment un système cohérent et obligatoire d'information. Leur maîtrise est essentielle pour :
+1.  **Comprendre le langage universel de la finance d'entreprise.**
+2.  **Dialoguer avec les experts-comptables, les managers et les clients** dans le cadre de projets informatiques.
+3.  **Concevoir, paramétrer ou maintenir des logiciels de gestion** qui doivent impérativement respecter les normes comptables en vigueur au Cameroun.
+4.  **Analyser la viabilité économique d'un projet de développement** ou d'une startup dans le secteur des TIC.
+
+**Exercice de réflexion pour l'étudiant

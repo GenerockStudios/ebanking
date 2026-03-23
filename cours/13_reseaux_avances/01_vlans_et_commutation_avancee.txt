@@ -1,0 +1,157 @@
+# **Notes de Cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière 13 : Réseaux Avancés**
+## **Chapitre : VLANs et Commutation Avancée : 802.1Q, Trunking, Inter-VLAN Routing, STP/RSTP, EtherChannel**
+
+---
+
+### **1. Introduction aux VLANs (Virtual Local Area Networks)**
+
+#### **1.1. Définition et Problématique**
+Un **VLAN (Réseau Local Virtuel)** est une subdivision logique d'un réseau physique en plusieurs domaines de diffusion (broadcast domains) distincts. Il permet de segmenter un réseau commuté (switch) en plusieurs réseaux logiques indépendants, comme s'ils étaient physiquement séparés.
+
+**Problématique initiale :** Dans un réseau commuté traditionnel (sans VLAN), tous les périphériques appartiennent au même domaine de diffusion. Une diffusion (broadcast) provenant d'un hôte est envoyée à tous les ports du switch, ce qui peut engendrer :
+*   Une consommation excessive de bande passante.
+*   Des problèmes de sécurité (écoute du trafic).
+*   Une gestion difficile des politiques réseau (ex: services différents pour la direction, la comptabilité, les étudiants).
+
+**Exemple concret Camerounais :** Imaginez le réseau de l'**Université de Yaoundé I**. Sans VLAN, le trafic de diffusion du laboratoire de recherche de la Faculté de Médecine serait reçu par tous les autres départements (Droit, Sciences, etc.), créant de l'encombrement et des risques de sécurité pour les données sensibles de la recherche médicale.
+
+#### **1.2. Avantages des VLANs**
+*   **Sécurité améliorée :** Isolement logique des groupes d'utilisateurs (Direction, Comptabilité, Développeurs).
+*   **Réduction du domaine de broadcast :** Limite la propagation des trames de broadcast, améliorant les performances.
+*   **Flexibilité administrative :** Les utilisateurs peuvent être regroupés par fonction (service) et non par localisation physique. Un comptable peut changer de bureau sans que son adresse IP ne change.
+*   **Meilleure gestion des projets :** Création de VLANs dédiés pour des projets spécifiques (ex: projet de déploiement d'un système OHADA informatisé).
+
+---
+
+### **2. Standard 802.1Q et Trunking**
+
+#### **2.1. Le Tag 802.1Q**
+Pour qu'un switch puisse identifier à quel VLAN appartient une trame traversant un lien **trunk** (liaison aggregateur), il doit **"étiqueter"** la trame. Le standard **IEEE 802.1Q** définit ce mécanisme d'encapsulation.
+
+*   **Trame native (untagged) :** Trame standard Ethernet, sans information de VLAN. Elle circule sur les ports **d'accès (access)**.
+*   **Trame étiquetée (tagged) :** La trame Ethernet est modifiée par l'insertion d'un champ de 4 octets entre le champ "Adresse Source" et le "Type".
+    *   **TPID (Tag Protocol Identifier) :** 0x8100, indique que c'est une trame 802.1Q.
+    *   **PRI (Priority Code Point) :** 3 bits pour la qualité de service (QoS).
+    *   **CFI (Canonical Format Indicator) :** 1 bit.
+    *   **VID (VLAN Identifier) :** 12 bits identifiant le VLAN (0-4095). Les VLANs 0 et 4095 sont réservés, ce qui donne **4094 VLANs utilisables**.
+
+**À retenir :** VID = Numéro de VLAN (ex: VLAN 10 pour la Direction, VLAN 20 pour la Comptabilité).
+
+#### **2.2. Ports d'Accès (Access) et Ports Trunk**
+*   **Port d'Accès (Access Port) :**
+    *   Appartient à un **seul VLAN** (VLAN natif).
+    *   Reçoit et envoie des trames **sans étiquette (untagged)**.
+    *   Connecte généralement un hôte final (PC, serveur, imprimante).
+    *   **Configuration typique sur un switch Cisco :**
+        ```bash
+        Switch(config-if)# switchport mode access
+        Switch(config-if)# switchport access vlan 10
+        ```
+
+*   **Port Trunk (Port Aggregateur) :**
+    *   Transporte le trafic de **plusieurs VLANs**.
+    *   Utilise l'**étiquetage 802.1Q** pour distinguer les trames des différents VLANs.
+    *   Connecte deux switches ou un switch à un routeur.
+    *   **Configuration typique sur un switch Cisco :**
+        ```bash
+        Switch(config-if)# switchport mode trunk
+        Switch(config-if)# switchport trunk native vlan 99  # VLAN natif (optionnel, souvent changé pour la sécurité)
+        ```
+
+**Exemple concret Africain :** **MTN Cameroon** utilise massivement le trunking 802.1Q dans ses centres de données pour séparer le trafic voix (VLAN prioritaire avec QoS), le trafic données clients (VLAN internet), et le trafic de gestion interne de l'opérateur sur une même infrastructure physique de fibre optique entre ses routeurs et commutateurs.
+
+#### **2.3. Tableau Comparatif : Port Access vs Port Trunk**
+| Caractéristique          | Port d'Accès (Access)                | Port Trunk                            |
+|--------------------------|--------------------------------------|---------------------------------------|
+| **Nombre de VLANs**      | 1 VLAN                               | Multiple VLANs (1-4094)               |
+| **Type de trames**       | Untagged (sans étiquette)            | Tagged (étiquetées 802.1Q)            |
+| **Connexion typique**    | Hôte final (PC, IP Phone, serveur)   | Switch-to-Switch, Switch-to-Router    |
+| **VLAN par défaut**      | VLAN 1 (à modifier pour la sécurité) | VLAN natif (par défaut VLAN 1)        |
+
+---
+
+### **3. Routage Inter-VLAN (Inter-VLAN Routing)**
+
+#### **3.1. Le Besoin de Routage**
+Par définition, les VLANs sont des sous-réseaux IP distincts. Les hôtes situés dans des VLANs différents **ne peuvent pas communiquer directement** au niveau de la couche 2 (commutation). Il faut un équipement de **couche 3 (routage)** pour acheminer les paquets entre les VLANs.
+
+#### **3.2. Méthodes de Routage Inter-VLAN**
+1.  **Routeur-on-a-Stick (Routeur "sur un bâton") :**
+    *   Une seule interface physique du routeur est connectée à un port trunk du switch.
+    *   Sur le routeur, on crée des **sous-interfaces logiques** (ex: G0/0.10, G0/0.20), chacune associée à un VLAN et à un sous-réseau IP.
+    *   Le routeur route le trafic entre ces sous-interfaces.
+    *   **Solution économique mais peut créer un goulot d'étranglement.**
+
+2.  **Commutation de Couche 3 (Multilayer Switch) :**
+    *   Utilisation d'un **switch de couche 3** (ex: Cisco Catalyst 3560, 9300) qui combine les fonctions de commutation (L2) et de routage (L3).
+    *   On configure des **Interfaces Virtuelles de VLAN (SVI - Switch Virtual Interface)**.
+    *   Chaque SVI est l'interface de gateway par défaut pour son VLAN.
+    *   **Solution performante et scalable, largement utilisée en entreprise.**
+
+**Exemple de configuration SVI sur un switch L3 :**
+```bash
+Switch(config)# vlan 10
+Switch(config-vlan)# name Direction
+Switch(config)# interface vlan 10
+Switch(config-if)# ip address 192.168.10.1 255.255.255.0  # Gateway du VLAN 10
+Switch(config-if)# no shutdown
+```
+
+**Contexte OHADA :** Une institution comme le **CIRGL (Conférence Internationale sur la Région des Grands Lacs)** pourrait avoir un VLAN pour son système documentaire OHADA (VLAN 30 : 10.30.0.0/24), un VLAN pour la gestion administrative (VLAN 10) et un VLAN pour les invités (VLAN 99). Le routage inter-VLAN permet aux administrateurs du VLAN 10 d'accéder au serveur OHADA sur le VLAN 30, tandis que les invités (VLAN 99) en sont isolés pour des raisons de sécurité.
+
+---
+
+### **4. STP (Spanning Tree Protocol) et RSTP (Rapid STP)**
+
+#### **4.1. Le Problème des Boucles de Couche 2**
+Dans un réseau commuté redondant (plusieurs chemins physiques entre switches), des **boucles de couche 2** peuvent se former, entraînant :
+*   **Tempêtes de broadcast** (broadcast storms).
+*   **Instabilité de la table MAC** (MAC address table thrashing).
+*   **Duplication de trames**.
+*   **Panne totale du réseau**.
+
+#### **4.2. Principe du STP (IEEE 802.1D)**
+STP est un protocole qui **désactive logiquement** certains liens redondants pour créer une topologie logique **sans boucle (arbre)** tout en conservant la redondance physique. Il calcule un "arbre couvrant" (spanning tree).
+
+*   **Algorithme de calcul :**
+    1.  **Élection d'un Switch Racine (Root Bridge)** : Le switch avec le plus faible **Bridge ID** (Priorité + Adresse MAC) est élu.
+    2.  **Détermination des Ports Racine (Root Ports)** : Sur chaque switch non-racine, le port avec le **coût racine le plus faible** vers le Root Bridge devient Root Port.
+    3.  **Détermination des Ports Désignés (Designated Ports)** : Sur chaque segment (lien), le port avec le **chemin le plus avantageux** vers le Root Bridge devient Designated Port (état Forwarding).
+    4.  **Blocage des autres ports** : Les ports qui ne sont ni Root ni Designated sont **bloqués** (état Blocking).
+
+*   **États des ports STP :**
+    *   **Blocking** (Bloqué) : Ne transmet pas de trames utilisateur.
+    *   **Listening** (Écoute) : Écoute les BPDU.
+    *   **Learning** (Apprentissage) : Apprend les adresses MAC.
+    *   **Forwarding** (Transmission) : Transmet les trames utilisateur.
+    *   **Disabled** (Désactivé).
+
+**Le temps de convergence du STP classique est lent (30 à 50 secondes).**
+
+#### **4.3. RSTP (Rapid STP - IEEE 802.1w)**
+RSTP est une évolution majeure de STP, offrant une **convergence beaucoup plus rapide** (souvent en moins d'une seconde).
+
+*   **Principales améliorations :**
+    *   **Port Roles supplémentaires :** *Alternate* et *Backup* ports pour un basculement rapide.
+    *   **États de port simplifiés :** Discarding, Learning, Forwarding.
+    *   **Mécanisme de proposition/accord (handshake)** entre switches voisins pour activer les ports plus rapidement.
+    *   **Rétrocompatible avec STP.**
+
+**À retenir :** **Toujours privilégier RSTP (802.1w) ou son évolution MSTP (802.1s) dans les réseaux modernes.** Un opérateur comme **Camtel** ne peut pas se permettre 50 secondes de panne sur son réseau cœur ; il utilise RSTP/MSTP pour une reprise quasi-instantanée en cas de coupure de fibre.
+
+---
+
+### **5. EtherChannel (Agrégation de Liens)**
+
+#### **5.1. Définition et Objectifs**
+**EtherChannel** (ou Agrégation de Liens - LAG, Link Aggregation) est une technologie qui regroupe **plusieurs liens physiques Ethernet** en un seul lien logique.
+
+*   **Objectifs :**
+    *   **Augmenter la bande passante** (somme des capacités des liens).
+    *   **Assurer la redondance** (si un lien tombe, le trafic est réparti sur les autres).
+    *   **Éviter les boucles de couche 2** sans surcoût STP (le canal est vu comme un seul lien logique).
+
+#### **5.2. Protocoles de Négociation**
+*   **PAgP (Port Aggregation Protocol)** : Protocole propriétaire Cisco.
+*   **LACP (Link Aggregation Control Protocol - IEEE 802.3ad)** : Standard ouvert, recommandé pour l'inter

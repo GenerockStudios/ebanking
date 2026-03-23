@@ -1,0 +1,97 @@
+CHAPITRE 1 — INTRODUCTION AU GÉNIE LOGICIEL (IGL115)
+BTS Génie Logiciel — Initiation au Génie Logiciel
+
+1. DÉFINITION ET ENJEUX
+
+Le génie logiciel (Software Engineering) est la discipline qui applique des méthodes d'ingénierie systématiques à la conception, au développement, aux tests, à la maintenance et à la gestion des logiciels.
+
+Pourquoi le génie logiciel ? Les logiciels sont devenus des systèmes critiques : avions, hôpitaux, banques, systèmes de vote. Un bug peut coûter des millions ou des vies. Le génie logiciel apporte de la rigueur là où l'artisanat individuel ne suffit plus.
+
+Crise du logiciel (1968) : conférence NATO à Garmisch. Constat : projets logiciels en retard, hors budget, ne répondant pas aux besoins. Naissance du génie logiciel comme discipline.
+
+Problèmes récurrents sans génie logiciel :
+- Budget dépassé (coût réel 2 à 3 fois l'estimation initiale)
+- Délais non respectés
+- Logiciel livré ne correspond pas aux besoins exprimés
+- Code impossible à maintenir
+- Qualité insuffisante (bugs, pannes, failles de sécurité)
+
+2. LE CYCLE DE VIE DU LOGICIEL
+
+Toute la vie d'un logiciel depuis son idée jusqu'à son retrait, divisée en phases :
+
+Phase 1 — Expression des besoins et faisabilité :
+Analyser les besoins des utilisateurs, définir le périmètre du projet, estimer si c'est réalisable (techniquement et financièrement).
+
+Phase 2 — Analyse des besoins (spécifications) :
+Formaliser les besoins en spécifications : Quoi doit faire le logiciel ? (exigences fonctionnelles) et Quelles contraintes doit-il respecter ? (exigences non fonctionnelles : performance, sécurité, compatibilité).
+
+Phase 3 — Conception (architecture) :
+Définir comment le logiciel sera construit. Conception générale (architecture globale) et conception détaillée (modules, interfaces, algorithmes).
+
+Phase 4 — Codage (implémentation) :
+Écrire le code source selon les spécifications et la conception. Respect des standards de codage, documentation.
+
+Phase 5 — Tests et validation :
+Tests unitaires, tests d'intégration, tests système, tests d'acceptation (recette). Vérifier que le logiciel fait ce qu'il doit faire.
+
+Phase 6 — Déploiement et livraison :
+Installer le logiciel chez le client ou le mettre en ligne. Documentation utilisateur, formation.
+
+Phase 7 — Maintenance :
+La phase la plus longue (60-80% du coût total sur la vie du logiciel).
+- Maintenance corrective : corriger les bugs découverts
+- Maintenance adaptative : adapter aux changements d'environnement (nouveau OS, nouvelle BD)
+- Maintenance évolutive : ajouter de nouvelles fonctionnalités
+- Maintenance préventive : améliorer la qualité du code pour prévenir de futurs problèmes
+
+3. MODÈLES DE PROCESSUS DE DÉVELOPPEMENT
+
+A) Modèle en Cascade (Waterfall — Royce, 1970) :
+Chaque phase doit être terminée avant de passer à la suivante. Séquentiel et linéaire.
+Avantages : simple à comprendre, documentation complète, adapté si les besoins sont stables.
+Inconvénients : rigide, les erreurs découvertes tard sont très coûteuses, le client ne voit le produit qu'à la fin.
+
+B) Modèle en V :
+Extension du cascade. Chaque phase de développement est associée à une phase de test correspondante.
+Spécifications ←→ Tests d'acceptation
+Conception générale ←→ Tests système
+Conception détaillée ←→ Tests d'intégration
+Codage ←→ Tests unitaires (au centre du V)
+
+C) Modèle en Spirale (Boehm, 1988) :
+Développement itératif avec gestion des risques à chaque itération. Chaque cycle comprend : planification → analyse des risques → développement → évaluation.
+Adapté aux grands projets risqués.
+
+D) Méthodes Agiles (Manifeste Agile, 2001) :
+Philosophie : livraisons fréquentes, collaboration client, adaptabilité au changement.
+Méthodes : Scrum, XP (Extreme Programming), Kanban.
+Itérations courtes (sprints de 2-4 semaines) → feedback rapide.
+
+Valeurs du Manifeste Agile :
+- Les individus et leurs interactions PLUS QUE les processus et les outils
+- Un logiciel qui fonctionne PLUS QUE une documentation exhaustive
+- La collaboration avec le client PLUS QUE la négociation contractuelle
+- L'adaptation au changement PLUS QUE le suivi d'un plan
+
+4. QUALITÉ LOGICIELLE
+
+Modèle de qualité ISO/IEC 25010 (anciennement ISO 9126) :
+Caractéristiques de qualité :
+- Fonctionnalité : le logiciel fait ce qu'il doit faire
+- Fiabilité : fonctionne sans défaillance dans des conditions spécifiées
+- Utilisabilité : facile à utiliser
+- Efficacité (performance) : temps de réponse, utilisation des ressources
+- Maintenabilité : facilité de modification et de correction
+- Portabilité : peut fonctionner dans différents environnements
+- Sécurité : protection contre les accès non autorisés
+
+Métriques logicielles :
+- Nombre de lignes de code (LoC) : simple mais trompeuse
+- Complexité cyclomatique de McCabe : mesure la complexité des chemins d'exécution
+  CC = nombre d'arêtes − nombre de nœuds + 2 (dans le graphe de flux de contrôle)
+  CC ≤ 10 : code simple, bien testable
+  CC > 20 : code très complexe, à refactoriser
+- Taux de couverture des tests : % du code exécuté par les tests. Cible : ≥ 80%
+- Taux de bugs : nombre de bugs par KLOC (1000 lignes de code)
+- Dette technique : coût futur du travail à faire pour corriger des mauvaises décisions passées

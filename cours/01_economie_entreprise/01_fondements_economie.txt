@@ -1,0 +1,139 @@
+# **Notes de Cours - BTS Génie Logiciel (Cameroun)**
+**Matière : 01 Économie d'Entreprise**
+**Chapitre : Fondements de l'économie : besoins, biens, agents économiques, circuits et flux économiques**
+
+---
+
+## **1. Introduction : Qu'est-ce que l'économie ?**
+
+L'économie est la science qui étudie la manière dont les sociétés utilisent des ressources limitées (rares) pour produire des biens et services et les répartir entre les individus et les groupes, afin de satisfaire des besoins illimités. Pour l'ingénieur logiciel, comprendre ces fondements est crucial pour concevoir des solutions logicielles adaptées aux réalités du marché, aux processus d'entreprise et aux contraintes économiques du Cameroun et de l'Afrique.
+
+**À retenir :** L'économie repose sur le **problème fondamental de la rareté** : des besoins illimités face à des ressources limitées.
+
+---
+
+## **2. Les Besoins Économiques**
+
+### **2.1. Définition et caractéristiques**
+Un besoin est une sensation de manque, accompagnée du désir de le faire disparaître. En économie, les besoins sont à l'origine de toute activité de production et de consommation.
+*   **Caractéristiques :**
+    *   **Illimités** : La satisfaction d'un besoin en fait naître de nouveaux (ex: avoir un téléphone basique → vouloir un smartphone → vouloir un smartphone dernier cri).
+    *   **Renouvelables** : Ils réapparaissent après satisfaction (faim, soif).
+    *   **Variables** : Ils changent selon l'individu, la culture, l'époque, le niveau de développement.
+
+### **2.2. Classification des besoins**
+*   **Selon leur nature (Pyramide de Maslow) :**
+    1.  **Besoins physiologiques** : Manger, se loger, se soigner.
+    2.  **Besoins de sécurité** : Emploi stable, protection sociale, sécurité des biens.
+    3.  **Besoins d'appartenance et sociaux** : Faire partie d'un groupe (famille, association, réseau professionnel).
+    4.  **Besoins d'estime** : Reconnaissance, statut social, réussite professionnelle.
+    5.  **Besoins d'accomplissement** : Se réaliser, innover, créer (très pertinent pour un développeur logiciel).
+*   **Selon le point de vue économique :**
+    *   **Besoins primaires (vitaux)** : Indispensables à la survie (nourriture, eau, santé).
+    *   **Besoins secondaires (de civilisation)** : Améliorent la qualité de vie (éducation, loisirs, télécommunications, logiciels).
+*   **Selon le sujet :**
+    *   **Besoins individuels** : Ressentis par une personne.
+    *   **Besoins collectifs** : Ressentis par la société et satisfaits par la puissance publique (sécurité nationale, éclairage public, routes, système judiciaire OHADA).
+
+**Exemple camerounais/africain :** Le besoin de **connectivité** (Internet, mobile) est passé d'un besoin secondaire à un besoin quasi-primaire pour l'éducation, les affaires (mobile money) et l'accès aux services administratifs. Les entreprises comme **MTN, Orange Cameroun, Camtel** répondent à ce besoin croissant.
+
+---
+
+## **3. Les Biens et Services Économiques**
+
+### **3.1. Définition**
+Un bien ou un service économique est tout ce qui permet de satisfaire un besoin et qui nécessite, pour son obtention, un sacrifice (généralement un paiement). Il se distingue des **biens libres** (abondants et gratuits, comme l'air) qui ne sont pas étudiés en économie.
+
+### **3.2. Classification des biens et services**
+**Tableau comparatif des principaux types de biens :**
+
+| Critère de classification | Type de bien | Définition | Exemples concrets (Cameroun/Afrique) |
+| :--- | :--- | :--- | :--- |
+| **Selon la matérialité** | **Biens matériels** | Objets tangibles, physiques. | Riz, ciment, ordinateur, smartphone Huawei/Techno. |
+| | **Services (biens immatériels)** | Prestations, actes intangibles. | Consultation médicale, cours de programmation, forfait internet Orange, maintenance logicielle. |
+| **Selon la durabilité** | **Biens durables** | Utilisables plusieurs fois sur longue période. | Véhicule, serveur informatique, bâtiment. |
+| | **Biens non durables** | Détruits ou transformés dès le 1er usage. | Carburant, logiciel sous licence perpétuelle (consommé par l'usage), alimentation. |
+| **Selon la destination** | **Biens de consommation** | Satisfont directement un besoin final. | Vêtement, pain, application mobile de divertissement (Showmax). |
+| | **Biens de production (d'investissement/capital)** | Servent à produire d'autres biens. | Tour à commande numérique, logiciel de gestion (SAP, Sage), licences de développement (Visual Studio). |
+| **Selon le lien avec d'autres biens** | **Biens complémentaires** | Consommés conjointement. | Téléphone et forfait data, ordinateur et système d'exploitation, voiture et essence. |
+| | **Biens substituables** | Peuvent se remplacer pour satisfaire le même besoin. | MTN Mobile Money vs Orange Money, courrier postal vs email, taxi vs moto-taxi (benskin). |
+
+**Pour l'ingénieur logiciel :** Le **logiciel** est un bien économique complexe. Il peut être :
+*   Un **service** (SaaS - Software as a Service : Microsoft 365, Google Workspace).
+*   Un **bien de consommation** (jeu vidéo, app de fitness).
+*   Un **bien de production essentiel** (IDE comme IntelliJ, framework comme Django, ERP).
+*   Souvent **intangible et durable** (mais avec des cycles de mise à jour).
+
+---
+
+## **4. Les Agents Économiques et leurs Fonctions**
+
+Les agents économiques sont les acteurs dont les décisions et les activités constituent l'économie. Leur regroupement se fait selon leur **fonction principale**.
+
+### **4.1. Les Ménages**
+*   **Fonction principale :** **Consommation** de biens et services pour satisfaire leurs besoins.
+*   **Rôles :**
+    *   Ils fournissent du **travail** et des **capitaux** aux entreprises (en échange de salaires et revenus).
+    *   Ils sont les **consommateurs finaux**.
+*   **Ressources/Revenus :** Salaires, revenus de la propriété (loyers, dividendes), transferts (pensions).
+*   **Emplois/Dépenses :** Consommation, impôts, épargne.
+
+### **4.2. Les Entreprises (Sociétés Non Financières - SNF)**
+*   **Fonction principale :** **Production** de biens et services marchands.
+*   **Rôles :** Elles combinent les facteurs de production (travail, capital, matières premières) pour créer de la valeur.
+*   **Ressources :** Chiffre d'affaires (ventes), emprunts.
+*   **Emplois :** Achat de consommations intermédiaires, paiement des salaires, investissement, impôts.
+*   **Exemples camerounais :**
+    *   **Grandes entreprises :** **SAVONNERIE DU CAMEROUN (SOC), CIMENCAM, Brasseries du Cameroun.**
+    *   **Entreprises de TIC/Logiciel :** **INGENOVA, GÉNIE LOGICIEL, startups de la Silicon Mountain (Buea), sociétés de services informatiques.**
+    *   **Télécoms :** **MTN, Orange, Camtel, Nexttel.**
+
+### **4.3. Les Administrations Publiques (APU)**
+*   **Fonction principale :** Production de **services non marchands** (collectifs) et **redistribution** des richesses.
+*   **Rôles :** Assurer la sécurité, la justice, l'éducation, la santé, construire les infrastructures.
+*   **Ressources :** Prélèvements obligatoires (impôts, taxes, cotisations sociales).
+*   **Emplois :** Dépenses de fonctionnement, investissements publics, versement d'aides (subventions, prestations sociales).
+*   **Cadre institutionnel :** L'**OHADA** (Organisation pour l'Harmonisation en Afrique du Droit des Affaires) fournit un cadre juridique commun (Acte uniforme) pour les entreprises, crucial pour le développement économique régional.
+
+### **4.4. Les Institutions Financières (IF)**
+*   **Fonction principale :** Faciliter le **financement** de l'économie.
+*   **Rôles :** Collecter l'épargne, accorder des crédits, gérer les moyens de paiement.
+*   **Exemples :** Banques commerciales (**Afriland First Bank, BICEC, UBA**), établissements de microfinance, banque centrale (**BEAC**).
+
+### **4.5. Le Reste du Monde (RdM)**
+*   **Fonction :** Représente toutes les relations économiques (échanges) avec les autres pays.
+*   **Opérations :** Exportations, importations, transferts de capitaux, investissements directs étrangers (IDE).
+
+**À retenir :** Tout agent économique a un **double rôle** : il est à la fois **vendeur** (de ses ressources) et **acheteur** (de biens, services ou facteurs).
+
+---
+
+## **5. Les Circuits et Flux Économiques**
+
+### **5.1. Définitions**
+*   **Circuit économique :** Représentation schématique simplifiée des relations entre les agents économiques.
+*   **Flux économique :** Mouvement de biens, de services, de monnaie ou de capitaux entre deux agents. Il est toujours **réciproque** (un flux réel contre un flux monétaire).
+
+### **5.2. Types de flux**
+1.  **Flux réels (physiques) :** Circulation de biens, de services, de travail.
+2.  **Flux monétaires (financiers) :** Circulation de monnaie (paiements, revenus, crédits).
+
+### **5.3. Le circuit économique fondamental (économie fermée sans État)**
+Il illustre l'interdépendance entre **Ménages** et **Entreprises**.
+*   **Flux réels :** Les ménages fournissent du **travail** aux entreprises. Les entreprises fournissent des **biens et services** aux ménages.
+*   **Flux monétaires (contreparties) :** Les entreprises versent des **salaires** aux ménages. Les ménages paient la **consommation** aux entreprises.
+
+### **5.4. Le circuit économique complet (économie ouverte avec État et secteur financier)**
+C'est la représentation la plus réaliste. Tous les agents interagissent.
+*   **Exemple de flux dans l'économie camerounaise :**
+    *   Un **ménage** paie des **impôts** (flux monétaire) à l'**État** qui construit une **route** (flux réel de service non marchand).
+    *   Une **entreprise** locale (ex: une SSII) achète une **licence Microsoft** (flux monétaire) au **Reste du Monde** et reçoit le **logiciel** (flux réel d'importation).
+    *   Un **ménage** place son épargne sur un compte à la **BICEC** (flux monétaire) qui accorde un **crédit** (flux monétaire) à une **startup** pour acheter des **ordinateurs** (flux réel).
+    *   **Orange Cameroun** (entreprise) verse la **TV** (flux monétaire) à l'**État** et paie des **dividendes** (flux monétaire) à ses actionnaires étrangers (**Reste du Monde**).
+
+### **5.5. Mesure des flux : la Comptabilité Nationale**
+C'est le système qui enregistre et mesure l'ensemble des flux économiques d'un pays sur une période (généralement l'année).
+*   **Agrégats principaux :**
+    *   **Produit Intérieur Brut (PIB) :** Valeur totale de la richesse créée par les agents résidents.
+    *   **Revenu National Brut (RNB) :** Revenu total perçu par les agents nationaux.
+*   **Outils logiciels utilisés en entreprise :** La comptabilité nationale est réalisée par l'Institut National de la Statist

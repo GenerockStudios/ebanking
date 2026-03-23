@@ -1,0 +1,127 @@
+# **Notes de Cours - BTS Génie Logiciel (Cameroun)**
+## **Matière 15 : Sécurité Informatique**
+## **Chapitre : Forensique numérique et réponse aux incidents : collecte de preuves, analyse de logs, chaîne de custody, SIEM (Splunk, ELK Stack)**
+
+---
+
+### **1. Introduction à la Forensique Numérique et à la Réponse aux Incidents**
+
+#### **1.1. Définitions et Contexte**
+*   **Forensique Numérique (Digital Forensics)** : Discipline scientifique qui consiste à identifier, collecter, analyser et présenter des preuves numériques de manière légale et admissible devant une juridiction. C'est l'autopsie d'un système ou d'un support numérique après un incident.
+*   **Réponse aux Incidents (Incident Response)** : Processus structuré et méthodique de gestion des conséquences d'une attaque ou d'une violation de sécurité (incident) afin de limiter les dégâts, réduire le temps de récupération et les coûts associés.
+*   **Lien entre les deux** : La forensique numérique est souvent une **phase cruciale** du processus de réponse aux incidents. Elle permet de comprendre **comment** l'incident s'est produit, **qui** en est responsable, **quelles** données ont été impactées, et de **collecter des preuves** pour d'éventuelles poursuites.
+
+**Contexte Camerounais/Africain** : Avec la croissance de la cybercriminalité (arnaques au faux ordre de virement, fraude aux cartes SIM, usurpation d'identité sur les réseaux sociaux), la numérisation des services (e-gouvernement, mobile money) et l'existence de textes de loi comme la **Loi N°2010/012 sur la Cybersécurité et la Cybercriminalité au Cameroun**, la maîtrise de ces disciplines devient impérative pour les entreprises (MTN, Orange, Camtel, banques) et les institutions publiques.
+
+#### **1.2. Cadre Légal et Normatif**
+*   **Loi Camerounaise 2010/012** : Définit les infractions cybernétiques, les pouvoirs d'investigation et l'importance des preuves numériques.
+*   **Acte Uniforme OHADA sur le Droit Commercial Général (révisé)** : Bien que non spécifique au numérique, il régit les obligations de preuve en matière commerciale. Une preuve numérique doit être **fiable, intègre et traçable** pour être recevable, ce qui renforce l'importance de la **chaîne de custody**.
+*   **Normes Internationales** : ISO/IEC 27037 (Lignes directrices pour l'identification, la collecte, l'acquisition et la conservation des preuves numériques), NIST SP 800-61 (Guide pour la réponse aux incidents de sécurité informatique).
+
+---
+
+### **2. Le Processus de Forensique Numérique**
+
+#### **2.1. Les Principes Fondamentaux (Règles de l'ACPO - UK)**
+1.  **Ne rien modifier** : L'enquêteur ne doit jamais altérer les données originales.
+2.  **Utiliser des méthodes éprouvées** : Les outils et techniques doivent être acceptés par la communauté scientifique.
+3.  ​**Documenter toute action** : Toute étape doit être consignée dans un rapport détaillé et reproductible.
+4.  ​**Responsabilité** : L'enquêteur est responsable de la conformité de ses actes avec la loi.
+
+#### **2.2. Les Étapes du Processus (Modèle en 4/5 Phases)**
+**Phase 1 : Identification** : Détection de l'incident et définition du périmètre de l'enquête (ex: un serveur web de l'entreprise piraté, un employé suspecté de fuite de données).
+**Phase 2 : Collecte et Préservation (ACQUISITION)**
+*   **Objectif** : Obtenir une copie bit-à-bit (*forensic image*) des supports concernés sans les altérer.
+*   **Outils** : `dd`, `FTK Imager`, `Guymager`, `dcfldd`, matériel de *write-blockers*.
+*   **Méthodes** :
+    *   **Live Acquisition** : Capture de la mémoire vive (RAM) et des processus en cours. Nécessaire pour les attaques résidentes en mémoire. Outils : `Volatility`, `Magnet RAM Capture`.
+    *   **Static Acquisition** : Capture des disques durs après arrêt "propre" du système.
+*   **Calcul d'Intégrité** : **Hachage cryptographique (MD5, SHA-256)** appliqué à l'image créée. Toute modification ultérieure changera la valeur de hachage.
+    *   **Formule/Principe** : `Hachage_Original = Hachage_Image_Acquise`. Si égalité, l'intégrité est prouvée.
+
+**Phase 3 : Analyse**
+*   **Examen des données** : Recherche de preuves pertinentes (fichiers supprimés, logs, artefacts du registre Windows, historiques, métadonnées).
+*   **Corrélation** : Mise en relation des éléments trouvés pour reconstituer la chronologie des événements (*timeline*).
+*   **Outils** : `Autopsy/The Sleuth Kit` (gratuit), `FTK`, `EnCase` (commerciaux), `Wireshark` (analyse réseau).
+
+**Phase 4 : Présentation et Rapport**
+*   Rédaction d'un **rapport forensique** clair, technique mais compréhensible par des non-techniciens (juges, avocats).
+*   Le rapport doit inclure : méthodologie, outils utilisés, preuves trouvées, conclusions et **chaîne de custody**.
+
+---
+
+### **3. La Chaîne de Custody (Chaîne de Traçabilité des Preuves)**
+
+#### **3.1. Définition et Importance**
+Documentation chronologique et ininterrompue qui retrace le parcours d'une preuve numérique, depuis sa découverte jusqu'à sa présentation en justice. Elle prouve que la preuve n'a pas été altérée, contaminée ou substituée.
+
+#### **3.2. Éléments Constitutifs (Formulaire de Custody)**
+Pour chaque transfert ou manipulation, on doit documenter :
+1.  **Identifiant unique de la preuve** (ex: #CBT-2024-001).
+2.  **Description détaillée** (ex: Disque dur Seagate 1To, S/N XYZ, image `serveur_web.img`).
+3.  **Nom et signature du collecteur**.
+4.  **Date, heure et lieu de collecte**.
+5.  **Nom et signature de la personne recevant la preuve**.
+6.  **Date et heure du transfert**.
+7.  **Motif de la manipulation** (ex: "analyse des logs système").
+8.  **Méthode de stockage** (ex: coffre-fort sécurisé, salle d'analyse).
+
+**À RETENIR** : Une rupture dans la chaîne de custody peut rendre une preuve **inadmissible** en justice, quel que soit son contenu.
+
+---
+
+### **4. Analyse des Logs**
+
+#### **4.1. Qu'est-ce qu'un Log ?**
+Enregistrement chronologique et séquentiel des événements survenus dans un système informatique (serveur, firewall, routeur, application). C'est la **première source de preuves** en cas d'incident.
+
+#### **4.2. Types de Logs Critiques**
+| Type de Log | Source Exemple | Information Clé | Exemple d'Indicateur de Compromission (IoC) |
+| :--- | :--- | :--- | :--- |
+| **Logs Système** | `/var/log/auth.log` (Linux), `Security.evtx` (Windows) | Tentatives de connexion (succès/échec), élévation de privilèges. | Multiples échecs de connexion (`FAILED LOGON`) depuis une IP étrangère suivis d'un succès. |
+| **Logs d'Application** | Serveur Web (Apache/Nginx), Base de données | Requêtes HTTP, erreurs SQL, accès aux fichiers. | Requêtes SQL inhabituelles avec `UNION SELECT` (injection SQL) ou téléchargement de fichiers `.php` suspects. |
+| **Logs Réseau** | Firewall (Fortinet, PfSense), Routeurs | Connexions entrantes/sortantes, ports, protocoles, volumes de données. | Connexions sortantes établies vers des IPs répertoriées comme malveillantes, ou sur des ports non standards (ex: 4444 pour un reverse shell). |
+| **Logs de Sécurité** | Antivirus, IDS/IPS (Snort, Suricata) | Alertes de détection de malware, tentatives d'intrusion. | Alerte `ET EXPLOIT Kit` ou détection d'un cheval de Troie connu. |
+
+**Exemple Concret (Cameroun)** : Une banque camerounaise constate des virements frauduleux. L'analyse des logs du serveur d'application bancaire pourrait révéler des sessions actives anormales en pleine nuit, provenant d'adresses IP géolocalisées hors du Cameroun, initiées après une série de tentatives de connexion infructueuses.
+
+#### **4.3. Bonnes Pratiques de Gestion des Logs**
+*   **Centralisation** : Envoyer tous les logs vers un serveur dédié et sécurisé (*log server*).
+*   **Synchronisation horaire** : Utiliser un protocole comme **NTP** pour garantir l'exactitude temporelle sur tous les systèmes (crucial pour la corrélation).
+*   **Intégrité** : Signer ou hacher les fichiers de logs pour détecter toute altération (ex: avec `logwatch` ou `auditd` sous Linux).
+*   **Rétention** : Définir une politique de conservation (ex: 6 mois à 1 an minimum) conforme aux exigences légales (OHADA, loi camerounaise).
+
+---
+
+### **5. Les SIEM (Security Information and Event Management)**
+
+#### **5.1. Définition et Objectifs**
+Un **SIEM** est une plateforme logicielle qui combine la **gestion des informations de sécurité (SIM)** et la **gestion des événements de sécurité (SEM)**.
+*   **Objectifs** :
+    1.  **Agrégation et Centralisation** : Collecter les logs de toutes les sources hétérogènes.
+    2.  **Corrélation en Temps Réel** : Mettre en relation des événements apparemment anodins pour détecter des menaces complexes.
+    3.  **Alerte et Notification** : Générer des alertes pour les équipes SOC (Security Operations Center).
+    4.  **Tableaux de Bord et Reporting** : Fournir une vue globale de la sécurité.
+
+#### **5.2. Architecture Type d'un SIEM**
+```
+[Sources de Logs] --> [Collecteurs/Forwarders] --> [Moteur de Corrélation/SIEM] --> [Console d'Analyse/Alerte]
+(Serveurs, FW, etc.)    (Agents légers)          (Stockage, Analyse, Règles)         (Analyste SOC)
+```
+
+#### **5.3. Outils SIEM Populaires**
+**1. Splunk**
+*   **Description** : Plateforme puissante et scalable, leader du marché. Utilise son propre langage de recherche **SPL (Search Processing Language)**.
+*   **Avantages** : Très flexible, écosystème d'apps riche, excellente visualisation.
+*   **Inconvénients** : Coût très élevé en fonction du volume de données indexées.
+*   **Cas d'usage** : Adapté aux grandes organisations (Camtel, ministères, grandes banques) ayant un budget conséquent.
+
+**2. ELK Stack (Elastic Stack)**
+*   **Description** : Suite open-source devenue une référence. Composée de :
+    *   **Elasticsearch** : Moteur de recherche et d'analyse (base NoSQL).
+    *   **Logstash** : Serveur de pipeline de traitement des données (collecte, transformation, envoi).
+    *   **Kibana** : Interface de visualisation et de tableau de bord.
+    *   **Beats** : Agents légers de collecte (Filebeat pour les logs, Packetbeat pour le réseau).
+*   **Avantages** : Gratuit et open-source, très personnalisable, communauté active.
+*   **Inconvénients** : Nécessite une expertise pour le déploiement, la configuration et la maintenance.
+*   **Cas d'usage** : Idéal pour les PME, startups et pour l'apprentissage. De plus en plus utilisé par les grandes entreprises en version payante (Elastic Gold/Platinum) avec les fonctionnalités de sécurité **SIEM** et **X

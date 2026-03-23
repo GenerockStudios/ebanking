@@ -1,0 +1,128 @@
+# **Notes de Cours - BTS Génie Logiciel (Cameroun)**
+## **Matière : 04 Informatique Générale**
+## **Chapitre : Bases de la sécurité informatique : menaces (virus, ransomware, phishing), antivirus, firewall, sauvegardes**
+
+---
+
+### **1. Introduction à la sécurité informatique**
+
+#### **1.1. Définition et enjeux**
+La sécurité informatique désigne l'ensemble des moyens techniques, organisationnels et juridiques visant à protéger les systèmes d'information contre les menaces internes et externes. Elle repose sur trois principes fondamentaux, souvent résumés par le **triade CIA** :
+- **Confidentialité** : Garantir que seules les personnes autorisées accèdent aux informations.
+- **Intégrité** : Assurer que les données ne sont pas altérées de manière non autorisée.
+- **Disponibilité** : Maintenir l'accès aux données et aux services pour les utilisateurs légitimes.
+
+**Enjeux au contexte camerounais/africain** : Avec la croissance du numérique (paiements mobiles comme *Orange Money* et *MTN Mobile Money*, dématérialisation des services publics, e-commerce), la protection des données personnelles et financières devient critique. La loi camerounaise sur la cybersécurité et la protection des données personnelles (Loi n°2010/012) ainsi que les dispositions de l'**OHADA** en matière de preuve électronique renforcent ces exigences.
+
+**À retenir** : La sécurité n'est pas un produit, mais un processus continu d'évaluation et de gestion des risques.
+
+---
+
+### **2. Les principales menaces informatiques**
+
+#### **2.1. Les virus et logiciels malveillants (Malwares)**
+- **Définition** : Programme informatique conçu pour se propager à d'autres ordinateurs en s'insérant dans des programmes légitimes, appelés "hôtes". Il peut perturber, espionner ou détruire.
+- **Modes de propagation** : Clés USB, pièces jointes, téléchargements, réseaux.
+- **Exemples concrets** : Un étudiant branchant une clé USB infectée dans le cybercafé universitaire de l'Université de Yaoundé I peut propager un virus sur tous les postes.
+
+#### **2.2. Les ransomwares (rançongiciels)**
+- **Définition** : Logiciel malveillant qui chiffre les données de la victime et exige une rançon (souvent en cryptomonnaie) en échange de la clé de déchiffrement.
+- **Impact** : Blocage total de l'accès aux systèmes ou aux fichiers.
+- **Exemple adapté** : Une PME camerounaise de Douala pourrait voir tous ses fichiers clients et sa comptabilité chiffrés, paralysant son activité. Les attaquants menacent de publier les données si la rançon n'est pas payée via *Bitcoin*.
+- **Conseil** : **Ne jamais payer la rançon**. Cela ne garantit pas la récupération des données et finance les cybercriminels.
+
+#### **2.3. Le phishing (hameçonnage)**
+- **Définition** : Technique de fraude visant à obtenir des informations sensibles (identifiants, cartes bancaires) en se faisant passer pour un tiers de confiance (banque, opérateur télécom, administration).
+- **Vecteurs principaux** : Emails, SMS (*smishing*), appels téléphoniques (*vishing*).
+- **Exemples camerounais** :
+    1. **Email phishing** : Réception d'un mail semblant provenir de *Camtel* ou de l'*ARMP* (Autorité de Régulation des Marchés Publics) invitant à "mettre à jour ses coordonnées bancaires" via un lien frauduleux.
+    2. **Smishing** : SMS prétendant provenir de *MTN* ou *Orange* : "Félicitations! Vous avez gagné 50 000 FCFA. Cliquez ici pour les réclamer."
+- **Indices de détection** : Adresse email suspecte (ex: `support@camtel-security.cm` au lieu de `@camtel.cm`), urgence créée, fautes d'orthographe, liens dont l'URL affichée diffère de la cible réelle.
+
+**Tableau comparatif des menaces**
+
+| **Menace**       | **Objectif principal**                          | **Vecteur typique**                     | **Impact potentiel**                              |
+|------------------|------------------------------------------------|-----------------------------------------|---------------------------------------------------|
+| **Virus**        | Altérer, détruire, se propager                 | Fichiers exécutables, supports amovibles | Corruption de données, ralentissement du système  |
+| **Ransomware**   | Extorquer de l'argent                          | Pièces jointes, vulnérabilités logicielles | Perte d'accès aux données, interruption d'activité |
+| **Phishing**     | Vol d'identifiants et d'argent                 | Emails, SMS, sites web frauduleux       | Usurpation d'identité, pertes financières         |
+
+---
+
+### **3. Les moyens de protection techniques**
+
+#### **3.1. Les antivirus et anti-malwares**
+- **Fonction** : Scanner, détecter, mettre en quarantaine et supprimer les logiciels malveillants.
+- **Techniques de détection** :
+    - **Signature** : Comparaison avec une base de signatures de virus connus (rapide, mais inefficace contre les menaces "zero-day").
+    - **Heuristique** : Analyse du comportement du code pour détecter des activités suspectes (détecte des menaces inconnues).
+    - **Analyuristique** : Analyse du comportement du code pour détecter des activités suspectes (détecte des menaces inconnues).
+    - **Analyse comportementale** : Surveillance en temps réel des actions des programmes.
+- **Outils populaires en entreprise** : *Kaspersky Endpoint Security*, *Symantec Endpoint Protection*, *McAfee*, *Sophos*. Des solutions gratuites comme *Avast* ou *AVG* sont courantes pour les particuliers.
+- **Bonnes pratiques** : Maintenir l'antivirus **toujours à jour** (bases de signatures et moteur), programmer des analyses périodiques complètes.
+
+#### **3.2. Le pare-feu (Firewall)**
+- **Définition** : Système (matériel ou logiciel) qui contrôle le trafic réseau entrant et sortant selon des règles de sécurité prédéfinies. Il agit comme un filtre entre un réseau interne de confiance (ex: le réseau d'une entreprise à Douala) et un réseau externe non fiable (Internet).
+- **Types** :
+    - **Pare-feu logiciel** : Installé sur un ordinateur individuel (ex: *Windows Defender Firewall*).
+    - **Pare-feu matériel** : Appliance dédiée protégeant tout un réseau (ex: solutions *Cisco ASA*, *FortiGate*).
+    - **Pare-feu nouvelle génération (NGFW)** : Intègre des fonctions avancées comme l'inspection approfondie des paquets (DPI), le filtrage applicatif et la prévention des intrusions (IPS).
+- **Fonctionnement** : Il utilise des règles basées sur les adresses IP, les ports et les protocoles. Par exemple, il peut bloquer tout accès entrant au port 3389 (Remote Desktop) sauf depuis l'adresse IP du siège social de l'entreprise à Yaoundé.
+
+**À retenir** : L'antivirus protège contre les **menaces internes** (fichiers malveillants), le pare-feu protège contre les **menaces externes** (attaques réseau). Ils sont **complémentaires**.
+
+---
+
+### **4. La stratégie de sauvegarde (Backup)**
+
+#### **4.1. Définition et importance**
+La sauvegarde est la copie des données critiques sur un support de stockage séparé, permettant leur restauration en cas de perte (panne, ransomware, sinistre). C'est **la dernière ligne de défense** absolue contre la perte de données.
+
+#### **4.2. La règle d'or : la stratégie 3-2-1**
+Une stratégie de sauvegarde robuste suit la règle **3-2-1** :
+- **3** copies de vos données (l'original + 2 copies).
+- **2** supports de stockage différents (ex: disque dur externe + bande magnétique ou NAS).
+- **1** copie stockée hors site (ex: dans un cloud sécurisé ou dans un lieu géographiquement distinct).
+
+#### **4.3. Types de sauvegarde**
+| **Type**           | **Description**                                                                 | **Avantages**                                     | **Inconvénients**                                  |
+|--------------------|---------------------------------------------------------------------------------|---------------------------------------------------|----------------------------------------------------|
+| **Complète**       | Sauvegarde de la totalité des données sélectionnées.                           | Restauration rapide et simple.                    | Longue, consomme beaucoup d'espace.                |
+| **Incrémentale**   | Sauvegarde uniquement des données modifiées depuis la dernière sauvegarde (quelle qu'elle soit). | Rapide, utilise peu d'espace.                     | Restauration plus lente (nécessite la dernière complète + toutes les incrémentales). |
+| **Différentielle** | Sauvegarde des données modifiées depuis la dernière sauvegarde **complète**.   | Restauration plus simple que l'incrémentale (complète + dernière différentielle). | Plus lente et plus gourmande en espace que l'incrémentale. |
+
+#### **4.4. Supports et solutions de sauvegarde**
+- **Supports locaux** : Disques durs externes, bandes LTO, NAS (*Synology*, *QNAP*).
+- **Cloud / Sauvegarde en ligne** : Stockage des données chez un prestataire tiers via Internet.
+    - **Avantages** : Accessibilité, protection contre les sinistres locaux (incendie, inondation).
+    - **Considérations camerounaises** : Tenir compte de la **bande passante** (coût et vitesse) et de la **localisation des serveurs** du fournisseur (conformité à la réglementation sur les données personnelles). Des solutions comme *Acronis Cloud*, *Backblaze* ou les offres des opérateurs locaux peuvent être évaluées.
+- **Bonnes pratiques** :
+    1. **Automatiser** les sauvegardes.
+    2. **Tester régulièrement** les restaurations (une sauvegarde non testée n'est pas une sauvegarde fiable).
+    3. **Chiffrer** les sauvegardes contenant des données sensibles.
+    4. **Adapter la fréquence** au RPO (*Recovery Point Objective*) : objectif de perte de données maximal acceptable. Ex: Pour la comptabilité quotidienne, un RPO de 24h nécessite une sauvegarde journalière.
+
+---
+
+### **5. Approche globale et sensibilisation**
+
+#### **5.1. La sécurité est une chaîne**
+La sécurité la plus faible est souvent **l'utilisateur**. Les mesures techniques (antivirus, firewall) doivent être soutenues par :
+- **Des politiques de sécurité** (mots de passe forts, interdiction des logiciels non autorisés).
+- **Une formation et une sensibilisation continue** du personnel aux risques (ne pas cliquer sur des liens suspects, vérifier l'expéditeur).
+- **Des mises à jour régulières** (patch management) de tous les logiciels et systèmes d'exploitation pour corriger les vulnérabilités.
+
+#### **5.2. Étude de cas simplifiée : Sécurisation d'une startup camerounaise de fintech**
+1. **Menaces identifiées** : Phishing ciblé (spear phishing) contre les comptables, risque de ransomware, vol de données clients.
+2. **Mesures mises en place** :
+    - **Techniques** : Pare-feu NGFW, antivirus sur tous les postes, chiffrement des disques portables, sauvegardes automatiques suivant la règle 3-2-1 (NAS local + cloud chiffré).
+    - **Organisationnelles** : Politique de mot de passe complexe et changement trimestriel, formation annuelle obligatoire sur le phishing, procédure de réponse aux incidents.
+    - **Juridiques** : Respect des directives de la loi camerounaise sur la protection des données, clauses de confidentialité dans les contrats.
+
+---
+
+### **6. Conclusion et points clés**
+
+- La sécurité informatique repose sur un équilibre entre **mesures techniques**, **procédures organisationnelles** et **sensibilisation humaine**.
+- Face à des menaces en constante évolution (virus, ransomware, phishing), une **défense en profondeur** (couches multiples) est nécessaire.
+- Les **sauvegardes

@@ -1,0 +1,72 @@
+CHAPITRE 3 — THÉORIE DES OBLIGATIONS ET DES CONTRATS
+BTS Génie Logiciel — Droit général
+
+1. NOTION D'OBLIGATION
+
+Une obligation est un lien de droit entre deux personnes (le créancier et le débiteur) en vertu duquel le débiteur doit accomplir une prestation au profit du créancier.
+
+Sources des obligations :
+- Le contrat : accord de volontés créant des obligations
+- Le quasi-contrat : fait volontaire mais non contractuel (gestion d'affaires, paiement de l'indu, enrichissement sans cause)
+- Le délit : fait illicite intentionnel causant un dommage (responsabilité civile délictuelle)
+- Le quasi-délit : fait illicite non intentionnel mais fautif
+
+Classification des obligations :
+- Obligation de donner : transférer la propriété d'une chose
+- Obligation de faire : accomplir une prestation (livrer un logiciel, construire)
+- Obligation de ne pas faire : s'abstenir (clause de non-concurrence)
+
+- Obligation de résultat : le débiteur s'engage à atteindre un résultat précis (livrer une voiture neuve)
+- Obligation de moyens : le débiteur s'engage à mettre en œuvre tous les moyens raisonnables (médecin, avocat)
+
+2. LE CONTRAT
+
+Définition : convention par laquelle une ou plusieurs personnes s'obligent envers une ou plusieurs autres à donner, faire ou ne pas faire quelque chose.
+
+CONDITIONS DE VALIDITÉ DU CONTRAT (Art. 1108 Code civil) :
+1. Consentement : accord de volontés libre et éclairé.
+   Vices du consentement : erreur (sur l'objet ou la personne), dol (manœuvres frauduleuses), violence (physique ou morale)
+2. Capacité : avoir la capacité juridique d'exercice
+3. Objet : la prestation doit être possible, licite et déterminée (ou déterminable)
+4. Cause : raison pour laquelle on s'engage ; doit être licite et morale
+
+EFFETS DU CONTRAT :
+- Force obligatoire : "Les conventions légalement formées tiennent lieu de loi à ceux qui les ont faites." (Art. 1134 Code civil). On ne peut pas s'en dégager unilatéralement.
+- Effet relatif : le contrat ne crée d'obligations qu'entre les parties. Les tiers ne peuvent en principe ni bénéficier ni être lésés.
+- Exceptions : la stipulation pour autrui (assurance-vie, contrat d'assurance au profit d'un tiers)
+
+3. PRINCIPAUX CONTRATS NOMMÉS
+
+Vente : transfert de propriété d'une chose contre un prix en argent. Perfectionné par accord sur la chose et le prix, même si non encore livré et payé.
+
+Bail (louage) : mise à disposition d'une chose pour une durée déterminée contre loyer.
+
+Contrat de travail : prestation de service contre rémunération, avec lien de subordination juridique.
+
+Contrat d'entreprise (ou de prestation de services) : une partie s'engage à réaliser un travail indépendamment (ex : contrat de développement de logiciel). Pas de lien de subordination → différent du contrat de travail.
+
+Contrat de mandat : le mandant confie à son mandataire le pouvoir d'agir en son nom et pour son compte.
+
+Contrat de prêt : remise d'une somme d'argent ou d'une chose avec obligation de restitution.
+
+4. INEXÉCUTION ET RESPONSABILITÉ CONTRACTUELLE
+
+En cas de non-exécution par le débiteur, le créancier peut :
+1. Exiger l'exécution forcée (si possible)
+2. Demander la résolution du contrat (anéantissement rétroactif)
+3. Réclamer des dommages et intérêts
+
+Conditions de la responsabilité contractuelle :
+- Faute (inexécution ou mauvaise exécution)
+- Préjudice (dommage subi par le créancier)
+- Lien de causalité entre la faute et le préjudice
+
+Clauses pénales : les parties peuvent prévoir à l'avance le montant des dommages et intérêts en cas d'inexécution (pratique courante dans les contrats informatiques).
+
+5. RESPONSABILITÉ CIVILE DÉLICTUELLE
+
+Conditions identiques : faute, préjudice, lien de causalité.
+Art. 1382 Code civil : "Tout fait quelconque de l'homme qui cause à autrui un dommage oblige celui par la faute duquel il est arrivé à le réparer."
+
+Responsabilité du fait d'autrui : employeur pour son employé, parents pour enfant mineur.
+Responsabilité du fait des choses : gardien d'une chose qui cause un dommage.

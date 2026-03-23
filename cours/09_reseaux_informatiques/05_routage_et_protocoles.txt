@@ -1,0 +1,139 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 09 Réseaux Informatiques**
+## **Chapitre : Routage : routage statique, protocoles dynamiques (RIP, OSPF, EIGRP, BGP), tables de routage**
+
+---
+
+### **1. Introduction au Routage**
+
+#### **1.1. Définition et Objectif**
+Le **routage** est le processus par lequel un routeur détermine le meilleur chemin pour acheminer un paquet de données de sa source vers sa destination à travers un réseau interconnecté (un internetwork). C'est la fonction essentielle de la couche 3 (Réseau) du modèle OSI.
+
+**Objectif principal** : Assurer la connectivité et la livraison efficace des données entre des réseaux distincts, même s'ils sont géographiquement éloignés.
+
+#### **1.2. Notion de Saut (Hop)**
+Un **saut** représente le passage d'un paquet d'un routeur à un autre. La métrique de distance dans de nombreux protocoles est basée sur le nombre de sauts.
+
+#### **1.3. La Table de Routage : Le Cerveau du Routeur**
+La **table de routage** est une base de données, stockée en mémoire vive (RAM) du routeur, qui contient les chemins connus vers les différents réseaux. Chaque entrée contient au minimum :
+*   **Réseau de destination** : L'adresse du réseau cible.
+*   **Masque de sous-réseau** : Permet d'identifier le réseau dans l'adresse IP.
+*   **Passerelle suivante (Next Hop)** : L'adresse IP du prochain routeur à qui envoyer le paquet.
+*   **Interface de sortie** : L'interface physique (ex: GigabitEthernet0/0) par laquelle quitter le routeur.
+*   **Métrique** : Une valeur numérique représentant le "coût" du chemin (plus la métrique est basse, meilleur est le chemin).
+*   **Source de la route** : Comment la route a été apprise (statique, RIP, OSPF, etc.).
+
+**Exemple concret (Cameroun)** : Imaginez un routeur principal de **Camtel** à Yaoundé. Sa table de routage doit connaître le chemin vers le réseau de **MTN Cameroon** à Douala, celui d'**Orange Cameroun** à Bafoussam, et vers les serveurs de l'**OHADA** (Organisation pour l'Harmonisation en Afrique du Droit des Affaires) basés à Port-Gentil. Elle indique pour chaque destination par quelle ligne de transmission (interface) envoyer les données et vers quel routeur partenaire (next hop).
+
+---
+
+### **2. Le Routage Statique**
+
+#### **2.1. Principe**
+Le **routage statique** est un processus manuel où l'administrateur réseau configure manuellement chaque route dans la table de routage de chaque routeur. Ces routes ne changent pas sauf intervention humaine.
+
+#### **2.2. Configuration (Syntaxe Générique Cisco)**
+```bash
+Router(config)# ip route [réseau_destination] [masque] [next-hop_ip | interface_sortie]
+```
+**Exemple** : `ip route 192.168.50.0 255.255.255.0 10.1.1.2`
+
+#### **2.3. Avantages et Inconvénients**
+**Tableau Comparatif**
+
+| Avantages | Inconvénients |
+| :--- | :--- |
+| **Faible consommation CPU/RAM** du routeur. | **Non adaptatif** : Pas de reconvergence automatique en cas de panne. |
+| **Sécurité** : Aucun échange de mises à jour avec d'autres routeurs. | **Administration lourde** : Configuration manuelle sur chaque routeur. |
+| **Prédictibilité** et contrôle total des chemins. | **Non évolutif** : Impraticable dans les grands réseaux (ex: opérateur national). |
+| **Simplicité** dans les petits réseaux. | Risque d'erreur humaine. |
+
+#### **2.4. Cas d'Utilisation au Cameroun**
+*   **Petites et Moyennes Entreprises (PME)** avec un réseau simple (un routeur, deux ou trois sous-réseaux).
+*   **Connexion de dernier recours (Route par défaut)** vers le fournisseur d'accès Internet (FAI). Ex: `ip route 0.0.0.0 0.0.0.0 196.200.220.1` (vers le routeur Camtel).
+*   **Liaison Stub** (réseau en impasse) dans une architecture plus complexe.
+
+---
+
+### **3. Le Routage Dynamique**
+
+#### **3.1. Principe**
+Les **protocoles de routage dynamique** permettent aux routeurs d'échanger automatiquement des informations sur les réseaux qu'ils connaissent. Chaque routeur construit et maintient sa table de routage de manière autonome en fonction des messages reçus de ses voisins.
+
+#### **3.2. Mécanismes de Base**
+*   **Découverte des Voisins** : Les routeurs identifient les autres routeurs directement connectés.
+*   **Échange de Tables/Mises à jour** : Partage des informations de routage.
+*   **Calcul du Meilleur Chemin** : Application d'un **algorithme de routage** (ex: Bellman-Ford, Dijkstra) pour déterminer le chemin optimal vers chaque réseau.
+*   **Maintien des Tables** : Mise à jour en cas de changement de topologie (ajout/suppression de liens, panne).
+
+#### **3.3. Classification des Protocoles Dynamiques**
+*   **Selon la Portée** :
+    *   **IGP (Interior Gateway Protocol)** : Utilisé à l'intérieur d'un **Système Autonome (AS)**. Un AS est un ensemble de réseaux sous une même administration technique (ex: le réseau national de **MTN Cameroon** est un AS). Protocoles : RIP, OSPF, EIGRP.
+    *   **EGP (Exterior Gateway Protocol)** : Utilisé pour échanger des informations de routage **entre** différents AS. Protocole : BGP. C'est le protocole qui permet à l'Internet mondial de fonctionner, en connectant l'AS de Camtel à celui d'Orange, de Google, etc.
+
+*   **Selon l'Algorithme** :
+    *   **À Vecteur de Distance (Distance-Vector)** : Le routeur ne connaît que la direction (vecteur) et la distance (métrique) vers un réseau, apprises de ses voisins. Ex: **RIP**, **EIGRP** (hybride).
+    *   **À État de Liens (Link-State)** : Chaque routeur a une carte complète de la topologie du réseau. Il calcule lui-même les meilleurs chemins. Ex: **OSPF**, **IS-IS**.
+
+---
+
+### **4. Protocoles IGP Courants**
+
+#### **4.1. RIP (Routing Information Protocol)**
+*   **Type** : IGP, à Vecteur de Distance.
+*   **Métrique** : Nombre de sauts (max 15, 16 = infini).
+*   **Algorithme** : Bellman-Ford.
+*   **Mises à jour** : Toutes les 30 secondes en broadcast (RIPv1) ou multicast (RIPv2).
+*   **Usage** : Simple, pour petits réseaux homogènes. **Déconseillé dans les réseaux d'entreprise modernes** en raison de sa lente convergence et de sa limite de 15 sauts.
+
+#### **4.2. OSPF (Open Shortest Path First)**
+*   **Type** : IGP, à État de Liens, **standard ouvert** (IETF).
+*   **Métrique** : Coût (basé sur la bande passante de l'interface). **Formule : Coût = Référence / Bande Passante**. La référence par défaut est 10^8 (100 Mbps).
+*   **Algorithme** : **Dijkstra (SPF - Shortest Path First)**.
+*   **Concept Clé** : Divise un grand AS en **zones** pour optimiser les calculs et réduire le trafic de mise à jour. La Zone 0 (backbone) est obligatoire.
+*   **Usage** : **Standard de fait dans les grands réseaux d'entreprise et d'opérateurs**. Idéal pour la redondance et la convergence rapide.
+*   **Exemple Africain** : L'infrastructure réseau d'une grande université camerounaise (ex: Université de Yaoundé I) ou d'une banque régionale utilisera très probablement OSPF pour structurer son réseau interne entre les différents bâtiments et campus.
+
+#### **4.3. EIGRP (Enhanced Interior Gateway Routing Protocol)**
+*   **Type** : IGP, **Hybride** (combine vecteur de distance et état de liens), **propriétaire Cisco** (devenu partiellement ouvert).
+*   **Métrique Composite** : Prend en compte la bande passante, le délai, la charge, la fiabilité (par défaut, utilise seulement Bande Passante et Délai).
+*   **Algorithme** : **DUAL (Diffusing Update Algorithm)**. Garantit une convergence rapide et une absence de boucle.
+*   **Usage** : Très populaire dans les réseaux entièrement Cisco pour sa simplicité de configuration et ses performances. Sa dépendance à Cisco peut être un frein.
+
+**Tableau Comparatif des IGP**
+
+| Critère | **RIP** | **OSPF** | **EIGRP** |
+| :--- | :--- | :--- | :--- |
+| **Type d'Algorithme** | Vecteur de Distance | État de Liens | Hybride (DUAL) |
+| **Métrique** | Sauts (Max 15) | Coût (Bande Passante) | Composite (Bw, Délai...) |
+| **Standard** | Ouvert (RFC) | Ouvert (RFC) | Propriétaire (Cisco) |
+| **Vitesse Convergence** | Lente | Rapide | Très Rapide |
+| **Évolutivité** | Très Faible | Excellente (avec zones) | Bonne |
+| **Complexité Config.** | Simple | Complexe | Modérée |
+
+---
+
+### **5. BGP : Le Protocole de l'Internet**
+
+#### **5.1. Rôle et Importance**
+**BGP (Border Gateway Protocol)** est l'**EGP standard de l'Internet**. Son rôle n'est pas de trouver le chemin le plus rapide, mais de trouver un chemin **atteignable et conforme aux politiques de routage** entre les Systèmes Autonomes (AS).
+
+#### **5.2. Concepts Clés**
+*   **AS Number (ASN)** : Numéro unique identifiant un AS (ex: ASN de Camtel, Orange). Attribué par les RIRs (AFRINIC pour l'Afrique).
+*   **BGP Peers/Speakers** : Routeurs BGP qui établissent une session TCP (port 179) pour échanger des informations. Peers peuvent être dans le même AS (iBGP) ou dans des AS différents (eBGP).
+*   **Politiques de Routage** : Règles définies par l'administrateur pour accepter, refuser ou modifier les chemins annoncés. C'est le cœur de BGP (aspect commercial, sécurité).
+
+#### **5.3. Usage au Cameroun et en Afrique**
+*   **Interconnexion des FAI** : Lorsque **MTN Cameroon** (son AS) échange du trafic avec **Orange Cameroun** (son AS) ou avec un **CDN (Content Delivery Network)** comme Akamai, c'est BGP qui est utilisé.
+*   **Multihoming** : Une entreprise camerounaise importante (ex: une banque) peut se connecter à deux FAI différents (Camtel et un autre) pour avoir de la redondance. BGP gère l'annonce et la sélection des chemins.
+*   **Sécurité** : Filtrage des routes pour éviter d'annoncer ou d'accepter des routes incorrectes (prévention de *hijacking* BGP).
+
+---
+
+### **6. Outils et Technologies Pratiques**
+
+*   **Matériel** : Routeurs Cisco (ISR, ASR), Juniper, MikroTik (très populaire pour son rapport performance/prix au Cameroun), Huawei.
+*   **Logiciels de Simulation/Émulation** :
+    *   **Cisco Packet Tracer** : Idéal pour débuter et modéliser des petits réseaux.
+    *   **GNS3 (Graphical Network Simulator-3)** : Émulation avancée, utilise de vraies images IOS de routeurs Cisco. Standard pour la préparation aux certifications (CCNA, CCNP).
+    *   **EVE-NG** : Alternative professionnelle à GNS3.

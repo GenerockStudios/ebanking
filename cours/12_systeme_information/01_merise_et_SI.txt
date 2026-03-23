@@ -1,0 +1,93 @@
+CHAPITRE 1 — SYSTÈMES D'INFORMATION ET MÉTHODE MERISE
+BTS Génie Logiciel — Système d'information
+
+1. NOTION DE SYSTÈME D'INFORMATION
+
+Définition : un Système d'Information (SI) est l'ensemble des ressources (humaines, matérielles, logicielles, données et procédures) permettant de collecter, stocker, traiter et diffuser des informations nécessaires au fonctionnement et à la prise de décision dans une organisation.
+
+Fonctions d'un SI :
+- Collecter : saisir, acquérir des informations (formulaires, capteurs, EDI)
+- Mémoriser : stocker de manière organisée et durable (BDD, fichiers)
+- Traiter : transformer, calculer, analyser (algorithmes, requêtes)
+- Diffuser : communiquer, afficher, imprimer (rapports, tableaux de bord, e-mails)
+
+Types de SI selon leur finalité :
+- SI de gestion (ERP, CRM) : gestion opérationnelle quotidienne
+- SI décisionnel (Business Intelligence, datawarehouse) : aide à la décision
+- SI de communication (messagerie, intranet, portail)
+- SI de production (SCADA, MES en industrie)
+
+Exemple de SI dans une école de BTS :
+Données : étudiants, cours, notes, enseignants, emplois du temps
+Traitements : inscription, calcul des moyennes, édition des bulletins
+Diffusion : affichage des notes sur l'ENT, envoi de relevés par e-mail
+
+2. MÉTHODE MERISE
+
+MERISE (Méthode d'Étude et de Réalisation Informatique pour les Systèmes d'Entreprise) est une méthode française d'analyse et de conception des SI, développée dans les années 1970-80. Encore très utilisée en Afrique francophone.
+
+Principe de séparation données / traitements :
+MERISE distingue et traite séparément l'axe des données et l'axe des traitements, à trois niveaux d'abstraction.
+
+NIVEAUX DE MODÉLISATION :
+             |  DONNÉES           |  TRAITEMENTS
+Conceptuel   |  MCD               |  MCT (Modèle Conceptuel des Traitements)
+Logique      |  MLD               |  MOT (Modèle Organisationnel des Traitements)
+Physique     |  MPD               |  MPT (Modèle Physique des Traitements)
+
+3. MODÈLE CONCEPTUEL DES TRAITEMENTS (MCT)
+
+Le MCT représente les processus métier de manière indépendante de l'organisation et de l'informatique.
+
+Concepts :
+- Événement : fait qui déclenche un traitement (réception d'un dossier, demande client)
+- Opération : ensemble d'actions réalisées sans interruption en réponse à un ou plusieurs événements
+- Synchronisation : conditions logiques sur les événements déclencheurs (ET, OU, SAUF)
+- Résultat : événement produit en sortie de l'opération
+
+Règles d'émission (RE) : conditions sous lesquelles chaque résultat est émis.
+Exemple :
+Événement entrant : "Demande d'inscription reçue"
+Opération : "Vérifier éligibilité"
+Résultats : "Accepté" (si dossier complet et notes suffisantes) / "Refusé" (sinon)
+
+4. MODÈLE ORGANISATIONNEL DES TRAITEMENTS (MOT)
+
+Le MOT précise qui fait quoi, quand et où : il répartit les traitements entre les acteurs (services, postes de travail) et les sites.
+
+Concepts supplémentaires :
+- Poste de travail : unité fonctionnelle réalisant les opérations
+- Tâche : partie d'une opération affectée à un poste de travail
+- Procédure fonctionnelle : regroupement de tâches automatisées ou manuelles
+- Mode : interactif (déclenché par un utilisateur), batch (traitement différé), temps réel
+
+5. SYSTÈMES ERP ET CRM
+
+ERP (Enterprise Resource Planning = PGI : Progiciel de Gestion Intégré) :
+Suite logicielle couvrant l'ensemble des processus opérationnels d'une entreprise.
+Modules typiques : comptabilité, RH, achats, ventes, production, stocks.
+Exemples : SAP, Oracle, Microsoft Dynamics, Odoo (open source), Sage.
+
+Avantages ERP :
+- Intégration des données en temps réel
+- Processus standardisés et optimisés
+- Réduction des saisies multiples (un seul référentiel)
+- Traçabilité complète
+
+CRM (Customer Relationship Management) :
+Logiciel de gestion de la relation client.
+Fonctionnalités : suivi des contacts, historique des interactions, gestion des opportunités, support client.
+Exemples : Salesforce, HubSpot, Zoho CRM, Sugar CRM.
+
+6. SÉCURITÉ DES SYSTÈMES D'INFORMATION
+
+Objectifs de sécurité (DICT) :
+- Disponibilité : le SI est accessible quand on en a besoin
+- Intégrité : les données ne sont pas altérées
+- Confidentialité : données accessibles seulement aux personnes autorisées
+- Traçabilité : toutes les actions sont enregistrées et vérifiables
+
+Menaces : attaques externes (hackers), malwares, ransomwares, phishing, employés malveillants.
+Mesures de protection : pare-feux, antivirus, chiffrement, sauvegardes, contrôle d'accès (IAM), formations.
+
+PSSI (Politique de Sécurité du SI) : document définissant les règles et procédures de sécurité de l'organisation.

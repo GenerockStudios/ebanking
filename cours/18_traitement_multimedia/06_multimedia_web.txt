@@ -1,0 +1,187 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière 18 : Traitement Multimédia**
+## **Chapitre : Multimédia sur le web : balises HTML5 (video, audio, canvas), API Web Audio, API MediaRecorder, accessibilité des médias**
+
+---
+
+### **1. Introduction au multimédia sur le web**
+
+Le multimédia sur le web désigne l'intégration, la manipulation et la diffusion de contenus combinant texte, images, sons, vidéos et animations via des technologies web. Avec la généralisation du **HTML5**, les navigateurs modernes disposent d'APIs natives puissantes pour gérer ces médias sans plugins externes (comme Flash), ce qui améliore la performance, la sécurité et l'expérience utilisateur, notamment dans un contexte africain où la connectivité peut être variable (réseaux MTN, Orange, Camtel).
+
+**Enjeux au Cameroun/Afrique** : L'explosion du mobile money, de l'e-learning, et des plateformes de divertissement local (streaming vidéo/audio) exige des développeurs maîtrisant ces technologies pour créer des applications performantes, même en conditions de bande passante limitée.
+
+---
+
+### **2. Les balises multimédias natives HTML5**
+
+#### **2.1. La balise `<audio>`**
+**Définition** : Balise HTML5 permettant d'intégrer et de contrôler un flux audio directement dans une page web.
+
+**Attributs essentiels** :
+*   `src` : Chemin vers le fichier audio.
+*   `controls` : Affiche les contrôles natifs (play, pause, volume).
+*   `autoplay` : Démarre la lecture automatiquement (à utiliser avec précaution, peut être bloqué par les navigateurs).
+*   `loop` : Répète la lecture en boucle.
+*   `preload` : Indique comment précharger l'audio (`none`, `metadata`, `auto`).
+
+**Formats supportés et compatibilité** : Pour une compatibilité maximale, fournir plusieurs sources. Les formats courants sont **MP3** (le plus universel), **Ogg Vorbis**, et **WAV**.
+
+**Exemple concret adapté** :
+```html
+<audio controls>
+    <source src="musique/maitre_gims_afro_trap.mp3" type="audio/mpeg">
+    <source src="musique/maitre_gims_afro_trap.ogg" type="audio/ogg">
+    Votre navigateur ne supporte pas l'élément audio. Téléchargez la chanson <a href="...">ici</a>.
+</audio>
+```
+*À retenir* : **Toujours prévoir un fallback textuel** (lien de téléchargement ou message) pour les anciens navigateurs ou en cas de problème de chargement, crucial pour les utilisateurs des zones rurales avec des appareils moins récents.
+
+#### **2.2. La balise `<video>`**
+**Définition** : Balise HTML5 pour l'intégration et le contrôle de contenu vidéo.
+
+**Attributs essentiels** (similaires à audio, avec des spécificités) :
+*   `width` / `height` : Définit les dimensions du lecteur.
+*   `poster` : Image d'aperçu affichée avant la lecture.
+*   `muted` : Désactive le son par défaut.
+
+**Codecs et stratégies d'encodage** : Les deux conteneurs principaux sont **MP4 (H.264)** et **WebM (VP8/VP9)**. Pour optimiser la diffusion au Cameroun, il est recommandé de :
+1.  Proposer plusieurs résolutions (360p, 720p) adaptées à la qualité des connexions (3G/4G de MTN, Orange).
+2.  Utiliser l'**adaptive streaming** (via des technologies comme HLS ou MPEG-DASH) pour les services de streaming professionnels.
+
+**Exemple avec poster et sources multiples** :
+```html
+<video controls width="600" poster="vignettes/conference_ohada_2023.jpg">
+    <source src="video/conference_ohada_2023_hd.mp4" type="video/mp4">
+    <source src="video/conference_ohada_2023_mobile.webm" type="video/webm">
+    <track src="sous-titres/conference_ohada_fr.vtt" kind="subtitles" srclang="fr" label="Français">
+</video>
+```
+
+#### **2.3. La balise `<canvas>`**
+**Définition** : Élément HTML qui fournit une surface de dessin bitmap via l'**API Canvas 2D** ou **WebGL**. Contrairement à `<img>`, le contenu de `<canvas>` est généré dynamiquement par du JavaScript.
+
+**Concepts clés** :
+*   **Contexte de rendu** : Obtenu via `getContext('2d')` ou `getContext('webgl')`.
+*   **Coordonnées** : Système basé sur un repère (0,0) en haut à gauche.
+*   **Cycle de dessin** : Effacer le canvas (`clearRect()`), dessiner les formes, appliquer les styles.
+
+**Applications en contexte africain** :
+*   Création de graphiques et tableaux de bord pour les applications de **suivi de données agricoles** ou **financières**.
+*   Développement de jeux éducatifs légers pour l'e-learning.
+*   Outils de retouche photo basiques pour les startups médias locales.
+
+**Exemple : Dessiner un drapeau camerounais simplifié** :
+```html
+<canvas id="drapeau" width="300" height="200"></canvas>
+<script>
+    const ctx = document.getElementById('drapeau').getContext('2d');
+    // Bande verte
+    ctx.fillStyle = '#007a5e'; ctx.fillRect(0, 0, 100, 200);
+    // Bande rouge
+    ctx.fillStyle = '#ce1126'; ctx.fillRect(100, 0, 100, 200);
+    // Bande jaune
+    ctx.fillStyle = '#fcd116'; ctx.fillRect(200, 0, 100, 200);
+    // Étoile centrale
+    ctx.fillStyle = '#fcd116'; ctx.beginPath();
+    // Dessiner une étoile à 5 branches (code simplifié)
+    // ... (code de dessin de l'étoile)
+    ctx.fill();
+</script>
+```
+
+**Tableau comparatif : `<img>`, `<svg>`, `<canvas>`**
+| Caractéristique | `<img>` (Bitmap) | `<svg>` (Vectoriel) | `<canvas>` (Bitmap) |
+| :--- | :--- | :--- | :--- |
+| **Type** | Graphique statique/raster | Graphique vectoriel | Surface de dessin dynamique |
+| **Dépendance** | Fichier source externe | Défini en XML dans le DOM | Manipulé par JavaScript |
+| **Scaling** | Pixelisé si agrandi | Parfait (sans perte) | Dépend de la résolution définie |
+| **Interactivité** | Limitée (clic) | Élevée (événements par élément) | Gérée manuellement (coordonnées) |
+| **Cas d'usage** | Photos, illustrations | Icônes, logos, graphiques complexes | Jeux, visualisations de données, éditions d'image |
+
+---
+
+### **3. Les APIs avancées pour le traitement multimédia**
+
+#### **3.1. L'API Web Audio**
+**Définition** : API JavaScript de haut niveau pour le traitement et la synthèse audio dans le navigateur. Elle fonctionne sur un modèle de **graphe de noeuds** modulaires (source → traitement → destination).
+
+**Architecture (Graphe de noeuds)** :
+1.  **Contexte Audio** (`AudioContext`) : Point d'entrée, contient tous les nœuds.
+2.  **Sources** (`AudioBufferSourceNode`, `OscillatorNode`, `MediaElementAudioSourceNode` lié à un `<audio>`).
+3.  **Nœuds de traitement** (`GainNode` pour le volume, `BiquadFilterNode` pour les filtres, `AnalyserNode` pour la visualisation).
+4.  **Destination** (`AudioContext.destination` = haut-parleurs).
+
+**Exemple pratique : Créer un générateur de tonalité pour un jeu ou une app** :
+```javascript
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const oscillator = audioCtx.createOscillator();
+const gainNode = audioCtx.createGain();
+
+oscillator.type = 'sine'; // Type d'onde : sine, square, sawtooth, triangle
+oscillator.frequency.value = 440; // Fréquence en Hz (La 440)
+
+gainNode.gain.value = 0.5; // Volume à 50%
+
+// Connexion du graphe : Source -> Volume -> Sortie
+oscillator.connect(gainNode);
+gainNode.connect(audioCtx.destination);
+
+oscillator.start();
+setTimeout(() => oscillator.stop(), 1000); // Arrête après 1 seconde
+```
+
+**Applications** : Lecteurs audio avancés, synthétiseurs web, applications musicales éducatives, effets sonores pour jeux, analyse de fréquence (pour applications de reconnaissance vocale simples).
+
+#### **3.2. L'API MediaRecorder**
+**Définition** : API permettant d'enregistrer des médias (audio et/ou vidéo) capturés depuis le microphone, la webcam, ou même une autre source média.
+
+**Workflow typique** :
+1.  Demander l'autorisation d'accès au média (`navigator.mediaDevices.getUserMedia()`).
+2.  Créer un objet `MediaRecorder` en lui passant le flux (`MediaStream`).
+3.  Gérer les événements (`ondataavailable`, `onstop`) pour collecter les données enregistrées (généralement des `Blob`).
+4.  Proposer le téléchargement ou l'envoi au serveur.
+
+**Exemple : Enregistrement audio pour une application de dictaphone ou d'envoi de message vocal** :
+```javascript
+let mediaRecorder;
+let chunks = [];
+
+navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = e => chunks.push(e.data);
+        mediaRecorder.onstop = () => {
+            const blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
+            const url = URL.createObjectURL(blob);
+            // Créer un lien de téléchargement ou envoyer 'blob' à un serveur
+            const a = document.createElement('a');
+            a.href = url; a.download = 'enregistrement_cameroun.ogg'; a.click();
+        };
+        mediaRecorder.start();
+        setTimeout(() => mediaRecorder.stop(), 5000); // Enregistre 5 secondes
+    });
+```
+
+**Applications en contexte local** :
+*   Envoi de messages vocaux dans des applications de chat.
+*   Enregistrement de témoignages ou de reportages pour des sites d'information en ligne.
+*   Soumission de réponses orales dans des applications d'e-learning.
+
+---
+
+### **4. L'accessibilité des médias**
+
+**Définition** : Ensemble de pratiques visant à rendre les contenus multimédias compréhensibles et utilisables par tous, y compris les personnes en situation de handicap (visuel, auditif, cognitif, moteur). C'est une obligation éthique et, de plus en plus, légale (référentiels internationaux).
+
+#### **4.1. Sous-titres et transcriptions**
+*   **Balise `<track>`** : Permet d'associer un fichier de sous-titres (WebVTT `.vtt`) à un élément `<video>` ou `<audio>`.
+    ```html
+    <track src="sous-titres/saison1_ep1.vtt" kind="subtitles" srclang="fr" label="Français" default>
+    ```
+*   **Transcriptions textuelles** : Version textuelle complète du contenu audio. Essentielle pour les sourds et malentendants, mais aussi utile pour le référencement (SEO) et les connexions lentes où l'utilisateur peut préférer lire.
+
+#### **4.2. Contrôles clavier et ARIA**
+*   **Contrôles natifs** : Les balises `<audio>` et `<video>` avec l'attribut `controls` sont normalement navigables au clavier (Tab, Espace, flèches).
+*   **Contrôles personnalisés** : Si vous créez vos propres boutons (play/pause) en JavaScript, **vous devez implémenter la navigation au clavier** (`tabindex`, écouteurs d'événements `keydown`) et les attributs **ARIA** (`aria-label`, `aria-controls`, `role="button"`) pour décrire leur fonction aux technologies d'assistance (lecteurs d'écran).
+
+**Exemple de bouton play

@@ -1,0 +1,171 @@
+# **Notes de cours — BTS Génie Logiciel**
+## **Matière : 11 Comptabilité Analytique**
+## **Chapitre : Méthode ABC (Activity-Based Costing) : activités, inducteurs de coût, avantages vs sections homogènes**
+
+---
+
+### **1. Introduction et contexte**
+
+#### **1.1. Définition et objectifs de la comptabilité analytique**
+La comptabilité analytique est une branche de la comptabilité qui a pour objectif d’analyser les coûts de l’entreprise afin de déterminer le coût de revient des produits, services, activités ou centres de responsabilité. Elle permet :
+- Le calcul des coûts et des marges.
+- Le contrôle de gestion et l’aide à la décision (fixation des prix, choix de production, etc.).
+- L’optimisation de la rentabilité.
+
+Dans le contexte OHADA (Organisation pour l’Harmonisation en Afrique du Droit des Affaires), la comptabilité analytique n’est pas obligatoire mais fortement recommandée par le SYSCOHADA pour une meilleure gestion des entreprises.
+
+#### **1.2. Limites des méthodes traditionnelles et émergence de la méthode ABC**
+Les méthodes traditionnelles (coûts complets par sections homogènes) répartissent les charges indirectes souvent sur une base unique (heures de main-d’œuvre, heures-machine). Dans une économie moderne où les charges indirectes (logistique, informatique, marketing) prennent une part croissante, cette répartition peut fausser les coûts de revient.
+La **méthode ABC (Activity-Based Costing)** ou **Comptabilité par Activités** est née dans les années 1980-1990 (notamment des travaux de Cooper et Kaplan) pour répondre à cette limite. Elle est particulièrement adaptée aux entreprises de services, à forte valeur ajoutée intellectuelle et aux industries avec une grande diversité de produits – comme les secteurs des télécoms (MTN, Orange, Camtel) ou des services informatiques.
+
+---
+
+### **2. Fondements théoriques de la méthode ABC**
+
+#### **2.1. Principe de base**
+Le principe fondamental de la méthode ABC est le suivant : **ce sont les activités qui consomment des ressources, et ce sont les produits (ou services, ou clients) qui consomment des activités.** Le cheminement des coûts est donc :
+**Ressources → Activités → Objets de coût (Produits, Services, Clients)**
+
+#### **2.2. Concepts clés de la méthode ABC**
+
+**a) L’Activité**
+Une activité est un ensemble de tâches homogènes contribuant à la réalisation d’un produit ou d’un service. C’est le cœur du modèle.
+*Exemple dans une SSII camerounaise :*
+- Activité "Analyser les besoins client"
+- Activité "Développer le module back-end"
+- Activité "Tester l’application"
+- Activité "Former l’utilisateur final"
+
+**b) L’Inducteur de coût (Cost Driver)**
+C’est la variable qui explique la consommation d’une activité par un objet de coût. C’est la **cause** de la génération du coût. Le choix de l’inducteur est crucial pour la pertinence du modèle.
+*Exemples :*
+- Pour l’activité "Traiter les commandes", l’inducteur peut être le **nombre de commandes**.
+- Pour l’activité "Assurer la maintenance logicielle", l’inducteur peut être le **nombre d’interventions** ou le **nombre d’heures de support**.
+
+**c) L’Objet de coût**
+C’est l’élément final dont on veut connaître le coût. Il peut s’agir :
+- D’un produit (ex: une licence logicielle "Gestion scolaire")
+- D’un service (ex: un contrat de maintenance annuel)
+- D’un client (ex: le coût de service pour un client exigeant)
+- D’un projet (ex: le projet de digitalisation pour la mairie de Douala)
+
+**d) Le Pool d’activités (Activity Cost Pool)**
+Regroupement de toutes les charges indirectes liées à une même activité.
+
+#### **2.3. Processus de mise en œuvre de la méthode ABC (en 4 étapes)**
+
+1.  **Identifier les activités principales** de l’entreprise (cartographie des processus).
+2.  **Affecter les charges indirectes** (ressources) à chaque pool d’activités.
+3.  **Choisir un inducteur de coût** pertinent pour chaque activité.
+4.  **Imputer les coûts des activités** aux objets de coût, proportionnellement à leur consommation de l’inducteur.
+
+**Formule générale de calcul :**
+`Coût de l'activité imputé à l'objet = (Coût total du pool d'activités / Volume total de l'inducteur) * Volume de l'inducteur consommé par l'objet`
+
+---
+
+### **3. Exemple concret adapté au contexte camerounais**
+
+**Entreprise :** "SoftInnov SARL", une SSII de Yaoundé développant deux types de solutions :
+- **Produit A :** Logiciel de gestion comptable pour petites entreprises (vente de licences standard).
+- **Produit B :** Solution ERP sur mesure pour une grande entreprise (projet spécifique).
+
+**Charges indirectes annuelles :** 25 000 000 FCFA (Salaire des chefs de projet, qualité, support, électricité, loyer du serveur).
+
+**Étape 1 : Identification des activités**
+1.  Gestion des relations clients et analyse des besoins.
+2.  Développement et programmation.
+3.  Tests et assurance qualité.
+4.  Support technique et formation.
+
+**Étape 2 & 3 : Répartition des charges et choix des inducteurs**
+
+| Activité | Coût du Pool (FCFA) | Inducteur de coût choisi | Total inducteur |
+| :--- | :--- | :--- | :--- |
+| 1. Gestion des besoins | 5 000 000 | Nombre de réunions client | 50 réunions |
+| 2. Développement | 12 000 000 | Heures de programmation | 2 000 heures |
+| 3. Tests | 6 000 000 | Nombre de scénarios de test | 120 scénarios |
+| 4. Support | 2 000 000 | Nombre d’appels support | 200 appels |
+
+**Étape 4 : Consommation par produit et calcul des coûts**
+
+| Inducteur | Produit A (Licence Standard) | Produit B (ERP sur mesure) |
+| :--- | :--- | :--- |
+| Réunions client | 10 réunions | 40 réunions |
+| Heures de programmation | 500 heures | 1 500 heures |
+| Scénarios de test | 20 scénarios | 100 scénarios |
+| Appels support | 150 appels | 50 appels |
+
+**Calcul pour l'activité "Gestion des besoins" :**
+- Coût par réunion = 5 000 000 / 50 = 100 000 FCFA
+- Coût imputé à A = 100 000 * 10 = **1 000 000 FCFA**
+- Coût imputé à B = 100 000 * 40 = **4 000 000 FCFA**
+
+**Récapitulatif des coûts imputés :**
+
+| Activité | Coût imputé à A (FCFA) | Coût imputé à B (FCFA) |
+| :--- | :--- | :--- |
+| Gestion besoins | 1 000 000 | 4 000 000 |
+| Développement | 3 000 000 | 9 000 000 |
+| Tests | 1 000 000 | 5 000 000 |
+| Support | 1 500 000 | 500 000 |
+| **TOTAL CH. INDIRECTES** | **6 500 000** | **18 500 000** |
+
+**Analyse :** La méthode ABC révèle que le Produit B (projet sur mesure) consomme beaucoup plus d'activités de conception, développement complexe et tests que le Produit A (standard). Une méthode traditionnelle basée uniquement sur les heures de programmation aurait sous-évalué le coût de B et surévalué celui de A, conduisant à des décisions de prix et de rentabilité erronées.
+
+---
+
+### **4. Comparaison : Méthode ABC vs Méthode des Sections Homogènes**
+
+#### **4.1. La méthode des Sections Homogènes (méthode traditionnelle)**
+- Découpe l’entreprise en **centres de travail** (approche structurelle : atelier, administration, commercial).
+- Utilise des **unités d’œuvre** (heure machine, heure MOD) ou des **taux de frais** pour imputer les coûts.
+- Logique : **Ressources → Sections Homogènes → Produits**
+
+#### **4.2. Tableau comparatif**
+
+| Critère | **Sections Homogènes** | **Méthode ABC** |
+| :--- | :--- | :--- |
+| **Approche** | Structurelle (centres de coûts) | **Par processus et activités** |
+| **Focalisation** | Produits | **Activités et leurs causes (inducteurs)** |
+| **Précision** | Limitée, surtout si diversité produits | **Plus fine et plus juste** |
+| **Complexité** | Relativement simple | **Coûteuse et complexe** à mettre en œuvre |
+| **Pertinence** | Environnements stables, production massive | **Environnements complexes, diversifiés, services** |
+| **Outils nécessaires** | Tableurs, logiciels de comptabilité classiques | **Logiciels spécialisés de gestion de processus (BPM), ERP avancés (SAP, Oracle)** |
+| **Objectif principal** | Calcul du coût de revient | **Gestion stratégique, ABM (Activity-Based Management)** |
+
+#### **4.3. Avantages et inconvénients de la méthode ABC**
+
+**AVANTAGES :**
+- **Précision accrue** des coûts, surtout pour les charges indirectes.
+- **Meilleure visibilité** sur la rentabilité par produit, client, canal.
+- **Identification des activités à non-valeur ajoutée** (gaspillage), supportant une démarche d’amélioration continue.
+- **Base pour le pilotage stratégique (ABM)** : permet de mieux tarifer, d’abandonner des produits non rentables, de négocier avec les clients.
+- **Adaptée à l’économie des services et du numérique**, prédominante en BTS GL.
+
+**INCONVÉNIENTS :**
+- **Coût de mise en œuvre et de maintenance** élevé (collecte de données, modélisation).
+- **Complexité** du modèle (choix des activités et inducteurs subjectifs).
+- **Risque de surcharge d’information**.
+- **Nécessite une culture d’entreprise orientée processus**.
+
+> **À RETENIR :** La méthode ABC n’est pas qu’un outil de calcul de coût, c’est avant tout **un outil d’aide à la décision et de pilotage stratégique (ABM)**. Elle répond au besoin de transparence dans des entreprises complexes comme les opérateurs télécoms (analyse du coût de service par forfait chez MTN ou Orange) ou les éditeurs de logiciels.
+
+---
+
+### **5. Application dans le secteur des TIC et logiciel au Cameroun**
+
+#### **5.1. Cas des opérateurs télécoms (MTN, Orange, Camtel)**
+- **Activités :** Gestion du réseau, marketing segmenté, service client, traitement des réclamations, développement de nouvelles offres (Mobile Money).
+- **Inducteurs possibles :** Nombre de tickets support, volume de données traité, nombre de transactions Mobile Money, nombre de campagnes marketing.
+- **Objet de coût analysé :** Un forfait "illimité", un client "prépayé", le service "MoMo".
+- **Avantage ABC :** Comprendre la vraie rentabilité de chaque segment de clientèle ou de chaque service, souvent masquée par une comptabilité globale.
+
+#### **5.2. Cas d’une entreprise de services informatiques (SSII/ESN)**
+- **Activités :** Avant-vente, gestion de projet, développement agile, recette, déploiement, maintenance évolutive.
+- **Inducteurs possibles :** Nombre de sprints, complexité des user stories, nombre d’environnements de test, heures de réunion.
+- **Objet de coût analysé :** Un projet spécifique, un contrat de maintenance, un client.
+- **Avantage ABC :** Facturation plus juste des projets, identification des clients "non rentables" car trop exigeants en support, optimisation des processus de développement.
+
+#### **5.3. Outils et technologies support**
+- **Logiciels d’ERP** avancés avec modules ABC/ABM (SAP Controlling, Oracle

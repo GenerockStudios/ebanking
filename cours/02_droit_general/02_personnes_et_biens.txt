@@ -1,0 +1,68 @@
+CHAPITRE 2 — PERSONNES JURIDIQUES ET BIENS
+BTS Génie Logiciel — Droit général
+
+1. LES PERSONNES JURIDIQUES
+
+Une personne juridique est un sujet de droit, c'est-à-dire un être reconnu par le droit comme titulaire de droits et d'obligations.
+
+A) Personnes physiques
+Tout être humain est une personne physique. La personnalité juridique commence à la naissance (sous réserve que l'enfant naisse vivant et viable) et se termine au décès.
+
+Attributs de la personnalité :
+- Le nom : nom de famille + prénom(s)
+- Le domicile : lieu de résidence habituelle. Importance pour la compétence des tribunaux.
+- La nationalité : lien juridique entre une personne et un État. Camerounais par naissance ou par naturalisation.
+- La capacité juridique : aptitude à avoir des droits (capacité de jouissance) et à les exercer seul (capacité d'exercice).
+
+Incapacités d'exercice :
+- Les mineurs (moins de 18 ans) : représentés par leurs parents ou tuteurs
+- Les majeurs protégés : tutelle, curatelle, sauvegarde de justice (troubles mentaux)
+
+B) Personnes morales
+Groupements auxquels le droit reconnaît la personnalité juridique : sociétés commerciales, associations, syndicats, collectivités publiques, État.
+
+Caractéristiques : dénomination sociale, siège social, nationalité, patrimoine propre, capacité juridique dans la limite de leur objet social.
+
+2. LES DROITS SUBJECTIFS
+
+Droits patrimoniaux : évaluables en argent, transmissibles et prescriptibles.
+- Droits réels : droit exercé directement sur une chose (propriété, usufruit, servitude, hypothèque)
+- Droits personnels (ou de créance) : droit d'exiger une prestation d'une autre personne (créancier / débiteur)
+- Droits intellectuels : propriété littéraire et artistique, brevets, marques
+
+Droits extrapatrimoniaux : non évaluables en argent, incessibles, imprescriptibles.
+- Droits de la personnalité : droit à la vie privée, à l'image, à l'honneur, à l'intégrité physique
+- Droits politiques : droit de vote, droit d'éligibilité
+- Droits familiaux : autorité parentale, droit de visite
+
+3. LES BIENS
+
+Définition : toute chose susceptible d'appropriation et ayant une valeur économique.
+
+Classification :
+Biens corporels (matériels) vs biens incorporels (immatériels : logiciels, brevets, créances)
+
+Biens meubles : peuvent être déplacés (meuble physique, véhicule, actions, droits de créance)
+Biens immeubles : ne peuvent pas être déplacés (terrain, bâtiment, cultures non récoltées)
+
+Importance de la distinction meuble/immeuble :
+- Règles de preuve différentes
+- Compétence des tribunaux
+- Modalités de saisie
+- Droits de mutation (droits d'enregistrement)
+
+4. LA PROPRIÉTÉ
+
+Définition (art. 544 Code civil) : droit de jouir et disposer des choses de la manière la plus absolue, pourvu qu'on n'en fasse pas un usage prohibé par les lois et règlements.
+
+Attributs :
+- Usus : droit d'utiliser la chose
+- Fructus : droit de percevoir les fruits (loyers, récoltes, dividendes)
+- Abusus : droit de disposer de la chose (vendre, donner, détruire)
+
+Modes d'acquisition : achat, donation, succession, prescription acquisitive (usucapion — 30 ans en général), occupation.
+
+Propriété intellectuelle au Cameroun :
+- OAPI (Organisation Africaine de la Propriété Intellectuelle) à Yaoundé
+- Protège : brevets, marques, modèles industriels, droits d'auteur (logiciels inclus)
+- Important pour les développeurs : le code source est protégé comme œuvre littéraire

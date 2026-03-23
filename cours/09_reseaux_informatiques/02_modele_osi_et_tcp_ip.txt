@@ -1,0 +1,103 @@
+# **Notes de Cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 09 Réseaux Informatiques**
+## **Chapitre : Modèles OSI (7 couches) et TCP/IP (4 couches) : rôle de chaque couche, encapsulation, PDU**
+
+---
+
+### **1. Introduction et Objectifs du Chapitre**
+
+Dans un monde de plus en plus interconnecté, la communication entre systèmes informatiques est fondamentale. Au Cameroun, avec la croissance des entreprises comme MTN, Orange, Camtel, et l'expansion des services numériques (e-gouvernement, services bancaires en ligne, plateformes OHADA), la compréhension des normes qui régissent ces échanges est cruciale pour tout technicien en génie logiciel.
+
+Ce chapitre a pour objectif de vous présenter les deux modèles de référence qui structurent la communication en réseau : le modèle **OSI** (théorique) et le modèle **TCP/IP** (pratique). Vous comprendrez le rôle de chaque couche, le processus d'**encapsulation** des données et la notion d'**Unité de Données de Protocole (PDU)**.
+
+**Objectifs d'apprentissage spécifiques :**
+*   Différencier les modèles OSI et TCP/IP.
+*   Décrire le rôle et les fonctions de chaque couche.
+*   Expliquer le processus d'encapsulation/désencapsulation.
+*   Identifier la PDU à chaque niveau.
+*   Appliquer ces concepts à des scénarios concrets du contexte camerounais.
+
+---
+
+### **2. Le Modèle OSI (Open Systems Interconnection)**
+
+Développé par l'**ISO (International Organization for Standardization)** dans les années 1980, le modèle OSI est un cadre **théorique** qui découpe le processus de communication réseau en **7 couches** abstraites. Chaque couche a une fonction spécifique et fournit des services à la couche supérieure.
+
+**À retenir :** Le modèle OSI est une norme de conception, rarement implémentée tel quel, mais indispensable pour comprendre, apprendre et dépanner les réseaux.
+
+#### **2.1. Les 7 Couches du Modèle OSI : Rôles et Exemples**
+
+| Couche | Nom | Rôle Principal | PDU | Exemples Concrets (Contexte Camerounais) |
+| :--- | :--- | :--- | :--- | :--- |
+| **7** | **Application** | Interface entre l'utilisateur et le réseau. Fournit des services réseau aux applications (navigation web, email). | **Données** | Navigateur accédant au site de l'**ARMP (Autorité de Régulation des Marchés Publics)**, client email utilisant **Orange Email**, application mobile **MTN MoMo**. |
+| **6** | **Présentation** | **Traduction, chiffrement, compression** des données. Assure que les données de la couche application sont compréhensibles par le système récepteur. | **Données** | Chiffrement d'une transaction sur **Express Union Mobile**, conversion d'un fichier image (JPEG) en un format standard, compression des données avant envoi. |
+| **5** | **Session** | **Établissement, gestion et fermeture des sessions** de communication entre applications. Synchronise le dialogue. | **Données** | Session de connexion à votre compte sur la plateforme **OHADA.net**, maintien d'une session de visioconférence sur **Zoom** entre Yaoundé et Douala. |
+| **4** | **Transport** | **Livraison fiable (ou non) des données** d'un système à un autre. Gère le contrôle de flux, la segmentation et le réassemblage, la correction d'erreurs. | **Segment** (TCP) / **Datagramme** (UDP) | **TCP** : Téléchargement fiable d'un formulaire PDF depuis le site du gouvernement. **UDP** : Flux vidéo en direct sur **YouTube** ou appel vocal sur **WhatsApp**. |
+| **3** | **Réseau** | **Adressage logique et détermination du chemin** (routage) des paquets à travers le réseau, d'un réseau source à un réseau de destination. | **Paquet** | Routeurs de **Camtel** acheminant un paquet de Douala à Garoua en utilisant les adresses IP. Protocole **IP (Internet Protocol)**. |
+| **2** | **Liaison de données** | **Adressage physique, transmission fiable sur un lien local.** Gère la détection d'erreurs, le contrôle d'accès au média (MAC). | **Trame** | Commutateur (switch) dans un cybercafé à Bamenda acheminant une trame vers un ordinateur spécifique en utilisant l'adresse **MAC**. Protocoles **Ethernet, PPP**. |
+| **1** | **Physique** | **Transmission des bits bruts** sur le support physique (câble, onde radio). Définit les caractéristiques électriques, mécaniques et fonctionnelles. | **Bit** | Câble **RJ-45** connectant un PC, signal lumineux dans une fibre optique de **Camtel**, onde radio Wi-Fi dans un espace **Startup Incubator** à Yaoundé. |
+
+**Mnémonique pour retenir les 7 couches (de haut en bas) :** *A Peu Près Tout Le Monde Sait Faire* (Application, Présentation, Session, Transport, Réseau, Liaison, Physique).
+
+---
+
+### **3. Le Modèle TCP/IP (Suite de Protocoles Internet)**
+
+Contrairement au modèle OSI, TCP/IP est un modèle **pratique** né des besoins réels d'**ARPANET**, l'ancêtre d'Internet. Il est organisé en **4 couches** et représente l'architecture réelle sur laquelle fonctionne l'Internet mondial, y compris au Cameroun.
+
+#### **3.1. Les 4 Couches du Modèle TCP/IP et Correspondance avec OSI**
+
+| Couche TCP/IP | Rôle Principal | Protocoles Associés | Équivalent OSI Approximatif |
+| :--- | :--- | :--- | :--- |
+| **Application** | Regroupe les fonctions des couches **Application, Présentation et Session** du modèle OSI. Gère les protocoles de haut niveau et la représentation des données. | **HTTP/HTTPS** (Web), **SMTP/POP3/IMAP** (Email), **FTP** (Fichiers), **DNS** (Résolution de noms), **DHCP** (Adressage auto). | Couches 5, 6, 7 |
+| **Transport** | Identique à la couche Transport OSI. Assure la communication de bout en bout et l'intégrité des données. | **TCP (Transmission Control Protocol)** : connexion fiable. <br> **UDP (User Datagram Protocol)** : connexion non fiable, rapide. | Couche 4 |
+| **Internet** | Similaire à la couche Réseau OSI. Responsable de l'adressage logique, du routage et de la fragmentation des paquets à travers les réseaux interconnectés. | **IP (Internet Protocol - IPv4/IPv6)**, **ICMP** (Messages de contrôle), **ARP** (Résolution d'adresses). | Couche 3 |
+| **Accès Réseau** | Combine les fonctions des couches **Liaison de données et Physique** du modèle OSI. Gère l'accès au média physique et la transmission des trames sur le réseau local. | **Ethernet, Wi-Fi (IEEE 802.11), PPP, FDDI**. Dépend de la technologie du réseau local (LAN). | Couches 1 & 2 |
+
+**Exemple concret d'utilisation :** Lorsque vous consultez le solde de votre compte **Mobile Money (MoMo)** via l'application :
+1.  **Couche Application (TCP/IP)** : L'application MoMo utilise HTTPS pour envoyer une requête sécurisée.
+2.  **Couche Transport** : TCP établit une connexion fiable avec le serveur d'Orange Money.
+3.  **Couche Internet** : IP ajoute l'adresse de votre smartphone et celle du serveur, et route le paquet via le réseau d'Orange Cameroun.
+4.  **Couche Accès Réseau** : La requête est mise en trame Ethernet ou Wi-Fi et convertie en signaux électriques/radio pour être envoyée par votre modem/routeur.
+
+---
+
+### **4. Le Processus d'Encapsulation et les PDU**
+
+L'**encapsulation** est le processus par lequel les données ajoutent des informations de contrôle (en-têtes, parfois trailers) à chaque couche lors de leur descente dans la pile d'émission. À la réception, le processus inverse (**désencapsulation**) a lieu pour remonter les données à l'application destinataire.
+
+#### **4.1. Le Voyage des Données : De l'Application au Support Physique**
+
+Imaginons l'envoi d'un message sur **WhatsApp** depuis Bafoussam vers un contact à Maroua.
+
+1.  **Données de l'Application (Couche 7/5 OSI | App TCP/IP)** : Le message texte "Bonjour" est créé.
+2.  **Encapsulation en Segment/Datagramme (Couche 4 OSI | Transport TCP/IP)** : La couche Transport (généralement **UDP** pour WhatsApp) ajoute un **en-tête** contenant les ports source et destination. La PDU devient un **segment (TCP)** ou un **datagramme (UDP)**.
+3.  **Encapsulation en Paquet (Couche 3 OSI | Internet TCP/IP)** : La couche Internet (IP) ajoute un **en-tête IP** contenant les adresses IP logiques (ex: 102.xx.xx.xx de MTN Cameroun). La PDU devient un **paquet IP**.
+4.  **Encapsulation en Trame (Couche 2 OSI | Accès Réseau TCP/IP)** : La couche Accès Réseau ajoute un **en-tête** (avec adresses MAC source/destination) et un **trailer** (pour la détection d'erreurs, comme le FCS - Frame Check Sequence). La PDU devient une **trame** (Ethernet, Wi-Fi).
+5.  **Conversion en Bits (Couche 1 OSI | Accès Réseau TCP/IP)** : La trame est convertie en une séquence de **bits** (1 et 0) et transmise sur le support physique (onde radio 4G, fibre optique).
+
+**À la réception (Maroua), le processus est inversé (désencapsulation) :** Les bits sont reçus, assemblés en trame, l'en-tête MAC est retiré, le paquet IP est extrait, le segment UDP est passé à la couche Transport, et enfin le message "Bonjour" est affiché dans l'application WhatsApp du destinataire.
+
+**À retenir :** **PDU (Protocol Data Unit)** = Données de l'unité + En-tête de la couche. Changer de PDU, c'est changer de nom (Données → Segment → Paquet → Trame → Bits).
+
+---
+
+### **5. Comparaison Synthétique et Importance Pratique**
+
+| Critère | **Modèle OSI** | **Modèle TCP/IP** |
+| :--- | :--- | :--- |
+| **Origine** | Norme ISO (théorique) | Développement pratique d'ARPANET |
+| **Nombre de couches** | 7 | 4 |
+| **Approche** | Séparation stricte des fonctions (couches indépendantes) | Approche plus intégrée, orientée protocoles |
+| **Fiabilité** | Définie aux couches Transport et Liaison de données | Définie uniquement à la couche Transport |
+| **Utilisation** | **Référence, enseignement, dépannage** | **Implémentation réelle d'Internet** |
+| **Adaptabilité** | Plus flexible (modèle général) | Moins flexible, mais extrêmement efficace |
+
+**Importance pour le Technicien BTS GL Camerounais :**
+*   **Dépannage :** Savoir à quelle couche se situe un problème (ex: pas de connexion IP → couche 3 ; site web inaccessible mais ping OK → couche 7/application).
+*   **Développement :** Comprendre si votre application nécessite la fiabilité de **TCP** (ex: transfert de données bancaires) ou la rapidité de **UDP** (ex: application de streaming vidéo locale).
+*   **Sécurité :** Identifier les points de vulnérabilité (ex: attaque au niveau de la couche 2 - ARP spoofing dans un cybercafé).
+*   **Interopérabilité :** Garantir que les logiciels développés peuvent communiquer sur des réseaux hétérogènes (équipements **Huawei, Cisco** utilisés par les opérateurs camerounais).
+
+**Outils et Technologies en Entreprise :**
+*   **Analyse de tram

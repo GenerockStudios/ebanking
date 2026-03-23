@@ -1,0 +1,158 @@
+# **Notes de Cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 07 Bases De Donnees**
+## **Chapitre : Modèle relationnel et Normalisation**
+
+---
+
+### **1. Introduction au Modèle Relationnel**
+
+Le modèle relationnel, proposé par Edgar F. Codd en 1970, est le fondement théorique de la majorité des systèmes de gestion de bases de données (SGBD) modernes. Il représente les données sous forme de **tables** (relations), offrant une structure simple, puissante et mathématiquement rigoureuse. Sa simplicité conceptuelle et sa forte base théorique en font le modèle dominant dans l'industrie, utilisé par des entreprises camerounaises comme **MTN Money**, **Orange Bank Africa**, ou pour la gestion des dossiers dans le système **OHADA**.
+
+**Objectif du chapitre** : Maîtriser les concepts fondamentaux du modèle relationnel et les techniques de normalisation pour concevoir des bases de données robustes, non-redondantes et cohérentes.
+
+---
+
+### **2. Concepts Fondamentaux du Modèle Relationnel**
+
+#### **2.1. Définitions de Base**
+
+*   **Relation (Table)** : Une structure bidimensionnelle composée de lignes et de colonnes, représentant une entité ou un concept du monde réel (ex. : `Clients`, `Comptes`, `Transactions`).
+*   **Tuple (Ligne/Enregistrement)** : Une occurrence individuelle au sein d'une relation. Chaque tuple représente une instance de l'entité.
+*   **Attribut (Colonne/Champ)** : Une caractéristique ou une propriété de l'entité modélisée par la relation. Chaque attribut a un nom et un domaine.
+*   **Domaine** : L'ensemble des valeurs possibles pour un attribut. Il définit le type de données (ex. : `INTEGER`, `VARCHAR(100)`, `DATE`) et les contraintes éventuelles (ex. : `Ville` ∈ {Yaoundé, Douala, Garoua, Bamenda, ...}).
+
+**Exemple concret (Contexte OHADA)** :
+| **NumDossier** | **NomSociété**       | **FormeJuridique** | **VilleSiege** | **CapitalSocial (FCFA)** |
+|----------------|----------------------|--------------------|----------------|--------------------------|
+| RC/YAO/2024/001| AgroTech Solutions   | SARL               | Yaoundé        | 10 000 000               |
+| RC/DOU/2024/123| Logistique Express   | SA                 | Douala         | 50 000 000               |
+| RC/GAR/2023/456| Élevage du Nord      | SARL               | Garoua         | 5 000 000                |
+
+*   **Relation** : `SocietesOHADA`
+*   **Tuples** : Les 3 lignes du tableau.
+*   **Attributs** : `NumDossier`, `NomSociété`, `FormeJuridique`, `VilleSiege`, `CapitalSocial`.
+*   **Domaine de `VilleSiege`** : Une liste des villes de région du Cameroun.
+*   **Domaine de `CapitalSocial`** : Entier positif.
+
+#### **2.2. Schéma d'une Relation**
+
+Le schéma d'une relation définit sa structure sans les données. Il est noté : **NomRelation(Attribut1, Attribut2, ..., AttributN)**.
+**Exemple** : `SocietesOHADA(NumDossier, NomSociété, FormeJuridique, VilleSiege, CapitalSocial)`
+
+#### **2.3. Propriétés d'une Relation**
+1.  L'ordre des tuples n'a pas d'importance.
+2.  L'ordre des attributs n'a pas d'importance (ils sont identifiés par leur nom).
+3.  Tous les tuples sont distincts (pas de doublons).
+4.  Les valeurs des attributs sont **atomiques** (indivisibles).
+
+---
+
+### **3. Les Clés dans le Modèle Relationnel**
+
+Les clés sont des attributs (ou ensembles d'attributs) qui assurent l'identification unique des tuples et définissent les liens entre les relations.
+
+#### **3.1. Clé Candidate**
+Une **clé candidate** est un attribut (ou un ensemble minimal d'attributs) qui identifie **de manière unique** chaque tuple d'une relation. Une relation peut avoir plusieurs clés candidates.
+*Exemple* : Dans `SocietesOHADA`, `NumDossier` est une clé candidate (unique par entreprise). `NomSociété` pourrait en être une autre, mais risque de ne pas être unique.
+
+#### **3.2. Clé Primaire (Primary Key - PK)**
+La **clé primaire** est la clé candidate choisie par le concepteur pour identifier principalement les tuples. Elle ne peut pas contenir de valeurs NULL (contrainte d'intégrité d'entité).
+*Exemple* : `NumDossier` est la clé primaire évidente de `SocietesOHADA`. Dans une table `AbonnesMTN(NumeroTel, Nom, Prenom, TypeForfait)`, la clé primaire est `NumeroTel`.
+
+#### **3.3. Clé Étrangère (Foreign Key - FK)**
+Une **clé étrangère** est un attribut (ou ensemble d'attributs) d'une relation R1 qui référence la clé primaire d'une autre relation R2. Elle assure l'**intégrité référentielle** : une valeur dans la FK doit soit être NULL, soit correspondre à une valeur existante dans la PK référencée.
+*Exemple* : Une table `FacturesCamtel(NumFacture, NumAbonne, Montant, Date)`.
+    *   `NumAbonne` dans `FacturesCamtel` est une clé étrangère.
+    *   Elle référence la clé primaire `NumAbonne` de la table `AbonnesCamtel`.
+
+**À RETENIR : Tableau Synoptique des Clés**
+| Type de Clé       | Rôle Principal                                     | Exemple (Contexte Africain)                           | Contrainte                          |
+|-------------------|----------------------------------------------------|-------------------------------------------------------|-------------------------------------|
+| **Candidate**     | Identifier un tuple de manière unique (potentiel)  | `NumeroCNI`, `Email` dans une table `Citoyens`        | Unique, minimale                    |
+| **Primaire (PK)** | Identifiant principal choisi                       | `CodeTransaction` dans un journal M-Pesa              | Unique, NOT NULL                    |
+| **Étrangère (FK)**| Lier deux relations, garantir la cohérence         | `CodeClient` dans `CommandesJumia` référence `Client` | Doit exister dans la table référencée |
+
+---
+
+### **4. Le Problème des Anomalies et la Nécessité de la Normalisation**
+
+Une base de données mal conçue souffre d'anomalies :
+*   **Anomalie d'insertion** : Impossible d'ajouter une donnée sans une autre (ex. : ajouter une nouvelle ville sans avoir encore de client y résidant).
+*   **Anomalie de mise à jour** : Une information répétée doit être modifiée dans plusieurs tuples, risque d'incohérence.
+*   **Anomalie de suppression** : Supprimer un tuple peut entraîner la perte d'informations importantes (ex. : supprimer le dernier client d'une ville efface l'information sur la ville).
+
+**But de la normalisation** : Éliminer ces anomalies en décomposant les relations tout en préservant les données et leurs liens. C'est un processus étape par étape vers les **Formes Normales**.
+
+---
+
+### **5. Les Formes Normales**
+
+#### **5.1. Première Forme Normale (1NF)**
+**Règle** : Tous les attributs doivent être **atomiques** (indivisibles). Une relation est en 1NF si elle ne contient **pas de groupes répétitifs ou d'attributs multi-valués**.
+**Exemple de violation (Contexte scolaire)** :
+`Etudiant(Matricule, Nom, CoursInscrits)` où `CoursInscrits` = "BDD, Algo, Web"
+**Correction en 1NF** : Créer une table dédiée `Inscriptions(Matricule, CodeCours)`.
+
+#### **5.2. Deuxième Forme Normale (2NF)**
+**Prérequis** : La relation doit être en 1NF.
+**Règle** : Tous les attributs non-clés doivent dépendre **entièrement** de la **clé primaire entière** (et non d'une partie de celle-ci). Ceci concerne uniquement les clés primaires composites.
+**Exemple de violation** :
+`Commande( **NumCommande**, **CodeProduit**, NomClient, DescriptionProduit, Quantite)`
+*   `NomClient` dépend seulement de `NumCommande` (partie de la PK).
+*   `DescriptionProduit` dépend seulement de `CodeProduit` (partie de la PK).
+**Correction en 2NF** :
+*   `Commandes(NumCommande, NomClient)`
+*   `LignesCommande(NumCommande, CodeProduit, Quantite)`
+*   `Produits(CodeProduit, DescriptionProduit)`
+
+#### **5.3. Troisième Forme Normale (3NF)**
+**Prérequis** : La relation doit être en 2NF.
+**Règle** : Aucun attribut non-clé ne doit dépendre **transitivement** de la clé primaire. C'est-à-dire qu'un attribut non-clé ne doit pas dépendre d'un autre attribut non-clé.
+**Définition** : Une relation R est en 3NF si pour toute dépendance fonctionnelle non-triviale X → A, soit X est une super-clé, soit A est un attribut clé.
+**Exemple de violation (Gestion de fonctionnaires)** :
+`Fonctionnaire( **Matricule**, Nom, Poste, **CodeMinistere**, NomMinistere, VilleMinistere)`
+*   `Matricule` → `CodeMinistere`
+*   `CodeMinistere` → `NomMinistere`, `VilleMinistere` (Dépendance transitive).
+**Correction en 3NF** :
+*   `Fonctionnaires(Matricule, Nom, Poste, CodeMinistere)`
+*   `Ministeres(CodeMinistere, NomMinistere, VilleMinistere)`
+
+#### **5.4. Forme Normale de Boyce-Codd (BCNF)**
+**Règle (plus stricte que 3NF)** : Pour toute dépendance fonctionnelle non-triviale X → A, **X doit être une super-clé**. La BCNF élimine toutes les dépendances fonctionnelles où le déterminant n'est pas une clé candidate.
+**Exemple de violation** :
+`SessionCours( **CodeCours**, **NomEnseignant**, Salle)`
+*   Supposons qu'un enseignant n'enseigne qu'un seul cours, mais un cours peut avoir plusieurs enseignants (TD).
+*   Dépendances : `CodeCours, NomEnseignant` → `Salle` et `NomEnseignant` → `CodeCours`.
+*   Ici, `NomEnseignant` → `CodeCours` est une DF où le déterminant (`NomEnseignant`) n'est pas une super-clé.
+**Correction en BCNF** :
+*   `Enseignement(NomEnseignant, CodeCours)`
+*   `Planning(CodeCours, Salle)` (si la salle dépend du cours) ou `Planning(NomEnseignant, Salle)` (si la salle dépend de l'enseignant).
+
+**À RETENIR : Chemin de Normalisation**
+```
+Relation Initiale (Anomalies)
+         ↓
+    1NF (Atomicité)
+         ↓
+    2NF (Dépendance pleine à la PK - si PK composite)
+         ↓
+    3NF (Élimination des dépendances transitives)
+         ↓
+    BCNF (Tout déterminant est une clé candidate)
+```
+*En pratique, la 3NF est souvent considérée comme un bon compromis pour la plupart des applications métier.*
+
+---
+
+### **6. Outils et Technologies en Entreprise**
+
+*   **SGBD Relationnels (RDBMS)** :
+    *   **Open Source** : **PostgreSQL** (très puissant, conforme aux standards), **MySQL/MariaDB** (très répandu pour le web).
+    *   **Commercial** : **Oracle Database**, **Microsoft SQL Server**.
+    *   **Cloud** : **Amazon RDS**, **Google Cloud SQL**, **Azure SQL Database**.
+*   **Outils de Modélisation** :
+    *   **MySQL Workbench**, **pgAdmin 4** (outils natifs).
+    *   **draw.io** (gratuit), **Lucidchart** (en ligne).
+    *   **Enterprise Architect**, **IBM Rational Rose** (professionnels).
+*   **Langages** :
+    *   **SQL (Structured Query Language)** : Langage universel pour définir, manipuler et contrôler les données (`CREATE TABLE`, `SELECT`, `INSERT`,

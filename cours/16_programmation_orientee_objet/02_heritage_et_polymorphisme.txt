@@ -1,0 +1,214 @@
+CHAPITRE 2 — HÉRITAGE, POLYMORPHISME ET DESIGN PATTERNS
+BTS Génie Logiciel — Programmation orientée objet
+
+1. HÉRITAGE
+
+L'héritage permet à une classe (sous-classe, classe dérivée, classe fille) d'hériter des attributs et méthodes d'une autre classe (super-classe, classe de base, classe mère).
+
+Principe : "is-a" (est-un). Un Chien est-un Animal. Une SARL est-une Société.
+
+Exemple Python :
+class Personne:
+    def __init__(self, nom: str, prenom: str, date_naissance: str):
+        self.nom = nom
+        self.prenom = prenom
+        self.date_naissance = date_naissance
+
+    def se_presenter(self) -> str:
+        return f"Je m'appelle {self.prenom} {self.nom}."
+
+    def __str__(self) -> str:
+        return f"{self.prenom} {self.nom}"
+
+
+class Etudiant(Personne):     # Etudiant hérite de Personne
+    def __init__(self, nom, prenom, date_naissance, matricule, filiere):
+        super().__init__(nom, prenom, date_naissance)  # appel du constructeur parent
+        self.matricule = matricule
+        self.filiere = filiere
+        self.notes: dict = {}
+
+    def ajouter_note(self, matiere: str, note: float) -> None:
+        self.notes[matiere] = note
+
+    def calculer_moyenne(self) -> float:
+        if not self.notes:
+            return 0.0
+        return sum(self.notes.values()) / len(self.notes)
+
+    def se_presenter(self) -> str:         # redéfinition (override)
+        base = super().se_presenter()      # appel méthode parente
+        return f"{base} Je suis étudiant en {self.filiere}, matricule {self.matricule}."
+
+
+class Enseignant(Personne):
+    def __init__(self, nom, prenom, date_naissance, grade, departement):
+        super().__init__(nom, prenom, date_naissance)
+        self.grade = grade
+        self.departement = departement
+        self.cours_enseignes: list = []
+
+    def assigner_cours(self, cours: str) -> None:
+        self.cours_enseignes.append(cours)
+
+    def se_presenter(self) -> str:
+        return f"{super().se_presenter()} Je suis {self.grade} au département {self.departement}."
+
+# Utilisation
+etudiant = Etudiant("BIYA", "Martin", "2002-05-15", "GL2024042", "Génie Logiciel")
+etudiant.ajouter_note("Bases de données", 15)
+etudiant.ajouter_note("Python", 17)
+print(etudiant.se_presenter())
+print(f"Moyenne : {etudiant.calculer_moyenne():.1f}/20")
+
+2. HÉRITAGE EN JAVA
+
+public abstract class Animal {
+    protected String nom;
+    protected int age;
+
+    public Animal(String nom, int age) {
+        this.nom = nom;
+        this.age = age;
+    }
+
+    public abstract String parler();   // méthode abstraite (doit être redéfinie)
+
+    public String toString() {
+        return nom + " (âge: " + age + ")";
+    }
+}
+
+public class Chien extends Animal {
+    private String race;
+
+    public Chien(String nom, int age, String race) {
+        super(nom, age);
+        this.race = race;
+    }
+
+    @Override
+    public String parler() {
+        return nom + " dit : Waouf !";
+    }
+}
+
+public class Chat extends Animal {
+    @Override
+    public String parler() {
+        return nom + " dit : Miaou !";
+    }
+}
+
+3. POLYMORPHISME
+
+Polymorphisme = "plusieurs formes". Un même appel de méthode produit des comportements différents selon le type réel de l'objet.
+
+Types :
+- Polymorphisme de sous-type (redéfinition) : méthode redéfinie dans la sous-classe
+- Polymorphisme par surcharge (overloading) : même nom de méthode, signatures différentes (Java, C++)
+- Polymorphisme paramétrique (génériques) : même code pour différents types
+
+Exemple Python (polymorphisme de sous-type) :
+def faire_parler(animaux: list):
+    for animal in animaux:
+        print(animal.parler())  # comportement différent selon le type réel
+
+animaux = [Chien("Rex", 3, "Labrador"), Chat("Mimi", 5), Chien("Médor", 7, "Berger")]
+faire_parler(animaux)
+# Rex dit : Waouf !
+# Mimi dit : Miaou !
+# Médor dit : Waouf !
+
+4. CLASSES ABSTRAITES ET INTERFACES
+
+Classe abstraite : ne peut pas être instanciée directement. Peut contenir des méthodes abstraites (sans corps) et des méthodes concrètes.
+
+Python :
+from abc import ABC, abstractmethod
+
+class Forme(ABC):
+    @abstractmethod
+    def aire(self) -> float:
+        pass
+
+    @abstractmethod
+    def perimetre(self) -> float:
+        pass
+
+    def description(self) -> str:
+        return f"Aire={self.aire():.2f}, Périmètre={self.perimetre():.2f}"
+
+class Cercle(Forme):
+    def __init__(self, rayon: float):
+        self.rayon = rayon
+
+    def aire(self) -> float:
+        import math
+        return math.pi * self.rayon ** 2
+
+    def perimetre(self) -> float:
+        import math
+        return 2 * math.pi * self.rayon
+
+class Rectangle(Forme):
+    def __init__(self, longueur: float, largeur: float):
+        self.longueur, self.largeur = longueur, largeur
+
+    def aire(self) -> float:
+        return self.longueur * self.largeur
+
+    def perimetre(self) -> float:
+        return 2 * (self.longueur + self.largeur)
+
+5. DESIGN PATTERNS (PATRONS DE CONCEPTION)
+
+Patterns créationnels :
+Singleton : une seule instance de la classe.
+class ConfigManager:
+    _instance = None
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+Factory Method : déléguer la création d'objets à une sous-classe.
+Abstract Factory : créer des familles d'objets sans spécifier les classes concrètes.
+Builder : construire des objets complexes étape par étape.
+
+Patterns structurels :
+Adapter : interface compatible entre deux incompatibles.
+Decorator : ajouter des responsabilités à un objet dynamiquement.
+Facade : interface simplifiée d'un sous-système complexe.
+Proxy : contrôler l'accès à un objet.
+
+Patterns comportementaux :
+Observer : notification des changements d'état à des observateurs.
+Strategy : encapsuler des algorithmes interchangeables.
+Command : encapsuler une requête en objet.
+Iterator : accéder séquentiellement aux éléments d'une collection.
+
+Exemple Observer (Python) :
+class Sujet:
+    def __init__(self):
+        self._observateurs = []
+
+    def abonner(self, obs):
+        self._observateurs.append(obs)
+
+    def notifier(self, message):
+        for obs in self._observateurs:
+            obs.mettre_a_jour(message)
+
+class LogObservateur:
+    def mettre_a_jour(self, message):
+        print(f"[LOG] {message}")
+
+class EmailObservateur:
+    def mettre_a_jour(self, message):
+        print(f"[EMAIL] Envoi : {message}")
+
+sujet = Sujet()
+sujet.abonner(LogObservateur())
+sujet.abonner(EmailObservateur())
+sujet.notifier("Nouvel étudiant inscrit")

@@ -1,0 +1,340 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière 07 : Bases de Données**
+## **Chapitre : SQL DDL et DML avec contraintes**
+
+---
+
+### **1. Introduction au SQL et distinction DDL/DML**
+
+#### **1.1. Définition du SQL**
+**SQL** (Structured Query Language) est un langage standardisé de gestion et de manipulation des bases de données relationnelles. Il permet de définir la structure des données, de les manipuler et de les interroger.
+
+#### **1.2. Distinction entre DDL et DML**
+| **Aspect**              | **DDL (Data Definition Language)**                     | **DML (Data Manipulation Language)**                 |
+|-------------------------|--------------------------------------------------------|------------------------------------------------------|
+| **Rôle principal**      | Définir, modifier, supprimer la structure des objets (schéma) | Manipuler les données contenues dans les tables      |
+| **Commandes principales**| `CREATE`, `ALTER`, `DROP`, `TRUNCATE`                 | `INSERT`, `UPDATE`, `DELETE`, `SELECT`               |
+| **Nature des opérations**| Opérations sur la structure (métadonnées)             | Opérations sur les données (enregistrements)         |
+| **Effet de persistance**| Immédiat (validation automatique)                     | Soumis à validation par `COMMIT`/`ROLLBACK`          |
+| **Exemple**             | Créer une table `Client`                              | Ajouter un client dans la table `Client`             |
+
+**À retenir** : Le DDL agit sur le **contenant** (la structure), le DML agit sur le **contenu** (les données).
+
+---
+
+### **2. Le Data Definition Language (DDL)**
+
+#### **2.1. La commande CREATE TABLE**
+Permet de créer une nouvelle table dans la base de données.
+
+**Syntaxe de base :**
+```sql
+CREATE TABLE nom_table (
+    colonne1 type_donnees [contraintes],
+    colonne2 type_donnees [contraintes],
+    ...
+    [contraintes_de_table]
+);
+```
+
+**Exemple concret (contexte OHADA/Cameroun) :**
+```sql
+CREATE TABLE Entreprise (
+    numero_rc CHAR(10) PRIMARY KEY,
+    nom_entreprise VARCHAR(100) NOT NULL,
+    forme_juridique VARCHAR(50) CHECK (forme_juridique IN ('SARL', 'SA', 'SUARL', 'GIE')),
+    capital_social DECIMAL(15,2),
+    date_immatriculation DATE NOT NULL,
+    ville VARCHAR(50) DEFAULT 'Douala'
+);
+```
+
+#### **2.2. La commande ALTER TABLE**
+Permet de modifier la structure d'une table existante.
+
+**Principales utilisations :**
+
+1. **Ajouter une colonne :**
+```sql
+ALTER TABLE Entreprise 
+ADD email VARCHAR(100);
+```
+
+2. **Modifier une colonne :**
+```sql
+ALTER TABLE Entreprise 
+MODIFY capital_social DECIMAL(20,2);
+```
+
+3. **Supprimer une colonne :**
+```sql
+ALTER TABLE Entreprise 
+DROP COLUMN ville;
+```
+
+4. **Ajouter une contrainte :**
+```sql
+ALTER TABLE Entreprise 
+ADD CONSTRAINT chk_capital CHECK (capital_social >= 1000000);
+```
+
+**Exemple adapté (opérateur télécom) :**
+```sql
+-- Ajout d'une colonne pour le type d'abonnement MTN/Orange
+ALTER TABLE ClientTelecom 
+ADD type_forfait VARCHAR(30) DEFAULT 'Prépayé';
+```
+
+#### **2.3. La commande DROP TABLE**
+Permet de supprimer définitivement une table et toutes ses données.
+
+**Syntaxe :**
+```sql
+DROP TABLE nom_table [CASCADE CONSTRAINTS];
+```
+
+**Exemple :**
+```sql
+DROP TABLE AnciensClients;
+```
+
+**⚠️ Attention** : Cette opération est irréversible. En production, on préfère souvent renommer la table ou la sauvegarder avant suppression.
+
+---
+
+### **3. Les contraintes d'intégrité**
+
+Les contraintes assurent la validité et la cohérence des données.
+
+#### **3.1. Contrainte NOT NULL**
+Empêche l'insertion de valeurs nulles dans une colonne.
+
+```sql
+CREATE TABLE AbonneCamtel (
+    id_abonne INT PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+    numero_contrat CHAR(15) NOT NULL,
+    date_activation DATE NOT NULL
+);
+```
+
+#### **3.2. Contrainte UNIQUE**
+Garantit que toutes les valeurs d'une colonne (ou groupe de colonnes) sont différentes.
+
+```sql
+CREATE TABLE AgentBancaire (
+    matricule INT PRIMARY KEY,
+    cni CHAR(15) UNIQUE,  -- Numéro CNI unique
+    email_pro VARCHAR(100) UNIQUE
+);
+```
+
+#### **3.3. Contrainte PRIMARY KEY**
+Combinaison de `NOT NULL` et `UNIQUE`. Identifie de manière unique chaque enregistrement.
+
+```sql
+CREATE TABLE FactureOrange (
+    numero_facture VARCHAR(20) PRIMARY KEY,
+    reference_client VARCHAR(15),
+    montant DECIMAL(10,2),
+    date_emission DATE
+);
+```
+
+#### **3.4. Contrainte FOREIGN KEY (clé étrangère)**
+Établit une relation entre deux tables. La valeur doit exister dans la table référencée.
+
+**Exemple complet (système de gestion OHADA) :**
+```sql
+-- Table principale
+CREATE TABLE Societe (
+    numero_rc CHAR(10) PRIMARY KEY,
+    raison_sociale VARCHAR(150) NOT NULL
+);
+
+-- Table liée
+CREATE TABLE Etablissement (
+    id_etablissement INT PRIMARY KEY,
+    numero_rc_societe CHAR(10),
+    adresse VARCHAR(200),
+    ville VARCHAR(50),
+    FOREIGN KEY (numero_rc_societe) 
+        REFERENCES Societe(numero_rc)
+        ON DELETE CASCADE
+);
+```
+
+**Options des clés étrangères :**
+- `ON DELETE CASCADE` : Supprime les enregistrements enfants si le parent est supprimé
+- `ON DELETE SET NULL` : Met à NULL la clé étrangère si le parent est supprimé
+- `ON DELETE RESTRICT` : Empêche la suppression du parent s'il existe des enfants
+
+#### **3.5. Contrainte CHECK**
+Valide les données selon une condition spécifiée.
+
+```sql
+CREATE TABLE TransactionMobileMoney (
+    id_transaction INT PRIMARY KEY,
+    operateur VARCHAR(10) CHECK (operateur IN ('MTN', 'Orange', 'Express Union')),
+    montant DECIMAL(10,2) CHECK (montant > 0),
+    type_transaction VARCHAR(20) CHECK (type_transaction IN ('Dépôt', 'Retrait', 'Transfert', 'Paiement'))
+);
+```
+
+**Tableau récapitulatif des contraintes :**
+| **Contrainte**   | **Objectif**                          | **Exemple d'utilisation**                    |
+|------------------|---------------------------------------|----------------------------------------------|
+| `NOT NULL`       | Valeur obligatoire                    | Nom du client, numéro de téléphone           |
+| `UNIQUE`         | Valeurs toutes différentes            | Email, numéro CNI, matricule                 |
+| `PRIMARY KEY`    | Identifiant unique                    | Numéro RC, ID client, référence facture      |
+| `FOREIGN KEY`    | Référence à une autre table           | Lier commande à client, facture à société    |
+| `CHECK`          | Validation selon condition            | Montant positif, type dans liste autorisée   |
+| `DEFAULT`        | Valeur par défaut                     | Date du jour, statut 'Actif', pays 'Cameroun'|
+
+---
+
+### **4. Le Data Manipulation Language (DML)**
+
+#### **4.1. La commande INSERT**
+Permet d'insérer de nouveaux enregistrements dans une table.
+
+**Syntaxes :**
+```sql
+-- Syntaxe complète (toutes colonnes)
+INSERT INTO nom_table VALUES (valeur1, valeur2, ...);
+
+-- Syntaxe spécifique (colonnes choisies)
+INSERT INTO nom_table (colonne1, colonne2, ...) 
+VALUES (valeur1, valeur2, ...);
+
+-- Insertion multiple
+INSERT INTO nom_table (colonne1, colonne2) 
+VALUES (valeur1a, valeur2a),
+       (valeur1b, valeur2b),
+       (valeur1c, valeur2c);
+```
+
+**Exemple (contexte télécoms camerounais) :**
+```sql
+INSERT INTO ClientMobile (numero, nom, prenom, operateur, solde) 
+VALUES ('677123456', 'NDONGO', 'Martial', 'MTN', 5000.00);
+
+INSERT INTO ClientMobile (numero, nom, prenom, operateur) 
+VALUES ('699987654', 'DJEUKAM', 'Sarah', 'Orange');
+-- solde prendra la valeur par défaut définie dans CREATE TABLE
+```
+
+#### **4.2. La commande UPDATE**
+Permet de modifier des enregistrements existants.
+
+**Syntaxe :**
+```sql
+UPDATE nom_table
+SET colonne1 = nouvelle_valeur1,
+    colonne2 = nouvelle_valeur2
+[WHERE condition];
+```
+
+**⚠️ Attention** : Sans clause `WHERE`, TOUS les enregistrements sont modifiés !
+
+**Exemples :**
+```sql
+-- Mise à jour ciblée
+UPDATE ClientMobile
+SET solde = solde + 10000
+WHERE numero = '677123456';
+
+-- Mise à jour conditionnelle
+UPDATE FactureCamtel
+SET statut = 'Payée',
+    date_paiement = SYSDATE
+WHERE numero_facture = 'FAC202400123' 
+  AND statut = 'En attente';
+
+-- Mise à jour basée sur un calcul
+UPDATE Entreprise
+SET capital_social = capital_social * 1.05
+WHERE ville = 'Yaoundé' 
+  AND date_immatriculation < DATE '2020-01-01';
+```
+
+#### **4.3. La commande DELETE**
+Permet de supprimer des enregistrements d'une table.
+
+**Syntaxe :**
+```sql
+DELETE FROM nom_table
+[WHERE condition];
+```
+
+**⚠️ Attention** : Sans clause `WHERE`, TOUTES les lignes sont supprimées !
+
+**Exemples :**
+```sql
+-- Suppression spécifique
+DELETE FROM AnciensAbonnes
+WHERE date_desactivation < DATE '2022-01-01';
+
+-- Suppression conditionnelle
+DELETE FROM TransactionsSuspectes
+WHERE montant > 1000000 
+  AND verification = 'FRAUDULEUSE';
+```
+
+**Différence entre DELETE, DROP et TRUNCATE :**
+| **Commande**  | **Niveau**      | **Effet**                          | **Récupérable** | **Déclenche triggers** |
+|---------------|-----------------|------------------------------------|-----------------|------------------------|
+| `DELETE`      | Données (DML)   | Supprime des lignes selon condition| Oui (ROLLBACK)  | Oui                    |
+| `TRUNCATE`    | Données (DDL)   | Supprime TOUTES les lignes         | Non             | Non                    |
+| `DROP`        | Structure (DDL) | Supprime la table entière          | Non             | Non                    |
+
+---
+
+### **5. Bonnes pratiques et cas concrets camerounais**
+
+#### **5.1. Exemple complet : Système de gestion d'une microfinance**
+```sql
+-- Création des tables avec contraintes
+CREATE TABLE Client (
+    code_client CHAR(8) PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+    prenom VARCHAR(50) NOT NULL,
+    cni CHAR(15) UNIQUE NOT NULL,
+    telephone VARCHAR(13) UNIQUE,
+    ville VARCHAR(50) DEFAULT 'Douala',
+    date_inscription DATE DEFAULT SYSDATE
+);
+
+CREATE TABLE Compte (
+    numero_compte VARCHAR(12) PRIMARY KEY,
+    code_client CHAR(8) NOT NULL,
+    type_compte VARCHAR(20) CHECK (type_compte IN ('Épargne', 'Courant', 'Business')),
+    solde DECIMAL(15,2) DEFAULT 0.00,
+    date_ouverture DATE DEFAULT SYSDATE,
+    FOREIGN KEY (code_client) REFERENCES Client(code_client)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE Transaction (
+    id_transaction INT PRIMARY KEY,
+    numero_compte VARCHAR(12),
+    type_trans VARCHAR(10) CHECK (type_trans IN ('Dépôt', 'Retrait')),
+    montant DECIMAL(15,2) CHECK (montant > 0),
+    date_trans TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    agent VARCHAR(50),
+    FOREIGN KEY (numero_compte) REFERENCES Compte(numero_compte)
+);
+
+-- Insertion de données
+INSERT INTO Client (code_client, nom, prenom, cni, telephone) 
+VALUES ('CLI00001', 'KAMGA', 'Jean', '123456789012', '677111222');
+
+INSERT INTO Compte (numero_compte, code_client, type_compte) 
+VALUES ('CPT202400001', 'CLI00001', 'Épargne');
+
+-- Mise à jour du solde après dépôt
+UPDATE Compte
+SET solde = solde + 50000
+WHERE numero_compte = 'CPT202400001';
+
+INSERT INTO Transaction (id_transaction, numero_compte,

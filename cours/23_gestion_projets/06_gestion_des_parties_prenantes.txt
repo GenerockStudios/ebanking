@@ -1,0 +1,164 @@
+# **Notes de cours — 23 Gestion Projets**
+## **Chapitre : Gestion des parties prenantes**
+
+### **1. Introduction et définitions**
+
+#### **1.1. Qu'est-ce qu'un projet ?**
+Un projet est un ensemble d'activités coordonnées et maîtrisées, comportant des dates de début et de fin, entrepris dans le but d'atteindre un objectif conforme à des exigences spécifiques, incluant des contraintes de délais, de coûts et de ressources (norme ISO 21500).
+
+#### **1.2. Définition des parties prenantes (Stakeholders)**
+**Partie prenante** : Toute personne, groupe ou organisation qui peut affecter, être affectée par, ou se percevoir comme étant affectée par une décision, une activité ou un résultat du projet (PMBOK Guide, 7ème édition).
+
+**À retenir** : La gestion des parties prenantes est un processus continu d'identification, d'analyse, de planification et d'engagement avec les personnes concernées par le projet pour garantir son succès.
+
+#### **1.3. Importance de la gestion des parties prenantes dans le contexte camerounais**
+Dans le contexte des projets TIC au Cameroun (développement d'applications pour MTN Money, déploiement de solutions e-gouvernement, projets de cybersécurité pour Camtel), la gestion des parties prenantes est cruciale car :
+- Les structures organisationnelles peuvent être hiérarchiques et complexes.
+- Les intérêts communautaires et familiaux peuvent influencer les décisions.
+- Le cadre juridique OHADA (Organisation pour l'Harmonisation en Afrique du Droit des Affaires) impose des règles spécifiques pour les entreprises.
+- La réussite du projet dépend souvent de l'adhésion des autorités administratives et des utilisateurs finaux.
+
+---
+
+### **2. Identification des parties prenantes**
+
+#### **2.1. Processus d'identification**
+L'identification est la première étape. Elle consiste à dresser une liste exhaustive de toutes les entités concernées.
+
+**Sources d'identification** :
+- Documents du projet (charte, contrat)
+- Organigramme de l'organisation
+- Analyse des processus métier
+- Consultation des experts et des projets similaires
+
+#### **2.2. Catégories de parties prenantes (Typologie)**
+1. **Internes** : Directement liées à l'organisation porteuse du projet.
+   - *Exemple* : Direction Générale, Chef de projet, Équipe de développement, Service financier.
+2. **Externes** : En dehors de l'organisation mais impactées.
+   - *Exemple* : Clients (ex: abonnés Orange Cameroun), Fournisseurs, Régulateurs (ART - Agence de Régulation des Télécommunications), Collectivités territoriales.
+3. **Primaires/Principales** : Directement impactées par le résultat.
+   - *Exemple* : Utilisateurs finaux de l'application bancaire.
+4. **Secondaires** : Indirectement impactées.
+   - *Exemple* : Familles des utilisateurs, associations de consommateurs.
+
+**Exemple concret** : Pour un projet de développement d'une plateforme de paiement des taxes municipales à Douala :
+- **Parties prenantes internes** : Mairie de Douala (Service des finances, Service informatique), Développeurs sous-traitants.
+- **Parties prenantes externes** : Contribuables, Banques (Afriland First Bank), Ministère des Finances, Presse.
+
+#### **2.3. Outils et techniques d'identification**
+- **Brainstorming** avec l'équipe projet.
+- **Analyse des documents** (procès-verbaux, études de faisabilité).
+- **Questionnaires et entrevues**.
+- **Check-lists** basées sur des projets antérieurs.
+- **Analyse des réseaux sociaux** de l'organisation.
+
+---
+
+### **3. Analyse des parties prenantes : Matrice Intérêt/Influence (ou Puissance/Intérêt)**
+
+#### **3.1. Objectif de l'analyse**
+Comprendre les parties prenantes pour anticiper leurs comportements, définir les stratégies d'engagement et prioriser les efforts de communication.
+
+#### **3.2. La matrice Intérêt/Influence (Modèle de Mendelow)**
+C'est un outil de cartographie classant les parties prenantes selon deux axes :
+- **Axe vertical : Niveau d'Intérêt** (à quel point le résultat du projet les affecte).
+- **Axe horizontal : Niveau d'Influence/Pouvoir** (leur capacité à influencer les objectifs, le déroulement ou les résultats du projet).
+
+#### **3.3. Les quatre quadrants et stratégies associées**
+
+| **Quadrant** | **Caractéristiques** | **Stratégie de gestion** | **Exemple dans un projet de fibre optique de Camtel** |
+| :--- | :--- | :--- | :--- |
+| **1. Forte Influence / Fort Intérêt**<br>*(À gérer de près)* | Décideurs clés. Impact majeur. | **Engagement maximal**. Implication régulière, prise en compte de leurs avis. | DG de Camtel, Ministre des Postes et Télécommunications. |
+| **2. Forte Influence / Faible Intérêt**<br>*(À satisfaire)* | Peuvent influencer mais sont peu concernés. | **Maintenir satisfaits**. Informer suffisamment pour qu'ils ne deviennent pas opposants. | Médias nationaux (CRTV), Partenaires financiers (BEAC). |
+| **3. Faible Influence / Fort Intérêt**<br>*(À informer)* | Très concernés mais peu de pouvoir. | **Communication régulière**. Les tenir informés pour maintenir leur soutien. | Associations d'habitants des zones de déploiement, petits commerçants. |
+| **4. Faible Influence / Faible Intérêt**<br>*(À surveiller)* | Impact minimal. | **Surveillance minimale**. Communication occasionnelle sans surcharge. | Grand public non directement dans la zone du projet. |
+
+**À retenir** : La position d'une partie prenante dans la matrice n'est pas figée. Elle peut évoluer tout au long du projet et doit être réévaluée périodiquement.
+
+---
+
+### **4. Plan de communication avec les parties prenantes**
+
+#### **4.1. Définition et objectifs**
+Le plan de communication est un document décrivant **quoi, quand, comment et à qui** les informations du projet seront communiquées. Ses objectifs sont :
+- Assurer que les bonnes informations arrivent aux bonnes personnes au bon moment.
+- Gérer les attentes.
+- Obtenir et maintenir l'engagement.
+- Favoriser la transparence et la confiance.
+
+#### **4.2. Éléments constitutifs du plan**
+1.  **Liste des parties prenantes** (issue de l'identification et de l'analyse).
+2.  **Objectifs de communication** pour chaque groupe.
+3.  **Messages clés** à transmettre.
+4.  **Canaux de communication** (médias).
+5.  **Fréquence et calendrier**.
+6.  **Responsables** de l'émission et de la réception.
+7.  **Budget alloué** à la communication.
+8.  **Méthodes de feedback et d'évaluation**.
+
+#### **4.3. Exemple de tableau synthétique du plan de communication**
+
+| Partie prenante | Objectif de la communication | Message clé | Canal | Fréquence | Responsable |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Comité de pilotage** | Prise de décision, validation des jalons | Avancement, risques, budget | Réunion formelle présentielle | Mensuelle | Chef de projet |
+| **Équipe de développement** | Coordination des tâches, motivation | Tâches prioritaires, blocages | Réunion quotidienne (scrums), Slack | Quotidienne / Hebdo | Lead développeur |
+| **Client final (ex: MTN)** | Validation des livrables, satisfaction | Démonstration des fonctionnalités | Visioconférence, emailing, atelier | Bi-mensuelle | Chef de projet |
+| **Utilisateurs finaux** | Adoption de la solution, formation | Avantages de la nouvelle appli | Réseaux sociaux, SMS, radio locale | Ponctuelle (lancement) | Chargé com. |
+
+**Outils utilisés en entreprise** : Microsoft Project, Trello, Asana, Jira (pour le suivi), WhatsApp Business, Google Workspace, Zoom, Microsoft Teams.
+
+**Contexte camerounais** : Adapter les canaux au public cible (SMS pour les zones rurales, réseaux sociaux pour les urbains, réunions communautaires avec les chefs traditionnels si nécessaire).
+
+---
+
+### **5. Rapport d'avancement (Progress Report)**
+
+#### **5.1. Rôle et importance**
+Le rapport d'avancement est un document périodique qui fait le point sur l'état d'avancement du projet par rapport au planning, au budget et aux objectifs initiaux. Il est **vital pour la redevabilité (accountability)**.
+
+#### **5.2. Contenu type d'un rapport d'avancement**
+1.  **En-tête** : Nom du projet, période couverte, date, auteur.
+2.  **Résumé à l'intention de la direction (Executive Summary)** : Points clés, état global (en vert/jaune/rouge).
+3.  **Avancement par rapport aux jalons (Schedule Performance)** :
+    - Travail prévu vs. Travail accompli.
+    - Utilisation d'indicateurs comme le **Pourcentage d'achèvement** ou l'**Earned Value Management (EVM)**.
+    - Explication des retards éventuels.
+4.  **État financier (Cost Performance)** : Budget prévu vs. Dépenses engagées.
+5.  **Risques et problèmes** : Nouveaux risques identifiés, état des risques existants, problèmes actuels et actions correctives.
+6.  **Prochaines étapes** : Plan pour la période suivante.
+7.  **Décisions requises** : Points nécessitant une intervention des parties prenantes de haut niveau.
+
+#### **5.3. Indicateurs clés de performance (KPI)**
+- **Écart de délai (Schedule Variance - SV)** : SV = Valeur Acquise (VA) - Valeur Planifiée (VP)
+- **Écart de coût (Cost Variance - CV)** : CV = Valeur Acquise (VA) - Coût Réel (CR)
+- **Indice de performance des délais (SPI)** : SPI = VA / VP (SPI < 1 = retard)
+- **Indice de performance des coûts (CPI)** : CPI = VA / CR (CPI < 1 = dépassement)
+
+**À retenir** : Un bon rapport est **clair, concis, honnête et orienté solutions**. Il ne cache pas les problèmes mais propose des correctifs.
+
+---
+
+### **6. Matrice RACI (Responsible, Accountable, Consulted, Informed)**
+
+#### **6.1. Définition et utilité**
+La matrice RACI est un outil de **gestion des rôles et des responsabilités** au sein d'un projet. Elle permet de clarifier qui fait quoi, évitant ainsi les doublons, les oublis et les conflits. Elle est particulièrement utile dans les environnements matriciels courants au Cameroun.
+
+#### **6.2. Signification des acronymes RACI**
+- **R (Responsible) = Exécutant** : Personne qui effectue la tâche. Plusieurs "R" peuvent exister pour une activité.
+- **A (Accountable) = Responsable (ultime)** : Personne qui a l'autorité finale et qui valide le travail. Il ne doit y avoir qu'**un seul "A"** par tâche. C'est le "bottleneck" de la validation.
+- **C (Consulted) = Consulté** : Personne(s) dont l'avis est nécessaire **avant** l'action (communication bidirectionnelle).
+- **I (Informed) = Informé** : Personne(s) qui doit être tenue au courant **après** l'action (communication unidirectionnelle).
+
+#### **6.3. Règles de construction d'une matrice RACI**
+1.  Lister les **activités ou livrables** principaux du projet en ligne.
+2.  Lister les **rôles ou personnes** (parties prenantes) en colonne.
+3.  Remplir les cellules avec R, A, C ou I.
+4.  Vérifier les règles :
+    - Pas de tâche sans "R".
+    - Une et une seule "A" par tâche.
+    - Éviter les colonnes trop remplies (surcharge d'une personne).
+    - Éviter les lignes vides (tâche orpheline).
+
+#### **6.4. Exemple appliqué : Projet de déploiement d'un logiciel de gestion pour une PME camerounaise (cadre OHADA)**
+
+| Tâches / Rôles          | Chef de Pro

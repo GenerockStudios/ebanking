@@ -1,0 +1,159 @@
+**Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+**Matière : 05 Anglais**
+**Chapitre : Project management in English: Agile/Scrum terminology, sprint planning, standup meeting language**
+
+---
+
+### **1. Introduction to Project Management and Agile Philosophy**
+
+#### **1.1. The Need for Modern Project Management**
+In the fast-paced Cameroonian and African tech ecosystem, with companies like MTN Mobile Money, Orange Digital Center, and Camtel expanding their digital services, traditional "waterfall" project management often fails. It is too rigid for changing requirements. **Agile** is a mindset and a set of methodologies focused on **iterative development, customer collaboration, and responding to change**.
+
+**Key Agile Principles (Adapted for our context):**
+*   **Customer satisfaction** through early and continuous delivery of valuable software (e.g., rolling out a new feature for the Express Union mobile app incrementally).
+*   **Welcome changing requirements**, even late in development. Agile processes harness change for the customer's competitive advantage.
+*   **Deliver working software frequently**, from a couple of weeks to a couple of months, with a preference for the shorter timescale (e.g., bi-weekly updates to the "Douala Port Logistics" platform).
+*   **Business people and developers must work together** daily throughout the project.
+*   **Build projects around motivated individuals.** Give them the environment and support they need, and trust them to get the job done.
+
+#### **1.2. Scrum: The Leading Agile Framework**
+**Scrum** is a lightweight framework that helps people, teams, and organizations generate value through adaptive solutions for complex problems. It is the most widely used Agile framework in Cameroonian software companies and tech hubs (e.g., ActivSpaces, Silicon Mountain).
+
+**À retenir:** Scrum is **not** a methodology with strict rules, but a framework with roles, events, and artifacts. It is built on **Empirical Process Control**: transparency, inspection, and adaptation.
+
+---
+
+### **2. Core Scrum Terminology and Roles**
+
+#### **2.1. The Three Scrum Roles**
+1.  **The Product Owner (PO):**
+    *   **Definition:** The person responsible for maximizing the value of the product resulting from the work of the Scrum Team. They are the **voice of the customer/stakeholder**.
+    *   **Key Responsibilities:**
+        *   Managing and prioritizing the **Product Backlog**.
+        *   Clearly expressing Product Backlog items.
+        *   Ensuring the team understands items to the level needed.
+    *   **Example:** At a fintech startup in Yaoundé developing a savings app for market vendors, the PO represents the needs of the vendors, the regulatory requirements of the Central Bank of Central African States (BEAC), and the business goals of the startup.
+
+2.  **The Scrum Master (SM):**
+    *   **Definition:** The servant-leader for the Scrum Team. They are responsible for promoting and supporting Scrum as defined in the Scrum Guide. They **remove impediments** and ensure Scrum events are positive and productive.
+    *   **Key Responsibilities:**
+        *   Coaching the team in self-management and cross-functionality.
+        *   Helping the PO with techniques for effective Backlog management.
+        *   Facilitating Scrum events (Sprint Planning, Daily Scrum, etc.).
+    *   **Example:** The SM helps a team at Camtel resolve a blockage where the testing environment is unavailable. They coach the team to improve their Daily Standup and protect them from external interruptions.
+
+3.  **The Developers (The Scrum Team):**
+    *   **Definition:** The professionals in the Scrum Team that commit to delivering a "Done" Increment each Sprint. They are **cross-functional** (have all skills needed to create the increment).
+    *   **Key Responsibilities:**
+        *   Creating the Sprint Backlog and plan for the Sprint.
+        *   Instilling quality by adhering to a Definition of Done.
+        *   Adapting their plan each day toward the Sprint Goal.
+
+#### **2.2. Essential Scrum Artifacts**
+*   **Product Backlog:** An ordered list of everything that is known to be needed in the product. It is the **single source of truth** for requirements. Managed by the PO.
+    *   **Item Types:** Epics (large features), User Stories (small, user-focused requirements), Bugs, Technical tasks.
+*   **Sprint Backlog:** The set of Product Backlog items selected for the Sprint, plus a plan for delivering them. It is a forecast by the Developers.
+*   **Increment:** A concrete, usable stepping stone toward the Product Goal. The sum of all completed Product Backlog items during a Sprint **plus** the value of all previous Sprints.
+
+**Tableau Comparatif: Product Backlog vs. Sprint Backlog**
+| **Aspect**          | **Product Backlog**                                        | **Sprint Backlog**                                      |
+|---------------------|------------------------------------------------------------|---------------------------------------------------------|
+| **Scope**           | The entire product                                         | The current Sprint only                                 |
+| **Responsibility**  | Product Owner                                              | Developers                                              |
+| **Fluidity**        | Constantly evolving (refined in **Backlog Refinement**)    | Fixed for the duration of the Sprint (but plan is adaptable) |
+| **Content**         | User Stories, Epics, Bugs, Technical Tasks                 | Selected User Stories broken down into specific tasks   |
+
+---
+
+### **3. The Scrum Events: Sprint Planning and Execution**
+
+#### **3.1. The Sprint Heartbeat**
+A **Sprint** is a time-boxed period (max one month, commonly 2 weeks) where a "Done", usable, and potentially releasable product Increment is created. Sprints are consistent in duration throughout development.
+
+#### **3.2. Sprint Planning: The "What" and "How"**
+**Time-box:** 8 hours for a one-month Sprint. Shorter for shorter Sprints.
+**Purpose:** To answer two key questions and create the Sprint Backlog.
+
+**Part 1: Topic One – *Why is this Sprint valuable?***
+*   The **Product Owner** proposes a **Sprint Goal** (the objective for the Sprint).
+*   The **Developers** select items from the Product Backlog they believe they can complete to achieve the Sprint Goal.
+*   **Example Goal:** "Improve the user registration flow for the OHADA business registration portal to reduce abandonment by 20%."
+
+**Part 2: Topic Two – *What can be Done this Sprint?***
+*   The **Developers** forecast the work (selected Product Backlog items) that will be part of the current Sprint.
+*   **Example Selection:** "As a new entrepreneur, I want to upload my company statutes in PDF format so that I can complete my registration digitally."
+
+**Part 3: Topic Three – *How will the chosen work get done?***
+*   The **Developers** plan the work necessary to create the Increment. They break down selected items into smaller tasks (often in hours or story points).
+*   **Example Task Breakdown:**
+    *   Design new UI mockup for upload page (1 day)
+    *   Implement backend API to handle PDF upload (2 days)
+    *   Write integration tests for the upload feature (1 day)
+    *   Update user documentation (0.5 day)
+
+**Output:** A clear **Sprint Goal** and a **Sprint Backlog** with a plan for the first days of work.
+
+---
+
+### **4. The Daily Standup (Daily Scrum) – Language and Structure**
+
+#### **4.1. Purpose and Rules**
+**Time-box:** 15 minutes, every working day, at the same time and place.
+**Purpose:** To inspect progress toward the Sprint Goal and adapt the Sprint Backlog as necessary. It is **not** a status report to the Scrum Master.
+**Key Rule:** It is for the **Developers**. The SM ensures it happens, but the Developers run it.
+
+#### **4.2. The Three Questions & Practical Language**
+Each team member answers three core questions. The language should be **concise, factual, and collaborative**.
+
+**1. What did I do yesterday that helped the team meet the Sprint Goal?**
+*   **Useful Phrases:** "Yesterday, I completed the API endpoint for user login." / "I finished testing the payment module and documented the results." / "I paired with Samuel to resolve the database connection bug."
+*   **Avoid:** Long stories, excuses, irrelevant details.
+
+**2. What will I do today to help the team meet the Sprint Goal?**
+*   **Useful Phrases:** "Today, I will start working on the user profile update feature." / "I plan to review the pull requests for the notification service." / "I'll investigate the performance issue reported on the staging server."
+*   **Avoid:** Vague statements like "I'll continue working on my stuff."
+
+**3. Do I see any impediment (blocker) that prevents me or the team from meeting the Sprint Goal?**
+*   **Useful Phrases:** "Yes, I'm blocked because I need access to the production logs, which is pending approval." / "A potential risk is that the third-party SMS gateway (like from MTN or Orange) API is down." / "No blockers at the moment."
+*   **Crucial:** The SM's role is to note these and help remove them **after** the meeting.
+
+**Example Standup Dialogue (Context: E-commerce platform for "Marché Central" in Douala):**
+*   **Awa (Frontend Dev):** "Yesterday, I integrated the product carousel on the homepage. Today, I'll work on making it responsive for mobile devices. No blockers."
+*   **Jean (Backend Dev):** "Yesterday, I fixed the bug in the cart calculation. Today, I'll build the API for customer reviews. I'm blocked because I need clarification on the review rating system from the PO."
+*   **Chantal (Tester):** "Yesterday, I tested the checkout flow. Today, I'll write automated tests for the new user registration. No blockers."
+
+#### **4.3. Tools for Distributed Teams (Common in Africa)**
+Many teams across Cameroon work with remote members. Common tools to facilitate Standups:
+*   **Communication:** Slack (with standup bots like Geekbot), Microsoft Teams.
+*   **Collaboration:** Jira, Trello, Azure DevOps Boards (to visualize the Sprint Backlog during the call).
+*   **Video Conferencing:** Google Meet, Zoom.
+
+---
+
+### **5. Other Key Scrum Events and Terminology**
+
+#### **5.1. Sprint Review**
+Held at the end of the Sprint to **inspect the Increment** and adapt the Product Backlog. The team demonstrates the working software to stakeholders. Informal, not a high-stakes presentation.
+
+#### **5.2. Sprint Retrospective**
+The final event of the Sprint. The team **inspects its own processes** (people, relationships, tools) and creates a plan for improvements in the next Sprint.
+*   **Typical Questions:** What went well? What could be improved? What will we commit to trying next Sprint?
+*   **Example Action Item:** "We had many merge conflicts. Next Sprint, we will commit to pulling the main branch and merging locally **twice a day**."
+
+#### **5.3. Key Metrics and Concepts**
+*   **Velocity:** A measure of the amount of work a team can complete in a Sprint (usually in Story Points). Used for **forecasting**, not for comparing teams.
+*   **Burndown Chart:** A graph showing the remaining work in the Sprint Backlog. It should "burn down" to zero by the end of the Sprint.
+*   **Definition of Done (DoD):** A shared understanding within the Scrum Team of what it means for work to be complete. It ensures quality.
+    *   **Example DoD:** Code is written, reviewed, tested (unit & integration), documented, and deployed to the staging environment.
+
+### **Conclusion**
+Mastering Agile and Scrum terminology in English is not just academic; it is a **professional necessity**. It enables effective collaboration in local tech companies (like Inoni Tech, Jola Ventures) and opens doors to the global remote job market. The key is to understand the **principles** behind the terms: **inspection, adaptation, transparency, and commitment.** Use this language daily in your project work at school to build fluency and prepare for a successful career in software engineering in Cameroon and beyond.
+
+**Glossary Rapide:**
+*   **Agile:** A project management philosophy.
+*   **Scrum:** An Agile framework.
+*   **Sprint:** A time-boxed iteration (2-4 weeks).
+*   **Standup:** A daily 15-minute coordination meeting.
+*   **Backlog:** A prioritized list of work.
+*   **PO/SM/Devs:** The three Scrum roles.
+*   **Increment:** A piece of working, potentially shippable software.

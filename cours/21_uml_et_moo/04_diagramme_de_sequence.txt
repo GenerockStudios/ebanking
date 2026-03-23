@@ -1,0 +1,179 @@
+# **Notes de cours — 21 UML et MOO**
+## **Chapitre : Diagramme de séquence**
+
+### **1. Introduction au diagramme de séquence**
+
+#### **1.1. Définition et rôle dans le processus de développement**
+Le diagramme de séquence est un diagramme d'interaction UML (Unified Modeling Language) qui modélise le déroulement temporel des interactions entre les objets ou les acteurs d'un système. Il met l'accent sur **l'ordre chronologique des messages** échangés.
+
+**Rôles principaux :**
+- Détailer le scénario d'un cas d'utilisation.
+- Spécifier la logique des méthodes complexes.
+- Visualiser la collaboration entre objets pour réaliser une fonctionnalité.
+- Servir de base pour les développeurs lors de l'implémentation.
+
+**Contexte camerounais :** Dans le développement d'un système de gestion des contentieux pour les tribunaux camerounais (système OHADA), le diagramme de séquence permet de modéliser précisément le flux des procédures judiciaires entre le greffier, le juge et le système informatique.
+
+#### **1.2. Position dans le cycle de vie logiciel**
+Le diagramme de séquence est principalement utilisé lors de la **phase de conception détaillée**, après l'élaboration des diagrammes de cas d'utilisation et des diagrammes de classes. Il fait le lien entre les exigences fonctionnelles et l'architecture logicielle.
+
+**Outils utilisés en entreprise :**
+- **Logiciels de modélisation :** Enterprise Architect, Visual Paradigm, Lucidchart, draw.io.
+- **Environnements de développement intégrés (IDE) :** Visual Studio (avec extensions UML), JetBrains IntelliJ IDEA (avec PlantUML).
+- **Outils libres/ouverts :** StarUML, UMLet, PlantUML (intégration dans la documentation).
+
+---
+
+### **2. Éléments fondamentaux du diagramme de séquence**
+
+#### **2.1. Lifelines (Lignes de vie)**
+Une **lifeline** représente un participant individuel à l'interaction. Elle est notée par un rectangle contenant le nom de l'objet/acteur, suivi d'un ":" et du nom de la classe (optionnel pour les acteurs). Une ligne pointillée verticale, appelée **ligne de vie**, s'étend en dessous, illustrant la durée de vie du participant pendant l'interaction.
+
+**Syntaxe :** `nomObjet : NomDeLaClasse`
+**Exemple :** `cpteClient : CompteBancaire`, `terminal : DistributeurBancaire`
+
+**À retenir :**
+- Une lifeline peut représenter un **objet spécifique**, un **rôle** (ex: :Client), ou un **acteur**.
+- La **ligne de vie** montre la période d'activation du participant.
+- Un rectangle étroit superposé à la ligne de vie représente une **période d'activation** (l'objet exécute une opération).
+
+#### **2.2. Messages**
+Un **message** est une communication entre deux lifelines, indiquant qu'une action est engagée. Il est représenté par une flèche horizontale allant de la lifeline émettrice (le client) vers la lifeline réceptrice (le serveur).
+
+**Tableau comparatif des types de messages :**
+
+| Type de Message | Représentation | Description | Comportement |
+| :--- | :--- | :--- | :--- |
+| **Message synchrone** | Flèche pleine avec tête pleine (→) | Appel qui nécessite une réponse avant que l'émetteur ne puisse continuer. | L'émetteur **bloque** son exécution et attend le retour. C'est l'appel de méthode classique. |
+| **Message asynchrone** | Flèche pleine avec tête en bâton (➞) | Appel qui ne nécessite pas d'attente immédiate. L'émetteur continue. | L'émetteur **ne bloque pas**. Typique des événements, signaux, ou programmation concurrente. |
+| **Message de retour** | Flèche pointillée avec tête pleine (⤳) | Retour de contrôle (et éventuellement de valeur) suite à un message synchrone. | Souvent implicite et omis pour alléger le diagramme. |
+| **Message de création** | Flèche pointillée avec tête pleine vers le haut du rectangle de l'objet (┅↥) | Message qui entraîne l'instanciation de la lifeline réceptrice. | |
+| **Message de destruction** | Flèche pleine pointant vers un "X" sur la lifeline cible (→✗) | Message qui entraîne la destruction de l'objet récepteur. | La lifeline s'arrête au "X". |
+
+**Exemple concret (Cameroun) :** Dans un système de paiement mobile **MTN Mobile Money** ou **Orange Money** :
+- **Message asynchrone :** `:Client` envoie une requête `payerFacture()` à `:ApplicationMobile`. L'application confirme la réception et le client peut faire autre chose pendant le traitement.
+- **Message synchrone :** `:ApplicationMobile` envoie `verifierSolde()` à `:ServeurMTN`. L'application **attend** la réponse du serveur avant d'afficher le solde à l'utilisateur.
+- **Message de retour :** Le `:ServeurMTN` renvoie le solde (`solde: double`) à l'`ApplicationMobile`.
+
+---
+
+### **3. Fragments combinés (Fragments d'interaction)**
+
+Les fragments combinés permettent de modéliser des flux de contrôle complexes (conditions, boucles, concurrence) dans un diagramme de séquence. Ils sont délimités par un cadre rectangulaire et ont un **opérateur** dans le coin supérieur gauche.
+
+#### **3.1. Fragment `alt` (Alternative)**
+Modélise une structure de choix **"if...then...else"** ou **"switch"**.
+- Le cadre est divisé en plusieurs **régions d'opérande** séparées par une ligne pointillée.
+- Chaque région a une **condition de garde** entre crochets `[condition]`.
+- **Une et une seule** région est exécutée, celle dont la condition de garde est vraie.
+
+**Exemple (Gestion de prêt bancaire) :**
+```
+alt
+    [soldeGarantie >= montantPrêt]
+        :SystèmeBancaire -> :ComitéCrédit : soumettrePourApprobation()
+    [soldeGarantie < montantPrêt]
+        :SystèmeBancaire -> :Client : notifierRejet("Garantie insuffisante")
+```
+
+#### **3.2. Fragment `opt` (Optionnel)**
+Modélise une séquence qui **peut ou non** s'exécuter. C'est un cas particulier de `alt` avec une seule région.
+- **Équivalent à :** `if (condition) then`.
+- La séquence à l'intérieur du fragment ne s'exécute que si la **condition de garde** est vraie.
+
+**Exemple (Système Camtel) :** Offre promotionnelle pour un nouveau forfait internet.
+```
+opt [clientEstEligiblePromo]
+    :SystèmeFacturation -> :Client : appliquerRemise(15%)
+```
+
+#### **3.3. Fragment `loop` (Boucle)**
+Modélise une séquence qui se répète.
+- La syntaxe est `loop [min, max]` ou `loop [condition]`.
+- `loop` (seul) signifie une répétition indéfinie.
+- `loop (5)` se répète exactement 5 fois.
+- `loop (1, 5)` se répète de 1 à 5 fois.
+- `loop [solde > 0]` se répète tant que la condition est vraie.
+
+**Exemple (Scrutin électoral) :** Traitement des bulletins dans une urne.
+```
+loop [bulletinsRestants > 0]
+    :SystemeDeDepouillement -> :Urne : lireBulletinSuivant()
+    :SystemeDeDepouillement -> :Candidat : incrementerVoix()
+```
+
+#### **3.4. Fragment `par` (Parallèle)**
+Modélise des séquences qui s'exécutent **concurrentement** (en parallèle).
+- Les régions à l'intérieur du cadre sont séparées par une ligne pointillée.
+- Les interactions de chaque région peuvent s'entremêler dans n'importe quel ordre.
+
+**Exemple (Plateforme e-commerce africaine comme Jumia) :** Lors de la confirmation d'une commande.
+```
+par
+    // Région 1 : Gestion logistique
+    :SystemeCommande -> :ServiceLivraison : preparerColis(commande)
+    // Région 2 : Gestion financière
+    :SystemeCommande -> :ServicePaiement : debiterClient(commande)
+    // Région 3 : Notification
+    :SystemeCommande -> :ServiceNotification : envoyerSMSConfirmation(client)
+```
+Les trois activités (`preparerColis`, `debiterClient`, `envoyerSMSConfirmation`) peuvent démarrer en même temps et s'exécuter en parallèle.
+
+**Autres fragments utiles :**
+- **`ref`** : Référence à un autre diagramme de séquence (pour la réutilisation).
+- **`break`** : S'exécute si sa condition est vraie, puis interrompt le flux principal.
+- **`critical`** : Région critique (section) au sein d'un `par`.
+
+---
+
+### **4. Construction d'un diagramme de séquence complet pour un cas d'utilisation**
+
+#### **4.1. Méthodologie de construction**
+1.  **Identifier le cas d'utilisation :** Choisir un scénario nominal ou alternatif.
+2.  **Identifier les acteurs et objets participants :** Lister toutes les lifelines nécessaires.
+3.  **Déterminer l'acteur initiateur :** Placer les lifelines en haut du diagramme, l'initiateur à gauche.
+4.  **Ordonner les messages chronologiquement :** Du premier événement déclencheur au dernier résultat.
+5.  **Ajouter les fragments combinés :** Pour les conditions, boucles et traitements parallèles.
+6.  **Valider la cohérence :** Vérifier que chaque message correspond à une opération de la classe réceptrice (lien avec le diagramme de classes).
+
+#### **4.2. Exemple complet : Cas d'utilisation "Payer une facture d'eau via Mobile Money" (Contexte Yaoundé, CAMWATER)**
+
+**Acteurs :** Abonné (Client), Application Mobile Money (ex: MTN MoMo).
+**Objets système :** `:InterfaceUtilisateur`, `:ControleurPaiement`, `:ServiceCAMWATER`, `:ServiceMobileMoney`.
+
+**Scénario nominal :**
+1.  L'Abonné saisit son numéro de compte CAMWATER et le montant sur l'application.
+2.  Le système vérifie la validité du compte et le montant de la facture auprès de CAMWATER.
+3.  Le système demande la confirmation et l'autorisation de paiement au service Mobile Money.
+4.  Le service Mobile Money débite le compte de l'abonné et notifie le succès.
+5.  Le système notifie CAMWATER du paiement.
+6.  CAMWATER met à jour le statut de la facture et envoie un reçu.
+7.  L'application affiche un reçu de paiement à l'abonné.
+
+**Diagramme de séquence (description textuelle structurée) :**
+
+```
+Titre : Paiement de facture CAMWATER via Mobile Money
+
+Lifelines (de gauche à droite) :
+- abonne : Acteur
+- ui : InterfaceUtilisateur
+- ctrl : ControleurPaiement
+- camwater : ServiceCAMWATER
+- momo : ServiceMobileMoney
+
+Séquence :
+1.  abonne -> ui : saisirDetailsPaiement(numCompte, montant)
+2.  ui -> ctrl : validerEtPayer(details)
+3.  ctrl -> camwater : verifierFacture(numCompte, montant)
+4.  camwater --> ctrl : retour [factureValide, reference]
+5.  alt
+    5.1 [factureValide == vrai]
+        5.1.1 ctrl -> momo : effectuerPaiement(reference, montant, telAbonne)
+        5.1.2 momo --> ctrl : retour [succes, transactionId]
+        5.1.3 ctrl -> camwater : notifierPaiementReussi(reference, transactionId)
+        5.1.4 camwater --> ctrl : retour [reçuElectronique]
+        5.1.5 ctrl -> ui : afficherSucces(reçuElectronique)
+        5.1.6 ui -> abonne : montrerReçu()
+    5.2 [factureValide == faux]
+        5.2

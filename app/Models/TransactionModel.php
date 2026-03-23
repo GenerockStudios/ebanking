@@ -72,17 +72,19 @@ class TransactionModel {
         try {
             $this->db->beginTransaction();
 
-            // CORRECTION 1: Verrouillage pessimiste (FOR UPDATE)
-            // Cela empêche toute autre lecture/écriture sur ce compte tant que la transaction n'est pas finie.
-            $stmt = $this->db->prepare("SELECT solde FROM Comptes WHERE compte_id = :id FOR UPDATE");
+            // Verrouillage pessimiste (FOR UPDATE) : empêche toute autre écriture concurrente
+            $stmt = $this->db->prepare("SELECT solde, est_suspendu FROM Comptes WHERE compte_id = :id FOR UPDATE");
             $stmt->bindParam(':id', $accountId, PDO::PARAM_INT);
             $stmt->execute();
-            $currentBalance = $stmt->fetchColumn();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($currentBalance === false) throw new Exception("Compte introuvable.");
+            if ($row === false) throw new Exception("Compte introuvable.");
+            if ((int)$row['est_suspendu'] === 1) throw new Exception("Ce compte est suspendu. Le retrait est interdit.");
+
+            $currentBalance = (float)$row['solde'];
 
             // Vérifications Métier
-            if ((float)$currentBalance < $amount) {
+            if ($currentBalance < $amount) {
                 throw new Exception("Solde insuffisant (Solde: " . number_format($currentBalance, 2) . ").");
             }
             
@@ -119,37 +121,59 @@ class TransactionModel {
      */
     public function faireTransfert(int $sourceId, int $destId, float $amount, int $userId): bool {
         if ($amount <= 0 || $sourceId === $destId) return false;
-        
+
         $reference = $this->generateAndLogStart($userId, 'TRANSFERT_INT', $sourceId, $amount, (string)$destId);
         if (!$reference) return false;
 
         try {
-            // Vérification critique : 1. Solde suffisant, 2. Plafond non dépassé
-            $currentBalance = $this->getAccountBalanceForLock($sourceId);
-            
-            if ($currentBalance < $amount) {
-                throw new Exception("Fonds source insuffisants.");
+            $this->db->beginTransaction();
+
+            // VERROUILLAGE PESSIMISTE : FOR UPDATE sur les deux comptes en ordre croissant d'ID
+            // pour éviter les deadlocks inter-threads.
+            $lockIds = [$sourceId, $destId];
+            sort($lockIds);
+            $stmt = $this->db->prepare("SELECT compte_id, solde, est_suspendu FROM Comptes WHERE compte_id IN (:id1, :id2) ORDER BY compte_id FOR UPDATE");
+            $stmt->bindParam(':id1', $lockIds[0], PDO::PARAM_INT);
+            $stmt->bindParam(':id2', $lockIds[1], PDO::PARAM_INT);
+            $stmt->execute();
+            $rows = $stmt->fetchAll(PDO::FETCH_KEY_PAIR); // [compte_id => solde] — utilise FETCH_ASSOC ci-dessous
+
+            // Re-fetch pour avoir toutes les colonnes
+            $stmt2 = $this->db->prepare("SELECT compte_id, solde, est_suspendu FROM Comptes WHERE compte_id IN (:id1, :id2)");
+            $stmt2->bindParam(':id1', $lockIds[0], PDO::PARAM_INT);
+            $stmt2->bindParam(':id2', $lockIds[1], PDO::PARAM_INT);
+            $stmt2->execute();
+            $accounts = [];
+            foreach ($stmt2->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $accounts[$row['compte_id']] = $row;
             }
-            
+
+            if (!isset($accounts[$sourceId]) || !isset($accounts[$destId])) {
+                throw new Exception("Compte source ou destination introuvable.");
+            }
+
+            if ((int)$accounts[$sourceId]['est_suspendu'] === 1) {
+                throw new Exception("Le compte source est suspendu. Opération refusée.");
+            }
+
+            $currentBalance = (float)$accounts[$sourceId]['solde'];
+            if ($currentBalance < $amount) {
+                throw new Exception("Fonds source insuffisants (Solde: " . number_format($currentBalance, 2) . ").");
+            }
+
             if (!$this->plafondChecker->checkLimit($sourceId, 'TRANSFERT', $amount)) {
                 throw new Exception("Plafond mensuel de transfert dépassé.");
             }
 
-            // 1. DÉMARRER LA TRANSACTION BDD
-            $this->db->beginTransaction();
-
-            // 2. DÉBITER la source
+            // DÉBITER la source
             $this->updateAccountBalance($sourceId, -$amount);
-
-            // 3. CRÉDITER la destination
+            // CRÉDITER la destination
             $this->updateAccountBalance($destId, $amount);
-
-            // 4. Enregistrer la transaction (un seul enregistrement lie source et destination)
+            // Enregistrement unique liant source et destination
             $this->insertTransaction($sourceId, $destId, 'TRANSFERT_INT', $amount, $userId, $reference);
-            
-            // 5. VALIDER LA TRANSACTION
+
             $this->db->commit();
-            
+
             $this->auditLogger->logAction($userId, 'TRANSFERT_SUCCESS', 'Transactions', "Transfert de {$amount} de {$sourceId} vers {$destId}.", (string)$sourceId);
             return true;
 
@@ -159,7 +183,7 @@ class TransactionModel {
             }
             $this->auditLogger->logAction($userId, 'TRANSFERT_FAILURE', 'Transactions', "Échec transfert. Raison: {$e->getMessage()}", (string)$sourceId);
             error_log("TRANSFERT ÉCHEC: " . $e->getMessage());
-            return false;
+            throw $e;
         }
     }
     

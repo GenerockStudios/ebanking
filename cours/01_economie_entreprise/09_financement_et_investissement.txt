@@ -1,0 +1,126 @@
+# **Notes de cours — 01 Économie d'Entreprise**
+## **Chapitre : Financement et investissement : fonds propres, emprunts, crédit-bail, calcul de rentabilité, VAN, TRI**
+
+---
+
+### **1. Introduction : L’importance du financement et de l’investissement**
+
+Dans un environnement économique compétitif comme celui du Cameroun et de l’espace OHADA, les entreprises du secteur du génie logiciel (éditeurs de logiciels, SSII, startups tech) doivent continuellement investir pour se développer, innover et survivre. **L’investissement** est l’acquisition de biens durables (matériels ou immatériels) destinés à servir l’activité de l’entreprise sur plusieurs années. Le **financement** désigne les moyens mobilisés pour couvrir ces investissements. Ce chapitre explore les sources de financement disponibles et les méthodes d’évaluation de la rentabilité des projets d’investissement.
+
+**À retenir :** Un investissement est un pari sur l’avenir. Son succès dépend à la fois de la pertinence du projet et de l’adéquation de son mode de financement.
+
+---
+
+### **2. Les principales sources de financement des investissements**
+
+Le choix d’un mode de financement dépend de nombreux facteurs : coût, disponibilité, risque, impact sur la structure financière de l’entreprise. On distingue deux grandes catégories.
+
+#### **2.1. Les fonds propres (Financement interne)**
+
+Les **fonds propres** représentent les ressources financières stables apportées ou laissées par les propriétaires de l’entreprise (associés, actionnaires).
+
+**2.1.1. Définition et composantes :**
+*   **Capital social :** Apports initiaux des associés/actionnaires.
+*   **Réserves :** Bénéfices non distribués (réserves légales, statutaires, facultatives) réinvestis dans l’entreprise.
+*   **Report à nouveau :** Bénéfice ou perte non affecté des exercices antérieurs.
+*   **Subventions d’investissement :** Aides non remboursables (plus rares).
+
+**2.1.2. Avantages et inconvénients :**
+*   **Avantages :** Aucune échéance de remboursement, renforce l’autonomie et la solidité financière, rassure les créanciers.
+*   **Inconvénients :** Coût d’opportunité élevé (les actionnaires attendent une rentabilité), dilution du pouvoir en cas d’augmentation de capital, dépendance de la capacité d’autofinancement.
+
+**Exemple concret (Cameroun) :** Une startup camerounaise de développement d’applications mobiles (ex: une appli pour le marché agricole) peut démarrer avec les **fonds propres** des fondateurs (épargne personnelle, « tontines familiales »). Pour se développer, elle pourrait procéder à une **levée de fonds** auprès de business angels locaux ou de fonds d’investissement comme **Orange Digital Center** ou **Cameroun Venture**, ce qui augmenterait ses fonds propres.
+
+#### **2.2. Les financements externes (Dettes)**
+
+Il s’agit de ressources temporaires que l’entreprise doit rembourser.
+
+**2.2.1. Les emprunts bancaires :**
+*   **Emprunt indivis :** Contracté auprès d’une seule banque.
+*   **Emprunt obligataire :** Émission de titres de dette sur le marché financier (peu courant pour les PME camerounaises, mais possible pour une grande entreprise comme **MTN Cameroon**).
+*   **Caractéristiques clés :** Montant, durée, taux d’intérêt (fixe ou variable), modalités de remboursement (amortissable, in fine), garanties exigées (nantissement, hypothèque).
+
+**2.2.2. Le crédit-bail (Leasing) – Règlement OHADA :**
+*   **Définition :** Contrat par lequel une société de crédit-bail (le bailleur) acquiert un bien à la demande d’une entreprise (le preneur) et le lui loue pour une période déterminée. En fin de contrat, le preneur peut lever une **option d’achat** (souvent symbolique) et devenir propriétaire.
+*   **Avantages :** Ne nécessite pas d’apport initial important, conserve la capacité d’emprunt, les loyers sont déductibles du résultat fiscal, souplesse.
+*   **Inconvénients :** Coût total généralement plus élevé qu’un achat comptant, le bien n’est pas dans le patrimoine de l’entreprise avant la levée de l’option.
+
+**Exemple concret :** Une SSII de Douala souhaitant acquérir un serveur haut de gamme à 10 millions FCFA peut opter pour un **crédit-bail** proposé par une filiale d’une banque. Elle paie des loyers mensuels pendant 3 ans et devient propriétaire du serveur en payant 50 000 FCFA en fin de contrat.
+
+**Tableau comparatif : Fonds propres vs Dettes**
+
+| Critère | Fonds Propres | Dettes (Emprunt) | Crédit-bail |
+| :--- | :--- | :--- | :--- |
+| **Nature** | Ressource permanente | Ressource temporaire | Location avec option d'achat |
+| **Remboursement** | Non exigible | Obligatoire, selon échéancier | Loyers obligatoires |
+| **Rémunération** | Dividendes (variables) | Intérêts (fixes ou variables) | Loyers (fixes) |
+| **Impact fiscal** | Dividendes non déductibles | **Intérêts déductibles** du résultat | **Loyers déductibles** du résultat |
+| **Risque financier** | Faible (pas de flux obligatoire) | Élevé (obligation de rembourser) | Moyen (obligation de payer les loyers) |
+| **Contrôle** | Dilution du pouvoir | Aucune perte de contrôle | Aucune perte de contrôle |
+
+---
+
+### **3. L’évaluation de la rentabilité des investissements**
+
+Avant de choisir un mode de financement, il faut d’abord évaluer si l’investissement est rentable. On utilise des critères financiers qui actualisent les flux de trésorerie futurs.
+
+#### **3.1. Les Flux de Trésorerie (FT)**
+*   **Définition :** Ce sont les mouvements réels de liquidités générés par le projet.
+*   **Calcul pour un projet :** `FT = Recettes encaissables – Dépenses décaissables (hors charges non décaissables comme l’amortissement)`
+*   **FT prévisionnels :** Il faut les estimer sur toute la durée de vie du projet (ex: 5 ans pour un nouveau logiciel).
+
+#### **3.2. La Valeur Actuelle Nette (VAN)**
+*   **Principe :** Un franc CFA aujourd’hui vaut plus qu’un franc CFA demain (principe de l’actualisation). La VAN mesure la **création de valeur** du projet.
+*   **Formule :**
+    `VAN = Σ (FT à l'année t / (1 + i)^t) - Investissement initial`
+    *   `i` = Taux d'actualisation (coût du capital pour l'entreprise, taux de rendement minimum exigé).
+    *   `t` = Période (année 1, 2, 3...).
+*   **Règle de décision :**
+    *   **VAN > 0** : Le projet est rentable, il crée de la valeur. **ACCEPTER**.
+    *   **VAN < 0** : Le projet détruit de la valeur. **REFUSER**.
+    *   **VAN = 0** : Le projet est indifférent.
+
+**Exemple simplifié (Contexte camerounais) :**
+Une entreprise de Yaoundé investit 5 000 000 FCFA dans un nouveau parc informatique. Les flux de trésorerie nets attendus sont de 1 800 000 FCFA/an pendant 4 ans. Le taux d'actualisation est de 12% (reflétant le risque du projet et le coût du capital).
+*   VAN = [1,8M/(1,12)^1] + [1,8M/(1,12)^2] + [1,8M/(1,12)^3] + [1,8M/(1,12)^4] - 5M
+*   VAN ≈ 1,607M + 1,435M + 1,281M + 1,144M - 5M ≈ **467 000 FCFA**
+*   **Conclusion :** VAN positive → Le projet est acceptable.
+
+#### **3.3. Le Taux de Rendement Interne (TRI)**
+*   **Définition :** Le TRI est le **taux d’actualisation pour lequel la VAN du projet est nulle**. C'est le taux de rentabilité intrinsèque du projet.
+*   **Interprétation :** Il représente le taux de rendement maximum que le projet peut supporter. On le compare au taux d'actualisation (coût du capital).
+*   **Règle de décision :**
+    *   **TRI > Taux d'actualisation (i)** : Le projet est rentable. **ACCEPTER**.
+    *   **TRI < Taux d'actualisation (i)** : Le projet n'est pas assez rentable. **REFUSER**.
+*   **Calcul :** Il se fait par itération (essais-erreurs) ou, en pratique, à l'aide d'un logiciel (Excel, calculatrice financière). Reprenons l'exemple précédent :
+    *   On cherche le taux `r` tel que : 5M = [1,8M/(1+r)^1] + [1,8M/(1+r)^2] + [1,8M/(1+r)^3] + [1,8M/(1+r)^4]
+    *   Par calcul, on trouve **TRI ≈ 16%**.
+    *   **Conclusion :** TRI (16%) > Taux d'actualisation (12%) → Le projet est acceptable.
+
+**À retenir :** La VAN et le TRI sont des critères dits "d'actualisation". Ils sont complémentaires. La VAN donne une valeur absolue de création de richesse, le TRI donne un taux de rendement relatif.
+
+#### **3.4. Autres critères (moins robustes)**
+*   **Délai de Récupération (Payback Period) :** Temps nécessaire pour que les flux cumulés remboursent le capital investi. Simple mais ignore les flux postérieurs et la valeur temps de l'argent.
+*   **Indice de Profitabilité (IP) :** `IP = (VAN + Investissement initial) / Investissement initial`. Si IP > 1, projet acceptable.
+
+---
+
+### **4. Outils et technologies utilisés en entreprise**
+
+*   **Logiciels de tableurs :** **Microsoft Excel** / **Google Sheets** sont incontournables. Fonctions financières intégrées : `VAN()` (NPV), `TRI()` (IRR), `TAUX()` (RATE).
+*   **Logiciels de comptabilité et de gestion :** **Sage**, **CIEL**, **EBP**. Ils aident à générer les états financiers nécessaires pour analyser la capacité d'autofinancement.
+*   **Logiciels spécialisés de gestion de trésorerie et d'analyse d'investissement :** Plus utilisés dans les grandes entreprises et les banques.
+*   **Simulateurs en ligne :** De nombreuses banques (Afriland First Bank, BICEC, etc.) et sociétés de leasing proposent des simulateurs de crédit ou de crédit-bail sur leurs sites web.
+
+---
+
+### **5. Synthèse et application au secteur du Génie Logiciel au Cameroun**
+
+Pour une entreprise de génie logiciel, les investissements sont souvent **immatériels** (développement d'un nouveau logiciel, achat de licences, formation, marketing). L'évaluation de leur rentabilité est délicate mais cruciale.
+
+**Scénario type :** Une PME de Douala veut développer une solution de gestion scolaire en cloud.
+1.  **Évaluation :** Elle estime les coûts de développement (salaires des ingénieurs, hébergement) et les revenus futurs (abonnements des écoles). Elle calcule la VAN et le TRI avec un taux d'actualisation adapté au risque du secteur tech.
+2.  **Financement :** Si la VAN est positive, elle choisit son mode de financement :
+    *   **Fonds propres** si les associés peuvent suivre ou s'ils trouvent un investisseur.
+    *   **Emprunt bancaire** si elle a des garanties (matériel, contrats).
+    *   **Crédit

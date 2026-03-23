@@ -1,0 +1,26 @@
+# ── Générateur de podcasts éducatifs — dépendances ──────────────────────────
+# Installation :  pip install -r requirements_podcast.txt
+
+# API DeepSeek (compatible OpenAI SDK)
+openai>=1.30.0
+
+# Synthèse vocale via Hugging Face (fallback automatique)
+transformers>=4.40.0
+torch>=2.2.0
+soundfile>=0.12.1
+
+# Concaténation et export audio
+pydub>=0.25.1
+
+# Logging et UI
+loguru>=0.7.2
+rich>=13.7.0
+
+# Variables d'environnement
+python-dotenv>=1.0.1
+
+# Découpage de texte (optionnel)
+nltk>=3.8.1
+
+# NumPy (version compatible Python 3.13)
+numpy>=2.0.0

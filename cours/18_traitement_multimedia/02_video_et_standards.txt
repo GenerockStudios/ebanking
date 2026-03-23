@@ -1,0 +1,121 @@
+CHAPITRE 2 — VIDÉO NUMÉRIQUE ET STANDARDS MULTIMÉDIA (IGL116)
+BTS Génie Logiciel — Traitement des données multimédia
+
+1. LA VIDÉO NUMÉRIQUE
+
+Une vidéo est une suite d'images fixes (frames) affichées à une cadence suffisante pour créer l'illusion de mouvement.
+
+Fréquence d'images (frame rate) :
+- 24 fps : cinéma (films)
+- 25 fps : TV PAL (Europe, Afrique)
+- 30 fps : TV NTSC (USA, Japon)
+- 60 fps : sport, jeux vidéo en ligne
+- 120 fps : réalité virtuelle (VR)
+
+Résolutions vidéo standards :
+SD (Standard Definition) : 720×576 (PAL) ou 720×480 (NTSC)
+HD (High Definition) : 1280×720 (720p)
+Full HD : 1920×1080 (1080p) — standard actuel
+4K / UHD : 3840×2160 (4 fois Full HD)
+8K : 7680×4320
+
+Calcul du débit vidéo brut (non compressé) :
+Débit = largeur × hauteur × fps × bits_par_pixel
+Full HD 30fps 24 bits = 1920 × 1080 × 30 × 24 = 1 492 992 000 bps ≈ 1,5 Gbps
+→ Indispensable de compresser !
+
+Avec H.264 qualité moyenne : 4-8 Mbps pour du Full HD 30fps (compression 200:1 environ).
+
+2. COMPRESSION VIDÉO — PRINCIPE
+
+La compression vidéo exploite deux types de redondances :
+- Redondance spatiale : au sein d'une même image (zones uniformes, patterns répétitifs → comme JPEG)
+- Redondance temporelle : entre images consécutives (beaucoup de pixels ne changent pas entre deux frames)
+
+Types de trames (frames) :
+- I-frame (Intra) : image complète, auto-contenue (comme un JPEG). Point de référence.
+- P-frame (Predicted) : seulement les différences par rapport à l'image précédente (vecteurs de mouvement + résidus)
+- B-frame (Bidirectional) : différences par rapport aux images précédente ET suivante
+
+GOP (Group Of Pictures) : séquence I-P-P-B-B-P-B-B-... entre deux I-frames.
+Taille du GOP : plus le GOP est long, meilleure la compression mais plus difficile à seek (navigation).
+
+3. STANDARDS DE COMPRESSION VIDÉO
+
+H.264 / AVC (Advanced Video Coding) : standard le plus répandu actuellement.
+Utilisé par YouTube, Netflix, Blu-Ray, caméras. Ratio qualité/taille excellent.
+Extension : .mp4, .mkv, .mov avec codec H.264.
+
+H.265 / HEVC (High Efficiency Video Coding) : successeur de H.264.
+50% moins de taille pour la même qualité (ou même taille pour meilleure qualité).
+Utilisé par les plateformes 4K streaming. Plus lourd à encoder.
+
+VP9 : alternative libre à H.265, développée par Google. Utilisé par YouTube.
+
+AV1 : codec libre et ouvert (Alliance for Open Media : Google, Netflix, Amazon, Apple...).
+Meilleure compression que HEVC. Futur du streaming.
+
+4. CONTENEURS MULTIMÉDIA
+
+Un conteneur encapsule un ou plusieurs flux (vidéo, audio, sous-titres, métadonnées).
+Le codec détermine comment les données sont compressées.
+
+Format / Conteneur | Codecs vidéo courants | Codecs audio courants | Utilisation
+MP4 / MPEG-4      | H.264, H.265          | AAC, MP3              | Universel
+MKV (Matroska)    | H.264, H.265, AV1     | AAC, AC3, FLAC        | Archivage HD
+AVI               | DivX, XviD, MJPEG     | MP3, PCM              | Windows (ancien)
+MOV               | H.264, ProRes         | AAC, PCM              | Apple/macOS
+WebM              | VP8, VP9, AV1         | Vorbis, Opus          | Web (HTML5)
+
+5. STREAMING ET ADAPTIVE BITRATE
+
+Streaming : diffusion en continu, l'utilisateur regarde sans attendre le téléchargement complet.
+
+Adaptive Bitrate Streaming (ABR) : le serveur découpe la vidéo en segments de quelques secondes et propose plusieurs qualités. Le lecteur choisit automatiquement selon la bande passante disponible.
+
+Protocoles ABR :
+- HLS (HTTP Live Streaming — Apple) : segments .ts ou .fmp4, playlist .m3u8
+- DASH (Dynamic Adaptive Streaming over HTTP — standard MPEG) : segments .mp4, manifeste .mpd
+- Smooth Streaming (Microsoft)
+
+Utilisés par : YouTube, Netflix, Canal+, TikTok, etc.
+
+CDN (Content Delivery Network) : réseau de serveurs géographiquement distribués pour rapprocher le contenu des utilisateurs et réduire la latence. Akamai, Cloudflare, Amazon CloudFront.
+
+6. TRAITEMENT MULTIMÉDIA EN PYTHON
+
+Bibliothèques populaires :
+Pillow (PIL) : manipulation d'images (redimensionner, rogner, filtres, conversion de formats)
+OpenCV : traitement d'images avancé, vision par ordinateur, temps réel
+moviepy : édition vidéo en Python (découper, assembler, ajouter texte/audio)
+pydub : traitement audio (découper, fondus, changement de format)
+librosa : analyse audio, spectrogrammes, MFCCs (features pour IA audio)
+
+Exemple Pillow :
+from PIL import Image, ImageFilter, ImageEnhance
+
+img = Image.open("photo.jpg")
+img_redim = img.resize((800, 600), Image.LANCZOS)
+img_flou = img_redim.filter(ImageFilter.GaussianBlur(radius=2))
+img_contraste = ImageEnhance.Contrast(img_flou).enhance(1.5)
+img_contraste.save("resultat.jpg", quality=85)
+
+Exemple OpenCV (détection de contours) :
+import cv2
+import numpy as np
+
+img = cv2.imread("image.jpg", cv2.IMREAD_GRAYSCALE)
+edges = cv2.Canny(img, threshold1=100, threshold2=200)
+cv2.imwrite("contours.jpg", edges)
+
+7. MÉTADONNÉES EXIF
+
+Les photos numériques embarquent des métadonnées EXIF (Exchangeable Image File Format) :
+- Date et heure de la prise de vue
+- Modèle de l'appareil photo ou du smartphone
+- Réglages : ISO, vitesse d'obturation, ouverture (f-stop)
+- Géolocalisation GPS (latitude, longitude)
+- Orientation (pour rotation automatique)
+
+Importante en sécurité : publier une photo avec les données GPS peut révéler votre position !
+Supprimer les EXIF avant publication : ExifTool, Pillow (img.save("f.jpg", exif=b""))

@@ -1,0 +1,264 @@
+# **Notes de Cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 16 Programmation Orientée Objet**
+## **Chapitre : Gestion des exceptions Java**
+
+---
+
+### **1. Introduction aux exceptions en Java**
+
+#### **1.1. Définition et concept fondamental**
+Une **exception** est un événement anormal qui survient pendant l'exécution d'un programme et qui perturbe le flux normal d'exécution des instructions. En Java, les exceptions sont des objets qui encapsulent les informations sur l'erreur survenue.
+
+**À retenir** : Une exception n'est pas une erreur de syntaxe (erreur de compilation), mais une erreur d'exécution (runtime).
+
+#### **1.2. Pourquoi gérer les exceptions ?**
+- **Maintenir la robustesse** : Un programme doit pouvoir gérer les situations imprévues sans planter.
+- **Améliorer l'expérience utilisateur** : Fournir des messages d'erreur clairs et adaptés.
+- **Faciliter le débogage** : Retracer l'origine de l'erreur grâce à la stack trace.
+- **Libérer les ressources** : S'assurer que les ressources (fichiers, connexions réseau) sont correctement fermées même en cas d'erreur.
+
+**Contexte camerounais** : Dans une application de mobile banking (comme **Orange Money** ou **MTN Mobile Money**), une exception mal gérée lors d'un transfert d'argent pourrait entraîner une perte financière ou une corruption de données. Une gestion correcte permet d'annuler l'opération proprement et d'informer l'utilisateur.
+
+---
+
+### **2. La hiérarchie des exceptions en Java**
+
+Toutes les exceptions héritent de la classe `Throwable`.
+
+```
+Throwable
+├── Error (ex: OutOfMemoryError) → **Ne PAS catcher généralement**
+└── Exception
+    ├── RuntimeException (Unchecked Exceptions)
+    │   ├── NullPointerException
+    │   ├── ArrayIndexOutOfBoundsException
+    │   ├── ArithmeticException
+    │   └── ...
+    └── Autres exceptions (Checked Exceptions)
+        ├── IOException
+        ├── SQLException
+        └── ...
+```
+
+#### **2.1. Checked vs Unchecked Exceptions : La différence cruciale**
+
+| Caractéristique | Checked Exceptions | Unchecked Exceptions |
+| :--- | :--- | :--- |
+| **Héritage** | Héritent de `Exception` (mais **PAS** de `RuntimeException`) | Héritent de `RuntimeException` |
+| **Contrôle par le compilateur** | **OUI**. Le compilateur oblige à les traiter (try/catch) ou à les déclarer (`throws`). | **NON**. Le compilateur ne force pas leur gestion. |
+| **Nature** | Conditions exceptionnelles externes, souvent liées aux E/S, réseau, fichiers. | Bugs de programmation, erreurs de logique, invalidité d'arguments. |
+| **Exemples** | `IOException`, `SQLException`, `ClassNotFoundException` | `NullPointerException`, `ArrayIndexOutOfBoundsException`, `IllegalArgumentException` |
+| **Philosophie** | Récupérable. Le programmeur doit anticiper et prévoir un plan de secours. | Souvent non récupérable. Indique un bug à corriger dans le code. |
+
+**À retenir** : Une **Checked Exception** est une exception que le compilateur **check** (vérifie). Si votre code peut la générer, vous **devez** soit l'attraper (`catch`), soit la déclarer dans la signature de la méthode avec `throws`.
+
+**Exemple concret** : Une application de gestion des actes sous **OHADA** qui lit un fichier de comptabilité.
+- `FileNotFoundException` (Checked) : Le fichier n'existe pas → On peut demander un nouveau chemin à l'utilisateur.
+- `NullPointerException` (Unchecked) : Une variable "client" est null alors qu'on l'utilise → C'est un bug du développeur à corriger.
+
+---
+
+### **3. Mécanismes de base de gestion : try, catch, finally**
+
+#### **3.1. Le bloc `try-catch`**
+Structure permettant d'**essayer** (`try`) un bloc de code risqué et d'**attraper** (`catch`) l'exception si elle se produit.
+
+```java
+try {
+    // Code susceptible de lever une exception
+    int resultat = 10 / 0; // Lève ArithmeticException
+} catch (ArithmeticException e) {
+    // Gestion de l'exception
+    System.out.println("Erreur : Division par zéro interdite.");
+    System.out.println("Message : " + e.getMessage());
+}
+```
+
+#### **3.2. Le bloc `finally`**
+Bloc optionnel qui s'exécute **TOUJOURS**, qu'une exception ait été levée ou non, et qu'elle ait été attrapée ou non. Idéal pour libérer des ressources (fermer un fichier, une connexion BD).
+
+```java
+import java.io.*;
+public class GestionFichierOHADA {
+    public void lireFichier(String chemin) {
+        BufferedReader lecteur = null;
+        try {
+            lecteur = new BufferedReader(new FileReader(chemin));
+            String ligne;
+            while ((ligne = lecteur.readLine()) != null) {
+                System.out.println(ligne);
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Fichier introuvable : " + chemin);
+        } catch (IOException e) {
+            System.err.println("Erreur de lecture : " + e.getMessage());
+        } finally {
+            // S'exécute toujours
+            try {
+                if (lecteur != null) {
+                    lecteur.close(); // Libération de la ressource
+                }
+            } catch (IOException e) {
+                System.err.println("Erreur à la fermeture du fichier.");
+            }
+        }
+    }
+}
+```
+
+**Contexte professionnel** : Dans une application connectée aux serveurs **Camtel**, le bloc `finally` sert à fermer la socket réseau même si la communication échoue, évitant ainsi des fuites de ressources.
+
+---
+
+### **4. Techniques avancées de gestion**
+
+#### **4.1. Try-with-Resources (Java 7+)**
+Simplifie radicalement la gestion des ressources (qui implémentent l'interface `AutoCloseable`). La ressource est automatiquement fermée à la fin du bloc `try`.
+
+```java
+import java.io.*;
+import java.util.Scanner;
+
+public class ExempleCamtel {
+    public void lireFichierConfig(String chemin) {
+        // La ressource 'scanner' sera automatiquement fermée
+        try (Scanner scanner = new Scanner(new File(chemin))) {
+            while (scanner.hasNextLine()) {
+                System.out.println(scanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Fichier de configuration Camtel manquant.");
+        }
+        // Plus besoin de bloc finally pour fermer le Scanner !
+    }
+}
+```
+
+**Avantages** :
+- Code plus court et plus lisible.
+- Élimine les erreurs courantes d'oubli de fermeture.
+- Gère les exceptions de fermeture de manière implicite.
+
+#### **4.2. Multi-catch (Java 7+)**
+Permet d'attraper plusieurs types d'exceptions dans un seul bloc `catch`.
+
+```java
+try {
+    // Code pouvant lever différentes exceptions
+    traiterTransactionMobileMoney();
+} catch (SQLException | IOException e) {
+    // Gestion commune pour une erreur de BD ou de fichier de log
+    journaliserErreur("Échec transaction : " + e.getMessage());
+    notifierUtilisateur("Service temporairement indisponible.");
+}
+```
+
+**Règle** : Les exceptions dans le multi-catch doivent être dans des branches disjointes de la hiérarchie (on ne peut pas catcher une classe et sa sous-classe).
+
+---
+
+### **5. Créer ses propres exceptions**
+
+#### **5.1. Pourquoi créer des exceptions personnalisées ?**
+- Représenter des erreurs métier spécifiques.
+- Fournir plus d'informations contextuelles sur l'erreur.
+- Permettre une gestion plus fine et plus claire.
+
+#### **5.2. Comment faire ?**
+Il suffit d'étendre une classe existante de la hiérarchie (`Exception` pour checked, `RuntimeException` pour unchecked).
+
+**Exemple : Une exception métier pour une application bancaire camerounaise**
+
+```java
+// Checked Exception : Le compilateur forcera sa gestion
+public class SoldeInsuffisantException extends Exception {
+    private String clientId;
+    private double soldeActuel;
+    private double montantDemande;
+
+    public SoldeInsuffisantException(String clientId, double soldeActuel, double montantDemande) {
+        super("Solde insuffisant pour le client " + clientId +
+              ". Solde: " + soldeActuel + ", Tentative: " + montantDemande);
+        this.clientId = clientId;
+        this.soldeActuel = soldeActuel;
+        this.montantDemande = montantDemande;
+    }
+
+    // Getters pour accéder aux détails métier
+    public String getClientId() { return clientId; }
+    public double getSoldeActuel() { return soldeActuel; }
+    public double getMontantDemande() { return montantDemande; }
+}
+
+// Unchecked Exception : Pour une erreur de logique métier
+public class NumeroCompteInvalideException extends RuntimeException {
+    public NumeroCompteInvalideException(String numero) {
+        super("Le format du numéro de compte est invalide : " + numero);
+    }
+}
+```
+
+**Utilisation dans le code métier** :
+
+```java
+public class ServiceBancaire {
+    public void effectuerRetrait(String compte, double montant)
+            throws SoldeInsuffisantException { // Déclaration de la checked exception
+
+        if (!validerFormatCompte(compte)) {
+            // Lève une unchecked exception
+            throw new NumeroCompteInvalideException(compte);
+        }
+
+        double solde = getSolde(compte);
+        if (montant > solde) {
+            // Lève notre checked exception personnalisée
+            throw new SoldeInsuffisantException(compte, solde, montant);
+        }
+        // Procéder au retrait...
+    }
+
+    private boolean validerFormatCompte(String compte) {
+        // Validation selon les normes locales
+        return compte != null && compte.matches("[A-Z]{2}[0-9]{10}");
+    }
+}
+```
+
+---
+
+### **6. Bonnes pratiques et pièges à éviter**
+
+#### **6.1. Liste des bonnes pratiques**
+1.  **Catch spécifique** : Attraper d'abord les exceptions les plus spécifiques, puis les plus générales.
+2.  **Ne pas catcher `Throwable` ou `Error`** sauf cas très particuliers (applications critiques).
+3.  **Ne pas laisser un bloc `catch` vide** (`catch(Exception e) {}`). Cela masque les bugs.
+4.  **Utiliser `try-with-resources`** systématiquement pour toutes ressources `AutoCloseable`.
+5.  **Journaliser les exceptions** (avec des frameworks comme **Log4j** ou **SLF4J**) pour le diagnostic.
+6.  **Fournir des messages d'erreur clairs et utiles** pour l'utilisateur final et l'administrateur.
+7.  **Penser aux exceptions dans la conception** dès le début du projet.
+
+#### **6.2. Pièges courants**
+- **Catch trop général en premier** :
+    ```java
+    catch (Exception e) { ... } // Bloque ici
+    catch (SQLException e) { ... } // Jamais atteint ! ERREUR
+    ```
+- **Perte de la stack trace originale** :
+    ```java
+    catch (IOException e) {
+        throw new MonException("Erreur I/O"); // La cause originale est perdue
+        // CORRECTION : throw new MonException("Erreur I/O", e);
+    }
+    ```
+
+---
+
+### **7. Outils et technologies utilisés en entreprise**
+
+- **IDE** : IntelliJ IDEA, Eclipse, VS Code (avec extensions Java) pour le support du débogage et de la refactorisation du code de gestion d'exceptions.
+- **Frameworks de Logging** : **Log4j 2**, **SLF4J** avec **Logback**. Essentiels pour journaliser proprement les exceptions avec différents niveaux (ERROR, WARN, INFO).
+- **Outils d'analyse statique** : **SonarQube**, **SpotBugs**. Détectent les mauvaises pratiques comme les blocs catch vides ou les ressources non fermées.
+- **Frameworks d'application** : **Spring Framework**. Gère les exceptions de manière déclarative via `@ControllerAdvice` et `@ExceptionHandler` pour les applications web.
+
+**Application au contexte projet BTS GL** : Lors de votre projet de fin d'études, concevez une stratégie de gestion des exceptions dès la phase de conception. Utilisez des exceptions personnalisées pour votre domaine métier (ex: `ActeOHADANonTrouveException`) et un framework de logging pour tracer les incidents

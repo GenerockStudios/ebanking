@@ -1,0 +1,144 @@
+# **Notes de cours — BTS Génie Logiciel**
+## **Matière : 13 Réseaux Avancés**
+## **Chapitre : WAN et technologies opérateur : MPLS, PPTP, SD-WAN, fibre (FTTH), infrastructure Camtel/backbone**
+
+---
+
+### **1. Introduction aux Réseaux Étendus (WAN)**
+
+#### **1.1. Définition et caractéristiques d'un WAN**
+Un **Réseau Étendu (WAN - Wide Area Network)** est un réseau informatique qui couvre une grande zone géographique, souvent un pays, un continent ou le monde entier. Contrairement aux LAN (Local Area Network), il utilise des infrastructures de télécommunication fournies par des opérateurs.
+
+**Caractéristiques principales :**
+*   **Portée géographique étendue** : Interconnecte des sites distants (ex : siège de MTN à Douala et agence à Garoua).
+*   **Infrastructure partagée/public** : Utilise les lignes louées ou les services d'opérateurs télécoms (Camtel, Orange, Nexttel).
+*   **Débit variable** : Généralement inférieur au LAN, dépendant de la technologie et du contrat.
+*   **Coût d'exploitation** : Souvent basé sur un abonnement mensuel et/ou la consommation.
+
+#### **1.2. Rôle dans l'écosystème numérique camerounais et africain**
+Les WAN sont la colonne vertébrale de la digitalisation en Afrique. Ils permettent :
+*   L'interconnexion des agences bancaires (Afriland First Bank, BICEC) à travers le pays.
+*   La centralisation des données pour les administrations publiques dans le cadre de la gouvernance électronique.
+*   Le fonctionnement des entreprises multi-sites (ex : groupe Bolloré, CIMENCAM).
+*   L'accès aux services cloud hébergés souvent hors du continent.
+
+**À retenir :** Un WAN ne se construit pas, il se **loue**. L'entreprise fait appel à un ou plusieurs FAI/Opérateurs pour interconnecter ses sites distants.
+
+---
+
+### **2. Technologies WAN classiques et émergentes**
+
+#### **2.1. MPLS (MultiProtocol Label Switching)**
+**Définition :** Technologie de transport de données qui dirige les paquets de données d'un nœud réseau à un autre en fonction d'étiquettes (labels) courtes, plutôt que d'adresses IP longues. Ce n'est pas un protocole de chiffrement.
+
+**Fonctionnement :**
+1.  **Établissement du LSP (Label Switched Path)** : Un chemin est prédéfini entre l'ingress et l'egress router.
+2.  **Étiquetage** : À l'entrée du réseau MPLS (PE - Provider Edge), un label est ajouté à chaque paquet.
+3.  **Commutation** : Les routeurs cœur (P - Provider) commutent le paquet uniquement en fonction du label, sans consulter la table de routage IP. C'est plus rapide.
+4.  **Désétiquetage** : À la sortie, le label est retiré et le paquet est routé normalement.
+
+**Avantages :**
+*   **Qualité de Service (QoS)** garantie : Permet de prioriser certains flux (ex : voix sur IP avant le trafic web).
+*   **Convergence réseau rapide**.
+*   **Indépendance vis-à-vis des protocoles de couche 3** (transporte IPv4, IPv6, ATM, Frame Relay...).
+*   **Sécurité relative** par obscurité (le cœur du réseau est privé à l'opérateur).
+
+**Inconvénients :**
+*   **Coût élevé**.
+*   **Manque de flexibilité** : Les changements de topologie (ajout d'un site) peuvent être lents.
+*   **Dépendance à un seul opérateur** pour une liaison donnée.
+
+**Contexte camerounais :** Camtel, en tant qu'opérateur historique, propose des services **MPLS IP-VPN** aux entreprises et administrations pour interconnecter leurs sites de manière sécurisée et fiable. Orange Business Services et MTN Business le proposent également.
+
+#### **2.2. PPTP (Point-to-Point Tunneling Protocol)**
+**Définition :** Protocole obsolète permettant de créer des **tunnels VPN** (Virtual Private Network) à travers un réseau public (comme Internet). Il encapsule des trames PPP (Point-to-Point Protocol).
+
+**Fonctionnement :**
+1.  **Établissement d'une connexion TCP** (port 1723) entre le client et le serveur.
+2.  **Création d'un tunnel GRE** (Generic Routing Encapsulation) pour transporter les données PPP encapsulées.
+3.  **Authentification** via des protocoles comme MS-CHAP v1/v2 (faibles aujourd'hui).
+
+**Problèmes majeurs et obsolescence :**
+*   **Faiblesses cryptographiques graves** : MS-CHAP v2 est vulnérable aux attaques par dictionnaire. Le chiffrement MPPE (Microsoft Point-to-Point Encryption) est faible.
+*   **Facilement bloqué** : Les firewalls modernes bloquent souvent le GRE.
+*   **Déprécié** par Microsoft et la communauté de la sécurité.
+
+**À retenir :** **Ne plus utiliser le PPTP en entreprise** pour des données sensibles. Privilégier **IPsec** ou **SSL/TLS VPN** (OpenVPN, WireGuard). Exemple d'alternative : Un employé de l'ARMP (Autorité de Régulation des Marchés Publics) en déplacement utilise un VPN SSL pour accéder à l'intranet de manière sécurisée.
+
+#### **2.3. SD-WAN (Software-Defined Wide Area Network)**
+**Définition :** Approche architecturale qui virtualise les ressources du WAN, en séparant le plan de contrôle (intelligence) du plan de données (transit). Elle utilise des liens réseau peu coûteux (Internet, 4G/5G) pour compléter ou remplacer les liens MPLS onéreux.
+
+**Principes de base :**
+*   **Centralisation de la gestion** : Une console centrale (orchestrateur) configure et surveille tous les périphériques SD-WAN (CPE).
+*   **Abstraction du transport** : L'application ne voit pas la complexité des liens sous-jacents (MPLS, Fibre, LTE).
+*   **Sélection dynamique de chemin** : Le CPE choisit en temps réel le meilleur lien pour chaque application en fonction de la latence, du jitter, de la perte de paquets et des politiques métier.
+
+**Avantages par rapport au MPLS traditionnel :**
+*   **Réduction des coûts** : Utilisation de l'Internet haut débit moins cher.
+*   **Agilité** : Déploiement de nouveaux sites en quelques minutes (configuration Zero-Touch Provisioning).
+*   **Résilience accrue** : Basculement automatique et transparent entre les liens.
+*   **Expérience utilisateur optimisée** : Priorisation automatique des applications critiques (SAP, Microsoft Teams, VoIP).
+
+**Exemple concret :** Une université privée à Douala (ex : Université de Douala, Institut Siantou) utilise un **SD-WAN** pour connecter son campus principal (lien fibre Camtel) et son annexe à Yaoundé (lien 4G Orange + Internet). Le trafic de la bibliothèque numérique passe par le lien le plus rapide, tandis que la visioconférence est prioritaire et bascule automatiquement en cas de panne.
+
+**Outils/Éditeurs :** Cisco Meraki SD-WAN, VMware SD-WAN (VeloCloud), Fortinet Secure SD-WAN, Versa Networks.
+
+---
+
+### **3. La Fibre Optique et le FTTH**
+
+#### **3.1. La technologie Fibre Optique**
+Transmission de données par impulsions lumineuses à travers une fibre de verre/silice. **Avantages clés** : Très haut débit (Gbps à Tbps), faible atténuation, immunité aux interférences électromagnétiques, grande distance sans répéteur.
+
+#### **3.2. FTTH (Fiber To The Home)**
+**Définition :** Architecture où la fibre optique est déployée jusqu'au domicile ou aux locaux de l'abonné final. C'est la technologie la plus performante pour l'accès Internet fixe.
+
+**Architecture typique (contexte Cameroun) :**
+1.  **Nœud de raccordement optique (NRO)** ou **Central** de l'opérateur (ex : point de présence Camtel).
+2.  **Réseau de transport** : Fibres reliant les NRO entre eux (backbone).
+3.  **Réseau de distribution** : Fibres du NRO vers les armoires de rue (PBO - Point de Branchement Optique).
+4.  **Réseau de raccordement** : "Dernier kilomètre" de la PBO jusqu'au domicile (PTO - Point de Terminaison Optique).
+5.  **Terminaison** : L'ONT (Optical Network Terminal) chez le client convertit le signal optique en signal électrique (Ethernet).
+
+**Impact au Cameroun :** Le déploiement du **FTTH** par Camtel (projet "Camtel Home Fiber"), Orange, et d'autres accélère l'inclusion numérique, permet le télétravail, le streaming HD, et soutient le développement des startups tech (ex : dans les incubateurs comme ActivSpaces).
+
+**Tableau comparatif : Accès Internet d'entreprise**
+
+| Technologie | Débit typique | Latence | Coût | Fiabilité | Usage typique |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **FTTH (Fibre dédiée)** | 100 Mbps - 10 Gbps | Très faible | Élevé | Très élevée | Siège social, Data Center, Universités |
+| **xDSL (ADSL/VDSL)** | Jusqu'à 20 Mbps | Moyenne | Faible | Moyenne | PME, Domicile |
+| **Liaison Radio (Faisceau Hertzien)** | 10 Mbps - 1 Gbps | Faible | Moyen | Dépend du climat | Connexion de sites relais, zones non fibrées |
+| **4G/5G (LTE)** | 10 - 200 Mbps | Variable | Moyen/Élevé | Variable | Backup, mobilité, sites temporaires |
+
+---
+
+### **4. Infrastructure Camtel et Backbone national**
+
+#### **4.1. Rôle de Camtel**
+Camtel (Cameroon Telecommunications) est **l'opérateur historique et d'infrastructure** au Cameroun. Son rôle stratégique inclut :
+*   Gestion et extension du **backbone national en fibre optique**.
+*   Opérateur d'opérateurs : Il fournit la capacité de transport aux autres FAI (MTN, Orange, Nexttel).
+*   Opérateur de services aux entreprises et aux particuliers.
+
+#### **4.2. Le Backbone national en fibre optique**
+Le **backbone** est l'épine dorsale du réseau national, composé de câbles fibre optique à haut débit reliant les principales villes et régions.
+
+**Infrastructure clé (exemples) :**
+*   **Câble sous-marin ACE** (Africa Coast to Europe) : Atterrit à Kribi, connecte le Cameroun à l'Europe et à l'Afrique de l'Ouest. Camtel en est le point d'atterrissement.
+*   **Réseau terrestre national** : Maillage de fibres reliant Douala, Yaoundé, Bafoussam, Bamenda, Garoua, Maroua, etc.
+*   **Projets d'extension** : Vers les zones rurales dans le cadre du programme "Cameroon Digital 2020/2030".
+
+**Schéma conceptuel du trafic :**
+```
+[Entreprise à Douala] --> (Accès FTTH/Liaison dédiée) --> [Point de Présence Camtel Douala]
+                                                              |
+                                                              | (Backbone Fibre national)
+                                                              |
+[Entreprise à Garoua] <-- (Accès FTTH/Liaison dédiée) <-- [Point de Présence Camtel Garoua]
+```
+
+#### **4.3. Interconnexion avec les autres opérateurs (Points d'Échange Internet - IXP)**
+L'**IXP Cameroon** (géré par l'Agence de Régulation) permet aux réseaux des différents opérateurs (Camtel, MTN, Orange) d'échanger du trafic local **directement**, sans passer par l'étranger. **Bénéfices :**
+*   **Réduction de la latence** : Le trafic entre un abonné MTN et un serveur Orange reste au Cameroun.
+*   **Réduction des coûts** : Moins de transit international

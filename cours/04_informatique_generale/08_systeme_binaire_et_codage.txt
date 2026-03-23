@@ -1,0 +1,152 @@
+# **Notes de Cours - BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+**Matière : 04 Informatique Générale**
+**Chapitre : Système binaire et codage : conversions décimal/binaire/hexadécimal, BCD, codes détecteurs d'erreur (parité, Hamming)**
+
+---
+
+## **1. Introduction et Généralités sur les Systèmes de Numération**
+
+### **1.1. Définition et Importance**
+Un système de numération est un ensemble de règles et de symboles permettant de représenter des nombres. En informatique, la compréhension des systèmes binaire et hexadécimal est fondamentale car l'ordinateur, au niveau matériel, ne traite que des signaux électriques représentés par deux états : **0 (absence de tension/faux)** et **1 (présence de tension/vrai)**. Ce langage machine est la base de tous les logiciels que vous développerez.
+
+**Contexte local :** Lorsque vous programmez une application de gestion pour une entreprise camerounaise (ex: gestion des stocks pour une société OHADA), le code source que vous écrivez (en Java, C#, Python) est finalement traduit en instructions binaires exécutées par le processeur.
+
+### **1.2. Base d'un Système de Numération**
+La base (ou radix) indique le nombre de chiffres différents utilisés dans le système.
+*   **Système Décimal (Base 10)** : Utilise 10 chiffres (0 à 9). C'est le système humain par défaut.
+*   **Système Binaire (Base 2)** : Utilise 2 chiffres (0 et 1). C'est le langage de la machine.
+*   **Système Hexadécimal (Base 16)** : Utilise 16 symboles (0-9 et A-F). C'est un format de représentation compacte du binaire.
+
+**À retenir :** Dans l'écriture \( N_{(base)} \), l'indice précise la base. Ex: \( 101_{(2)} \), \( 2A_{(16)} \), \( 15_{(10)} \).
+
+---
+
+## **2. Conversions entre les Systèmes de Numération**
+
+### **2.1. Conversion Décimal → Binaire**
+**Méthode des divisions successives par 2**
+On divise le nombre décimal par 2, puis on divise chaque quotient par 2, jusqu'à obtenir un quotient nul. Le nombre binaire est la **lecture des restes de bas en haut (du dernier au premier)**.
+
+**Exemple concret :** Convertissons le numéro de département **58** (représentant le Littoral) en binaire.
+```
+58 / 2 = 29, reste 0 ↑
+29 / 2 = 14, reste 1 |
+14 / 2 = 7,  reste 0 |
+7  / 2 = 3,  reste 1 |
+3  / 2 = 1,  reste 1 |
+1  / 2 = 0,  reste 1 | (Lecture de bas en haut)
+```
+**Résultat :** \( 58_{(10)} = 111010_{(2)} \)
+
+### **2.2. Conversion Binaire → Décimal**
+**Méthode par la somme des puissances de 2**
+On multiplie chaque bit (0 ou 1) par la puissance de 2 correspondant à sa position, en partant de la droite (position 0).
+
+**Formule :** \( (b_n...b_1b_0)_{(2)} = (b_n * 2^n) + ... + (b_1 * 2^1) + (b_0 * 2^0) \)
+
+**Exemple :** Convertissons \( 1101_{(2)} \) en décimal.
+| Bit (b) | Position (n) | \( b * 2^n \) |
+| :--- | :--- | :--- |
+| 1 | 3 | \( 1 * 8 = 8 \) |
+| 1 | 2 | \( 1 * 4 = 4 \) |
+| 0 | 1 | \( 0 * 2 = 0 \) |
+| 1 | 0 | \( 1 * 1 = 1 \) |
+**Somme = 8 + 4 + 0 + 1 = 13.** Donc \( 1101_{(2)} = 13_{(10)} \)
+
+### **2.3. Conversion Binaire ↔ Hexadécimal**
+La base 16 (\( 2^4 \)) permet une représentation très compacte du binaire. **Un chiffre hexadécimal correspond exactement à 4 bits (un quartet).**
+
+**Tableau de correspondance clé :**
+| Hexa | Binaire | Hexa | Binaire |
+| :---: | :---: | :---: | :---: |
+| 0 | 0000 | 8 | 1000 |
+| 1 | 0001 | 9 | 1001 |
+| **A** | 1010 | **C** | 1100 |
+| **B** | 1011 | **D** | 1101 |
+| **F** | 1111 | **E** | 1110 |
+
+**Méthode :**
+*   **Binaire → Hexa :** Grouper les bits par 4 en partant de la droite. Compléter avec des zéros à gauche si nécessaire. Remplacer chaque groupe par son symbole hexa.
+    *   Ex: \( 11\ 1010\ 1101_{(2)} \) → \( 0011\ 1010\ 1101_{(2)} \) → **3 A D** = \( 3AD_{(16)} \)
+*   **Hexa → Binaire :** Remplacer chaque symbole hexa par son équivalent binaire sur 4 bits.
+    *   Ex: \( B2_{(16)} \) → \( B = 1011, 2 = 0010 \) → \( 10110010_{(2)} \)
+
+**Application locale :** Les adresses MAC des équipements réseau (routeurs Camtel, modems) et les codes couleurs en développement web (CSS) utilisent l'hexadécimal. Ex: Le bleu du drapeau camerounais peut être représenté par `#0072CE` en CSS.
+
+### **2.4. Conversion Décimal ↔ Hexadécimal**
+*   **Décimal → Hexa :** Divisions successives par 16 (reste > 9 devient A-F).
+*   **Hexa → Décimal :** Somme des produits `(chiffre_hexa * 16^position)`.
+
+**Exemple :** \( 255_{(10)} \) (valeur max d'un octet) en hexa : \( 255 / 16 = 15 (F), reste 15 (F) \) → \( FF_{(16)} \).
+
+---
+
+## **3. Le Code Binaire Décimal (BCD)**
+
+### **3.1. Définition et Principe**
+Le **Binary Coded Decimal (BCD)** est un code qui représente **chaque chiffre décimal (0-9) par son équivalent binaire sur 4 bits**. Il ne s'agit pas d'une conversion totale du nombre en binaire, mais d'une traduction chiffre par chiffre.
+
+**Règle :** Un chiffre décimal = un quartet binaire (0000 à 1001). Les combinaisons 1010 à 1111 sont interdites.
+
+### **3.2. Exemple et Comparaison**
+Représentons le nombre **84** en BCD et en binaire pur.
+*   **En BCD :** `8` → `1000` et `4` → `0100`. Donc \( 84_{(10)} = 1000\ 0100_{(BCD)} \).
+*   **En binaire pur :** \( 84_{(10)} = 1010100_{(2)} \) (via divisions successives).
+
+**Tableau Comparatif :**
+| Représentation | Valeur 84 | Avantage | Inconvénient | Usage typique |
+| :--- | :--- | :--- | :--- | :--- |
+| **Binaire pur** | `1010100` | Efficace pour le calcul | Conversion complexe | Traitement interne CPU |
+| **BCD** | `1000 0100` | Conversion directe, précision décimale | Moins efficace, prend plus d'espace | Systèmes financiers, afficheurs |
+
+### **3.3. Application dans le Contexte Africain**
+Le BCD est crucial dans les domaines où la **précision décimale est absolue**, comme :
+*   Les **systèmes financiers et comptables** (banques, logiciels de gestion OHADA).
+*   Les **afficheurs numériques** (calculatrices, caisses enregistreuses, compteurs).
+*   La programmation bas niveau pour le contrôle de matériel (automates).
+
+**Exemple concret :** Dans une application de **microfinance** développée pour une institution locale, le solde d'un compte (`12500` FCFA) sera stocké en mémoire de manière précise en BCD pour éviter les erreurs d'arrondi propres au binaire pur.
+
+---
+
+## **4. Codes Détecteurs et Correcteurs d'Erreurs**
+
+### **4.1. Introduction et Nécessité**
+Lors de la transmission ou du stockage de données (ex: appel vocal via réseau MTN Orange, transfert de fichier), des interférences peuvent **altérer un ou plusieurs bits**. Les codes de contrôle permettent de **détecter** et parfois de **corriger** ces erreurs.
+
+### **4.2. Le Code de Parité (Détection Simple)**
+
+#### **4.2.1. Principe**
+On ajoute un bit supplémentaire (bit de parité) à un ensemble de bits de données (généralement un octet) pour que le nombre total de bits à `1` soit **toujours pair** (parité paire) ou **toujours impair** (parité impaire).
+
+*   **Parité paire :** Le bit de parité est choisi pour que (bits de données + bit de parité) contienne un nombre **pair** de `1`.
+*   **Parité impaire :** Le total des `1` doit être **impair**.
+
+#### **4.2.2. Exemple et Limites**
+Donnée originale : `1011001` (4 bits à 1, donc pair).
+*   **Avec parité paire :** Nombre de `1` déjà pair (4) → bit de parité = `0`. Mot transmis : `1011001` **0**.
+*   **Avec parité impaire :** Il faut un nombre impair de `1` → bit de parité = `1`. Mot transmis : `1011001` **1**.
+
+**Limitation majeure :** La parité ne détecte que les erreurs affectant un **nombre impair de bits**. Si deux bits changent (erreur paire), la parité reste valide et l'erreur n'est pas détectée.
+**Usage :** Mémoire RAM (ECC), communications série simples.
+
+### **4.3. Le Code de Hamming (Détection et Correction)**
+
+#### **4.3.1. Principe Général**
+Le code de Hamming est plus sophistiqué. Il ajoute **plusieurs bits de parité (bits de contrôle)** à des positions stratégiques (puissances de 2 : 1, 2, 4, 8...). Ces bits calculent la parité sur des **combinaisons spécifiques de bits de données**. En comparant les bits de parité émis et recalculés à la réception, on peut **localiser et corriger une erreur sur un seul bit**.
+
+#### **4.3.2. Processus pour un Code Hamming (7,4)**
+C'est un code standard qui transforme **4 bits de données** en **7 bits transmis** (4 données + 3 bits de contrôle).
+
+**Étape 1 : Placement des bits.**
+Positions : P1 P2 D3 P4 D5 D6 D7
+(P=Parité/Contrôle, D=Donnée)
+On place les bits de données (D3, D5, D6, D7) et on calcule les bits de contrôle (P1, P2, P4).
+
+**Étape 2 : Calcul des bits de contrôle (avec parité paire).**
+*   **P1** couvre les positions dont le numéro a le bit de poids faible à 1 : 1, 3, 5, 7. (P1 vérifie D3, D5, D7)
+*   **P2** couvre les positions dont le 2ème bit est à 1 : 2, 3, 6, 7. (P2 vérifie D3, D6, D7)
+*   **P4** couvre les positions dont le 3ème bit est à 1 : 4, 5, 6, 7. (P4 vérifie D5, D6, D7)
+
+**Exemple concret :** Données à envoyer : `1101` (D3=1, D5=1, D6=0, D7=1).
+*   P1 = parité paire de (D3, D5, D7) = parité de (1

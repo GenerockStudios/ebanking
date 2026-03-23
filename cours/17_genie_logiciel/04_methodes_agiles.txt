@@ -1,0 +1,147 @@
+# **Notes de cours — BTS Génie Logiciel**
+## **Matière : 17 Génie Logiciel**
+## **Chapitre : Méthodes agiles : manifeste agile (4 valeurs, 12 principes), Scrum, Kanban, XP, SAFe — comparaison avec cycle en V**
+
+---
+
+### **1. Introduction aux méthodes agiles**
+
+#### **1.1. Contexte et définition**
+Les méthodes agiles sont un ensemble de pratiques et de cadres de travail (*frameworks*) pour le développement de logiciels, nées en réaction aux limites des méthodes traditionnelles dites "en cascade". Elles privilégient **la flexibilité, la collaboration et l'adaptation au changement** plutôt que le suivi rigide d'un plan préétabli.
+
+**Définition :** Une méthode agile est une approche itérative et incrémentale du développement logiciel, visant à livrer de la valeur au client de manière fréquente et à s'adapter rapidement à l'évolution de ses besoins.
+
+#### **1.2. Origine : Le Manifeste Agile (2001)**
+En 2001, 17 experts du développement logiciel publient le **"Manifeste pour le développement Agile de logiciels"**. Ce document fondateur énonce une philosophie basée sur 4 valeurs et 12 principes.
+
+---
+
+### **2. Le Manifeste Agile : Valeurs et Principes**
+
+#### **2.1. Les 4 valeurs fondamentales**
+Le manifeste met en avant quatre valeurs, en soulignant que si les éléments de droite ont de la valeur, ceux de gauche en ont **davantage**.
+
+**À RETENIR – Les 4 valeurs :**
+1.  **Les individus et leurs interactions** plus que les processus et les outils.
+    *   *Exemple :* Privilégier une réunion quotidienne en présentiel (ou visio) entre l'équipe de développement Camtel plutôt que de se reposer uniquement sur un outil de suivi des tâches.
+2.  **Un logiciel qui fonctionne** plus qu'une documentation exhaustive.
+    *   *Exemple :* Livrer une première version fonctionnelle du module de gestion des factures pour une startup camerounaise de fintech, même avec une documentation minimale, plutôt qu'attendre d'avoir une documentation parfaite pour un produit non livré.
+3.  **La collaboration avec le client** plus que la négociation contractuelle.
+    *   *Exemple :* Travailler en étroite collaboration avec le service juridique d'une entreprise soumise à l'**OHADA** pour adapter progressivement le logiciel, plutôt que de se limiter aux clauses initiales du contrat.
+4.  **L'adaptation au changement** plus que le suivi d'un plan.
+    *   *Exemple :* Modifier les priorités de développement pour une application mobile **Orange Money** en fonction des retours des premiers utilisateurs, même si cela dévie du plan initial.
+
+#### **2.2. Les 12 principes sous-jacents**
+Ces principes guident la mise en œuvre des valeurs. En voici une synthèse adaptée :
+1.  Satisfaire le client par une livraison précoce et continue de logiciels à forte valeur ajoutée.
+2.  Accueillir favorablement les changements de besoins, même tard dans le projet.
+3.  Livrer fréquemment un logiciel opérationnel (de préférence toutes les 2 à 8 semaines).
+4.  Une coopération permanente entre les utilisateurs métiers et les développeurs.
+5.  Construire des projets autour de personnes motivées, à qui il faut faire confiance.
+6.  La conversation en face à face est le moyen le plus efficace de communication.
+7.  Le logiciel opérationnel est la principale mesure d'avancement.
+8.  Les processus agiles encouragent un rythme de développement soutenable et constant.
+9.  Une attention continue à l'excellence technique et à la bonne conception.
+10. La simplicité – l'art de maximiser la quantité de travail *non* fait – est essentielle.
+11. Les meilleures architectures, spécifications et conceptions émergent d'équipes auto-organisées.
+12. À intervalles réguliers, l'équipe réfléchit aux moyens de devenir plus efficace.
+
+---
+
+### **3. Cadres et méthodes agiles populaires**
+
+#### **3.1. Scrum**
+**Définition :** Scrum est un cadre de travail (*framework*) léger, itératif et incrémental, pour gérer des projets complexes. Il est fondé sur la **transparence, l'inspection et l'adaptation**.
+
+**Rôles clés :**
+*   **Product Owner (PO) :** Représente le client/utilisateur final. Définit les priorités dans le *Product Backlog* (carnet de produit).
+*   **Scrum Master :** Garant du processus Scrum. Facilite les réunions, lève les obstacles.
+*   **Équipe de Développement :** Auto-organisée, pluridisciplinaire (5-9 personnes). Réalise les tâches.
+
+**Artéfacts :**
+*   **Product Backlog :** Liste priorisée des fonctionnalités (*user stories*).
+*   **Sprint Backlog :** Sous-ensemble du Product Backlog sélectionné pour un Sprint.
+*   **Increment :** Potentiel de livraison du logiciel à la fin d'un Sprint.
+
+**Événements (Time-boxés) :**
+1.  **Sprint :** Itération de durée fixe (2 à 4 semaines).
+2.  **Planification du Sprint :** L'équipe sélectionne les items du Sprint Backlog.
+3.  **Mêlée quotidienne (*Daily Scrum*) :** Réunion de 15 min pour synchroniser l'équipe.
+4.  **Revue de Sprint :** Démonstration de l'incrément au PO et aux parties prenantes.
+5.  **Rétrospective de Sprint :** L'équipe améliore son processus de travail.
+
+*Exemple concret :* Développement d'une nouvelle fonctionnalité de transfert d'argent entre pays de la CEMAC pour l'application **MTN Mobile Money**. Chaque Sprint de 2 semaines permet de livrer une partie testable de la fonctionnalité.
+
+#### **3.2. Kanban**
+**Définition :** Kanban est une méthode de gestion visuelle du flux de travail. Elle vise à limiter le travail en cours (*Work In Progress - WIP*) pour améliorer l'efficacité et réduire les délais.
+
+**Principes fondamentaux :**
+1.  **Visualiser le flux de travail :** Tableau avec colonnes (Ex: À faire, En cours, À tester, Terminé).
+2.  **Limiter le travail en cours (WIP) :** Nombre maximum de tâches par colonne.
+3.  **Mesurer et gérer le flux :** Optimiser le déplacement des cartes (tâches).
+4.  **Expliciter les règles du processus :** Compréhension commune.
+5.  **Amélioration continue :** Identifier et résoudre les goulets d'étranglement.
+
+**Outils :** Tableaux physiques (tableau blanc, post-its) ou logiciels (Trello, Jira, Azure DevOps).
+
+*Exemple concret :* Équipe de support technique et de maintenance corrective d'**Orange Cameroun**. Le tableau Kanban permet de visualiser et de prioriser les incidents (bugs) remontés par les clients, en limitant le nombre de tickets traités simultanément pour une résolution plus rapide.
+
+#### **3.3. Extreme Programming (XP)**
+**Définition :** XP est une méthode agile centrée sur l'**excellence technique** et la **réactivité aux changements**. Elle est particulièrement adaptée aux projets aux besoins changeants ou aux risques techniques élevés.
+
+**Pratiques clés :**
+*   **Programmation en binôme (*Pair Programming*)**
+*   **Développement piloté par les tests (*Test-Driven Development - TDD*)**
+*   **Intégration continue (*Continuous Integration*)**
+*   **Refactoring** (réusinage de code)
+*   **Livraisons fréquentes**
+*   **Jeu du planning (*Planning Game*)**
+*   **Client sur site** (ou disponible)
+
+*Exemple concret :** Développement d'un algorithme complexe de calcul de crédit pour une microfinance au Cameroun. L'XP, avec son TDD et ses revues de code constantes (binômage), assure une haute qualité et une adaptabilité aux changements réglementaires.
+
+#### **3.4. Scaled Agile Framework (SAFe)**
+**Définition :** SAFe est un cadre de travail pour **mettre à l'échelle (*scale*) les pratiques agiles au niveau de l'entreprise**. Il est conçu pour des organisations de grande taille développant des systèmes complexes nécessitant la coordination de plusieurs équipes agiles.
+
+**Niveaux de SAFe (simplifié) :**
+*   **Équipe :** Les équipes utilisent Scrum/Kanban/XP.
+*   **Programme :** Plusieurs équipes (5-12) forment un **Agile Release Train (ART)** qui planifie et livre ensemble via des **Program Increments (PI)** de 8-12 semaines.
+*   **Portefeuille :** Aligne la stratégie d'entreprise et les investissements avec l'exécution des programmes.
+
+*Exemple concret :** La **Camtel** souhaite moderniser l'ensemble de ses systèmes d'information (billing, réseau, support client). SAFe permet de coordonner des dizaines d'équipes de développement travaillant sur des sous-systèmes interdépendants, en alignant leurs livraisons sur une vision stratégique commune.
+
+---
+
+### **4. Comparaison avec le cycle en V**
+
+#### **4.1. Rappel du cycle en V**
+Le cycle en V est un **modèle séquentiel** (ou en cascade) où chaque phase (Spécifications, Conception, Codage, Tests) doit être **entièrement terminée** avant de passer à la suivante. La branche droite du "V" représente les phases de test correspondant à chaque niveau de conception.
+
+**Caractéristiques :** Planification rigide, documentation lourde, changement coûteux, livraison unique en fin de projet.
+
+#### **4.2. Tableau comparatif : Cycle en V vs. Méthodes Agiles**
+
+| Critère de comparaison | **Cycle en V (Traditionnel)** | **Méthodes Agiles (Scrum, XP, etc.)** |
+| :--- | :--- | :--- |
+| **Approche** | Séquentielle et prédictive. | Itérative, incrémentale et adaptative. |
+| **Flexibilité** | Faible. Les changements en cours de projet sont coûteux et difficiles. | **Forte.** Les changements sont accueillis, même tardivement. |
+| **Livraison** | **Une livraison unique** à la fin du projet. | **Livraisons fréquentes** (incréments) de logiciel fonctionnel. |
+| **Relation client** | Contractuelle, souvent limitée aux début et fin de projet. | **Collaboration continue** tout au long du projet. |
+| **Documentation** | **Exhaustive et préalable** au développement. | **Allégée et évolutive**, privilégiant le code fonctionnel. |
+| **Mesure d'avancement** | Achèvement des phases et documents. | **Logiciel fonctionnel** livré. |
+| **Adaptation au contexte** | Projets aux **besoins stables et bien définis** (ex: systèmes critiques, contrats publics stricts). | Projets aux **besoins évolutifs ou mal définis** (ex: applications web, marché compétitif). |
+| **Risque d'échec** | Découvert tardivement (à la livraison). | Découvert et mitigé tôt grâce aux itérations. |
+
+#### **4.3. Application contextuelle au Cameroun/Afrique**
+*   **Cycle en V :** Peut être pertinent pour des projets de développement ou d'intégration de systèmes **fortement réglementés** (ex: adaptation d'un ERP aux normes comptables **OHADA** où les processus sont fixes), ou pour des appels d'offres publics aux cahiers des charges très détaillés et peu modifiables.
+*   **Méthodes Agiles :** Sont souvent plus adaptées au **développement de produits numériques** (applications mobiles, fintech, e-commerce) où le marché évolue vite (ex: concurrence entre **MTN**, **Orange**). Elles permettent de tester rapidement des hypothèses auprès des utilisateurs africains et d'ajuster le produit.
+
+---
+
+### **5. Outils et technologies de support**
+
+Pour implémenter les méthodes agiles, les entreprises utilisent divers outils :
+*   **Gestion de projet/Backlog :** Jira, Azure DevOps, Trello, ClickUp.
+*   **Tableaux Kanban :** Jira, Trello, Leankit, tableaux physiques.
+*   **Communication :** Microsoft Teams, Slack, Zoom.
+*   **Développement & Intégration Continue (

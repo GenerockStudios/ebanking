@@ -1,0 +1,206 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière : 22 Terminaux Mobiles**
+## **Chapitre : Layouts et interface Android : XML layouts (LinearLayout, ConstraintLayout, RecyclerView), Material Design, dimensions (dp/sp), thèmes**
+
+---
+
+### **1. Introduction aux interfaces utilisateur Android**
+
+L'interface utilisateur (UI) d'une application Android est la porte d'entrée de l'utilisateur. Sa conception est cruciale pour l'expérience utilisateur (UX), l'adoption et le succès de l'application. Dans le contexte camerounais, avec la diversité des terminaux (des smartphones bas de gamme aux modèles haut de gamme) et des habitudes d'utilisation, une UI bien conçue doit être **intuitive, rapide et adaptative**.
+
+**1.1. Fondamentaux : Les Views et ViewGroups**
+*   **View :** Élément de base de l'UI (bouton, champ texte, image). C'est un rectangle à l'écran responsable du dessin et de la gestion des événements (clics, toucher).
+*   **ViewGroup :** Conteneur invisible qui définit la disposition (*layout*) de ses vues enfants. Exemples : `LinearLayout`, `ConstraintLayout`. C'est une sous-classe de `View`.
+*   **Arborescence UI :** L'interface est structurée comme une arborescence hiérarchique de `ViewGroup` et `View`.
+
+**À retenir :** Toute interface Android est construite à partir d'une hiérarchie de **Views** (éléments) et **ViewGroups** (conteneurs de disposition).
+
+---
+
+### **2. Les Layouts XML : Structuration de l'interface**
+
+Le layout définit la structure visuelle d'une interface. Il est principalement déclaré dans des fichiers XML (`activity_main.xml`, `fragment_detail.xml`), séparant ainsi la présentation de la logique métier (code Java/Kotlin).
+
+**2.1. LinearLayout**
+Organise ses vues enfants en une seule colonne (verticale) ou une seule ligne (horizontale).
+
+*   **Attributs clés :**
+    *   `android:orientation="vertical|horizontal"`
+    *   `android:layout_weight` : Attribue un poids (proportion) à une vue enfant pour qu'elle occupe l'espace disponible. Très utile pour des interfaces proportionnelles.
+
+*   **Exemple concret (Cameroun) :** Formulaire de souscription à un forfait internet **MTN** ou **Orange**.
+    ```xml
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:text="Souscription Forfait Jour"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:hint="Numéro MTN/Orange"
+            android:inputType="phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:text="Forfait 100 Mo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <Button
+                android:text="Forfait 500 Mo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <Button
+            android:text="Valider et Payer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    ```
+
+**2.2. ConstraintLayout**
+Layout flexible et performant, devenu le standard. Il permet de positionner et de dimensionner les vues en définissant des contraintes (*constraints*) par rapport à d'autres vues ou aux bords du parent.
+
+*   **Concepts clés :**
+    *   **Contrainte :** Lien entre un côté d'une vue et un point d'ancrage (côté d'une autre vue, guideline, ou bord du parent).
+    *   **Biais (Bias) :** Position relative d'une vue entre ses contraintes opposées (ex: 30% de gauche, 70% de droite).
+    *   **Chaines (Chains) :** Groupe de vues liées horizontalement ou verticalement pour un contrôle avancé de l'espacement.
+
+*   **Avantages :** Moins de hiérarchie imbriquée (meilleures performances), conception d'interfaces complexes et responsives plus facilement.
+
+*   **Exemple concret :** En-tête d'une application de gestion des actes **OHADA** pour les entreprises camerounaises.
+    ```xml
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary_color">
+
+        <ImageView
+            android:id="@+id/logo_ohada"
+            app:srcCompat="@drawable/logo_ohada"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="16dp"/>
+
+        <TextView
+            android:id="@+id/titre_app"
+            android:text="Gestionnaire OHADA Pro"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@id/logo_ohada"
+            app:layout_constraintTop_toTopOf="@id/logo_ohada"
+            app:layout_constraintBottom_toBottomOf="@id/logo_ohada"/>
+
+        <Button
+            android:id="@+id/btn_sync"
+            android:text="Synchroniser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="16dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    ```
+
+**2.3. Tableau comparatif LinearLayout vs ConstraintLayout**
+
+| Critère | LinearLayout | ConstraintLayout |
+| :--- | :--- | :--- |
+| **Complexité** | Simple pour des dispositions linéaires | Plus complexe à maîtriser, mais plus puissant |
+| **Performance** | Risque de *view nesting* (imbrication) qui ralentit le rendu | Hiérarchie plate, optimisée pour le rendu |
+| **Flexibilité** | Limitée à une seule direction | Très flexible, placement libre avec contraintes |
+| **Cas d'usage** | Listes simples, formulaires linéaires | Interfaces complexes, écrans de détail, designs responsifs |
+| **Outils** | Éditeur XML de base | **Design Editor** d'Android Studio avec drag & drop des contraintes |
+
+**À retenir :** Pour les nouvelles interfaces, privilégiez **ConstraintLayout**. Utilisez **LinearLayout** pour des sections très simples à l'intérieur d'un ConstraintLayout.
+
+---
+
+### **3. RecyclerView : Pour les listes et grilles performantes**
+
+`RecyclerView` est un `ViewGroup` avancé pour afficher efficacement de grandes listes ou grilles de données (ex: liste de transactions, catalogue de produits, contacts).
+
+*   **Architecture (Modèle Vue-Contrôleur adapté) :**
+    1.  **Adapter :** Prend les données (liste d'objets) et crée les `ViewHolder`.
+    2.  **ViewHolder :** Contient les références aux vues d'un élément de la liste (évite les `findViewById` répétés).
+    3.  **LayoutManager :** Gère l'agencement des éléments (linéaire vertical/horizontal, grille).
+    4.  **ItemDecoration & ItemAnimator :** Pour les séparateurs et les animations.
+
+*   **Exemple concret :** Liste des derniers recharges ou transferts d'argent dans une application mobile **Camtel** ou **Mobile Money**.
+    *   **Données :** Liste d'objets `Transaction` (date, numéro, montant, statut).
+    *   **Adapter :** `TransactionAdapter` étend `RecyclerView.Adapter<TransactionAdapter.ViewHolder>`.
+    *   **Layout item :** `item_transaction.xml` utilisant un `ConstraintLayout`.
+    *   **Avantage :** Recyclage des vues hors écran pour une performance optimale, même avec des centaines d'opérations.
+
+**Outils en entreprise :** Android Studio, avec le **Layout Inspector** pour déboguer la hiérarchie des vues, et les bibliothèques comme **Epoxy** (Airbnb) ou **Groupie** pour des `RecyclerView` complexes.
+
+---
+
+### **4. Material Design : Principes et mise en œuvre**
+
+**Material Design** est un langage de design visuel créé par Google, combinant principes classiques et innovation technologique.
+
+**4.1. Principes clés adaptés au contexte africain**
+*   **Le Matériau est la métaphore :** Les surfaces et les ombres donnent une hiérarchie et un sens tactile.
+*   **Gras, Graphique, Intentionnel :** Utilisez la typographie, la couleur (ex: jaune/orange vif, vert) et l'imagerie de manière audacieuse pour attirer l'attention.
+*   **Le mouvement fournit du sens :** Les animations guident l'utilisateur et confirment ses actions.
+*   **Adaptation :** Les couleurs et images doivent refléter la culture locale (ex: motifs, paysages camerounais) tout en respectant les standards d'accessibilité (contraste).
+
+**4.2. Composants Material Design**
+*   **Material Components for Android (MDC) :** Bibliothèque officielle remplaçant la `Design Support Library`. Elle fournit des versions Material de boutons (`MaterialButton`), champs texte (`TextInputLayout`), cartes, *snackbars*, etc.
+*   **Mise en œuvre :** Ajouter la dépendance dans `build.gradle` et utiliser les composants dans les layouts XML.
+
+**Exemple :** Un `MaterialButton` avec la couleur primaire de la marque **Orange Cameroun**.
+```xml
+<com.google.android.material.button.MaterialButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Appeler"
+    app:backgroundTint="@color/orange_brand_primary"
+    app:cornerRadius="8dp"/>
+```
+
+---
+
+### **5. Unités de dimension et gestion des écrans**
+
+**5.1. Les unités indépendantes de la densité (dp) et de l'échelle (sp)**
+*   **dp (Density-independent Pixel) :** Unité pour les dimensions (largeur, hauteur, marges, padding). 1 dp est équivalent à un pixel physique sur un écran de densité 160 dpi (densité de base). Android s'occupe de la conversion selon la densité réelle de l'écran.
+    *   **Formule (conceptuelle) :** `px = dp * (dpi / 160)`
+*   **sp (Scale-independent Pixel) :** Similaire au dp, mais **évolue selon les préférences de taille de police** de l'utilisateur. **Exclusivement pour les tailles de texte (`TextView`, `EditText`)**.
+*   **Pourquoi c'est crucial au Cameroun ?** Avec une grande variété d'écrans (petits écrans bas de gamme, grandes phablettes), l'utilisation de `dp` et `sp` garantit une taille **relative et lisible** sur tous les appareils.
+
+**5.2. Bonnes pratiques**
+*   **Toujours utiliser `dp`** pour les dimensions des vues et les espacements.
+*   **Toujours utiliser `sp`** pour la taille du texte.
+*   **Éviter les valeurs absolues en pixels (`px`)**.
+*   Utiliser des ressources de dimension (`dimens.xml`) pour définir des constantes réutilisables (ex: `@dimen/margin_standard`, `@dimen/text_title`).
+
+---
+
+### **6. Thèmes et Styles**
+
+**6.1. Définitions**
+*   **Style :** Collection de propriétés d'apparence (couleur du texte, taille, arrière-plan) appliquable à une **vue unique**.
+*   **Thème :** Collection de styles et d'attributs appliqués à **toute une application, une activité ou une hiérarchie de vues**. Il définit les couleurs, typographies et formes par défaut.
+
+**6.2. Structure et utilisation**
+*   Les thèmes et styles sont définis dans `res/values/themes.xml` (ou `styles.xml`).
+*   Ils héritent les uns des autres (`parent="..."`).
+*   **Thème Material par défaut :** `Theme.MaterialComponents.DayNight.NoActionBar`
+
+**6.3. Personnalisation pour une marque camerounaise**
+Exemple : Définition d'un thème corporate pour une application **MTN Mobile Money**.
+```xml
+<!-- res/values/themes.xml -->
+<resources xmlns:tools="http://schemas.android.com/tools">

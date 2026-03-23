@@ -1,0 +1,136 @@
+# **Notes de cours — 03 Mathématiques**
+## **Probabilités et statistiques pour le génie logiciel**
+
+### **1. Introduction et concepts fondamentaux**
+
+#### **1.1. Définition et utilité dans le génie logiciel**
+Les probabilités et statistiques sont des outils mathématiques essentiels pour le génie logiciel. Elles permettent de :
+- Modéliser l’incertitude dans les systèmes informatiques.
+- Analyser les performances des logiciels (temps de réponse, taux d’erreur).
+- Tester et valider la qualité des applications (tests statistiques).
+- Prendre des décisions basées sur des données (analyse de données utilisateur, logs serveur).
+- Évaluer la fiabilité des systèmes (probabilité de panne, MTBF).
+
+**Exemple concret :** Une startup camerounaise de fintech développe une application mobile de paiement. Elle utilise les statistiques pour analyser le taux d’échec des transactions par opérateur (MTN, Orange, Camtel) et identifier les causes racines (problème réseau, solde insuffisant, erreur de saisie).
+
+#### **1.2. Vocabulaire de base des probabilités**
+- **Expérience aléatoire :** Expérience dont on ne peut prédire avec certitude le résultat (ex: lancer un dé, réponse d’un utilisateur à une notification push).
+- **Univers (Ω) :** Ensemble de tous les résultats possibles d’une expérience. Pour un dé à 6 faces, Ω = {1, 2, 3, 4, 5, 6}.
+- **Événement :** Sous-ensemble de l’univers. Un événement **A** est réalisé si le résultat de l’expérience appartient à A.
+    - **Événement élémentaire :** Événement contenant un seul résultat.
+    - **Événement certain :** Événement égal à Ω (probabilité = 1).
+    - **Événement impossible :** Événement vide ∅ (probabilité = 0).
+- **Probabilité d’un événement :** Nombre P(A) compris entre 0 et 1 qui mesure la chance que A se réalise.
+
+**À retenir :** La probabilité d’un événement certain est 1, celle d’un événement impossible est 0. La somme des probabilités de tous les événements élémentaires est égale à 1.
+
+### **2. Probabilités conditionnelles et indépendance**
+
+#### **2.1. Définition et formule**
+La **probabilité conditionnelle** P(A|B) est la probabilité que l’événement A se réalise **sachant que** B est déjà réalisé.
+
+**Formule fondamentale :**
+`P(A|B) = P(A ∩ B) / P(B)`, à condition que P(B) > 0.
+
+De cette formule découle la **formule des probabilités composées** :
+`P(A ∩ B) = P(B) × P(A|B) = P(A) × P(B|A)`
+
+#### **2.2. Indépendance de deux événements**
+Deux événements A et B sont **indépendants** si la réalisation de l’un n’influence pas la probabilité de l’autre.
+**Définition mathématique :** `P(A ∩ B) = P(A) × P(B)`
+Conséquence : Si A et B sont indépendants, alors `P(A|B) = P(A)`.
+
+**Exemple adapté :** Un développeur analyse les bugs d’une application de gestion OHADA. Soit :
+- A : "Le bug survient dans le module de facturation".
+- B : "Le bug est survenu un lundi".
+Si P(A) = 0.1 et P(B) = 0.14 (1/7), et que P(A ∩ B) = 0.014, alors P(A) × P(B) = 0.014. Les événements sont indépendants : le jour de la semaine n’influence pas le module où le bug apparaît.
+
+#### **2.3. Formule de Bayes**
+Permet de "renverser" une probabilité conditionnelle. Très utilisée en intelligence artificielle (filtres anti-spam, diagnostics).
+`P(A|B) = [P(B|A) × P(A)] / P(B)`
+
+### **3. Lois de probabilité discrètes et continues**
+
+#### **3.1. Loi Binomiale**
+**Contexte :** On répète **n** fois de manière indépendante une même expérience aléatoire (épreuve de Bernoulli) qui n’a que deux issues : **Succès** (probabilité p) ou **Échec** (probabilité q = 1-p).
+
+**Définition :** La variable aléatoire X qui compte le nombre total de succès suit une **loi Binomiale** de paramètres n et p. On note X ~ B(n, p).
+
+**Formules :**
+- **Probabilité d’avoir exactement k succès :** `P(X = k) = C_n^k × p^k × (1-p)^(n-k)` où `C_n^k = n!/(k!(n-k)!)`
+- **Espérance (moyenne) :** `E(X) = n × p`
+- **Variance :** `V(X) = n × p × (1-p)`
+- **Écart-type :** `σ(X) = √V(X) = √[n × p × (1-p)]`
+
+**Exemple concret :** Un opérateur télécom (MTN) sait que 5% des appels vers le service client rencontrent un problème de mise en attente excessive. Sur 20 appels analysés (n=20, p=0.05), la probabilité qu’exactement 3 connaissent ce problème est : `P(X=3) = C_20^3 × (0.05)^3 × (0.95)^17`.
+
+#### **3.2. Loi de Poisson**
+**Contexte :** Modélise la survenue d’événements **rares** dans un intervalle de temps (ou d’espace) fixe. Ex: nombre de requêtes sur un serveur web par minute, nombre de pannes logicielles par jour.
+
+**Définition :** La variable aléatoire X suit une **loi de Poisson** de paramètre λ (lambda) si elle compte le nombre d’événements survenant dans un intervalle donné. λ représente le nombre moyen d’événements sur cet intervalle. On note X ~ P(λ).
+
+**Formules :**
+- **Probabilité d’observer k événements :** `P(X = k) = (e^{-λ} × λ^k) / k!`
+- **Espérance et Variance :** `E(X) = V(X) = λ`
+
+**Exemple adapté :** Le centre de données d’Orange Cameroun observe en moyenne 2 pannes matérielles mineures par semaine (λ=2). La probabilité d’avoir exactement 4 pannes dans une semaine donnée est : `P(X=4) = (e^{-2} × 2^4) / 4!`.
+
+#### **3.3. Loi Normale (ou de Laplace-Gauss)**
+**Contexte :** Loi **continue** la plus importante. Elle modélise de nombreux phénomènes : tailles, mesures, erreurs de mesure, résultats de tests, etc. C’est la loi limite vers laquelle tendent beaucoup d’autres lois (Théorème Central Limite).
+
+**Définition :** Une variable aléatoire continue X suit une **loi Normale** de paramètres μ (moyenne) et σ² (variance) si sa densité de probabilité est la fameuse "courbe en cloche". On note X ~ N(μ, σ²).
+
+**Caractéristiques :**
+- Symétrique par rapport à la moyenne μ.
+- Forme déterminée par l’écart-type σ (plus σ est grand, plus la courbe est étalée).
+- **Loi Normale Centrée Réduite :** Cas particulier où μ=0 et σ=1. Notée N(0,1). Toute variable X ~ N(μ, σ²) peut se ramener à une variable Z ~ N(0,1) par la transformation : `Z = (X - μ) / σ`. Les probabilités pour Z sont tabulées.
+
+**Règles empiriques (68-95-99.7) :**
+Pour une loi normale N(μ, σ²) :
+- Environ **68%** des observations sont dans l’intervalle [μ - σ ; μ + σ]
+- Environ **95%** des observations sont dans l’intervalle [μ - 2σ ; μ + 2σ]
+- Environ **99.7%** des observations sont dans l’intervalle [μ - 3σ ; μ + 3σ]
+
+**Exemple :** Le temps de réponse d’une API de paiement Camtel suit une loi normale de moyenne 150 ms et d’écart-type 25 ms (N(150, 625)). Environ 95% des requêtes répondront entre 150-2×25=100 ms et 150+2×25=200 ms.
+
+**Tableau comparatif des lois de probabilité**
+
+| **Loi** | **Type** | **Paramètres** | **Que modélise-t-elle ?** | **Exemple en contexte GL Camerounais** |
+| :--- | :--- | :--- | :--- | :--- |
+| **Binomiale** | Discrète | n (nb essais), p (prob. succès) | Nombre de succès dans n essais indépendants | Nombre de transactions réussies sur 100 tentatives (p=prob. succès) |
+| **Poisson** | Discrète | λ (taux moyen) | Nombre d’événements rares sur un intervalle | Nombre de tentatives de hacking détectées par jour sur un serveur |
+| **Normale** | Continue | μ (moyenne), σ (écart-type) | Phénomènes continus naturels, mesures | Temps de chargement d’une page web, consommation mémoire d’une app |
+
+### **4. Statistiques descriptives : moyenne, variance, écart-type**
+
+Ces outils permettent de **résumer et décrire** un ensemble de données (échantillon).
+
+#### **4.1. Moyenne (ou espérance empirique)**
+Mesure de la **tendance centrale**.
+- **Pour un échantillon** (x₁, x₂, ..., xₙ) : `Moyenne x̄ = (Σ x_i) / n`
+- **Interprétation :** Valeur "typique" ou "centrale" des données.
+
+#### **4.2. Variance et écart-type**
+Mesurent la **dispersion** des données autour de la moyenne.
+- **Variance de l’échantillon (s²) :** Moyenne des carrés des écarts à la moyenne.
+    `s² = [Σ (x_i - x̄)²] / (n-1)` (Note : on divise par n-1 pour un estimateur non biaisé).
+- **Écart-type (s) :** Racine carrée de la variance. `s = √s²`
+- **Interprétation :** Plus l’écart-type est grand, plus les données sont dispersées/étalées.
+
+**Exemple calculé :** Une entreprise de Yaoundé mesure le temps (en jours) pour corriger 5 bugs critiques : {2, 4, 4, 6, 9}.
+- Moyenne : `x̄ = (2+4+4+6+9)/5 = 5 jours`
+- Variance : `s² = [(2-5)²+(4-5)²+(4-5)²+(6-5)²+(9-5)²] / (5-1) = (9+1+1+1+16)/4 = 7`
+- Écart-type : `s = √7 ≈ 2.65 jours`. Les temps de correction varient en moyenne de ±2.65 jours autour de la moyenne de 5 jours.
+
+### **5. Estimation par intervalle de confiance**
+
+#### **5.1. Principe**
+Lorsqu’on étudie un échantillon, on cherche à estimer un paramètre inconnu de la population (ex: la moyenne μ). Un **intervalle de confiance (IC)** donne une fourchette de valeurs **plausibles** pour ce paramètre, avec un certain niveau de confiance (généralement 95%).
+
+**Interprétation :** "Avec un niveau de confiance de 95%, la vraie moyenne μ de la population se situe dans l’intervalle [a ; b] calculé."
+
+#### **5.2. Intervalle de confiance pour une moyenne (μ)**
+Cas le plus courant. Deux situations :
+1.  **Écart-type σ de la population connu** (cas rare) : On utilise la loi normale.
+    `IC à 95% pour μ = [x̄ - 1.96 × (σ/√n) ; x̄ + 1.96 × (σ/√n)]`
+2.  **Écart-type σ inconnu** (cas fréquent) : On utilise l’écart-type de l’échantillon (s) et

@@ -1,0 +1,312 @@
+# **Notes de cours — BTS Génie Logiciel (MINPOSTEL/MINESUP)**
+## **Matière 16 : Programmation Orientée Objet**
+## **Chapitre : Patterns de Conception (Design Patterns)**
+
+---
+
+### **1. Introduction aux Design Patterns**
+
+#### **1.1. Définition et Origine**
+Un **Design Pattern** (Patron de conception) est une solution générique, éprouvée et réutilisable à un problème récurrent de conception logicielle. Il ne s'agit pas d'un code prêt à copier-coller, mais d'un **modèle conceptuel** à adapter au contexte spécifique.
+
+**Origine** : Popularisés par le livre *"Design Patterns: Elements of Reusable Object-Oriented Software"* (GoF - Gang of Four, 1994). Ils catégorisent 23 patterns fondamentaux.
+
+#### **1.2. Pourquoi Utiliser les Design Patterns ?**
+- **Réutiliser l'expertise** : Capitaliser sur les solutions éprouvées par la communauté.
+- **Standardiser la communication** : Utiliser un vocabulaire commun (ex: "On va utiliser un Singleton pour le logger").
+- **Améliorer la maintenabilité et la flexibilité** : Code mieux structuré, plus facile à comprendre et à modifier.
+- **Accélérer le développement** : Ne pas réinventer la roue pour les problèmes courants.
+
+#### **1.3. Classification des Patterns (GoF)**
+| **Catégorie**       | **Objectif**                                                                 | **Exemples dans ce chapitre**      |
+|---------------------|-----------------------------------------------------------------------------|------------------------------------|
+| **Créationnels**    | Gérer la création d'objets, en optimisant la flexibilité et la réutilisation. | Singleton, Factory (Méthode)       |
+| **Structurels**     | Définir des structures de classes et d'objets pour former des ensembles plus grands. | Decorator                         |
+| **Comportementaux** | Gérer les algorithmes, les responsabilités et la communication entre objets.  | Observer, Strategy                 |
+| **Architecturaux**  | (Hors GoF) Définir l'organisation globale d'une application.                  | MVC (Modèle-Vue-Contrôleur)        |
+
+**À retenir** : Un pattern est un **modèle de solution**, pas une solution toute faite. Son implémentation varie selon le langage (Java, C#, Python, PHP) et le contexte.
+
+---
+
+### **2. Patterns Créationnels**
+
+#### **2.1. Pattern Singleton**
+**Problème** : Garantir qu'une classe n'a **qu'une seule instance** et fournir un point d'accès global à cette instance.
+
+**Pourquoi l'utiliser ?**
+- Pour les classes qui gèrent des ressources partagées et uniques : connexion à une base de données, fichier de configuration, logger, cache.
+- Éviter les incohérences dues à des instances multiples (ex: fichier de log éparpillé).
+
+**Comment l'implémenter ? (Exemple Camerounais)**
+Gestion centralisée des paramètres de connexion à la **Base de Données OHADA** pour une application de comptabilité.
+
+```java
+public class ConfigOHADA {
+    // 1. Instance statique privée
+    private static ConfigOHADA instance;
+    private String serveur;
+    private String utilisateur;
+
+    // 2. Constructeur privé
+    private ConfigOHADA() {
+        // Chargement depuis un fichier sécurisé
+        this.serveur = "bd-ohada.cm";
+        this.utilisateur = "app_finance";
+    }
+
+    // 3. Méthode d'accès publique et statique
+    public static synchronized ConfigOHADA getInstance() {
+        if (instance == null) {
+            instance = new ConfigOHADA();
+        }
+        return instance;
+    }
+
+    // Getters
+    public String getServeur() { return serveur; }
+}
+// Utilisation
+ConfigOHADA config = ConfigOHADA.getInstance();
+String srv = config.getServeur();
+```
+
+**Outils/Technologies** : Implémentation native dans la plupart des langages. Dans les frameworks : `@Singleton` (Spring, Jakarta EE), `services.AddSingleton()` (.NET Core).
+
+#### **2.2. Pattern Factory (Méthode)**
+**Problème** : Définir une interface pour créer un objet, mais laisser les sous-classes décider quelle classe instancier.
+
+**Pourquoi l'utiliser ?**
+- Encapsuler la logique de création d'objets.
+- Rendre le code indépendant des classes concrètes (principe *Dependency Inversion*).
+- Faciliter l'ajout de nouveaux types d'objets.
+
+**Comment l'implémenter ? (Exemple Africain)**
+Système de génération de rapports pour une banque mobile (**Orange Money, MTN Mobile Money**). Le type de rapport (Transaction, Solde, Client) détermine l'objet à créer.
+
+```java
+// Interface Produit
+public interface Rapport {
+    void generer();
+}
+
+// Produits Concrets
+public class RapportTransaction implements Rapport {
+    @Override
+    public void generer() {
+        System.out.println("Génération du rapport des transactions MTN MoMo...");
+    }
+}
+public class RapportSolde implements Rapport {
+    @Override
+    public void generer() {
+        System.out.println("Génération du rapport des soldes Orange Money...");
+    }
+}
+
+// Créateur (Factory)
+public abstract class GenerateurRapport {
+    // Méthode Factory
+    public abstract Rapport creerRapport();
+
+    public void genererRapportFinal() {
+        Rapport rapport = creerRapport();
+        rapport.generer();
+        // Post-traitement commun
+    }
+}
+
+// Créateurs Concrets
+public class GenerateurRapportTransaction extends GenerateurRapport {
+    @Override
+    public Rapport creerRapport() {
+        return new RapportTransaction();
+    }
+}
+```
+
+**À retenir** : La Factory Method délègue l'instanciation aux sous-classes, favorisant l'extensibilité.
+
+---
+
+### **3. Patterns Structurels**
+
+#### **3.1. Pattern Decorator**
+**Problème** : Ajouter dynamiquement de nouvelles fonctionnalités à un objet sans modifier sa structure.
+
+**Pourquoi l'utiliser ?**
+- Éviter l'explosion de sous-classes (ex: une classe `CafeAuLait`, `CafeSucre`, `CafeAuLaitSucre`...).
+- Respecter le **principe Ouvert/Fermé** (ouvert à l'extension, fermé à la modification).
+- Ajouter ou retirer des responsabilités à l'exécution.
+
+**Comment l'implémenter ? (Exemple Camerounais)**
+Système de calcul de coût d'un forfait **Camtel** (Forfait de base + Options ajoutées dynamiquement).
+
+```java
+// Composant
+public interface Forfait {
+    String getDescription();
+    double getCout();
+}
+
+// Composant Concret
+public class ForfaitBase implements Forfait {
+    @Override
+    public String getDescription() {
+        return "Forfait Camtel Base (Appels illimités)";
+    }
+    @Override
+    public double getCout() {
+        return 5000; // FCFA
+    }
+}
+
+// Decorator Abstrait
+public abstract class OptionForfait implements Forfait {
+    protected Forfait forfaitDecore;
+    public OptionForfait(Forfait forfait) {
+        this.forfaitDecore = forfait;
+    }
+}
+
+// Decorators Concrets
+public class OptionInternet extends OptionForfait {
+    public OptionInternet(Forfait forfait) {
+        super(forfait);
+    }
+    @Override
+    public String getDescription() {
+        return forfaitDecore.getDescription() + " + 10 Go Internet";
+    }
+    @Override
+    public double getCout() {
+        return forfaitDecore.getCout() + 3000;
+    }
+}
+// Utilisation
+Forfait monForfait = new ForfaitBase();
+monForfait = new OptionInternet(monForfait); // Ajout dynamique
+System.out.println(monForfait.getDescription() + " : " + monForfait.getCout() + " FCFA");
+```
+
+---
+
+### **4. Patterns Comportementaux**
+
+#### **4.1. Pattern Observer**
+**Problème** : Définir une dépendance de type un-à-plusieurs entre objets, de sorte que lorsqu'un objet change d'état, tous ses dépendants en soient notifiés et mis à jour automatiquement.
+
+**Pourquoi l'utiliser ?**
+- Découpler les objets qui interagissent.
+- Permettre une communication flexible et dynamique (abonnement/désabonnement).
+- Scénarios typiques : systèmes d'événements, MVC (mise à jour des vues), notifications.
+
+**Comment l'implémenter ? (Exemple Africain)**
+Système d'alerte par SMS/Email pour les fluctuations des prix des produits de base sur un marché en ligne (**ex: prix de l'huile, du sucre**). Les agriculteurs et commerçants s'abonnent aux alertes.
+
+```java
+// Sujet (Observable)
+import java.util.ArrayList;
+import java.util.List;
+
+public class SujetPrix {
+    private List<Observateur> observateurs = new ArrayList<>();
+    private String produit;
+    private double prix;
+
+    public void abonner(Observateur obs) { observateurs.add(obs); }
+    public void desabonner(Observateur obs) { observateurs.remove(obs); }
+
+    public void notifier() {
+        for (Observateur obs : observateurs) {
+            obs.mettreAJour(this.produit, this.prix);
+        }
+    }
+
+    public void setPrix(String produit, double nouveauPrix) {
+        this.produit = produit;
+        this.prix = nouveauPrix;
+        notifier(); // Notification automatique
+    }
+}
+
+// Observateur
+public interface Observateur {
+    void mettreAJour(String produit, double prix);
+}
+
+// Observateur Concret
+public class Commercant implements Observateur {
+    private String nom;
+    public Commercant(String nom) { this.nom = nom; }
+
+    @Override
+    public void mettreAJour(String produit, double prix) {
+        System.out.println("[SMS à " + nom + "] Alerte! Prix du " + produit + " : " + prix + " FCFA");
+        // Logique d'envoi d'SMS/Email (API Orange, MTN)
+    }
+}
+// Utilisation
+SujetPrix suiviPrixHuile = new SujetPrix();
+suiviPrixHuile.abonner(new Commercant("M. Ndi"));
+suiviPrixHuile.setPrix("Huile de palme", 2500); // Déclenche l'envoi de SMS
+```
+
+**Outils** : Très répandu dans les frameworks : `Observable`/`Observer` (Java ancien), `PropertyChangeListener`, `RxJava`, `React` (basé sur le même principe).
+
+#### **4.2. Pattern Strategy**
+**Problème** : Définir une famille d'algorithmes, les encapsuler dans des classes séparées et les rendre interchangeables.
+
+**Pourquoi l'utiliser ?**
+- Éviter les structures conditionnelles (longs `if/else` ou `switch`) pour choisir un algorithme.
+- Respecter le principe **Open/Closed**.
+- Faciliter le test unitaire de chaque algorithme.
+
+**Comment l'implémenter ? (Exemple Camerounais)**
+Système de calcul de taxe selon les différents règlements de l'**OHADA** ou du **CEMAC**. L'algorithme de calcul change selon le type d'entreprise (SA, SARL, Entreprise Individuelle).
+
+```java
+// Interface Strategy
+public interface StrategieCalculTaxe {
+    double calculer(double chiffreAffaires);
+}
+
+// Strategies Concrètes
+public class TaxeOHADA_SA implements StrategieCalculTaxe {
+    @Override
+    public double calculer(double ca) {
+        return ca * 0.35; // 35% pour les SA
+    }
+}
+public class TaxeOHADA_SARL implements StrategieCalculTaxe {
+    @Override
+    public double calculer(double ca) {
+        return ca * 0.25; // 25% pour les SARL
+    }
+}
+
+// Contexte
+public class CalculateurFiscal {
+    private StrategieCalculTaxe strategie;
+
+    public void setStrategie(StrategieCalculTaxe strategie) {
+        this.strategie = strategie;
+    }
+    public double executerCalcul(double ca) {
+        if (strategie == null) throw new IllegalStateException("Stratégie non définie");
+        return strategie.calculer(ca);
+    }
+}
+// Utilisation
+CalculateurFiscal calc = new CalculateurFiscal();
+calc.setStrategie(new TaxeOHADA_SARL());
+double taxeDue = calc.executerCalcul(10_000_000); // CA de 10 millions FCFA
+```
+
+**À retenir** : Strategy permet de **varier un algorithme indépendamment du client qui l'utilise**.
+
+---
+
+### **5. Pattern Architectural : MVC (Modèle-Vue-Contrôleur)**
+
+**Problème** : Séparer les préoccupations dans une application interactive, notamment entre la logique métier, l

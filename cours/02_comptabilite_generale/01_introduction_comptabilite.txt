@@ -1,0 +1,112 @@
+# **Notes de Cours - BTS Génie Logiciel**
+**Matière :** 02 Comptabilité Générale
+**Chapitre :** Introduction à la comptabilité : rôle, principes (continuité, prudence, coût historique), parties prenantes
+
+---
+
+## **1. Introduction et Définitions Fondamentales**
+
+### **1.1. Qu'est-ce que la comptabilité ?**
+
+La comptabilité est un **système d'organisation de l'information financière** qui permet de **recenser, classer, enregistrer et synthétiser** les données chiffrées relatives à l'activité économique d'une entité (entreprise, association, État). Elle produit, en fin d'exercice, des **documents de synthèse** destinés à informer les parties prenantes.
+
+**Définition officielle (OHADA) :** Selon l'Acte Uniforme relatif au droit comptable et à l'information financière (AUDCIF) de l'Organisation pour l'Harmonisation en Afrique du Droit des Affaires (OHADA), la comptabilité est "un système d'organisation de l'information financière permettant de saisir, classer, enregistrer des données de base chiffrées et présenter des états reflétant une image fidèle du patrimoine, de la situation financière et du résultat de l'entité à la date de clôture".
+
+**À retenir :** La comptabilité est le **langage universel des affaires**. Pour un futur développeur en génie logiciel, comprendre ce langage est essentiel pour créer des applications de gestion (ERP, logiciels de paie, de facturation) adaptées aux besoins des entreprises camerounaises et africaines.
+
+### **1.2. Les Deux Grands Systèmes Comptables**
+
+| **Système Comptable OHADA (Afrique)** | **Système Comptable International (IFRS)** |
+| :--- | :--- |
+| **Cadre juridique :** Obligatoire pour les 17 États membres (dont le Cameroun). | **Cadre :** Normes internationales, volontaires sauf pour les sociétés cotées. |
+| **Objectif principal :** Protection des créanciers et information légale. | **Objectif principal :** Information des investisseurs sur les marchés financiers. |
+| **Principes :** Prudence stricte, coût historique. | **Principes :** Image fidèle, juste valeur (fair value). |
+| **Application :** Toutes les sociétés commerciales au Cameroun. | **Application :** Grandes entreprises camerounaises ayant des activités internationales (ex : MTN Cameroon, Société Anonyme des Brasseries du Cameroun). |
+
+**Contexte camerounais :** Le Cameroun, en tant que membre de l'OHADA, applique le **Système Comptable OHADA (SYSCOHADA)**. Tout logiciel de gestion développé pour le marché local **doit** être conforme à ce référentiel.
+
+---
+
+## **2. Le Rôle et les Finalités de la Comptabilité**
+
+La comptabilité remplit **trois fonctions principales** interconnectées :
+
+### **2.1. Une Fonction de Preuve (Rôle Juridique)**
+Les documents comptables (factures, livres) font **foi en justice** en cas de litige commercial ou fiscal. Exemple : Une facture émise par **Camtel** pour des services de fibre optique est une preuve de la dette de son client.
+
+### **2.2. Une Fonction d'Information (Rôle Économique)**
+Elle fournit une **image fidèle** de la santé de l'entreprise à ses différents partenaires (dirigeants, banques, investisseurs, État). Exemple : Avant d'accorder un prêt à une PME de Douala, une banque comme **Afriland First Bank** analyse ses comptes annuels.
+
+### **2.3. Une Fonction de Gestion (Rôle de Pilotage)**
+Elle est un **outil d'aide à la décision** pour le gestionnaire. Elle permet de calculer les coûts, prévoir la trésorerie, analyser la rentabilité. Exemple : Le responsable d'une boutique **Orange Money** utilise les données de ventes quotidiennes pour gérer son stock de crédit d'appel.
+
+**En résumé :** La comptabilité est un **système d'information** qui **enregistre** (fonction de preuve), **traite** (fonction de gestion) et **communique** (fonction d'information) les données financières.
+
+---
+
+## **3. Les Principes Comptables Fondamentaux (Selon l'OHADA)**
+
+Les principes comptables sont les **règles de base** qui garantissent la **fiabilité**, la **comparabilité** et la **sincérité** des informations produites. L'OHADA en consacre plusieurs.
+
+### **3.1. Le Principe de Continuité d'Exploitation**
+*   **Définition :** L'entreprise est présumée poursuivre ses activités dans un avenir prévisible. Elle ne doit pas établir ses états financiers dans une perspective de liquidation.
+*   **Conséquences :** Les actifs sont enregistrés à leur valeur d'utilité (valeur d'usage), et non à leur valeur de revente en cas de cessation.
+*   **Exemple concret :** Une entreprise de transport interurbain comme **ABC Transport** achète un bus pour 50 millions FCFA. Ce bus sera amorti sur 5 ans (10 millions/an). Ce calcul n'a de sens que si l'on suppose que l'entreprise sera toujours en activité dans 5 ans pour utiliser le bus. Si elle devait fermer demain, le bus devrait être évalué à sa valeur de revente immédiate, probablement inférieure.
+
+### **3.2. Le Principe de Prudence (Cardinal en OHADA)**
+*   **Définition :** Il oblige à prendre en compte **toutes les pertes et charges probables** dès qu'elles sont connues, mais à ne comptabiliser les **profits et produits** que lorsqu'ils sont **réalisés** (certains et définitifs).
+*   **Objectif :** Éviter de surestimer le patrimoine ou le résultat, et donc de distribuer des bénéfices fictifs.
+*   **Applications pratiques :**
+    1.  **Constituer des provisions :** Une entreprise à Yaoundé a un client qui est en difficulté de paiement sur une facture de 5 millions FCFA. Par prudence, elle va constater une **provision pour créance douteuse**, même si le recouvrement n'est pas totalement impossible.
+    2.  **Évaluer les stocks au plus bas :** Une épicerie à Bafoussam achète du riz à 400 FCFA/kg. En fin d'année, le prix du marché baisse à 350 FCFA/kg. Par prudence, l'épicerie doit évaluer son stock de riz à 350 FCFA/kg (la **valeur actuelle**), et constater une perte de 50 FCFA/kg, même si le riz n'est pas encore vendu.
+
+### **3.3. Le Principe du Coût Historique**
+*   **Définition :** Les biens acquis par l'entreprise sont **enregistrés à leur coût d'acquisition initial** (prix d'achat + frais accessoires). Cette valeur reste la base de la comptabilisation tout au long de la vie du bien, malgré l'évolution de sa valeur de marché.
+*   **Conséquence :** La comptabilité OHADA ne réévalue pas les actifs à leur "juste valeur" (valeur de marché) comme le font parfois les IFRS.
+*   **Exemple :** Une agence **MTN Cameroon** achète un terrain à Bonapriso (Douala) en 2010 pour 200 millions FCFA. En 2024, la valeur du terrain a explosé et vaut 1 milliard FCFA. En comptabilité OHADA, le terrain figurera toujours au **bilan à 200 millions FCFA** (son coût historique). La plus-value potentielle de 800 millions n'est pas comptabilisée tant que le terrain n'est pas vendu.
+
+**Tableau Synthèse des Principes :**
+
+| Principe | Concept Clé | Impact sur le Bilan/Compte de Résultat | Exemple Camerounais |
+| :--- | :--- | :--- | :--- |
+| **Continuité** | Permanence de l'activité | Actifs évalués pour leur usage, amortissements étalés. | Amortissement des machines d'une plantation de cacao. |
+| **Prudence** | Anticiper les pertes, attendre les gains | Bilan "minimaliste", résultat potentiellement sous-estimé. | Provision pour litige fiscal d'une PME à Garoua. |
+| **Coût Historique** | Valeur d'origine | Actifs figés à leur prix d'achat, indépendamment de l'inflation. | Bâtiment administratif acheté il y a 20 ans à prix bas. |
+
+---
+
+## **4. Les Parties Prenantes de l'Information Comptable**
+
+Ce sont tous les acteurs internes et externes qui utilisent les états financiers pour prendre des décisions. Leurs besoins diffèrent.
+
+### **4.1. Les Parties Prenantes Internes**
+*   **Le Dirigeant / Gestionnaire :** Besoin d'informations **détaillées et fréquentes** pour piloter (rentabilité par produit, contrôle des coûts, trésorerie). C'est le premier utilisateur.
+*   **Les Salariés :** S'intéressent à la **pérennité** de l'entreprise (garantie de l'emploi) et à sa **capacité à distribuer des avantages** (participation aux bénéfices).
+
+### **4.2. Les Parties Prenantes Externes**
+*   **Les Associés / Actionnaires :** (Ex: les actionnaires de **Nexteel Cameroon**). Ils évaluent la **rentabilité** de leur investissement (dividendes) et l'efficacité des dirigeants.
+*   **Les Prêteurs (Banques, IMF) :** (Ex: **Ecobank**, **MC²**). Ils analysent la **solvabilité** et la **capacité de remboursement** de l'entreprise avant d'accorder un crédit.
+*   **L'État et l'Administration Fiscale :** (La **Direction Générale des Impôts du Cameroun**). Ils utilisent les comptes pour déterminer **l'assiette des impôts** (BIC, IS, TVA) et vérifier la conformité.
+*   **Les Fournisseurs et Clients :** Ils jugent de la **fiabilité commerciale**. Un fournisseur vérifiera la santé financière avant d'accorder un délai de paiement.
+*   **Les Autorités de Régulation :** (Comme l'**Agence de Régulation des Télécommunications - ART** pour **Orange** ou **Camtel**). Elles s'assurent du respect des obligations légales et financières du secteur.
+
+**À retenir :** Un même **état financier** (comme le bilan) est lu avec des **lunettes différentes** par chaque partie prenante. Le logiciel doit pouvoir générer des **extractions et rapports variés** pour répondre à ces besoins multiples.
+
+---
+
+## **5. Outils et Technologies : Le Pont avec le Génie Logiciel**
+
+Le développement logiciel transforme la pratique comptable.
+
+### **5.1. Logiciels Comptables Courants en Entreprise**
+*   **Solutions Locales/Nationales :** Logiciels développés par des SSII camerounaises, souvent adaptés à la fiscalité locale et au SYSCOHADA.
+*   **Solutions Régionales/Africaines :** Logiciels conçus pour l'OHADA (ex: **Sage Paie OHADA**, **Ciel Compta OHADA**).
+*   **ERP Internationaux :** **SAP**, **Oracle ERP**, **Microsoft Dynamics 365**. Implémentés par les grandes entreprises (filiales de groupes internationaux).
+
+### **5.2. Compétences Clés pour le Développeur GL**
+1.  **Comprendre le Métier Comptable :** Saisir les processus (chaîne de saisie, lettrage, rapprochement bancaire, clôture) pour les automatiser efficacement.
+2.  **Connaître le Cadre Règlementaire :** Intégrer les normes OHADA, les plans comptables, les déclarations fiscales camerounaises (DGI) dans les logiciels.
+3.  **Maîtriser les Technologies Pertinentes :**
+    *   **Bases de données :** Modélisation des plans de comptes, écritures, tiers (SQL Server, PostgreSQL).
+    *   **Sécurité et Audit Trail :** Traçabilité intégrale des écritures (qui, quand, quoi a modifié), cruciale pour la preuve légale.
+    *   **Interfaces et UX :** Créer des interfaces de saisie ergonomiques pour les comptables

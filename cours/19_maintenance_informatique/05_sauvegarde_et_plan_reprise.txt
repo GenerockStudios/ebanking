@@ -1,0 +1,128 @@
+# **Notes de cours — BTS Génie Logiciel (Cameroun)**
+## **Matière : 19 Maintenance Informatique**
+## **Chapitre : Sauvegarde et Plan de Reprise**
+
+---
+
+### **1. Introduction et Définitions Fondamentales**
+
+#### **1.1. Contexte et Enjeux**
+Dans un environnement numérique en pleine croissance au Cameroun et en Afrique, la protection des données est devenue un impératif stratégique, juridique et économique. Les entreprises (banques, télécoms comme MTN, Orange, Camtel, administrations) sont confrontées à des risques multiples : pannes matérielles, erreurs humaines, cyberattaques (rançongiciels), sinistres (inondations, incendies), ou défaillances logicielles. La perte de données peut entraîner des pertes financières colossales, une atteinte à la réputation, et dans certains cas, des sanctions légales (notamment au regard des dispositions de l'**OHADA** sur la conservation des documents comptables et commerciaux).
+
+#### **1.2. Définitions Clés**
+*   **Sauvegarde (Backup)** : Copie des données d'un système informatique dans un but de préservation, permettant leur restauration en cas de perte ou d'altération.
+*   **Plan de Reprise d'Activé (PRA) / Plan de Continuité d'Activité (PCA)** :
+    *   **PCA (Plan de Continuité d'Activité)** : Ensemble de mesures préventives et organisationnelles permettant à une entreprise de **maintenir** ses activités essentielles en mode dégradé pendant un incident majeur. L'objectif est de ne jamais s'arrêter.
+    *   **PRA (Plan de Reprise d'Activité)** : Ensemble de procédures techniques visant à **récupérer** et restaurer l'infrastructure informatique (données, applications, serveurs) après un sinistre, pour permettre la reprise des activités. Le PRA est souvent une composante technique du PCA.
+*   **À retenir** : Le **PCA** est plus large et stratégique (gestion des équipes, communication, processus métier). Le **PRA** est plus technique et focalisé sur la restauration des systèmes IT.
+
+---
+
+### **2. Les Stratégies et Types de Sauvegarde**
+
+Le choix d'une stratégie de sauvegarde est un compromis entre la fenêtre de sauvegarde (temps disponible), l'espace de stockage et la rapidité de restauration.
+
+#### **2.1. Sauvegarde Complète (Full Backup)**
+*   **Principe** : Copie l'intégralité des données sélectionnées à chaque exécution.
+*   **Avantages** :
+    *   Restauration simple et rapide (un seul jeu de supports nécessaire).
+    *   Gestion simple des archives.
+*   **Inconvénients** :
+    *   Longue durée d'exécution.
+    *   Consommation importante de bande passante et d'espace de stockage.
+    *   Impact potentiel sur les performances du système en production.
+*   **Exemple** : Une PME camerounaise réalise une sauvegarde complète de son serveur de gestion (données comptables, clients, stocks) chaque vendredi soir sur un disque dur externe.
+
+#### **2.2. Sauvegarde Incrémentale (Incremental Backup)**
+*   **Principe** : Sauvegarde uniquement les données qui ont été **modifiées ou créées depuis la dernière sauvegarde (complète ou incrémentale)**.
+*   **Avantages** :
+    *   Exécution très rapide.
+    *   Utilisation minimale de l'espace de stockage et de la bande passante.
+*   **Inconvénients** :
+    *   Restauration plus longue et complexe. Il faut d'abord restaurer la dernière sauvegarde complète, puis **toutes** les sauvegardes incrémentales successives jusqu'à la date souhaitée.
+    *   Chaîne de dépendance : si un média incrémental est corrompu, la restauration au-delà de ce point est compromise.
+*   **Exemple** : Suite à la sauvegarde complète du vendredi, l'entreprise fait une sauvegarde incrémentale chaque nuit de la semaine. Pour restaurer au jeudi, il faut : la sauvegarde complète du vendredi précédent + les incrémentales de lundi, mardi et mercredi.
+
+#### **2.3. Sauvegarde Différentielle (Differential Backup)**
+*   **Principe** : Sauvegarde toutes les données qui ont été modifiées ou créées **depuis la dernière sauvegarde complète**.
+*   **Avantages** :
+    *   Restauration plus simple que l'incrémentale : seulement la dernière complète et la dernière différentielle sont nécessaires.
+    *   Temps de sauvegarde et espace utilisé intermédiaires.
+*   **Inconvénients** :
+    *   La taille de la sauvegarde différentielle augmente chaque jour jusqu'à la prochaine sauvegarde complète.
+    *   Plus longue que l'incrémentale, mais plus courte que la complète.
+*   **Exemple** : Sauvegarde complète le vendredi. Différentielle le lundi (sauvegarde les changements depuis vendredi). Différentielle le mardi (sauvegarde à nouveau tous les changements depuis vendredi, donc inclut ceux du lundi). Pour restaurer au mardi, il faut : la complète du vendredi + la différentielle du mardi.
+
+#### **2.4. Tableau Comparatif des Stratégies**
+
+| Critère                | Sauvegarde Complète       | Sauvegarde Incrémentale       | Sauvegarde Différentielle     |
+| ---------------------- | ------------------------- | ----------------------------- | ----------------------------- |
+| **Espace utilisé**     | Élevé                     | Très faible                   | Moyen (croissant)             |
+| **Vitesse de sauvegarde** | Lente                    | Très rapide                   | Rapide                        |
+| **Vitesse de restauration** | Très rapide (1 étape)   | Lente (N+1 étapes)            | Rapide (2 étapes)             |
+| **Complexité de gestion** | Simple                   | Complexe (chaîne de dépendance) | Simple                        |
+| **Utilisation typique** | Point de départ hebdo.   | Sauvegardes quotidiennes      | Sauvegardes quotidiennes      |
+
+**À retenir** : Une stratégie hybride est souvent employée : **Sauvegarde complète le week-end + sauvegardes incrémentales ou différentielles en semaine.**
+
+---
+
+### **3. La Règle d'Or : 3-2-1**
+
+C'est une règle de bon sens pour assurer la robustesse d'une stratégie de sauvegarde.
+
+*   **3** copies des données : L'original + **au moins 2 copies**.
+*   **2** supports de stockage différents : Par exemple, disque dur interne (original) + disque dur externe (copie 1) + bande magnétique ou NAS (copie 2).
+*   **1** copie stockée hors site (Offsite) : Une copie doit être physiquement éloignée du site principal pour survivre à un sinistre local (incendie, inondation).
+    *   **Application au contexte camerounais** : Pour une entreprise à Douala, la copie hors-site pourrait être stockée dans un coffre à Yaoundé, ou chez un prestataire de sauvegarde en ligne (cloud) dont les serveurs sont idéalement localisés en Afrique (pour la latence) mais avec une réplication des données.
+
+---
+
+### **4. Les Métriques Clés : RTO et RPO**
+
+Ces deux indicateurs sont au cœur de la définition des exigences d'un PRA/PCA.
+
+#### **4.1. RTO (Recovery Time Objective)**
+*   **Définition** : Délai maximal acceptable d'interruption du service après un sinistre. C'est le **temps** dont on dispose pour restaurer les systèmes.
+*   **Question** : "Combien de temps pouvons-nous nous permettre d'être hors ligne ?"
+*   **Exemple** : Pour un système de paiement mobile (MTN Mobile Money, Orange Money), le RTO est très court (quelques minutes/heures). Pour un serveur de fichiers interne, il peut être de 24 à 48 heures.
+
+#### **4.2. RPO (Recovery Point Objective)**
+*   **Définition** : Perte de données maximale acceptable mesurée dans le **temps**. Elle détermine la fréquence minimale des sauvegardes.
+*   **Question** : "Quelle quantité de données (en temps d'activité) pouvons-nous nous permettre de perdre ?"
+*   **Exemple** :
+    *   RPO = 24h → Une sauvegarde quotidienne suffit.
+    *   RPO = 1h → Il faut des sauvegardes horaires, voire une réplication en continu des données.
+    *   RPO = 0 (tolérance zéro à la perte de données) → Nécessite des solutions de haute disponibilité et de réplication synchrone (coûteux).
+
+**À retenir** : **Le RPO définit "quoi" sauvegarder et "à quelle fréquence". Le RTO définit "comment" restaurer et "à quelle vitesse".** Plus le RTO et le RPO sont courts, plus la solution de reprise est complexe et coûteuse.
+
+---
+
+### **5. Outils et Technologies de Sauvegarde**
+
+#### **5.1. Outils Professionnels (Entreprise)**
+*   **Veeam Backup & Replication** : Leader du marché pour les environnements virtualisés (VMware, Hyper-V). Offre des capacités avancées de réplication, de restauration granulaire et de test de PRA. Adapté aux grandes entreprises et aux prestataires de services.
+*   **Veritas NetBackup / Backup Exec** : Solutions robustes et évolutives pour des environnements hétérogènes (serveurs physiques, virtuels, bases de données).
+*   **Solutions intégrées aux hyperviseurs** : VMware Data Protection, Hyper-V Replica.
+*   **Sauvegarde Cloud (BaaS - Backup as a Service)** : De plus en plus adopté, car il répond naturellement à la règle 3-2-1 (hors-site). Des acteurs globaux (AWS Backup, Azure Backup) et régionaux émergent.
+
+#### **5.2. Outils Open Source et de Scripting**
+*   **rsync** : Outil de ligne de commande puissant et flexible sous Linux/Unix pour la synchronisation et la copie incrémentale de fichiers. C'est la base de nombreux scripts de sauvegarde automatisés.
+    *   **Exemple de commande simple** : `rsync -av /source/directory/ user@backup_server:/destination/directory/`
+*   **Bacula / Bareos** : Suite open source complète de sauvegarde en réseau, adaptée aux PME et aux environnements mixtes.
+*   **Duplicati** : Logiciel client de sauvegarde chiffrée dans le cloud (Windows, Linux, macOS).
+
+**Application au contexte** : Une startup camerounaise avec un budget limité pourrait utiliser **rsync** dans des scripts cron pour sauvegarder ses serveurs Linux vers un NAS, et **Duplicati** pour une copie chiffrée sur un cloud économique. Une grande banque utilisera **Veeam** ou **Veritas** pour gérer des centaines de machines virtuelles avec des SLA stricts.
+
+---
+
+### **6. Élaboration d'un PCA/PRA : Étapes Clés**
+
+1.  **Analyse d'Impact sur l'Activité (Business Impact Analysis - BIA)** : Identifier les processus métiers critiques et leurs dépendances IT. Définir les RTO et RPO pour chaque application/service.
+2.  **Évaluation des Risques** : Identifier les scénarios de sinistre plausibles au Cameroun (coupure électrique prolongée, panne matérielle, cyberattaque, inondation).
+3.  **Définition des Stratégies** : Choisir les solutions techniques (sauvegarde, réplication, site de secours) en fonction des RTO/RPO et du budget.
+4.  **Rédaction des Procédures** : Documenter de manière précise, étape par étape, les actions à mener pour restaurer chaque système. Inclure les contacts d'urgence (Camtel pour les lignes, fournisseurs d'équipements).
+5.  **Désignation de l'Équipe de Crise** : Définir les rôles et responsabilités (coordinateur, techniciens, communicateur).
+6.  **Mise en œuvre des Solutions** : Achat des équipements, configuration des sauvegardes, contractualisation avec un hébergeur pour un site de secours.
+7.  **Test et Validation Réguliers** : Un PRA non testé est un
