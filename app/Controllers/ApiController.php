@@ -19,7 +19,6 @@ class ApiController
     /**
      * GET ?controller=Api&action=lookupAccount&prefix=XXXXX
      * Retourne les comptes dont le numéro commence par le préfixe saisi (min 5 chiffres).
-     * Utilisé pour la saisie prédictive dans les formulaires de caisse.
      */
     public function lookupAccount(): void
     {
@@ -28,7 +27,7 @@ class ApiController
         }
 
         $prefix = Sanitizer::cleanString($_GET['prefix'] ?? '');
-        $prefix = preg_replace('/\D/', '', $prefix); // Ne garder que les chiffres
+        $prefix = preg_replace('/\D/', '', $prefix);
 
         if (strlen($prefix) < 5) {
             $this->jsonResponse(['error' => 'Saisir au moins 5 chiffres.'], 400);
@@ -36,6 +35,7 @@ class ApiController
 
         try {
             $db = Database::getInstance()->getConnection();
+            // FIX: table names → lowercase 'comptes', 'clients'
             $sql = "SELECT
                         c.numero_compte,
                         c.solde,
@@ -43,18 +43,17 @@ class ApiController
                         cl.nom,
                         cl.prenom,
                         cl.telephone
-                    FROM Comptes c
-                    JOIN Clients cl ON c.client_id = cl.client_id
+                    FROM comptes c
+                    JOIN clients cl ON c.client_id = cl.client_id
                     WHERE c.numero_compte LIKE :prefix
                     LIMIT 8";
 
             $stmt = $db->prepare($sql);
             $search = $prefix . '%';
-            $stmt->bindParam(':prefix', $search);
+            $stmt->bindValue(':prefix', $search, PDO::PARAM_STR);
             $stmt->execute();
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Formater les données pour la vue
             $formatted = [];
             foreach ($results as $row) {
                 $formatted[] = [
@@ -76,7 +75,7 @@ class ApiController
 
     /**
      * GET ?controller=Api&action=getLastTransactions&numero_compte=XXXXX
-     * Retourne les 5 dernières transactions d'un compte (pour affichage instantané).
+     * Retourne les 5 dernières transactions d'un compte.
      */
     public function getLastTransactions(): void
     {
@@ -91,6 +90,7 @@ class ApiController
 
         try {
             $db = Database::getInstance()->getConnection();
+            // FIX: table names → lowercase 'transactions', 'comptes'
             $sql = "SELECT
                         T.type_transaction,
                         T.montant,
@@ -100,17 +100,17 @@ class ApiController
                             WHEN Cs.numero_compte = :num THEN 'Débit'
                             ELSE 'Crédit'
                         END AS sens
-                    FROM Transactions T
-                    LEFT JOIN Comptes Cs ON T.compte_source_id = Cs.compte_id
-                    LEFT JOIN Comptes Cd ON T.compte_destination_id = Cd.compte_id
+                    FROM transactions T
+                    LEFT JOIN comptes Cs ON T.compte_source_id = Cs.compte_id
+                    LEFT JOIN comptes Cd ON T.compte_destination_id = Cd.compte_id
                     WHERE Cs.numero_compte = :num2 OR Cd.numero_compte = :num3
                     ORDER BY T.date_transaction DESC
                     LIMIT 5";
 
             $stmt = $db->prepare($sql);
-            $stmt->bindParam(':num',  $numeroCompte);
-            $stmt->bindParam(':num2', $numeroCompte);
-            $stmt->bindParam(':num3', $numeroCompte);
+            $stmt->bindValue(':num',  $numeroCompte, PDO::PARAM_STR);
+            $stmt->bindValue(':num2', $numeroCompte, PDO::PARAM_STR);
+            $stmt->bindValue(':num3', $numeroCompte, PDO::PARAM_STR);
             $stmt->execute();
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

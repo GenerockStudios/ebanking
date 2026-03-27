@@ -27,6 +27,10 @@ $identifiant = $_SESSION['identifiant'] ?? 'N/A';
                 <li><a href="<?= BASE_URL ?>?controller=Caisse&action=depot">💵 Dépôt d'Espèces</a></li>
                 <li><a href="<?= BASE_URL ?>?controller=Caisse&action=retrait">➖ Retrait d'Espèces</a></li>
                 <li><a href="<?= BASE_URL ?>?controller=Caisse&action=transfert">🔁 Transfert Interne</a></li>
+                <li><a href="<?= BASE_URL ?>?controller=Caisse&action=releve"><i class="fas fa-file-invoice"></i> Relevé de Compte Détaillé</a></li>
+                <li><a href="<?= BASE_URL ?>?controller=Caisse&action=cloture"><i class="fas fa-lock"></i> Clôture de Caisse (Session)</a></li>
+                <li><a href="<?= BASE_URL ?>?controller=Caisse&action=simulation"><i class="fas fa-chart-line"></i> Simulateur d'Épargne</a></li>
+                <li><a href="#" onclick="const num = prompt('Saisir le numéro de compte :'); if(num) window.location.href='<?= BASE_URL ?>?controller=Caisse&action=rib&numero_compte='+num;"><i class="fas fa-university"></i> Édition de RIB (RIB/IBAN)</a></li>
             </ul>
         </div>
     <?php endif; ?>
@@ -128,7 +132,7 @@ $identifiant = $_SESSION['identifiant'] ?? 'N/A';
 .card {
   --grad: red, blue;
   padding: 2.5rem;
-  background-image: linear-gradient(to bottom left, #e0e4e5, #f2f6f9);
+  background-image: linear-gradient(to bottom left, #ffffff, #f2f6f9);
   border-radius: 2rem;
   gap: 1.5rem;
   display: grid;

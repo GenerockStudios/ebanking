@@ -1,0 +1,36 @@
+# Walkthrough : Génération et Impression de RIB/IBAN
+
+La fonctionnalité de génération de RIB est désormais opérationnelle, respectant scrupuleusement les contraintes de design "Paroxysme" et les exigences d'impression du jury.
+
+## Changements réalisés
+
+### Modèle
+- Ajout de [getCompteDetailsForRib($numeroCompte)](file:///c:/xampp/htdocs/ebanking/app/Models/CompteModel.php#140-166) dans [CompteModel.php](file:///c:/xampp/htdocs/ebanking/app/Models/CompteModel.php). Cette méthode réalise les jointures nécessaires pour extraire l'identité complète du client et le type de compte.
+
+### Contrôleur
+- Ajout de l'action [rib()](file:///c:/xampp/htdocs/ebanking/app/Controllers/CaisseController.php#208-266) dans [CaisseController.php](file:///c:/xampp/htdocs/ebanking/app/Controllers/CaisseController.php).
+- Intégration de la journalisation d'audit (`CONSULTATION_RIB`).
+- Calcul à la volée des codes fictifs (Code Banque, Code Guichet, Clé RIB, IBAN) pour garantir un document formel sans stocker de données sensibles redondantes.
+
+### Vue & UI
+- Création de [rib.php](file:///c:/xampp/htdocs/ebanking/app/Views/comptes/rib.php) avec styles d'impression avancés.
+- Reset de la signature navigateur (URL, Date) via `@media print`.
+- Mise à jour du [dashboard.php](file:///c:/xampp/htdocs/ebanking/app/Views/caisse/dashboard.php) pour inclure un bouton d'accès direct avec icône FontAwesome.
+
+## Tests et Validation
+
+### 1. Test de Données (CLI)
+Un script de test a été exécuté pour vérifier que le modèle récupère correctement les informations d'un compte réel (ex: `435994933896`).
+**Résultat :** Succès. Données de "Jean Eric Tsala Ntonga" récupérées avec succès.
+
+### 2. Validation de l'Audit
+Le code inclut l'appel à `AuditLogger::logAction`, assurant que chaque consultation de RIB est tracée.
+
+### 3. Validation de l'Impression
+Le CSS @media print a été configuré pour :
+- Supprimer les en-têtes/pieds de page Chrome.
+- Forcer le format A4.
+- Utiliser la classe `.document-officiel` avec bordures et signatures professionnelles.
+
+> [!TIP]
+> Pour tester, cliquez sur "Édition de RIB" dans le tableau de bord, saisissez `435994933896` et utilisez Ctrl+P pour voir le rendu final sans signatures de navigateur.

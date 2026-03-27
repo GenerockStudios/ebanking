@@ -15,6 +15,125 @@ $rep = $data['repartition']    ?? [];
 <div class="alert-error"><?= htmlspecialchars($data['error']) ?></div>
 <?php endif; ?>
 
+<!-- ========== ACCÈS RAPIDE ADMIN ========== -->
+<div class="qa-wrapper">
+
+    <!-- Section 1 : Administration -->
+    <div class="qa-section">
+        <div class="qa-section-title">
+            <span class="material-symbols-rounded">admin_panel_settings</span>
+            Administration &amp; Rapports
+        </div>
+        <div class="qa-grid">
+            <a href="<?= BASE_URL ?>?controller=Admin&action=snapshotBilan" class="qa-card qa-blue">
+                <span class="qa-icon material-symbols-rounded">bar_chart</span>
+                <span class="qa-label">Snapshot Fin de Mois</span>
+            </a>
+            <a href="<?= BASE_URL ?>?controller=Admin&action=auditKyc" class="qa-card qa-green">
+                <span class="qa-icon material-symbols-rounded">fact_check</span>
+                <span class="qa-label">Audit KYC</span>
+            </a>
+            <a href="<?= BASE_URL ?>?controller=Admin&action=auditLogs" class="qa-card qa-purple">
+                <span class="qa-icon material-symbols-rounded">security</span>
+                <span class="qa-label">Audit Sécurité</span>
+            </a>
+            <a href="<?= BASE_URL ?>?controller=Admin&action=managePlafonds" class="qa-card qa-orange">
+                <span class="qa-icon material-symbols-rounded">shield_lock</span>
+                <span class="qa-label">Gestion Plafonds</span>
+            </a>
+            <a href="<?= BASE_URL ?>?controller=Admin&action=manageClients" class="qa-card qa-teal">
+                <span class="qa-icon material-symbols-rounded">groups</span>
+                <span class="qa-label">Gestion Clients</span>
+            </a>
+            <a href="<?= BASE_URL ?>?controller=Admin&action=manageUsers" class="qa-card qa-navy">
+                <span class="qa-icon material-symbols-rounded">manage_accounts</span>
+                <span class="qa-label">Utilisateurs</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Section 2 : Opérations Caisse (Admin a accès intégral) -->
+    <div class="qa-section">
+        <div class="qa-section-title">
+            <span class="material-symbols-rounded">point_of_sale</span>
+            Opérations de Caisse &amp; Documents
+        </div>
+        <div class="qa-grid">
+            <a href="<?= BASE_URL ?>?controller=Caisse&action=depot" class="qa-card qa-green">
+                <span class="qa-icon material-symbols-rounded">account_balance_wallet</span>
+                <span class="qa-label">Dépôt</span>
+            </a>
+            <a href="<?= BASE_URL ?>?controller=Caisse&action=retrait" class="qa-card qa-red">
+                <span class="qa-icon material-symbols-rounded">payments</span>
+                <span class="qa-label">Retrait</span>
+            </a>
+            <a href="<?= BASE_URL ?>?controller=Caisse&action=transfert" class="qa-card qa-blue">
+                <span class="qa-icon material-symbols-rounded">sync_alt</span>
+                <span class="qa-label">Transfert</span>
+            </a>
+            <a href="<?= BASE_URL ?>?controller=Caisse&action=releve" class="qa-card qa-purple">
+                <span class="qa-icon material-symbols-rounded">receipt_long</span>
+                <span class="qa-label">Relevé de Compte</span>
+            </a>
+            <a href="<?= BASE_URL ?>?controller=Caisse&action=cloture" class="qa-card qa-orange">
+                <span class="qa-icon material-symbols-rounded">lock_clock</span>
+                <span class="qa-label">Session Caisse</span>
+            </a>
+            <a href="<?= BASE_URL ?>?controller=Caisse&action=simulation" class="qa-card qa-teal">
+                <span class="qa-icon material-symbols-rounded">savings</span>
+                <span class="qa-label">Simulation Épargne</span>
+            </a>
+            <a href="#" onclick="const num=prompt('Numéro de compte :');if(num)window.location.href='<?= BASE_URL ?>?controller=Caisse&action=rib&numero_compte='+num;" class="qa-card qa-navy">
+                <span class="qa-icon material-symbols-rounded">account_balance</span>
+                <span class="qa-label">Édition RIB</span>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<style>
+.qa-wrapper { display:flex; flex-direction:column; gap:20px; margin-bottom:28px; }
+.qa-section { background:#fff; border-radius:14px; padding:20px 22px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #f0f2f5; }
+.qa-section-title {
+    display:flex; align-items:center; gap:8px;
+    font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.5px;
+    color:#042e5a; margin-bottom:16px; padding-bottom:12px;
+    border-bottom:2px solid #f0f2f5;
+}
+.qa-section-title .material-symbols-rounded { font-size:18px; color:#042e5a; }
+.qa-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:12px; }
+.qa-card {
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:10px; padding:18px 10px; border-radius:12px; text-decoration:none;
+    transition:transform .18s ease, box-shadow .18s ease; cursor:pointer;
+    border:none; text-align:center; min-height:90px;
+}
+.qa-card:hover { transform:translateY(-4px); box-shadow:0 8px 20px rgba(0,0,0,.12); }
+.qa-icon { font-size:28px; transition:transform .18s ease; }
+.qa-card:hover .qa-icon { transform:scale(1.12); }
+.qa-label { font-size:12px; font-weight:700; line-height:1.3; }
+
+/* Couleurs */
+.qa-blue   { background:#e8f0fe; color:#1a56db; }
+.qa-green  { background:#e3fcef; color:#0a6640; }
+.qa-red    { background:#fde8e8; color:#b02a2a; }
+.qa-purple { background:#f0ebff; color:#6b21a8; }
+.qa-orange { background:#fff3e0; color:#c05621; }
+.qa-teal   { background:#e0f5f5; color:#0e7490; }
+.qa-navy   { background:#e8ecf4; color:#042e5a; }
+
+.qa-blue:hover   { background:#dae5fd; }
+.qa-green:hover  { background:#c6f7df; }
+.qa-red:hover    { background:#fcd5d5; }
+.qa-purple:hover { background:#e5d9ff; }
+.qa-orange:hover { background:#ffe8c1; }
+.qa-teal:hover   { background:#c0ecec; }
+.qa-navy:hover   { background:#d5ddf0; }
+</style>
+
+
+
 <!-- STAT CARDS -->
 <div class="stat-grid">
     <div class="stat-card stat-blue">

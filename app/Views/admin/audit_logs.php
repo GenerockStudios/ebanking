@@ -18,8 +18,8 @@ require_once VIEW_PATH . 'layout/header.php';
             <label>Type d'action</label>
             <select name="filter_type" class="form-control">
                 <option value="">Tous</option>
-                <option value="SUCCESS" <?= ($data['filter_type'] ?? '') === 'SUCCESS' ? 'selected' : '' ?>>Succes uniquement</option>
-                <option value="FAILURE" <?= ($data['filter_type'] ?? '') === 'FAILURE' ? 'selected' : '' ?>>Echecs uniquement</option>
+                <option value="SUCCESS" <?= ($data['filter_type'] ?? '') === 'SUCCESS' ? 'selected' : '' ?>>Succès uniquement</option>
+                <option value="FAILURE" <?= ($data['filter_type'] ?? '') === 'FAILURE' ? 'selected' : '' ?>>Échecs uniquement</option>
                 <option value="START"   <?= ($data['filter_type'] ?? '') === 'START'   ? 'selected' : '' ?>>Tentatives (START)</option>
             </select>
         </div>
@@ -28,6 +28,12 @@ require_once VIEW_PATH . 'layout/header.php';
             <label>Utilisateur</label>
             <input type="text" name="filter_user" class="form-control" placeholder="Identifiant..."
                    value="<?= htmlspecialchars($data['filter_user'] ?? '') ?>">
+        </div>
+
+        <div class="filter-group">
+            <label>Cible (Table)</label>
+            <input type="text" name="filter_table" class="form-control" placeholder="Clients, Comptes..."
+                   value="<?= htmlspecialchars($_GET['filter_table'] ?? '') ?>">
         </div>
 
         <div class="filter-group">
@@ -40,8 +46,19 @@ require_once VIEW_PATH . 'layout/header.php';
             <input type="date" name="date_fin" class="form-control" value="<?= htmlspecialchars($data['date_fin'] ?? '') ?>">
         </div>
 
-        <div class="filter-group" style="align-self:flex-end;">
-            <button type="submit" class="btn-filter">Filtrer</button>
+        <div class="filter-group" style="padding-top: 25px;">
+            <label style="display:inline-flex; align-items:center; cursor:pointer; font-size: 12px;">
+                <input type="checkbox" name="only_failures" style="margin-right:8px;" <?= isset($_GET['only_failures']) ? 'checked' : '' ?>>
+                Échecs uniquement
+            </label>
+        </div>
+
+        <div class="filter-group" style="align-self:flex-end; display:flex; gap:10px;">
+            <button type="submit" class="btn-filter"><i class="fas fa-search"></i> Filtrer</button>
+            <a href="<?= BASE_URL ?>?controller=Admin&action=securityAuditReport&date_debut=<?= $data['date_debut'] ?>&date_fin=<?= $data['date_fin'] ?><?= isset($_GET['only_failures']) ? '&only_failures=1' : '' ?>" 
+               class="btn-report" target="_blank">
+                <i class="fas fa-file-shield"></i> Rapport Expert
+            </a>
         </div>
     </form>
 </div>
@@ -51,7 +68,7 @@ require_once VIEW_PATH . 'layout/header.php';
 <?php endif; ?>
 
 <!-- Compteur -->
-<p class="log-count"><strong><?= count($data['logs'] ?? []) ?></strong> entrees trouvees.</p>
+<p class="log-count"><strong><?= count($data['logs'] ?? []) ?></strong> entrées trouvées pour cette période.</p>
 
 <!-- Tableau des logs -->
 <div class="table-scroll">
@@ -63,25 +80,25 @@ require_once VIEW_PATH . 'layout/header.php';
             <th>Utilisateur</th>
             <th>Action</th>
             <th>Table</th>
-            <th>Element</th>
-            <th>Details</th>
+            <th>Élément</th>
+            <th>Détails</th>
         </tr>
     </thead>
     <tbody>
     <?php if (empty($data['logs'])): ?>
-        <tr><td colspan="7" style="text-align:center;color:#999;padding:20px;">Aucun log pour cette periode.</td></tr>
+        <tr><td colspan="7" style="text-align:center;color:#999;padding:20px;">Aucun log pour cette période.</td></tr>
     <?php else: ?>
         <?php foreach ($data['logs'] as $log): ?>
         <?php
             $typeClass = 'log-neutral';
             if (strpos($log['type_action'], '_SUCCESS') !== false || strpos($log['type_action'], 'CLOTURE') !== false) $typeClass = 'log-success';
-            elseif (strpos($log['type_action'], '_FAILURE') !== false) $typeClass = 'log-failure';
+            elseif (strpos($log['type_action'], '_FAILURE') !== false || strpos($log['type_action'], 'ERROR') !== false) $typeClass = 'log-failure';
             elseif (strpos($log['type_action'], '_START') !== false) $typeClass = 'log-start';
         ?>
         <tr class="<?= $typeClass ?>">
             <td class="log-id"><?= htmlspecialchars($log['log_id']) ?></td>
             <td class="log-date"><?= htmlspecialchars(date('d/m/Y H:i:s', strtotime($log['date_heure']))) ?></td>
-            <td class="log-user"><?= htmlspecialchars($log['identifiant_utilisateur']) ?></td>
+            <td class="log-user"><?= htmlspecialchars($log['username'] ?? 'Système') ?></td>
             <td><span class="type-badge type-badge-<?= $typeClass ?>"><?= htmlspecialchars($log['type_action']) ?></span></td>
             <td><?= htmlspecialchars($log['table_affectee'] ?? '') ?></td>
             <td><?= htmlspecialchars($log['identifiant_element_affecte'] ?? '') ?></td>
@@ -101,6 +118,8 @@ require_once VIEW_PATH . 'layout/header.php';
 .form-control{padding:8px 12px;border:1.5px solid #dde;border-radius:8px;font-size:13px}
 .btn-filter{padding:9px 20px;background:#042e5a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600}
 .btn-filter:hover{background:#0a4a8a}
+.btn-report{padding:9px 15px;background:#28a745;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:8px}
+.btn-report:hover{background:#218838}
 .log-count{margin:10px 0;color:#555;font-size:14px}
 .table-scroll{overflow-x:auto}
 .log-table{width:100%;border-collapse:collapse;font-size:12px}

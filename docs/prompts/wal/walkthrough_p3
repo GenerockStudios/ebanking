@@ -1,0 +1,64 @@
+# Walkthrough - Detailed Account Statement
+
+The "Relevé de Compte Détaillé" feature has been implemented to provide professional, printable account statements for bank clients.
+
+## Key Accomplishments
+
+### 1. Robust Backend Calculation
+- **Mathematical Reconstruction**: Balance at the start of the period is calculated dynamically by reversing transactions from the current balance, avoiding the need for extra database tables.
+- **Accurate Filtering**: Transactions are retrieved strictly within the selected date range using optimized PDO queries.
+
+### 2. Professional Print Presentation
+- **Standard Banking Format**: The document follows traditional banking layouts with headers, summaries, and detailed transaction tables.
+- **Clean Printing**: Integrated CSS specifically hides browser headers/footers (URL, dates) and UI elements (buttons, filters) during print, ensuring an "official document" look on A4 paper.
+
+### 3. Security & Audit
+- **Access Control**: Restricted to 'Caissier' and 'Admin' roles.
+- **Audit Logging**: Every statement consultation is logged in `journal_audit` with the user ID and the target account number for compliance.
+
+---
+
+## Visual Demonstration
+
+### Relevé de Compte View
+The interface provides a clear filter bar and a summarized view of the account's health during the period.
+
+```html
+<!-- Example of the Summary Section -->
+<table class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th>Solde Initial (01/03/2026)</th>
+            <th>Total Débits (-)</th>
+            <th>Total Crédits (+)</th>
+            <th>Nouveau Solde (27/03/2026)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>150 000 FCFA</td>
+            <td>25 000 FCFA</td>
+            <td>50 000 FCFA</td>
+            <td>175 000 FCFA</td>
+        </tr>
+    </tbody>
+</table>
+```
+
+### Print Preview Result
+Clicking "Imprimer" generates a clean, border-framed official document without any browser clutter.
+
+![Official Document Style](file:///c:/xampp/htdocs/ebanking/public/img/print_preview_placeholder.png)
+> Note: The `.document-officiel` class applies a dual-lined header and a dotted signature box as required.
+
+---
+
+## How to Test
+1. Connect as a **Caissier**.
+2. Go to the **Tableau de Bord**.
+3. Click on **"Relevé de Compte Détaillé"**.
+4. Enter account number `10001234567` (replace with a real one from your DB).
+5. Select a date range.
+6. Click **Filtrer**.
+7. Click **Imprimer** and check the print preview (Ctrl+P).
+8. Verify in the database table `journal_audit` that the action was recorded.

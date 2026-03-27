@@ -21,17 +21,19 @@ class UserModel {
      */
     public function authenticate(string $identifier, string $password) {
         try {
-            // 1. Récupérer l'utilisateur et son hash de mot de passe
-            $stmt = $this->db->prepare("SELECT utilisateur_id, mot_de_passe_hash, nom_complet, role_id, est_actif 
-                                        FROM Utilisateurs 
-                                        WHERE identifiant = :identifiant");
-            $stmt->bindParam(':identifiant', $identifier);
+            // FIX: table name → lowercase 'utilisateurs'
+            $stmt = $this->db->prepare(
+                "SELECT utilisateur_id, mot_de_passe_hash, nom_complet, role_id, est_actif 
+                 FROM utilisateurs 
+                 WHERE identifiant = :identifiant"
+            );
+            $stmt->bindValue(':identifiant', $identifier, PDO::PARAM_STR);
             $stmt->execute();
             
-            $user = $stmt->fetch();
+            $user = $stmt->fetch(PDO::FETCH_OBJ);
 
             if ($user && $user->est_actif) {
-                // 2. Vérifier le mot de passe soumis avec le hash stocké
+                // Vérifier le mot de passe soumis avec le hash stocké
                 if (password_verify($password, $user->mot_de_passe_hash)) {
                     // Authentification réussie
                     return $user;
@@ -49,21 +51,24 @@ class UserModel {
     }
 
     /**
-     * Récupère le rôle d'un utilisateur
+     * Récupère le rôle d'un utilisateur.
      * @param int $userId L'ID de l'utilisateur.
      * @return string Le nom du rôle (ex: 'Caissier')
      */
     public function getUserRole(int $userId): string {
         try {
-            $stmt = $this->db->prepare("SELECT R.nom_role 
-                                        FROM Utilisateurs U
-                                        JOIN Roles R ON U.role_id = R.role_id 
-                                        WHERE U.utilisateur_id = :userId");
-            $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+            // FIX: table names → lowercase 'utilisateurs', 'roles'
+            $stmt = $this->db->prepare(
+                "SELECT r.nom_role 
+                 FROM utilisateurs u
+                 JOIN roles r ON u.role_id = r.role_id 
+                 WHERE u.utilisateur_id = :userId"
+            );
+            $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
             $stmt->execute();
             
             $result = $stmt->fetchColumn();
-            return $result ? $result : 'Invité'; // Rôle par défaut si non trouvé
+            return $result ? $result : 'Invité';
 
         } catch (\PDOException $e) {
             error_log("Erreur BDD lors de la récupération du rôle : " . $e->getMessage());
@@ -72,20 +77,23 @@ class UserModel {
     }
     
     /**
-     * Crée un nouvel utilisateur (méthode Admin)
+     * Crée un nouvel utilisateur (méthode Admin).
      * NOTE: Le mot de passe doit être haché avant l'insertion.
      */
     public function createUser(string $identifier, string $password, string $fullName, int $roleId): bool {
         try {
-            // Hachage du mot de passe FORT (Bcrypt recommandé)
+            // Hachage du mot de passe FORT (Bcrypt)
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT); 
             
-            $stmt = $this->db->prepare("INSERT INTO Utilisateurs (identifiant, mot_de_passe_hash, nom_complet, role_id) 
-                                        VALUES (:identifiant, :pass, :nom, :role_id)");
-            $stmt->bindParam(':identifiant', $identifier);
-            $stmt->bindParam(':pass', $hashedPassword);
-            $stmt->bindParam(':nom', $fullName);
-            $stmt->bindParam(':role_id', $roleId, PDO::PARAM_INT);
+            // FIX: table name → lowercase 'utilisateurs'
+            $stmt = $this->db->prepare(
+                "INSERT INTO utilisateurs (identifiant, mot_de_passe_hash, nom_complet, role_id) 
+                 VALUES (:identifiant, :pass, :nom, :role_id)"
+            );
+            $stmt->bindValue(':identifiant', $identifier,      PDO::PARAM_STR);
+            $stmt->bindValue(':pass',        $hashedPassword,  PDO::PARAM_STR);
+            $stmt->bindValue(':nom',         $fullName,        PDO::PARAM_STR);
+            $stmt->bindValue(':role_id',     $roleId,          PDO::PARAM_INT);
 
             return $stmt->execute();
             

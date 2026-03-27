@@ -10,12 +10,8 @@ class ClientFrontController {
     private $clientModel;
 
     public function __construct() {
-        // Le modèle de compte est nécessaire pour le solde et l'historique
         $this->compteModel = new CompteModel();
         $this->clientModel = new ClientModel();
-        
-        // Nous allons nous assurer que l'utilisateur est bien un client (rôle différent de 'Caissier'/'Admin')
-        // La vérification complète de la session client sera faite dans checkClientAuth
     }
 
     /**
@@ -25,22 +21,15 @@ class ClientFrontController {
         $data = ['title' => 'Connexion Client'];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // NOTE: En réalité, vous auriez une table et un modèle de connexion séparés pour les clients.
-            // Pour la simplicité, nous supposons qu'un client s'identifie par son Numéro de Compte et un Mot de Passe.
-            
             $numeroCompte = Sanitizer::cleanString($_POST['numero_compte'] ?? '');
-            $password = $_POST['mot_de_passe'] ?? ''; 
+            $password     = $_POST['mot_de_passe'] ?? ''; 
             
-            // --- Logique d'Authentification Client (Simplifiée) ---
-            // Le UserModel ou un ClientAuthModel devrait valider le couple (Numéro Compte / Mot de Passe)
             $clientAuthSuccessful = $this->validateClientCredentials($numeroCompte, $password);
             
             if ($clientAuthSuccessful) {
-                // Si succès, démarrer la session client
-                $_SESSION['client_logged_in'] = true;
-                $_SESSION['client_numero_compte'] = $numeroCompte;
+                $_SESSION['client_logged_in']      = true;
+                $_SESSION['client_numero_compte']  = $numeroCompte;
                 
-                // Redirection vers le tableau de bord client
                 header("Location: " . BASE_URL . "?controller=ClientFront&action=dashboard");
                 exit();
             } else {
@@ -48,7 +37,6 @@ class ClientFrontController {
             }
         }
         
-        // Charger la vue de connexion
         require_once VIEW_PATH . 'client_front/login.php';
     }
     
@@ -57,16 +45,12 @@ class ClientFrontController {
      */
     public function dashboard() {
         if (!$this->checkClientAuth()) {
-            return; // Redirige vers le login
+            return;
         }
         
-        $numeroCompte = $_SESSION['client_numero_compte'];
-        $data['title'] = "Tableau de Bord de Mon Compte";
-        
-        // 1. Récupérer le solde
-        $data['solde'] = $this->compteModel->getAccountBalance($numeroCompte);
-        
-        // 2. Récupérer l'historique des transactions (les 100 dernières, comme défini dans CompteModel)
+        $numeroCompte       = $_SESSION['client_numero_compte'];
+        $data['title']      = "Tableau de Bord de Mon Compte";
+        $data['solde']      = $this->compteModel->getAccountBalance($numeroCompte);
         $data['transactions'] = $this->compteModel->getAccountHistory($numeroCompte);
 
         require_once VIEW_PATH . 'client_front/dashboard.php';
@@ -97,14 +81,45 @@ class ClientFrontController {
     }
     
     /**
-     * SIMULATION de la validation des identifiants client (à remplacer par la logique BDD réelle).
+     * Valide les identifiants client via la base de données.
+     * FIX SÉCURITÉ CRITIQUE: Les credentials hardcodés ont été supprimés.
+     * Remplacés par une vérification PDO sécurisée avec password_verify().
+     * 
+     * NOTE: Cette méthode nécessite une table 'clients_access' avec les colonnes:
+     *   numero_compte VARCHAR(20), mot_de_passe_hash VARCHAR(255), est_actif TINYINT(1)
+     * Alternativement, ajouter mot_de_passe_hash directement dans la table clients.
      */
     private function validateClientCredentials(string $numeroCompte, string $password): bool {
-        // Pour l'exemple, supposons qu'un compte test (123456789012) a le mot de passe 'client123'.
-        // EN RÉALITÉ: Interroger une table Client_Access avec un hash de mot de passe.
-        if ($numeroCompte === '123456789012' && $password === 'client123') {
-            return true;
+        if (empty($numeroCompte) || empty($password)) {
+            return false;
         }
-        return false;
+
+        try {
+            $db = Database::getInstance()->getConnection();
+
+            // Vérification via la table clients_access (à créer si inexistante)
+            // La requête cherche un compte actif avec ce numéro
+            $stmt = $db->prepare(
+                "SELECT ca.mot_de_passe_hash
+                 FROM clients_access ca
+                 JOIN comptes c ON ca.compte_id = c.compte_id
+                 WHERE c.numero_compte = :num
+                   AND ca.est_actif = 1
+                 LIMIT 1"
+            );
+            $stmt->bindValue(':num', $numeroCompte, PDO::PARAM_STR);
+            $stmt->execute();
+            $hash = $stmt->fetchColumn();
+
+            if (!$hash) {
+                return false;
+            }
+
+            return password_verify($password, $hash);
+
+        } catch (\PDOException $e) {
+            error_log("validateClientCredentials error: " . $e->getMessage());
+            return false;
+        }
     }
 }

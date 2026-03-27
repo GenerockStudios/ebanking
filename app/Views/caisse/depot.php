@@ -13,7 +13,7 @@ require_once VIEW_PATH . 'layout/header.php';
         &mdash; Nouveau solde : <strong><?= number_format($data['new_balance'], 2, ',', ' ') ?> FCFA</strong>
     <?php endif; ?>
     <?php if (!empty($data['show_receipt'])): ?>
-        &nbsp;<a href="<?= BASE_URL ?>?controller=Caisse&action=recepisse" target="_blank" class="btn-receipt">Imprimer le reçu</a>
+        &nbsp;<a href="<?= BASE_URL ?>?controller=Caisse&action=recu&id=<?= $data['transaction_id'] ?>" target="_blank" class="btn-receipt">Imprimer le reçu officiel</a>
     <?php endif; ?>
 </div>
 <?php endif; ?>

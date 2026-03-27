@@ -1,0 +1,37 @@
+# Walkthrough: Account Limits Management and De-capping Contract
+
+I have implemented the "Gestion Experte et Contrat de Déplafonnement" feature, allowing Administrators to manage account limits and generate formal printable contracts.
+
+## Changes Made
+
+### Backend Implementation
+- **[PlafondModel.php](file:///c:/xampp/htdocs/ebanking/app/Models/PlafondModel.php)**: Created this model to manage the `plafonds_comptes` table. It handles fetching and updating limits for accounts.
+- **[AdminController.php](file:///c:/xampp/htdocs/ebanking/app/Controllers/AdminController.php)**: 
+    - Integrated the [PlafondModel](file:///c:/xampp/htdocs/ebanking/app/Models/PlafondModel.php#7-94).
+    - Added [managePlafonds](file:///c:/xampp/htdocs/ebanking/app/Controllers/AdminController.php#284-295) to list all accounts and their current limits.
+    - Added [editPlafond](file:///c:/xampp/htdocs/ebanking/app/Controllers/AdminController.php#296-319) and [updatePlafond](file:///c:/xampp/htdocs/ebanking/app/Controllers/AdminController.php#320-356) for modifying thresholds with strict validation and audit logging.
+    - Added [contratPlafond](file:///c:/xampp/htdocs/ebanking/app/Controllers/AdminController.php#357-392) to generate a formal, printable contract, also logged for audit purposes.
+
+### Frontend Implementation
+- **[manage_plafonds.php](file:///c:/xampp/htdocs/ebanking/app/Views/admin/manage_plafonds.php)**: A new administrative dashboard to oversee all account limits with search functionality.
+- **[edit_plafond.php](file:///c:/xampp/htdocs/ebanking/app/Views/admin/edit_plafond.php)**: A secure form geared towards modifying Daily Withdrawal, Daily Deposit, and Monthly Transfer limits.
+- **[contrat_plafond.php](file:///c:/xampp/htdocs/ebanking/app/Views/admin/contrat_plafond.php)**: A professional, printable A4 document designed to hide all browser-specific print artifacts (URLs, dates) while maintaining a premium look.
+- **[header.php](file:///c:/xampp/htdocs/ebanking/app/Views/layout/header.php)**: Integrated the new feature into the Admin sidebar under the label "Gestion Plafonds".
+
+## Verification Results
+
+### 1. Functional Testing
+- **Access Control**: Verified that only accounts with `role_id = 1` (Admin) can access the management routes.
+- **Limit Updates**: Successfully updated limits for an account and verified that the changes persisted in the database and were reflected in the UI.
+- **Audit Logging**: Confirmed that every update (`PLAFOND_UPDATE`) and contract viewing (`CONTRAT_PLAFOND_VIEW`) is correctly recorded in the `Journal_Audit` table with the administrator's ID and relevant details.
+
+### 2. Print Layout Verification
+- **Browser Artifacts**: The specific CSS reset for `@media print` ensures that the URL, date, and page numbers are removed from the browser's default print signature.
+- **Visual Excellence**: The contract layout includes a double-signature box, formal bank header, and clear identification of the account holder and new limits, meeting the "Paroxysme de qualité" requirement.
+
+### 3. Error Handling
+- **Invalid IDs**: Verified that attempting to edit a non-existent account redirects safely to the main list with a clear error message.
+- **Data Validation**: Verified that negative values or invalid account references are rejected during the update process.
+
+> [!IMPORTANT]
+> To test the print layout, navigate to **Gestion Plafonds**, click **Contrat** for any account, and then click **IMPRIMER LE CONTRAT** (or Ctrl+P). The print preview should be clean and professional.

@@ -1,6 +1,6 @@
 <?php
 /**
- * TransactionController
+ * TransactionModel.php
  * Gère les opérations financières (Dépôt, Retrait, Transfert) en garantissant l'atomicité (ACID).
  */
 
@@ -12,8 +12,7 @@ class TransactionModel {
 
     public function __construct() {
         $this->db = Database::getInstance()->getConnection();
-        // Les services critiques doivent être chargés
-        $this->auditLogger = new AuditLogger();
+        $this->auditLogger   = new AuditLogger();
         $this->plafondChecker = new PlafondChecker();
     }
 
@@ -22,36 +21,31 @@ class TransactionModel {
      * @param int $accountId ID du compte de destination.
      * @param float $amount Montant du dépôt.
      * @param int $userId ID de l'utilisateur/caissier initiateur.
-     * @return bool Vrai en cas de succès, Faux sinon.
+     * @return int|false ID de transaction en cas de succès, false sinon.
      */
-    public function faireDepot(int $accountId, float $amount, int $userId): bool {
+    public function faireDepot(int $accountId, float $amount, int $userId) {
         if ($amount <= 0) return false;
 
         $reference = $this->generateAndLogStart($userId, 'DEPOT', $accountId, $amount);
         if (!$reference) return false;
 
         try {
-            // 1. DÉMARRER LA TRANSACTION BDD (ACID)
             $this->db->beginTransaction();
 
-            // 2. Mettre à jour le solde du compte (CRÉDIT)
             $this->updateAccountBalance($accountId, $amount);
-
-            // 3. Enregistrer la transaction (compte source NULL pour un dépôt externe)
             $this->insertTransaction(null, $accountId, 'DEPOT', $amount, $userId, $reference);
             
-            // 4. VALIDER LA TRANSACTION
+            $lastId = $this->db->lastInsertId();
             $this->db->commit();
             
-            $this->auditLogger->logAction($userId, 'DEPOT_SUCCESS', 'Transactions', "Dépôt de {$amount} sur compte ID: {$accountId}.", (string)$accountId);
-            return true;
+            $this->auditLogger->logAction($userId, 'DEPOT_SUCCESS', 'transactions', "Dépôt de {$amount} sur compte ID: {$accountId}.", (string)$accountId);
+            return (int)$lastId;
 
         } catch (\Exception $e) {
-            // En cas d'erreur (conflit de BDD, échec de mise à jour), ANNULER
             if ($this->db->inTransaction()) {
                 $this->db->rollBack();
             }
-            $this->auditLogger->logAction($userId, 'DEPOT_FAILURE', 'Transactions', "Échec dépôt pour compte ID: {$accountId}. Erreur: {$e->getMessage()}", (string)$accountId);
+            $this->auditLogger->logAction($userId, 'DEPOT_FAILURE', 'transactions', "Échec dépôt pour compte ID: {$accountId}. Erreur: {$e->getMessage()}", (string)$accountId);
             error_log("DÉPÔT ÉCHEC: " . $e->getMessage());
             return false;
         }
@@ -62,9 +56,10 @@ class TransactionModel {
      * @param int $accountId ID du compte source.
      * @param float $amount Montant du retrait.
      * @param int $userId ID de l'utilisateur/caissier initiateur.
-     * @return bool Vrai en cas de succès, Faux sinon.
+     * @return int ID de transaction en cas de succès.
+     * @throws Exception En cas d'échec métier ou BDD.
      */
-    public function faireRetrait(int $accountId, float $amount, int $userId): bool {
+    public function faireRetrait(int $accountId, float $amount, int $userId) {
         if ($amount <= 0) throw new Exception("Montant invalide.");
         
         $reference = $this->generateAndLogStart($userId, 'RETRAIT', $accountId, $amount);
@@ -72,9 +67,10 @@ class TransactionModel {
         try {
             $this->db->beginTransaction();
 
+            // FIX: table name → lowercase 'comptes'
             // Verrouillage pessimiste (FOR UPDATE) : empêche toute autre écriture concurrente
-            $stmt = $this->db->prepare("SELECT solde, est_suspendu FROM Comptes WHERE compte_id = :id FOR UPDATE");
-            $stmt->bindParam(':id', $accountId, PDO::PARAM_INT);
+            $stmt = $this->db->prepare("SELECT solde, est_suspendu FROM comptes WHERE compte_id = :id FOR UPDATE");
+            $stmt->bindValue(':id', $accountId, PDO::PARAM_INT);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -83,7 +79,6 @@ class TransactionModel {
 
             $currentBalance = (float)$row['solde'];
 
-            // Vérifications Métier
             if ($currentBalance < $amount) {
                 throw new Exception("Solde insuffisant (Solde: " . number_format($currentBalance, 2) . ").");
             }
@@ -92,21 +87,19 @@ class TransactionModel {
                 throw new Exception("Plafond journalier de retrait dépassé.");
             }
 
-            // Mises à jour
             $this->updateAccountBalance($accountId, -$amount);
             $this->insertTransaction($accountId, null, 'RETRAIT', $amount, $userId, $reference);
             
+            $lastId = $this->db->lastInsertId();
             $this->db->commit();
-            $this->auditLogger->logAction($userId, 'RETRAIT_SUCCESS', 'Transactions', "Retrait de {$amount}", (string)$accountId);
-            return true;
+            $this->auditLogger->logAction($userId, 'RETRAIT_SUCCESS', 'transactions', "Retrait de {$amount}", (string)$accountId);
+            return (int)$lastId;
 
         } catch (\Exception $e) {
             if ($this->db->inTransaction()) {
                 $this->db->rollBack();
             }
-            //  On ne retourne pas false, on laisse l'exception remonter au Contrôleur
-            // pour qu'il puisse afficher le vrai message d'erreur.
-            $this->auditLogger->logAction($userId, 'RETRAIT_FAILURE', 'Transactions', "Echec: " . $e->getMessage(), (string)$accountId);
+            $this->auditLogger->logAction($userId, 'RETRAIT_FAILURE', 'transactions', "Echec: " . $e->getMessage(), (string)$accountId);
             throw $e; 
         }
     }
@@ -117,31 +110,32 @@ class TransactionModel {
      * @param int $destId ID du compte de destination (crédité).
      * @param float $amount Montant du transfert.
      * @param int $userId ID de l'utilisateur initiateur.
-     * @return bool Vrai en cas de succès, Faux sinon.
+     * @return int ID de transaction en cas de succès.
+     * @throws Exception En cas d'échec.
      */
-    public function faireTransfert(int $sourceId, int $destId, float $amount, int $userId): bool {
+    public function faireTransfert(int $sourceId, int $destId, float $amount, int $userId) {
         if ($amount <= 0 || $sourceId === $destId) return false;
 
-        $reference = $this->generateAndLogStart($userId, 'TRANSFERT_INT', $sourceId, $amount, (string)$destId);
+        // FIX: type → 'TRANSFERT' pour cohérence avec les données de seed du schéma
+        $reference = $this->generateAndLogStart($userId, 'TRANSFERT', $sourceId, $amount, (string)$destId);
         if (!$reference) return false;
 
         try {
             $this->db->beginTransaction();
 
+            // FIX: table name → lowercase 'comptes'
             // VERROUILLAGE PESSIMISTE : FOR UPDATE sur les deux comptes en ordre croissant d'ID
-            // pour éviter les deadlocks inter-threads.
             $lockIds = [$sourceId, $destId];
             sort($lockIds);
-            $stmt = $this->db->prepare("SELECT compte_id, solde, est_suspendu FROM Comptes WHERE compte_id IN (:id1, :id2) ORDER BY compte_id FOR UPDATE");
-            $stmt->bindParam(':id1', $lockIds[0], PDO::PARAM_INT);
-            $stmt->bindParam(':id2', $lockIds[1], PDO::PARAM_INT);
+            $stmt = $this->db->prepare("SELECT compte_id, solde, est_suspendu FROM comptes WHERE compte_id IN (:id1, :id2) ORDER BY compte_id FOR UPDATE");
+            $stmt->bindValue(':id1', $lockIds[0], PDO::PARAM_INT);
+            $stmt->bindValue(':id2', $lockIds[1], PDO::PARAM_INT);
             $stmt->execute();
-            $rows = $stmt->fetchAll(PDO::FETCH_KEY_PAIR); // [compte_id => solde] — utilise FETCH_ASSOC ci-dessous
 
-            // Re-fetch pour avoir toutes les colonnes
-            $stmt2 = $this->db->prepare("SELECT compte_id, solde, est_suspendu FROM Comptes WHERE compte_id IN (:id1, :id2)");
-            $stmt2->bindParam(':id1', $lockIds[0], PDO::PARAM_INT);
-            $stmt2->bindParam(':id2', $lockIds[1], PDO::PARAM_INT);
+            // Re-fetch pour avoir toutes les colonnes avec clé associative
+            $stmt2 = $this->db->prepare("SELECT compte_id, solde, est_suspendu FROM comptes WHERE compte_id IN (:id1, :id2)");
+            $stmt2->bindValue(':id1', $lockIds[0], PDO::PARAM_INT);
+            $stmt2->bindValue(':id2', $lockIds[1], PDO::PARAM_INT);
             $stmt2->execute();
             $accounts = [];
             foreach ($stmt2->fetchAll(PDO::FETCH_ASSOC) as $row) {
@@ -165,23 +159,22 @@ class TransactionModel {
                 throw new Exception("Plafond mensuel de transfert dépassé.");
             }
 
-            // DÉBITER la source
+            // FIX: type_transaction → 'TRANSFERT' (cohérent avec schéma et seed data)
             $this->updateAccountBalance($sourceId, -$amount);
-            // CRÉDITER la destination
             $this->updateAccountBalance($destId, $amount);
-            // Enregistrement unique liant source et destination
-            $this->insertTransaction($sourceId, $destId, 'TRANSFERT_INT', $amount, $userId, $reference);
+            $this->insertTransaction($sourceId, $destId, 'TRANSFERT', $amount, $userId, $reference);
 
+            $lastId = $this->db->lastInsertId();
             $this->db->commit();
 
-            $this->auditLogger->logAction($userId, 'TRANSFERT_SUCCESS', 'Transactions', "Transfert de {$amount} de {$sourceId} vers {$destId}.", (string)$sourceId);
-            return true;
+            $this->auditLogger->logAction($userId, 'TRANSFERT_SUCCESS', 'transactions', "Transfert de {$amount} de {$sourceId} vers {$destId}.", (string)$sourceId);
+            return (int)$lastId;
 
         } catch (\Exception $e) {
             if ($this->db->inTransaction()) {
                 $this->db->rollBack();
             }
-            $this->auditLogger->logAction($userId, 'TRANSFERT_FAILURE', 'Transactions', "Échec transfert. Raison: {$e->getMessage()}", (string)$sourceId);
+            $this->auditLogger->logAction($userId, 'TRANSFERT_FAILURE', 'transactions', "Échec transfert. Raison: {$e->getMessage()}", (string)$sourceId);
             error_log("TRANSFERT ÉCHEC: " . $e->getMessage());
             throw $e;
         }
@@ -189,45 +182,76 @@ class TransactionModel {
     
 
     /**
-     * Récupère le solde du compte pour une vérification immédiate et potentiellement un verrouillage.
-     * NOTE: En production, utiliser "SELECT ... FOR UPDATE" dans une transaction explicite si le SGBD le supporte.
-     */
-    private function getAccountBalanceForLock(int $accountId): float {
-        $stmt = $this->db->prepare("SELECT solde FROM Comptes WHERE compte_id = :id");
-        $stmt->bindParam(':id', $accountId, PDO::PARAM_INT);
-        $stmt->execute();
-        $solde = $stmt->fetchColumn();
-        if ($solde === false) throw new Exception("Compte source non trouvé.");
-        return (float)$solde;
-    }
-
-    /**
      * Met à jour le solde du compte de manière relative (ajouter ou soustraire).
      */
     private function updateAccountBalance(int $accountId, float $deltaAmount): bool {
-        $sql = "UPDATE Comptes SET solde = solde + :amount WHERE compte_id = :id";
+        // FIX: table name → lowercase 'comptes'
+        $sql = "UPDATE comptes SET solde = solde + :amount WHERE compte_id = :id";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':amount', $deltaAmount);
-        $stmt->bindParam(':id', $accountId, PDO::PARAM_INT);
+        $stmt->bindValue(':amount', $deltaAmount, PDO::PARAM_STR);
+        $stmt->bindValue(':id',     $accountId,   PDO::PARAM_INT);
         return $stmt->execute();
     }
     
     /**
-     * Insère un enregistrement dans la table Transactions.
+     * Insère un enregistrement dans la table transactions.
      */
     private function insertTransaction(?int $sourceId, ?int $destId, string $type, float $amount, int $userId, string $reference): bool {
-        $sql = "INSERT INTO Transactions (compte_source_id, compte_destination_id, type_transaction, montant, utilisateur_id, reference_externe)
+        // FIX: table name → lowercase 'transactions'
+        $sql = "INSERT INTO transactions (compte_source_id, compte_destination_id, type_transaction, montant, utilisateur_id, reference_externe)
                 VALUES (:source, :dest, :type, :montant, :userId, :reference)";
         $stmt = $this->db->prepare($sql);
 
-        $stmt->bindParam(':source', $sourceId, $sourceId === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
-        $stmt->bindParam(':dest', $destId, $destId === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
-        $stmt->bindParam(':type', $type);
-        $stmt->bindParam(':montant', $amount);
-        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-        $stmt->bindParam(':reference', $reference);
+        $stmt->bindValue(':source',    $sourceId,  $sourceId === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
+        $stmt->bindValue(':dest',      $destId,    $destId   === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
+        $stmt->bindValue(':type',      $type,      PDO::PARAM_STR);
+        $stmt->bindValue(':montant',   $amount,    PDO::PARAM_STR);
+        $stmt->bindValue(':userId',    $userId,    PDO::PARAM_INT);
+        $stmt->bindValue(':reference', $reference, PDO::PARAM_STR);
         
         return $stmt->execute();
+    }
+
+    /**
+     * Récupère les détails complets d'une transaction pour l'impression d'un reçu.
+     * @param int $transactionId ID de la transaction.
+     * @return object|null Objet contenant les détails ou null si introuvable.
+     */
+    public function getTransactionDetails(int $transactionId): ?object {
+        try {
+            // FIX: table names → lowercase 'transactions', 'comptes', 'clients', 'utilisateurs'
+            $sql = "SELECT 
+                        t.transaction_id, 
+                        t.type_transaction, 
+                        t.montant, 
+                        t.date_transaction, 
+                        t.reference_externe,
+                        t.compte_source_id,
+                        t.compte_destination_id,
+                        cs.numero_compte AS num_source,
+                        CONCAT(cls.nom, ' ', cls.prenom) AS client_source,
+                        cs.solde AS solde_source,
+                        cd.numero_compte AS num_dest,
+                        CONCAT(cld.nom, ' ', cld.prenom) AS client_dest,
+                        cd.solde AS solde_dest,
+                        u.nom_complet AS caissier_nom
+                    FROM transactions t
+                    LEFT JOIN comptes cs ON t.compte_source_id = cs.compte_id
+                    LEFT JOIN clients cls ON cs.client_id = cls.client_id
+                    LEFT JOIN comptes cd ON t.compte_destination_id = cd.compte_id
+                    LEFT JOIN clients cld ON cd.client_id = cld.client_id
+                    LEFT JOIN utilisateurs u ON t.utilisateur_id = u.utilisateur_id
+                    WHERE t.transaction_id = :id";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(':id', $transactionId, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            return $stmt->fetch(PDO::FETCH_OBJ) ?: null;
+        } catch (\PDOException $e) {
+            error_log("getTransactionDetails Error: " . $e->getMessage());
+            return null;
+        }
     }
 
     /**
@@ -238,11 +262,95 @@ class TransactionModel {
         $reference = $refGen->generateTransactionReference();
         
         try {
-             $this->auditLogger->logAction($userId, "{$type}_START", 'Transactions', "Tentative {$type} de {$amount}. Source: {$accountId}. Dest: {$destId}. Ref: {$reference}", (string)$accountId);
+             $this->auditLogger->logAction($userId, "{$type}_START", 'transactions', "Tentative {$type} de {$amount}. Source: {$accountId}. Dest: {$destId}. Ref: {$reference}", (string)$accountId);
              return $reference;
         } catch (\Exception $e) {
              error_log("ERREUR CRITIQUE: Impossible de logger le début de la transaction.");
              return false;
+        }
+    }
+
+    /**
+     * Récupère les transactions pour un relevé de compte sur une période donnée.
+     * @param int $accountId ID du compte.
+     * @param string $startDate Date de début (YYYY-MM-DD).
+     * @param string $endDate Date de fin (YYYY-MM-DD).
+     * @return array Liste des transactions.
+     */
+    public function getTransactionsForStatement(int $accountId, string $startDate, string $endDate): array {
+        try {
+            // FIX: table name → lowercase 'transactions'
+            $sql = "SELECT 
+                        t.transaction_id, 
+                        t.type_transaction, 
+                        t.montant, 
+                        t.date_transaction, 
+                        t.reference_externe,
+                        CASE 
+                            WHEN t.compte_source_id = :id THEN 'DEBIT'
+                            WHEN t.compte_destination_id = :id THEN 'CREDIT'
+                        END AS sens
+                    FROM transactions t
+                    WHERE (t.compte_source_id = :id OR t.compte_destination_id = :id)
+                      AND DATE(t.date_transaction) BETWEEN :start AND :end
+                    ORDER BY t.date_transaction ASC";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(':id',    $accountId, PDO::PARAM_INT);
+            $stmt->bindValue(':start', $startDate, PDO::PARAM_STR);
+            $stmt->bindValue(':end',   $endDate,   PDO::PARAM_STR);
+            $stmt->execute();
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            error_log("getTransactionsForStatement Error: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Calcule mathématiquement le solde à une date précise.
+     * @param int $accountId ID du compte.
+     * @param string $targetDate Date cible (YYYY-MM-DD).
+     * @return float Solde calculé.
+     */
+    public function calculateBalanceAtDate(int $accountId, string $targetDate): float {
+        try {
+            // FIX: table names → lowercase 'comptes', 'transactions'
+            $stmt = $this->db->prepare("SELECT solde FROM comptes WHERE compte_id = :id");
+            $stmt->bindValue(':id', $accountId, PDO::PARAM_INT);
+            $stmt->execute();
+            $currentBalance = (float)$stmt->fetchColumn();
+
+            $sql = "SELECT 
+                        compte_source_id, 
+                        compte_destination_id, 
+                        montant 
+                    FROM transactions 
+                    WHERE (compte_source_id = :id OR compte_destination_id = :id)
+                      AND date_transaction >= :target";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(':id',     $accountId,              PDO::PARAM_INT);
+            $stmt->bindValue(':target', $targetDate . ' 00:00:00', PDO::PARAM_STR);
+            $stmt->execute();
+            $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $calculatedBalance = $currentBalance;
+
+            foreach ($transactions as $t) {
+                if ((int)$t['compte_destination_id'] === $accountId) {
+                    $calculatedBalance -= (float)$t['montant'];
+                } elseif ((int)$t['compte_source_id'] === $accountId) {
+                    $calculatedBalance += (float)$t['montant'];
+                }
+            }
+
+            return $calculatedBalance;
+
+        } catch (\PDOException $e) {
+            error_log("calculateBalanceAtDate Error: " . $e->getMessage());
+            return 0.00;
         }
     }
 }

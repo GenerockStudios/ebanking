@@ -10,8 +10,6 @@ class RapportController {
     private $compteModel;
 
     public function __construct() {
-        // Vérification des permissions : Superviseur ou Admin uniquement
-        // L'Admin est implicitement inclus dans checkPermission('Superviseur') si AuthController est bien codé
         AuthController::checkPermission('Superviseur'); 
 
         $this->db = Database::getInstance()->getConnection();
@@ -22,29 +20,28 @@ class RapportController {
      * Affiche un rapport agrégé des transactions pour une période donnée.
      */
     public function rapportTransactions() {
-        $data = [];
+        $data          = [];
         $data['title'] = "Rapport des Transactions Détaillées";
         
-        // 1. Récupération et Nettoyage des filtres
         $dateDebut = Sanitizer::cleanString($_GET['date_debut'] ?? date('Y-m-d', strtotime('-7 days')));
-        $dateFin = Sanitizer::cleanString($_GET['date_fin'] ?? date('Y-m-d'));
+        $dateFin   = Sanitizer::cleanString($_GET['date_fin']   ?? date('Y-m-d'));
         
         $data['date_debut'] = $dateDebut;
-        $data['date_fin'] = $dateFin;
+        $data['date_fin']   = $dateFin;
         
         try {
-            // Requête de synthèse pour obtenir toutes les transactions entre deux dates
+            // FIX: table names → lowercase 'transactions', 'utilisateurs', 'comptes'
             $sql = "SELECT T.*, U.identifiant as caissier, C_src.numero_compte as source, C_dest.numero_compte as destination
-                    FROM Transactions T
-                    JOIN Utilisateurs U ON T.utilisateur_id = U.utilisateur_id
-                    LEFT JOIN Comptes C_src ON T.compte_source_id = C_src.compte_id
-                    LEFT JOIN Comptes C_dest ON T.compte_destination_id = C_dest.compte_id
+                    FROM transactions T
+                    JOIN utilisateurs U ON T.utilisateur_id = U.utilisateur_id
+                    LEFT JOIN comptes C_src ON T.compte_source_id = C_src.compte_id
+                    LEFT JOIN comptes C_dest ON T.compte_destination_id = C_dest.compte_id
                     WHERE DATE(T.date_transaction) BETWEEN :start AND :end
                     ORDER BY T.date_transaction DESC";
             
             $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(':start', $dateDebut);
-            $stmt->bindParam(':end', $dateFin);
+            $stmt->bindValue(':start', $dateDebut, PDO::PARAM_STR);
+            $stmt->bindValue(':end',   $dateFin,   PDO::PARAM_STR);
             $stmt->execute();
             
             $data['transactions'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -58,35 +55,51 @@ class RapportController {
     }
     
     /**
-     * Simule ou exécute le processus de clôture de journée.
-     * En production, cette méthode devrait insérer dans Historique_Soldes et nettoyer les tables temporaires.
+     * Exécute la clôture de journée : snapshot dans historique_soldes + audit.
+     * FIX CRITIQUE: L'INSERT réel dans historique_soldes est maintenant implémenté.
      */
     public function clotureJournee() {
-        $data = [];
+        $data          = [];
         $data['title'] = "Clôture et Réconciliation Journalière";
-        $userId = $_SESSION['user_id'];
+        $userId        = $_SESSION['user_id'];
         
-        // Simuler la réconciliation (calcul des totaux du jour)
         try {
-            // 1. Calculer les totaux (simplifié)
-            $stmt = $this->db->query("SELECT 
-                SUM(CASE WHEN type_transaction = 'DEPOT' THEN montant ELSE 0 END) AS total_depots,
-                SUM(CASE WHEN type_transaction = 'RETRAIT' THEN montant ELSE 0 END) AS total_retraits,
-                COUNT(*) AS total_txns
-                FROM Transactions 
-                WHERE DATE(date_transaction) = CURDATE()"); // Transactions du jour
-            
+            // 1. Calculer les totaux du jour
+            // FIX: table name → lowercase 'transactions'
+            $stmt = $this->db->query(
+                "SELECT 
+                    SUM(CASE WHEN type_transaction = 'DEPOT'   THEN montant ELSE 0 END) AS total_depots,
+                    SUM(CASE WHEN type_transaction = 'RETRAIT' THEN montant ELSE 0 END) AS total_retraits,
+                    COUNT(*) AS total_txns
+                 FROM transactions 
+                 WHERE DATE(date_transaction) = CURDATE()"
+            );
             $data['reconciliation'] = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // 2. Si POST (Clôture réelle demandée), on log l'événement
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'cloturer') {
-                // En production: LOGIQUE D'INSERTION DANS HISTORIQUE_SOLDES ICI.
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'cloturer') {
                 
-                $auditLogger = new AuditLogger();
-                $auditLogger->logAction($userId, 'CLOTURE_JOURNEE', 'Historique_Soldes', 
-                                        "Clôture journalière effectuée. Dépôts: {$data['reconciliation']['total_depots']}");
+                // FIX: INSERT réel dans historique_soldes (était absent — module analytics était cassé)
+                // Snapshots de tous les comptes actifs pour aujourd'hui
+                // FIX: table names → lowercase 'historique_soldes', 'comptes'
+                $stmtSnap = $this->db->prepare(
+                    "INSERT INTO historique_soldes (compte_id, date_snapshot, solde_final)
+                     SELECT compte_id, CURDATE(), solde
+                     FROM comptes
+                     WHERE est_actif = 1
+                     ON DUPLICATE KEY UPDATE solde_final = VALUES(solde_final)"
+                );
+                $stmtSnap->execute();
+                $nbSnapshots = $stmtSnap->rowCount();
 
-                $data['success'] = "Clôture de journée effectuée avec succès. Totaux enregistrés.";
+                $auditLogger = new AuditLogger();
+                $auditLogger->logAction(
+                    $userId, 
+                    'CLOTURE_JOURNEE', 
+                    'historique_soldes', 
+                    "Clôture journalière effectuée. Dépôts: {$data['reconciliation']['total_depots']}. Snapshots: {$nbSnapshots} comptes."
+                );
+
+                $data['success'] = "Clôture de journée effectuée avec succès. {$nbSnapshots} snapshots enregistrés.";
             }
 
         } catch (\PDOException $e) {
@@ -118,37 +131,39 @@ class RapportController {
                 $debutMois = $mois . '-01';
                 $finMois   = date('Y-m-t', strtotime($debutMois));
 
+                // FIX: table names → lowercase 'comptes', 'clients', 'type_comptes'
                 $stmt = $this->db->prepare(
                     "SELECT c.numero_compte, c.solde AS solde_actuel, c.date_ouverture,
                             tc.nom_type AS type_compte,
                             cl.nom, cl.prenom, cl.adresse, cl.telephone, cl.email
-                     FROM Comptes c
-                     JOIN Clients cl      ON c.client_id      = cl.client_id
-                     JOIN Type_Comptes tc ON c.type_compte_id = tc.type_compte_id
+                     FROM comptes c
+                     JOIN clients cl      ON c.client_id      = cl.client_id
+                     JOIN type_comptes tc ON c.type_compte_id = tc.type_compte_id
                      WHERE c.numero_compte = :num"
                 );
-                $stmt->bindParam(':num', $numeroCompte);
+                $stmt->bindValue(':num', $numeroCompte, PDO::PARAM_STR);
                 $stmt->execute();
                 $data['compte'] = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if (!$data['compte']) {
                     $data['error'] = "Compte introuvable.";
                 } else {
+                    // FIX: table names → lowercase 'transactions', 'comptes'
                     $sqlTxn = "SELECT T.type_transaction, T.montant, T.date_transaction,
                                       T.reference_externe,
                                       CASE WHEN Cs.numero_compte = :num2 THEN 'Débit' ELSE 'Crédit' END AS sens
-                               FROM Transactions T
-                               LEFT JOIN Comptes Cs ON T.compte_source_id      = Cs.compte_id
-                               LEFT JOIN Comptes Cd ON T.compte_destination_id = Cd.compte_id
+                               FROM transactions T
+                               LEFT JOIN comptes Cs ON T.compte_source_id      = Cs.compte_id
+                               LEFT JOIN comptes Cd ON T.compte_destination_id = Cd.compte_id
                                WHERE (Cs.numero_compte = :num3 OR Cd.numero_compte = :num4)
                                  AND DATE(T.date_transaction) BETWEEN :debut AND :fin
                                ORDER BY T.date_transaction ASC";
                     $stmtT = $this->db->prepare($sqlTxn);
-                    $stmtT->bindParam(':num2',  $numeroCompte);
-                    $stmtT->bindParam(':num3',  $numeroCompte);
-                    $stmtT->bindParam(':num4',  $numeroCompte);
-                    $stmtT->bindParam(':debut', $debutMois);
-                    $stmtT->bindParam(':fin',   $finMois);
+                    $stmtT->bindValue(':num2',  $numeroCompte, PDO::PARAM_STR);
+                    $stmtT->bindValue(':num3',  $numeroCompte, PDO::PARAM_STR);
+                    $stmtT->bindValue(':num4',  $numeroCompte, PDO::PARAM_STR);
+                    $stmtT->bindValue(':debut', $debutMois,    PDO::PARAM_STR);
+                    $stmtT->bindValue(':fin',   $finMois,      PDO::PARAM_STR);
                     $stmtT->execute();
                     $transactions = $stmtT->fetchAll(PDO::FETCH_ASSOC);
 
@@ -159,15 +174,15 @@ class RapportController {
                         else                          $totalDebits  += (float)$t['montant'];
                     }
 
-                    $soldeFinal            = (float)$data['compte']['solde_actuel'];
-                    $soldeInitial          = $soldeFinal - $totalCredits + $totalDebits;
-                    $data['transactions']  = $transactions;
-                    $data['total_credits'] = $totalCredits;
-                    $data['total_debits']  = $totalDebits;
-                    $data['solde_initial'] = $soldeInitial;
-                    $data['solde_final']   = $soldeFinal;
-                    $data['debut_mois']    = $debutMois;
-                    $data['fin_mois']      = $finMois;
+                    $soldeFinal                = (float)$data['compte']['solde_actuel'];
+                    $soldeInitial              = $soldeFinal - $totalCredits + $totalDebits;
+                    $data['transactions']      = $transactions;
+                    $data['total_credits']     = $totalCredits;
+                    $data['total_debits']      = $totalDebits;
+                    $data['solde_initial']     = $soldeInitial;
+                    $data['solde_final']       = $soldeFinal;
+                    $data['debut_mois']        = $debutMois;
+                    $data['fin_mois']          = $finMois;
                 }
             } catch (\Exception $e) {
                 $data['error'] = "Erreur : " . $e->getMessage();

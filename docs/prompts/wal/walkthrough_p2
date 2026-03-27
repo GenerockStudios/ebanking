@@ -1,0 +1,45 @@
+# Walkthrough: Transaction Receipt (Thermal/A4 Format)
+
+The Transaction Receipt feature is now fully implemented and integrated into the e-banking application. Cashiers can now generate and print professional, official receipts immediately after any financial operation (Deposit, Withdrawal, Transfer).
+
+## Changes Made
+
+### 1. Database & Model Enhancement
+- Added [getTransactionDetails(int $transactionId)](file:///c:/xampp/htdocs/ebanking/app/Models/TransactionModel.php#236-279) to [TransactionModel.php](file:///c:/xampp/htdocs/ebanking/app/Models/TransactionModel.php). This method performs complex joins to retrieve all necessary data for a comprehensive receipt, including client names and account balances.
+- Modified transaction methods ([faireDepot](file:///c:/xampp/htdocs/ebanking/app/Models/TransactionModel.php#20-60), [faireRetrait](file:///c:/xampp/htdocs/ebanking/app/Models/TransactionModel.php#61-115), [faireTransfert](file:///c:/xampp/htdocs/ebanking/app/Models/TransactionModel.php#116-192)) to return the generated `transaction_id`.
+
+### 2. Controller Logic
+- Added the [recu()](file:///c:/xampp/htdocs/ebanking/app/Controllers/CaisseController.php#237-278) action to [CaisseController.php](file:///c:/xampp/htdocs/ebanking/app/Controllers/CaisseController.php). 
+- Implemented **mandatory audit logging**: every time a receipt is generated, an entry is created in `journal_audit` with the user ID, transaction reference, and timestamp.
+- Added strict permission checks to ensure only authorized personnel can access the receipt.
+
+### 3. Professional Printable View
+- Created [app/Views/caisse/recu.php](file:///c:/xampp/htdocs/ebanking/app/Views/caisse/recu.php) with premium design:
+    - **Browser Signature Removal**: Used `@media print` CSS to explicitly hide margins, URLs, and timestamps usually added by browsers like Chrome or Edge.
+    - **Official Branding**: Includes a watermark, bank header, and structured sections for client and transaction details.
+    - **Dynamic Content**: Automatically adapts its layout based on the transaction type (Source/Destination accounts).
+    - **Security**: Shows the remaining balance and includes signature boxes for the client and cashier.
+
+## How to Verify
+
+### 1. Post-Operation Printing
+1. Log in as a **Caissier**.
+2. Perform a **Dépôt**, **Retrait**, or **Transfert**.
+3. In the success alert, click the new **"Imprimer le reçu officiel"** button.
+4. The receipt will open in a new tab.
+
+### 2. Print Layout Audit (CRITICAL)
+1. On the receipt page, click **"Lancer l'Impression"**.
+2. In the browser's print preview (Ctrl+P):
+    - Verify that **no headers (URL, Date)** or **footers (Page Number)** are visible.
+    - Verify that the **Sidebar and Navigation buttons** are hidden.
+    - Confirm the design fills the A4 page properly with appropriate margins.
+
+### 3. Audit Check
+1. Execute the following SQL query to confirm the action was logged:
+```sql
+SELECT * FROM journal_audit WHERE type_action = 'IMPRESSION_RECU' ORDER BY date_heure DESC LIMIT 1;
+```
+
+---
+The feature is ready for the jury presentation, demonstrating both functional completeness and attention to professional detail.

@@ -84,6 +84,10 @@ require_once VIEW_PATH . 'layout/header.php';
                 <?php endif; ?>
             </td>
             <td>
+                <a href="<?= BASE_URL ?>?controller=Admin&action=ficheClient&client_id=<?= $u['client_id'] ?>" 
+                   class="btn-fiche" title="Voir Fiche 360°">
+                    <i class="fas fa-file-invoice"></i> Fiche 360°
+                </a>
                 <form method="POST" action="<?= BASE_URL ?>?controller=Admin&action=suspendCompte"
                       onsubmit="return confirm('Confirmer cette action ?');" style="display:inline;">
                     <input type="hidden" name="compte_id"   value="<?= htmlspecialchars($u['compte_id']) ?>">
@@ -132,6 +136,8 @@ require_once VIEW_PATH . 'layout/header.php';
 .btn-suspendre:hover{background:#c82333}
 .btn-reactiver{padding:5px 12px;background:#28a745;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600}
 .btn-reactiver:hover{background:#1e7e34}
+.btn-fiche{display:inline-block;padding:5px 10px;background:#0056b3;color:#fff;border-radius:6px;text-decoration:none;font-size:12px;font-weight:600;margin-right:4px}
+.btn-fiche:hover{background:#004494}
 .empty-row{text-align:center;color:#999;padding:24px}
 </style>
 

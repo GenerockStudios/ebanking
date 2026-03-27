@@ -20,19 +20,20 @@ class ClientModel {
      */
     public function createClient(array $data) {
         try {
-            $sql = "INSERT INTO Clients (nom, prenom, date_naissance, adresse, telephone, email, numero_identite) 
+            // FIX: table name → lowercase 'clients' (Linux-safe)
+            $sql = "INSERT INTO clients (nom, prenom, date_naissance, adresse, telephone, email, numero_identite) 
                     VALUES (:nom, :prenom, :dob, :adresse, :tel, :email, :identite)";
             
             $stmt = $this->db->prepare($sql);
             
             // Les données sont supposées avoir été nettoyées par Sanitizer avant d'arriver ici
-            $stmt->bindParam(':nom', $data['nom']);
-            $stmt->bindParam(':prenom', $data['prenom']);
-            $stmt->bindParam(':dob', $data['date_naissance']);
-            $stmt->bindParam(':adresse', $data['adresse']);
-            $stmt->bindParam(':tel', $data['telephone']);
-            $stmt->bindParam(':email', $data['email']);
-            $stmt->bindParam(':identite', $data['numero_identite']);
+            $stmt->bindValue(':nom',      $data['nom'],             PDO::PARAM_STR);
+            $stmt->bindValue(':prenom',   $data['prenom'],          PDO::PARAM_STR);
+            $stmt->bindValue(':dob',      $data['date_naissance'],  PDO::PARAM_STR);
+            $stmt->bindValue(':adresse',  $data['adresse'],         PDO::PARAM_STR);
+            $stmt->bindValue(':tel',      $data['telephone'],       PDO::PARAM_STR);
+            $stmt->bindValue(':email',    $data['email'],           PDO::PARAM_STR);
+            $stmt->bindValue(':identite', $data['numero_identite'], PDO::PARAM_STR);
 
             if ($stmt->execute()) {
                 // Retourne l'ID de la dernière insertion (nécessaire pour créer le compte ensuite)
@@ -50,13 +51,14 @@ class ClientModel {
     /**
      * Récupère les informations d'un client.
      * @param int $clientId L'ID du client.
-     * @return object|false
+     * @return array|false
      */
     public function getClientInfo(int $clientId) {
-        $stmt = $this->db->prepare("SELECT * FROM Clients WHERE client_id = :id");
-        $stmt->bindParam(':id', $clientId, PDO::PARAM_INT);
+        // FIX: table name → lowercase 'clients'
+        $stmt = $this->db->prepare("SELECT * FROM clients WHERE client_id = :id");
+        $stmt->bindValue(':id', $clientId, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetch();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -69,14 +71,17 @@ class ClientModel {
      */
     public function addKycDocument(int $clientId, string $docType, string $fileRef, int $validatorId): bool {
         try {
-            $sql = "INSERT INTO Documents_KYC (client_id, type_document, reference_fichier, valide_par_utilisateur_id, est_valide)
-                    VALUES (:clientId, :docType, :fileRef, :validatorId, TRUE)";
+            // FIX: table name → lowercase 'documents_kyc'
+            // FIX: boolean TRUE → 1 (PDO::PARAM_INT) pour tinyint(1)
+            $sql = "INSERT INTO documents_kyc (client_id, type_document, reference_fichier, valide_par_utilisateur_id, est_valide)
+                    VALUES (:clientId, :docType, :fileRef, :validatorId, :estValide)";
             
             $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(':clientId', $clientId, PDO::PARAM_INT);
-            $stmt->bindParam(':docType', $docType);
-            $stmt->bindParam(':fileRef', $fileRef);
-            $stmt->bindParam(':validatorId', $validatorId, PDO::PARAM_INT);
+            $stmt->bindValue(':clientId',    $clientId,    PDO::PARAM_INT);
+            $stmt->bindValue(':docType',     $docType,     PDO::PARAM_STR);
+            $stmt->bindValue(':fileRef',     $fileRef,     PDO::PARAM_STR);
+            $stmt->bindValue(':validatorId', $validatorId, PDO::PARAM_INT);
+            $stmt->bindValue(':estValide',   1,            PDO::PARAM_INT); // FIX: 1 au lieu de TRUE
 
             return $stmt->execute();
             
@@ -86,5 +91,26 @@ class ClientModel {
         }
     }
 
-    // ... d'autres méthodes comme updateClient, getClientDocuments, etc.
+    /**
+     * Récupère la liste des documents KYC d'un client.
+     * @param int $clientId
+     * @return array
+     */
+    public function getClientDocuments(int $clientId): array {
+        try {
+            // FIX: table names → lowercase 'documents_kyc', 'utilisateurs'
+            $sql = "SELECT d.*, u.nom_complet as validateur 
+                    FROM documents_kyc d
+                    LEFT JOIN utilisateurs u ON d.valide_par_utilisateur_id = u.utilisateur_id
+                    WHERE d.client_id = :clientId
+                    ORDER BY d.date_validation DESC";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(':clientId', $clientId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            error_log("getClientDocuments error: " . $e->getMessage());
+            return [];
+        }
+    }
 }

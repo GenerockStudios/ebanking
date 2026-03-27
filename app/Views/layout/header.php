@@ -324,7 +324,270 @@ $roleName = $_SESSION['role_name'] ?? 'Invité';
 
 <body>
 
+    <!-- =============================================
+         PAGE LOADER PREMIUM — Banking Edition
+         Se déclenche au chargement ET à chaque nav.
+    ============================================= -->
+    <div id="page-loader">
+        <!-- Fond animé avec particules -->
+        <div class="loader-particles">
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+            <span></span><span></span>
+        </div>
+
+        <!-- Noyau central -->
+        <div class="loader-core">
+            <!-- Anneaux orbitaux -->
+            <div class="orbit orbit-1"><div class="orb"></div></div>
+            <div class="orbit orbit-2"><div class="orb"></div></div>
+            <div class="orbit orbit-3"><div class="orb"></div></div>
+
+            <!-- Logo central -->
+            <div class="loader-logo">
+                <span class="material-symbols-rounded">account_balance</span>
+            </div>
+        </div>
+
+        <!-- Texte status -->
+        <div class="loader-text">
+            <div class="loader-brand">E-BANKING PRO</div>
+            <div class="loader-status" id="loader-status">Chargement en cours…</div>
+        </div>
+
+        <!-- Barre de progression -->
+        <div class="loader-bar-track">
+            <div class="loader-bar-fill" id="loader-bar"></div>
+        </div>
+    </div>
+
+    <style>
+    /* ========== LOADER OVERLAY ========== */
+    #page-loader {
+        position: fixed; inset: 0; z-index: 99999;
+        background: linear-gradient(145deg, #021d3a 0%, #042e5a 50%, #0a4a8a 100%);
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: 28px;
+        transition: opacity .5s ease, visibility .5s ease;
+    }
+    #page-loader.hidden {
+        opacity: 0; visibility: hidden; pointer-events: none;
+    }
+
+    /* ---- Particules flottantes ---- */
+    .loader-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .loader-particles span {
+        position: absolute; display: block; border-radius: 50%;
+        background: rgba(255,255,255,.06);
+        animation: floatUp var(--d, 8s) var(--delay, 0s) infinite ease-in-out;
+    }
+    .loader-particles span:nth-child(1)  { width:60px;height:60px; left:10%;  --d:9s;  --delay:0s; }
+    .loader-particles span:nth-child(2)  { width:30px;height:30px; left:25%;  --d:7s;  --delay:1s; }
+    .loader-particles span:nth-child(3)  { width:80px;height:80px; left:70%;  --d:11s; --delay:2s; }
+    .loader-particles span:nth-child(4)  { width:20px;height:20px; left:85%;  --d:6s;  --delay:.5s; }
+    .loader-particles span:nth-child(5)  { width:50px;height:50px; left:40%;  --d:10s; --delay:3s; }
+    .loader-particles span:nth-child(6)  { width:15px;height:15px; left:55%;  --d:8s;  --delay:1.5s; }
+    .loader-particles span:nth-child(7)  { width:40px;height:40px; left:5%;   --d:12s; --delay:4s; }
+    .loader-particles span:nth-child(8)  { width:25px;height:25px; left:90%;  --d:7s;  --delay:2.5s; }
+    @keyframes floatUp {
+        0%   { transform: translateY(110vh) scale(.8); opacity: 0; }
+        10%  { opacity: 1; }
+        90%  { opacity: .5; }
+        100% { transform: translateY(-20vh) scale(1.2); opacity: 0; }
+    }
+
+    /* ---- Noyau central ---- */
+    .loader-core { position: relative; width: 130px; height: 130px; }
+
+    /* Anneaux orbitaux */
+    .orbit {
+        position: absolute; border-radius: 50%;
+        border: 2px solid transparent;
+    }
+    .orbit-1 {
+        inset: 0;
+        border-top-color: rgba(255,255,255,.9);
+        border-right-color: rgba(255,255,255,.3);
+        animation: spin1 1.4s linear infinite;
+    }
+    .orbit-2 {
+        inset: 14px;
+        border-bottom-color: rgba(96,181,255,.9);
+        border-left-color: rgba(96,181,255,.2);
+        animation: spin2 2s linear infinite;
+    }
+    .orbit-3 {
+        inset: 28px;
+        border-top-color: rgba(52,211,153,.9);
+        border-right-color: rgba(52,211,153,.2);
+        animation: spin1 2.8s linear infinite reverse;
+    }
+    @keyframes spin1 { to { transform: rotate(360deg); } }
+    @keyframes spin2 { to { transform: rotate(-360deg); } }
+
+    /* Point coloré sur chaque anneau */
+    .orb {
+        position: absolute; width: 8px; height: 8px;
+        border-radius: 50%; top: -4px; left: calc(50% - 4px);
+    }
+    .orbit-1 .orb { background: #fff; box-shadow: 0 0 10px #fff; }
+    .orbit-2 .orb { background: #60b5ff; box-shadow: 0 0 10px #60b5ff; }
+    .orbit-3 .orb { background: #34d399; box-shadow: 0 0 10px #34d399; }
+
+    /* Logo central */
+    .loader-logo {
+        position: absolute; inset: 42px;
+        background: rgba(255,255,255,.08);
+        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        backdrop-filter: blur(4px);
+        animation: pulseLogo 2s ease-in-out infinite;
+    }
+    .loader-logo .material-symbols-rounded { font-size: 26px; color: #fff; }
+    @keyframes pulseLogo {
+        0%,100% { transform: scale(1);   box-shadow: 0 0 0   0 rgba(255,255,255,.15); }
+        50%      { transform: scale(1.08); box-shadow: 0 0 0 12px rgba(255,255,255,0); }
+    }
+
+    /* ---- Texte ---- */
+    .loader-text { text-align: center; }
+    .loader-brand {
+        font-size: 20px; font-weight: 900; color: #fff;
+        letter-spacing: 4px; text-transform: uppercase;
+        margin-bottom: 6px;
+    }
+    .loader-status {
+        font-size: 13px; color: rgba(255,255,255,.55);
+        font-style: italic; letter-spacing: .5px;
+        animation: fadeStatus 2.5s ease-in-out infinite;
+    }
+    @keyframes fadeStatus {
+        0%,100% { opacity: .55; } 50% { opacity: 1; }
+    }
+
+    /* ---- Barre de progression ---- */
+    .loader-bar-track {
+        width: 260px; height: 3px;
+        background: rgba(255,255,255,.12);
+        border-radius: 3px; overflow: hidden;
+    }
+    .loader-bar-fill {
+        height: 100%; width: 0%;
+        background: linear-gradient(90deg, #34d399, #60b5ff, #fff);
+        border-radius: 3px;
+        animation: progressFill 1.8s ease-out forwards;
+        box-shadow: 0 0 8px rgba(52,211,153,.6);
+    }
+    @keyframes progressFill {
+        0%   { width: 0%; }
+        20%  { width: 35%; }
+        55%  { width: 68%; }
+        80%  { width: 85%; }
+        100% { width: 98%; }
+    }
+    </style>
+
+    <script>
+    (function() {
+        var loader    = document.getElementById('page-loader');
+        var statusEl  = document.getElementById('loader-status');
+        var barEl     = document.getElementById('loader-bar');
+
+        // Labels contextuels qui s'affichent pendant le chargement
+        var labels = [
+            'Initialisation sécurisée…',
+            'Vérification des droits d\'accès…',
+            'Chargement des données…',
+            'Connexion au serveur bancaire…',
+            'Chiffrement de la session…',
+            'Synchronisation en cours…',
+        ];
+
+        // Rotation des labels toutes les 600ms
+        var i = 0;
+        var labelTimer = setInterval(function() {
+            i = (i + 1) % labels.length;
+            if (statusEl) statusEl.textContent = labels[i];
+        }, 600);
+
+        // Cacher le loader dès que la page est prête, avec un délai artificiel
+        function hideLoader() {
+            setTimeout(function() {
+                clearInterval(labelTimer);
+                if (statusEl) statusEl.textContent = 'Prêt !';
+                if (barEl) {
+                    barEl.style.animation = 'none';
+                    barEl.style.width = '100%';
+                    barEl.style.transition = 'width .25s ease';
+                }
+                setTimeout(function() {
+                    if (loader) loader.classList.add('hidden');
+                }, 320);
+            }, 2000); // 2 secondes de délai minimum
+        }
+
+        if (document.readyState === 'complete') {
+            hideLoader();
+        } else {
+            window.addEventListener('load', hideLoader);
+            // Fallback : masquer après 5s max au lieu de 3.5s
+            setTimeout(hideLoader, 4000);
+        }
+
+        // Re-déclencher le loader à chaque clic de navigation interne
+        document.addEventListener('click', function(e) {
+            var anchor = e.target.closest('a');
+            if (!anchor) return;
+            var href = anchor.getAttribute('href');
+            if (!href || href === '#' || href.startsWith('javascript') || href.startsWith('mailto')) return;
+            if (anchor.target === '_blank') return;
+
+            // Retarder la navigation de 2 secondes
+            e.preventDefault();
+
+            // Afficher le loader
+            if (loader) loader.classList.remove('hidden');
+
+            // Remettre la barre à zéro
+            if (barEl) {
+                barEl.style.animation = 'none';
+                barEl.style.width = '0%';
+                void barEl.offsetWidth; // reflow
+                barEl.style.animation = 'progressFill 1.8s ease-out forwards';
+            }
+
+            // Label contextuel selon la destination
+            if (statusEl) {
+                if (href.indexOf('controller=Caisse') !== -1) {
+                    statusEl.textContent = 'Accès caisse…';
+                } else if (href.indexOf('controller=Admin') !== -1) {
+                    statusEl.textContent = 'Accès administration…';
+                } else if (href.indexOf('print') !== -1 || href.indexOf('imprimer') !== -1) {
+                    statusEl.textContent = 'Génération du document…';
+                } else {
+                    statusEl.textContent = 'Navigation en cours…';
+                }
+            }
+
+            // Sécurité : si la page ne charge pas en 5s, masquer quand même
+            setTimeout(function() {
+                if (loader && !loader.classList.contains('hidden')) {
+                    loader.classList.add('hidden');
+                }
+            }, 4000);
+
+            // Redirection effective après 2s (pour que l'animation s'apprécie)
+            setTimeout(function() {
+                window.location.href = href;
+            }, 2000);
+        });
+    })();
+    </script>
+    <!-- =============================================
+         FIN LOADER
+    ============================================= -->
+
     <aside class="sidebar collapsed">
+
         <!-- Sidebar header -->
         <header class="sidebar-header">
             <a href="#" class="header-logo">
@@ -359,7 +622,14 @@ $roleName = $_SESSION['role_name'] ?? 'Invité';
             <!-- Primary top nav -->
             <ul class="nav-list primary-nav">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <?php
+                        if ($roleName === 'Admin') {
+                            $dashUrl = BASE_URL . '?controller=Admin&action=analyticsDashboard';
+                        } else {
+                            $dashUrl = BASE_URL . '?controller=Caisse&action=dashboard';
+                        }
+                    ?>
+                    <a href="<?= $dashUrl ?>" class="nav-link">
                         <span class="nav-icon material-symbols-rounded">dashboard</span>
                         <span class="nav-label">Tableau de bord</span>
                     </a>
@@ -434,6 +704,20 @@ $roleName = $_SESSION['role_name'] ?? 'Invité';
                             <span class="nav-label">Journal Audit</span>
                         </a>
                         <span class="nav-tooltip">Journal Audit</span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= BASE_URL ?>?controller=Admin&action=auditKyc" class="nav-link">
+                            <span class="nav-icon material-symbols-rounded">fact_check</span>
+                            <span class="nav-label">Audit Conformité KYC</span>
+                        </a>
+                        <span class="nav-tooltip">Audit Conformité KYC</span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= BASE_URL ?>?controller=Admin&action=managePlafonds" class="nav-link">
+                            <span class="nav-icon material-symbols-rounded">shield_lock</span>
+                            <span class="nav-label">Gestion Plafonds</span>
+                        </a>
+                        <span class="nav-tooltip">Gestion Plafonds</span>
                     </li>
                 <?php endif; ?>
                 <?php if (in_array($roleName, ['Superviseur', 'Admin'])): ?>

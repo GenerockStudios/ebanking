@@ -15,6 +15,9 @@ require_once VIEW_PATH . 'layout/header.php';
 <?php if (isset($data['success'])): ?>
     <div class="alert-success">
         <strong>Succès!</strong> <?= htmlspecialchars($data['success']) ?>
+        <?php if (!empty($data['show_receipt'])): ?>
+        &nbsp;<a href="<?= BASE_URL ?>?controller=Caisse&action=recu&id=<?= $data['transaction_id'] ?>" target="_blank" class="btn-receipt">Imprimer le reçu officiel</a>
+    <?php endif; ?>
         <?php if (isset($data['new_balance'])): ?>
             <p>Nouveau solde du compte source : **<?= number_format($data['new_balance'], 2, ',', ' ') ?>**</p>
         <?php endif; ?>
