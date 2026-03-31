@@ -9,13 +9,7 @@ $rib    = $data['rib'];
 ?>
 
 <style>
-@media print {
-    @page { size: A4 portrait; margin: 1.5cm; }
-    .no-print { display: none !important; }
-    .sidebar, footer { display: none !important; }
-    .content { padding: 0 !important; box-shadow: none !important; width: 100% !important; padding-left: 0 !important; }
-    * { box-shadow: none !important; }
-}
+/* Layout impression A4 Portrait géré globalement par responsive-core.css .no-print */
 .no-print .page-actions { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
 .no-print .page-actions h2 { margin:0; color:#042e5a; font-size:1.4rem; font-weight:700; border:none; padding:0; }
 .btn-action {

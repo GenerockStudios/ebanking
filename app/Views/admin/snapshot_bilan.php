@@ -14,13 +14,7 @@ $globalEvol   = $data['global_evolution'] ?? 0;
 ?>
 
 <style>
-@media print {
-    @page { size: A4 landscape; margin: 1.5cm; }
-    .no-print { display: none !important; }
-    .sidebar, footer { display: none !important; }
-    .content { padding: 0 !important; box-shadow: none !important; width: 100% !important; padding-left: 0 !important; }
-    * { box-shadow: none !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-}
+/* Layout impression A4 Paysage géré globalement par responsive-core.css .no-print */
 .no-print .page-actions {
     display: flex; justify-content: space-between; align-items: center;
     margin-bottom: 20px; flex-wrap: wrap; gap: 12px;

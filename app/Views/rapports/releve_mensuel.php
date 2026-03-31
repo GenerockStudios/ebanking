@@ -28,7 +28,7 @@ require_once VIEW_PATH . 'layout/header.php';
 </div>
 
 <?php if (!empty($data['error'])): ?>
-<div class="alert-error"><?= htmlspecialchars($data['error']) ?></div>
+<script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($data['error']) ?>", 'error'));</script>
 <?php endif; ?>
 
 <?php if (!empty($data['compte'])): ?>
@@ -94,8 +94,9 @@ $moisLabel = date('F Y', strtotime($data['debut_mois']));
         </div>
     </div>
 
+    <div class="table-scroll-wrap">
     <!-- Tableau des mouvements -->
-    <table class="mvt-table">
+    <table class="mvt-table" style="min-width: 800px;">
         <thead>
             <tr>
                 <th>Date</th>
@@ -132,6 +133,7 @@ $moisLabel = date('F Y', strtotime($data['debut_mois']));
             </tr>
         </tfoot>
     </table>
+    </div>
 
     <div class="releve-footer">
         Document genere le <?= date('d/m/Y a H:i:s') ?> &mdash; EBANKING Systeme Bancaire
@@ -146,12 +148,8 @@ $moisLabel = date('F Y', strtotime($data['debut_mois']));
 <?php endif; ?>
 
 <style>
-@media print {
-    .no-print { display: none !important; }
-    .content { padding: 0 !important; box-shadow: none !important; }
-    .sidebar { display: none !important; }
-    body { font-size: 11px; }
-}
+/* Impression gérée par responsive-core.css .no-print */
+@media print { body { font-size: 11px; } }
 .form-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:20px}
 .filter-form{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}
 .filter-group{display:flex;flex-direction:column;gap:4px;min-width:180px}

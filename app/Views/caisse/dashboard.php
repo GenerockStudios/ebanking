@@ -1,184 +1,130 @@
 <?php
 /**
  * dashboard.php
- * Tableau de bord principal pour les utilisateurs connectés (Caissier/Superviseur/Admin).
- * Cette vue est chargée par CaisseController->dashboard().
- * Reçoit $data['title'] et $data['user_role'].
+ * Tableau de bord principal (Caissier/Superviseur/Admin).
  */
-
-// Inclure le header
 require_once VIEW_PATH . 'layout/header.php';
 
-// Déterminer le rôle de l'utilisateur pour personnaliser le contenu
-$roleName = $data['user_role'] ?? 'Utilisateur'; // Supposons que le contrôleur passe le nom du rôle
+$roleName = $data['user_role'] ?? 'Utilisateur';
 $identifiant = $_SESSION['identifiant'] ?? 'N/A';
 ?>
 
-<h2>Tableau de Bord</h2>
+<!-- FontAwesome pour les icônes du dashboard -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<hr>
-
-<div class="grid-container">
-    
-    <?php if (in_array($roleName, ['Caissier', 'Superviseur', 'Admin'])): ?>
-        <div class="card operation-card">
-            <h3>Opérations de Caisse</h3>
-            <ul>
-                <li><a href="<?= BASE_URL ?>?controller=Caisse&action=depot">💵 Dépôt d'Espèces</a></li>
-                <li><a href="<?= BASE_URL ?>?controller=Caisse&action=retrait">➖ Retrait d'Espèces</a></li>
-                <li><a href="<?= BASE_URL ?>?controller=Caisse&action=transfert">🔁 Transfert Interne</a></li>
-                <li><a href="<?= BASE_URL ?>?controller=Caisse&action=releve"><i class="fas fa-file-invoice"></i> Relevé de Compte Détaillé</a></li>
-                <li><a href="<?= BASE_URL ?>?controller=Caisse&action=cloture"><i class="fas fa-lock"></i> Clôture de Caisse (Session)</a></li>
-                <li><a href="<?= BASE_URL ?>?controller=Caisse&action=simulation"><i class="fas fa-chart-line"></i> Simulateur d'Épargne</a></li>
-                <li><a href="#" onclick="const num = prompt('Saisir le numéro de compte :'); if(num) window.location.href='<?= BASE_URL ?>?controller=Caisse&action=rib&numero_compte='+num;"><i class="fas fa-university"></i> Édition de RIB (RIB/IBAN)</a></li>
-            </ul>
+<div class="dashboard-wrapper">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:2px solid #f0f4f8; padding-bottom:12px; margin-bottom:24px;">
+        <div>
+            <h2>Tableau de Bord</h2>
+            <p style="color:#8792a2; font-size:14px; margin-top:4px;">Plateforme d'opérations &mdash; Session: <strong><?= htmlspecialchars($roleName) ?></strong></p>
         </div>
-    <?php endif; ?>
+    </div>
 
-    <?php if (in_array($roleName, ['Caissier', 'Admin'])): ?>
-        <div class="card client-card">
-            <h3>Gestion Client</h3>
-            <ul class="list-style-none">
-                <li><p>Ouvrir de nouveaux comptes <br> et gérer le KYC.</p></li>
-                <li><p> .</p></li>
-                <li><a href="<?= BASE_URL ?>?controller=Client&action=nouveauClient" class="btn-action">Créer Nouveau Client</a></li>
-            </ul>
-        </div>
-    <?php endif; ?>
+    <!-- Grille Responsive CSS : auto-fit minmax -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 24px;">
+        
+        <?php if (in_array($roleName, ['Caissier', 'Superviseur', 'Admin'])): ?>
+            <!-- Carte Opérations -->
+            <div class="dash-card">
+                <div class="dash-card-header">
+                    <div class="dash-icon" style="background:rgba(4, 46, 90, 0.1); color:#042e5a;"><i class="fa-solid fa-cash-register"></i></div>
+                    <h3>Guichet / Caisse</h3>
+                </div>
+                <div class="dash-card-body">
+                    <ul class="dash-menu">
+                        <li><a href="<?= BASE_URL ?>?controller=Caisse&action=depot"><i class="fa-solid fa-arrow-turn-down"></i> Dépôt d'Espèces</a></li>
+                        <li><a href="<?= BASE_URL ?>?controller=Caisse&action=retrait"><i class="fa-solid fa-arrow-turn-up"></i> Retrait d'Espèces</a></li>
+                        <li><a href="<?= BASE_URL ?>?controller=Caisse&action=transfert"><i class="fa-solid fa-right-left"></i> Transfert Interne</a></li>
+                        <li><a href="<?= BASE_URL ?>?controller=Caisse&action=releve"><i class="fa-solid fa-file-invoice"></i> Relevé Détaillé</a></li>
+                        <li><a href="<?= BASE_URL ?>?controller=Caisse&action=cloture" style="color:#dc3545;"><i class="fa-solid fa-lock"></i> Arrêté de Caisse</a></li>
+                    </ul>
+                    <hr style="border:0; border-top:1px solid #f0f0f0; margin:16px 0;">
+                    <ul class="dash-menu">
+                        <li><a href="<?= BASE_URL ?>?controller=Caisse&action=simulation"><i class="fa-solid fa-chart-line"></i> Simulateur d'Épargne</a></li>
+                        <li><a href="#" onclick="const num = prompt('Saisir le numéro de compte :'); if(num) window.location.href='<?= BASE_URL ?>?controller=Caisse&action=rib&numero_compte='+num;"><i class="fa-solid fa-university"></i> Édition de RIB</a></li>
+                    </ul>
+                </div>
+            </div>
+        <?php endif; ?>
 
-    <?php if (in_array($roleName, ['Superviseur', 'Admin'])): ?>
-        <div class="card report-card">
-            <h3>Supervision & Audit</h3>
-            <ul>
-                <li><a href="<?= BASE_URL ?>?controller=Rapport&action=rapportTransactions">📊 Rapport Transactions</a></li>
-                <li><a href="<?= BASE_URL ?>?controller=Rapport&action=clotureJournee">🔒 Clôture de Journée</a></li>
-                <?php if ($roleName === 'Admin'): ?>
-                    <li><a href="<?= BASE_URL ?>?controller=Admin&action=manageUsers">👑 Gestion Utilisateurs</a></li>
-                    <li><a href="<?= BASE_URL ?>?controller=Admin&action=manageClients">👑 Gestion Clients</a></li>
-                <?php endif; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
-    
+        <?php if (in_array($roleName, ['Caissier', 'Admin'])): ?>
+            <!-- Carte Gestion Client -->
+            <div class="dash-card">
+                <div class="dash-card-header">
+                    <div class="dash-icon" style="background:rgba(40, 167, 69, 0.1); color:#28a745;"><i class="fa-solid fa-users"></i></div>
+                    <h3>Gestion Client</h3>
+                </div>
+                <div class="dash-card-body" style="display:flex; flex-direction:column; justify-content:space-between; height:calc(100% - 60px);">
+                    <p style="color:#666; font-size:0.95rem; line-height:1.5;">Ouverture de nouveaux comptes clients et gestion de la conformité réglementaire (KYC).</p>
+                    <a href="<?= BASE_URL ?>?controller=Client&action=nouveauClient" class="btn-xl btn-primary" style="text-align:center; background:#28a745; margin-top:24px;">+ Nouveau Client</a>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <?php if (in_array($roleName, ['Superviseur', 'Admin'])): ?>
+            <!-- Carte Supervision -->
+            <div class="dash-card">
+                <div class="dash-card-header">
+                    <div class="dash-icon" style="background:rgba(108, 117, 125, 0.1); color:#6c757d;"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3>Supervision</h3>
+                </div>
+                <div class="dash-card-body">
+                    <ul class="dash-menu">
+                        <li><a href="<?= BASE_URL ?>?controller=Rapport&action=rapportTransactions"><i class="fa-solid fa-chart-pie"></i> Rapport Transactions</a></li>
+                        <li><a href="<?= BASE_URL ?>?controller=Rapport&action=clotureJournee"><i class="fa-solid fa-calendar-check"></i> Clôture de Journée</a></li>
+                        
+                        <?php if ($roleName === 'Admin'): ?>
+                            <hr style="border:0; border-top:1px solid #f0f0f0; margin:16px 0;">
+                            <li><a href="<?= BASE_URL ?>?controller=Admin&action=manageUsers" style="color:#042e5a; font-weight:600;"><i class="fa-solid fa-user-tie"></i> Gestion Staff</a></li>
+                            <li><a href="<?= BASE_URL ?>?controller=Admin&action=manageClients" style="color:#042e5a; font-weight:600;"><i class="fa-solid fa-address-book"></i> Base Clients 360</a></li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+        <?php endif; ?>
+
+    </div>
 </div>
 
-
 <style>
-/* Styles spécifiques pour le tableau de bord */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
+.dash-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
 }
-.card {
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    background-color: #fff;
+.dash-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #f8f9fa;
 }
-.card h3 {
-    margin-top: 0;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    color: #007bff;
+.dash-card-header h3 { font-size: 1.15rem; font-weight: 600; color: #1a1f36; margin: 0; }
+.dash-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
 }
-.btn-action {
-    display: block;
-    padding: 8px;
-    margin-top: 10px;
-    background-color: #28a745;
-    color: white;
-    text-align: center;
-    border-radius: 4px;
-    text-decoration: none;
+.dash-menu { list-style: none; padding: 0; margin: 0; }
+.dash-menu li { margin-bottom: 8px; }
+.dash-menu li:last-child { margin-bottom: 0; }
+.dash-menu a {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px;
+    text-decoration: none; color: #4a5568;
+    background: #f8fafc; border-radius: 8px;
+    font-weight: 500; font-size: 0.95rem;
+    transition: all 0.2s;
 }
-.btn-action:hover {
-    background-color: #1e7e34;
-}
-.operation-card ul, .report-card ul {
-    list-style: none;
-    padding: 0;
-}
-.operation-card li, .report-card li {
-    margin-bottom: 8px;
-    font-size: 18px;
-}
-.operation-card a, .report-card a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-}
-.operation-card a:hover, .report-card a:hover {
-    color: #007bff;
-}
-
-.list-style-none {
-    list-style: none;
-}
-
-
-@import url('https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css');
-  
-
-.grid-container {
-  width: min(75rem, 100%);
-  margin-inline: auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr));
-  gap: 2rem;
-}
-.card {
-  --grad: red, blue;
-  padding: 2.5rem;
-  background-image: linear-gradient(to bottom left, #ffffff, #f2f6f9);
-  border-radius: 2rem;
-  gap: 1.5rem;
-  display: grid;
-  grid-template: 'title icon' 'content content' 'bar bar' / 1fr auto;
-  font-family: system-ui, sans-serif;
-  color: #444447;
-  box-shadow: 
-    inset -2px 2px hsl(0 0 100% / 1),
-    -20px 20px 40px hsl(0 0 0 / .25) ;
-  
-  .title {
-    font-size: 1.5rem;
-    grid-area: title;
-    align-self: end;
-    text-transform: uppercase;
-    font-weight: 500;
-    word-break: break-all;
-    
-  }
-  .icon {
-    grid-area: icon;
-    font-size: 3rem;
-    
-    > i {
-      color: transparent;
-      background: linear-gradient(to right, var(--grad));
-      background-clip: text;
-    }
-  }
-  .content {
-    grid-area: content;
-    & > *:first-child { margin-top: 0rem}
-    & > *:last-child { margin-bottom: 0rem}
-  }
-  &::after {
-    content: "";
-    grid-area: bar;
-    height: 2px;
-    background-image: linear-gradient(90deg, var(--grad));
-/*     margin-inline: -1.5rem; */
-  }
-}
-
+.dash-menu a i { width: 20px; text-align: center; color: #8792a2; }
+.dash-menu a:hover { background: #f1f5f9; transform: translateX(4px); color: #042e5a; }
+.dash-menu a:hover i { color: inherit; }
 </style>
 
-<?php
-// Inclure le footer
-require_once VIEW_PATH . 'layout/footer.php';
-?>
+<?php require_once VIEW_PATH . 'layout/footer.php'; ?>

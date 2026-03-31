@@ -10,10 +10,10 @@ require_once VIEW_PATH . 'layout/header.php';
 <h2><?= $data['title'] ?? "Gestion des Utilisateurs" ?></h2>
 
 <?php if (isset($data['success'])): ?>
-    <div class="alert-success"><strong>Succès!</strong> <?= htmlspecialchars($data['success']) ?></div>
+    <script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($data['success']) ?>", 'success'));</script>
 <?php endif; ?>
 <?php if (isset($data['error'])): ?>
-    <div class="alert-error"><strong>Échec!</strong> <?= htmlspecialchars($data['error']) ?></div>
+    <script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($data['error']) ?>", 'error'));</script>
 <?php endif; ?>
 
 <!-- ===== Formulaire de création ===== -->
@@ -96,8 +96,8 @@ require_once VIEW_PATH . 'layout/header.php';
 <p class="result-count"><strong id="rowCount"><?= count($data['users'] ?? []) ?></strong> utilisateur(s) trouvé(s).</p>
 
 <!-- ===== Tableau des utilisateurs ===== -->
-<div class="table-scroll">
-    <table class="data-table" id="userTable">
+<div class="table-scroll-wrap">
+    <table class="data-table" id="userTable" style="min-width:800px;">
         <thead>
             <tr>
                 <th>#ID</th>
@@ -235,19 +235,30 @@ require_once VIEW_PATH . 'layout/header.php';
 
 /* ---- Filtres ---- */
 .filter-card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.07);
-    margin-bottom: 20px;
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
+    padding: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 24px;
 }
-.filter-form { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; }
-.filter-group { display: flex; flex-direction: column; gap: 4px; min-width: 160px; }
-.filter-group label { font-weight: 600; font-size: 13px; color: #444; }
-.form-control { padding: 8px 12px; border: 1.5px solid #dde; border-radius: 8px; font-size: 13px; }
-.btn-filter { padding: 9px 20px; background: #042e5a; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
-.btn-filter:hover { background: #0a4a8a; }
-.result-count { margin: 10px 0; color: #555; font-size: 14px; }
+.filter-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    align-items: end;
+}
+.filter-group { display: flex; flex-direction: column; gap: 8px; }
+.filter-group label { font-weight: 600; font-size: 13px; color: #64748b; }
+.form-control {
+    padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px;
+    font-size: 15px; color: #0f172a; outline: none; transition: border-color .2s;
+    width: 100%; box-sizing: border-box; min-height: 48px;
+}
+.form-control:focus { border-color: #635BFF; box-shadow: 0 0 0 3px rgba(99,91,255,0.1); }
+.btn-filter {
+    padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 15px;
+    cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+    gap: 8px; border: none; min-height: 48px; background: #042e5a; color: #fff; width: 100%;
+}
+.btn-filter:hover { background: #021d3a; }
+.result-count { margin: 10px 0; color: #64748b; font-size: 14px; }
 
 /* ---- Tableau ---- */
 .table-scroll { overflow-x: auto; }

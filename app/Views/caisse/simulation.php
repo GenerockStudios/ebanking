@@ -43,15 +43,15 @@ require_once VIEW_PATH . 'layout/header.php';
                 </div>
                 <div class="form-group">
                     <label>Placement Initial (FCFA)</label>
-                    <input type="number" id="capital_initial" class="form-control" placeholder="Ex: 500000" min="0" step="1000">
+                    <input type="tel" inputmode="numeric" id="capital_initial" class="form-control" placeholder="Ex: 500000" min="0" step="1000">
                 </div>
                 <div class="form-group">
                     <label>Versement Mensuel (FCFA)</label>
-                    <input type="number" id="versement_mensuel" class="form-control" placeholder="Ex: 50000" min="0" step="1000">
+                    <input type="tel" inputmode="numeric" id="versement_mensuel" class="form-control" placeholder="Ex: 50000" min="0" step="1000">
                 </div>
                 <div class="form-group">
                     <label>Durée (Mois)</label>
-                    <input type="number" id="duree_mois" class="form-control" placeholder="Nombre de mois" min="1" max="360" value="12">
+                    <input type="tel" inputmode="numeric" id="duree_mois" class="form-control" placeholder="Nombre de mois" min="1" max="360" value="12">
                 </div>
             </div>
             <div style="margin-top: 20px; text-align: right;">
@@ -118,18 +118,7 @@ require_once VIEW_PATH . 'layout/header.php';
 </div>
 
 <style>
-/* Reset de la signature navigateur */
-@media print {
-    @page { margin: 0; size: A4 portrait; }
-    body { padding: 1.5cm; margin: 0 !important; background: #fff !important; color: #000 !important; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-    .no-print, header, footer, .sidebar { display: none !important; }
-    .print-only { display: flex !important; }
-    * { box-shadow: none !important; text-shadow: none !important; -webkit-print-color-adjust: exact; }
-    .document-officiel { border: none; padding: 0; margin: 0; }
-    .table-simulation th { background-color: #f0f0f0 !important; color: #000 !important; border: 1px solid #ddd; }
-}
-
-/* Style UI Moderne */
+/* Style UI Moderne (Le reset print est géré dans responsive-core.css) */
 .simulation-view { padding: 30px; }
 .document-officiel {
     background: #fff;

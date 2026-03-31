@@ -48,14 +48,14 @@ require_once VIEW_PATH . 'layout/header.php';
     position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
     color: #8792a2; pointer-events: none;
 }
-.plafond-field input[type=number] {
+.plafond-field input[type=tel], .plafond-field input[type=number] {
     width: 100%; box-sizing: border-box;
     padding: 13px 14px 13px 44px;
     border: 1.5px solid #e3e8ee; border-radius: 8px;
     font-size: 16px; color: #1a1f36;
     transition: border-color 0.2s ease; outline: none;
 }
-.plafond-field input[type=number]:focus { border-color: #042e5a; }
+.plafond-field input[type=tel]:focus, .plafond-field input[type=number]:focus { border-color: #042e5a; }
 .field-hint { font-size: 11px; color: #aaa; margin-top: 5px; }
 .period-badge {
     display: inline-block; background: #e8eeff; color: #042e5a;
@@ -128,8 +128,7 @@ require_once VIEW_PATH . 'layout/header.php';
                 <label for="plafond_retrait">Plafond Retrait <span class="period-badge">Par Jour</span></label>
                 <div class="field-icon-wrapper">
                     <span class="icon material-symbols-rounded">payments</span>
-                    <input type="number" id="plafond_retrait" name="plafond_retrait_journalier"
-                           min="0" step="500"
+                    <input type="tel" inputmode="numeric" id="plafond_retrait" name="plafond_retrait_journalier"
                            value="<?= htmlspecialchars($data['plafond']['plafond_retrait_journalier'] ?? 0) ?>"
                            required>
                 </div>
@@ -140,8 +139,7 @@ require_once VIEW_PATH . 'layout/header.php';
                 <label for="plafond_depot">Plafond Dépôt <span class="period-badge">Par Jour</span></label>
                 <div class="field-icon-wrapper">
                     <span class="icon material-symbols-rounded">account_balance_wallet</span>
-                    <input type="number" id="plafond_depot" name="plafond_depot_journalier"
-                           min="0" step="500"
+                    <input type="tel" inputmode="numeric" id="plafond_depot" name="plafond_depot_journalier"
                            value="<?= htmlspecialchars($data['plafond']['plafond_depot_journalier'] ?? 0) ?>"
                            required>
                 </div>
@@ -152,8 +150,7 @@ require_once VIEW_PATH . 'layout/header.php';
                 <label for="plafond_transfert">Plafond Transfert <span class="period-badge">Par Mois</span></label>
                 <div class="field-icon-wrapper">
                     <span class="icon material-symbols-rounded">sync_alt</span>
-                    <input type="number" id="plafond_transfert" name="plafond_transfert_mensuel"
-                           min="0" step="1000"
+                    <input type="tel" inputmode="numeric" id="plafond_transfert" name="plafond_transfert_mensuel"
                            value="<?= htmlspecialchars($data['plafond']['plafond_transfert_mensuel'] ?? 0) ?>"
                            required>
                 </div>

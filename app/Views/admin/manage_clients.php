@@ -9,13 +9,13 @@ require_once VIEW_PATH . 'layout/header.php';
 <h2><?= htmlspecialchars($data['title'] ?? "Gestion des Clients") ?></h2>
 
 <?php if (isset($_GET['success'])): ?>
-<div class="alert-success"><strong>Succes!</strong> <?= htmlspecialchars($_GET['success']) ?></div>
+<script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($_GET['success']) ?>", 'success'));</script>
 <?php endif; ?>
 <?php if (isset($_GET['error'])): ?>
-<div class="alert-error"><strong>Erreur!</strong> <?= htmlspecialchars($_GET['error']) ?></div>
+<script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($_GET['error']) ?>", 'error'));</script>
 <?php endif; ?>
 <?php if (isset($data['success'])): ?>
-<div class="alert-success"><strong>Succes!</strong> <?= htmlspecialchars($data['success']) ?></div>
+<script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($data['success']) ?>", 'success'));</script>
 <?php endif; ?>
 
 <div class="top-actions">
@@ -45,8 +45,8 @@ require_once VIEW_PATH . 'layout/header.php';
 
 <p class="result-count"><strong id="rowCount"><?= count($data['users'] ?? []) ?></strong> client(s) trouvé(s).</p>
 
-<div class="table-scroll">
-<table class="client-table" id="clientTable">
+<div class="table-scroll-wrap">
+<table class="data-table" id="clientTable" style="min-width: 1000px;">
     <thead>
         <tr>
             <th>#ID</th>
@@ -110,35 +110,57 @@ require_once VIEW_PATH . 'layout/header.php';
 </div>
 
 <style>
-.filter-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:20px}
-.filter-form{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}
-.filter-group{display:flex;flex-direction:column;gap:4px;min-width:160px}
-.filter-group label{font-weight:600;font-size:13px;color:#444}
-.form-control{padding:8px 12px;border:1.5px solid #dde;border-radius:8px;font-size:13px}
-.btn-filter{padding:9px 20px;background:#042e5a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600}
-.btn-filter:hover{background:#0a4a8a}
-.result-count{margin:10px 0;color:#555;font-size:14px}
-.top-actions{margin-bottom:16px}
-.btn-action-green{display:inline-block;padding:9px 20px;background:#28a745;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px}
-.btn-action-green:hover{background:#1e7e34}
-.table-scroll{overflow-x:auto}
-.client-table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07)}
-.client-table th{background:#042e5a;color:#fff;padding:11px 12px;text-align:left;white-space:nowrap}
-.client-table td{padding:9px 12px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
-.client-table tr:hover td{background:#f9f9fb}
-.row-suspended td{background:#fff5f5}
-.compte-num{font-family:monospace;font-size:12px;color:#042e5a;font-weight:600}
-.montant-cell{text-align:right;font-weight:700}
-.text-muted{color:#999}
-.badge-active{background:#d4edda;color:#155724;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700}
-.badge-suspended{background:#f8d7da;color:#721c24;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700}
-.btn-suspendre{padding:5px 12px;background:#dc3545;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600}
-.btn-suspendre:hover{background:#c82333}
-.btn-reactiver{padding:5px 12px;background:#28a745;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600}
-.btn-reactiver:hover{background:#1e7e34}
-.btn-fiche{display:inline-block;padding:5px 10px;background:#0056b3;color:#fff;border-radius:6px;text-decoration:none;font-size:12px;font-weight:600;margin-right:4px}
-.btn-fiche:hover{background:#004494}
-.empty-row{text-align:center;color:#999;padding:24px}
+<style>
+/* Responsive Filter Card */
+.filter-card {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
+    padding: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 24px;
+}
+.filter-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    align-items: end;
+}
+.filter-group { display: flex; flex-direction: column; gap: 8px; }
+.filter-group label { font-weight: 600; font-size: 13px; color: #64748b; }
+.form-control {
+    padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px;
+    font-size: 15px; color: #0f172a; outline: none; transition: border-color .2s;
+    width: 100%; box-sizing: border-box; min-height: 48px;
+}
+.form-control:focus { border-color: #042e5a; box-shadow: 0 0 0 3px rgba(4,46,90,0.1); }
+.btn-filter {
+    padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 15px;
+    cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+    gap: 8px; border: none; min-height: 48px; background: #042e5a; color: #fff; width: 100%;
+}
+.btn-filter:hover { background: #021d3a; }
+
+.result-count { margin: 10px 0; color: #64748b; font-size: 14px; }
+.top-actions { margin-bottom: 16px; }
+.btn-action-green {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 20px; background: #28a745; color: #fff; border-radius: 8px;
+    text-decoration: none; font-weight: 600; font-size: 15px; min-height: 48px;
+}
+.btn-action-green:hover { background: #1e7e34; }
+
+/* Table overrides */
+.row-suspended td { background: #fff5f5 !important; }
+.compte-num { font-family: monospace; font-size: 13px; color: #042e5a; font-weight: 600; letter-spacing: 0.5px; }
+.montant-cell { text-align: right; font-weight: 700; font-family: monospace; font-size: 14px; }
+.text-muted { color: #64748b; }
+.badge-active { background: #d4edda; color: #155724; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+.badge-suspended { background: #f8d7da; color: #721c24; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+.btn-suspendre { padding: 8px 12px; background: #dc3545; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; min-width: 90px; }
+.btn-suspendre:hover { background: #c82333; }
+.btn-reactiver { padding: 8px 12px; background: #28a745; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; min-width: 90px; }
+.btn-reactiver:hover { background: #1e7e34; }
+.btn-fiche { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 12px; background: #0056b3; color: #fff; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; margin-right: 4px; min-width: 100px; }
+.btn-fiche:hover { background: #004494; }
+.empty-row { text-align: center; color: #8792a2; padding: 32px !important; }
+</style>
 </style>
 
 <script>

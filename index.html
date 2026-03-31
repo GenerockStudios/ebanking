@@ -1,14 +1,44 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-BANKING PRO | La Régionale Bank</title>
+
     <link rel="stylesheet" href="src/css/global.css">
     <link rel="stylesheet" href="src/css/aos.css">
+
+    <!-- Material Symbols (Local) -->
+    <style>
+        @font-face {
+            font-family: 'Material Symbols Rounded';
+            font-style: normal;
+            font-weight: 400;
+            src: url(src/font/materialssymbols.woff2) format('woff2');
+        }
+
+        .material-symbols-rounded {
+            font-family: 'Material Symbols Rounded';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+
     <script src="src/js/aos.js"></script>
     <script src="src/js/loader.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', {
             'packages': ['corechart']
@@ -17,289 +47,751 @@
 
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
-                ['Jour', 'Montants (XAF)'],
-                ['Lun', 1000],
-                ['Mar', 8170],
-                ['Mer', 300060],
-                ['Jeu', 3000],
-                ['Ven', 1200],
-                ['Sam', 103000],
-                ['Dim', 1500]
+                ['Jour', 'Flux (XAF)'],
+                ['Lun', 1250000],
+                ['Mar', 2800000],
+                ['Mer', 1850000],
+                ['Jeu', 3200000],
+                ['Ven', 4100000],
+                ['Sam', 2200000],
+                ['Dim', 500000]
             ]);
 
             var options = {
-                title: 'Transactions de la semaine',
+                title: 'Flux Journaliers (Simulation)',
                 curveType: 'function',
-                legend: {
-                    position: 'bottom'
-                },
-                width: 200,
-                height: 200
+                legend: { position: 'none' },
+                colors: ['#042e5a'],
+                backgroundColor: 'transparent',
+                chartArea: { width: '85%', height: '75%' },
+                hAxis: { textStyle: { color: '#666', fontSize: 10 } },
+                vAxis: { textStyle: { color: '#666', fontSize: 10 }, gridlines: { color: '#f0f0f0' } }
             };
 
             var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
             chart.draw(data, options);
         }
     </script>
-    <title>EBanking</title>
+
+    <style>
+        /* Modern Banking Theme Overrides */
+        :root {
+            --primary: #042e5a;
+            --secondary: #0a4a8a;
+            --accent: #28a745;
+            --text-main: #1a1f36;
+            --text-muted: #555;
+            --bg-light: #f4f6fa;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-top: 0;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary), #1a56db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Header */
+        .landing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-links .btn-portal {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(4, 46, 90, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-links .btn-portal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(4, 46, 90, 0.4);
+            color: #fff;
+        }
+
+        /* Hero */
+        .landing-main {
+            position: relative;
+            padding-bottom: 80px;
+        }
+
+        .landing-primary-title {
+            padding: 100px 5% 60px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .landing-primary-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: radial-gradient(circle at 50% 0%, #e8ecf4 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .landing-primary-title h2 {
+            font-size: 52px;
+            max-width: 900px;
+            margin: 0 auto 24px;
+            line-height: 1.15;
+        }
+
+        .landing-primary-title p {
+            font-size: 19px;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto 40px;
+        }
+
+        .start-link-container a.link-blue-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            padding: 16px 40px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.35);
+            transition: 0.3s;
+        }
+
+        .start-link-container a.link-blue-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(40, 167, 69, 0.45);
+        }
+
+        /* Mockup Live */
+        .operations-container {
+            max-width: 1200px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        .small-gray-block {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 320px;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .transaction-infos-container {
+            padding: 30px 24px;
+            border-bottom: 1px solid #f0f0f0;
+            flex: 1;
+        }
+
+        .operation-type {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #888;
+            display: block;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .deposit-from {
+            display: block;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .operation-amount {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 24px;
+        }
+
+        .ball-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .ball {
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+            }
+        }
+
+        .small-gray-block-bottom-container {
+            padding: 16px 24px;
+            background: #fafafa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .operation-details,
+        .operation-time {
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        /* Operations Presentation Focus */
+        .operations-presentation-first {
+            flex: 1;
+            min-width: 300px;
+            background: linear-gradient(135deg, var(--primary) 0%, #1a56db 100%);
+            color: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(4, 46, 90, 0.2);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .operations-presentation-first .font-text-2xl {
+            font-size: 36px;
+            font-weight: 800;
+            line-height: 1.2;
+            display: block;
+            margin-bottom: 30px;
+        }
+
+        .operations-presentation-first p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: auto;
+        }
+
+        .operations-presentation-first svg {
+            position: absolute;
+            right: -40px;
+            top: -40px;
+            width: 200px;
+            opacity: 0.1;
+        }
+
+        .operations-presentation-first svg.v2 {
+            right: auto;
+            left: -40px;
+            bottom: -40px;
+            top: auto;
+            width: 150px;
+        }
+
+        /* Chart Block */
+        .chart-element-presentation {
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Grid Sections */
+        .grid {
+            display: flex;
+            flex-direction: column;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .presentation-landing-container {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .presentation-landing-container:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .presentation-landing-description {
+            flex: 1;
+        }
+
+        .presentation-landing-description h3 {
+            font-size: 36px;
+            margin-bottom: 24px;
+        }
+
+        .presentation-landing-description p {
+            font-size: 17px;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .presentation-landing-description strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .presentation-landing-image-container {
+            flex: 1;
+            position: relative;
+        }
+
+        /* Blob decoration mapped to local/fixed image sizes */
+        .presentation-landing-image-container::before {
+            content: '';
+            position: absolute;
+            inset: -15px;
+            background: var(--accent);
+            border-radius: 30px;
+            z-index: -1;
+            transform: rotate(-3deg);
+            opacity: 0.15;
+            transition: transform 0.5s;
+        }
+
+        .presentation-landing-container:nth-child(even) .presentation-landing-image-container::before {
+            background: var(--secondary);
+            transform: rotate(3deg);
+        }
+
+        .presentation-landing-image-container:hover::before {
+            transform: rotate(0deg);
+        }
+
+        .presentation-landing-image-container img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Footer */
+        .main-footer {
+            background: var(--primary);
+            color: #fff;
+            padding: 80px 5% 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-section h4 {
+            color: #fff;
+            margin-bottom: 24px;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 14px;
+        }
+
+        .footer-section ul a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 15px;
+            display: inline-block;
+        }
+
+        .footer-section ul a:hover {
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+
+        @media (max-width: 900px) {
+
+            .presentation-landing-container,
+            .presentation-landing-container:nth-child(even) {
+                flex-direction: column;
+            }
+
+            .landing-primary-title h2 {
+                font-size: 38px;
+            }
+
+            .operations-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .small-gray-block,
+            .operations-presentation-first {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <header class="landing-header">
         <div class="logo-container">
-            <img src="src/svg/logo.svg" class="logo" />
-            <h3>EBanking</h3>
+            <span class="material-symbols-rounded"
+                style="color: var(--primary); font-size: 36px;">account_balance</span>
+            <h3 class="text-gradient">EBANKING</h3>
         </div>
         <ul class="nav-links">
-            <li><a href="src/php/login.php">Connexion</a></li>
-            <li><a href="src/php/register.php" class="bg-blue-900">Inscription &#8594;</a></li>
+            <li>
+                <a href="?controller=Auth&action=login" class="btn-portal">
+                    Connexion Portail <span class="material-symbols-rounded" style="font-size: 20px;">login</span>
+                </a>
+            </li>
         </ul>
     </header>
 
     <main class="landing-main">
-        <div class="landing-primary-title">
-            <h2>Bienvenue sur EBanking</h2>
-            <p>Votre plateforme de gestion des operations banquaire en ligne.</p>
+        <div class="landing-primary-title" data-aos="fade-up">
+            <h2 class="text-gradient">La nouvelle norme de la gestion bancaire digitale.</h2>
+            <p>Découvrez le portail professionnel de La Focep SA. Sécurisé, rapide, et conçu pour optimiser les
+                opérations de caisse et l'administration de nos agences.</p>
             <div class="start-link-container">
-                <a href="src/php/register.php" class="link-blue-button">Inscription &#8594;</a>
+                <a href="?controller=Auth&action=login" class="link-blue-button">
+                    Accéder au portail sécurisé <span class="material-symbols-rounded">arrow_forward</span>
+                </a>
             </div>
         </div>
 
-        <div class="operations-container flex justify-center gap-20">
-            <div class="small-gray-block" data-aos="fade-up">
-                <div class="w-full">
-                    <div class="transaction-infos-container">
-                        <div>
-                            <span class="operation-type">Virements</span>
+        <div class="operations-container">
+            <!-- Bloc Mockup Transaction -->
+            <div class="small-gray-block" data-aos="fade-up" data-aos-delay="100">
+                <div class="transaction-infos-container">
+                    <span class="operation-type">Dépôt Validé</span>
+                    <span class="deposit-from">Compte : Rx0012858</span>
+                    <span class="operation-amount">+ 250 000 FCFA</span>
 
-                            <span class="deposit-from">De Rx0012858 vers Rx126998</span>
-                            <div>
-                                <span class="operation-amount ">250.000 XAF</span>
-                            </div>
-                            <div class="ball-container">
-                                <div class="ball bl"></div>
-                            </div>
-                            <div class="flex justify-center">
-                                <svg fill="#000000" viewBox="0 0 24 24" id="check-mark-circle-2" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" class="icon flat-line animate-pulse check-mark-circle-2">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <polyline id="primary" points="21 5 12 14 8 10" style="fill: none; stroke: #00b324; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline>
-                                        <path id="primary-2" data-name="primary" d="M20.94,11A8.26,8.26,0,0,1,21,12a9,9,0,1,1-9-9,8.83,8.83,0,0,1,4,1" style="fill: none; stroke: #00b324; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
-                                    </g>
-                                </svg>
-
-                            </div>
-
-                        </div>
+                    <div class="ball-container">
+                        <div class="ball bl"></div>
                     </div>
 
-
-
-                    <div class="small-gray-block-bottom-container">
-                        <span class="operation-details">Frais 500xaf</span>
-                        <span class="operation-time">Il y a 5 minutes</span>
+                    <div style="display: flex; justify-content: center;">
+                        <svg fill="#000000" viewBox="0 0 24 24" id="check-mark-circle-2"
+                            xmlns="http://www.w3.org/2000/svg" style="width: 60px;">
+                            <polyline id="primary" points="21 5 12 14 8 10"
+                                style="fill: none; stroke: #28a745; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                            </polyline>
+                            <path id="primary-2" data-name="primary"
+                                d="M20.94,11A8.26,8.26,0,0,1,21,12a9,9,0,1,1-9-9,8.83,8.83,0,0,1,4,1"
+                                style="fill: none; stroke: #28a745; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                            </path>
+                        </svg>
                     </div>
-
                 </div>
-
+                <div class="small-gray-block-bottom-container">
+                    <span class="operation-details">Frais : 0 FCFA</span>
+                    <span class="operation-time">Il y a à l'instant</span>
+                </div>
             </div>
-            <div class="operations-presentation-first bg-blue-gradient" data-aos="zoom-in-right">
-                <span class="font-text-2xl">Dépots. Retraits. Virements</span>
-                <div>
-                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <circle style="fill:#e4a41b;" cx="256.005" cy="256.005" r="219.73"></circle>
-                            <g style="opacity:0.25;">
-                                <path style="fill:#e1da05;" d="M256,16c132.549,0,240,107.451,240,240S388.549,496,256,496S16,388.549,16,256 C16.15,123.514,123.514,16.15,256,16 M256,0C114.616,0,0,114.616,0,256s114.616,256,256,256s256-114.615,256-256S397.385,0,256,0z"></path>
-                            </g>
-                            <g>
-                                <path style="fill:#FFFFFF;" d="M261.424,91.752l-123.24,82.648h246.48L261.424,91.752z M261.424,152.744 c-7.512,0-13.6-6.089-13.6-13.6s6.089-13.6,13.6-13.6s13.6,6.089,13.6,13.6c-0.004,7.508-6.092,13.592-13.6,13.592V152.744z"></path>
-                                <rect x="128.935" y="322.357" style="fill:#FFFFFF;" width="264.965" height="25.825"></rect>
-                                <path style="fill:#FFFFFF;" d="M257.673,290.016v-10.584c-5.671-0.019-11.226-1.617-16.04-4.616l2.512-7.032 c4.495,2.922,9.735,4.489,15.096,4.512c7.44,0,12.48-4.296,12.48-10.272c0-5.768-4.088-9.328-11.856-12.48 c-10.696-4.192-17.296-9.016-17.296-18.136c0.129-8.872,6.987-16.191,15.832-16.896v-10.576h6.496v10.168 c4.772,0.045,9.454,1.309,13.6,3.672l-2.632,6.92c-3.992-2.38-8.561-3.615-13.208-3.568c-8.08,0-11.12,4.8-11.12,9.016 c0,5.456,3.88,8.185,13.008,11.952c10.799,4.408,16.248,9.856,16.248,19.2c-0.173,9.296-7.31,16.973-16.568,17.824v10.904h-6.6 L257.673,290.016z"></path>
-                                <rect x="156.003" y="196.994" style="fill:#FFFFFF;" width="25.824" height="101.492"></rect>
-                                <rect x="196.027" y="196.994" style="fill:#FFFFFF;" width="25.824" height="101.492"></rect>
-                                <rect x="301.003" y="196.994" style="fill:#FFFFFF;" width="25.825" height="101.492"></rect>
-                                <rect x="341.018" y="196.994" style="fill:#FFFFFF;" width="25.825" height="101.492"></rect>
-                            </g>
-                        </g>
-                    </svg>
 
+            <!-- Bloc Présentation Focus -->
+            <div class="operations-presentation-first" data-aos="zoom-in" data-aos-delay="200">
+                <span class="font-text-2xl">Dépôts. Retraits. <br>Transferts.</span>
 
-                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000" class="v2">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <circle style="fill:#e4a41b;" cx="256.005" cy="256.005" r="219.73"></circle>
-                            <g style="opacity:0.25;">
-                                <path style="fill:#e1da05;" d="M256,16c132.549,0,240,107.451,240,240S388.549,496,256,496S16,388.549,16,256 C16.15,123.514,123.514,16.15,256,16 M256,0C114.616,0,0,114.616,0,256s114.616,256,256,256s256-114.615,256-256S397.385,0,256,0z"></path>
-                            </g>
-                            <g>
-                                <path style="fill:#FFFFFF;" d="M261.424,91.752l-123.24,82.648h246.48L261.424,91.752z M261.424,152.744 c-7.512,0-13.6-6.089-13.6-13.6s6.089-13.6,13.6-13.6s13.6,6.089,13.6,13.6c-0.004,7.508-6.092,13.592-13.6,13.592V152.744z"></path>
-                                <rect x="128.935" y="322.357" style="fill:#FFFFFF;" width="264.965" height="25.825"></rect>
-                                <path style="fill:#FFFFFF;" d="M257.673,290.016v-10.584c-5.671-0.019-11.226-1.617-16.04-4.616l2.512-7.032 c4.495,2.922,9.735,4.489,15.096,4.512c7.44,0,12.48-4.296,12.48-10.272c0-5.768-4.088-9.328-11.856-12.48 c-10.696-4.192-17.296-9.016-17.296-18.136c0.129-8.872,6.987-16.191,15.832-16.896v-10.576h6.496v10.168 c4.772,0.045,9.454,1.309,13.6,3.672l-2.632,6.92c-3.992-2.38-8.561-3.615-13.208-3.568c-8.08,0-11.12,4.8-11.12,9.016 c0,5.456,3.88,8.185,13.008,11.952c10.799,4.408,16.248,9.856,16.248,19.2c-0.173,9.296-7.31,16.973-16.568,17.824v10.904h-6.6 L257.673,290.016z"></path>
-                                <rect x="156.003" y="196.994" style="fill:#FFFFFF;" width="25.824" height="101.492"></rect>
-                                <rect x="196.027" y="196.994" style="fill:#FFFFFF;" width="25.824" height="101.492"></rect>
-                                <rect x="301.003" y="196.994" style="fill:#FFFFFF;" width="25.825" height="101.492"></rect>
-                                <rect x="341.018" y="196.994" style="fill:#FFFFFF;" width="25.825" height="101.492"></rect>
-                            </g>
-                        </g>
-                    </svg>
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <circle style="fill:#e4a41b;" cx="256" cy="256" r="219.7"></circle>
+                    <g style="opacity:0.25;">
+                        <path style="fill:#e1da05;"
+                            d="M256,16c132.5,0,240,107.5,240,240S388.5,496,256,496S16,388.5,16,256 C16.1,123.5,123.5,16.2,256,16 M256,0C114.6,0,0,114.6,0,256s114.6,256,256,256s256-114.6,256-256S397.4,0,256,0z">
+                        </path>
+                    </g>
+                    <path style="fill:#fff;"
+                        d="M261.4,91.8l-123.2,82.6h246.5L261.4,91.8z M261.4,152.7c-7.5,0-13.6-6.1-13.6-13.6s6.1-13.6,13.6-13.6s13.6,6.1,13.6,13.6c0,7.5-6.1,13.6-13.6,13.6C261.4,152.7,261.4,152.7,261.4,152.7z">
+                    </path>
+                    <rect x="128.9" y="322.4" style="fill:#fff;" width="265" height="25.8"></rect>
+                    <rect x="156" y="197" style="fill:#fff;" width="25.8" height="101.5"></rect>
+                    <rect x="196" y="197" style="fill:#fff;" width="25.8" height="101.5"></rect>
+                    <rect x="301" y="197" style="fill:#fff;" width="25.8" height="101.5"></rect>
+                    <rect x="341" y="197" style="fill:#fff;" width="25.8" height="101.5"></rect>
+                </svg>
 
-                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000" class="v2">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <circle style="fill:#e4a41b;" cx="256.005" cy="256.005" r="219.73"></circle>
-                            <g style="opacity:0.25;">
-                                <path style="fill:#e1da05;" d="M256,16c132.549,0,240,107.451,240,240S388.549,496,256,496S16,388.549,16,256 C16.15,123.514,123.514,16.15,256,16 M256,0C114.616,0,0,114.616,0,256s114.616,256,256,256s256-114.615,256-256S397.385,0,256,0z"></path>
-                            </g>
-                            <g>
-                                <path style="fill:#FFFFFF;" d="M261.424,91.752l-123.24,82.648h246.48L261.424,91.752z M261.424,152.744 c-7.512,0-13.6-6.089-13.6-13.6s6.089-13.6,13.6-13.6s13.6,6.089,13.6,13.6c-0.004,7.508-6.092,13.592-13.6,13.592V152.744z"></path>
-                                <rect x="128.935" y="322.357" style="fill:#FFFFFF;" width="264.965" height="25.825"></rect>
-                                <path style="fill:#FFFFFF;" d="M257.673,290.016v-10.584c-5.671-0.019-11.226-1.617-16.04-4.616l2.512-7.032 c4.495,2.922,9.735,4.489,15.096,4.512c7.44,0,12.48-4.296,12.48-10.272c0-5.768-4.088-9.328-11.856-12.48 c-10.696-4.192-17.296-9.016-17.296-18.136c0.129-8.872,6.987-16.191,15.832-16.896v-10.576h6.496v10.168 c4.772,0.045,9.454,1.309,13.6,3.672l-2.632,6.92c-3.992-2.38-8.561-3.615-13.208-3.568c-8.08,0-11.12,4.8-11.12,9.016 c0,5.456,3.88,8.185,13.008,11.952c10.799,4.408,16.248,9.856,16.248,19.2c-0.173,9.296-7.31,16.973-16.568,17.824v10.904h-6.6 L257.673,290.016z"></path>
-                                <rect x="156.003" y="196.994" style="fill:#FFFFFF;" width="25.824" height="101.492"></rect>
-                                <rect x="196.027" y="196.994" style="fill:#FFFFFF;" width="25.824" height="101.492"></rect>
-                                <rect x="301.003" y="196.994" style="fill:#FFFFFF;" width="25.825" height="101.492"></rect>
-                                <rect x="341.018" y="196.994" style="fill:#FFFFFF;" width="25.825" height="101.492"></rect>
-                            </g>
-                        </g>
-                    </svg>
-                </div>
                 <p>
-                    L'EBanking révolutionne vos transactions: effectuez des dépôts et retraits instantanés, ainsi que des transferts vers des tiers, le tout dans un environnement cybersécurisé garantissant une simplicité d'utilisation maximale depuis votre appareil.
+                    L'E-Banking révolutionne les transactions de guichet. Effectuez des dépôts et retraits instantanés,
+                    avec génération automatique de reçus PDF, dans un environnement métier cybersécurisé par rôles
+                    (Admin / Caissier).
                 </p>
-
             </div>
 
-            <div class="small-gray-block" data-aos="fade-down">
-                <div class="chart-element-presentation">
-                    <div id="curve_chart"></div>
+            <!-- Bloc Graphique -->
+            <div class="small-gray-block" data-aos="fade-left" data-aos-delay="300">
+                <div class="chart-element-presentation" style="width: 100%;">
+                    <div id="curve_chart" style="width: 100%; height: 250px;"></div>
+                    <div style="font-size: 13px; font-weight: 700; color:#042e5a; margin-top:10px;">Suivi Analytique
+                        (Admin)</div>
                 </div>
             </div>
-
         </div>
 
-        <div class="grid justify-center">
+        <div class="grid">
+            <!-- Section 1 -->
             <div class="presentation-landing-container" data-aos="fade-up">
-                <div class="presentation-landing-description" data-aos="fade-up">
-                    <h3>Qui sommes nous ?</h3>
+                <div class="presentation-landing-description">
+                    <h3>Qui sommes-nous ?</h3>
                     <p>
-                        Nous sommes l'équipe de développement web dédiée au projet EBanking, une initiative stratégique pour La Régionale Bank. Face aux méthodes traditionnelles qui ralentissent l'efficacité, notre mission, née d'un stage de BTS en Génie Logiciel, est d'opérer une transition numérique essentielle.
-                        <br>
-                        <br>
-                         <strong>Notre Mission</strong> : Sécurité et Simplicité <br>
-                        <strong>Notre objectif est clair</strong> : remplacer les registres papier et les processus semi-automatisés par un Système d'Information de Gestion Financière (SIGF) moderne. 
-                        <br>
-                    <br>
-                    <strong>En bref </strong> : Nous sommes les garants d'une expérience bancaire sécurisée, rapide et 100% digitale pour les opérations courantes de La Régionale Bank.
+                        Nous sommes l'équipe de développement web experte dédiée au projet <strong>E-BANKING
+                            PRO</strong>, une initiative stratégique pour La Régionale Bank (Cameroun). Face aux
+                        méthodes traditionnelles qui ralentissent l'efficacité des employés et des processus, notre
+                        mission est de fournir une solution logicielle métier complète.
+                        <br><br>
+                        <strong>Notre Mission</strong> : Remplacer les registres papier et les processus
+                        semi-automatisés par un Système d'Information de Gestion Financière (SIGF) centralisé et
+                        ultra-moderne.
                     </p>
+                    <br>
+                    <a href="?controller=Auth&action=login"
+                        style="color: var(--primary); font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                        Découvrir <span class="material-symbols-rounded">arrow_forward</span>
+                    </a>
                 </div>
-                <div class="presentation-landing-image-container" data-aos="fade-up">
-                    <img src="src/images/whoareyou.jpg" alt="" srcset="">
+                <div class="presentation-landing-image-container">
+                    <img src="src/images/whoareyou.jpg" alt="Equipe EBanking Projet">
                 </div>
             </div>
 
+            <!-- Section 2 -->
             <div class="presentation-landing-container" data-aos="fade-up">
-                <div class="presentation-landing-image-container" data-aos="fade-up">
-                    <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Nos Services" style="object-fit: cover;">
+                <div class="presentation-landing-image-container">
+                    <img src="src/images/photo-1563986768609-322da13575f3.avif"
+                        alt="Nos Services" style="object-fit: cover;">
                 </div>
-                <div class="presentation-landing-description" data-aos="fade-up">
-                    <h3>Nos Services Digitaux</h3>
+                <div class="presentation-landing-description">
+                    <h3>Supervision Stratégique</h3>
                     <p>
-                        Nous sommes l'équipe de développement web dédiée au projet EBanking, une initiative stratégique pour La Régionale Bank. Face aux méthodes traditionnelles qui ralentissent l'efficacité, notre mission, née d'un stage de BTS en Génie Logiciel, est d'opérer une transition numérique essentielle.
-                        <br>
-                        <br>
-                         <strong>Notre Mission</strong> : Sécurité et Simplicité <br>
-                        <strong>Notre objectif est clair</strong> : remplacer les registres papier et les processus semi-automatisés par un Système d'Information de Gestion Financière (SIGF) moderne. 
-                        <br>
-                    <br>
-                    <strong>En bref </strong> : Nous sommes les garants d'une expérience bancaire sécurisée, rapide et 100% digitale pour les opérations courantes de La Régionale Bank.
+                        L'administration bénéficie d'une vue à 360° sur l'activité financière. De la gestion dynamique
+                        des plafonds (Contrats de déplafonnement) à la surveillance pointue des conformités KYC, chaque
+                        action est tracée, auditable, et synthétisée.
+                        <br><br>
+                        <strong>Fonctionnalités avancées</strong> : Les administrateurs peuvent consolider des rapports
+                        "Snapshot Fin de Mois", comparer le M vs M-1, et suivre l'évolution stricte de la masse
+                        financière encapsulée.
                     </p>
                 </div>
             </div>
 
-            
+            <!-- Section 3 -->
             <div class="presentation-landing-container" data-aos="fade-up">
-                <div class="presentation-landing-description" data-aos="fade-up">
-                    <h3>Sécurité de Pointe & Mobilité</h3>
+                <div class="presentation-landing-description">
+                    <h3>Sécurité Maximale & RBAC</h3>
                     <p>
-                        Nous sommes l'équipe de développement web dédiée au projet EBanking, une initiative stratégique pour La Régionale Bank. Face aux méthodes traditionnelles qui ralentissent l'efficacité, notre mission, née d'un stage de BTS en Génie Logiciel, est d'opérer une transition numérique essentielle.
-                        <br>
-                        <br>
-                         <strong>Notre Mission</strong> : Sécurité et Simplicité <br>
-                        <strong>Notre objectif est clair</strong> : remplacer les registres papier et les processus semi-automatisés par un Système d'Information de Gestion Financière (SIGF) moderne. 
-                        <br>
-                    <br>
-                    <strong>En bref </strong> : Nous sommes les garants d'une expérience bancaire sécurisée, rapide et 100% digitale pour les opérations courantes de La Régionale Bank.
+                        Conçu spécifiquement pour répondre aux exigences comptables, le portail intègre un système
+                        robuste de permissions. Le Contrôle d'Accès Basé sur les Rôles (RBAC) garantit qu'un caissier et
+                        un administrateur opèrent chacun dans leur périmètre autorisé.
+                        <br><br>
+                        <strong>Traçabilité</strong> : Chaque connexion, transfert ou modification entraîne une
+                        journalisation sécurisée (Audit Logs), protégeant ainsi La Régionale Bank des menaces internes
+                        et assurant l'intégrité de la base de données.
                     </p>
                 </div>
-                <div class="presentation-landing-image-container" data-aos="fade-up">
-                    <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Sécurité Mobile" style="object-fit: cover;">
+                <div class="presentation-landing-image-container">
+                    <img src="src/images/photo-1556742044-3c52d6e88c62.avif"
+                        alt="Sécurité Mobile" style="object-fit: cover;">
                 </div>
             </div>
-
         </div>
-
 
     </main>
-
 
     <footer class="main-footer">
         <div class="footer-content">
             <div class="footer-section about">
-                <div class="logo-container">
-                    <img src="src/svg/logo.svg" class="logo" />
-                    <h3>EBanking</h3>
+                <div class="logo-container" style="color:#fff; margin-bottom: 20px;">
+                    <span class="material-symbols-rounded" style="font-size: 32px;">account_balance</span>
+                    <h3 style="color:#fff; margin:0;">E-BANKING PRO</h3>
                 </div>
-                <p>La nouvelle ère de la gestion bancaire digitale, sécurisée et intuitive pour La Régionale Bank.</p>
+                <p>La nouvelle ère de la gestion bancaire digitale, sécurisée et intuitive pour La Régionale Bank et ses
+                    Caissiers/Administrateurs.</p>
                 <div class="social-links">
                     <a href="#">FB</a>
-                    <a href="#">TW</a>
-                    <a href="#">LN</a>
-                    <a href="#">IG</a>
+                    <a href="#">IN</a>
                 </div>
             </div>
             <div class="footer-section links">
-                <h4>Navigation</h4>
+                <h4>Plateforme</h4>
                 <ul>
-                    <li><a href="#">Accueil</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Sécurité</a></li>
-                    <li><a href="#">À propos</a></li>
+                    <li><a href="?controller=Auth&action=login">Espace Caissier</a></li>
+                    <li><a href="?controller=Auth&action=login">Espace Administrateur</a></li>
+                    <li><a href="?controller=Auth&action=login">Génération de Rapports</a></li>
                 </ul>
             </div>
             <div class="footer-section help">
-                <h4>Support</h4>
+                <h4>Sécurité</h4>
                 <ul>
-                    <li><a href="#">Centre d'aide</a></li>
-                    <li><a href="#">Contactez-nous</a></li>
-                    <li><a href="#">Sécurité</a></li>
-                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Normes KYC</a></li>
+                    <li><a href="#">Audit & Conformité</a></li>
+                    <li><a href="#">Protection des données</a></li>
                 </ul>
             </div>
             <div class="footer-section contact">
                 <h4>Contact</h4>
-                <p>📍 Yaoundé, Cameroun</p>
-                <p>📞 +237 6XX XX XX XX</p>
-                <p>✉️ contact@ebanking-regio.cm</p>
+                <p><span class="material-symbols-rounded"
+                        style="font-size: 16px; vertical-align: middle;">location_on</span> Yaoundé, Cameroun</p>
+                <p><span class="material-symbols-rounded" style="font-size: 16px; vertical-align: middle;">phone</span>
+                    +237 6XX XX XX XX</p>
+                <p><span class="material-symbols-rounded" style="font-size: 16px; vertical-align: middle;">mail</span>
+                    support@ebanking-regio.cm</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 EBanking | Une initiative de La Régionale Bank. Tous droits réservés.</p>
+            <p>&copy; 2026 E-Banking Pro | Projet BTS Génie Logiciel. Tous droits réservés.</p>
         </div>
     </footer>
 
     <script>
         AOS.init({
-            easing: 'ease-in-out',
+            easing: 'ease-out-cubic',
             duration: 800,
+            offset: 50,
         });
     </script>
-    <script src="aos.js"></script>
 </body>
 
 </html>

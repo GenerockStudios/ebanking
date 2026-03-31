@@ -8,8 +8,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= APP_NAME ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title><?= APP_NAME ?> — Connexion Staff</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Injection responsive-core.css optionnelle mais recommandée -->
+    <link rel="stylesheet" href="/ebanking/src/css/responsive-core.css">
 
     <style>
         * {
@@ -19,19 +27,20 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: "Poppins", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #fafbfc;
             min-height: 100vh;
+            /* Flex center natif avec prise en compte des safe areas mobiles (encoche iPhone) */
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
             line-height: 1.5;
         }
 
         .login-container {
             width: 100%;
-            max-width: 400px;
+            max-width: 440px;
         }
 
         .login-card {
@@ -534,9 +543,9 @@
             </form>
 
             <div class="signup-link">
-                <span>Vous êtes client ?</span>
-                <a href="<?= BASE_URL ?>?controller=ClientFront&action=login" style="font-weight: bold; color: #007bff;">
-                    Accéder à l'Espace Client
+                <span></span>
+                <a href="<?= BASE_URL ?>index.html" style="font-weight: bold; color: #007bff;">
+                    Accéder à l'accueil
                 </a>
             </div>
 

@@ -15,8 +15,17 @@ $roleName = $_SESSION['role_name'] ?? 'Invité';
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title><?= $data['title'] ?? APP_NAME ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="E-Banking Pro — Système Bancaire Interne Sécurisé">
+
+    <!-- ① Google Fonts — via <link> pour éviter le blocage du rendu -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- ② Fondation CSS Responsive — Mobile-First Core -->
+    <link rel="stylesheet" href="/ebanking/src/css/responsive-core.css">
 
     <style>
         /* CSS de Base pour la Caisse/Admin */
@@ -53,13 +62,25 @@ $roleName = $_SESSION['role_name'] ?? 'Invité';
             font-size: 0.9em;
         }
 
+        /* ── Zone de contenu principale — Responsive ── */
         .content {
-            padding: 20px;
-            padding-left: 100px;
-            width: 99%;
+            padding: 20px max(16px, env(safe-area-inset-right)) 20px max(16px, env(safe-area-inset-left));
+            width: 100%;
             background: white;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            box-sizing: border-box;
+            /* Pas de margin-left hardcodé : géré par la sidebar JS + transition */
+            transition: margin-left 0.4s ease;
+        }
+        /* Sur grand écran : décaler .content selon l'état de la sidebar */
+        @media (min-width: 1024px) {
+            body:not(.sidebar-mobile) .sidebar:not(.collapsed) ~ .content {
+                margin-left: 270px;
+            }
+            body:not(.sidebar-mobile) .sidebar.collapsed ~ .content {
+                margin-left: 85px;
+            }
         }
 
         h2 {
@@ -68,28 +89,29 @@ $roleName = $_SESSION['role_name'] ?? 'Invité';
             margin-top: 0;
         }
 
-        /* Style pour les messages */
+        /* ── Alertes inline (fallback conservé pour compatibilité) ── */
+        /* Les nouvelles vues utilisent le système Toast (#toast-container) */
         .alert-success {
             background-color: #d4edda;
             color: #155724;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
             border: 1px solid #c3e6cb;
+            font-size: 0.9rem;
         }
-
         .alert-error {
             background-color: #f8d7da;
             color: #721c24;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
             border: 1px solid #f5c6cb;
+            font-size: 0.9rem;
         }
 
 
-        /* Importing Google Fonts - Poppins */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        /* Google Fonts chargé via <link> dans le <head> — @import supprimé (bloquait le rendu) */
 
         * {
             font-family: "Poppins", sans-serif;
@@ -100,6 +122,7 @@ $roleName = $_SESSION['role_name'] ?? 'Invité';
 
         .sidebar {
             position: fixed;
+            z-index: 1000;
             width: 270px;
             border-bottom-right-radius: 16px;
             border-top-right-radius: 16px;
@@ -522,7 +545,7 @@ $roleName = $_SESSION['role_name'] ?? 'Invité';
                 setTimeout(function() {
                     if (loader) loader.classList.add('hidden');
                 }, 320);
-            }, 2000); // 2 secondes de délai minimum
+            }, 1100); // 2 secondes de délai minimum
         }
 
         if (document.readyState === 'complete') {
@@ -530,7 +553,7 @@ $roleName = $_SESSION['role_name'] ?? 'Invité';
         } else {
             window.addEventListener('load', hideLoader);
             // Fallback : masquer après 5s max au lieu de 3.5s
-            setTimeout(hideLoader, 4000);
+            setTimeout(hideLoader, 1100);
         }
 
         // Re-déclencher le loader à chaque clic de navigation interne
@@ -573,12 +596,12 @@ $roleName = $_SESSION['role_name'] ?? 'Invité';
                 if (loader && !loader.classList.contains('hidden')) {
                     loader.classList.add('hidden');
                 }
-            }, 4000);
+            }, 800);
 
             // Redirection effective après 2s (pour que l'animation s'apprécie)
             setTimeout(function() {
                 window.location.href = href;
-            }, 2000);
+            }, 400);
         });
     })();
     </script>
@@ -747,31 +770,51 @@ $roleName = $_SESSION['role_name'] ?? 'Invité';
         const sidebar = document.querySelector(".sidebar");
         const sidebarToggler = document.querySelector(".sidebar-toggler");
         const menuToggler = document.querySelector(".menu-toggler");
+        const body = document.body;
+
         // Ensure these heights match the CSS sidebar height values
         let collapsedSidebarHeight = "56px"; // Height in mobile view (collapsed)
         let fullSidebarHeight = "calc(100vh - 2px)"; // Height in larger screen
-        // Toggle sidebar's collapsed state
+
+        // Toggle sidebar's collapsed state (Desktop)
         sidebarToggler.addEventListener("click", () => {
             sidebar.classList.toggle("collapsed");
+            body.classList.toggle("sidebar-collapsed");
         });
-        // Update sidebar height and menu toggle text
+
+        // Update sidebar height and menu toggle text (Mobile)
         const toggleMenu = (isMenuActive) => {
             sidebar.style.height = isMenuActive ? `${sidebar.scrollHeight}px` : collapsedSidebarHeight;
             menuToggler.querySelector("span").innerText = isMenuActive ? "close" : "menu";
         }
+
         // Toggle menu-active class and adjust height
         menuToggler.addEventListener("click", () => {
             toggleMenu(sidebar.classList.toggle("menu-active"));
         });
-        // (Optional code): Adjust sidebar height on window resize
-        window.addEventListener("resize", () => {
+
+        // Adjust sidebar height and sync body class on window resize
+        const handleResize = () => {
             if (window.innerWidth >= 1024) {
                 sidebar.style.height = fullSidebarHeight;
+                body.classList.remove("sidebar-mobile");
+                if (sidebar.classList.contains("collapsed")) {
+                    body.classList.add("sidebar-collapsed");
+                } else {
+                    body.classList.remove("sidebar-collapsed");
+                }
             } else {
                 sidebar.classList.remove("collapsed");
                 sidebar.style.height = "auto";
+                body.classList.add("sidebar-mobile");
+                body.classList.remove("sidebar-collapsed");
                 toggleMenu(sidebar.classList.contains("menu-active"));
             }
-        });
+        };
+
+        window.addEventListener("resize", handleResize);
+        
+        // Initial setup on page load
+        document.addEventListener('DOMContentLoaded', handleResize);
     </script>
     <div class="content">

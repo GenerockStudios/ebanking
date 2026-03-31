@@ -12,10 +12,10 @@ $reconciliation = $data['reconciliation'] ?? null;
 <h2><?= $data['title'] ?? "Clôture de Journée" ?></h2>
 
 <?php if (isset($data['success'])): ?>
-    <div class="alert-success"><strong>Opération réussie!</strong> <?= htmlspecialchars($data['success']) ?></div>
+    <script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($data['success']) ?>", 'success'));</script>
 <?php endif; ?>
 <?php if (isset($data['error'])): ?>
-    <div class="alert-error"><strong>Échec!</strong> <?= htmlspecialchars($data['error']) ?></div>
+    <script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($data['error']) ?>", 'error'));</script>
 <?php endif; ?>
 
 <?php if ($reconciliation):
@@ -51,7 +51,7 @@ $reconciliation = $data['reconciliation'] ?? null;
         </div>
     </div>
 
-    <div class="table-scroll">
+    <div class="table-scroll-wrap">
         <table class="data-table">
             <thead>
                 <tr>
@@ -105,7 +105,7 @@ $reconciliation = $data['reconciliation'] ?? null;
 </div>
 
 <?php else: ?>
-    <div class="alert-error">Impossible de récupérer les données de réconciliation. Vérifiez la connexion à la base de données ou les logs.</div>
+    <script>document.addEventListener('DOMContentLoaded', () => showToast("Impossible de récupérer les données de réconciliation. Vérifiez la connexion à la base de données ou les logs.", 'error'));</script>
 <?php endif; ?>
 
 <style>

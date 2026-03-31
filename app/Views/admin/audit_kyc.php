@@ -6,14 +6,7 @@ require_once VIEW_PATH . 'layout/header.php';
 ?>
 
 <style>
-@media print {
-    @page { size: A4 portrait; margin: 1.5cm; }
-    .no-print { display: none !important; }
-    .sidebar, footer { display: none !important; }
-    .content { padding: 0 !important; box-shadow: none !important; width: 100% !important; padding-left: 0 !important; }
-    * { box-shadow: none !important; }
-    .watermark { display: block !important; }
-}
+/* Layout impression A4 Portrait géré globalement par responsive-core.css .no-print */
 .watermark {
     display: none;
     position: fixed; top: 50%; left: 50%;

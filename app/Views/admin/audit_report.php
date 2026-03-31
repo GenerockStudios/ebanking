@@ -7,15 +7,11 @@ require_once VIEW_PATH . 'layout/header.php';
 ?>
 
 <style>
+/* Layout impression A4 Portrait géré globalement par responsive-core.css .no-print */
 @media print {
-    @page { size: A4 portrait; margin: 1.5cm; }
-    .no-print { display: none !important; }
-    .sidebar, footer, .content > footer { display: none !important; }
-    .content { padding: 0 !important; box-shadow: none !important; width: 100% !important; padding-left: 0 !important; }
-    * { box-shadow: none !important; }
-    .watermark { display: block !important; }
     .type-failure { color: #c0392b !important; }
     .type-success { color: #27ae60 !important; }
+    .watermark { display: block !important; }
 }
 .watermark {
     display: none; position: fixed; top: 50%; left: 50%;

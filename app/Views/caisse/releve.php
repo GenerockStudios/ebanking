@@ -11,17 +11,7 @@ $bilan        = $data['bilan'] ?? null;
 ?>
 
 <style>
-@media print {
-    @page { size: A4 portrait; margin: 1.5cm; }
-    .no-print { display: none !important; }
-    .sidebar, footer { display: none !important; }
-    .content { padding: 0 !important; box-shadow: none !important; width: 100% !important; padding-left: 0 !important; }
-    * { box-shadow: none !important; }
-    .stmt-table thead th { background: #f8f9fa !important; color: #000 !important; border: 1px solid #ccc !important; }
-    .stmt-table td { border: 1px solid #e8e8e8 !important; }
-    .credit { color: #28a745 !important; }
-    .debit  { color: #dc3545 !important; }
-}
+/* Layout impression géré globalement par responsive-core.css via les classes .no-print et .doc-wrapper */
 
 .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
 .section-header h2 { margin:0; color:#042e5a; font-size:1.4rem; font-weight:700; border:none; padding:0; }
@@ -34,19 +24,25 @@ $bilan        = $data['bilan'] ?? null;
 .btn-green  { background:#28a745; color:#fff; } .btn-green:hover  { background:#1e7e34; }
 .btn-submit { background:#042e5a; color:#fff; } .btn-submit:hover { background:#021d3a; }
 
-/* Formulaire de filtrage */
+/* Formulaire de filtrage responsive */
 .filter-card {
-    background:#f8f9fa; border:1px solid #e0e0e0; border-radius:8px;
-    padding:18px 20px; margin-bottom:24px; display:flex; gap:16px; flex-wrap:wrap; align-items:flex-end;
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
+    padding: 24px; margin-bottom: 24px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; align-items: end;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
 }
-.filter-group { display:flex; flex-direction:column; gap:4px; }
-.filter-group label { font-size:12px; font-weight:600; color:#555; text-transform:uppercase; }
+.filter-group { display: flex; flex-direction: column; gap: 8px; }
+.filter-group label { font-size: 13px; font-weight: 600; color: #64748b; }
 .filter-group input[type=text],
 .filter-group input[type=date] {
-    padding:9px 12px; border:1.5px solid #e3e8ee; border-radius:6px;
-    font-size:14px; color:#1a1f36; outline:none; transition:border-color .2s;
+    padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px;
+    font-size: 15px; color: #0f172a; outline: none; transition: border-color .2s;
+    width: 100%; box-sizing: border-box;
+    /* Pour iOS touch targets */
+    min-height: 48px;
 }
-.filter-group input:focus { border-color:#042e5a; }
+.filter-group input:focus { border-color: #042e5a; box-shadow: 0 0 0 3px rgba(4,46,90,0.1); }
+.btn-submit { min-height: 48px; width: 100%; justify-content: center; }
 
 .alert-error { background:#f8d7da; color:#721c24; padding:12px 16px; border-radius:6px; margin-bottom:16px; border:1px solid #f5c6cb; }
 
@@ -136,9 +132,8 @@ $bilan        = $data['bilan'] ?? null;
 </form>
 
 <?php if (isset($data['error'])): ?>
-<div class="alert-error"><strong>Erreur :</strong> <?= htmlspecialchars($data['error']) ?></div>
+<script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($data['error']) ?>", 'error', 6000));</script>
 <?php endif; ?>
-
 <?php if ($compte): ?>
 
 <!-- Document officiel imprimable -->
@@ -194,18 +189,19 @@ $bilan        = $data['bilan'] ?? null;
     </div>
 
     <!-- Liste des transactions -->
-    <table class="stmt-table">
-        <thead>
-            <tr>
-                <th width="15%">Date</th>
-                <th width="38%">Libellé / Référence</th>
-                <th class="num" width="16%">Débit (−)</th>
-                <th class="num" width="16%">Crédit (+)</th>
-                <th class="num" width="15%">Solde</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Ligne solde initial -->
+    <div class="table-scroll-wrap">
+        <table class="stmt-table">
+            <thead>
+                <tr>
+                    <th width="15%">Date</th>
+                    <th width="38%">Libellé / Référence</th>
+                    <th class="num" width="16%">Débit (−)</th>
+                    <th class="num" width="16%">Crédit (+)</th>
+                    <th class="num" width="15%">Solde</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Ligne solde initial -->
             <tr class="opener">
                 <td><?= date('d/m/Y', strtotime($filters['date_debut'])) ?></td>
                 <td>SOLDE INITIAL REPORTÉ</td>
@@ -245,8 +241,9 @@ $bilan        = $data['bilan'] ?? null;
                 <td class="num credit"><?= number_format($bilan['total_credit'], 2, ',', ' ') ?></td>
                 <td class="num">SOLDE FINAL : <?= number_format($bilan['solde_final'], 2, ',', ' ') ?></td>
             </tr>
-        </tfoot>
-    </table>
+            </tfoot>
+        </table>
+    </div>
 
     <div class="sig-row">
         <div class="sig-box">Le Client (Signature)</div>

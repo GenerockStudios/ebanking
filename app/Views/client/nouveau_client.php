@@ -10,10 +10,10 @@ require_once VIEW_PATH . 'layout/header.php';
 <h2><?= $data['title'] ?? "Nouveau Client" ?></h2>
 
 <?php if (isset($data['success'])): ?>
-    <div class="alert-success"><strong>Client Créé!</strong> <?= htmlspecialchars($data['success']) ?></div>
+    <script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($data['success']) ?>", 'success'));</script>
 <?php endif; ?>
 <?php if (isset($data['error'])): ?>
-    <div class="alert-error"><strong>Échec!</strong> <?= htmlspecialchars($data['error']) ?></div>
+    <script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($data['error']) ?>", 'error'));</script>
 <?php endif; ?>
 
 <div class="flex-justify-center">

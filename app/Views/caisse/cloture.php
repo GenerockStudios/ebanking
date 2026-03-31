@@ -6,6 +6,7 @@ require_once VIEW_PATH . 'layout/header.php';
 ?>
 
 <style>
+/* Layout spécifique clôture - Le @media print est géré globalement par .no-print */
 .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
 .section-header h2 { margin:0; color:#042e5a; font-size:1.4rem; font-weight:700; border:none; padding:0; }
 .btn-action {
@@ -17,13 +18,6 @@ require_once VIEW_PATH . 'layout/header.php';
 .btn-navy   { background:#042e5a; color:#fff; } .btn-navy:hover   { background:#021d3a; }
 .btn-green  { background:#28a745; color:#fff; } .btn-green:hover  { background:#1e7e34; }
 .btn-danger { background:#dc3545; color:#fff; } .btn-danger:hover { background:#b21f2d; }
-
-<?php if (isset($_GET['success'])): ?>
-.alert-success { background:#d4edda; color:#155724; padding:12px 16px; border-radius:6px; margin-bottom:16px; border:1px solid #c3e6cb; }
-<?php endif; ?>
-<?php if (isset($_GET['error'])): ?>
-.alert-error { background:#f8d7da; color:#721c24; padding:12px 16px; border-radius:6px; margin-bottom:16px; border:1px solid #f5c6cb; }
-<?php endif; ?>
 
 .page-card {
     background:#fff; border-radius:12px; max-width:700px; margin:0 auto;
@@ -96,10 +90,10 @@ require_once VIEW_PATH . 'layout/header.php';
 </div>
 
 <?php if (isset($_GET['success'])): ?>
-<div class="alert-success"><strong>Succès !</strong> <?= htmlspecialchars($_GET['success']) ?></div>
+<script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($_GET['success']) ?>", 'success', 5000));</script>
 <?php endif; ?>
 <?php if (isset($_GET['error'])): ?>
-<div class="alert-error"><strong>Erreur.</strong> <?= htmlspecialchars($_GET['error']) ?></div>
+<script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($_GET['error']) ?>", 'error', 6000));</script>
 <?php endif; ?>
 
 <div class="page-card">
@@ -119,7 +113,7 @@ require_once VIEW_PATH . 'layout/header.php';
                 <label for="solde_initial">Fond de Caisse Initial (FCFA)</label>
                 <div class="field-wrap">
                     <span class="field-icon material-symbols-rounded">payments</span>
-                    <input type="number" id="solde_initial" name="solde_initial"
+                    <input type="tel" inputmode="numeric" id="solde_initial" name="solde_initial"
                            min="0" step="50" placeholder="0" required>
                 </div>
                 <div style="font-size:11px;color:#aaa;margin-top:6px;">Entrez le montant réel présent dans le tiroir-caisse.</div>
@@ -190,14 +184,13 @@ require_once VIEW_PATH . 'layout/header.php';
             <strong>Attention :</strong> La clôture est <strong>définitive</strong> pour cette session.
         </div>
 
-        <!-- Formulaire clôture -->
         <form action="<?= BASE_URL ?>?controller=Caisse&action=validerCloture" method="POST"
               onsubmit="return confirm('Êtes-vous sûr de vouloir arrêter et clôturer cette session ?');">
             <div class="form-group">
                 <label for="solde_reel">Solde Réel en Caisse (Comptage Physique)</label>
                 <div class="field-wrap">
                     <span class="field-icon material-symbols-rounded">calculate</span>
-                    <input type="number" id="solde_reel" name="solde_reel"
+                    <input type="tel" inputmode="decimal" id="solde_reel" name="solde_reel"
                            step="0.01" value="<?= $data['system_balance'] ?? 0 ?>" required>
                 </div>
                 <div style="font-size:11px;color:#aaa;margin-top:6px;">Saisissez le montant exact compté physiquement dans le tiroir.</div>

@@ -18,12 +18,7 @@ require_once VIEW_PATH . 'layout/header.php';
 .btn-green { background:#28a745; color:#fff; } .btn-green:hover { background:#1e7e34; }
 .btn-blue  { background:#007bff; color:#fff; } .btn-blue:hover  { background:#0062cc; }
 
-<?php if (isset($data['success'])): ?>
-.alert-success { background:#d4edda; color:#155724; padding:12px 16px; border-radius:6px; margin-bottom:16px; border:1px solid #c3e6cb; }
-<?php endif; ?>
-<?php if (isset($data['error'])): ?>
-.alert-error { background:#f8d7da; color:#721c24; padding:12px 16px; border-radius:6px; margin-bottom:16px; border:1px solid #f5c6cb; }
-<?php endif; ?>
+
 
 .data-table-wrap {
     background:#fff; border-radius:12px;
@@ -59,14 +54,14 @@ require_once VIEW_PATH . 'layout/header.php';
 </div>
 
 <?php if (isset($data['success'])): ?>
-<div class="alert-success"><strong>Succès !</strong> <?= htmlspecialchars($data['success']) ?></div>
+<script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($data['success']) ?>", 'success'));</script>
 <?php endif; ?>
 <?php if (isset($data['error'])): ?>
-<div class="alert-error"><strong>Erreur.</strong> <?= htmlspecialchars($data['error']) ?></div>
+<script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($data['error']) ?>", 'error'));</script>
 <?php endif; ?>
 
-<div class="data-table-wrap">
-    <table class="data-table">
+<div class="table-scroll-wrap" style="background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #f0f0f0;">
+    <table class="data-table" style="min-width:800px;">
         <thead>
             <tr>
                 <th>Client / Compte</th>

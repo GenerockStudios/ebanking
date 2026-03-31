@@ -16,18 +16,7 @@ $dateTrans = date('d/m/Y H:i:s', strtotime($t->date_transaction));
 ?>
 
 <style>
-/* Reset de la signature navigateur */
-@media print {
-    @page { margin: 0; size: A4 portrait; }
-    body { padding: 1.5cm; margin: 0; background: #fff !important; color: #000 !important; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-    .no-print { display: none !important; }
-    .print-only { display: block !important; }
-    .sidebar, footer { display: none !important; }
-    .content { padding-left: 0 !important; }
-    .content { padding: 0 !important; box-shadow: none !important; margin: 0 !important; width: 100% !important; }
-    * { box-shadow: none !important; text-shadow: none !important; }
-}
-
+/* Le reset de l'impression (A4) est géré globalement par responsive-core.css */
 /* Style Professionnel du Document Impression */
 .document-officiel {
     border: 2px solid #2c3e50;

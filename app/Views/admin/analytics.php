@@ -12,7 +12,7 @@ $rep = $data['repartition']    ?? [];
 <h2><?= htmlspecialchars($data['title'] ?? 'Dashboard Analytique') ?></h2>
 
 <?php if (!empty($data['error'])): ?>
-<div class="alert-error"><?= htmlspecialchars($data['error']) ?></div>
+<script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($data['error']) ?>", 'error', 6000));</script>
 <?php endif; ?>
 
 <!-- ========== ACCÈS RAPIDE ADMIN ========== -->
@@ -102,17 +102,18 @@ $rep = $data['repartition']    ?? [];
     border-bottom:2px solid #f0f2f5;
 }
 .qa-section-title .material-symbols-rounded { font-size:18px; color:#042e5a; }
-.qa-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:12px; }
+.qa-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); gap:12px; }
 .qa-card {
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     gap:10px; padding:18px 10px; border-radius:12px; text-decoration:none;
     transition:transform .18s ease, box-shadow .18s ease; cursor:pointer;
-    border:none; text-align:center; min-height:90px;
+    border:none; text-align:center; min-height:100px;
+    -webkit-tap-highlight-color: transparent;
 }
-.qa-card:hover { transform:translateY(-4px); box-shadow:0 8px 20px rgba(0,0,0,.12); }
+.qa-card:hover, .qa-card:active { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.10); }
 .qa-icon { font-size:28px; transition:transform .18s ease; }
-.qa-card:hover .qa-icon { transform:scale(1.12); }
-.qa-label { font-size:12px; font-weight:700; line-height:1.3; }
+.qa-card:hover .qa-icon, .qa-card:active .qa-icon { transform:scale(1.1); }
+.qa-label { font-size:13px; font-weight:700; line-height:1.2; }
 
 /* Couleurs */
 .qa-blue   { background:#e8f0fe; color:#1a56db; }

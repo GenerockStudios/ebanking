@@ -60,6 +60,13 @@ class AuthController {
                         "Connexion réussie pour l'identifiant: {$identifier}",
                         (string)$user->utilisateur_id
                     );
+                    // si administrateur 
+                    // http://localhost:8600/ebanking/?controller=Admin&action=analyticsDashboard
+                    if($_SESSION["role_name"] == "Admin" || $_SESSION["role_name"] == "admin"){
+                        header("Location: " . BASE_URL . "?controller=Admin&action=analyticsDashboard");
+                        exit();
+                    }
+
 
                     header("Location: " . BASE_URL . "?controller=Caisse&action=dashboard");
                     exit();

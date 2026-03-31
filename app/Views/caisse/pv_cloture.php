@@ -6,16 +6,7 @@ require_once VIEW_PATH . 'layout/header.php';
 ?>
 
 <style>
-@media print {
-    @page { size: A4 portrait; margin: 1.5cm; }
-    .no-print { display: none !important; }
-    .sidebar, footer { display: none !important; }
-    .content { padding: 0 !important; box-shadow: none !important; width: 100% !important; padding-left: 0 !important; }
-    * { box-shadow: none !important; }
-    .doc-wrapper { border: 2px solid #2c3e50 !important; }
-    .diff-negative { color: #dc3545 !important; }
-    .diff-positive { color: #28a745 !important; }
-}
+/* L'impression (A4, masquages) est gérée globalement par responsive-core.css via .no-print et .doc-wrapper */
 .no-print .page-actions { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
 .no-print .page-actions h2 { margin:0; color:#042e5a; font-size:1.4rem; font-weight:700; border:none; padding:0; }
 .btn-action {

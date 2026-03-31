@@ -64,15 +64,15 @@ require_once VIEW_PATH . 'layout/header.php';
 </div>
 
 <?php if (isset($data['error'])): ?>
-<div class="alert-error"><?= htmlspecialchars($data['error']) ?></div>
+<script>document.addEventListener('DOMContentLoaded', () => showToast("<?= addslashes($data['error']) ?>", 'error', 6000));</script>
 <?php endif; ?>
 
 <!-- Compteur -->
 <p class="log-count"><strong><?= count($data['logs'] ?? []) ?></strong> entrées trouvées pour cette période.</p>
 
 <!-- Tableau des logs -->
-<div class="table-scroll">
-<table class="log-table">
+<div class="table-scroll-wrap">
+<table class="data-table">
     <thead>
         <tr>
             <th>#</th>
@@ -96,13 +96,13 @@ require_once VIEW_PATH . 'layout/header.php';
             elseif (strpos($log['type_action'], '_START') !== false) $typeClass = 'log-start';
         ?>
         <tr class="<?= $typeClass ?>">
-            <td class="log-id"><?= htmlspecialchars($log['log_id']) ?></td>
-            <td class="log-date"><?= htmlspecialchars(date('d/m/Y H:i:s', strtotime($log['date_heure']))) ?></td>
-            <td class="log-user"><?= htmlspecialchars($log['username'] ?? 'Système') ?></td>
+            <td class="log-id" style="font-size:11px; color:#8792a2;"><?= htmlspecialchars($log['log_id']) ?></td>
+            <td class="log-date" style="white-space:nowrap;"><?= htmlspecialchars(date('d/m/Y H:i:s', strtotime($log['date_heure']))) ?></td>
+            <td class="log-user" style="font-weight:600; color:#042e5a;"><?= htmlspecialchars($log['username'] ?? 'Système') ?></td>
             <td><span class="type-badge type-badge-<?= $typeClass ?>"><?= htmlspecialchars($log['type_action']) ?></span></td>
             <td><?= htmlspecialchars($log['table_affectee'] ?? '') ?></td>
             <td><?= htmlspecialchars($log['identifiant_element_affecte'] ?? '') ?></td>
-            <td class="log-details"><?= htmlspecialchars($log['details']) ?></td>
+            <td class="log-details" style="max-width:300px; word-break:break-word; color:#555;"><?= htmlspecialchars($log['details']) ?></td>
         </tr>
         <?php endforeach; ?>
     <?php endif; ?>
@@ -111,34 +111,46 @@ require_once VIEW_PATH . 'layout/header.php';
 </div>
 
 <style>
-.filter-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:20px}
-.filter-form{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}
-.filter-group{display:flex;flex-direction:column;gap:4px;min-width:160px}
-.filter-group label{font-weight:600;font-size:13px;color:#444}
-.form-control{padding:8px 12px;border:1.5px solid #dde;border-radius:8px;font-size:13px}
-.btn-filter{padding:9px 20px;background:#042e5a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600}
-.btn-filter:hover{background:#0a4a8a}
-.btn-report{padding:9px 15px;background:#28a745;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:8px}
-.btn-report:hover{background:#218838}
-.log-count{margin:10px 0;color:#555;font-size:14px}
-.table-scroll{overflow-x:auto}
-.log-table{width:100%;border-collapse:collapse;font-size:12px}
-.log-table th{background:#042e5a;color:#fff;padding:10px 12px;text-align:left;white-space:nowrap}
-.log-table td{padding:8px 12px;border-bottom:1px solid #f0f0f0;vertical-align:top}
-.log-success td{background:#f0fff4}
-.log-failure td{background:#fff5f5}
-.log-start   td{background:#fffbf0}
-.log-neutral td{background:#fff}
-.log-table tr:hover td{filter:brightness(0.97)}
-.type-badge{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap}
-.type-badge-log-success{background:#d4edda;color:#155724}
-.type-badge-log-failure{background:#f8d7da;color:#721c24}
-.type-badge-log-start{background:#fff3cd;color:#856404}
-.type-badge-log-neutral{background:#e2e3e5;color:#383d41}
-.log-id{color:#aaa;font-size:11px}
-.log-date{white-space:nowrap;font-family:monospace}
-.log-user{font-weight:600;color:#042e5a}
-.log-details{max-width:300px;word-break:break-word;color:#555}
+/* Responsive Filter Card */
+.filter-card {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
+    padding: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 24px;
+}
+.filter-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    align-items: end;
+}
+.filter-group { display: flex; flex-direction: column; gap: 8px; }
+.filter-group label { font-weight: 600; font-size: 13px; color: #64748b; }
+.form-control {
+    padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px;
+    font-size: 15px; color: #0f172a; outline: none; transition: border-color .2s;
+    width: 100%; box-sizing: border-box; min-height: 48px;
+}
+.form-control:focus { border-color: #042e5a; box-shadow: 0 0 0 3px rgba(4,46,90,0.1); }
+.btn-filter, .btn-report {
+    padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 15px;
+    cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+    gap: 8px; border: none; min-height: 48px;
+}
+.btn-filter { background: #042e5a; color: #fff; width: 100%; }
+.btn-filter:hover { background: #021d3a; }
+.btn-report { background: #28a745; color: #fff; text-decoration: none; min-width: 160px; }
+.btn-report:hover { background: #1e7e34; }
+.log-count { margin: 10px 0; color: #64748b; font-size: 14px; }
+
+/* Styles log statiques (surcharge data-table) */
+.log-success td { background: #f0fff4 !important; }
+.log-failure td { background: #fff5f5 !important; }
+.log-start   td { background: #fffbf0 !important; }
+.log-neutral td { background: #fff !important; }
+.type-badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; white-space: nowrap; display: inline-block; }
+.type-badge-log-success { background: #d4edda; color: #155724; }
+.type-badge-log-failure { background: #f8d7da; color: #721c24; }
+.type-badge-log-start { background: #fff3cd; color: #856404; }
+.type-badge-log-neutral { background: #e2e3e5; color: #383d41; }
 </style>
 
 <?php require_once VIEW_PATH . 'layout/footer.php'; ?>

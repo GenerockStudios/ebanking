@@ -6,12 +6,8 @@ require_once VIEW_PATH . 'layout/header.php';
 ?>
 
 <style>
+/* Layout impression A4 Portrait géré globalement par responsive-core.css .no-print */
 @media print {
-    @page { size: A4 portrait; margin: 1.5cm; }
-    .no-print { display: none !important; }
-    .sidebar, footer { display: none !important; }
-    .content { padding: 0 !important; box-shadow: none !important; width: 100% !important; padding-left: 0 !important; }
-    * { box-shadow: none !important; }
     .doc-wrapper { border: 2px solid #2c3e50 !important; }
     .data-table thead th { background: #f8f9fa !important; color: #000 !important; }
 }
@@ -147,6 +143,7 @@ require_once VIEW_PATH . 'layout/header.php';
         <span class="material-symbols-rounded" style="font-size:18px;">account_balance_wallet</span>
         Portefeuille de Comptes Consolidé
     </div>
+    <div class="table-scroll-wrap">
     <table class="data-table">
         <thead>
             <tr>
@@ -187,12 +184,14 @@ require_once VIEW_PATH . 'layout/header.php';
         </tfoot>
         <?php endif; ?>
     </table>
+    </div>
 
     <!-- Section 3: KYC -->
     <div class="section-title">
         <span class="material-symbols-rounded" style="font-size:18px;">shield</span>
         Documents de Conformité (KYC)
     </div>
+    <div class="table-scroll-wrap">
     <table class="data-table">
         <thead>
             <tr>
@@ -225,6 +224,7 @@ require_once VIEW_PATH . 'layout/header.php';
             <?php endif; ?>
         </tbody>
     </table>
+    </div>
 
     <div class="sig-row">
         <div class="sig-box">Signature du Titulaire<br><small>(Lu et approuvé)</small></div>
